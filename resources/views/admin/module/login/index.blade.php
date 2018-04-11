@@ -30,7 +30,6 @@
 <body>
 	
 	<div class="limiter">
-
 		<div class="container-login100" style="background-image: url({!! asset('admin/templates/images/login/images/bg-01.jpg') !!});">
 			<div class="wrap-login100">
 				<form class="login100-form validate-form">

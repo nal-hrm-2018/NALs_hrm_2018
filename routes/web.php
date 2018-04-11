@@ -16,11 +16,6 @@ Route::get('/employees', function () {
     return view('admin.module.employees.employees');
 });
 
-//Route::group(['prefix' => '/admin','middleware' => 'admin'], function () {
-//    Route::resource('/dashboard', 'Admin\DashboardController', [
-//        'only' => ['index'],
-//    ]);
-//});
 
 Route::get('/dashboard', [
     'as'=>'dashboard-user',
@@ -43,6 +38,4 @@ Route::post('/register', [
     'as' => 'register-user',
     'uses' => 'Auth\RegisterController@register',
 ]);
-
-
 
