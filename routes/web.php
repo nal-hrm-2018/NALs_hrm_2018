@@ -12,8 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.module.index.dashboard');
 });
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
+Route::get('/index3', function () {
+    return view('admin.module.index.index3');
+});
+Route::get('/chartjs', function () {
+    return view('admin.module.pages.charts.chartjs');
+});
+
+Route::get('login', 'LoginController@getLogin')->name('getLogin');

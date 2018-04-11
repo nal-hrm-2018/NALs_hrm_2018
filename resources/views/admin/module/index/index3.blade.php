@@ -1,6 +1,7 @@
 @extends('admin.template')
 @section('content')
- <!-- Content Wrapper. Contains page content -->
+
+  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section>
@@ -157,12 +158,20 @@
        </div>
     </section>
   </div>
-  <!-- jQuery 3 -->
+  <!-- /.content-wrapper -->
+ 
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{!! asset('admin/templates/js/bower_components/jquery-ui/jquery-ui.min.js') !!}"></script>
-  <!-- /.content-wrapper -->
-  <script type="text/javascript">
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script type="text/javascript">
     $(function () {
     var donutData = [
       { label: 'Series2', data: 30, color: '#3c8dbc' },
@@ -523,4 +532,5 @@
   })
 
 </script>
-  @endsection
+<!-- Bootstrap 3.3.7 -->
+@endsection

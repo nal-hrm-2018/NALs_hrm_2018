@@ -52,7 +52,23 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{!! asset('admin/templates/js/dist/js/pages/dashboard2.js') !!}"></script>
 <!-- ChartJS -->
+
+
+
+
+
+
 <script src="{!! asset('admin/templates/js/bower_components/chart.js/Chart.js') !!}"></script>
 
+<script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.js') !!}"></script>
+<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+<script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.resize.js') !!}"></script>
+<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+<script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.pie.js') !!}"></script>
+<!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
+<script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.categories.js') !!}"></script>
+<script src="{!! asset('admin/templates/js/bower_components/chart.js/Chart.js') !!}"></script>
+</body>
+</html>
 </body>
 </html>
