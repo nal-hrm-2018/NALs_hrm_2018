@@ -1,19 +1,48 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use Illuminate\Support\Facades\Auth;
+
+Auth::routes();
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
+Route::get('/employees', function () {
+    return view('admin.module.employees.employees');
+});
+
+//Route::group(['prefix' => '/admin','middleware' => 'admin'], function () {
+//    Route::resource('/dashboard', 'Admin\DashboardController', [
+//        'only' => ['index'],
+//    ]);
+//});
+
+Route::get('/dashboard', [
+    'as'=>'dashboard-user',
+    'uses'=>'User\DashboardController@index',
+    'middleware'=> 'user'
+]);
+
+Route::get('/logout', 'Auth\LoginController@logout');
+
+Route::get('/login', 'Auth\LoginController@getLogin')->name('login');
+
+Route::post('/login', [
+    'as' => 'login',
+    'uses' => 'Auth\LoginController@login',
+]);
+
+Route::get('/register ', 'Auth\RegisterController@getRegister')->name('getRegister  ');
+
+Route::post('/register', [
+    'as' => 'register-user',
+    'uses' => 'Auth\RegisterController@register',
+]);
+
+
+
