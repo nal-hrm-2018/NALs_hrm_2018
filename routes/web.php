@@ -8,14 +8,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
 Route::get('/employees', function () {
     return view('admin.module.employees.employees');
 });
-
 
 Route::get('/dashboard', [
     'as'=>'dashboard-user',
@@ -38,4 +36,3 @@ Route::post('/register', [
     'as' => 'register-user',
     'uses' => 'Auth\RegisterController@register',
 ]);
-

@@ -75,8 +75,6 @@ class RegisterController extends Controller
             ->action('Auth\LoginController@getRegister')
             ->with('message', trans('message.register_fail'));
     }
-    
-
     protected function create( $data)
     {
         return Employee::create([

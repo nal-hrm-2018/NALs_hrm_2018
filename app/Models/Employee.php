@@ -23,8 +23,6 @@ class Employee extends Model implements
     CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
-
-
     protected $fillable = [
         'name',
         'email',
