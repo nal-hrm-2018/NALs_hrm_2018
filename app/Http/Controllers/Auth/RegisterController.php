@@ -68,8 +68,7 @@ class RegisterController extends Controller
         $user = $this->create($input);
         if ($user) {
             Auth::login($user);
-
-            return redirect()->action('/');
+            return redirect()->action('User\DashboardController@index');
         }
 
         return redirect()

@@ -23,6 +23,12 @@ class Employee extends Model implements
     CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
+<<<<<<< HEAD
+
+    public $timestamps = false;
+
+=======
+>>>>>>> 07ccd1f2e2ea0d4a405b715724fc5a134415bbcb
     protected $fillable = [
         'name',
         'email',
