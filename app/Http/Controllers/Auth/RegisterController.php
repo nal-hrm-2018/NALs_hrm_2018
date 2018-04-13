@@ -52,6 +52,7 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request)
+
     {
         $data = $request->only([
             'name',
@@ -64,6 +65,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => $data['password'],
         ];
+        $this->validator($input)->validate();
         $user = $this->create($input);
         if ($user) {
             Auth::login($user);
@@ -74,6 +76,7 @@ class RegisterController extends Controller
         return redirect()
             ->action('Auth\LoginController@getRegister')
             ->with('message', trans('message.register_fail'));
+
     }
     protected function create( $data)
     {
