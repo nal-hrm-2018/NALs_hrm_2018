@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-=======
-<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -44,8 +41,6 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
->>>>>>> f6c1705755d820741a6617d4bb95356d29bfe2b5
-
   <header class="main-header">
     <!-- Logo -->
     <a href="index2.html" class="logo">

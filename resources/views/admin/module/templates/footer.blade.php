@@ -11,8 +11,7 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-<<<<<<< HEAD
-=======
+
 
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -59,4 +58,4 @@
 </script>
 </body>
 </html>
->>>>>>> f6c1705755d820741a6617d4bb95356d29bfe2b5
+
