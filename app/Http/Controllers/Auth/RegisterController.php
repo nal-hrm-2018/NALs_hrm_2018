@@ -45,10 +45,10 @@ class RegisterController extends Controller
     public function getRegister()
     {
         if (Auth::guard()->check()) {
-            return view('user.pages.home');
+            return view('/');
         }
 
-        return view('user.pages.register');
+        return view('auth.register');
     }
 
     public function register(Request $request)
@@ -65,7 +65,6 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => $data['password'],
         ];
-        $this->validator($input)->validate();
         $user = $this->create($input);
         if ($user) {
             Auth::login($user);
