@@ -13,10 +13,28 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TeamRequest extends FormRequest
 {
-    public function rules(){
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
         return [
-            'teamName' => 'required',
+            'name' => 'required',
             'POName' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => trans('validation.required', [
+                'attribute' => 'Team Name'
+            ]),
+            'POName.required' => trans('validation.required', [
+                'attribute' => 'PO Name'
+            ])
         ];
     }
 }

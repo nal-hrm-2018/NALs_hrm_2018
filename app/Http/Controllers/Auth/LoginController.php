@@ -44,7 +44,6 @@ class LoginController extends Controller
         if (Auth::guard()->check()) {
             return back();
         }
-
         return view('auth.login');
     }
 
