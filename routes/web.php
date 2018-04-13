@@ -8,6 +8,7 @@ Route::get('/', function () {
     return view('admin.module.index.dashboard');
 });
 
+<<<<<<< HEAD
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
@@ -20,6 +21,15 @@ Route::get('/chartjs', function () {
 
 Route::get('login', 'LoginController@getLogin')->name('getLogin');
 
+=======
+
+Route::get('/index', function () {
+    return view('admin.module.index.index');
+});
+Route::get('/employees', function () {
+    return view('admin.module.employees.employees');
+});
+>>>>>>> f6c1705755d820741a6617d4bb95356d29bfe2b5
 
 //Route::group(['prefix' => '/admin','middleware' => 'admin'], function () {
 //    Route::resource('/dashboard', 'Admin\DashboardController', [
@@ -50,3 +60,7 @@ Route::post('/register', [
 ]);
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f6c1705755d820741a6617d4bb95356d29bfe2b5

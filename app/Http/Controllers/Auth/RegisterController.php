@@ -52,6 +52,7 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request)
+<<<<<<< HEAD
     {
         $data = $request->only([
             'name',
@@ -78,15 +79,37 @@ class RegisterController extends Controller
     }
 
     protected function validator(array $data)
+=======
+>>>>>>> f6c1705755d820741a6617d4bb95356d29bfe2b5
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+        $data = $request->only([
+            'name',
+            'email',
+            'password'
         ]);
+
+        $input = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ];
+        $user = $this->create($input);
+        if ($user) {
+            Auth::login($user);
+
+            return redirect()->action('/');
+        }
+
+        return redirect()
+            ->action('Auth\LoginController@getRegister')
+            ->with('message', trans('message.register_fail'));
     }
+    
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6c1705755d820741a6617d4bb95356d29bfe2b5
     protected function create( $data)
     {
         return Employee::create([

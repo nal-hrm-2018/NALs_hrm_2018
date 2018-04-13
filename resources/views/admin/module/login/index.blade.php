@@ -30,7 +30,12 @@
 <body>
 	
 	<div class="limiter">
+<<<<<<< HEAD
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+=======
+
+		<div class="container-login100" style="background-image: url({!! asset('admin/templates/images/login/images/bg-01.jpg') !!});">
+>>>>>>> f6c1705755d820741a6617d4bb95356d29bfe2b5
 			<div class="wrap-login100">
 				<form class="login100-form validate-form">
 					<span class="login100-form-logo">
