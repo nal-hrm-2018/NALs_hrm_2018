@@ -26,7 +26,7 @@ Route::post('/login', [
     'uses' => 'Auth\LoginController@login',
 ]);
 
-Route::get('/register ', 'Auth\RegisterController@getRegister')->name('getRegister  ');
+Route::get('/register ', 'Auth\RegisterController@getRegister')->name('getRegister');
 
 Route::post('/register', [
     'as' => 'register-user',
