@@ -23,7 +23,6 @@
 <script src="{!! asset('admin/templates/js/dist/js/adminlte.min.js') !!}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{!! asset('admin/templates/js/dist/js/demo.js') !!}"></script>
-
 <script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.js') !!}"></script>
 <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
 <script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.resize.js') !!}"></script>
@@ -55,6 +54,5 @@
     })
   })
 </script>
-
 </body>
 </html>

@@ -14,7 +14,6 @@ Route::get('/index', function () {
 Route::get('/employees', function () {
     return view('admin.module.employees.employees');
 });
-
 Route::get('/dashboard', [
     'as'=>'dashboard-user',
     'uses'=>'User\DashboardController@index',
@@ -36,3 +35,4 @@ Route::post('/register', [
     'as' => 'register-user',
     'uses' => 'Auth\RegisterController@register',
 ]);
+
