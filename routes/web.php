@@ -12,14 +12,23 @@ Route::get('/employees', function () {
 });
 
 Route::get('/dashboard', [
-    'as'=>'dashboard-user',
-    'uses'=>'User\DashboardController@index',
-    'middleware'=> 'user'
+    'as' => 'dashboard-user',
+    'uses' => 'User\DashboardController@index',
+    'middleware' => 'user'
 ]);
 
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/', [
+    'as'=> 'welcome',
+    'uses' => 'User\DashboardController@index',
+    'middleware' => 'user'
+]);
 
-Route::get('/login', 'Auth\LoginController@getLogin')->name('login');
+Route::get('/login', [
+    'as'=> 'login',
+    'uses'=>'Auth\LoginController@getLogin'
+]);
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::post('/login', [
     'as' => 'login',
