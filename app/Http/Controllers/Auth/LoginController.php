@@ -53,7 +53,6 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
 
-
         $remember = $request->get('remember');
 
         $data = $request->only([
