@@ -24,6 +24,7 @@ class Employee extends Model implements
 {
     use Authenticatable, Authorizable, CanResetPassword;
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',

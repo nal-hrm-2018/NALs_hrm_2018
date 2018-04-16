@@ -26,9 +26,14 @@ Route::post('/login', [
     'uses' => 'Auth\LoginController@login',
 ]);
 
-Route::get('/register ', 'Auth\RegisterController@getRegister')->name('getRegister  ');
+Route::get('/register ', 'Auth\RegisterController@getRegister')->name('getRegister');
 
 Route::post('/register', [
     'as' => 'register-user',
     'uses' => 'Auth\RegisterController@register',
 ]);
+
+/*begin route list employee by Quy*/
+Route::resource('employee','User\Employee\EmployeeController');
+
+/*the end route list employee by Quy*/
