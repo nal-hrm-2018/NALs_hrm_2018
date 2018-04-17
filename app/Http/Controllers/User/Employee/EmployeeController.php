@@ -50,4 +50,7 @@ class EmployeeController extends Controller
     {
         //
     }
+    public function searchCommonInList(Request $request, $id){
+
+    }
 }

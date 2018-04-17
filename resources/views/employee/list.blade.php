@@ -99,7 +99,7 @@
             </div>
             <ol class="breadcrumb">
                 <button type="button" class="btn btn-default">
-                    <a href="#"><i class="fa fa-user-plus"></i> ADD</a>
+                    <a href="/add"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
                 <button type="button" class="btn btn-default">
                     <a href="#"><i class="fa fa-users"></i> IMPORT</a>
