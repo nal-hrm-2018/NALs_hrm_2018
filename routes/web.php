@@ -51,3 +51,6 @@ Route::post('/register', [
     'as' => 'register-user',
     'uses' => 'Auth\RegisterController@register',
 ]);
+Route::get('/employee/detail', function () {
+    return view('admin.module.employees.detail');
+});
