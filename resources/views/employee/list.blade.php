@@ -99,7 +99,7 @@
             </div>
             <ol class="breadcrumb">
                 <button type="button" class="btn btn-default">
-                    <a href="/add"><i class="fa fa-user-plus"></i> ADD</a>
+                    <a href="employee/add"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
                 <button type="button" class="btn btn-default">
                     <a href="#"><i class="fa fa-users"></i> IMPORT</a>
@@ -139,7 +139,7 @@
                                         <td>Active</td>
                                         <ul class="contextMenu" hidden>
                                             <li><a href="#"><i class="fa fa-id-card"></i> View</a></li>
-                                            <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>
+                                            <li><a href="employee/edit/{{$employee->id}}"><i class="fa fa-edit"></i> Edit</a></li>
                                             <li><a href="#"><i class="fa fa-remove"></i> Remove</a></li>
                                         </ul>
                                     </tr>

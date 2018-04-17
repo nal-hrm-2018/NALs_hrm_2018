@@ -7,9 +7,6 @@ Auth::routes();
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
-Route::get('/employees', function () {
-    return view('admin.module.employees.employees');
-});
 Route::get('/dashboard', [
     'as' => 'dashboard-user',
     'uses' => 'User\DashboardController@index',
@@ -40,9 +37,12 @@ Route::post('/register', [
     'as' => 'register-user',
     'uses' => 'Auth\RegisterController@register',
 ]);
+
+
 Route::get('/employee/add',['as' => 'getEmployeeAdd', 'uses' => 'Admin\EmployeeController@getEmployeeAdd']);
 Route::post('/employee/add',['as' => 'postEmployeeAdd', 'uses' => 'Admin\EmployeeController@postEmployeeAdd']);
-
+Route::get('/employee/edit/{id}',['as' => 'getEmployeeEdit', 'uses' => 'Admin\EmployeeController@getEmployeeEdit']);
+Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\EmployeeController@postEmployeeEdit']);
 
 /*begin route list employee by Quy*/
 Route::resource('employee','User\Employee\EmployeeController');
