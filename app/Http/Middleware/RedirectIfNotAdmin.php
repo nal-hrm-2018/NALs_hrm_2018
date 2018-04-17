@@ -19,7 +19,6 @@ class RedirectIfNotAdmin
         if (Auth::check() && Auth::user()->isAdmin()) {
             return $next($request);
         }
-
         return redirect()->action('Auth\LoginController@getLogin');
     }
 }
