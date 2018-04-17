@@ -23,10 +23,12 @@ class Employee extends Model implements
     CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
+    protected $table = 'employees';
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'remember_token',
+        'name',
         'birthday',
         'gender',
         'mobile',
@@ -37,11 +39,19 @@ class Employee extends Model implements
         'curriculum_vitae',
         'is_employee',
         'company',
-        'avatar'
+        'avatar',
+        'employee_type_id',
+        'teams_id',
+        'roles_id',
+        'updated_at',
+        'last_updated_by_employee',
+        'created_at',
+        'created_by_employee',
+        'delete_flag'
     ];
 
 
     protected $hidden = [
-        'password',
+        'password','remember_token'
     ];
 }

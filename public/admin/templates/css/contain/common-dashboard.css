@@ -8,4 +8,11 @@
 @import "../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
 @import "../bower_components/bootstrap-daterangepicker/daterangepicker.css";
 @import "../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css";
-@import "../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"
+@import "../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css";
+@import "../drop/drop.css";
+@import "../plugins/iCheck/all.css";
+@import "../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css";
+@import "../plugins/timepicker/bootstrap-timepicker.min.css";
+@import "../bower_components/select2/dist/css/select2.min.css";
+@import "../drop/css/style.css";
+  

@@ -38,7 +38,39 @@
                 </thead>
                 <tbody>
                 <tr>
-                  <td>Trident</td>
+                  <td>
+                    <div class="container1" oncontextmenu="return showContextMenu(event);">
+                      <a href="">Trident</a>
+                      <div id="contextMenu1" class="context-menu">
+                        <ul>
+                          <li>View3</li>
+                          <li>Edit</li>
+                          <li>Export</li>
+                          <li>Remove</li>
+                          <li>CV</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <script type="text/javascript">
+                        window.onclick = hideContextMenu;
+                        var contextMenu = document.getElementById('contextMenu1');
+                        function showContextMenu(event){
+                          contextMenu.style.display = 'block';
+                          contextMenu.style.left = (event.clientX-200) + 'px';
+                          contextMenu.style.top = (event.clientY-100) + 'px';
+                          return false;
+                        }
+                        function hideContextMenu(){
+                          contextMenu.style.display = 'none';
+                        }
+                        function listenKeys(event){
+                          var keyCode = event.which || event.keyCode;
+                          if(keyCode == 27){
+                            hideContextMenu();
+                          }
+                        }
+                      </script>
+                  </td>
                   <td>Internet
                     Explorer 4.0
                   </td>
@@ -50,7 +82,39 @@
 
                 </tr>
                 <tr>
-                  <td>Trident</td>
+                  <td>
+                    <div class="container1" oncontextmenu="return showContextMenu(event);">
+                      <a href="">Trident</a>
+                      <div id="contextMenu2" class="context-menu">
+                        <ul>
+                          <li>View3</li>
+                          <li>Edit</li>
+                          <li>Export</li>
+                          <li>Remove</li>
+                          <li>CV</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <script type="text/javascript">
+                        window.onclick = hideContextMenu;
+                        var contextMenu = document.getElementById('contextMenu2');
+                        function showContextMenu(event){
+                          contextMenu.style.display = 'block';
+                          contextMenu.style.left = (event.clientX-200) + 'px';
+                          contextMenu.style.top = (event.clientY-100) + 'px';
+                          return false;
+                        }
+                        function hideContextMenu(){
+                          contextMenu.style.display = 'none';
+                        }
+                        function listenKeys(event){
+                          var keyCode = event.which || event.keyCode;
+                          if(keyCode == 27){
+                            hideContextMenu();
+                          }
+                        }
+                      </script>
+                  </td>
                   <td>Internet
                     Explorer 5.0
                   </td>
@@ -61,7 +125,39 @@
                   <td>X</td>
                 </tr>
                 <tr>
-                  <td>Trident</td>
+                  <td>
+                    <div class="container1" oncontextmenu="return showContextMenu(event);">
+                      <a href="">Trident</a>
+                      <div id="contextMenu3" class="context-menu">
+                        <ul>
+                          <li>View3</li>
+                          <li>Edit</li>
+                          <li>Export</li>
+                          <li>Remove</li>
+                          <li>CV</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <script type="text/javascript">
+                        window.onclick = hideContextMenu;
+                        var contextMenu = document.getElementById('contextMenu3');
+                        function showContextMenu(event){
+                          contextMenu.style.display = 'block';
+                          contextMenu.style.left = (event.clientX-200) + 'px';
+                          contextMenu.style.top = (event.clientY-100) + 'px';
+                          return false;
+                        }
+                        function hideContextMenu(){
+                          contextMenu.style.display = 'none';
+                        }
+                        function listenKeys(event){
+                          var keyCode = event.which || event.keyCode;
+                          if(keyCode == 27){
+                            hideContextMenu();
+                          }
+                        }
+                      </script>
+                  </td>
                   <td>Internet
                     Explorer 5.5
                   </td>
