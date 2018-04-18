@@ -111,6 +111,24 @@
         </section>
 
         <!-- Main content -->
+        <?php
+          if(Session::get('msg_fail') != ""){
+            echo '<div>
+                <ul class=\'error_msg\'>
+                    <li>'.Session::get("msg_fail").'</li>
+                </ul>
+            </div>';
+          }
+        ?>
+        <?php
+          if(Session::get('msg_success') != ""){
+            echo '<div>
+                <ul class=\'result_msg\'>
+                    <li>'.Session::get("msg_success").'</li>
+                </ul>
+            </div>';
+          }
+        ?>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">

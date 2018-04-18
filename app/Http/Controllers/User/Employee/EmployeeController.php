@@ -23,7 +23,10 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        //
+        $dataTeam = Team::select('id','name')->get()->toArray();
+        $dataRoles = Role::select('id','name')->get()->toArray();
+        $dataEmployeeTypes = Employee_type::select('id','name')->get()->toArray();
+        return view('admin.module.employees.add',['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function store(Request $request)
