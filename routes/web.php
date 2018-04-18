@@ -47,4 +47,6 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 /*begin route list employee by Quy*/
 Route::resource('employee','User\Employee\EmployeeController');
 
+Route::get('/search ', 'User\Employee\EmployeeController@searchCommonInList')->name('search');
+
 /*the end route list employee by Quy*/

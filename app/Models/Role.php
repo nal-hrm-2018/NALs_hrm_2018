@@ -13,7 +13,12 @@ class Role extends Model
 {
 	use Authenticatable, Authorizable, CanResetPassword;
     protected $table = 'roles';
+    protected $primaryKey = 'id';
     protected $fillable = [
-        'name','description','updated_at','last_updated_by_employee','created_at','created_by_employee','delete_flag'
+        'id','name','description','updated_at','last_updated_by_employee','created_at','created_by_employee','delete_flag'
     ];
+    public function employees()
+    {
+        return $this->belongsTo('App\Models\Employee');
+    }
 }

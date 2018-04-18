@@ -10,7 +10,7 @@
           </a>
         </li>
         <li>
-          <a href="">
+          <a href="/employee">
             <i class="fa fa-dashboard"></i> <span>Employees</span>
           </a>
         </li>

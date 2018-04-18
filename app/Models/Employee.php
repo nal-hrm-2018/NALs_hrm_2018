@@ -17,6 +17,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use App\Models\Team;
+
 class Employee extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
@@ -39,6 +41,7 @@ class Employee extends Model implements
         'mobile',
         'address',
         'marital_status',
+        'work_status',
         'startwork_date',
         'endwork_date',
         'curriculum_vitae',
@@ -46,8 +49,8 @@ class Employee extends Model implements
         'company',
         'avatar',
         'employee_type_id',
-        'teams_id',
-        'roles_id',
+        'team_id',
+        'role_id',
         'updated_at',
         'last_updated_by_employee',
         'created_at',
@@ -59,4 +62,12 @@ class Employee extends Model implements
     protected $hidden = [
         'password','remember_token'
     ];
+    public function role()
+    {
+        return $this->hasOne('App\Models\Role', 'id', 'role_id');
+    }
+    public function team()
+    {
+        return $this->hasOne(\App\Models\Team::class , 'id', 'team_id');
+    }
 }

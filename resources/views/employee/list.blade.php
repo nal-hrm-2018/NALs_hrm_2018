@@ -31,7 +31,7 @@
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
-                        <form action="" method="get" role="form">
+                        <form action="{{asset('search')}}" method="get" role="form">
                             <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -46,19 +46,19 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Employee ID</button>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input type="text" name="id" id="employeeId" class="form-control">
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">Name</button>
+                                                    <button type="button"  class="btn width-100">Name</button>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input type="text" name="name" id="nameEmployee" class="form-control">
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Team</button>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input type="text" name="team" id="teamEmployee" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -66,19 +66,19 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Email</button>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input type="text" name="email" id="emailEmployee" class="form-control">
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Role</button>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input type="text" name="role" id="roleEmployee" class="form-control">
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Status</button>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input type="text" name="status" id="statusEmployee" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@
                                     <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                         RESET
                                     </button>
-                                    <button type="button" class="btn btn-primary"><span class="fa fa-search"></span>
+                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span class="fa fa-search"></span>
                                         SEARCH
                                     </button>
                                 </div>
@@ -133,10 +133,10 @@
                                     <tr class="contextMenu">
                                         <td>{{$employee->id}}</td>
                                         <td>{{$employee->name}}</td>
-                                        <td>--</td>
-                                        <td>--</td>
+                                        <td>{{$employee->team->name}}</td>
+                                        <td>{{$employee->role->name}}</td>
                                         <td>{{$employee->email}}</td>
-                                        <td>Active</td>
+                                        <td>{{$employee->work_status}}</td>
                                         <ul class="contextMenu" hidden>
                                             <li><a href="#"><i class="fa fa-id-card"></i> View</a></li>
                                             <li><a href="employee/edit/{{$employee->id}}"><i class="fa fa-edit"></i> Edit</a></li>
@@ -186,5 +186,28 @@
             });
         });
     </script>
+    {{--<script type="text/javascript">
+       $document.ready(function () {
+           $("#searchListEmployee").click(function () {
+               var employeeId = $("#employeeId").val();
+               var employeename = $("#nameEmployee").val();
+               var employeeTeam = $("#teamEmployee").val();
+               var employeeEmail = $("#emailEmployee").val();
+               var employeeRole = $("#roleEmployee").val();
+               var employeeStatus = $("#statusEmployee").val();
+               var url = "{{asset('search')}}";
+
+               $.ajax({
+                   url: url,
+                   type: "get",
+                   data: {},
+                   async:true,
+                   success:function(data){
+                       alert(data);
+                   }
+               });
+           });
+       });
+    </script>--}}
 
 @endsection

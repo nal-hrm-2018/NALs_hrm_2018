@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\User\Employee;
 
 use App\Models\Employee;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,9 +17,8 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $dataAllEmployees = Employee::all();
-        return view('employee.list')->with("employees",$dataAllEmployees);
-//        compact('dataAllEmployees','id')
+        $employees = Employee::where('delete_flag','=',0)->get();
+        return view('employee.list', compact('employees'));
     }
 
     public function create()
@@ -50,7 +50,44 @@ class EmployeeController extends Controller
     {
         //
     }
-    public function searchCommonInList(Request $request, $id){
+    public function searchCommonInList(Request $request){
+        $query = Employee::query();
 
+        $query->with(['team', 'role']);
+
+        if ($request->input('role') != null ){
+            $query
+                ->whereHas('role', function ($query) use ($request) {
+                    $query->where("name", 'like', '%'.$request->input('role').'%');
+                });
+        }
+        if ($request->input('name') != null ){
+                    $query->orWhere('name', 'like', '%'.$request->name.'%');
+        }
+        if ($request->id != null){
+                    $query->orWhere('id', '=', $request->id);
+        }
+        if ($request->team != null) {
+            $query
+                ->whereHas('team', function ($query) use ($request) {
+                    $query->where("name", 'like', '%'.$request->input('team').'%');
+                });
+        }
+        if ($request->email != null) {
+            $query->orWhere('email','like','%'.$request->email.'%');
+        }
+        if ($request->status != null) {
+            $query->orWhere('work_status','like','%'.$request->status.'%');
+        }
+        $employeesSearch = $query->get();
+        return view('employee.list')->with("employees", $employeesSearch);
     }
+/*
+        ALL DEBUG
+        echo "<pre>";
+        print_r($employees);
+        die;
+        var_dump(): user in view;
+        dd(); view array
+*/
 }
