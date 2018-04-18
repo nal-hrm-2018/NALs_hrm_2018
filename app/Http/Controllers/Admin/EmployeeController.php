@@ -40,11 +40,11 @@ class EmployeeController extends Controller
     	$employee -> roles_id = $request -> roles_id;
     	$employee -> created_at = new DateTime();
     	$employee -> delete_flag = 1;
-    	if($objEmployee != null){
-    		return redirect() -> route('postEmployeeAdd')->with(['msg_fail' => 'Email already exists', 'employee' => $employee]);
+    	if($objEmployee != null){ 
+    		return redirect('employee') -> with(['msg_fail' => 'Add failed!!!Email already exists']);
     	}else{
     		$employee ->save();
-    		return redirect() -> route('login')->with(['msg_success' => 'Account successfully created']);
+    		return redirect('employee')->with(['msg_success' => 'Account successfully created']);
     	}
     }
     public function getEmployeeEdit($id){
@@ -72,10 +72,10 @@ class EmployeeController extends Controller
         $employee -> roles_id = $request -> roles_id;
         $employee -> updated_at = new DateTime();
         if($objEmployee != null){
-            return redirect() -> route('getEmployeeEdit('.$id.')')->with(['msg_fail' => 'Email already exists']);
+            return redirect('employee') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
         }else{
             $employee ->save();
-            return redirect() -> route('login')->with(['msg_success' => 'Account successfully edited']);
+            return redirect('employee') -> with(['msg_success' => 'Account successfully edited']);
         }
     }
 }
