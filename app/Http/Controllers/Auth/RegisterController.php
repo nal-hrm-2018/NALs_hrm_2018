@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -52,7 +52,6 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request)
-
     {
         $data = $request->only([
             'name',
@@ -68,15 +67,14 @@ class RegisterController extends Controller
         $user = $this->create($input);
         if ($user) {
             Auth::login($user);
-
-            return redirect()->action('/');
+            return redirect()->action('User\DashboardController@index');
         }
 
         return redirect()
             ->action('Auth\LoginController@getRegister')
             ->with('message', trans('message.register_fail'));
-    }  
 
+    }
     protected function create( $data)
     {
         return Employee::create([

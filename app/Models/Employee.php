@@ -24,7 +24,10 @@ class Employee extends Model implements
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
+    public $timestamps = false;
+
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
@@ -38,11 +41,31 @@ class Employee extends Model implements
         'curriculum_vitae',
         'is_employee',
         'company',
-        'avatar'
+        'avatar',
+        'teams_id',
+        'roles_id',
+        'employee_type_id'
     ];
 
 
     protected $hidden = [
         'password',
     ];
+
+    public function teams(){
+        return $this->belongsTo('App\Models\Team');
+    }
+    public function roles(){
+        return $this->belongsTo('App\Models\Role');
+    }
+    public function employeeType(){
+        return $this->belongsTo('App\Models\EmployeeType');
+    }
+    public function processes(){
+        return $this->hasMany('App\Models\Process');
+    }
+    public function projects(){
+        return $this->belongsToMany('App\Models\Project', 'processes', 'employee_id', 'projects_id')
+                    ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'projects_id', 'role_id');
+    }
 }
