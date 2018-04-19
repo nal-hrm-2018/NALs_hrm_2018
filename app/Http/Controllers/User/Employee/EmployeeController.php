@@ -49,9 +49,17 @@ class EmployeeController extends Controller
         //
     }
 
-    public function destroy(Employee $employee)
+    public function destroy($id, Request $request)
     {
-        //
+
+        if ( $request->ajax() ) {
+            $employees = Employee::where('id',$id)->where('delete_flag',0)->first();
+            $employees->delete_flag = 1;
+            $employees->save();
+
+            return response(['msg' => 'Product deleted', 'status' => 'success','id'=> $id]);
+        }
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
     public function searchCommonInList(Request $request){
         $query = Employee::query();
