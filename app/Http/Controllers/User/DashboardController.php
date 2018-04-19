@@ -14,7 +14,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('user.index');
+        return view('admin.module.index.index');
     }
 
     /**
@@ -82,4 +82,10 @@ class DashboardController extends Controller
     {
         //
     }
+
+    public static function getByUserName($id)
+    {
+        return DB::table('employees')->where('id','=',$id)->first();
+    }
+
 }

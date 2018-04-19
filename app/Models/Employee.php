@@ -70,4 +70,41 @@ class Employee extends Model implements
     {
         return $this->hasOne(\App\Models\Team::class , 'id', 'team_id');
     }
+
+    public function employeeType()
+    {
+        return $this->belongsTo('App\Models\EmployeeType');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function performances()
+    {
+        return $this->hasMany('App\Models\Performance', 'employees_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany('App\Models\Permission', 'permissions_employees', 'employees_id', 'permissions_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function processes()
+    {
+        return $this->hasMany('App\Models\Processe');
+    }
+    public function role()
+    {
+        return $this->hasOne('App\Models\Role', 'id', 'role_id');
+    }
+    public function team()
+    {
+        return $this->hasOne(\App\Models\Team::class , 'id', 'team_id');
+    }
 }
