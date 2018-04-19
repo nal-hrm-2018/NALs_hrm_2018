@@ -30,7 +30,7 @@
             </div>';
           }
         ?>
-        <form action="" method="post" class="form-horizontal">
+        <form action="{{asset('employee')}}" method="post" class="form-horizontal">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="col-md-3">
@@ -95,11 +95,11 @@
               </div>
               <div class="form-group">
                 <label>Team</label>
-                <select class="form-control select2" style="width: 100%;"  name="teams_id">
+                <select class="form-control select2" style="width: 100%;"  name="team_id">
                   <?php
                     foreach($dataTeam as $val){
                       $selected = "";
-                      if($val["id"] == old('teams_id')){
+                      if($val["id"] == old('team_id')){
                         $selected = "selected";
                       }
                       echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
@@ -138,11 +138,11 @@
               </div>
               <div class="form-group">
                 <label>Role of team</label>
-                <select class="form-control select2" style="width: 100%;" name="roles_id">
+                <select class="form-control select2" style="width: 100%;" name="role_id">
                   <?php
                     foreach($dataRoles as $val){
                       $selected = "";
-                      if($val["id"] == old('roles_id')){
+                      if($val["id"] == old('role_id')){
                         $selected = "selected";
                       }
                       echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';

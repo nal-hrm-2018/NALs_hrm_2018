@@ -99,11 +99,29 @@
             </div>
             <ol class="breadcrumb">
                 <button type="button" class="btn btn-default">
-                    <a href="employee/add"><i class="fa fa-user-plus"></i> ADD</a>
+                    <a href="employee/create"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
-                <button type="button" class="btn btn-default">
+                <!-- <button type="button" class="btn btn-default">
                     <a href="#"><i class="fa fa-users"></i> IMPORT</a>
-                </button>
+                </button> -->
+                <div class="nav navbar-nav">
+                  <div class="dropdown user user-menu">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
+                    </button>
+                    <div class="dropdown-menu">
+                      <!-- User image -->
+                      <div class="user-header">
+                            <form action="{{ asset('employee/import_csv')}}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="file" name="csv_file">
+                                <br/>
+                                <input type="submit" value="Import Data">
+                            </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <button type="button" class="btn btn-default">
                     <a href="#"><i class="fa fa-vcard"></i> EXPORT</a>
                 </button>
@@ -151,14 +169,14 @@
                                     <tr class="contextMenu">
                                         <td>{{$employee->id}}</td>
                                         <td>{{$employee->name}}</td>
-                                        <td>{{$employee->team->name}}</td>
-                                        <td>{{$employee->role->name}}</td>
+                                        <td>{{$employee->team}}</td>
+                                        <td>{{$employee->role}}</td>
                                         <td>{{$employee->email}}</td>
                                         <td>{{$employee->work_status}}</td>
                                         <ul class="contextMenu" hidden>
                                             <li><a href="#"><i class="fa fa-id-card"></i> View</a></li>
-                                            <li><a href="employee/edit/{{$employee->id}}"><i class="fa fa-edit"></i> Edit</a></li>
-                                            <li><a href="#"><i class="fa fa-remove"></i> Remove</a></li>
+                                            <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i> Edit</a></li>
+                                            <li><a href="employee/{{$employee->id}}"><i class="fa fa-remove"></i> Remove</a></li>
                                         </ul>
                                     </tr>
                                 @endforeach
