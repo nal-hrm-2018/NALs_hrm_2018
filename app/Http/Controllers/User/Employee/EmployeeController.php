@@ -8,10 +8,12 @@
 
 namespace App\Http\Controllers\User\Employee;
 
-use App\Http\Services\PaginationService;
+
 use App\Models\Employee;
-use App\Models\Process;
+use App\Models\EmployeeType;
 use App\Models\Project;
+use App\Models\Role;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -19,14 +21,16 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $dataAllEmployees = Employee::all();
-        return view('employee.list')->with("employees",$dataAllEmployees);
-//        compact('dataAllEmployees','id')
+        $employees = Employee::where('delete_flag','=',0)->get();
+        return view('employee.list', compact('employees'));
     }
 
     public function create()
     {
-        //
+        $dataTeam = Team::select('id','name')->get()->toArray();
+        $dataRoles = Role::select('id','name')->get()->toArray();
+        $dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
+        return view('admin.module.employees.add',['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function store(Request $request)
@@ -34,20 +38,21 @@ class EmployeeController extends Controller
         //
     }
 
+
     public function show($id)
     {
         //set employee info
         $employee = Employee::find($id);
 
-         //set list project
+        //set list project
         $processes = $employee->processes;
 
         //paginate list project
-        $processes = PaginationService::paginate($processes, 5);
+//        $processes = PaginationService::paginate($processes, 5);
 
         //set chart
 
-//        return view('employee.detail', compact('employee', 'processes'))->render();
+        return view('employee.detail', compact('employee', 'processes'))->render();
     }
 
     public function edit(Employee $employee)
@@ -64,9 +69,8 @@ class EmployeeController extends Controller
     {
         //
     }
-    public function searchCommonInList(Request $request, $id){
 
-    }
+
 
     public function getValueOfEmployee($id)
     {
@@ -109,4 +113,37 @@ class EmployeeController extends Controller
     {
         return (strtotime(date($time1))- strtotime(date($time2)))/(60*60*24);
     }
+    public function searchCommonInList(Request $request){
+        $query = Employee::query();
+
+        $query->with(['team', 'role']);
+
+        if ($request->input('role') != null ){
+            $query
+                ->whereHas('role', function ($query) use ($request) {
+                    $query->where("name", 'like', '%'.$request->input('role').'%');
+                });
+        }
+        if ($request->input('name') != null ){
+                    $query->orWhere('name', 'like', '%'.$request->name.'%');
+        }
+        if ($request->id != null){
+                    $query->orWhere('id', '=', $request->id);
+        }
+        if ($request->team != null) {
+            $query
+                ->whereHas('team', function ($query) use ($request) {
+                    $query->where("name", 'like', '%'.$request->input('team').'%');
+                });
+        }
+        if ($request->email != null) {
+            $query->orWhere('email','like','%'.$request->email.'%');
+        }
+        if ($request->status != null) {
+            $query->orWhere('work_status','like','%'.$request->status.'%');
+        }
+        $employeesSearch = $query->get();
+        return view('employee.list')->with("employees", $employeesSearch);
+    }
+
 }

@@ -73,13 +73,4 @@ class LoginController extends Controller
             ->action('Auth\LoginController@getLogin')
             ->with('message', trans('auth.failed'));
     }
-
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-        $request->session()->flush();
-        $request->session()->regenerate();
-
-        return redirect()->action('Auth\LoginController@getLogin');
-    }
 }

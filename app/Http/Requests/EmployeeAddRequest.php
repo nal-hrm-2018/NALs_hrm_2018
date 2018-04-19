@@ -11,7 +11,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeRequest extends FormRequest
+class EmployeeAddRequest extends FormRequest
 {
     public function authorize()
     {
@@ -28,13 +28,13 @@ class EmployeeRequest extends FormRequest
             'gender' => 'required',
             'mobile' => 'required|numeric|digits_between:10,11',
             'marital_status' => 'required',
-            'curriculum_vitae' => 'required',
-            'team' => 'required',
+            /*'curriculum_vitae' => 'required',*/
+            'teams_id' => 'required',
             'company' => 'required',
-            'avatar' => 'required',
-            'birthday' => 'required|date_format:"d-m-Y"|before:today',
-            'start_work_date' => 'required|date_format:"d-m-Y"',
-            'end_work_date' => 'required|date_format:"d-m-Y"|after:start_work_date'
+            /*'avatar' => 'required',*/
+            'birthday' => 'required|before:today',
+            'startwork_date' => 'required',
+            'endwork_date' => 'required|after:startwork_date'
         ];
     }
 
@@ -77,47 +77,35 @@ class EmployeeRequest extends FormRequest
             'marital_status.required' => trans('validation.required', [
                 'attribute' => 'Married'
             ]),
-            'curriculum_vitae.required' => trans('validation.required', [
+            /*'curriculum_vitae.required' => trans('validation.required', [
                 'attribute' => 'CV'
-            ]),
-            'team.required' => trans('validation.required', [
+            ]),*/
+            'teams_id.required' => trans('validation.required', [
                 'attribute' => 'Team'
             ]),
             'company.required' => trans('validation.required', [
                 'attribute' => 'Company'
             ]),
-            'avatar.required' => trans('validation.required', [
+            /*'avatar.required' => trans('validation.required', [
                 'attribute' => 'Avatar'
-            ]),
+            ]),*/
             'birthday.required' => trans('validation.required', [
                 'attribute' => 'Birthday'
-            ]),
-            'birthday.date_format' => trans('validation.date_format', [
-                'attribute' => 'Birthday',
-                'format' => 'd-m-Y'
             ]),
             'birthday.before' => trans('validation.before', [
                 'attribute' => 'Birthday',
                 'date' => 'Today'
             ]),
-            'start_work_date.required' => trans('validation.required', [
+            'startwork_date.required' => trans('validation.required', [
                 'attribute' => 'Start Work Date'
             ]),
-            'start_work_date.date_format' => trans('validation.date_format', [
-                'attribute' => 'Start Work Date',
-                'format' => 'd-m-Y'
-            ]),
-            'end_work_date.required' => trans('validation.required', [
+            'endwork_date.required' => trans('validation.required', [
                 'attribute' => 'End Work Date'
             ]),
-            'end_work_date.date_format' => trans('validation.date_format', [
+            'endwork_date.date_format' => trans('validation.date_format', [
                 'attribute' => 'End Work Date',
-                'format' => 'd-m-Y'
+                'format' => 'dd-mm-YYYY'
             ]),
-            'end_work_date.after' => trans('validation.before', [
-                'attribute' => 'End Work Date',
-                'date' => 'Start Work Date'
-            ])
         ];
     }
 }

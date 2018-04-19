@@ -20,8 +20,9 @@
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <script src="{!! asset('https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js') !!} "></script>
+  <script src="{!! asset('https://oss.maxcdn.com/respond/1.4.2/respond.min.js') !!}"></script>
+  <script src="{!! asset('https://oss.maxcdn.com/respond/1.4.2/respond.min.js') !!}"></script>
   <![endif]-->
 
   <!-- Google Font -->
@@ -138,7 +139,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{!! asset('/admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">{{Auth::employees()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -146,32 +147,30 @@
                 <img src="{!! asset('/admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  {{Auth::employees()->name}}
+                  <small>Member since {{Auth::employees()->startwork_date}}</small>
                 </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
+
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{{route('update')}}" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="" class="btn btn-default btn-flat" onclick="logout()" >Sign out</a>
+
+                  <script type="text/javascript">
+                        function  logout(){
+                            var check = confirm("Are you sure logout ??? ");
+                            if (check == true) {
+                              {{route('logout')}}
+                            } else {
+                              {{route('dashboard-user')}}
+                            }
+                        }
+                </script>
+
                 </div>
               </li>
             </ul>
@@ -185,4 +184,4 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  
+</div>

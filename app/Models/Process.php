@@ -37,4 +37,8 @@ class Process extends Model
     {
         return $this->belongsTo('App\Models\Role');
     }
+    public function performances()
+    {
+        return $this->hasMany('App\Models\Performance', 'processes_id');
+    }
 }
