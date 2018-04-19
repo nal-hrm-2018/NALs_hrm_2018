@@ -38,6 +38,17 @@ Route::post('/register', [
     'uses' => 'Auth\RegisterController@register',
 ]);
 
+Route::get('/setupsearch', [
+    'as'=>'setupsearch',
+    'middleware' => 'user',
+    'uses'=>'User\Employee\SearchController@setupsearch',
+    ]);
+
+Route::get('/search-process', [
+    'as'=>'search-process',
+    'middleware' => 'user',
+    'uses'=>'User\Employee\SearchController@search']);
+
 Route::post('logout', [
     'as' => 'logout',
     'Auth\LogoutController@postLogout']);
