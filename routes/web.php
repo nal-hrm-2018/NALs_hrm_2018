@@ -38,7 +38,6 @@ Route::post('/register', [
     'uses' => 'Auth\RegisterController@register',
 ]);
 
-
 Route::get('/setupsearch', [
     'as'=>'setupsearch',
     'middleware' => 'user',
@@ -63,4 +62,6 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 Route::resource('employee','User\Employee\EmployeeController');
 
 Route::get('/search ', 'User\Employee\EmployeeController@searchCommonInList')->name('search');
+//Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
+/*the end route list employee by Quy*/

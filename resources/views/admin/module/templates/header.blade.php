@@ -66,7 +66,7 @@
 
 
               <img class="img-responsive img-circle" src="" />
-              <span class="hidden-xs">welcome {{Auth::user()->name}}</span>
+              {{--<span class="hidden-xs">welcome {{Auth::user()->name}}</span>--}}
 
             </a>
             <ul class="dropdown-menu">
@@ -76,8 +76,8 @@
                 <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{Auth::user()->name}}
-                  <small>Member since {{Auth::user()->startwork_date}}</small>
+{{--                  {{Auth::user()->name}}--}}
+                  {{--<small>Member since {{Auth::user()->startwork_date}}</small>--}}
                 </p>
 
               </li>

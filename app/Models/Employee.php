@@ -61,6 +61,14 @@ class Employee extends Model implements
     protected $hidden = [
         'password','remember_token'
     ];
+    public function role()
+    {
+        return $this->hasOne('App\Models\Role', 'id', 'role_id');
+    }
+    public function team()
+    {
+        return $this->hasOne(\App\Models\Team::class , 'id', 'team_id');
+    }
 
     public function teams(){
         return $this->belongsTo('App\Models\Team');
@@ -96,12 +104,4 @@ class Employee extends Model implements
     }
 
 
-    public function role()
-    {
-        return $this->hasOne('App\Models\Role', 'id', 'role_id');
-    }
-    public function team()
-    {
-        return $this->hasOne(\App\Models\Team::class , 'id', 'team_id');
-    }
 }

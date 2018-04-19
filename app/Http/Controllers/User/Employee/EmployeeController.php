@@ -10,6 +10,7 @@ namespace App\Http\Controllers\User\Employee;
 
 
 use App\Models\Employee;
+
 use App\Models\EmployeeType;
 use App\Models\Project;
 use App\Models\Role;
@@ -65,9 +66,16 @@ class EmployeeController extends Controller
         //
     }
 
-    public function destroy(Employee $employee)
+    public function destroy($id, Request $request)
     {
-        //
+        if ( $request->ajax() ) {
+            $employees = Employee::where('id',$id)->where('delete_flag',0)->first();
+            $employees->delete_flag = 1;
+            $employees->save();
+
+            return response(['msg' => 'Product deleted', 'status' => 'success','id'=> $id]);
+        }
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
 
 
@@ -111,8 +119,10 @@ class EmployeeController extends Controller
 
     public function calculateTime($time1, $time2)
     {
-        return (strtotime(date($time1))- strtotime(date($time2)))/(60*60*24);
+        return (strtotime(date($time1)) - strtotime(date($time2))) / (60 * 60 * 24);
     }
+
+
     public function searchCommonInList(Request $request){
         $query = Employee::query();
 
@@ -145,5 +155,4 @@ class EmployeeController extends Controller
         $employeesSearch = $query->get();
         return view('employee.list')->with("employees", $employeesSearch);
     }
-
 }
