@@ -99,7 +99,7 @@
             </div>
             <ol class="breadcrumb">
                 <button type="button" class="btn btn-default">
-                    <a href="employee/create"><i class="fa fa-user-plus"></i> ADD</a>
+                    <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
                 <!-- <button type="button" class="btn btn-default">
                     <a href="#"><i class="fa fa-users"></i> IMPORT</a>
@@ -169,8 +169,8 @@
                                     <tr class="contextMenu">
                                         <td>{{$employee->id}}</td>
                                         <td>{{$employee->name}}</td>
-                                        <td>{{$employee->team}}</td>
-                                        <td>{{$employee->role}}</td>
+                                        <td>{{$employee->team->name}}</td>
+                                        <td>{{$employee->role->role}}</td>
                                         <td>{{$employee->email}}</td>
                                         <td>{{$employee->work_status}}</td>
                                         <ul class="contextMenu" hidden>

@@ -54,7 +54,7 @@
               <!-- <div class="form-group">
                 <label>Password</label>
                 <input type="password" class="form-control" placeholder="Password"  name="password" value="{!! old('password', isset($objEmployee["password"]) ? $objEmployee["password"] : null) !!}">
-                <!-- /.input group -->
+                <!-- /.input group
               </div> -->
               <div class="form-group">
                 <label>Name</label>
