@@ -61,30 +61,11 @@ class Employee extends Model implements
     protected $hidden = [
         'password','remember_token'
     ];
-    public function role()
-    {
-        return $this->hasOne('App\Models\Role', 'id', 'role_id');
-    }
 
-    public function team()
+    public function employeeType()
     {
-        return $this->belongsTo(Team::class);
-    }
+        return $this->belongsTo('App\Models\EmployeeType','employee_type_id');
 
-    public function employee_type()
-    {
-        return $this->belongsTo(Employee_types::class);
-    }
-
-    public function roles(){
-        return $this->belongsTo('App\Models\Role');
-    }
-    public function processes(){
-        return $this->hasMany('App\Models\Process');
-    }
-    public function projects(){
-        return $this->belongsToMany('App\Models\Project', 'processes', 'employee_id', 'projects_id')
-                    ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'projects_id', 'role_id');
     }
 
     /**
@@ -92,7 +73,7 @@ class Employee extends Model implements
      */
     public function performances()
     {
-        return $this->hasMany('App\Models\Performance', 'employees_id');
+        return $this->hasMany('App\Models\Performance', 'employee_id');
     }
 
     /**
@@ -100,8 +81,32 @@ class Employee extends Model implements
      */
     public function permissions()
     {
-        return $this->belongsToMany('App\Models\Permission', 'permissions_employees', 'employees_id', 'permissions_id');
+        return $this->belongsToMany('App\Models\Permission', 'permission_employee', 'employee_id', 'permission_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function processes()
+    {
+        return $this->hasMany('App\Models\Process');
+    }
+
+    public function team(){
+        return $this->belongsTo('App\Models\Team','team_id');
+    }
+    public function role(){
+        return $this->belongsTo('App\Models\Role','role_id');
+    }
+
+    public function projects(){
+        return $this->belongsToMany('App\Models\Project', 'processes', 'employee_id', 'project_id')
+                    ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'project_id', 'role_id');
+    }
+
+
+
+
 
 
 }

@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'previous' => '&laquo; Previous',
-    'next' => 'Next &raquo;',
+    'button' =>[
+        'reset' => 'RESET',
+        'search' => 'SEARCH',
+    ]
 
 ];
