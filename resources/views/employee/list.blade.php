@@ -113,12 +113,15 @@
                     <div class="dropdown-menu">
                       <!-- User image -->
                       <div class="user-header">
-                            <form action="{{ asset('employee/import_csv')}}" method="post">
+                            <!-- <form action="{{ asset('employee/import_csv')}}" method="post">
+                                
+                            </form> -->
+                            {!! Form::open(array('route'=>'import_csv', 'method'=>'POST', 'files'=>'true')) !!}
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="file" name="csv_file">
                                 <br/>
                                 <input type="submit" value="Import Data">
-                            </form>
+                            {!! Form::close() !!}
                       </div>
                     </div>
                   </div>
@@ -171,12 +174,12 @@
                                         <td>{{$employee->id}}</td>
                                         <td>{{$employee->name}}</td>
                                         <td>{{$employee->team->name}}</td>
-                                        <td>{{$employee->role->role}}</td>
+                                        <td>{{$employee->role->name}}</td>
                                         <td>{{$employee->email}}</td>
                                         <td>{{$employee->work_status}}</td>
                                         <td>
                                             <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-                                                <li><a href="#"><i class="fa fa-id-card"></i> View</a></li>
+                                                <li><a href="employee/{{$employee->id}}"><i class="fa fa-id-card"></i> View</a></li>
                                                 <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
                                                         Edit</a></li>
                                                 <li class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i class="fa fa-remove"></i> Remove</li>

@@ -30,6 +30,9 @@
             </div>';
           }
         ?>
+        <?php 
+          $employee = Session::get("employee");
+        ?>
         <form action="{{asset('employee')}}" method="post" class="form-horizontal">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
@@ -48,7 +51,7 @@
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Email Address</label>
-                <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email') !!}">
+                <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email') !!}@if(isset($employee)){{ $employee->email }}@endif">
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -58,12 +61,12 @@
               </div>
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name') !!}">
+                <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Address</label>
-                <input type="text" class="form-control" placeholder="Address"  name="address" value="{!! old('address') !!}">
+                <input type="text" class="form-control" placeholder="Address"  name="address" value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -72,25 +75,81 @@
                   <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
                   </div>
-                  <input type="number" class="form-control" placeholder="Phone"  name="mobile" value="{!! old('mobile') !!}">
+                  <input type="number" class="form-control" placeholder="Phone"  name="mobile" value="{!! old('mobile') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
                 </div>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Gender</label>
                 <select class="form-control select2" style="width: 100%;" name="gender">
-                  <option value="1" <?php if( old('gender') == 1) echo'selected'; ?>>Female</option>
-                  <option value="2" <?php if( old('gender') == 2) echo'selected'; ?>>Male</option>               
-                  <option value="3" <?php if( old('gender') == 3) echo'selected'; ?>>N/a</option>
+                  <option value="1" 
+                  <?php 
+                    if( old('gender') == 1) echo'selected';
+                    if(isset($employee)){ 
+                      if($employee->gender == 1) 
+                        echo'selected'; 
+                    }
+                  ?>
+                  >Female</option>
+                  <option value="2" 
+                  <?php 
+                    if( old('gender') == 2) echo'selected';
+                    if(isset($employee)){ 
+                      if($employee->gender == 2) 
+                        echo'selected'; 
+                    }
+                  ?>
+                  >Male</option>
+                  <option value="3" 
+                  <?php 
+                    if( old('gender') == 3) echo'selected';
+                    if(isset($employee)){ 
+                      if($employee->gender == 3) 
+                        echo'selected'; 
+                    }
+                  ?>
+                  >N/a</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>Married</label>
                 <select class="form-control select2" style="width: 100%;"  name="marital_status">
-                  <option value="1" <?php if( old('marital_status') == 1) echo'selected'; ?>>Single</option>
-                  <option value="2" <?php if( old('marital_status') == 2) echo'selected'; ?>>Married</option>               
-                  <option value="3" <?php if( old('marital_status') == 3) echo'selected'; ?>>Separated</option>
-                  <option value="4" <?php if( old('marital_status') == 4) echo'selected'; ?>>Devorce</option>
+                  <option value="1" 
+                  <?php 
+                    if( old('marital_status') == 1) echo'selected';
+                    if(isset($employee)){ 
+                      if($employee->marital_status == 1) 
+                        echo'selected'; 
+                    }
+                  ?>
+                  >Single</option>
+                  <option value="2" 
+                  <?php 
+                    if( old('marital_status') == 2) echo'selected';
+                    if(isset($employee)){ 
+                      if($employee->marital_status == 2) 
+                        echo'selected'; 
+                    }
+                  ?>
+                  >Married</option>
+                  <option value="3" 
+                  <?php 
+                    if( old('marital_status') == 3) echo'selected';
+                    if(isset($employee)){ 
+                      if($employee->marital_status == 3) 
+                        echo'selected'; 
+                    }
+                  ?>
+                  >Separated</option>
+                  <option value="4" 
+                  <?php 
+                    if( old('marital_status') == 4) echo'selected';
+                    if(isset($employee)){ 
+                      if($employee->marital_status == 4) 
+                        echo'selected'; 
+                    }
+                  ?>
+                  >Devorce</option>
                 </select>
               </div>
               <div class="form-group">
@@ -102,6 +161,11 @@
                       if($val["id"] == old('team_id')){
                         $selected = "selected";
                       }
+                      /*if(isset($employee)){
+                        if($employee->team_id == $val["id"]){
+                          $selected = "selected";
+                        }
+                      }*/
                       echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
                     }
                   ?>
@@ -119,7 +183,7 @@
               </div>
               <div class="form-group">
                 <label>Company</label>
-                <input type="text" class="form-control" placeholder="Company"  name="company" value="{!! old('company') !!}">
+                <input type="text" class="form-control" placeholder="Company"  name="company" value="{!! old('company') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
                 <!-- /.input group -->
               </div>
               <div class="form-group">

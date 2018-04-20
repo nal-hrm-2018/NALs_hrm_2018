@@ -55,7 +55,7 @@
                                             @endif
                                     </p>
                                     <p>Status: <strong>{{$employee->marital_status}}</strong></p>
-                                    <p>Team: <strong>{{$employee->teams->name}}</strong></p>
+                                    <p>Team: <strong>{{$employee->team->name}}</strong></p>
                                     <p>Role: <strong>{{$employee->employeeType->name}}</strong></p>
                                     <p>Birthday: <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
                                     <p>Policy Date: <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}} - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>

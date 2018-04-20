@@ -60,7 +60,7 @@ class EmployeeController extends Controller
         $employee -> created_at = new DateTime();
         $employee -> delete_flag = 0;
         if($objEmployee != null){ 
-            return redirect('employee') -> with(['msg_fail' => 'Add failed!!!Email already exists']);
+            return redirect('employee/create') -> with(['msg_fail' => 'Add failed!!!Email already exists', 'employee' => $employee]);
         }else{
             $employee ->save();
             return redirect('employee')->with(['msg_success' => 'Account successfully created']);
@@ -112,7 +112,8 @@ class EmployeeController extends Controller
         $employee -> role_id = $request -> role_id;
         $employee -> updated_at = new DateTime();
         if($objEmployee != null){
-            return redirect('employee') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
+            return back()->with(['msg_fail' => 'Edit failed!!! Email already exists','employee'=>$employee]);
+            // return redirect('employee/'.$id.'/edit') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
         }else{
             $employee ->save();
             return redirect('employee') -> with(['msg_success' => 'Account successfully edited']);
@@ -209,14 +210,49 @@ class EmployeeController extends Controller
         return view('employee.list')->with("employees", $employeesSearch);
     }
 
-    public function import_csvxxx(){  
-        Excel::load(Input::file('csv_file'), function($reader) {
+    public function import_csv(Request $request){  
+        /*Excel::load(Input::file('csv_file'), function($reader) {
             $reader->each(function($sheet){
                 Employee::firstOrCreate($sheet->toArray());
                 return $sheet;
             });
         });
-        return redirect('employee') -> with(['msg_success' => 'Import successfully']);;
+        return redirect('employee') -> with(['msg_success' => 'Import successfully']);;*/
+        if($request->hasFile('csv_file')){
+            $path = $request->file('csv_file')->getRealPath();
+            $data = Excel::load($path)->get();
+            if($data->count()){
+                foreach ($data as $key => $value) {
+                    $employee_list[] = [
+                        'email' => $value -> email,
+                        'name' => $value -> name,
+                        'password' => $value -> password,
+                        'remember_token' => $value -> remember_token,
+                        'birthday' => $value -> birthday,
+                        'gender' => $value -> gender,
+                        'mobile' => $value -> mobile,
+                        'address' => $value -> address,
+                        'marital_status' => $value -> marital_status,
+                        'startwork_date' => $value -> startwork_date,
+                        'endwork_date' => $value -> endwork_date,
+                        'is_employee' => $value -> is_employee,
+                        'company' => $value -> company,
+                        'employee_type_id' => $value -> employee_type_id,
+                        'team_id' => $value -> team_id,
+                        'role_id' => $value -> role_id,
+                        'updated_at' => $value -> updated_at,
+                        'delete_flag' => $value -> delete_flag    
+                    ];
+                }
+                if(!empty($employee_list)){
+                    Employee::insert($employee_list);
+                    Session::flash('success','success');
+                }
+            }
+        }else{
+            \Session::flash('fail','fail');
+        }
+        return redirect('employee');
     }
 /*
         ALL DEBUG 

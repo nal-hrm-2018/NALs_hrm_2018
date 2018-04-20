@@ -64,5 +64,5 @@ Route::resource('employee','User\Employee\EmployeeController');
 Route::get('/search ', 'User\Employee\EmployeeController@searchCommonInList')->name('search');
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
-Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csvxxx')->name('import_csv');
+Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csv')->name('import_csv');
 /*the end route list employee by Quy*/
