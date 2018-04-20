@@ -9,6 +9,7 @@
 namespace App\Models;
 
 
+use App\Employee_type;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -66,8 +67,15 @@ class Employee extends Model implements
     {
         return $this->hasOne('App\Models\Role', 'id', 'role_id');
     }
+
     public function team()
     {
-        return $this->hasOne(\App\Models\Team::class , 'id', 'team_id');
+        return $this->belongsTo(Team::class);
     }
+
+    public function employee_type()
+    {
+        return $this->belongsTo(Employee_types::class);
+    }
+
 }

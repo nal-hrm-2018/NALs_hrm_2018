@@ -1,6 +1,6 @@
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{asset('/dashboard')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>N</b>ALs</span>
       <!-- logo for regular state and mobile devices -->
@@ -66,7 +66,7 @@
 
 
               <img class="img-responsive img-circle" src="" />
-              <span class="hidden-xs">welcome {{Auth::user()->name}}</span>
+              <span class="hidden-xs">welcome {{\Illuminate\Support\Facades\Auth::user()->name}}</span>
 
             </a>
             <ul class="dropdown-menu">
@@ -76,18 +76,19 @@
                 <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{Auth::user()->name}}
-                  <small>Member since {{Auth::user()->startwork_date}}</small>
+                  {{\Illuminate\Support\Facades\Auth::user()->name}} - {{isset(\Illuminate\Support\Facades\Auth::user()->employee_type)?\Illuminate\Support\Facades\Auth::user()->employee_type->name:"Don't Know"  }}
+                  <small>Member since {{\Illuminate\Support\Facades\Auth::user()->startwork_date}}</small>
                 </p>
 
               </li>
               <!-- Menu Footer-->
-              <li class="user-footer">
+              <li class="user-footer" >
                 <div class="pull-left">
-                  <form action="">
+                  <form action="{{asset('employee/edit/'.Illuminate\Support\Facades\Auth::id())}}">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Update Profile') }}</button>
                   </form>
                 </div>
+
                 <div class="pull-right">
                   <SCRIPT LANGUAGE="JavaScript">
                       function confirmAction() {

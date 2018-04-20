@@ -17,8 +17,8 @@ class Team extends Model
     protected $fillable = [
         'id','name','description','updated_at','last_updated_by_employee','created_at','created_by_employee','delete_flag'
     ];
-    public function employees()
+    public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->hasMany(\App\Models\Employee::class , 'team_id', 'id');
     }
 }
