@@ -264,7 +264,7 @@
 <script>
     $(document).ready(function() {
         $('#project-list').DataTable({
-            'paging'      : false,
+            'paging'      : true,
             'lengthChange': true,
             'searching'   : false,
             'ordering'    : true,
