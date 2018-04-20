@@ -22,9 +22,4 @@ class Employee_types extends Model
         return $this->hasMany(\App\Models\Employee::class , 'employee_type_id', 'id');
     }
 
-    public function scopeName($query, $name)
-    {
-        return $query->where('name', $name);
-    }
-
 }

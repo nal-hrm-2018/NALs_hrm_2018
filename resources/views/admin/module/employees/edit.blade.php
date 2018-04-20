@@ -30,7 +30,7 @@
             </div>';
           }
         ?>
-        <form action="" method="post" class="form-horizontal">
+        {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST'])}}
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="col-md-3">
@@ -51,11 +51,11 @@
                 <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}">
                 <!-- /.input group -->
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label>Password</label>
                 <input type="password" class="form-control" placeholder="Password"  name="password" value="{!! old('password', isset($objEmployee["password"]) ? $objEmployee["password"] : null) !!}">
-                <!-- /.input group -->
-              </div>
+                <!-- /.input group
+              </div> -->
               <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
@@ -95,11 +95,11 @@
               </div>
               <div class="form-group">
                 <label>Team</label>
-                <select class="form-control select2" style="width: 100%;"  name="teams_id">
+                <select class="form-control select2" style="width: 100%;"  name="team_id">
                   <?php
                     foreach($dataTeam as $val){
                       $selected = "";
-                      if($val["id"] == old('teams_id', isset($objEmployee["teams_id"]) ? $objEmployee["teams_id"] : null)){
+                      if($val["id"] == old('team_id', isset($objEmployee["team_id"]) ? $objEmployee["team_id"] : null)){
                         $selected = "selected";
                       }
                       echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
@@ -138,11 +138,11 @@
               </div>
               <div class="form-group">
                 <label>Role of team</label>
-                <select class="form-control select2" style="width: 100%;" name="roles_id">
+                <select class="form-control select2" style="width: 100%;" name="role_id">
                   <?php
                     foreach($dataRoles as $val){
                       $selected = "";
-                      if($val["id"] == old('roles_id', isset($objEmployee["roles_id"]) ? $objEmployee["roles_id"] : null)){
+                      if($val["id"] == old('role_id', isset($objEmployee["role_id"]) ? $objEmployee["role_id"] : null)){
                         $selected = "selected";
                       }
                       echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
@@ -185,7 +185,7 @@
               </div>
             </div>
           </div>
-        </form>
+        {{ Form::close() }}
         <!-- /.row -->
       </div>
       <!-- /.box-body -->

@@ -66,7 +66,11 @@
 
 
               <img class="img-responsive img-circle" src="" />
+<<<<<<< HEAD
               <span class="hidden-xs">welcome {{\Illuminate\Support\Facades\Auth::user()->name}}</span>
+=======
+              {{--<span class="hidden-xs">welcome {{Auth::user()->name}}</span>--}}
+>>>>>>> 848d1be7a09de4e6ff4048e2ec18815dae77f271
 
             </a>
             <ul class="dropdown-menu">
@@ -76,8 +80,13 @@
                 <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
 
                 <p>
+<<<<<<< HEAD
                   {{\Illuminate\Support\Facades\Auth::user()->name}} - {{isset(\Illuminate\Support\Facades\Auth::user()->employee_type)?\Illuminate\Support\Facades\Auth::user()->employee_type->name:"Don't Know"  }}
                   <small>Member since {{\Illuminate\Support\Facades\Auth::user()->startwork_date}}</small>
+=======
+{{--                  {{Auth::user()->name}}--}}
+                  {{--<small>Member since {{Auth::user()->startwork_date}}</small>--}}
+>>>>>>> 848d1be7a09de4e6ff4048e2ec18815dae77f271
                 </p>
 
               </li>
