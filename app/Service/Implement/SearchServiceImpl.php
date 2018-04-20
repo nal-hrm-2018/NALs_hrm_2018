@@ -10,9 +10,8 @@ namespace App\Service\Implement;
 
 
 use App\Http\Requests\CommonRequest;
-use App\Service\FormRequest;
 use App\Service\SearchService;
-use App\Models\Processe;
+use App\Models\Process;
 use App\Service\CommonService;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +20,7 @@ class SearchServiceImpl extends CommonService implements SearchService
 
     public function search(CommonRequest $request)
     {
-        $query = Processe::query();
+        $query = Process::query();
 
         if (!empty($request->get('id'))){
             $query
@@ -55,8 +54,6 @@ class SearchServiceImpl extends CommonService implements SearchService
         if (!empty($request->get('end_date'))) {
             $query->Where('end_date', '=', $request->get('end_date'));
         }
-
-        $str = $query->toSql();
 
         return $query;
     }

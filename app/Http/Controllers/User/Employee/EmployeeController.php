@@ -81,6 +81,12 @@ class EmployeeController extends Controller
 
         //set chart
 
+//        $roles = Role::all();
+
+        if(!isset($employee)){
+            return abort(404);
+        }
+
         return view('employee.detail', compact('employee', 'processes'))->render();
     }
 

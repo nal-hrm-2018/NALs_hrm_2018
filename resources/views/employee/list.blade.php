@@ -167,21 +167,21 @@
                                 </thead>
                                 <tbody class="context-menu">
                                 @foreach($employees as $employee)
-                                    <tr class="employee-menu" id="employee-id-{{$employee->id}}" data-employee-id="{{$employee->id}}">
-                                        <td>{{$employee->id}}</td>
-                                        <td>{{$employee->name}}</td>
-                                        <td>{{$employee->team->name}}</td>
-                                        <td>{{$employee->role->role}}</td>
-                                        <td>{{$employee->email}}</td>
-                                        <td>{{$employee->work_status}}</td>
+                                    <tr class="contextMenu">
+                                        <td>{{ $employee->id }}</td>
+                                        <td>{{ $employee->name }}</td>
+                                        <td>{{ isset($employee->team)?$employee->team->first()->name:'' }}</td>
+                                        <td>{{ isset($employee->role)?$employee->role->first()->name:'' }}</td>
+                                        <td>{{ $employee->email }}</td>
+                                        <td>{{ $employee->work_status }}</td>
                                         <td>
-                                            <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
+                                            <ul class="contextMenu" hidden>
                                                 <li><a href="#"><i class="fa fa-id-card"></i> View</a></li>
-                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
-                                                        Edit</a></li>
-                                                <li class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i class="fa fa-remove"></i> Remove</li>
+                                                <li><a href="employee/edit/{{$employee->id}}"><i class="fa fa-edit"></i> Edit</a></li>
+                                                <li><a href="#"><i class="fa fa-remove"></i> Remove</a></li>
                                             </ul>
                                         </td>
+
                                     </tr>
                                 @endforeach
                                 </tbody>

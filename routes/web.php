@@ -7,17 +7,12 @@ Auth::routes();
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
-Route::get('/dashboard', [
-    'as' => 'dashboard-user',
-    'uses' => 'User\DashboardController@index',
-    'middleware' => 'user'
-]);
 
-Route::get('/', [
-    'as'=> 'welcome',
-    'uses' => 'User\DashboardController@index',
-    'middleware' => 'user'
-]);
+Route::post('logout', [
+    'as' => 'logout',
+    'Auth\LogoutController@postLogout']);
+
+//cong list route cam pha'
 
 Route::get('/login', [
     'as'=> 'login',
@@ -38,16 +33,34 @@ Route::post('/register', [
     'uses' => 'Auth\RegisterController@register',
 ]);
 
-Route::get('/setupsearch', [
-    'as'=>'setupsearch',
-    'middleware' => 'user',
-    'uses'=>'User\Employee\SearchController@setupsearch',
+Route::group(['prefix'=>'employee','middleware'=>'user'],function (){
+
+    Route::get('/setupsearch', [
+        'as'=>'setupsearch',
+        'uses'=>'User\Employee\SearchController@setupsearch',
     ]);
 
-Route::get('/search-process', [
-    'as'=>'search-process',
-    'middleware' => 'user',
-    'uses'=>'User\Employee\SearchController@search']);
+    Route::get('/search-process', [
+        'as'=>'search-process',
+        'uses'=>'User\Employee\SearchController@search']);
+
+});
+
+Route::group(['middleware'=>'user'],function (){
+
+    Route::get('/', [
+        'as'=> 'welcome',
+        'uses' => 'User\DashboardController@index',
+    ]);
+
+    Route::get('/dashboard', [
+        'as' => 'dashboard-user',
+        'uses' => 'User\DashboardController@index',
+    ]);
+
+});
+
+//cong list route cam pha'
 
 Route::post('logout', [
     'as' => 'logout',

@@ -4,12 +4,10 @@ namespace App\Http\Controllers\User\Employee;
 
 use App\Http\Requests\SearchRequest;
 use App\Models\Processe;
-use App\Models\Role;
-use Illuminate\Http\Request;
+use App\Models\Employee;
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Service\SearchService;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
 
 class SearchController extends Controller
@@ -21,17 +19,26 @@ class SearchController extends Controller
         $this->searchService = $searchService;
     }
 
-    public function setupsearch(){
-        return view('test.test');
-    }
+//    public function setupsearch(){
+//        return view('test.test');
+//    }
 
    public function search(SearchRequest $request){
+
        $processes = $this->searchService->search($request)->paginate(config('settings.paginate'));
+
+//       $roles = Role::all();
 
        $processes->setPath('');
 
        $param = (Input::except('page'));
 
-       return view('test.list',compact('processes', $processes ,'param',$param));
+       $employee = Employee::find($request->get('id'));
+
+       if(!isset($employee)){
+           return abort(404);
+       }
+
+       return view('employee.detail',compact('processes','employee' ,'param','roles'));
    }
 }
