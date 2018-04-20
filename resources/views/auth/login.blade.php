@@ -20,6 +20,7 @@
                         <span class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
+
                     @endif
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>

@@ -150,8 +150,8 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
+//        Barryvdh\Debugbar\ServiceProvider::class,
+//        Collective\Html\HtmlServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -175,7 +175,7 @@ return [
     */
 
     'aliases' => [
-
+        'Input' => Illuminate\Support\Facades\Input::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,

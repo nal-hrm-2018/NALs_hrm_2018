@@ -50,7 +50,7 @@
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
-                                                    <button type="button"  class="btn width-100">Name</button>
+                                                    <button type="button" class="btn width-100">Name</button>
                                                 </div>
                                                 <input type="text" name="name" id="nameEmployee" class="form-control">
                                             </div>
@@ -78,7 +78,8 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Status</button>
                                                 </div>
-                                                <input type="text" name="status" id="statusEmployee" class="form-control">
+                                                <input type="text" name="status" id="statusEmployee"
+                                                       class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -130,22 +131,22 @@
 
         <!-- Main content -->
         <?php
-          if(Session::get('msg_fail') != ""){
+        if (Session::get('msg_fail') != "") {
             echo '<div>
                 <ul class=\'error_msg\'>
-                    <li>'.Session::get("msg_fail").'</li>
+                    <li>' . Session::get("msg_fail") . '</li>
                 </ul>
             </div>';
-          }
+        }
         ?>
         <?php
-          if(Session::get('msg_success') != ""){
+        if (Session::get('msg_success') != "") {
             echo '<div>
                 <ul class=\'result_msg\'>
-                    <li>'.Session::get("msg_success").'</li>
+                    <li>' . Session::get("msg_success") . '</li>
                 </ul>
             </div>';
-          }
+        }
         ?>
         <section class="content">
             <div class="row">
@@ -166,18 +167,21 @@
                                 </thead>
                                 <tbody class="context-menu">
                                 @foreach($employees as $employee)
-                                    <tr class="contextMenu">
+                                    <tr class="employee-menu" id="employee-id-{{$employee->id}}" data-employee-id="{{$employee->id}}">
                                         <td>{{$employee->id}}</td>
                                         <td>{{$employee->name}}</td>
                                         <td>{{$employee->team->name}}</td>
                                         <td>{{$employee->role->role}}</td>
                                         <td>{{$employee->email}}</td>
                                         <td>{{$employee->work_status}}</td>
-                                        <ul class="contextMenu" hidden>
-                                            <li><a href="#"><i class="fa fa-id-card"></i> View</a></li>
-                                            <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i> Edit</a></li>
-                                            <li><a href="employee/{{$employee->id}}"><i class="fa fa-remove"></i> Remove</a></li>
-                                        </ul>
+                                        <td>
+                                            <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
+                                                <li><a href="#"><i class="fa fa-id-card"></i> View</a></li>
+                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
+                                                        Edit</a></li>
+                                                <li class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i class="fa fa-remove"></i> Remove</li>
+                                            </ul>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -196,54 +200,66 @@
     </div>
 
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-    <script type="text/javascript">
-        $(document).on('contextmenu', 'tr', function (event) {
-            event.preventDefault();
-            $("ul.contextMenu")
-                .show()
-                .css({top: event.pageY - 150, left: event.pageX - 250, 'z-index':300});
-        });
-        $(document).click(function () {
 
-            if ($('ul.contextMenu:hover').length === 0) {
-                $('ul.contextMenu').fadeOut("fast");
-            }
+    <script type="text/javascript">
+        $(function () {
+            $('tr.employee-menu').on('contextmenu', function (event) {
+                event.preventDefault();
+                var eId = $(this).data('employee-id');
+                $('ul.contextMenu[data-employee-id="'+eId+'"')
+                    .show()
+                    .css({top: event.pageY - 150, left: event.pageX - 250, 'z-index': 300});
+
+            });
+            $(document).click(function () {
+
+                if ($('ul.contextMenu:hover').length === 0) {
+                    $('ul.contextMenu').fadeOut("fast");
+                }
+            });
         });
+
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#employee-list').DataTable({
-                'paging'      : true,
+                'paging': true,
                 'lengthChange': true,
-                'searching'   : false,
-                'ordering'    : true,
-                'info'        : true,
-                'autoWidth'   : false
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
             });
         });
     </script>
-    {{--<script type="text/javascript">
-       $document.ready(function () {
-           $("#searchListEmployee").click(function () {
-               var employeeId = $("#employeeId").val();
-               var employeename = $("#nameEmployee").val();
-               var employeeTeam = $("#teamEmployee").val();
-               var employeeEmail = $("#emailEmployee").val();
-               var employeeRole = $("#roleEmployee").val();
-               var employeeStatus = $("#statusEmployee").val();
-               var url = "{{asset('search')}}";
-
-               $.ajax({
-                   url: url,
-                   type: "get",
-                   data: {},
-                   async:true,
-                   success:function(data){
-                       alert(data);
-                   }
-               });
-           });
-       });
-    </script>--}}
-
+    <script type="text/javascript">
+        $(function () {
+            $('.btn-employee-remove').click(function () {
+                var elementRemove = $(this).data('employee-id');
+                console.log(elementRemove);
+                if (confirm('Really delete?')) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: '{{ url('/employee') }}' + '/' + elementRemove,
+                        data: {
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            "id": elementRemove,
+                            '_method': 'DELETE',
+                            _token: '{{csrf_token()}}',
+                        },
+                        success: function (msg) {
+                            alert("Remove "+msg.status);
+                            var fade = "employee-id-"+msg.id;
+                            var fadeElement = $('#'+fade);
+                            console.log(fade);
+                            fadeElement.fadeOut("fast");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    }
 @endsection

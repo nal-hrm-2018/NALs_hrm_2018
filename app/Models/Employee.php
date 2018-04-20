@@ -17,7 +17,6 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-use App\Models\Team;
 
 class Employee extends Model implements
     AuthenticatableContract,
@@ -70,4 +69,39 @@ class Employee extends Model implements
     {
         return $this->hasOne(\App\Models\Team::class , 'id', 'team_id');
     }
+
+    public function teams(){
+        return $this->belongsTo('App\Models\Team');
+    }
+    public function roles(){
+        return $this->belongsTo('App\Models\Role');
+    }
+    public function employeeType(){
+        return $this->belongsTo('App\Models\EmployeeType');
+    }
+    public function processes(){
+        return $this->hasMany('App\Models\Process');
+    }
+    public function projects(){
+        return $this->belongsToMany('App\Models\Project', 'processes', 'employee_id', 'projects_id')
+                    ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'projects_id', 'role_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function performances()
+    {
+        return $this->hasMany('App\Models\Performance', 'employees_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany('App\Models\Permission', 'permissions_employees', 'employees_id', 'permissions_id');
+    }
+
+
 }
