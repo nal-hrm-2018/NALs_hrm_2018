@@ -95,7 +95,6 @@ class EmployeeController extends Controller
     public function show($id, SearchRequest $request)
     {
         $data = $request->only([
-                'id' => null,
                 'project_name' => $request->get('project_name'),
                 'role' => $request->get('role'),
                 'start_date' => $request->get('start_date'),
