@@ -113,44 +113,19 @@
                         <!-- /.post -->
                     </div>
                     <!-- /.tab-pane -->
+
                     <div class="tab-pane" id="project">
                         <div>
                             <button type="button" class="btn btn-info btn-default" data-toggle="modal"
-                                    data-target="#myModal">SEARCH
+                                    data-target="#myModal">
+                                {{ trans('common.button.search')  }}
                             </button>
 
                             <!-- Modal -->
                             @include('employee._model_search_process')
                         </div>
                         <!-- The project -->
-                        <div class="box-body">
-                            <table id="project-list" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Project</th>
-                                    <th>Role</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                @foreach($processes as $process)
-                                    <tr>
-                                        <td>{{ isset($process->project)?$process->project->id:'' }}</td>
-                                        <td>{{ isset($process->project)?$process->project->name:'' }}</td>
-                                        <td>{{ isset($process->role)?$process->role->name:''}}</td>
-                                        <td>{{date('d/m/Y', strtotime($process->start_date))}}</td>
-                                        <td>{{date('d/m/Y', strtotime($process->end_date))}}</td>
-                                        <td>{{isset($process->project)?$process->project->status:''}}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
+                            @include('employee._list_project_employee')
                         @if(isset($param))
                             {{  $processes->appends($param)->render() }}
                         @endif
@@ -213,12 +188,13 @@
     <script>
         $(document).ready(function () {
             $('#project-list').DataTable({
-                'paging': true,
+                "bLengthChange": true,
+                'paging': false,
                 'lengthChange': true,
                 'searching': false,
                 'ordering': true,
-                'info': true,
-                'autoWidth': false
+                'info': false,
+                'autoWidth': true
             });
         });
     </script>

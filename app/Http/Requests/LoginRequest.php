@@ -28,20 +28,20 @@ class LoginRequest extends FormRequest
     {
         return [
             'email.required' => trans('validation.required', [
-                'attribute' => 'Email'
+                'attribute' => 'email'
             ]),
             'email.email' => trans('validation.email', [
-                'attribute' => 'Email'
+                'attribute' => 'email'
             ]),
             'email.max' => trans('validation.max.string', [
-                'attribute' => 'Email',
+                'attribute' => 'email',
                 'max' => '255'
             ]),
             'password.required' => trans('validation.required', [
-                'attribute' => 'Password'
+                'attribute' => 'password'
             ]),
             'password.min' => trans('validation.min.string', [
-                'attribute' => 'Password',
+                'attribute' => 'password',
                 'min' => '6'
             ]),
         ];

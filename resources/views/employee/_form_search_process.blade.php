@@ -2,61 +2,66 @@
     <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
             <div class="input-group margin">
-                <input type="hidden" name="id" value="{{ $employee->id  }}"/>
                 <div class="input-group-btn">
-                    <button type="button" class="btn width-100">Project Name</button>
+                    <button type="button" class="btn width-100">{{ trans('common.label_form.project_name')  }}</button>
                 </div>
                 {{ Form::text('project_name', '',
                     ['class' => 'form-control',
-                    'id' => 'project_name','autofocus' => true,
+                    'id' => 'project_name',
+                    'autofocus' => true,
                     ])
                 }}
             </div>
             <div class="input-group margin">
                 <div class="input-group-btn">
-                    <button type="button" class="btn width-100">Role</button>
-                </di
-                    <select name="role" class="form-control">
-                        <option>Select Role</option>
-                        <option>PO</option>
-                        <option>TeamDev</option>
-                    </select>
+                    <button type="button" class="btn width-100">{{  trans('common.label_form.role_name') }}</button>
                 </div>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="input-group margin">
-                    <div class="input-group-btn">
-                        <button type="button" class="btn width-100">Start Date</button>
-                    </div>
-                    {{ Form::date('start_date', '',
-                       ['class' => 'form-control',
-                                  ['class' => 'form-control',
-                        'id' => 'start_date', 'autofocus' => true
-                        ])
-                    }}
+                {!! Form::select(
+                    'role',
+                    $roles ,
+                    null,
+                    ['class' => 'form-control' , 'placeholder' => trans('employee_detail.drop_box.placeholder-default')]
+                    )
+                 !!}
             </div>
             <div class="input-group margin">
                 <div class="input-group-btn">
-                    <button type="button" class="btn width-100">End Date</button>
+                    <button type="button" class="btn width-100">{{  trans('common.label_form.status_project') }}</button>
                 </div>
-                {{ Form::date('end_date', '',
-                    ['class' => 'form-control',
-                    'id' => 'end_date','autofocus' => true,
-                    ])
-                }}
-            </div>
-            <div class="input-group margin">
-                <div class="input-group-btn">
-                    <button type="button" class="btn width-100">Status</button>
-                </div>
-                <select class="form-control">
-                    <option>Kick Off</option>
-                    <option>Pending</option>
-                    <option>In-Progress</option>
-                    <option>Releasing</option>
-                    <option>Complete</option>
+                <select name="project_status" class="form-control" >
+                    <option selected="selected" value="">{{  trans('employee_detail.drop_box.placeholder-default') }}</option>
+                    <option value="1">Kick Off</option>
+                    <option value="2">Pending</option>
+                    <option value="3">In-Progress</option>
+                    <option value="4">Releasing</option>
+                    <option value="5">Complete</option>
                 </select>
             </div>
         </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="input-group margin">
+                <div class="input-group-btn">
+                    <button type="button" class="btn width-100">{{  trans('common.label_form.start_date') }}</button>
+                </div>
+                {{ Form::date('start_date', '',
+                   ['class' => 'form-control',
+                    'id' => 'start_date',
+                    'autofocus' => true
+                    ])
+                }}
+            </div>
+            <div class="input-group margin">
+                <div class="input-group-btn">
+                    <button type="button" class="btn width-100">{{  trans('common.label_form.start_date') }}</button>
+                </div>
+                {{ Form::date('end_date', '',
+                    ['class' => 'form-control',
+                    'id' => 'end_date',
+                    'autofocus' => true,
+                    ])
+                }}
+            </div>
+        </div>
     </div>
+
 </div>

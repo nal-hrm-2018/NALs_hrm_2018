@@ -18,41 +18,40 @@ use Illuminate\Support\Facades\Auth;
 class SearchServiceImpl extends CommonService implements SearchService
 {
 
-    public function search(CommonRequest $request)
+    public function search($request)
     {
         $query = Process::query();
 
-        if (!empty($request->get('id'))){
+        if (!empty($request['id'])){
             $query
                 ->whereHas('employee', function ($query) use($request) {
-                    $query->where("id", '=', $request->get('id'));
+                    $query->where("id", '=', $request['id']);
                 });
         }
 
-        if (!empty($request->get('project_name')) or !empty($request->get('project_status'))) {
+        if (!empty($request['project_name']) or !empty($request['project_status'])) {
             $query
                 ->whereHas('project', function ($query) use ($request) {
-                    if (!empty($request->get('project_name'))) {
-                        $query->where("name", 'like', '%' . $request->get('project_name') . '%');
+                    if (!empty($request['project_name'])) {
+                        $query->where("name", 'like', '%' . $request['project_name'] . '%');
                     }
-                    if (!empty($request->get('project_status'))) {
-                        $query->where("status", 'like', '%' . $request->get('project_status') . '%');
+                    if (!empty($request['project_status'])) {
+                        $query->where("status", 'like', '%' . $request['project_status'] . '%');
                     }
                 });
         }
-        if (!empty($request->get('role'))) {
+        if (!empty($request['role'])) {
             $query
                 ->whereHas('role', function ($query) use ($request) {
-                    $query->where("name", 'like', '%' . $request->get('role') . '%');
+                    $query->where("id", '=', $request['role']);
                 });
-
         }
 
-        if (!empty($request->get('start_date'))) {
-            $query->Where('start_date', '=', $request->get('start_date'));
+        if (!empty($request['start_date'])) {
+            $query->Where('start_date', '=', $request['start_date']);
         }
-        if (!empty($request->get('end_date'))) {
-            $query->Where('end_date', '=', $request->get('end_date'));
+        if (!empty($request['end_date'])) {
+            $query->Where('end_date', '=', $request['end_date']);
         }
 
         return $query;
