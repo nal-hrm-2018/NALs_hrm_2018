@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\User\Employee;
 
+use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -20,23 +21,36 @@ use App\Models\EmployeeType;
 use DateTime;
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
-use Excel;
-use Input;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
 
 class EmployeeController extends Controller
 {
+    /**
+     * @var SearchEmployeeServiceProvider
+     */
+    private $searchEmployeeService;
     protected $searchService;
 
-    public function __construct(SearchService $searchService)
+    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService)
     {
         $this->searchService = $searchService;
+        $this->searchEmployeeService = $searchEmployeeService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::where('delete_flag', '=', 0)->get();
+        $params['search'] = [
+            'id' => !empty($request->id) ? $request->id : '',
+            'name' => !empty($request->name) ? $request->name : '',
+            'team' => !empty($request->team) ? $request->team : '',
+            'email' => !empty($request->email) ? $request->email : '',
+            'role' => !empty($request->role) ? $request->role : '',
+            'status' => !empty($request->status) ? $request->status : '',
+        ];
+
+        $employees = $this->searchEmployeeService->searchEmployee($params);
+
         return view('employee.list', compact('employees'));
     }
 
@@ -199,7 +213,7 @@ class EmployeeController extends Controller
     }
 
 
-    public function searchCommonInList(Request $request)
+    /*public function searchCommonInList(Request $request)
     {
         $query = Employee::query();
 
@@ -231,7 +245,7 @@ class EmployeeController extends Controller
         }
         $employeesSearch = $query->get();
         return view('employee.list')->with("employees", $employeesSearch);
-    }
+    }*/
 
     public function import_csvxxx()
     {
