@@ -89,7 +89,8 @@
                                     <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                         RESET
                                     </button>
-                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span class="fa fa-search"></span>
+                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
+                                                class="fa fa-search"></span>
                                         SEARCH
                                     </button>
                                 </div>
@@ -102,29 +103,52 @@
                 <button type="button" class="btn btn-default">
                     <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
-                <!-- <button type="button" class="btn btn-default">
-                    <a href="#"><i class="fa fa-users"></i> IMPORT</a>
-                </button> -->
+
                 <div class="nav navbar-nav">
-                  <div class="dropdown user user-menu">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
-                    </button>
-                    <div class="dropdown-menu">
-                      <!-- User image -->
-                      <div class="user-header">
-                            <form action="{{ asset('employee/import_csv')}}" method="post">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="file" name="csv_file">
-                                <br/>
-                                <input type="submit" value="Import Data">
-                            </form>
-                      </div>
+                    <div class="dropdown user user-menu">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <a href="#"><i class="fa fa-users"></i> IMPORT</a>
+                        </button>
+                        <div class="dropdown-menu">
+                            <!-- User image -->
+                            <div class="user-header">
+                                <form action="{{ asset('employee/import_csv')}}" method="post">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="file" name="csv_file">
+                                    <br/>
+                                    <input type="submit" value="Import Data">
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <button type="button" class="btn btn-default">
-                    <a href=""><i class="fa fa-vcard"></i> EXPORT</a>
+                <?php
+                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
+                $arrays[] = $_GET;
+                foreach ($arrays as $key => $value) {
+                    if (!empty($value['id'])) {
+                        $id = $value['id'];
+                    }
+                    if (!empty($value['name'])) {
+                        $name = $value['name'];
+                    }
+                    if (!empty($value['team'])) {
+                        $team = $value['team'];
+                    }
+                    if (!empty($value['role'])) {
+                        $role = $value['role'];
+                    }
+                    if (!empty($value['email'])) {
+                        $email = $value['email'];
+                    }
+                    if (!empty($value['status'])) {
+                        $status = $value['status'];
+                    }
+                }
+                ?>
+                <button type="button" class="btn btn-default export-employee">
+                    <a href="{{asset('export').'?'.'id='.$id.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
+                        <i class="fa fa-vcard"></i> EXPORT</a>
                 </button>
             </ol>
         </section>
@@ -148,12 +172,7 @@
             </div>';
         }
         ?>
-        <div>
-            <h1>{{$returnParams}}</h1>
-            @foreach($returnParams as $returnParam)
-                {{ $returnParam['id'] }}
-            @endforeach
-        </div>
+
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -173,7 +192,8 @@
                                 </thead>
                                 <tbody class="context-menu">
                                 @foreach($employees as $employee)
-                                    <tr class="employee-menu" id="employee-id-{{$employee->id}}" data-employee-id="{{$employee->id}}">
+                                    <tr class="employee-menu" id="employee-id-{{$employee->id}}"
+                                        data-employee-id="{{$employee->id}}">
                                         <td>{{ $employee->id }}</td>
                                         <td>{{ $employee->name }}</td>
                                         <td>{{ isset($employee->team)? $employee->team->name: ""}}</td>
@@ -186,9 +206,12 @@
                                         </td>
                                         <td>
                                             <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-                                                <li><a href="employee/view/{{$employee->id}}"><i class="fa fa-id-card"></i> View</a></li>
-                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i> Edit</a></li>
-                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i class="fa fa-remove"></i> Remove</a></li>
+                                                <li><a href="employee/view/{{$employee->id}}"><i
+                                                                class="fa fa-id-card"></i> View</a></li>
+                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
+                                                        Edit</a></li>
+                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
+                                                                class="fa fa-remove"></i> Remove</a></li>
                                             </ul>
                                         </td>
 
@@ -218,7 +241,7 @@
                 event.preventDefault();
                 $('ul.contextMenu').fadeOut("fast");
                 var eId = $(this).data('employee-id');
-                $('ul.contextMenu[data-employee-id="'+eId+'"')
+                $('ul.contextMenu[data-employee-id="' + eId + '"')
                     .show()
                     .css({top: event.pageY - 150, left: event.pageX - 250, 'z-index': 300});
 
@@ -249,9 +272,9 @@
                             _token: '{{csrf_token()}}',
                         },
                         success: function (msg) {
-                            alert("Remove "+msg.status);
-                            var fade = "employee-id-"+msg.id;
-                            var fadeElement = $('#'+fade);
+                            alert("Remove " + msg.status);
+                            var fade = "employee-id-" + msg.id;
+                            var fadeElement = $('#' + fade);
                             console.log(fade);
                             fadeElement.fadeOut("fast");
                         }

@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\User\Employee;
 
+use App\Export\InvoicesExport;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,6 +24,7 @@ use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -40,16 +42,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $params['search'] = [
-            'id' => !empty($request->id) ? $request->id : '',
-            'name' => !empty($request->name) ? $request->name : '',
-            'team' => !empty($request->team) ? $request->team : '',
-            'email' => !empty($request->email) ? $request->email : '',
-            'role' => !empty($request->role) ? $request->role : '',
-            'status' => !empty($request->status) ? $request->status : '',
-        ];
-
-        $employees = $this->searchEmployeeService->searchEmployee($params);
+        $employees = $this->searchEmployeeService->searchEmployee($request);
 
         return view('employee.list', compact('employees'));
     }
@@ -212,41 +205,6 @@ class EmployeeController extends Controller
         return (strtotime(date($time1)) - strtotime(date($time2))) / (60 * 60 * 24);
     }
 
-
-    /*public function searchCommonInList(Request $request)
-    {
-        $query = Employee::query();
-
-        $query->with(['team', 'role']);
-
-        if ($request->input('role') != null) {
-            $query
-                ->whereHas('role', function ($query) use ($request) {
-                    $query->where("name", 'like', '%' . $request->input('role') . '%');
-                });
-        }
-        if ($request->input('name') != null) {
-            $query->orWhere('name', 'like', '%' . $request->name . '%');
-        }
-        if ($request->id != null) {
-            $query->orWhere('id', '=', $request->id);
-        }
-        if ($request->team != null) {
-            $query
-                ->whereHas('team', function ($query) use ($request) {
-                    $query->where("name", 'like', '%' . $request->input('team') . '%');
-                });
-        }
-        if ($request->email != null) {
-            $query->orWhere('email', 'like', '%' . $request->email . '%');
-        }
-        if ($request->status != null) {
-            $query->orWhere('work_status', 'like', '%' . $request->status . '%');
-        }
-        $employeesSearch = $query->get();
-        return view('employee.list')->with("employees", $employeesSearch);
-    }*/
-
     public function import_csvxxx()
     {
         Excel::load(Input::file('csv_file'), function ($reader) {
@@ -256,6 +214,12 @@ class EmployeeController extends Controller
             });
         });
         return redirect('employee')->with(['msg_success' => 'Import successfully']);;
+    }
+
+    public function  export(Request $request){
+//        $employees = $this->searchEmployeeService->searchEmployee($request);
+//        return view('employee.list', compact('employees'));
+        return Excel::download(new InvoicesExport($this->searchEmployeeService,$request), 'invoices.xlsx');
     }
     /*
             ALL DEBUG

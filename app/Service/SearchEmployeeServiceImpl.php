@@ -9,15 +9,25 @@
 namespace App\Service;
 
 use App\Models\Employee;
+use Illuminate\Http\Request;
 
 class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeService
 {
 
-    public function searchEmployee($params)
+    public function searchEmployee(Request $request)
     {
         $query = Employee::query();
 
         $query->with(['team', 'role']);
+
+        $params['search'] = [
+            'id' => !empty($request->id) ? $request->id : '',
+            'name' => !empty($request->name) ? $request->name : '',
+            'team' => !empty($request->team) ? $request->team : '',
+            'email' => !empty($request->email) ? $request->email : '',
+            'role' => !empty($request->role) ? $request->role : '',
+            'status' => !empty($request->status) ? $request->status : '',
+        ];
         foreach ($params as $key => $value){
             $id = $value['id'];
             $name = $value['name'];
