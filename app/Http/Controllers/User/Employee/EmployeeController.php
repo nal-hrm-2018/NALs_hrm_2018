@@ -22,129 +22,146 @@ use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 use Excel;
 use Input;
+use App\Service\SearchService;
+use App\Http\Requests\SearchRequest;
+
 class EmployeeController extends Controller
 {
+    protected $searchService;
+
+    public function __construct(SearchService $searchService)
+    {
+        $this->searchService = $searchService;
+    }
+
     public function index()
     {
-        $employees = Employee::where('delete_flag','=',0)->get(); 
+        $employees = Employee::where('delete_flag', '=', 0)->get();
         return view('employee.list', compact('employees'));
     }
 
     public function create()
     {
-        $dataTeam = Team::select('id','name')->get()->toArray();
-        $dataRoles = Role::select('id','name')->get()->toArray();
-        $dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
-        return view('admin.module.employees.add',['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        $dataTeam = Team::select('id', 'name')->get()->toArray();
+        $dataRoles = Role::select('id', 'name')->get()->toArray();
+        $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
+        return view('admin.module.employees.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
-    public function store(EmployeeAddRequest $request) 
+    public function store(EmployeeAddRequest $request)
     {
-        $objEmployee = Employee::select('email')->where('email','like',$request -> email)->get()->toArray();
+        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->get()->toArray();
         $employee = new Employee;
-        $employee -> email = $request -> email;
-        $employee -> password = bcrypt($request -> password);
-        $employee -> name = $request -> name;
-        $employee -> birthday = $request -> birthday;  
-        $employee -> gender = $request -> gender;
-        $employee -> mobile = $request -> mobile;
-        $employee -> address = $request -> address;
-        $employee -> marital_status = $request -> marital_status;
-        $employee -> startwork_date = $request -> startwork_date;
-        $employee -> endwork_date = $request -> endwork_date;
-        $employee -> is_employee = 1;
-        $employee -> company = $request -> company;
-        $employee -> employee_type_id = $request -> employee_type_id;
-        $employee -> team_id = $request -> team_id;
-        $employee -> role_id = $request -> role_id;
-        $employee -> created_at = new DateTime();
-        $employee -> delete_flag = 0;
-        if($objEmployee != null){ 
-            return redirect('employee') -> with(['msg_fail' => 'Add failed!!!Email already exists']);
-        }else{
-            $employee ->save();
+        $employee->email = $request->email;
+        $employee->password = bcrypt($request->password);
+        $employee->name = $request->name;
+        $employee->birthday = $request->birthday;
+        $employee->gender = $request->gender;
+        $employee->mobile = $request->mobile;
+        $employee->address = $request->address;
+        $employee->marital_status = $request->marital_status;
+        $employee->startwork_date = $request->startwork_date;
+        $employee->endwork_date = $request->endwork_date;
+        $employee->is_employee = 1;
+        $employee->company = $request->company;
+        $employee->employee_type_id = $request->employee_type_id;
+        $employee->team_id = $request->team_id;
+        $employee->role_id = $request->role_id;
+        $employee->created_at = new DateTime();
+        $employee->delete_flag = 0;
+        if ($objEmployee != null) {
+            return redirect('employee')->with(['msg_fail' => 'Add failed!!!Email already exists']);
+        } else {
+            $employee->save();
             return redirect('employee')->with(['msg_success' => 'Account successfully created']);
         }
     }
 
 
-    public function show($id)
+    public function show($id, SearchRequest $request)
     {
+        $data = $request->only([
+                'id' => null,
+                'project_name' => $request->get('project_name'),
+                'role' => $request->get('role'),
+                'start_date' => $request->get('start_date'),
+                'end_date' => $request->get('end_date'),
+                'project_status' => $request->get('project_status')
+            ]
+        );
+        $data['id']=$id;
+
+        $processes = $this->searchService->search($data)->paginate(config('settings.paginate'));
+
+        $processes->setPath('');
+
+        $param = (Input::except('page'));
+
         //set employee info
         $employee = Employee::find($id);
 
-        //set list project
-        $processes = $employee->processes;
+        $roles = Role::pluck('name', 'id');
 
-        //paginate list project
-//        $processes = PaginationService::paginate($processes, 5);
-
-        //set chart
-
-//        $roles = Role::all();
-
-        if(!isset($employee)){
+        if (!isset($employee)) {
             return abort(404);
         }
 
-        return view('employee.detail', compact('employee', 'processes'))->render();
+        return view('employee.detail', compact('employee', 'processes', 'roles', 'param'));
     }
 
     public function edit($id)
     {
         $objEmployee = Employee::findOrFail($id)->toArray();
-        $dataTeam = Team::select('id','name')->get()->toArray();
-        $dataRoles = Role::select('id','name')->get()->toArray();
-        $dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
-        return view('admin.module.employees.edit',['objEmployee' => $objEmployee,'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        $dataTeam = Team::select('id', 'name')->get()->toArray();
+        $dataRoles = Role::select('id', 'name')->get()->toArray();
+        $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
+        return view('admin.module.employees.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $objEmployee = Employee::select('email')->where('email','like',$request -> email)->where('id','<>',$id)->get()->toArray();
+        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->where('id', '<>', $id)->get()->toArray();
         $employee = Employee::find($id);
-        $employee -> email = $request -> email;
-        $employee -> name = $request -> name;
-        $employee -> birthday = $request -> birthday;  
-        $employee -> gender = $request -> gender;
-        $employee -> mobile = $request -> mobile;
-        $employee -> address = $request -> address;
-        $employee -> marital_status = $request -> marital_status;
-        $employee -> startwork_date = $request -> startwork_date;
-        $employee -> endwork_date = $request -> endwork_date;
-        $employee -> company = $request -> company;
-        $employee -> employee_type_id = $request -> employee_type_id;
-        $employee -> team_id = $request -> team_id;
-        $employee -> role_id = $request -> role_id;
-        $employee -> updated_at = new DateTime();
-        if($objEmployee != null){
-            return redirect('employee') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
-        }else{
-            $employee ->save();
-            return redirect('employee') -> with(['msg_success' => 'Account successfully edited']);
+        $employee->email = $request->email;
+        $employee->name = $request->name;
+        $employee->birthday = $request->birthday;
+        $employee->gender = $request->gender;
+        $employee->mobile = $request->mobile;
+        $employee->address = $request->address;
+        $employee->marital_status = $request->marital_status;
+        $employee->startwork_date = $request->startwork_date;
+        $employee->endwork_date = $request->endwork_date;
+        $employee->company = $request->company;
+        $employee->employee_type_id = $request->employee_type_id;
+        $employee->team_id = $request->team_id;
+        $employee->role_id = $request->role_id;
+        $employee->updated_at = new DateTime();
+        if ($objEmployee != null) {
+            return redirect('employee')->with(['msg_fail' => 'Edit failed!!! Email already exists']);
+        } else {
+            $employee->save();
+            return redirect('employee')->with(['msg_success' => 'Account successfully edited']);
         }
     }
 
     public function destroy($id, Request $request)
     {
-        if ( $request->ajax() ) {
-            $employees = Employee::where('id',$id)->where('delete_flag',0)->first();
+        if ($request->ajax()) {
+            $employees = Employee::where('id', $id)->where('delete_flag', 0)->first();
             $employees->delete_flag = 1;
             $employees->save();
 
-            return response(['msg' => 'Product deleted', 'status' => 'success','id'=> $id]);
+            return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
         }
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
-
 
 
     public function getValueOfEmployee($id)
     {
         $currentEmployee = Employee::find($id);
         $projects = $currentEmployee->projects;
-        foreach ($projects as $project)
-        {
+        foreach ($projects as $project) {
             $this->getValueOfProject($project, $currentEmployee, '');
         }
     }
@@ -155,21 +172,21 @@ class EmployeeController extends Controller
         $income = $project->income;
         $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
         $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
-        if($project->end_date == null){
+        if ($project->end_date == null) {
             $income = ($income / $estimateTime) * $currentTime;
         }
 
         //y
         $processes = $project->processes;
         $powerAllEmployeeOnProject = 0;
-        foreach ($processes as $process){
-            if($process->end_date == null){
+        foreach ($processes as $process) {
+            if ($process->end_date == null) {
                 $powerAllEmployeeOnProject += $this->calculateTime('Y-m-d', $process->start_date) * $process->man_power;
             }
         }
 
         //z
-        if($currentEmployee->processes->where('projects_id', $project->id)->end_date == null){
+        if ($currentEmployee->processes->where('projects_id', $project->id)->end_date == null) {
 
         } else {
 
@@ -182,54 +199,56 @@ class EmployeeController extends Controller
     }
 
 
-    public function searchCommonInList(Request $request){
+    public function searchCommonInList(Request $request)
+    {
         $query = Employee::query();
 
         $query->with(['team', 'role']);
 
-        if ($request->input('role') != null ){
+        if ($request->input('role') != null) {
             $query
                 ->whereHas('role', function ($query) use ($request) {
-                    $query->where("name", 'like', '%'.$request->input('role').'%');
+                    $query->where("name", 'like', '%' . $request->input('role') . '%');
                 });
         }
-        if ($request->input('name') != null ){
-                    $query->orWhere('name', 'like', '%'.$request->name.'%');
+        if ($request->input('name') != null) {
+            $query->orWhere('name', 'like', '%' . $request->name . '%');
         }
-        if ($request->id != null){
-                    $query->orWhere('id', '=', $request->id);
+        if ($request->id != null) {
+            $query->orWhere('id', '=', $request->id);
         }
         if ($request->team != null) {
             $query
                 ->whereHas('team', function ($query) use ($request) {
-                    $query->where("name", 'like', '%'.$request->input('team').'%');
+                    $query->where("name", 'like', '%' . $request->input('team') . '%');
                 });
         }
         if ($request->email != null) {
-            $query->orWhere('email','like','%'.$request->email.'%');
+            $query->orWhere('email', 'like', '%' . $request->email . '%');
         }
         if ($request->status != null) {
-            $query->orWhere('work_status','like','%'.$request->status.'%');
+            $query->orWhere('work_status', 'like', '%' . $request->status . '%');
         }
         $employeesSearch = $query->get();
         return view('employee.list')->with("employees", $employeesSearch);
     }
 
-    public function import_csvxxx(){  
-        Excel::load(Input::file('csv_file'), function($reader) {
-            $reader->each(function($sheet){
+    public function import_csvxxx()
+    {
+        Excel::load(Input::file('csv_file'), function ($reader) {
+            $reader->each(function ($sheet) {
                 Employee::firstOrCreate($sheet->toArray());
                 return $sheet;
             });
         });
-        return redirect('employee') -> with(['msg_success' => 'Import successfully']);;
+        return redirect('employee')->with(['msg_success' => 'Import successfully']);;
     }
-/*
-        ALL DEBUG 
-        echo "<pre>";
-        print_r($employees);
-        die;
-        var_dump(): user in view;
-        dd(); view array
-*/
+    /*
+            ALL DEBUG
+            echo "<pre>";
+            print_r($employees);
+            die;
+            var_dump(): user in view;
+            dd(); view array
+    */
 }

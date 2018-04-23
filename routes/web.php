@@ -35,11 +35,6 @@ Route::post('/register', [
 
 Route::group(['prefix'=>'employee','middleware'=>'user'],function (){
 
-    Route::get('/setupsearch', [
-        'as'=>'setupsearch',
-        'uses'=>'User\Employee\SearchController@setupsearch',
-    ]);
-
     Route::get('/search-process', [
         'as'=>'search-process',
         'uses'=>'User\Employee\SearchController@search']);
