@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\User\Employee;
 
+use Illuminate\Support\Facades\Auth;
 use App\Export\InvoicesExport;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
@@ -59,28 +60,30 @@ class EmployeeController extends Controller
     {
         $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->get()->toArray();
         $employee = new Employee;
-        $employee->email = $request->email;
-        $employee->password = bcrypt($request->password);
-        $employee->name = $request->name;
-        $employee->birthday = $request->birthday;
-        $employee->gender = $request->gender;
-        $employee->mobile = $request->mobile;
-        $employee->address = $request->address;
-        $employee->marital_status = $request->marital_status;
-        $employee->startwork_date = $request->startwork_date;
-        $employee->endwork_date = $request->endwork_date;
-        $employee->is_employee = 1;
-        $employee->company = $request->company;
-        $employee->employee_type_id = $request->employee_type_id;
-        $employee->team_id = $request->team_id;
-        $employee->role_id = $request->role_id;
-        $employee->created_at = new DateTime();
-        $employee->delete_flag = 0;
-        if ($objEmployee != null) {
-            return redirect('employee')->with(['msg_fail' => 'Add failed!!!Email already exists']);
-        } else {
-            $employee->save();
-            return redirect('employee')->with(['msg_success' => 'Account successfully created']);
+        $employee -> email = $request -> email;
+        $employee -> password = bcrypt($request -> password);
+        $employee -> name = $request -> name;
+        $employee -> birthday = $request -> birthday;  
+        $employee -> gender = $request -> gender;
+        $employee -> mobile = $request -> mobile;
+        $employee -> address = $request -> address;
+        $employee -> marital_status = $request -> marital_status;
+        $employee -> startwork_date = $request -> startwork_date;
+        $employee -> endwork_date = $request -> endwork_date;
+        $employee -> is_employee = 1;
+        $employee -> company = $request -> company;
+        $employee -> employee_type_id = $request -> employee_type_id;
+        $employee -> team_id = $request -> team_id;
+        $employee -> role_id = $request -> role_id;
+        $employee -> created_at = new DateTime();
+        $employee -> delete_flag = 0;
+        if($objEmployee != null){ 
+            \Session::flash('msg_fail', 'Add failed!!! Email already exists!!!');
+            return redirect('employee/create') -> with(['employee' => $employee]);
+        }else{
+            $employee ->save();
+            \Session::flash('msg_fail', 'Account successfully created!!!');
+            return redirect('employee');
         }
     }
 
@@ -119,35 +122,47 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $objEmployee = Employee::findOrFail($id)->toArray();
-        $dataTeam = Team::select('id', 'name')->get()->toArray();
-        $dataRoles = Role::select('id', 'name')->get()->toArray();
-        $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
-        return view('admin.module.employees.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        $dataTeam = Team::select('id','name')->get()->toArray();
+        $dataRoles = Role::select('id','name')->get()->toArray();
+        $dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
+
+        return view('admin.module.employees.edit',['objEmployee' => $objEmployee,'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->where('id', '<>', $id)->get()->toArray();
+        $objEmployee = Employee::select('email')->where('email','like',$request -> email)->where('id','<>',$id)->get()->toArray();
+        $pass = $request -> password;
         $employee = Employee::find($id);
-        $employee->email = $request->email;
-        $employee->name = $request->name;
-        $employee->birthday = $request->birthday;
-        $employee->gender = $request->gender;
-        $employee->mobile = $request->mobile;
-        $employee->address = $request->address;
-        $employee->marital_status = $request->marital_status;
-        $employee->startwork_date = $request->startwork_date;
-        $employee->endwork_date = $request->endwork_date;
-        $employee->company = $request->company;
-        $employee->employee_type_id = $request->employee_type_id;
-        $employee->team_id = $request->team_id;
-        $employee->role_id = $request->role_id;
-        $employee->updated_at = new DateTime();
-        if ($objEmployee != null) {
-            return redirect('employee')->with(['msg_fail' => 'Edit failed!!! Email already exists']);
-        } else {
-            $employee->save();
-            return redirect('employee')->with(['msg_success' => 'Account successfully edited']);
+        $employee -> email = $request -> email;
+        if($pass != null){
+            if(strlen($pass) < 6){
+                return back()->with(['minPass' => 'The Password must be at least 6 characters.' , 'employee'=>$employee]);
+            }else{
+                $employee -> password = bcrypt($request -> password);
+            }
+        }  
+        $employee -> name = $request -> name;
+        $employee -> birthday = $request -> birthday;  
+        $employee -> gender = $request -> gender;
+        $employee -> mobile = $request -> mobile;
+        $employee -> address = $request -> address;
+        $employee -> marital_status = $request -> marital_status;
+        $employee -> startwork_date = $request -> startwork_date;
+        $employee -> endwork_date = $request -> endwork_date;
+        $employee -> company = $request -> company;
+        $employee -> employee_type_id = $request -> employee_type_id;
+        $employee -> team_id = $request -> team_id;
+        $employee -> role_id = $request -> role_id;
+        $employee -> updated_at = new DateTime();
+        if($objEmployee != null){
+            \Session::flash('msg_fail', 'Edit failed!!! Email already exists!!!');
+            return back()->with(['employee'=>$employee]);
+            // return redirect('employee/'.$id.'/edit') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
+        }else{
+            $employee ->save();
+            \Session::flash('msg_success', 'Account successfully edited!!!');
+            return redirect('employee');    
         }
     }
 
@@ -203,17 +218,6 @@ class EmployeeController extends Controller
     public function calculateTime($time1, $time2)
     {
         return (strtotime(date($time1)) - strtotime(date($time2))) / (60 * 60 * 24);
-    }
-
-    public function import_csvxxx()
-    {
-        Excel::load(Input::file('csv_file'), function ($reader) {
-            $reader->each(function ($sheet) {
-                Employee::firstOrCreate($sheet->toArray());
-                return $sheet;
-            });
-        });
-        return redirect('employee')->with(['msg_success' => 'Import successfully']);;
     }
 
     public function  export(Request $request){

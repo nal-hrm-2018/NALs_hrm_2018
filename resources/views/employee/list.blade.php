@@ -103,25 +103,25 @@
                 <button type="button" class="btn btn-default">
                     <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
-
-                <div class="nav navbar-nav">
-                    <div class="dropdown user user-menu">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <a href="#"><i class="fa fa-users"></i> IMPORT</a>
-                        </button>
-                        <div class="dropdown-menu">
-                            <!-- User image -->
-                            <div class="user-header">
-                                <form action="{{ asset('employee/import_csv')}}" method="post">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <input type="file" name="csv_file">
-                                    <br/>
-                                    <input type="submit" value="Import Data">
-                                </form>
-                            </div>
-                        </div>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
+                </button>
+                <!-- <div class="nav navbar-nav">
+                  <div class="dropdown user user-menu">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
+                    </button>
+                    <div class="dropdown-menu">
+                      <div class="user-header">
+                        {!! Form::open(array('route'=>'import_csv', 'method'=>'POST', 'files'=>'true')) !!}
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="file" name="csv_file">
+                            <br/>
+                            <input type="submit" value="Import Data">
+                        {!! Form::close() !!}
+                      </div>
                     </div>
-                </div>
+                </div> -->
                 <?php
                 $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
                 $arrays[] = $_GET;
@@ -155,7 +155,7 @@
 
         <!-- Main content -->
         <?php
-        if (Session::get('msg_fail') != "") {
+        if (Session::has('msg_fail')) {
             echo '<div>
                 <ul class=\'error_msg\'>
                     <li>' . Session::get("msg_fail") . '</li>
@@ -164,7 +164,7 @@
         }
         ?>
         <?php
-        if (Session::get('msg_success') != "") {
+        if (Session::has('msg_success')) {
             echo '<div>
                 <ul class=\'result_msg\'>
                     <li>' . Session::get("msg_success") . '</li>

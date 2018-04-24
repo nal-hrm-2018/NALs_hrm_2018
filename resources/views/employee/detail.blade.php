@@ -40,33 +40,39 @@
                                     <!-- /.box-body -->
                                 </div>
                             </div>
-                            <!-- /.col -->
-                            <div class="col-md-9">
-                                <div class="box box-primary">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h2 class="profile-username text-center">Profile Info</h2>
-                                            <p>Name: <strong>{{$employee->name}}</strong></p>
-                                            <p>Email: <strong>{{$employee->email}}</strong></p>
-                                            <p>Address: <strong>{{$employee->address}}</strong></p>
-                                            <p>Phone: <strong>{{$employee->mobile}}</strong></p>
-                                            <p>Gender:
-                                                @if($employee->gender == 1) <strong>Female</strong>
-                                                @elseif($employee->gender == 2) <strong>Female</strong>
-                                                @elseif($employee->gender == 3) <strong>N/A</strong>
-                                                @endif
-                                            </p>
-                                            <p>Status: <strong>{{$employee->marital_status}}</strong></p>
-                                            <p>Team:
-                                                <strong>{{isset($employee->team)?$employee->team->name:''}}</strong></p>
-                                            <p>Role:
-                                                <strong>{{isset($employee->employeeType)?$employee->employeeType->name:''}}</strong>
-                                            </p>
-                                            <p>Birthday:
-                                                <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
-                                            <p>Policy Date:
-                                                <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}}
-                                                    - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-9">
+                            <div class="box box-primary">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h2 class="profile-username text-center">Profile Info</h2>
+                                    <p>Name: <strong>{{$employee->name}}</strong></p>
+                                    <p>Email: <strong>{{$employee->email}}</strong></p>
+                                    <p>Address: <strong>{{$employee->address}}</strong></p>
+                                    <p>Phone: <strong>{{$employee->mobile}}</strong></p>
+                                    <p>Gender:
+                                            @if($employee->gender == 1) <strong>Female</strong>
+                                            @elseif($employee->gender == 2) <strong>Female</strong>
+                                            @elseif($employee->gender == 3) <strong>N/A</strong>
+                                            @endif
+                                    </p>
+                                    <p>Status: <strong>{{$employee->marital_status}}</strong></p>
+                                    <p>Team: <strong>{{$employee->team->name}}</strong></p>
+                                    <p>Role: <strong>{{$employee->employeeType->name}}</strong></p>
+                                    <p>Birthday: <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
+                                    <p>Policy Date: <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}} - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
+                                </div>
+                                <div class="col-md-6">
+                                <div class="row">
+                                    {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
+                                    <h2 class="profile-username text-center">Project Info</h2>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            {{--<label for="sel1">Select Chart:</label>--}}
+                                            <select class="form-control" id="sel1">
+                                                <option>Resource Chart - 2018</option>
+                                            </select>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="row">
