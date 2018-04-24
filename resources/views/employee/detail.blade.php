@@ -218,6 +218,13 @@
                 }
                 showChart(bar_data);
             });
+            $('#record-in-page').change(function () {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "POST", '{{ url('/employee') }}' + '/4', false ); // false for synchronous request
+                xmlHttp.send( null );
+                console.log(xmlHttp.responseText);
+                return xmlHttp.responseText;
+            });
         });
     </script>
     <script>

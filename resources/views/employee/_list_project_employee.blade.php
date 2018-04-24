@@ -6,7 +6,8 @@
             <label>Show entries
                 <select name="project-list_length"
                         aria-controls="project-list"
-                        class="form-control input-sm">
+                        class="form-control input-sm"
+                        id="record-in-page">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
