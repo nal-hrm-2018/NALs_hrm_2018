@@ -37,7 +37,7 @@ class Project extends Model
      * @var array
      */
 
-    protected $fillable = ['name', 'income', 'real_cost', 'description', 'status', 'start_date', 'estimate_end_date', 'end_date', 'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
+    protected $fillable = ['name', 'income', 'real_cost', 'description', 'status_id', 'start_date', 'estimate_end_date', 'end_date', 'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -45,6 +45,10 @@ class Project extends Model
     public function processes()
     {
         return $this->hasMany('App\Models\Process', 'project_id');
+    }
+
+    public function status(){
+        return $this->belongsTo(Status::class,'status_id');
     }
 
     public function roles()

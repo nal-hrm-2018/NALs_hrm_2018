@@ -19,11 +19,15 @@
         <section class="content">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#basic" data-toggle="tab">Basic</a></li>
-                    <li><a href="#project" data-toggle="tab">Project</a></li>
+                    <li class="{{ 'basic'===$active?'active':'' }}">
+                        <a href="#basic" data-toggle="tab">Basic</a>
+                    </li>
+                    <li class="{{ 'project'===$active?'active':'' }}">
+                        <a href="#project" data-toggle="tab">Project</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="active tab-pane" id="basic">
+                    <div class="{{ 'basic'===$active?'active':'' }} tab-pane" id="basic">
                         <div class="row">
                             <div class="col-md-3">
                                 <!-- Profile Image -->
@@ -112,9 +116,7 @@
                         </div>
                         <!-- /.post -->
                     </div>
-                    <!-- /.tab-pane -->
-
-                    <div class="tab-pane" id="project">
+                    <div class="{{ 'project'===$active?'active':'' }} tab-pane" id="project">
                         <div>
                             <button type="button" class="btn btn-info btn-default" data-toggle="modal"
                                     data-target="#myModal">
@@ -125,19 +127,12 @@
                             @include('employee._model_search_process')
                         </div>
                         <!-- The project -->
-                            @include('employee._list_project_employee')
+                        @include('employee._list_project_employee')
                         @if(isset($param))
                             {{  $processes->appends($param)->render() }}
                         @endif
-
                     </div>
-
-                    <!-- /.tab-pane -->
-
-
-                    <!-- /.tab-pane -->
                 </div>
-                <!-- /.tab-content -->
             </div>
             <!-- /.nav-tabs-custom -->
         </section>

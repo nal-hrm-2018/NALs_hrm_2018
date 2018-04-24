@@ -35,9 +35,6 @@ Route::post('/register', [
 
 Route::group(['prefix'=>'employee','middleware'=>'user'],function (){
 
-    Route::get('/search-process', [
-        'as'=>'search-process',
-        'uses'=>'User\Employee\SearchController@search']);
 
 });
 
@@ -69,8 +66,8 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 /*begin route list employee by Quy*/
 Route::resource('employee','User\Employee\EmployeeController');
 
-//Route::get('/search ', 'User\Employee\EmployeeController@searchCommonInList')->name('search');
+Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
-Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csvxxx')->name('import_csv');
+Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csv')->name('import_csv');
 /*the end route list employee by Quy*/

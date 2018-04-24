@@ -9,7 +9,9 @@
 namespace App\Service;
 
 
+use Illuminate\Http\Request;
+
 interface SearchEmployeeService
 {
-    public function searchEmployee( $params);
+    public function searchEmployee( Request $params);
 }

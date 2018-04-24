@@ -19,9 +19,7 @@
     <!-- SELECT2 EXAMPLE -->
     <div class="box box-default">
       <div class="box-body">
-        @include('admin.block.error')
         <?php
-
           if(Session::get('msg_fail') != ""){
             echo '<div>
                 <ul class=\'error_msg\'>
@@ -30,7 +28,12 @@
             </div>';
           }
         ?>
-        {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST'])}}
+        <SCRIPT LANGUAGE="JavaScript">
+            function confirmAction($msg) {
+                return confirm($msg)
+            }
+        </SCRIPT>
+        {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="col-md-3">
@@ -49,31 +52,76 @@
               <div class="form-group">
                 <label>Email Address</label>
                 <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}">
+                <label style="color: red;">{{$errors->first('email')}}</label>
                 <!-- /.input group -->
               </div>
+              @if(isset($objEmployee))
+                @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
+                  <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Password" id="password"  name="password" value="" onchange="myFunction()">
+                    <label style="color: red;" id="minPass">
+                      {{$errors->first('password')}}
+                      <?php 
+                        if (Session::has('minPass')){
+                          echo''.Session::get("minPass");
+                        } 
+                      ?>
+                    </label>
+                  </div>
+                  <script>
+                    function myFunction() {
+                      var x = document.getElementById("password").value;
+                      if(x.length < 6){
+                        document.getElementById("minPass").innerHTML = "The Password must be at least 6 characters.";
+                      }else{
+                        document.getElementById("minPass").innerHTML = "";
+                      }
+                    }
+                  </script>
+                  <div class="form-group">
+                    <label>Confirm password</label>
+                    <input type="password" class="form-control" placeholder="Confirm password"  name="confirm_confirmation" id="confirmPass" onchange="confirmPass1()">
+                    <label style="color: red;" id="cf">{{$errors->first('confirm_confirmation')}}</label>
+                  </div>
+                  <script>
+                    function confirmPass1() {
+                      var x = document.getElementById("password").value;
+                      var y = document.getElementById("confirmPass").value;
+                      if(x != y){
+                        document.getElementById("cf").innerHTML = "The confirm password and password must match.";
+                      }else{
+                        document.getElementById("cf").innerHTML = "";
+                      }
+                    }
+                  </script>
+                @endif
+              @endif
               <!-- <div class="form-group">
                 <label>Password</label>
                 <input type="password" class="form-control" placeholder="Password"  name="password" value="{!! old('password', isset($objEmployee["password"]) ? $objEmployee["password"] : null) !!}">
-                <!-- /.input group
               </div> -->
               <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+                <label style="color: red;">{{$errors->first('name')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Address</label>
                 <input type="text" class="form-control" placeholder="Address"  name="address" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
+                <label style="color: red;">{{$errors->first('address')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
-                <label>Phone</label> 
+                <label>Mobile</label> 
                 <div class="input-group">
                   <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
                   </div>
                   <input type="number" class="form-control" placeholder="Phone"  name="mobile" value="{!! old('mobile', isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}">
                 </div>
+                <label style="color: red;">{{$errors->first('mobile')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -115,11 +163,13 @@
                   </div>
                   <input type="date" class="form-control pull-right" id="birthday" name="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
                 </div>
+                <label style="color: red;">{{$errors->first('birthday')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Company</label>
                 <input type="text" class="form-control" placeholder="Company"  name="company" value="{!! old('company', isset($objEmployee["company"]) ? $objEmployee["company"] : null) !!}">
+                <label style="color: red;">{{$errors->first('company')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -153,24 +203,26 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Start_work</label>
+                    <label>Start work date</label>
                     <div class="input-group date">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
                       <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
                     </div>
+                    <label style="color: red;">{{$errors->first('startwork_date')}}</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>End_work</label>
+                    <label>End work date</label>
                     <div class="input-group date">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
                       <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
                     </div>
+                    <label style="color: red;">{{$errors->first('endwork_date')}}</label>
                     <!-- /.input group -->
                   </div>
                 </div>
@@ -179,8 +231,13 @@
             <!-- /.col -->
           </div>
           <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
-            <div class="col-md-7">    
-              <div style="float: right;">        
+            <div class="col-md-6" style="display: inline; ">    
+              <div style="float: right;" >
+                <input type="reset" value="Reset" class="btn btn-info pull-left">  
+              </div>
+            </div>
+            <div class="col-md-2" style="display: inline;">    
+              <div style="float: right;">      
                   <button type="submit" class="btn btn-info pull-left">Edit Employee</button>
               </div>
             </div>

@@ -8,10 +8,10 @@
 
 namespace App\Http\Controllers\User\Employee;
 
+use App\Export\InvoicesExport;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Requests\EmployeeAddRequest;
 use App\Http\Requests\EmployeeEditRequest;
 use App\Models\Employee;
@@ -19,10 +19,12 @@ use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
 use DateTime;
-use Aws\S3\S3Client;
-use Aws\S3\Exception\S3Exception;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
+use Illuminate\Support\Facades\Input;
+use App\Models\Status;
+
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -40,16 +42,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $params['search'] = [
-            'id' => !empty($request->id) ? $request->id : '',
-            'name' => !empty($request->name) ? $request->name : '',
-            'team' => !empty($request->team) ? $request->team : '',
-            'email' => !empty($request->email) ? $request->email : '',
-            'role' => !empty($request->role) ? $request->role : '',
-            'status' => !empty($request->status) ? $request->status : '',
-        ];
-
-        $employees = $this->searchEmployeeService->searchEmployee($params);
+        $employees = $this->searchEmployeeService->searchEmployee($request);
 
         return view('employee.list', compact('employees'));
     }
@@ -66,28 +59,30 @@ class EmployeeController extends Controller
     {
         $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->get()->toArray();
         $employee = new Employee;
-        $employee->email = $request->email;
-        $employee->password = bcrypt($request->password);
-        $employee->name = $request->name;
-        $employee->birthday = $request->birthday;
-        $employee->gender = $request->gender;
-        $employee->mobile = $request->mobile;
-        $employee->address = $request->address;
-        $employee->marital_status = $request->marital_status;
-        $employee->startwork_date = $request->startwork_date;
-        $employee->endwork_date = $request->endwork_date;
-        $employee->is_employee = 1;
-        $employee->company = $request->company;
-        $employee->employee_type_id = $request->employee_type_id;
-        $employee->team_id = $request->team_id;
-        $employee->role_id = $request->role_id;
-        $employee->created_at = new DateTime();
-        $employee->delete_flag = 0;
-        if ($objEmployee != null) {
-            return redirect('employee')->with(['msg_fail' => 'Add failed!!!Email already exists']);
-        } else {
-            $employee->save();
-            return redirect('employee')->with(['msg_success' => 'Account successfully created']);
+        $employee -> email = $request -> email;
+        $employee -> password = bcrypt($request -> password);
+        $employee -> name = $request -> name;
+        $employee -> birthday = $request -> birthday;  
+        $employee -> gender = $request -> gender;
+        $employee -> mobile = $request -> mobile;
+        $employee -> address = $request -> address;
+        $employee -> marital_status = $request -> marital_status;
+        $employee -> startwork_date = $request -> startwork_date;
+        $employee -> endwork_date = $request -> endwork_date;
+        $employee -> is_employee = 1;
+        $employee -> company = $request -> company;
+        $employee -> employee_type_id = $request -> employee_type_id;
+        $employee -> team_id = $request -> team_id;
+        $employee -> role_id = $request -> role_id;
+        $employee -> created_at = new DateTime();
+        $employee -> delete_flag = 0;
+        if($objEmployee != null){ 
+            \Session::flash('msg_fail', 'Add failed!!! Email already exists!!!');
+            return redirect('employee/create') -> with(['employee' => $employee]);
+        }else{
+            $employee ->save();
+            \Session::flash('msg_fail', 'Account successfully created!!!');
+            return redirect('employee');
         }
     }
 
@@ -95,66 +90,94 @@ class EmployeeController extends Controller
     public function show($id, SearchRequest $request)
     {
         $data = $request->only([
-                'id' => null,
                 'project_name' => $request->get('project_name'),
                 'role' => $request->get('role'),
                 'start_date' => $request->get('start_date'),
                 'end_date' => $request->get('end_date'),
-                'project_status' => $request->get('project_status')
+                'project_status' => $request->get('project_status'),
+                'number_record_per_page' => $request->get('number_record_per_page')
             ]
         );
+
+        if(!isset($data['number_record_per_page'])){
+            $data['number_record_per_page']= config('settings.paginate');
+        }
+
         $data['id']=$id;
 
-        $processes = $this->searchService->search($data)->paginate(config('settings.paginate'));
+        $processes = $this->searchService->search($data)->paginate($data['number_record_per_page']);
 
         $processes->setPath('');
 
         $param = (Input::except('page'));
 
+        $param[] =$id;
+        $active = $request->all();
+
+        if($active){
+            $active='project';
+        }else{
+            $active='basic';
+        }
+
         //set employee info
         $employee = Employee::find($id);
 
-        $roles = Role::pluck('name', 'id');
+        $roles = Role::pluck('name', 'id')->prepend(trans('employee_detail.drop_box.placeholder-default'));;
+
+        $project_statuses = Status::pluck('name','id')->prepend(trans('employee_detail.drop_box.placeholder-default'));
 
         if (!isset($employee)) {
             return abort(404);
         }
 
-        return view('employee.detail', compact('employee', 'processes', 'roles', 'param'));
+        return view('employee.detail', compact('employee', 'processes', 'roles','project_statuses', 'param','active'));
     }
 
     public function edit($id)
     {
         $objEmployee = Employee::findOrFail($id)->toArray();
-        $dataTeam = Team::select('id', 'name')->get()->toArray();
-        $dataRoles = Role::select('id', 'name')->get()->toArray();
-        $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
-        return view('admin.module.employees.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        $dataTeam = Team::select('id','name')->get()->toArray();
+        $dataRoles = Role::select('id','name')->get()->toArray();
+        $dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
+
+        return view('admin.module.employees.edit',['objEmployee' => $objEmployee,'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->where('id', '<>', $id)->get()->toArray();
+        $objEmployee = Employee::select('email')->where('email','like',$request -> email)->where('id','<>',$id)->get()->toArray();
+        $pass = $request -> password;
         $employee = Employee::find($id);
-        $employee->email = $request->email;
-        $employee->name = $request->name;
-        $employee->birthday = $request->birthday;
-        $employee->gender = $request->gender;
-        $employee->mobile = $request->mobile;
-        $employee->address = $request->address;
-        $employee->marital_status = $request->marital_status;
-        $employee->startwork_date = $request->startwork_date;
-        $employee->endwork_date = $request->endwork_date;
-        $employee->company = $request->company;
-        $employee->employee_type_id = $request->employee_type_id;
-        $employee->team_id = $request->team_id;
-        $employee->role_id = $request->role_id;
-        $employee->updated_at = new DateTime();
-        if ($objEmployee != null) {
-            return redirect('employee')->with(['msg_fail' => 'Edit failed!!! Email already exists']);
-        } else {
-            $employee->save();
-            return redirect('employee')->with(['msg_success' => 'Account successfully edited']);
+        $employee -> email = $request -> email;
+        if($pass != null){
+            if(strlen($pass) < 6){
+                return back()->with(['minPass' => 'The Password must be at least 6 characters.' , 'employee'=>$employee]);
+            }else{
+                $employee -> password = bcrypt($request -> password);
+            }
+        }  
+        $employee -> name = $request -> name;
+        $employee -> birthday = $request -> birthday;  
+        $employee -> gender = $request -> gender;
+        $employee -> mobile = $request -> mobile;
+        $employee -> address = $request -> address;
+        $employee -> marital_status = $request -> marital_status;
+        $employee -> startwork_date = $request -> startwork_date;
+        $employee -> endwork_date = $request -> endwork_date;
+        $employee -> company = $request -> company;
+        $employee -> employee_type_id = $request -> employee_type_id;
+        $employee -> team_id = $request -> team_id;
+        $employee -> role_id = $request -> role_id;
+        $employee -> updated_at = new DateTime();
+        if($objEmployee != null){
+            \Session::flash('msg_fail', 'Edit failed!!! Email already exists!!!');
+            return back()->with(['employee'=>$employee]);
+            // return redirect('employee/'.$id.'/edit') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
+        }else{
+            $employee ->save();
+            \Session::flash('msg_success', 'Account successfully edited!!!');
+            return redirect('employee');    
         }
     }
 
@@ -212,50 +235,10 @@ class EmployeeController extends Controller
         return (strtotime(date($time1)) - strtotime(date($time2))) / (60 * 60 * 24);
     }
 
-
-    /*public function searchCommonInList(Request $request)
-    {
-        $query = Employee::query();
-
-        $query->with(['team', 'role']);
-
-        if ($request->input('role') != null) {
-            $query
-                ->whereHas('role', function ($query) use ($request) {
-                    $query->where("name", 'like', '%' . $request->input('role') . '%');
-                });
-        }
-        if ($request->input('name') != null) {
-            $query->orWhere('name', 'like', '%' . $request->name . '%');
-        }
-        if ($request->id != null) {
-            $query->orWhere('id', '=', $request->id);
-        }
-        if ($request->team != null) {
-            $query
-                ->whereHas('team', function ($query) use ($request) {
-                    $query->where("name", 'like', '%' . $request->input('team') . '%');
-                });
-        }
-        if ($request->email != null) {
-            $query->orWhere('email', 'like', '%' . $request->email . '%');
-        }
-        if ($request->status != null) {
-            $query->orWhere('work_status', 'like', '%' . $request->status . '%');
-        }
-        $employeesSearch = $query->get();
-        return view('employee.list')->with("employees", $employeesSearch);
-    }*/
-
-    public function import_csvxxx()
-    {
-        Excel::load(Input::file('csv_file'), function ($reader) {
-            $reader->each(function ($sheet) {
-                Employee::firstOrCreate($sheet->toArray());
-                return $sheet;
-            });
-        });
-        return redirect('employee')->with(['msg_success' => 'Import successfully']);;
+    public function  export(Request $request){
+//        $employees = $this->searchEmployeeService->searchEmployee($request);
+//        return view('employee.list', compact('employees'));
+        return Excel::download(new InvoicesExport($this->searchEmployeeService,$request), 'invoices.xlsx');
     }
     /*
             ALL DEBUG

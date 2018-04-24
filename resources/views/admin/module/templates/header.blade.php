@@ -66,7 +66,7 @@
 
 
               <img class="img-responsive img-circle" src="" />
-
+              <span class="hidden-xs">welcome {{\Illuminate\Support\Facades\Auth::user()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -75,9 +75,10 @@
                 <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{--{{\Illuminate\Support\Facades\Auth::user()->name}} - {{ isset(\Illuminate\Support\Facades\Auth::user()->employeeType)?\Illuminate\Support\Facades\Auth::user()->employeeType->name:"Don't Know" }}--}}
-                  {{--<small>Member since {{\Illuminate\Support\Facades\Auth::user()->startwork_date}}</small>--}}
-
+                  {{\Illuminate\Support\Facades\Auth::user()->name}} - {{isset(\Illuminate\Support\Facades\Auth::user()->employee_type)?\Illuminate\Support\Facades\Auth::user()->employee_type->name:"Don't Know"  }}
+                  <small>Member since {{\Illuminate\Support\Facades\Auth::user()->startwork_date}}</small>
+{{--                  {{Auth::user()->name}}--}}
+                  {{--<small>Member since {{Auth::user()->startwork_date}}</small>--}}
                 </p>
 
               </li>

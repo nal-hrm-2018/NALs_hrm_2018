@@ -4,7 +4,7 @@
     <div class="col-sm-6">
         <div class="dataTables_length" id="project-list_length" style="float:right">
             <label>Show entries
-                <select name="project-list_length"
+                <select id="select_length" name="project-list_length"
                         aria-controls="project-list"
                         class="form-control input-sm">
                     <option value="10">10</option>
@@ -15,6 +15,18 @@
             </label>
         </div>
     </div>
+
+    <script>
+        (function () {
+            $('#select_length').change(function () {
+                $("#number_record_per_page").val($(this).val());
+                $('#form_search_process').submit()
+                // var val = $(this).val();
+                // alert(val);
+            });
+        })();
+
+    </script>
 
     <table id="project-list" class="table table-bordered table-striped">
         <thead>
@@ -36,7 +48,8 @@
                 <td>{{ isset($process->role)?$process->role->name:''}}</td>
                 <td>{{date('d/m/Y', strtotime($process->start_date))}}</td>
                 <td>{{date('d/m/Y', strtotime($process->end_date))}}</td>
-                <td>{{isset($process->project)?$process->project->status:''}}</td>
+                <td>{{isset($process->project)?getProjectStatus($process->project):''}}
+                </td>
             </tr>
         @endforeach
         </tbody>
