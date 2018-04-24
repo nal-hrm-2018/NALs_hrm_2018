@@ -59,7 +59,7 @@ Route::group(['middleware'=>'user'],function (){
     ]);
     Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csv')->name('import_csv');
 
-    Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
+    Route::get('/export', 'User\Employee\EmployeeController@export')->name('export');
 });
 
 //cong list route cam pha'
