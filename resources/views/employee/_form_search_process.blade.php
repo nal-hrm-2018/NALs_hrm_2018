@@ -24,6 +24,7 @@
                     )
                  !!}
             </div>
+
             <div class="input-group margin">
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{  trans('common.label_form.status_project') }}</button>

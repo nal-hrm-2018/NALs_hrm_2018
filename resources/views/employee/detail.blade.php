@@ -10,8 +10,8 @@
 
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="active">User profile</li>
+                <li><a href="#">Employee</a></li>
+                <li class="active">Detail</li>
             </ol>
 
 
@@ -40,39 +40,41 @@
                                     <!-- /.box-body -->
                                 </div>
                             </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-9">
-                            <div class="box box-primary">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h2 class="profile-username text-center">Profile Info</h2>
-                                    <p>Name: <strong>{{$employee->name}}</strong></p>
-                                    <p>Email: <strong>{{$employee->email}}</strong></p>
-                                    <p>Address: <strong>{{$employee->address}}</strong></p>
-                                    <p>Phone: <strong>{{$employee->mobile}}</strong></p>
-                                    <p>Gender:
-                                            @if($employee->gender == 1) <strong>Female</strong>
-                                            @elseif($employee->gender == 2) <strong>Female</strong>
-                                            @elseif($employee->gender == 3) <strong>N/A</strong>
-                                            @endif
-                                    </p>
-                                    <p>Status: <strong>{{$employee->marital_status}}</strong></p>
-                                    <p>Team: <strong>{{$employee->team->name}}</strong></p>
-                                    <p>Role: <strong>{{$employee->employeeType->name}}</strong></p>
-                                    <p>Birthday: <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
-                                    <p>Policy Date: <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}} - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
-                                </div>
-                                <div class="col-md-6">
-                                <div class="row">
-                                    {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
-                                    <h2 class="profile-username text-center">Project Info</h2>
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="form-group">
-                                            {{--<label for="sel1">Select Chart:</label>--}}
-                                            <select class="form-control" id="sel1">
-                                                <option>Resource Chart - 2018</option>
-                                            </select>
+                            <!-- /.col -->
+                            <div class="col-md-9">
+                                <div class="box box-primary">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h2 class="profile-username text-center">Profile Info</h2>
+                                            <p>Name: <strong>{{$employee->name}}</strong></p>
+                                            <p>Email: <strong>{{$employee->email}}</strong></p>
+                                            <p>Gender:
+                                                @if($employee->gender == 1) <strong>Female</strong>
+                                                @elseif($employee->gender == 2) <strong>Female</strong>
+                                                @elseif($employee->gender == 3) <strong>N/A</strong>
+                                                @endif
+                                            </p>
+                                            <p>Birthday: <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
+                                            <p>Phone: <strong>{{$employee->mobile}}</strong></p>
+                                            <p>Address: <strong>{{$employee->address}}</strong></p>
+                                            <p>Marital Status:
+                                                @if($employee->marital_status == 1) <strong>Single</strong>
+                                                @elseif($employee->marital_status == 2) <strong>Married</strong>
+                                                @elseif($employee->marital_status == 3) <strong>N/A</strong>
+                                                @elseif($employee->marital_status == 4) <strong>N/A</strong>
+                                                @endif
+                                            </p>
+                                            <p>Team: <strong>{{ isset($employee->teams)?$employee->teams->name:'-' }}</strong></p>
+                                            <p>Role: <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'-' }}</strong></p>
+
+                                            <p>Policy Date: <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}} - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
+                                            <p>Policy Status:
+                                                @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
+                                                    <strong>Unexpired</strong>
+                                                @else
+                                                    <strong>Expire</strong>
+                                                @endif
+                                            </p>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="row">
@@ -80,16 +82,21 @@
                                                 <h2 class="profile-username text-center">Project Info</h2>
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                     <div class="form-group">
-                                                        {{--<label for="sel1">Select Chart:</label>--}}
-                                                        <select class="form-control" id="sel1">
-                                                            <option>Resource Chart - 2018</option>
+                                                        <select class="form-control" id="sel1" name="year">
+                                                            @if(count($listYears))
+                                                                @foreach($listYears as $year)
+                                                                    <option @if($year == $listValue[0]) selected @endif value="{{$year}}">Resource Chart - {{$year}}</option>
+                                                                @endforeach
+                                                            @else
+                                                                <option value="{{$listValue[0]}}">Resource Chart - {{$listValue[0]}}</option>
+                                                            @endif
                                                         </select>
                                                     </div>
                                                     <div class="box box-primary">
                                                         <div class="box-header with-border">
                                                             <i class="fa fa-bar-chart-o"></i>
 
-                                                            <h3 class="box-title">Resource Chart - 2018</h3>
+                                                            <h3 class="box-title">Resource Chart - <span id="current-year">{{$listValue[0]}}</span></h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool"
@@ -131,6 +138,7 @@
                             @include('employee._model_search_process')
                         </div>
                         <!-- The project -->
+
                             @include('employee._list_project_employee')
                         @if(isset($param))
                             {{  $processes->appends($param)->render() }}
@@ -166,11 +174,54 @@
         $.widget.bridge('uibutton', $.ui.button);
     </script>
     <script type="text/javascript">
-        $(function () {
-            var bar_data = {
-                data: [['Jan', 10], ['Feb', 8], ['Mar', 4], ['Apr', 13], ['May', 17], ['Jun', 9], ['Aug', 9], ['Sept', 2], ['Oct', 4], ['Nov', 5], ['Dec', 9]],
-                color: '#3c8dbc'
-            }
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#project-list').DataTable({
+                'paging': false,
+                'lengthChange': true,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            });
+            $('#sel1').change(function () {
+                var year = $('#sel1').val();
+                var id = '{{$employee->id}}';
+                $.ajax({
+                    type: "POST",
+                    url: '{{ url('/employee') }}' + '/' + id,
+                    data: {
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        'id': id,
+                        'year': year,
+                        '_method': 'POST',
+                        _token: '{{csrf_token()}}',
+                    },
+                    success: function (msg) {
+                        var bar_data = {
+                            data : [['Jan', msg.listValue[1]], ['Feb', msg.listValue[2]], ['Mar', msg.listValue[3]], ['Apr', msg.listValue[4]], ['May', msg.listValue[5]], ['Jun', msg.listValue[6]], ['Jul', msg.listValue[7]], ['Aug', msg.listValue[8]], ['Sept', msg.listValue[9]], ['Oct', msg.listValue[10]], ['Nov', msg.listValue[11]], ['Dec', msg.listValue[12]]],
+                            color: '#3c8dbc'
+                        }
+                        $('#current-year').html(msg.listValue[0]);
+                        showChart(bar_data);
+                    }
+                });
+            });
+            $(function () {
+                var bar_data = {
+                    data : [['Jan', {{$listValue[1]}}], ['Feb', {{$listValue[2]}}], ['Mar', {{$listValue[3]}}], ['Apr', {{$listValue[4]}}], ['May', {{$listValue[5]}}], ['Jun', {{$listValue[6]}}], ['Jul', {{$listValue[7]}}], ['Aug', {{$listValue[8]}}], ['Sept', {{$listValue[9]}}], ['Oct', {{$listValue[10]}}], ['Nov', {{$listValue[11]}}], ['Dec', {{$listValue[12]}}]],
+                    color: '#3c8dbc'
+                }
+                showChart(bar_data);
+            });
+        });
+    </script>
+    <script>
+        function showChart(bar_data) {
             $.plot('#bar-chart', [bar_data], {
                 grid: {
                     borderWidth: 1,
@@ -189,19 +240,7 @@
                     tickLength: 0
                 }
             })
-        })
+        }
     </script>
-    <script>
-        $(document).ready(function () {
-            $('#project-list').DataTable({
-                "bLengthChange": true,
-                'paging': false,
-                'lengthChange': true,
-                'searching': false,
-                'ordering': true,
-                'info': false,
-                'autoWidth': true
-            });
-        });
-    </script>
+
 @endsection

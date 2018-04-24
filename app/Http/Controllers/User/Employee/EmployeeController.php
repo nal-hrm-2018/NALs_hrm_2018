@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers\User\Employee;
 
+
+use App\Service\ChartService;
 use Illuminate\Support\Facades\Auth;
 use App\Export\InvoicesExport;
 use App\Service\SearchEmployeeService;
@@ -25,6 +27,7 @@ use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
+use Illuminate\Support\Facades\Input;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
@@ -34,11 +37,13 @@ class EmployeeController extends Controller
      */
     private $searchEmployeeService;
     protected $searchService;
+    private $chartService;
 
-    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService)
+    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService, ChartService $chartService)
     {
         $this->searchService = $searchService;
         $this->searchEmployeeService = $searchEmployeeService;
+        $this->chartService = $chartService;
     }
 
     public function index(Request $request)
@@ -116,7 +121,14 @@ class EmployeeController extends Controller
             return abort(404);
         }
 
-        return view('employee.detail', compact('employee', 'processes', 'roles', 'param'));
+        //set chart
+        $year = date('Y');
+        $listValue = $this->chartService->getListValueOfMonth($employee, $year);
+
+        //set list years
+        $listYears = $this->chartService->getListYear($employee);
+
+        return view('employee.detail', compact('employee', 'processes' , 'listValue', 'listYears', 'roles', 'param'))->render();
     }
 
     public function edit($id)
@@ -179,46 +191,14 @@ class EmployeeController extends Controller
     }
 
 
-    public function getValueOfEmployee($id)
-    {
-        $currentEmployee = Employee::find($id);
-        $projects = $currentEmployee->projects;
-        foreach ($projects as $project) {
-            $this->getValueOfProject($project, $currentEmployee, '');
-        }
+
+    public function showChart($id, Request $request){
+        $year = $request->year;
+        $employee = Employee::find($id);
+        $listValue = $this->chartService->getListValueOfMonth($employee, $year);
+        return response(['listValue' => $listValue]);
     }
 
-    public function getValueOfProject(Project $project, Employee $currentEmployee, $currentMonth)
-    {
-        //x
-        $income = $project->income;
-        $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
-        $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
-        if ($project->end_date == null) {
-            $income = ($income / $estimateTime) * $currentTime;
-        }
-
-        //y
-        $processes = $project->processes;
-        $powerAllEmployeeOnProject = 0;
-        foreach ($processes as $process) {
-            if ($process->end_date == null) {
-                $powerAllEmployeeOnProject += $this->calculateTime('Y-m-d', $process->start_date) * $process->man_power;
-            }
-        }
-
-        //z
-        if ($currentEmployee->processes->where('projects_id', $project->id)->end_date == null) {
-
-        } else {
-
-        }
-    }
-
-    public function calculateTime($time1, $time2)
-    {
-        return (strtotime(date($time1)) - strtotime(date($time2))) / (60 * 60 * 24);
-    }
 
     public function  export(Request $request){
         return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'invoices.csv');
