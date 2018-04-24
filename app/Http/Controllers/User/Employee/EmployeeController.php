@@ -42,7 +42,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $employees = $this->searchEmployeeService->searchEmployee($request);
+        $employees = $this->searchEmployeeService->searchEmployee($request)->get();
 
         return view('employee.list', compact('employees'));
     }
@@ -217,9 +217,7 @@ class EmployeeController extends Controller
     }
 
     public function  export(Request $request){
-//        $employees = $this->searchEmployeeService->searchEmployee($request);
-//        return view('employee.list', compact('employees'));
-        return Excel::download(new InvoicesExport($this->searchEmployeeService,$request), 'invoices.xlsx');
+        return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'invoices.csv');
     }
     /*
             ALL DEBUG

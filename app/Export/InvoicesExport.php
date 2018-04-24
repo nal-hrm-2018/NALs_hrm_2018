@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Export;
+use App\Models\Employee;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -21,23 +22,22 @@ class InvoicesExport implements FromCollection
      */
     private $request;
 
-    public function __construct(SearchEmployeeService $searchEmployeeService, Request $request)
+    /**
+     * @var Request
+     */
+
+    public function __construct(SearchEmployeeService $searchEmployeeService,Request $request)
     {
-        $this->searchEmployeeService = $searchEmployeeService;
         $this->request = $request;
+        $this->searchEmployeeService = $searchEmployeeService;
     }
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        /*$arrayValues = $this->searchEmployeeService->searchEmployee($this->request);
-
-        foreach ($arrayValues as $key => $value){
-            switch ($value['role']){
-                case 1: $value['role'] =
-            }
-        }*/
-        return $this->searchEmployeeService->searchEmployee($this->request);
+         return  $this->searchEmployeeService->searchEmployee( $this->request)->get();
     }
+
+
 }

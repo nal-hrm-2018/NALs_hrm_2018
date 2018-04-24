@@ -18,8 +18,6 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
     {
         $query = Employee::query();
 
-        $query->with(['team', 'role']);
-
         $params['search'] = [
             'id' => !empty($request->id) ? $request->id : '',
             'name' => !empty($request->name) ? $request->name : '',
@@ -61,8 +59,8 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             $query->Where('work_status', 'like', '%' . $status . '%');
         }
         $employeesSearch = $query
-            ->where('delete_flag','=',0)
-            ->get();
+            ->where('delete_flag','=',0);
+
         return $employeesSearch;
     }
 }
