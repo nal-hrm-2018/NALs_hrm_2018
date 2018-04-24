@@ -52,7 +52,14 @@ Route::group(['middleware'=>'user'],function (){
         'as' => 'dashboard-user',
         'uses' => 'User\DashboardController@index',
     ]);
+    Route::resource('employee','User\Employee\EmployeeController');
+    Route::post('/employee/{id}', [
+        'as' => 'show_chart',
+        'uses' => 'User\Employee\EmployeeController@showChart',
+    ]);
+    Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csv')->name('import_csv');
 
+    Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
 });
 
 //cong list route cam pha'
@@ -67,10 +74,8 @@ Route::get('/employee/edit/{id}',['as' => 'getEmployeeEdit', 'uses' => 'Admin\Em
 Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\EmployeeController@postEmployeeEdit']); */
 
 /*begin route list employee by Quy*/
-Route::resource('employee','User\Employee\EmployeeController');
 
-Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
+
+
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
-Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csv')->name('import_csv');
-/*the end route list employee by Quy*/
