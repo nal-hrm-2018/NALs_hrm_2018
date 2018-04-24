@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 
+
+
 class Role extends Model
 {
     use Authenticatable, Authorizable, CanResetPassword;
@@ -18,12 +20,12 @@ class Role extends Model
 
     public function employees()
     {
-        return $this->hasMany('App\Models\Employee', 'roles_id');
-//        return $this->belongsTo('App\Models\Employee');
+        return $this->hasMany('App\Models\Employee', 'role_id');
     }
 
     public function processes()
     {
-        return $this->hasMany('App\Models\Process');
+        return $this->hasMany('App\Models\Process','role_id');
     }
+
 }

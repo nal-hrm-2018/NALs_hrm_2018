@@ -18,11 +18,17 @@ class SearchRequest extends CommonRequest
 
     public function rules()
     {
-        return[];
+        return[
+
+        ];
+
     }
 
     public function messages()
     {
-        return[];
+        return[
+
+        ];
+
     }
 }

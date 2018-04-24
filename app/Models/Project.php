@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
 /**
  * @property string $id
  * @property string $name
@@ -21,11 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Project extends Model
 {
-    /**
-     * The "type" of the auto-incrementing ID.
-     * 
-     * @var string
-     */
+
+    public $table = 'projects';
     protected $keyType = 'string';
 
     /**
@@ -38,6 +36,7 @@ class Project extends Model
     /**
      * @var array
      */
+
     protected $fillable = ['name', 'income', 'real_cost', 'description', 'status', 'start_date', 'estimate_end_date', 'end_date', 'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
 
     /**
@@ -45,7 +44,7 @@ class Project extends Model
      */
     public function processes()
     {
-        return $this->hasMany('App\Models\Process', 'projects_id');
+        return $this->hasMany('App\Models\Process', 'project_id');
     }
 
     public function roles()
@@ -53,11 +52,12 @@ class Project extends Model
         return $this->belongsToMany(
             'App\Models\Role',
             'processes',
-            'projects_id',
+            'project_id',
             'role_id');
     }
+
     public function employees(){
-        return $this->belongsToMany('App\Models\Employee', 'processes','projects_id', 'employee_id')
-            ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'projects_id', 'role_id');
+        return $this->belongsToMany('App\Models\Employee', 'processes','project_id', 'employee_id')
+            ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'project_id', 'role_id');
     }
 }

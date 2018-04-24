@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Process extends Model
 {
+    protected $table = 'processes';
     public $timestamps = false;
     protected $fillable = [
         'id',
@@ -23,22 +24,22 @@ class Process extends Model
         'delete_flag'
     ];
 
-    public function employees()
+    public function employee()
     {
-        return $this->belongsTo('App\Models\Employee');
+        return $this->belongsTo('App\Models\Employee','employee_id');
     }
 
-    public function projects()
+    public function project()
     {
-        return $this->belongsTo('App\Models\Project');
+        return $this->belongsTo('App\Models\Project','project_id');
     }
 
     public function role()
     {
-        return $this->belongsTo('App\Models\Role');
+        return $this->belongsTo('App\Models\Role','role_id');
     }
     public function performances()
     {
-        return $this->hasMany('App\Models\Performance', 'processes_id');
+        return $this->hasMany('App\Models\Performance', 'process_id');
     }
 }

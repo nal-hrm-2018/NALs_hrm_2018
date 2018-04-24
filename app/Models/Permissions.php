@@ -20,6 +20,8 @@ class Permissions extends Model
     /**
      * @var array
      */
+
+    public $table = 'permissions';
     protected $fillable = ['name', 'description', 'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
 
     /**
@@ -27,6 +29,6 @@ class Permissions extends Model
      */
     public function employees()
     {
-        return $this->belongsToMany('App\Models\Employee', 'permissions_employees', 'permissions_id', 'employees_id');
+        return $this->belongsToMany('App\Models\Employee', 'permission_employee', 'permission_id', 'employee_id');
     }
 }

@@ -13,7 +13,20 @@ return [
     |
     */
 
-    'previous' => '&laquo; Previous',
-    'next' => 'Next &raquo;',
+    'button' => [
+        'reset' => 'RESET',
+        'search' => 'SEARCH',
+    ],
+
+    'title_form' => [
+        'form_search' => 'Search Form'
+    ],
+    'label_form' =>[
+        'project_name' => 'Project Name',
+        'start_date'=>'Start Date',
+        'end_date'=>'End Date',
+        'role_name' => 'Role',
+        'status_project'=> 'Status Project'
+    ]
 
 ];

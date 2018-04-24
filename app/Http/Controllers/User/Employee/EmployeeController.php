@@ -7,7 +7,10 @@
  */
 
 namespace App\Http\Controllers\User\Employee;
+
 use Illuminate\Support\Facades\Auth;
+use App\Export\InvoicesExport;
+use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -20,27 +23,42 @@ use App\Models\EmployeeType;
 use DateTime;
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
-use Excel;
-use Input;
+use App\Service\SearchService;
+use App\Http\Requests\SearchRequest;
+use Maatwebsite\Excel\Facades\Excel;
+
 class EmployeeController extends Controller
 {
-    public function index()
+    /**
+     * @var SearchEmployeeServiceProvider
+     */
+    private $searchEmployeeService;
+    protected $searchService;
+
+    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService)
     {
-        $employees = Employee::where('delete_flag','=',0)->get(); 
+        $this->searchService = $searchService;
+        $this->searchEmployeeService = $searchEmployeeService;
+    }
+
+    public function index(Request $request)
+    {
+        $employees = $this->searchEmployeeService->searchEmployee($request);
+
         return view('employee.list', compact('employees'));
     }
 
     public function create()
     {
-        $dataTeam = Team::select('id','name')->get()->toArray();
-        $dataRoles = Role::select('id','name')->get()->toArray();
-        $dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
-        return view('admin.module.employees.add',['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        $dataTeam = Team::select('id', 'name')->get()->toArray();
+        $dataRoles = Role::select('id', 'name')->get()->toArray();
+        $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
+        return view('admin.module.employees.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
-    public function store(EmployeeAddRequest $request) 
+    public function store(EmployeeAddRequest $request)
     {
-        $objEmployee = Employee::select('email')->where('email','like',$request -> email)->get()->toArray();
+        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->get()->toArray();
         $employee = new Employee;
         $employee -> email = $request -> email;
         $employee -> password = bcrypt($request -> password);
@@ -70,20 +88,35 @@ class EmployeeController extends Controller
     }
 
 
-    public function show($id)
+    public function show($id, SearchRequest $request)
     {
+        $data = $request->only([
+                'id' => null,
+                'project_name' => $request->get('project_name'),
+                'role' => $request->get('role'),
+                'start_date' => $request->get('start_date'),
+                'end_date' => $request->get('end_date'),
+                'project_status' => $request->get('project_status')
+            ]
+        );
+        $data['id']=$id;
+
+        $processes = $this->searchService->search($data)->paginate(config('settings.paginate'));
+
+        $processes->setPath('');
+
+        $param = (Input::except('page'));
+
         //set employee info
         $employee = Employee::find($id);
 
-        //set list project
-        $processes = $employee->processes;
+        $roles = Role::pluck('name', 'id');
 
-        //paginate list project
-//        $processes = PaginationService::paginate($processes, 5);
+        if (!isset($employee)) {
+            return abort(404);
+        }
 
-        //set chart
-
-        return view('employee.detail', compact('employee', 'processes'))->render();
+        return view('employee.detail', compact('employee', 'processes', 'roles', 'param'));
     }
 
     public function edit($id)
@@ -135,24 +168,22 @@ class EmployeeController extends Controller
 
     public function destroy($id, Request $request)
     {
-        if ( $request->ajax() ) {
-            $employees = Employee::where('id',$id)->where('delete_flag',0)->first();
+        if ($request->ajax()) {
+            $employees = Employee::where('id', $id)->where('delete_flag', 0)->first();
             $employees->delete_flag = 1;
             $employees->save();
 
-            return response(['msg' => 'Product deleted', 'status' => 'success','id'=> $id]);
+            return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
         }
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
-
 
 
     public function getValueOfEmployee($id)
     {
         $currentEmployee = Employee::find($id);
         $projects = $currentEmployee->projects;
-        foreach ($projects as $project)
-        {
+        foreach ($projects as $project) {
             $this->getValueOfProject($project, $currentEmployee, '');
         }
     }
@@ -163,21 +194,21 @@ class EmployeeController extends Controller
         $income = $project->income;
         $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
         $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
-        if($project->end_date == null){
+        if ($project->end_date == null) {
             $income = ($income / $estimateTime) * $currentTime;
         }
 
         //y
         $processes = $project->processes;
         $powerAllEmployeeOnProject = 0;
-        foreach ($processes as $process){
-            if($process->end_date == null){
+        foreach ($processes as $process) {
+            if ($process->end_date == null) {
                 $powerAllEmployeeOnProject += $this->calculateTime('Y-m-d', $process->start_date) * $process->man_power;
             }
         }
 
         //z
-        if($currentEmployee->processes->where('projects_id', $project->id)->end_date == null){
+        if ($currentEmployee->processes->where('projects_id', $project->id)->end_date == null) {
 
         } else {
 
@@ -189,90 +220,17 @@ class EmployeeController extends Controller
         return (strtotime(date($time1)) - strtotime(date($time2))) / (60 * 60 * 24);
     }
 
-
-    public function searchCommonInList(Request $request){
-        $query = Employee::query();
-
-        $query->with(['team', 'role']);
-
-        if ($request->input('role') != null ){
-            $query
-                ->whereHas('role', function ($query) use ($request) {
-                    $query->where("name", 'like', '%'.$request->input('role').'%');
-                });
-        }
-        if ($request->input('name') != null ){
-                    $query->orWhere('name', 'like', '%'.$request->name.'%');
-        }
-        if ($request->id != null){
-                    $query->orWhere('id', '=', $request->id);
-        }
-        if ($request->team != null) {
-            $query
-                ->whereHas('team', function ($query) use ($request) {
-                    $query->where("name", 'like', '%'.$request->input('team').'%');
-                });
-        }
-        if ($request->email != null) {
-            $query->orWhere('email','like','%'.$request->email.'%');
-        }
-        if ($request->status != null) {
-            $query->orWhere('work_status','like','%'.$request->status.'%');
-        }
-        $employeesSearch = $query->get();
-        return view('employee.list')->with("employees", $employeesSearch);
+    public function  export(Request $request){
+//        $employees = $this->searchEmployeeService->searchEmployee($request);
+//        return view('employee.list', compact('employees'));
+        return Excel::download(new InvoicesExport($this->searchEmployeeService,$request), 'invoices.xlsx');
     }
-
-    public function import_csv(Request $request){  
-        /*Excel::load(Input::file('csv_file'), function($reader) {
-            $reader->each(function($sheet){
-                Employee::firstOrCreate($sheet->toArray());
-                return $sheet;
-            });
-        });
-        return redirect('employee') -> with(['msg_success' => 'Import successfully']);;*/
-        if($request->hasFile('csv_file')){
-            $path = $request->file('csv_file')->getRealPath();
-            $data = Excel::load($path)->get();
-            if($data->count()){
-                foreach ($data as $key => $value) {
-                    $employee_list[] = [
-                        'email' => $value -> email,
-                        'name' => $value -> name,
-                        'password' => $value -> password,
-                        'remember_token' => $value -> remember_token,
-                        'birthday' => $value -> birthday,
-                        'gender' => $value -> gender,
-                        'mobile' => $value -> mobile,
-                        'address' => $value -> address,
-                        'marital_status' => $value -> marital_status,
-                        'startwork_date' => $value -> startwork_date,
-                        'endwork_date' => $value -> endwork_date,
-                        'is_employee' => $value -> is_employee,
-                        'company' => $value -> company,
-                        'employee_type_id' => $value -> employee_type_id,
-                        'team_id' => $value -> team_id,
-                        'role_id' => $value -> role_id,
-                        'updated_at' => $value -> updated_at,
-                        'delete_flag' => $value -> delete_flag    
-                    ];
-                }
-                if(!empty($employee_list)){
-                    Employee::insert($employee_list);
-                    Session::flash('success','success');
-                }
-            }
-        }else{
-            \Session::flash('fail','fail');
-        }
-        return redirect('employee');
-    }
-/*
-        ALL DEBUG 
-        echo "<pre>";
-        print_r($employees);
-        die;
-        var_dump(): user in view;
-        dd(); view array
-*/
+    /*
+            ALL DEBUG
+            echo "<pre>";
+            print_r($employees);
+            die;
+            var_dump(): user in view;
+            dd(); view array
+    */
 }
