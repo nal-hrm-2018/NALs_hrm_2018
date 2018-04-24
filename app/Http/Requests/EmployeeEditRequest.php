@@ -22,6 +22,7 @@ class EmployeeEditRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
+            'confirm_confirmation' => 'same:password',
             'name' => 'required',
             'address' => 'required',
             'gender' => 'required',
@@ -45,6 +46,14 @@ class EmployeeEditRequest extends FormRequest
             ]),
             'email.email' => trans('validation.email', [
                 'attribute' => 'Email'
+            ]),
+            
+            'password.min' => trans('validation.min.string', [
+                'attribute' => 'Password',
+                'min' => '6'
+            ]),
+            'confirm_confirmation.same' => trans('validation.same', [
+                'attribute' => 'confirm password'
             ]),
             'name.required' => trans('validation.required', [
                 'attribute' => 'Name'

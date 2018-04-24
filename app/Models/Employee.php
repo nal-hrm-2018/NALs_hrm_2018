@@ -64,19 +64,19 @@ class Employee extends Model implements
     {
         return $this->hasOne('App\Models\Role', 'id', 'role_id');
     }
+
     public function team()
     {
-        return $this->hasOne(\App\Models\Team::class , 'id', 'team_id');
+        return $this->belongsTo(Team::class);
     }
 
-    public function teams(){
-        return $this->belongsTo('App\Models\Team');
+    public function employee_type()
+    {
+        return $this->belongsTo(Employee_types::class);
     }
+
     public function roles(){
         return $this->belongsTo('App\Models\Role');
-    }
-    public function employeeType(){
-        return $this->belongsTo('App\Models\EmployeeType');
     }
     public function processes(){
         return $this->hasMany('App\Models\Process');

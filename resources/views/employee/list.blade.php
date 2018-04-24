@@ -134,7 +134,7 @@
 
         <!-- Main content -->
         <?php
-        if (Session::get('msg_fail') != "") {
+        if (Session::has('msg_fail')) {
             echo '<div>
                 <ul class=\'error_msg\'>
                     <li>' . Session::get("msg_fail") . '</li>
@@ -143,7 +143,7 @@
         }
         ?>
         <?php
-        if (Session::get('msg_success') != "") {
+        if (Session::has('msg_success')) {
             echo '<div>
                 <ul class=\'result_msg\'>
                     <li>' . Session::get("msg_success") . '</li>

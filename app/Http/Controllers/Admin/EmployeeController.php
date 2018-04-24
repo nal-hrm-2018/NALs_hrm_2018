@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\EmployeeType;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Requests\EmployeeAddRequest;
 use App\Http\Requests\EmployeeEditRequest;
 use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
+use App\Models\Employee_types;
 use DateTime;
 class EmployeeController extends Controller
 {
     public function getEmployeeAdd(){
     	$dataTeam = Team::select('id','name')->get()->toArray();
     	$dataRoles = Role::select('id','name')->get()->toArray();
+    	$dataEmployeeTypes = Employee_types::select('id','name')->get()->toArray();
     	$dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
     	return view('admin.module.employees.add',['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
@@ -51,6 +51,7 @@ class EmployeeController extends Controller
         $objEmployee = Employee::findOrFail($id)->toArray();
         $dataTeam = Team::select('id','name')->get()->toArray();
         $dataRoles = Role::select('id','name')->get()->toArray();
+        $dataEmployeeTypes = Employee_types::select('id','name')->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
         return view('admin.module.employees.edit',['objEmployee' => $objEmployee,'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }

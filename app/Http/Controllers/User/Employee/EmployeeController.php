@@ -7,7 +7,7 @@
  */
 
 namespace App\Http\Controllers\User\Employee;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -60,10 +60,12 @@ class EmployeeController extends Controller
         $employee -> created_at = new DateTime();
         $employee -> delete_flag = 0;
         if($objEmployee != null){ 
-            return redirect('employee/create') -> with(['msg_fail' => 'Add failed!!!Email already exists', 'employee' => $employee]);
+            \Session::flash('msg_fail', 'Add failed!!! Email already exists!!!');
+            return redirect('employee/create') -> with(['employee' => $employee]);
         }else{
             $employee ->save();
-            return redirect('employee')->with(['msg_success' => 'Account successfully created']);
+            \Session::flash('msg_fail', 'Account successfully created!!!');
+            return redirect('employee');
         }
     }
 
@@ -90,14 +92,23 @@ class EmployeeController extends Controller
         $dataTeam = Team::select('id','name')->get()->toArray();
         $dataRoles = Role::select('id','name')->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id','name')->get()->toArray();
+
         return view('admin.module.employees.edit',['objEmployee' => $objEmployee,'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
     {
         $objEmployee = Employee::select('email')->where('email','like',$request -> email)->where('id','<>',$id)->get()->toArray();
+        $pass = $request -> password;
         $employee = Employee::find($id);
         $employee -> email = $request -> email;
+        if($pass != null){
+            if(strlen($pass) < 6){
+                return back()->with(['minPass' => 'The Password must be at least 6 characters.' , 'employee'=>$employee]);
+            }else{
+                $employee -> password = bcrypt($request -> password);
+            }
+        }  
         $employee -> name = $request -> name;
         $employee -> birthday = $request -> birthday;  
         $employee -> gender = $request -> gender;
@@ -112,11 +123,13 @@ class EmployeeController extends Controller
         $employee -> role_id = $request -> role_id;
         $employee -> updated_at = new DateTime();
         if($objEmployee != null){
-            return back()->with(['msg_fail' => 'Edit failed!!! Email already exists','employee'=>$employee]);
+            \Session::flash('msg_fail', 'Edit failed!!! Email already exists!!!');
+            return back()->with(['employee'=>$employee]);
             // return redirect('employee/'.$id.'/edit') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
         }else{
             $employee ->save();
-            return redirect('employee') -> with(['msg_success' => 'Account successfully edited']);
+            \Session::flash('msg_success', 'Account successfully edited!!!');
+            return redirect('employee');    
         }
     }
 
