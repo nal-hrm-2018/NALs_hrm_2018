@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers\User\Employee;
 
+use App\Models\Project;
+use App\Service\ChartService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -24,6 +26,12 @@ use Excel;
 use Input;
 class EmployeeController extends Controller
 {
+    private $chartService;
+    public function __construct(ChartService $chartService)
+    {
+        $this->chartService = $chartService;
+    }
+
     public function index()
     {
         $employees = Employee::where('delete_flag','=',0)->get(); 
@@ -76,18 +84,18 @@ class EmployeeController extends Controller
         //set list project
         $processes = $employee->processes;
 
-        //paginate list project
-//        $processes = PaginationService::paginate($processes, 5);
-
         //set chart
+        $year = date('Y');
+        $listValue = $this->chartService->getListValueOfMonth($employee, $year);
 
-//        $roles = Role::all();
+        //set list years
+        $listYears = $this->chartService->getListYear($employee);
 
         if(!isset($employee)){
             return abort(404);
         }
 
-        return view('employee.detail', compact('employee', 'processes'))->render();
+        return view('employee.detail', compact('employee', 'processes' , 'listValue', 'listYears'))->render();
     }
 
     public function edit($id)
@@ -137,51 +145,6 @@ class EmployeeController extends Controller
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
 
-
-
-    public function getValueOfEmployee($id)
-    {
-        $currentEmployee = Employee::find($id);
-        $projects = $currentEmployee->projects;
-        foreach ($projects as $project)
-        {
-            $this->getValueOfProject($project, $currentEmployee, '');
-        }
-    }
-
-    public function getValueOfProject(Project $project, Employee $currentEmployee, $currentMonth)
-    {
-        //x
-        $income = $project->income;
-        $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
-        $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
-        if($project->end_date == null){
-            $income = ($income / $estimateTime) * $currentTime;
-        }
-
-        //y
-        $processes = $project->processes;
-        $powerAllEmployeeOnProject = 0;
-        foreach ($processes as $process){
-            if($process->end_date == null){
-                $powerAllEmployeeOnProject += $this->calculateTime('Y-m-d', $process->start_date) * $process->man_power;
-            }
-        }
-
-        //z
-        if($currentEmployee->processes->where('projects_id', $project->id)->end_date == null){
-
-        } else {
-
-        }
-    }
-
-    public function calculateTime($time1, $time2)
-    {
-        return (strtotime(date($time1)) - strtotime(date($time2))) / (60 * 60 * 24);
-    }
-
-
     public function searchCommonInList(Request $request){
         $query = Employee::query();
 
@@ -224,12 +187,12 @@ class EmployeeController extends Controller
         });
         return redirect('employee') -> with(['msg_success' => 'Import successfully']);;
     }
-/*
-        ALL DEBUG 
-        echo "<pre>";
-        print_r($employees);
-        die;
-        var_dump(): user in view;
-        dd(); view array
-*/
+
+    public function showChart($id, Request $request){
+        $year = $request->year;
+        $employee = Employee::find($id);
+        $listValue = $this->chartService->getListValueOfMonth($employee, $year);
+        return response(['listValue' => $listValue]);
+    }
+
 }

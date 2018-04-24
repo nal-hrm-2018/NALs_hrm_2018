@@ -28,12 +28,7 @@
                     <div class="input-group-btn">
                         <button type="button" class="btn width-100">Start Date</button>
                     </div>
-                    {{ Form::date('start_date', '',
-                       ['class' => 'form-control',
-                                  ['class' => 'form-control',
-                        'id' => 'start_date', 'autofocus' => true
-                        ])
-                    }}
+
             </div>
             <div class="input-group margin">
                 <div class="input-group-btn">

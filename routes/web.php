@@ -78,4 +78,8 @@ Route::get('/search ', 'User\Employee\EmployeeController@searchCommonInList')->n
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
 Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csvxxx')->name('import_csv');
+Route::post('/employee/{id}', [
+    'as' => 'show_chart',
+    'uses' => 'User\Employee\EmployeeController@showChart',
+]);
 /*the end route list employee by Quy*/
