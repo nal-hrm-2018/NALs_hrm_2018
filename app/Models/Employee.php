@@ -30,7 +30,6 @@ class Employee extends Model implements
 
     protected $fillable = [
         'id',
-        'name',
         'email',
         'password',
         'remember_token',

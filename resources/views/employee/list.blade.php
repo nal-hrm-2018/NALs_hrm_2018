@@ -31,7 +31,7 @@
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
-                        <form action="{{asset('search')}}" method="get" role="form">
+                        <form method="get" role="form">
                             <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -89,7 +89,8 @@
                                     <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                         RESET
                                     </button>
-                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span class="fa fa-search"></span>
+                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
+                                                class="fa fa-search"></span>
                                         SEARCH
                                     </button>
                                 </div>
@@ -102,36 +103,59 @@
                 <button type="button" class="btn btn-default">
                     <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
-                <!-- <button type="button" class="btn btn-default">
-                    <a href="#"><i class="fa fa-users"></i> IMPORT</a>
-                </button> -->
-                <div class="nav navbar-nav">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
+                </button>
+                <!-- <div class="nav navbar-nav">
                   <div class="dropdown user user-menu">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
                     </button>
                     <div class="dropdown-menu">
-                      <!-- User image -->
                       <div class="user-header">
-                            <form action="{{ asset('employee/import_csv')}}" method="post">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="file" name="csv_file">
-                                <br/>
-                                <input type="submit" value="Import Data">
-                            </form>
+                        {!! Form::open(array('route'=>'import_csv', 'method'=>'POST', 'files'=>'true')) !!}
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="file" name="csv_file">
+                            <br/>
+                            <input type="submit" value="Import Data">
+                        {!! Form::close() !!}
                       </div>
                     </div>
-                  </div>
-                </div>
-                <button type="button" class="btn btn-default">
-                    <a href="#"><i class="fa fa-vcard"></i> EXPORT</a>
+                </div> -->
+                <?php
+                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
+                $arrays[] = $_GET;
+                foreach ($arrays as $key => $value) {
+                    if (!empty($value['id'])) {
+                        $id = $value['id'];
+                    }
+                    if (!empty($value['name'])) {
+                        $name = $value['name'];
+                    }
+                    if (!empty($value['team'])) {
+                        $team = $value['team'];
+                    }
+                    if (!empty($value['role'])) {
+                        $role = $value['role'];
+                    }
+                    if (!empty($value['email'])) {
+                        $email = $value['email'];
+                    }
+                    if (!empty($value['status'])) {
+                        $status = $value['status'];
+                    }
+                }
+                ?>
+                <button type="button" class="btn btn-default export-employee">
+                    <a href="{{asset('export').'?'.'id='.$id.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
+                        <i class="fa fa-vcard"></i> EXPORT</a>
                 </button>
             </ol>
         </section>
 
         <!-- Main content -->
         <?php
-        if (Session::get('msg_fail') != "") {
+        if (Session::has('msg_fail')) {
             echo '<div>
                 <ul class=\'error_msg\'>
                     <li>' . Session::get("msg_fail") . '</li>
@@ -140,7 +164,7 @@
         }
         ?>
         <?php
-        if (Session::get('msg_success') != "") {
+        if (Session::has('msg_success')) {
             echo '<div>
                 <ul class=\'result_msg\'>
                     <li>' . Session::get("msg_success") . '</li>
@@ -148,6 +172,7 @@
             </div>';
         }
         ?>
+
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -167,18 +192,26 @@
                                 </thead>
                                 <tbody class="context-menu">
                                 @foreach($employees as $employee)
-                                    <tr class="contextMenu">
+                                    <tr class="employee-menu" id="employee-id-{{$employee->id}}"
+                                        data-employee-id="{{$employee->id}}">
                                         <td>{{ $employee->id }}</td>
                                         <td>{{ $employee->name }}</td>
-                                        <td>{{ isset($employee->team)?$employee->team->first()->name:'' }}</td>
-                                        <td>{{ isset($employee->role)?$employee->role->first()->name:'' }}</td>
+                                        <td>{{ isset($employee->team)? $employee->team->name: ""}}</td>
+                                        <td>{{ isset($employee->team)? $employee->role->name: "" }}</td>
                                         <td>{{ $employee->email }}</td>
-                                        <td>{{ $employee->work_status }}</td>
                                         <td>
-                                            <ul class="contextMenu" hidden>
-                                                <li><a href="#"><i class="fa fa-id-card"></i> View</a></li>
-                                                <li><a href="employee/edit/{{$employee->id}}"><i class="fa fa-edit"></i> Edit</a></li>
-                                                <li><a href="#"><i class="fa fa-remove"></i> Remove</a></li>
+                                            @if($employee->work_status == 0) Action
+                                            @elseif($employee->work_status == 1) Out
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
+                                                <li><a href="employee/view/{{$employee->id}}"><i
+                                                                class="fa fa-id-card"></i> View</a></li>
+                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
+                                                        Edit</a></li>
+                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
+                                                                class="fa fa-remove"></i> Remove</a></li>
                                             </ul>
                                         </td>
 
@@ -203,34 +236,23 @@
 
     <script type="text/javascript">
         $(function () {
+
             $('tr.employee-menu').on('contextmenu', function (event) {
                 event.preventDefault();
+                $('ul.contextMenu').fadeOut("fast");
                 var eId = $(this).data('employee-id');
-                $('ul.contextMenu[data-employee-id="'+eId+'"')
+                $('ul.contextMenu[data-employee-id="' + eId + '"')
                     .show()
                     .css({top: event.pageY - 150, left: event.pageX - 250, 'z-index': 300});
 
             });
             $(document).click(function () {
-
                 if ($('ul.contextMenu:hover').length === 0) {
                     $('ul.contextMenu').fadeOut("fast");
                 }
             });
         });
 
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('#employee-list').DataTable({
-                'paging': true,
-                'lengthChange': true,
-                'searching': false,
-                'ordering': true,
-                'info': true,
-                'autoWidth': false
-            });
-        });
     </script>
     <script type="text/javascript">
         $(function () {
@@ -250,9 +272,9 @@
                             _token: '{{csrf_token()}}',
                         },
                         success: function (msg) {
-                            alert("Remove "+msg.status);
-                            var fade = "employee-id-"+msg.id;
-                            var fadeElement = $('#'+fade);
+                            alert("Remove " + msg.status);
+                            var fade = "employee-id-" + msg.id;
+                            var fadeElement = $('#' + fade);
                             console.log(fade);
                             fadeElement.fadeOut("fast");
                         }
@@ -261,5 +283,57 @@
             });
         });
     </script>
-    }
+
+
+    {{--<script type="text/javascript">
+        $(function () {
+            $('.btn.btn-default.export-employee').click(function () {
+                var url = $(this).data('employee-id');
+                if (confirm('Are you want to export file csv?')) {
+                    $.ajax({
+                        type: "GET",
+                        url: '{{ url('/export') }}',
+                        dataType: 'JSON',
+                        data: {
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            'url': url,
+                            '_method': 'GET',
+                            _token: '{{csrf_token()}}',
+                        },
+                        success: function (msg) {
+                            alert("OK "+msg.url);
+                            console.log(msg.status);
+                        },
+                        error: function (error) {
+                            alert(error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>--}}
+    {{--<script>
+        $(document).ready(function () {
+            $('#employee-list').DataTable({
+                "scrollY" : 800,
+                "scrollX" : true,
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "columns": [
+                    {"orderDataType": "dom-text-numeric"},
+                    {"orderDataType": "dom-text-numeric"},
+                    {"orderDataType": "dom-text-numeric"},
+                    {"orderDataType": "dom-text-numeric"},
+                    {"orderDataType": "dom-text-numeric"},
+                    {"orderDataType": "dom-text-numeric"}
+                ]
+            });
+        });
+    </script>--}}
 @endsection

@@ -1,24 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
+    <script>
+        document.getElementById('email').title = "";
+    </script>
     <div class="login-box">
         <div class="login-logo">
-            <img class="image-logon" src="{!! asset('admin/templates/images/login/images/logo/logo.jpg') !!}" alt="User Image">
+            <img class="image-logon" src="{!! asset('admin/templates/images/login/images/logo/logo.jpg') !!}"
+                 alt="User Image">
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg"></p>
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group has-feedback">
-                    <input id="email" type="email"
+                    <input id="email"
+                           type="email"
                            class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                           name="email" value="{{ old('email') }}" required autofocus>
+                           name="email"
+                           value="{{ old('email') }}"
+                           placeholder="{{ trans('auth.placeholder_email') }}"
+                           autofocus
+                    />
 
                     @if ($errors->has('email'))
                         <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong class="invalid-login">{{ $errors->first('email') }}</strong>
                                     </span>
 
                     @endif
@@ -27,11 +36,12 @@
                 <div class="form-group has-feedback">
                     <input id="password" type="password"
                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                           name="password" required>
+                           placeholder="{{ trans('auth.placeholder_password') }}"
+                           name="password">
 
                     @if ($errors->has('password'))
                         <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
+                                        <strong class="invalid-login">{{ $errors->first('password') }}</strong>
                                     </span>
                     @endif
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>

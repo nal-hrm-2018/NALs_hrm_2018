@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use Faker\Factory as Faker;
 class EmployeeSeeder extends Seeder
 {
     /**

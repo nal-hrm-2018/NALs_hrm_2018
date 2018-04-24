@@ -13,6 +13,9 @@
     <!-- Custom Css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/login/css/custom.css') }} ">
 
+    <!-- Custom js -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/js/login/js/custom.js') }} ">
+
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/bower_components/bootstrap/dist/css/bootstrap.css') }} ">
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/bower_components/font-awesome/css/font-awesome.min.css') }}">

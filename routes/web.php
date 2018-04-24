@@ -35,11 +35,6 @@ Route::post('/register', [
 
 Route::group(['prefix'=>'employee','middleware'=>'user'],function (){
 
-    Route::get('/setupsearch', [
-        'as'=>'setupsearch',
-        'uses'=>'User\Employee\SearchController@setupsearch',
-    ]);
-
     Route::get('/search-process', [
         'as'=>'search-process',
         'uses'=>'User\Employee\SearchController@search']);
@@ -57,7 +52,14 @@ Route::group(['middleware'=>'user'],function (){
         'as' => 'dashboard-user',
         'uses' => 'User\DashboardController@index',
     ]);
+    Route::resource('employee','User\Employee\EmployeeController');
+    Route::post('/employee/{id}', [
+        'as' => 'show_chart',
+        'uses' => 'User\Employee\EmployeeController@showChart',
+    ]);
+    Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csv')->name('import_csv');
 
+    Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
 });
 
 //cong list route cam pha'
@@ -72,14 +74,8 @@ Route::get('/employee/edit/{id}',['as' => 'getEmployeeEdit', 'uses' => 'Admin\Em
 Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\EmployeeController@postEmployeeEdit']); */
 
 /*begin route list employee by Quy*/
-Route::resource('employee','User\Employee\EmployeeController');
 
-Route::get('/search ', 'User\Employee\EmployeeController@searchCommonInList')->name('search');
+
+
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
-Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csvxxx')->name('import_csv');
-Route::post('/employee/{id}', [
-    'as' => 'show_chart',
-    'uses' => 'User\Employee\EmployeeController@showChart',
-]);
-/*the end route list employee by Quy*/

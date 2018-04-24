@@ -57,17 +57,24 @@
                                             <p>Birthday: <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
                                             <p>Phone: <strong>{{$employee->mobile}}</strong></p>
                                             <p>Address: <strong>{{$employee->address}}</strong></p>
-                                            <p>Marrital Status:
+                                            <p>Marital Status:
                                                 @if($employee->marital_status == 1) <strong>Single</strong>
                                                 @elseif($employee->marital_status == 2) <strong>Married</strong>
                                                 @elseif($employee->marital_status == 3) <strong>N/A</strong>
                                                 @elseif($employee->marital_status == 4) <strong>N/A</strong>
                                                 @endif
                                             </p>
-                                            <p>Team: <strong>{{ isset($employee->teams)?$employee->teams->name:'' }}</strong></p>
-                                            <p>Role: <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'' }}</strong></p>
+                                            <p>Team: <strong>{{ isset($employee->teams)?$employee->teams->name:'-' }}</strong></p>
+                                            <p>Role: <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'-' }}</strong></p>
 
                                             <p>Policy Date: <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}} - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
+                                            <p>Policy Status:
+                                                @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
+                                                    <strong>Unexpired</strong>
+                                                @else
+                                                    <strong>Expire</strong>
+                                                @endif
+                                            </p>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="row">
@@ -119,43 +126,20 @@
                         <!-- /.post -->
                     </div>
                     <!-- /.tab-pane -->
+
                     <div class="tab-pane" id="project">
                         <div>
                             <button type="button" class="btn btn-info btn-default" data-toggle="modal"
-                                    data-target="#myModal">SEARCH
+                                    data-target="#myModal">
+                                {{ trans('common.button.search')  }}
                             </button>
 
                             <!-- Modal -->
                             @include('employee._model_search_process')
                         </div>
                         <!-- The project -->
-                        <div class="box-body">
-                            <table id="project-list" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Project</th>
-                                    <th>Role</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($processes as $process)
-                                    <tr>
-                                        <td>{{ isset($process->project)?$process->project->id:'' }}</td>
-                                        <td>{{ isset($process->project)?$process->project->name:'' }}</td>
-                                        <td>{{ isset($process->role)?$process->role->name:''}}</td>
-                                        <td>{{date('d/m/Y', strtotime($process->start_date))}}</td>
-                                        <td>{{date('d/m/Y', strtotime($process->end_date))}}</td>
-                                        <td>{{isset($process->project)?$process->project->status:''}}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
 
+                            @include('employee._list_project_employee')
                         @if(isset($param))
                             {{  $processes->appends($param)->render() }}
                         @endif
@@ -195,7 +179,7 @@
     <script>
         $(document).ready(function () {
             $('#project-list').DataTable({
-                'paging': true,
+                'paging': false,
                 'lengthChange': true,
                 'searching': false,
                 'ordering': true,
@@ -233,7 +217,7 @@
                     color: '#3c8dbc'
                 }
                 showChart(bar_data);
-            })
+            });
         });
     </script>
     <script>
@@ -258,4 +242,5 @@
             })
         }
     </script>
+
 @endsection
