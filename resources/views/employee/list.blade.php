@@ -103,6 +103,9 @@
                 <button type="button" class="btn btn-default">
                     <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
+                <button type="button" class="btn btn-default">
+                    <a href="#"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
+                </button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
                 </button>
@@ -146,8 +149,13 @@
                     }
                 }
                 ?>
-                <button type="button" class="btn btn-default export-employee">
-                    <a href="{{asset('export').'?'.'id='.$id.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
+                <script type="text/javascript">
+                    function clickExport() {
+                        return confirm("Are you sure?")
+                    }
+                </script>
+                <button type="button" class="btn btn-default export-employee" onclick="return clickExport()">
+                    <a id="export" href="{{asset('export').'?'.'id='.$id.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
                         <i class="fa fa-vcard"></i> EXPORT</a>
                 </button>
             </ol>
@@ -200,13 +208,13 @@
                                         <td>{{ isset($employee->team)? $employee->role->name: "" }}</td>
                                         <td>{{ $employee->email }}</td>
                                         <td>
-                                            @if($employee->work_status == 0) Action
-                                            @elseif($employee->work_status == 1) Out
+                                            @if($employee->work_status == 0) Active
+                                            @elseif($employee->work_status == 1) Unactive
                                             @endif
                                         </td>
                                         <td>
                                             <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-                                                <li><a href="employee/view/{{$employee->id}}"><i
+                                                <li><a href="employee/{{$employee->id}}"><i
                                                                 class="fa fa-id-card"></i> View</a></li>
                                                 <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
                                                         Edit</a></li>
@@ -254,6 +262,7 @@
         });
 
     </script>
+
     <script type="text/javascript">
         $(function () {
             $('.btn-employee-remove').click(function () {
