@@ -8,12 +8,14 @@
 
 namespace App\Http\Controllers\User\Employee;
 
+
+
+use App\Service\ChartService;
 use App\Export\InvoicesExport;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeAddRequest;
-use App\Http\Requests\EmployeeEditRequest;
 use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
@@ -24,6 +26,7 @@ use App\Http\Requests\SearchRequest;
 use Illuminate\Support\Facades\Input;
 use App\Models\Status;
 
+
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
@@ -33,16 +36,19 @@ class EmployeeController extends Controller
      */
     private $searchEmployeeService;
     protected $searchService;
+    private $chartService;
 
-    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService)
+    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService, ChartService $chartService)
     {
         $this->searchService = $searchService;
         $this->searchEmployeeService = $searchEmployeeService;
+        $this->chartService = $chartService;
     }
 
     public function index(Request $request)
     {
-        $employees = $this->searchEmployeeService->searchEmployee($request);
+
+        $employees = $this->searchEmployeeService->searchEmployee($request)->get();
 
         return view('employee.list', compact('employees'));
     }
@@ -105,7 +111,7 @@ class EmployeeController extends Controller
 
         $data['id']=$id;
 
-        $processes = $this->searchService->search($data)->paginate($data['number_record_per_page']);
+        $processes = $this->searchService->search($data)->orderBy('project_id','desc')->paginate($data['number_record_per_page']);
 
         $processes->setPath('');
 
@@ -131,7 +137,15 @@ class EmployeeController extends Controller
             return abort(404);
         }
 
-        return view('employee.detail', compact('employee', 'processes', 'roles','project_statuses', 'param','active'));
+
+        //set chart
+        $year = date('Y');
+        $listValue = $this->chartService->getListValueOfMonth($employee, $year);
+
+        //set list years
+        $listYears = $this->chartService->getListYear($employee);
+
+        return view('employee.detail', compact('employee', 'processes' , 'listValue', 'listYears', 'roles', 'param','project_statuses','active'))->render();
     }
 
     public function edit($id)
@@ -194,51 +208,18 @@ class EmployeeController extends Controller
     }
 
 
-    public function getValueOfEmployee($id)
-    {
-        $currentEmployee = Employee::find($id);
-        $projects = $currentEmployee->projects;
-        foreach ($projects as $project) {
-            $this->getValueOfProject($project, $currentEmployee, '');
-        }
+
+    public function showChart($id, Request $request){
+        $year = $request->year;
+        $employee = Employee::find($id);
+        $listValue = $this->chartService->getListValueOfMonth($employee, $year);
+        return response(['listValue' => $listValue]);
     }
 
-    public function getValueOfProject(Project $project, Employee $currentEmployee, $currentMonth)
-    {
-        //x
-        $income = $project->income;
-        $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
-        $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
-        if ($project->end_date == null) {
-            $income = ($income / $estimateTime) * $currentTime;
-        }
 
-        //y
-        $processes = $project->processes;
-        $powerAllEmployeeOnProject = 0;
-        foreach ($processes as $process) {
-            if ($process->end_date == null) {
-                $powerAllEmployeeOnProject += $this->calculateTime('Y-m-d', $process->start_date) * $process->man_power;
-            }
-        }
-
-        //z
-        if ($currentEmployee->processes->where('projects_id', $project->id)->end_date == null) {
-
-        } else {
-
-        }
-    }
-
-    public function calculateTime($time1, $time2)
-    {
-        return (strtotime(date($time1)) - strtotime(date($time2))) / (60 * 60 * 24);
-    }
 
     public function  export(Request $request){
-//        $employees = $this->searchEmployeeService->searchEmployee($request);
-//        return view('employee.list', compact('employees'));
-        return Excel::download(new InvoicesExport($this->searchEmployeeService,$request), 'invoices.xlsx');
+        return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'invoices.csv');
     }
     /*
             ALL DEBUG

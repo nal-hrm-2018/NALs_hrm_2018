@@ -10,3 +10,11 @@ function getProjectStatus($project){
      }
      return '';
 }
+
+function getArraySelectOption(int $max ,int $step){
+     $array = [];
+     for($i = 5 ; $i<=$max ;$i=$i+$step){
+         $array[$i]=$i;
+     }
+     return $array;
+}

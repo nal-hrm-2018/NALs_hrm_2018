@@ -4,14 +4,17 @@
     <div class="col-sm-6">
         <div class="dataTables_length" id="project-list_length" style="float:right">
             <label>Show entries
-                <select id="select_length" name="project-list_length"
-                        aria-controls="project-list"
-                        class="form-control input-sm">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
+                {!! Form::select(
+                    'select_length',
+                    getArraySelectOption(25,5) ,
+                    null ,
+                    [
+                    'id'=>'select_length',
+                    'class' => 'form-control input-sm',
+                    'aria-controls'=>"project-list"
+                    ]
+                    )
+                 !!}
             </label>
         </div>
     </div>
@@ -21,8 +24,6 @@
             $('#select_length').change(function () {
                 $("#number_record_per_page").val($(this).val());
                 $('#form_search_process').submit()
-                // var val = $(this).val();
-                // alert(val);
             });
         })();
 
