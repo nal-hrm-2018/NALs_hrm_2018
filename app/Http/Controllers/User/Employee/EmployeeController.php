@@ -25,10 +25,8 @@ use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
 use Illuminate\Support\Facades\Input;
 use App\Models\Status;
-
-
 use Maatwebsite\Excel\Facades\Excel;
-
+use App\Http\Requests\EmployeeEditRequest;
 class EmployeeController extends Controller
 {
     /**
@@ -93,6 +91,11 @@ class EmployeeController extends Controller
     }
 
 
+    /**
+     * @param $id
+     * @param SearchRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function show($id, SearchRequest $request)
     {
         $data = $request->only([

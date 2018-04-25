@@ -216,7 +216,6 @@
                                         </td>
                                         <td>
                                             <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-
                                                 <li><a href="employee/{{$employee->id}}"><i
                                                                 class="fa fa-id-card"></i> View</a></li>
                                                 <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
