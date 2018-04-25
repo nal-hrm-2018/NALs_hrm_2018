@@ -35,7 +35,7 @@
 
                                         <h3 class="profile-username text-center">{{$employee->name}}</h3>
 
-                                        <p class="text-muted text-center">{{isset($employee->employeeType)?$employee->employeeType->name:''}}</p>
+                                        <p class="text-muted text-center">{{isset($employee->employeeType)?$employee->employeeType->name:'-'}}</p>
                                     </div>
                                     <!-- /.box-body -->
                                 </div>
@@ -54,14 +54,14 @@
                                                 @elseif($employee->gender == 3) <strong>N/A</strong>
                                                 @endif
                                             </p>
-                                            <p>Birthday: <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
-                                            <p>Phone: <strong>{{$employee->mobile}}</strong></p>
-                                            <p>Address: <strong>{{$employee->address}}</strong></p>
+                                            <p>Birthday: <strong>{{isset($employee->birthday)?date('d/m/Y', strtotime($employee->birthday)):'-'}}</strong></p>
+                                            <p>Phone: <strong>{{isset($employee->mobile)?$employee->mobile:'-'}}</strong></p>
+                                            <p>Address: <strong>{{isset($employee->address)?$employee->address:'-'}}</strong></p>
                                             <p>Marital Status:
                                                 @if($employee->marital_status == 1) <strong>Single</strong>
                                                 @elseif($employee->marital_status == 2) <strong>Married</strong>
-                                                @elseif($employee->marital_status == 3) <strong>N/A</strong>
-                                                @elseif($employee->marital_status == 4) <strong>N/A</strong>
+                                                @elseif($employee->marital_status == 3) <strong>Separated</strong>
+                                                @elseif($employee->marital_status == 4) <strong>Divorced</strong>
                                                 @endif
                                             </p>
                                             <p>Team: <strong>{{ isset($employee->teams)?$employee->teams->name:'-' }}</strong></p>
@@ -139,7 +139,7 @@
                         </div>
                         <!-- The project -->
 
-                            @include('employee._list_project_employee')
+                        @include('employee._list_project_employee')
                         @if(isset($param))
                             {{  $processes->appends($param)->render() }}
                         @endif
@@ -217,13 +217,6 @@
                     color: '#3c8dbc'
                 }
                 showChart(bar_data);
-            });
-            $('#record-in-page').change(function () {
-                var xmlHttp = new XMLHttpRequest();
-                xmlHttp.open( "POST", '{{ url('/employee') }}' + '/4', false ); // false for synchronous request
-                xmlHttp.send( null );
-                console.log(xmlHttp.responseText);
-                return xmlHttp.responseText;
             });
         });
     </script>

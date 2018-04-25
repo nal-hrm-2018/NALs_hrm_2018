@@ -32,11 +32,11 @@
 
         @foreach($processes as $process)
             <tr>
-                <td>{{ isset($process->project)?$process->project->id:'' }}</td>
-                <td>{{ isset($process->project)?$process->project->name:'' }}</td>
-                <td>{{ isset($process->role)?$process->role->name:''}}</td>
-                <td>{{date('d/m/Y', strtotime($process->start_date))}}</td>
-                <td>{{date('d/m/Y', strtotime($process->end_date))}}</td>
+                <td>{{ isset($process->project)?$process->project->id:'-' }}</td>
+                <td>{{ isset($process->project)?$process->project->name:'-' }}</td>
+                <td>{{ isset($process->role)?$process->role->name:'-'}}</td>
+                <td>{{isset($process->start_date)?date('d/m/Y', strtotime($process->start_date)):'-'}}</td>
+                <td>{{isset($process->end_date)?date('d/m/Y', strtotime($process->end_date)):'-'}}</td>
                 <td>{{isset($process->project)?$process->project->status:''}}</td>
             </tr>
         @endforeach
