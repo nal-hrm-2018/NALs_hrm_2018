@@ -68,7 +68,7 @@
                                         @elseif($employee->marital_status == 4) <strong>Divorced</strong>
                                         @endif
                                     </p>
-                                    <p>Team: <strong>{{$employee->team->name}}</strong></p>
+                                    {{--<p>Team: <strong>{{$employee->team->name}}</strong></p>--}}
                                     <p>Role: <strong>{{isset(Auth::user()->employee_type)?Auth::user()->employee_type->name:" - "}}</strong></p>
                                     <p>Birthday: <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
                                     <p>Policy Date: <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}} - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>

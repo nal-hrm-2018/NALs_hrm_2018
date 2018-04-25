@@ -26,7 +26,7 @@ use App\Http\Requests\SearchRequest;
 use Illuminate\Support\Facades\Input;
 use App\Models\Status;
 use Maatwebsite\Excel\Facades\Excel;
-
+use App\Http\Requests\EmployeeEditRequest;
 class EmployeeController extends Controller
 {
     /**
