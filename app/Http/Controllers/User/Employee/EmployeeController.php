@@ -117,7 +117,6 @@ class EmployeeController extends Controller
 
         $param = (Input::except('page'));
 
-        $param[] =$id;
         $active = $request->all();
 
         if($active){

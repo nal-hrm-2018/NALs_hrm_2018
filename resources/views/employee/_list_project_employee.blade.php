@@ -6,7 +6,7 @@
             <label>Show entries
                 {!! Form::select(
                     'select_length',
-                    getArraySelectOption(25,5) ,
+                    getArraySelectOption() ,
                     null ,
                     [
                     'id'=>'select_length',
