@@ -35,9 +35,6 @@ Route::post('/register', [
 
 Route::group(['prefix'=>'employee','middleware'=>'user'],function (){
 
-    Route::get('/search-process', [
-        'as'=>'search-process',
-        'uses'=>'User\Employee\SearchController@search']);
 
 });
 
@@ -74,6 +71,7 @@ Route::get('/employee/edit/{id}',['as' => 'getEmployeeEdit', 'uses' => 'Admin\Em
 Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\EmployeeController@postEmployeeEdit']); */
 
 /*begin route list employee by Quy*/
+
 
 
 
