@@ -36,10 +36,9 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Search form</h4>
+                                    <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
                                 </div>
                                 <div class="modal-body">
-
                                     <div class="row">
                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                             <div class="input-group margin">
@@ -58,7 +57,14 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Team</button>
                                                 </div>
-                                                <input type="text" name="team" id="teamEmployee" class="form-control">
+                                                <select name="team" class="form-control" >
+                                                    <option selected="selected" value="">{{  trans('employee_detail.drop_box.placeholder-default') }}</option>
+                                                    @foreach($teams as $team)
+                                                        <option value="{{ $team}}">
+                                                            {{ $team }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -72,7 +78,14 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Role</button>
                                                 </div>
-                                                <input type="text" name="role" id="roleEmployee" class="form-control">
+                                                <select name="role" class="form-control" >
+                                                    <option selected="selected" value="">{{  trans('employee_detail.drop_box.placeholder-default') }}</option>
+                                                    @foreach($roles as $role)
+                                                        <option value="{{ $role}}">
+                                                            {{ $role }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
@@ -196,6 +209,8 @@
                                     <th>Role</th>
                                     <th>Email</th>
                                     <th>Status</th>
+                                    <th>CV</th>
+                                    <th hidden></th>
                                 </tr>
                                 </thead>
                                 <tbody class="context-menu">
@@ -205,7 +220,7 @@
                                         <td>{{ $employee->id }}</td>
                                         <td>{{ $employee->name }}</td>
                                         <td>{{ isset($employee->team)? $employee->team->name: ""}}</td>
-                                        <td>{{ isset($employee->team)? $employee->role->name: "" }}</td>
+                                        <td>{{ isset($employee->role)? $employee->role->name: "" }}</td>
                                         <td>{{ $employee->email }}</td>
                                         <td>
                                             @if($employee->work_status == 0) Active
@@ -213,6 +228,10 @@
                                             @endif
                                         </td>
                                         <td>
+                                            <button type="button" class="btn btn-default">
+                                                <a href="#"><i class="fa fa-cloud-download"></i> CV</a>
+                                            </button>
+                                        </td>
                                             <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                                                 <li><a href="employee/{{$employee->id}}"><i
                                                                 class="fa fa-id-card"></i> View</a></li>
@@ -221,7 +240,6 @@
                                                 <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
                                                                 class="fa fa-remove"></i> Remove</a></li>
                                             </ul>
-                                        </td>
 
                                     </tr>
                                 @endforeach
@@ -283,6 +301,7 @@
                         success: function (msg) {
                             alert("Remove " + msg.status);
                             var fade = "employee-id-" + msg.id;
+                            $('ul.contextMenu[data-employee-id="' + msg.id + '"').hide()
                             var fadeElement = $('#' + fade);
                             console.log(fade);
                             fadeElement.fadeOut("fast");
@@ -323,7 +342,7 @@
             });
         });
     </script>--}}
-    {{--<script>
+    <script>
         $(document).ready(function () {
             $('#employee-list').DataTable({
                 "scrollY" : 800,
@@ -344,5 +363,5 @@
                 ]
             });
         });
-    </script>--}}
+    </script>
 @endsection

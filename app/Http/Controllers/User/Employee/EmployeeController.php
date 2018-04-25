@@ -49,8 +49,9 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $employees = $this->searchEmployeeService->searchEmployee($request)->get();
-
-        return view('employee.list', compact('employees'));
+        $roles = Role::pluck('name','id');
+        $teams = Team::pluck('name','id');
+        return view('employee.list', compact('employees','roles','teams'));
     }
 
     public function create()
