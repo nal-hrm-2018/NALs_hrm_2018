@@ -9,25 +9,24 @@
 namespace App\Http\Controllers\User\Employee;
 
 
+
 use App\Service\ChartService;
-use Illuminate\Support\Facades\Auth;
 use App\Export\InvoicesExport;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Requests\EmployeeAddRequest;
-use App\Http\Requests\EmployeeEditRequest;
 use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
 use DateTime;
-use Aws\S3\S3Client;
-use Aws\S3\Exception\S3Exception;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
 use Illuminate\Support\Facades\Input;
+use App\Models\Status;
+
+
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
@@ -48,6 +47,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
+
         $employees = $this->searchEmployeeService->searchEmployee($request)->get();
         $roles = Role::pluck('name','id');
         $teams = Team::pluck('name','id');
@@ -97,30 +97,47 @@ class EmployeeController extends Controller
     public function show($id, SearchRequest $request)
     {
         $data = $request->only([
-                'id' => null,
                 'project_name' => $request->get('project_name'),
                 'role' => $request->get('role'),
                 'start_date' => $request->get('start_date'),
                 'end_date' => $request->get('end_date'),
-                'project_status' => $request->get('project_status')
+                'project_status' => $request->get('project_status'),
+                'number_record_per_page' => $request->get('number_record_per_page')
             ]
         );
+
+        if(!isset($data['number_record_per_page'])){
+            $data['number_record_per_page']= config('settings.paginate');
+        }
+
         $data['id']=$id;
 
-        $processes = $this->searchService->search($data)->paginate(config('settings.paginate'));
+        $processes = $this->searchService->search($data)->orderBy('project_id','desc')->paginate($data['number_record_per_page']);
 
         $processes->setPath('');
 
         $param = (Input::except('page'));
 
+        $param[] =$id;
+        $active = $request->all();
+
+        if($active){
+            $active='project';
+        }else{
+            $active='basic';
+        }
+
         //set employee info
         $employee = Employee::find($id);
 
-        $roles = Role::pluck('name', 'id');
+        $roles = Role::pluck('name', 'id')->prepend(trans('employee_detail.drop_box.placeholder-default'));;
+
+        $project_statuses = Status::pluck('name','id')->prepend(trans('employee_detail.drop_box.placeholder-default'));
 
         if (!isset($employee)) {
             return abort(404);
         }
+
 
         //set chart
         $year = date('Y');
@@ -129,7 +146,7 @@ class EmployeeController extends Controller
         //set list years
         $listYears = $this->chartService->getListYear($employee);
 
-        return view('employee.detail', compact('employee', 'processes' , 'listValue', 'listYears', 'roles', 'param'))->render();
+        return view('employee.detail', compact('employee', 'processes' , 'listValue', 'listYears', 'roles', 'param','project_statuses','active'))->render();
     }
 
     public function edit($id)
@@ -199,6 +216,7 @@ class EmployeeController extends Controller
         $listValue = $this->chartService->getListValueOfMonth($employee, $year);
         return response(['listValue' => $listValue]);
     }
+
 
 
     public function  export(Request $request){

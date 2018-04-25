@@ -18,6 +18,9 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
     {
         $query = Employee::query();
 
+        $query->with(['team', 'role']);
+
+
         $params['search'] = [
             'id' => !empty($request->id) ? $request->id : '',
             'name' => !empty($request->name) ? $request->name : '',
