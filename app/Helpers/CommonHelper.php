@@ -11,10 +11,8 @@ function getProjectStatus($project){
      return '';
 }
 
-function getArraySelectOption(int $max ,int $step){
-     $array = [];
-     for($i = 5 ; $i<=$max ;$i=$i+$step){
-         $array[$i]=$i;
-     }
+function getArraySelectOption(){
+     $array = ['20'=>'20','50'=>'50','100'=>'100'];
+
      return $array;
 }
