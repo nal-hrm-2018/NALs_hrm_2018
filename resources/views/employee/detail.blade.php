@@ -19,11 +19,15 @@
         <section class="content">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#basic" data-toggle="tab">Basic</a></li>
-                    <li><a href="#project" data-toggle="tab">Project</a></li>
+                    <li class="{{ 'basic'===$active?'active':'' }}">
+                        <a href="#basic" data-toggle="tab">Basic</a>
+                    </li>
+                    <li class="{{ 'project'===$active?'active':'' }}">
+                        <a href="#project" data-toggle="tab">Project</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="active tab-pane" id="basic">
+                    <div class="{{ 'basic'===$active?'active':'' }} tab-pane" id="basic">
                         <div class="row">
                             <div class="col-md-3">
                                 <!-- Profile Image -->
@@ -54,7 +58,8 @@
                                                 @elseif($employee->gender == 3) <strong>N/A</strong>
                                                 @endif
                                             </p>
-                                            <p>Birthday: <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
+                                            <p>Birthday:
+                                                <strong>{{date('d/m/Y', strtotime($employee->birthday))}}</strong></p>
                                             <p>Phone: <strong>{{$employee->mobile}}</strong></p>
                                             <p>Address: <strong>{{$employee->address}}</strong></p>
                                             <p>Marital Status:
@@ -64,10 +69,16 @@
                                                 @elseif($employee->marital_status == 4) <strong>N/A</strong>
                                                 @endif
                                             </p>
-                                            <p>Team: <strong>{{ isset($employee->teams)?$employee->teams->name:'-' }}</strong></p>
-                                            <p>Role: <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'-' }}</strong></p>
+                                            <p>Team:
+                                                <strong>{{ isset($employee->teams)?$employee->teams->name:'-' }}</strong>
+                                            </p>
+                                            <p>Role:
+                                                <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'-' }}</strong>
+                                            </p>
 
-                                            <p>Policy Date: <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}} - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
+                                            <p>Policy Date:
+                                                <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}}
+                                                    - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
                                             <p>Policy Status:
                                                 @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
                                                     <strong>Unexpired</strong>
@@ -85,10 +96,13 @@
                                                         <select class="form-control" id="sel1" name="year">
                                                             @if(count($listYears))
                                                                 @foreach($listYears as $year)
-                                                                    <option @if($year == $listValue[0]) selected @endif value="{{$year}}">Resource Chart - {{$year}}</option>
+                                                                    <option @if($year == $listValue[0]) selected
+                                                                            @endif value="{{$year}}">Resource Chart
+                                                                        - {{$year}}</option>
                                                                 @endforeach
                                                             @else
-                                                                <option value="{{$listValue[0]}}">Resource Chart - {{$listValue[0]}}</option>
+                                                                <option value="{{$listValue[0]}}">Resource Chart
+                                                                    - {{$listValue[0]}}</option>
                                                             @endif
                                                         </select>
                                                     </div>
@@ -96,7 +110,8 @@
                                                         <div class="box-header with-border">
                                                             <i class="fa fa-bar-chart-o"></i>
 
-                                                            <h3 class="box-title">Resource Chart - <span id="current-year">{{$listValue[0]}}</span></h3>
+                                                            <h3 class="box-title">Resource Chart - <span
+                                                                        id="current-year">{{$listValue[0]}}</span></h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool"
@@ -125,9 +140,7 @@
                         </div>
                         <!-- /.post -->
                     </div>
-                    <!-- /.tab-pane -->
-
-                    <div class="tab-pane" id="project">
+                    <div class="{{ 'project'===$active?'active':'' }} tab-pane" id="project">
                         <div>
                             <button type="button" class="btn btn-info btn-default" data-toggle="modal"
                                     data-target="#myModal">
@@ -139,19 +152,13 @@
                         </div>
                         <!-- The project -->
 
-                            @include('employee._list_project_employee')
+
+                        @include('employee._list_project_employee')
                         @if(isset($param))
                             {{  $processes->appends($param)->render() }}
                         @endif
-
                     </div>
-
-                    <!-- /.tab-pane -->
-
-
-                    <!-- /.tab-pane -->
                 </div>
-                <!-- /.tab-content -->
             </div>
             <!-- /.nav-tabs-custom -->
         </section>
@@ -203,7 +210,7 @@
                     },
                     success: function (msg) {
                         var bar_data = {
-                            data : [['Jan', msg.listValue[1]], ['Feb', msg.listValue[2]], ['Mar', msg.listValue[3]], ['Apr', msg.listValue[4]], ['May', msg.listValue[5]], ['Jun', msg.listValue[6]], ['Jul', msg.listValue[7]], ['Aug', msg.listValue[8]], ['Sept', msg.listValue[9]], ['Oct', msg.listValue[10]], ['Nov', msg.listValue[11]], ['Dec', msg.listValue[12]]],
+                            data: [['Jan', msg.listValue[1]], ['Feb', msg.listValue[2]], ['Mar', msg.listValue[3]], ['Apr', msg.listValue[4]], ['May', msg.listValue[5]], ['Jun', msg.listValue[6]], ['Jul', msg.listValue[7]], ['Aug', msg.listValue[8]], ['Sept', msg.listValue[9]], ['Oct', msg.listValue[10]], ['Nov', msg.listValue[11]], ['Dec', msg.listValue[12]]],
                             color: '#3c8dbc'
                         }
                         $('#current-year').html(msg.listValue[0]);
@@ -213,7 +220,7 @@
             });
             $(function () {
                 var bar_data = {
-                    data : [['Jan', {{$listValue[1]}}], ['Feb', {{$listValue[2]}}], ['Mar', {{$listValue[3]}}], ['Apr', {{$listValue[4]}}], ['May', {{$listValue[5]}}], ['Jun', {{$listValue[6]}}], ['Jul', {{$listValue[7]}}], ['Aug', {{$listValue[8]}}], ['Sept', {{$listValue[9]}}], ['Oct', {{$listValue[10]}}], ['Nov', {{$listValue[11]}}], ['Dec', {{$listValue[12]}}]],
+                    data: [['Jan', {{$listValue[1]}}], ['Feb', {{$listValue[2]}}], ['Mar', {{$listValue[3]}}], ['Apr', {{$listValue[4]}}], ['May', {{$listValue[5]}}], ['Jun', {{$listValue[6]}}], ['Jul', {{$listValue[7]}}], ['Aug', {{$listValue[8]}}], ['Sept', {{$listValue[9]}}], ['Oct', {{$listValue[10]}}], ['Nov', {{$listValue[11]}}], ['Dec', {{$listValue[12]}}]],
                     color: '#3c8dbc'
                 }
                 showChart(bar_data);

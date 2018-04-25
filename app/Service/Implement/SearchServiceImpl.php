@@ -22,9 +22,9 @@ class SearchServiceImpl extends CommonService implements SearchService
     {
         $query = Process::query();
 
-        if (!empty($request['id'])){
+        if (!empty($request['id'])) {
             $query
-                ->whereHas('employee', function ($query) use($request) {
+                ->whereHas('employee', function ($query) use ($request) {
                     $query->where("id", '=', $request['id']);
                 });
         }
@@ -36,7 +36,9 @@ class SearchServiceImpl extends CommonService implements SearchService
                         $query->where("name", 'like', '%' . $request['project_name'] . '%');
                     }
                     if (!empty($request['project_status'])) {
-                        $query->where("status", 'like', '%' . $request['project_status'] . '%');
+                        $query->whereHas('status', function ($query) use ($request) {
+                            $query->where("status_id",'=', $request['project_status']);
+                        });
                     }
                 });
         }
@@ -53,6 +55,8 @@ class SearchServiceImpl extends CommonService implements SearchService
         if (!empty($request['end_date'])) {
             $query->Where('end_date', '=', $request['end_date']);
         }
+
+        $s = $query->toSql();
 
         return $query;
     }

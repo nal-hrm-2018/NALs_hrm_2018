@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Export;
-use App\Models\Employee;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Models\Employee;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -25,6 +25,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
  * Time: 4:47 PM
  */
 
+
 class InvoicesExport implements FromCollection,WithEvents, WithHeadings
 {
     use Exportable, RegistersEventListeners;
@@ -34,6 +35,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
      * @var Request
      */
     private $request;
+
 
     /**
      * @var Request
@@ -49,6 +51,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
      */
     public function collection()
     {
+
         $query = Employee::query();
         $query->select('employees.id', 'employees.name', 'teams.name as team', 'roles.name as role', 'employees.email', 'employees.work_status')
             ->join('teams','teams.id','=','employees.team_id')

@@ -19,7 +19,7 @@ class SearchRequest extends CommonRequest
     public function rules()
     {
         return[
-
+            'number_record_per_page' => 'integer|min:1',
         ];
 
     }
@@ -27,7 +27,7 @@ class SearchRequest extends CommonRequest
     public function messages()
     {
         return[
-
+            'number_record_per_page.min' => trans('asd')
         ];
 
     }

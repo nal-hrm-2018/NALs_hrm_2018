@@ -103,6 +103,7 @@
                 <button type="button" class="btn btn-default">
                     <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
+
                 <button type="button" class="btn btn-default">
                     <a href="#"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
@@ -149,6 +150,7 @@
                     }
                 }
                 ?>
+
                 <script type="text/javascript">
                     function clickExport() {
                         return confirm("Are you sure?")
@@ -214,6 +216,7 @@
                                         </td>
                                         <td>
                                             <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
+
                                                 <li><a href="employee/{{$employee->id}}"><i
                                                                 class="fa fa-id-card"></i> View</a></li>
                                                 <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>

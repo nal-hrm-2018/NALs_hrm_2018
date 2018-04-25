@@ -1,11 +1,12 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <input id="number_record_per_page" type="hidden" name="number_record_per_page" value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
             <div class="input-group margin">
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{ trans('common.label_form.project_name')  }}</button>
                 </div>
-                {{ Form::text('project_name', '',
+                {{ Form::text('project_name', old('project_name'),
                     ['class' => 'form-control',
                     'id' => 'project_name',
                     'autofocus' => true,
@@ -20,7 +21,9 @@
                     'role',
                     $roles ,
                     null,
-                    ['class' => 'form-control' , 'placeholder' => trans('employee_detail.drop_box.placeholder-default')]
+                    ['id'=>'role',
+                    'class' => 'form-control',
+                    ]
                     )
                  !!}
             </div>
@@ -29,14 +32,15 @@
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{  trans('common.label_form.status_project') }}</button>
                 </div>
-                <select name="project_status" class="form-control" >
-                    <option selected="selected" value="">{{  trans('employee_detail.drop_box.placeholder-default') }}</option>
-                    <option value="1">Kick Off</option>
-                    <option value="2">Pending</option>
-                    <option value="3">In-Progress</option>
-                    <option value="4">Releasing</option>
-                    <option value="5">Complete</option>
-                </select>
+                {!! Form::select(
+                    'project_status',
+                    $project_statuses ,
+                    null,
+                    ['id'=>'project_status',
+                    'class' => 'form-control',
+                    ]
+                    )
+                 !!}
             </div>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -53,7 +57,7 @@
             </div>
             <div class="input-group margin">
                 <div class="input-group-btn">
-                    <button type="button" class="btn width-100">{{  trans('common.label_form.start_date') }}</button>
+                    <button type="button" class="btn width-100">{{  trans('common.label_form.end_date') }}</button>
                 </div>
                 {{ Form::date('end_date', '',
                     ['class' => 'form-control',
