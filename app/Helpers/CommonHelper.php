@@ -12,7 +12,7 @@ function getProjectStatus($project){
 }
 
 function getArraySelectOption(){
-     $array = ['10'=>'10','25'=>'25','50'=>'50','100'=>'100'];
+     $array = ['20'=>'20','50'=>'50','100'=>'100'];
 
      return $array;
 }
