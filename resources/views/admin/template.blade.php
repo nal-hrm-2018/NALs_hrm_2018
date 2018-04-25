@@ -37,7 +37,6 @@
     <div class="control-sidebar-bg"></div>
 </div>
 
-
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{!! asset('admin/templates/js/bower_components/bootstrap/dist/js/bootstrap.min.js') !!}"></script>
