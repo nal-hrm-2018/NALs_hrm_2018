@@ -23,7 +23,7 @@ class ChartServiceImpl extends CommonService implements ChartService
         {
             $totalOnMonth += $this->getValueOfProject($project, $employee, $currentMonth);
         }
-        return $totalOnMonth;
+        return round($totalOnMonth,1);
     }
     public function getValueOfProject(Project $project, Employee $currentEmployee, $currentMonth){
         //x
