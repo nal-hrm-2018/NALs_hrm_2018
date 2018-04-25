@@ -17,7 +17,8 @@
                 <small>Nal solution</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Employee</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="{{asset('/employee')}}"> Employee</a></li>
                 <li><a href="#">List</a></li>
             </ol>
         </section>
@@ -31,7 +32,7 @@
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
-                        <form method="get" role="form">
+                        <form method="get" role="form" id="form_search_process">
                             <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -57,13 +58,20 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Team</button>
                                                 </div>
-                                                <select name="team" class="form-control" >
-                                                    <option selected="selected" value="">{{  trans('employee_detail.drop_box.placeholder-default') }}</option>
-                                                    @foreach($teams as $team)
-                                                        <option value="{{ $team}}">
-                                                            {{ $team }}
+                                                <select name="team" id="team_employee" class="form-control">
+                                                    @if(!empty($_GET['team']))
+                                                        <option selected="selected" {{'hidden'}}  value="">
+                                                            {{$_GET['team']}}
                                                         </option>
-                                                    @endforeach
+                                                    @else
+                                                        <option selected="selected"  value="">
+                                                        {{  trans('employee_detail.drop_box.placeholder-default') }}
+                                                    @endif
+                                                        @foreach($teams as $team)
+                                                            <option value="{{ $team}}">
+                                                                {{ $team }}
+                                                            </option>
+                                                        @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -78,13 +86,22 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Role</button>
                                                 </div>
-                                                <select name="role" class="form-control" >
-                                                    <option selected="selected" value="">{{  trans('employee_detail.drop_box.placeholder-default') }}</option>
-                                                    @foreach($roles as $role)
-                                                        <option value="{{ $role}}">
-                                                            {{ $role }}
+                                                <select name="role" id="role_employee" class="form-control">
+                                                    @if(!empty($_GET['role']))
+                                                        <option selected="selected" {{'hidden'}}  value="">
+                                                        {{$_GET['role']}}
                                                         </option>
-                                                    @endforeach
+                                                        @else
+                                                        <option selected="selected"
+                                                                value="">
+                                                        {{  trans('employee_detail.drop_box.placeholder-default') }}
+                                                        @endif
+                                                        </option>
+                                                        @foreach($roles as $role)
+                                                            <option value="{{ $role}}">
+                                                                {{ $role }}
+                                                            </option>
+                                                        @endforeach
                                                 </select>
                                             </div>
                                             <div class="input-group margin">
@@ -118,12 +135,12 @@
                 </button>
 
                 <button type="button" class="btn btn-default">
-                    <a href="#"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
+                    <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
+                    <a href="#"><i class="fa fa-users"></i> IMPORT</a>
                 </button>
-                <!-- <div class="nav navbar-nav">
+            <!-- <div class="nav navbar-nav">
                   <div class="dropdown user user-menu">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
@@ -131,14 +148,14 @@
                     <div class="dropdown-menu">
                       <div class="user-header">
                         {!! Form::open(array('route'=>'import_csv', 'method'=>'POST', 'files'=>'true')) !!}
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="file" name="csv_file">
                             <br/>
                             <input type="submit" value="Import Data">
                         {!! Form::close() !!}
-                      </div>
                     </div>
-                </div> -->
+                  </div>
+              </div> -->
                 <?php
                 $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
                 $arrays[] = $_GET;
@@ -170,7 +187,8 @@
                     }
                 </script>
                 <button type="button" class="btn btn-default export-employee" onclick="return clickExport()">
-                    <a id="export" href="{{asset('export').'?'.'id='.$id.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
+                    <a id="export"
+                       href="{{asset('export').'?'.'id='.$id.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
                         <i class="fa fa-vcard"></i> EXPORT</a>
                 </button>
             </ol>
@@ -197,7 +215,30 @@
         ?>
 
         <section class="content">
+            {{--<div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <div class="dataTables_length" id="project-list_length" style="float:right">
+                        <label>Show entries
+                            {!! Form::select(
+                                'select_length',
+                                getArraySelectOption(25,5) ,
+                                null ,
+                                [
+                                'id'=>'select_length',
+                                'class' => 'form-control input-sm',
+                                'aria-controls'=>"employee-list"
+                                ]
+                                )
+                             !!}
+                        </label>
+                    </div>
+                </div>
+            </div>--}}
             <div class="row">
+                <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                       value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
@@ -212,45 +253,43 @@
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>CV</th>
-                                    <th hidden></th>
                                 </tr>
                                 </thead>
                                 <tbody class="context-menu">
                                 @foreach($employees as $employee)
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
-                                        <td>{{ $employee->id }}</td>
-                                        <td>{{ $employee->name }}</td>
-                                        <td>{{ isset($employee->team)? $employee->team->name: ""}}</td>
-                                        <td>{{ isset($employee->role)? $employee->role->name: "" }}</td>
-                                        <td>{{ $employee->email }}</td>
+                                        <td>{{ isset($employee->id )? $employee->id : "--.--"}}</td>
+                                        <td>{{ isset($employee->name)? $employee->name: "--.--" }}</td>
+                                        <td>{{ isset($employee->team)? $employee->team->name: "--.--"}}</td>
+                                        <td>{{ isset($employee->role)? $employee->role->name: "--.--" }}</td>
+                                        <td>{{ isset($employee->email)? $employee->email: "--.--" }}</td>
                                         <td>
                                             @if($employee->work_status == 0) Active
                                             @elseif($employee->work_status == 1) Unactive
                                             @endif
                                         </td>
-                                        <td>
+                                        <td style="text-align: center;width: 50px;">
                                             <button type="button" class="btn btn-default">
                                                 <a href="#"><i class="fa fa-cloud-download"></i> CV</a>
                                             </button>
                                         </td>
-                                            <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
 
-                                                <li><a href="employee/{{$employee->id}}"><i
-                                                                class="fa fa-id-card"></i> View</a></li>
-                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
-                                                        Edit</a></li>
-                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
-                                                                class="fa fa-remove"></i> Remove</a></li>
-                                            </ul>
+                                        <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
 
+                                            <li><a href="employee/{{$employee->id}}"><i
+                                                            class="fa fa-id-card"></i> View</a></li>
+                                            <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
+                                                    Edit</a></li>
+                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
+                                                            class="fa fa-remove"></i> Remove</a></li>
+                                        </ul>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <!-- /.box-body -->
-
                     </div>
                     <!-- /.box -->
                 </div>
@@ -260,9 +299,33 @@
         </section>
         <!-- /.content -->
     </div>
+    {{-- @if(isset($param))
+         {{  $employees->appends($param)->render() }}
+     @endif--}}
 
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
 
+    {{--<script type="text/javascript">
+        $(document).ready(function () {
+            $('#employee-list').DataTable({
+                'paging': false,
+                'lengthChange': true,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            });
+        });
+    </script>--}}
+
+    <script>
+        (function () {
+            $('#select_length').change(function () {
+                $("#number_record_per_page").val($(this).val());
+                $('#form_search_process').submit()
+            });
+        })();
+    </script>
     <script type="text/javascript">
         $(function () {
 
@@ -272,7 +335,7 @@
                 var eId = $(this).data('employee-id');
                 $('ul.contextMenu[data-employee-id="' + eId + '"')
                     .show()
-                    .css({top: event.pageY - 150, left: event.pageX - 250, 'z-index': 300});
+                    .css({top: event.pageY - 170, left: event.pageX - 250, 'z-index': 300});
 
             });
             $(document).click(function () {
@@ -315,55 +378,38 @@
         });
     </script>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var old = '{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:'' }}';
+            var options = $("#select_length option");
+            var select = $('#select_length');
 
-    {{--<script type="text/javascript">
-        $(function () {
-            $('.btn.btn-default.export-employee').click(function () {
-                var url = $(this).data('employee-id');
-                if (confirm('Are you want to export file csv?')) {
-                    $.ajax({
-                        type: "GET",
-                        url: '{{ url('/export') }}',
-                        dataType: 'JSON',
-                        data: {
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            'url': url,
-                            '_method': 'GET',
-                            _token: '{{csrf_token()}}',
-                        },
-                        success: function (msg) {
-                            alert("OK "+msg.url);
-                            console.log(msg.status);
-                        },
-                        error: function (error) {
-                            alert(error);
-                        }
-                    });
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value === old) {
+                    select.val(old).change();
                 }
-            });
+            }
         });
-    </script>--}}
+    </script>
     <script>
         $(document).ready(function () {
             $('#employee-list').DataTable({
-                "scrollY" : 800,
-                "scrollX" : true,
                 'paging': true,
-                'lengthChange': false,
+                'lengthChange': true,
                 'searching': false,
                 'ordering': true,
                 'info': true,
                 'autoWidth': false,
-                "columns": [
-                    {"orderDataType": "dom-text-numeric"},
-                    {"orderDataType": "dom-text-numeric"},
-                    {"orderDataType": "dom-text-numeric"},
-                    {"orderDataType": "dom-text-numeric"},
-                    {"orderDataType": "dom-text-numeric"},
-                    {"orderDataType": "dom-text-numeric"}
-                ]
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btn_reset").bind("click", function () {
+                $("#role_employee").val([]);
+                $("#role_employee")[0].selectedIndex = 0;
+                $("#team_employee").val([]);
+                $("#team_employee")[0].selectedIndex = 0;
             });
         });
     </script>

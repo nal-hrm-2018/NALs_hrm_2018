@@ -10,12 +10,14 @@ namespace App\Http\Controllers\User\Employee;
 
 
 
+use App\Export\TemplateExport;
 use App\Service\ChartService;
 use App\Export\InvoicesExport;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeAddRequest;
+use App\Http\Requests\EmployeeEditRequest;
 use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
@@ -48,10 +50,10 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
 
-        $employees = $this->searchEmployeeService->searchEmployee($request)->get();
         $roles = Role::pluck('name','id');
         $teams = Team::pluck('name','id');
-        return view('employee.list', compact('employees','roles','teams'));
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id','asc')->get();
+        return view('employee.list', compact('employees','roles','teams','param'));
     }
 
     public function create()
@@ -220,7 +222,10 @@ class EmployeeController extends Controller
 
 
     public function  export(Request $request){
-        return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'invoices.csv');
+        return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'employee-list.csv');
+    }
+    public function  downloadTemplate(){
+        return Excel::download(new TemplateExport(),'template.csv');
     }
     /*
             ALL DEBUG
