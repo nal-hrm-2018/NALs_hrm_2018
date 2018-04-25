@@ -1,7 +1,7 @@
 <?php
 return [
 
-    'paginate' => 5
+    'paginate' => 20
 
 
 ];

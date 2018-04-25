@@ -49,8 +49,7 @@
                 <td>{{ isset($process->role)?$process->role->name:''}}</td>
                 <td>{{date('d/m/Y', strtotime($process->start_date))}}</td>
                 <td>{{date('d/m/Y', strtotime($process->end_date))}}</td>
-                <td>{{isset($process->project)?getProjectStatus($process->project):''}}
-                </td>
+                <td>{{isset($process->project)?getProjectStatus($process->project):''}}</td>
             </tr>
         @endforeach
         </tbody>
