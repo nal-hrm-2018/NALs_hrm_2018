@@ -94,7 +94,11 @@ class ChartServiceImpl extends CommonService implements ChartService
         $i = 0;
         foreach ($processes->sortByDesc('start_date') as $process){
             $start_year = date('Y', strtotime($process->start_date));
-            $end_year = date('Y', strtotime($process->end_date));
+            if(isset($process->end_date)) {
+                $end_year = date('Y', strtotime($process->end_date));
+            } else {
+                $end_year = date('Y');
+            }
             while ($start_year != $end_year + 1){
                 $listYears[$i++] = $start_year++;
             }
