@@ -76,7 +76,6 @@ class EmployeeController extends Controller
         $employee -> startwork_date = $request -> startwork_date;
         $employee -> endwork_date = $request -> endwork_date;
         $employee -> is_employee = 1;
-        $employee -> company = $request -> company;
         $employee -> employee_type_id = $request -> employee_type_id;
         $employee -> team_id = $request -> team_id;
         $employee -> role_id = $request -> role_id;
@@ -183,7 +182,6 @@ class EmployeeController extends Controller
         $employee -> marital_status = $request -> marital_status;
         $employee -> startwork_date = $request -> startwork_date;
         $employee -> endwork_date = $request -> endwork_date;
-        $employee -> company = $request -> company;
         $employee -> employee_type_id = $request -> employee_type_id;
         $employee -> team_id = $request -> team_id;
         $employee -> role_id = $request -> role_id;
@@ -244,28 +242,30 @@ class EmployeeController extends Controller
                 $listError = "";
                 $dataEmail = array();
                 $dem = 0;
-                for($i = 1; $i < $row; $i++){
-                    if($listEmail == null){
-                        for($j = i+1; $j <= $row; $j++){
-                            if($dataEmployees[$i*16] == $dataEmployees[$j*16]){
-                                $listError .= "<li>Email ".$dataEmployees[$i*16]." đã bị trùng.</li>";
-                                $listEmail[$dem] = $dataEmployees[$i*16];
+                for($i = 1; $i < $row -1; $i++){
+                    if($dataEmail == null){
+                        for($j = $i+1; $j < $row; $j++){
+                            if($dataEmployees[$i*$num] == $dataEmployees[$j*$num]){
+                                $listError .= "<li>Email ".$dataEmployees[$i*$num]." đã bị trùng.</li>";
+                                $dataEmail[$dem] = $dataEmployees[$i*$num];
                                 $dem++;
+                                break;
                             }
                         }
                     }else{
                         $check = 0;
                         for ($k=0; $k < $dem; $k++) { 
-                            if($listEmail[$dem] == $dataEmployees[$i*16]){
+                            if($dataEmail[$k] == $dataEmployees[$i*$num]){
                                 $check = 1;
                             }
                         }
                         if($check == 0){
-                            for($j = i+1; $j <= $row; $j++){
-                                if($dataEmployees[$i*16] == $dataEmployees[$j*16]){
-                                    $listError .= "<li>Email ".$dataEmployees[$i*16]." đã bị trùng.</li>";
-                                    $listEmail[$dem] = $dataEmployees[$i*16];
+                            for($j = $i+1; $j < $row; $j++){
+                                if($dataEmployees[$i*$num] == $dataEmployees[$j*$num]){
+                                    $listError .= "<li>Email ".$dataEmployees[$i*$num]." đã bị trùng.</li>";
+                                    $dataEmail[$dem] = $dataEmployees[$i*$num];
                                     $dem++;
+                                    break;
                                 }
                             }
                         }
@@ -365,10 +365,6 @@ class EmployeeController extends Controller
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." company không đúng. company không được để trống.</li>"; 
-                        }
-                        $c++;
-                        if($data[$c] == null){
                             $listError .= "<li>STT: ".($row-1)." employee_type_id không đúng. employee_type_id không được để trống.</li>";  
                         }else{
                             if((int)$data[$c] < 1){
@@ -439,7 +435,6 @@ class EmployeeController extends Controller
                 $employee -> startwork_date = date_create($data[$c]); $c++;
                 $employee -> endwork_date = date_create($data[$c]); $c++;
                 $employee -> is_employee = $data[$c]; $c++;
-                $employee -> company = $data[$c]; $c++;
                 $employee -> employee_type_id = $data[$c]; $c++;
                 $employee -> team_id = $data[$c]; $c++;
                 $employee -> role_id = $data[$c]; $c++;
