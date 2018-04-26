@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use App\Models\EmployeeType;
+use App\Models\Role;
+use App\Models\Team;
+
 class EmployeeSeeder extends Seeder
 {
     /**
@@ -11,25 +15,32 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        foreach (range(1,10) as $index) {
+        $faker = Faker::create();
+        $employee_types = EmployeeType::pluck('id');
+        $teams = Team::pluck('id');
+        $roles = Role::pluck('id');
+        foreach (range(1, 40) as $index) {
             DB::table('employees')->insert([
-                'email' => str_random(10) . '@gmail.com',
-                'password' => bcrypt('secret'),
-                'name' => 'Nguyen Van An',
-                'birthday' => '1990-02-10',
-                'gender' => 1,
-                'mobile' => '01234567890',
-                'address' => '120/14 Nguyen Luong Bang, Lien Chieu, Da Nang',
-                'marital_status' => 1,
-                'startwork_date' => '2016-04-12',
-                'endwork_date' => '2018-04-12',
+                'email' => $faker->email,
+                'password' => bcrypt('12345678'),
+                'name' => $faker->name,
+                'birthday' => $faker->dateTimeBetween('-40 years', '-10 years'),
+                'gender' => rand(1, 2),
+                'mobile' =>'0905123421',
+                'address' => $faker->address,
+                'marital_status' => rand(1, 2),
+                'startwork_date' => $faker->dateTimeBetween('-2 years', '-2 months'),
+                'endwork_date' => $faker->dateTimeBetween('-1 months', 'now'),
                 'curriculum_vitae' => 1,
                 'is_employee' => 1,
-                'avatar' => "abc",
-                'employee_type_id' => 1,
-                'teams_id' => 1,
-                'roles_id' => 1
+                'avatar' => $faker->imageUrl(480, 600),
+                'employee_type_id' => $employee_types[rand(0, count($employee_types) - 1)],
+                'team_id' => $teams[rand(0, count($teams) - 1)],
+                'role_id' => $roles[rand(0, count($roles) - 1)],
             ]);
         }
+
+
     }
+
 }

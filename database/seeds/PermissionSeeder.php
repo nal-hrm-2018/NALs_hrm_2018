@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use App\Models\Permissions;
 use Illuminate\Support\Facades\DB;
 class PermissionSeeder extends Seeder
 {
@@ -13,14 +14,15 @@ class PermissionSeeder extends Seeder
     public function run()
     {
 
-        $faker = Faker::create();
-        foreach (range(1,10) as $index) {
-            DB::table('permissions')->insert([
-                'id' => $index,
-                'name'=> $faker->streetName,
-                'description' => $faker->address
-            ]);
+        $name=['view','create','edit','delete'];
+        if(!Permissions::first()){
+            foreach (range(0,count($name)-1) as $index) {
+                DB::table('permissions')->insert([
+                    'name'=> $name[$index],
+                    'description' => $name[$index]
+                ]);
+            }
         }
-        $this->call(PermissionSeeder::class);
+
     }
 }
