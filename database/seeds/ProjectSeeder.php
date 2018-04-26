@@ -26,6 +26,7 @@ class ProjectSeeder extends Seeder
                 'status_id' => $status[rand(0,count($status)-1)],
                 'start_date' => $faker->dateTimeBetween('-2 years', '-3 months'),
                 'estimate_end_date' => $faker->dateTimeBetween('-1 months', '-1 days'),
+
             ]);
         }
     }
