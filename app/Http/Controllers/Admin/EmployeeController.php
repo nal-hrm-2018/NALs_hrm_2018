@@ -79,4 +79,7 @@ class EmployeeController extends Controller
             return redirect('employee') -> with(['msg_success' => 'Account successfully edited']);
         }
     }
+    public function importEmployee(){
+        dd("abc");
+    }
 }

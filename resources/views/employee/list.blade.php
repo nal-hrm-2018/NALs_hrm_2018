@@ -103,25 +103,42 @@
                 <button type="button" class="btn btn-default">
                     <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <!-- <button type="button" class="btn btn-default">
+                    <a href="{{ asset('employee/importEmployee')}}" ><i class="fa fa-users"></i> IMPORT</a>          
+                </button> -->
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import">
                     <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
                 </button>
-                <!-- <div class="nav navbar-nav">
-                  <div class="dropdown user user-menu">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
-                    </button>
-                    <div class="dropdown-menu">
-                      <div class="user-header">
-                        {!! Form::open(array('route'=>'import_csv', 'method'=>'POST', 'files'=>'true')) !!}
+                <div id="import" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="file" name="csv_file">
-                            <br/>
-                            <input type="submit" value="Import Data">
-                        {!! Form::close() !!}
-                      </div>
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">IMPORT EMPLOYEE</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="input-group margin">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn width-100">Chon file csv</button>
+                                            </div>
+                                            <input type="file" name="myFile" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer center">
+                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
+                                                class="fa fa-search"></span>
+                                        IMPORT
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </div> -->
+                </div>
                 <?php
                 $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
                 $arrays[] = $_GET;

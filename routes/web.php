@@ -67,10 +67,13 @@ Route::get('/employee/edit/{id}',['as' => 'getEmployeeEdit', 'uses' => 'Admin\Em
 Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\EmployeeController@postEmployeeEdit']); */
 
 /*begin route list employee by Quy*/
+Route::post('employee/postFile', 'User\Employee\EmployeeController@postFile')->name('postFile');
+/*Route::get('employee/listEmployeeImport', 'User\Employee\EmployeeController@listEmployeeImport');*/
+Route::get('employee/importEmployee', 'User\Employee\EmployeeController@importEmployee')->name('importEmployee');
 Route::resource('employee','User\Employee\EmployeeController');
 
 Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
-//Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
-Route::post('employee/import_csv', 'User\Employee\EmployeeController@import_csv')->name('import_csv');
+
+
 /*the end route list employee by Quy*/
