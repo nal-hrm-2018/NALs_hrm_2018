@@ -27,7 +27,6 @@ use App\Http\Requests\SearchRequest;
 use Illuminate\Support\Facades\Input;
 use App\Models\Status;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Input;
 use App\Http\Requests\EmployeeEditRequest;
 class EmployeeController extends Controller
 {
@@ -243,6 +242,36 @@ class EmployeeController extends Controller
                 }
                 fclose($handle);
                 $listError = "";
+                $dataEmail = array();
+                $dem = 0;
+                for($i = 1; $i < $row; $i++){
+                    if($listEmail == null){
+                        for($j = i+1; $j <= $row; $j++){
+                            if($dataEmployees[$i*16] == $dataEmployees[$j*16]){
+                                $listError .= "<li>Email ".$dataEmployees[$i*16]." đã bị trùng.</li>";
+                                $listEmail[$dem] = $dataEmployees[$i*16];
+                                $dem++;
+                            }
+                        }
+                    }else{
+                        $check = 0;
+                        for ($k=0; $k < $dem; $k++) { 
+                            if($listEmail[$dem] == $dataEmployees[$i*16]){
+                                $check = 1;
+                            }
+                        }
+                        if($check == 0){
+                            for($j = i+1; $j <= $row; $j++){
+                                if($dataEmployees[$i*16] == $dataEmployees[$j*16]){
+                                    $listError .= "<li>Email ".$dataEmployees[$i*16]." đã bị trùng.</li>";
+                                    $listEmail[$dem] = $dataEmployees[$i*16];
+                                    $dem++;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 $row = 0;
                 $handle = fopen(public_path('files/'.$nameFile), "r");
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
@@ -319,7 +348,7 @@ class EmployeeController extends Controller
                                 $listError .= "<li>STT: ".($row-1)." endwork_date không đúng định dạng. VD: 22-02-2000.</li>";
                             }else{
                                 if(date_create($data[$c - 1]) != FALSE){
-                                    if(strtotime($data[$c - 1])> strtotime($data[$c])){
+                                    if(strtotime($data[$c - 1]) > strtotime($data[$c])){
                                         $listError .= "<li>STT: ".($row-1)." endwork_date không đúng định dạng. VD: 22-02-2000.</li>";
                                     }
                                 }
