@@ -13,8 +13,8 @@ class ProcessSeeder extends Seeder
     {
         foreach (range(1,10) as $index) {
             DB::table('processes')->insert([
-                'employee_id' => 4,
-                'projects_id' => 'PRO_000'.$index,
+                'employee_id' => 2,
+                'project_id' => 'PRO_000'.$index,
                 'role_id' => '1',
                 'check_project_exit' => 1,
                 'man_power' => 0.5,

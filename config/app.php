@@ -150,8 +150,8 @@ return [
         /*
          * Package Service Providers...
          */
-//        Barryvdh\Debugbar\ServiceProvider::class,
-//        Collective\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
         /*
          * Application Service Providers...
          */
