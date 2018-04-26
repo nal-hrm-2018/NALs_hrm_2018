@@ -21,7 +21,7 @@ class ProjectSeeder extends Seeder
                 'income' => '10000000',
                 'real_cost' => '30000000',
                 'description' => 'nothing to say',
-                'status' => 1,
+                'status_id' => 1,
                 'start_date' => '2016-04-12',
                 'end_date' => '2016-06-12'
             ]);
