@@ -136,36 +136,7 @@
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import">
                     <a href="#" ><i class="fa fa-users"></i> IMPORT</a>
                 </button>
-                <div id="import" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">IMPORT EMPLOYEE</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="input-group margin">
-                                            <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">Chon file csv</button>
-                                            </div>
-                                            <input type="file" name="myFile" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer center">
-                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
-                                                class="fa fa-search"></span>
-                                        IMPORT
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                
                 <button type="button" class="btn btn-default">
                     <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
@@ -206,7 +177,36 @@
                 </button>
             </ol>
         </section>
-
+        <div id="import" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">IMPORT EMPLOYEE</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="input-group margin">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn width-100">Chon file csv</button>
+                                            </div>
+                                            <input type="file" name="myFile" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer center">
+                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
+                                                class="fa fa-search"></span>
+                                        IMPORT
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
         <!-- Main content -->
         <?php
         if (Session::has('msg_fail')) {
