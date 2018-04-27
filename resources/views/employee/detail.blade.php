@@ -36,9 +36,7 @@
                                         <img class="profile-user-img img-responsive img-circle"
                                              src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}"
                                              alt="User profile picture">
-
                                         <h3 class="profile-username text-center">{{$employee->name}}</h3>
-
                                         <p class="text-muted text-center">{{isset($employee->employeeType)?$employee->employeeType->name:'-'}}</p>
                                     </div>
                                     <!-- /.box-body -->
