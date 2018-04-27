@@ -9,8 +9,8 @@
             </h1>
 
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Employee</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="{{asset('/employee')}}">Employee</a></li>
                 <li class="active">Detail</li>
             </ol>
 
@@ -155,7 +155,7 @@
                 </div>
             </div>
             <!-- /.nav-tabs-custom -->
-        <!-- Main content -->
+            <!-- Main content -->
         </section>
         <!-- /.content -->
     </div>
@@ -195,7 +195,10 @@
                     },
                     success: function (msg) {
                         var bar_data = {
-                            data: [['Jan', msg.listValue[1]], ['Feb', msg.listValue[2]], ['Mar', msg.listValue[3]], ['Apr', msg.listValue[4]], ['May', msg.listValue[5]], ['Jun', msg.listValue[6]], ['Jul', msg.listValue[7]], ['Aug', msg.listValue[8]], ['Sept', msg.listValue[9]], ['Oct', msg.listValue[10]], ['Nov', msg.listValue[11]], ['Dec', msg.listValue[12]]],
+                            data: [['Jan', msg.listValue[1]], ['Feb', msg.listValue[2]], ['Mar', msg.listValue[3]],
+                                ['Apr', msg.listValue[4]], ['May', msg.listValue[5]], ['Jun', msg.listValue[6]],
+                                ['Jul', msg.listValue[7]], ['Aug', msg.listValue[8]], ['Sep', msg.listValue[9]],
+                                ['Oct', msg.listValue[10]], ['Nov', msg.listValue[11]], ['Dec', msg.listValue[12]]],
                             color: '#3c8dbc'
                         }
                         $('#current-year').html(msg.listValue[0]);
@@ -205,7 +208,10 @@
             });
             $(function () {
                 var bar_data = {
-                    data: [['Jan', {{$listValue[1]}}], ['Feb', {{$listValue[2]}}], ['Mar', {{$listValue[3]}}], ['Apr', {{$listValue[4]}}], ['May', {{$listValue[5]}}], ['Jun', {{$listValue[6]}}], ['Jul', {{$listValue[7]}}], ['Aug', {{$listValue[8]}}], ['Sept', {{$listValue[9]}}], ['Oct', {{$listValue[10]}}], ['Nov', {{$listValue[11]}}], ['Dec', {{$listValue[12]}}]],
+                    data: [['Jan', {{$listValue[1]}}], ['Feb', {{$listValue[2]}}], ['Mar', {{$listValue[3]}}],
+                        ['Apr', {{$listValue[4]}}], ['May', {{$listValue[5]}}], ['Jun', {{$listValue[6]}}],
+                        ['Jul', {{$listValue[7]}}], ['Aug', {{$listValue[8]}}], ['Sep', {{$listValue[9]}}],
+                        ['Oct', {{$listValue[10]}}], ['Nov', {{$listValue[11]}}], ['Dec', {{$listValue[12]}}]],
                     color: '#3c8dbc'
                 }
                 showChart(bar_data);
@@ -218,7 +224,9 @@
                 grid: {
                     borderWidth: 1,
                     borderColor: '#f3f3f3',
-                    tickColor: '#f3f3f3'
+                    tickColor: '#f3f3f3',
+                    hoverable: true,
+                    clickable: true
                 },
                 series: {
                     bars: {
@@ -230,8 +238,24 @@
                 xaxis: {
                     mode: 'categories',
                     tickLength: 0
+                },
+                yaxis:{
+                    tickFormatter: function(val, axis) {
+                        return '$' + val.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    },
+                },
+                tooltip: {
+                    show: true,
+                    content: "<span style='font-size: 12px;line-height: 17px;max-width: 90px;background-color: #00b4ab;" +
+                    "color: #fff;text-align: center;border-radius: 6px;padding: 10px;'>%x : %y</span>",
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
                 }
             })
         }
     </script>
+
 @endsection
