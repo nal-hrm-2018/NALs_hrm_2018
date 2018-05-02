@@ -17,8 +17,6 @@ class TemplateExport implements  WithHeadings
 {
     use Exportable;
 
-    private $fileName = 'invoices.csv';
-
     public function headings(): array
     {
         return [
@@ -40,31 +38,4 @@ class TemplateExport implements  WithHeadings
             'SALARY'
         ];
     }
-
-    /**
-     * @return array
-     */
-    /*public function sheets(): array
-    {
-        $sheets = [];
-        $sheets[1] = [
-            'ID',
-            'EMAIL',
-            'PASSWORD',
-            'NAME',
-            'BIRTHDAY',
-            'GENDER',
-            'MOBILE',
-            'ADDRESS',
-            'MARITAL STATUS',
-            'WORK STATUS',
-            'START WORK DATE',
-            'END WORK DATE',
-            'COMPANY',
-            'TEAM',
-            'ROLE',
-            'SALARY'
-        ];
-        return $sheets;
-    }*/
 }
