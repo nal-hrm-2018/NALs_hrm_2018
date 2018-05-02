@@ -69,7 +69,7 @@
                                                 @endif
                                             </p>
                                             <p>Team:
-                                                <strong>{{ isset($employee->teams)?$employee->teams->name:'-' }}</strong>
+                                                <strong>{{ isset($employee->team)?$employee->team->name:'-' }}</strong>
                                             </p>
                                             <p>Role:
                                                 <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'-' }}</strong>

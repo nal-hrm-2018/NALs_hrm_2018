@@ -11,10 +11,14 @@ class TeamSeeder extends Seeder
      */
     public function run()
     {
-        foreach (range(1,10) as $index) {
-            DB::table('teams')->insert([
-                'name' => "Bug"
-            ]);
+        $name = ['doremon', 'bug', 'nobita', 'chaien', 'xeko'];
+        if (!\App\Models\Team::first()) {
+            foreach (range(1, count($name) - 1) as $index) {
+                DB::table('teams')->insert([
+                    'name' => $name[$index]
+                ]);
+            }
         }
+
     }
 }
