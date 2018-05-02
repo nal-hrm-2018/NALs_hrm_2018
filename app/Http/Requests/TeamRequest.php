@@ -22,7 +22,7 @@ class TeamRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'POName' => 'required'
+            'description' => 'required'
         ];
     }
 
@@ -32,8 +32,8 @@ class TeamRequest extends FormRequest
             'name.required' => trans('validation.required', [
                 'attribute' => 'Team Name'
             ]),
-            'POName.required' => trans('validation.required', [
-                'attribute' => 'PO Name'
+            'description.required' => trans('validation.required', [
+                'attribute' => 'description'
             ])
         ];
     }
