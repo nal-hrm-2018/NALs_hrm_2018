@@ -31,7 +31,7 @@ class EmployeeAddRequest extends FormRequest
             'marital_status' => 'required',
             /*'curriculum_vitae' => 'required',*/
             'team_id' => 'required',
-            'company' => 'required',
+            'role_id' => 'required',
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
             'startwork_date' => 'required',
@@ -90,8 +90,8 @@ class EmployeeAddRequest extends FormRequest
             'team_id.required' => trans('validation.required', [
                 'attribute' => 'Team'
             ]),
-            'company.required' => trans('validation.required', [
-                'attribute' => 'Company'
+            'role_id.required' => trans('validation.required', [
+                'attribute' => 'Role'
             ]),
             /*'avatar.required' => trans('validation.required', [
                 'attribute' => 'Avatar'
