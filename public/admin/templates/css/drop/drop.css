@@ -1,0 +1,21 @@
+.container1 .context-menu{
+  width: 200px;
+  height: auto;
+  box-shadow: 0 0 20px 0 #ccc;
+  position: absolute;
+  display: none;
+  background: #FAFBFC;
+}
+.container1 .context-menu ul{
+  list-style: none;
+  padding: 5px 0px 5px 0px;
+}
+.container1 .context-menu ul li{
+  padding: 10px 5px 10px 5px;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+}
+.container1 .context-menu ul li:hover{
+  background: #eee;
+  border-left: 4px solid;
+}
