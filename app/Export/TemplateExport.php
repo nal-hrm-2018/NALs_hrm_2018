@@ -20,7 +20,6 @@ class TemplateExport implements  WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
             'EMAIL',
             'PASSWORD',
             'NAME',
@@ -28,14 +27,15 @@ class TemplateExport implements  WithHeadings
             'GENDER',
             'MOBILE',
             'ADDRESS',
-            'MARITAL STATUS',
             'WORK STATUS',
             'START WORK DATE',
             'END WORK DATE',
-            'COMPANY',
+            'EMPLOYEE TYPE',
             'TEAM',
             'ROLE',
-            'SALARY'
+            '',
+            '',
+            'NOTE'
         ];
     }
 }
