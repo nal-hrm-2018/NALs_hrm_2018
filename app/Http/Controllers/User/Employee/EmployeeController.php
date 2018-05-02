@@ -76,7 +76,6 @@ class EmployeeController extends Controller
         $employee -> startwork_date = $request -> startwork_date;
         $employee -> endwork_date = $request -> endwork_date;
         $employee -> is_employee = 1;
-        $employee -> company = $request -> company;
         $employee -> employee_type_id = $request -> employee_type_id;
         $employee -> team_id = $request -> team_id;
         $employee -> role_id = $request -> role_id;
@@ -183,7 +182,6 @@ class EmployeeController extends Controller
         $employee -> marital_status = $request -> marital_status;
         $employee -> startwork_date = $request -> startwork_date;
         $employee -> endwork_date = $request -> endwork_date;
-        $employee -> company = $request -> company;
         $employee -> employee_type_id = $request -> employee_type_id;
         $employee -> team_id = $request -> team_id;
         $employee -> role_id = $request -> role_id;
@@ -221,6 +219,238 @@ class EmployeeController extends Controller
     }
 
 
+
+    public function postFile(Request $request){
+        $listError = "";
+        if($request->hasFile('myFile')){
+            $file = $request->file("myFile");
+            if($file->getClientOriginalExtension('myFile') == "csv"){
+                $nameFile = $file -> getClientOriginalName('myFile');
+                $file ->move('files', $nameFile);
+                $i = 0; $row = 0;
+                $dataEmployees = array();
+                $handle = fopen(public_path('files/'.$nameFile), "r");
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    $num = count($data);
+                    for ($c=0; $c < $num; $c++) {
+                        $dataEmployees[$i] = $data[$c];
+                        $i++;
+                    }
+                    $row++;
+                }
+                fclose($handle);
+                $listError = "";
+                $dataEmail = array();
+                $dem = 0;
+                for($i = 1; $i < $row -1; $i++){
+                    if($dataEmail == null){
+                        for($j = $i+1; $j < $row; $j++){
+                            if($dataEmployees[$i*$num] == $dataEmployees[$j*$num]){
+                                $listError .= "<li>Email ".$dataEmployees[$i*$num]." has been repeated.</li>";
+                                $dataEmail[$dem] = $dataEmployees[$i*$num];
+                                $dem++;
+                                break;
+                            }
+                        }
+                    }else{
+                        $check = 0;
+                        for ($k=0; $k < $dem; $k++) { 
+                            if($dataEmail[$k] == $dataEmployees[$i*$num]){
+                                $check = 1;
+                            }
+                        } 
+                        if($check == 0){
+                            for($j = $i+1; $j < $row; $j++){
+                                if($dataEmployees[$i*$num] == $dataEmployees[$j*$num]){
+                                    $listError .= "<li>Email ".$dataEmployees[$i*$num]." has been repeated.</li>";
+                                    $dataEmail[$dem] = $dataEmployees[$i*$num];
+                                    $dem++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $row = 0;
+                $handle = fopen(public_path('files/'.$nameFile), "r");
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    $num = count($data);
+                    $row++;
+                    if($row > 1){
+                        $c=0;
+                        $employee = new Employee;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Email field is required.</li>";
+                        }else{                        
+                            $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
+                            if($objEmployee != null){
+                                $listError .= "<li>Row ".($row-1).": Email already exists!!!.</li>";
+                            }
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Password field is required.</li>";
+                        }
+                        if(strlen($data[$c]) < 6){
+                            $listError .= "<li>Row ".($row-1).": The Password must be at least 6 characters..</li>";
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Name field is required.</li>";   
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Birthday field is required.</li>"; 
+                        }else{
+                            if(date_create($data[$c]) == FALSE ){
+                                $listError .= "<li>Row ".($row-1).": Birthday is incorrect format. Example: 22-02-2000.</li>";
+                            }
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Gender field is required.</li>";   
+                        }else{
+                            if((int)$data[$c] < 1 || (int)$data[$c] >3){
+                                $listError .= "<li>Row ".($row-1).": Gender only receives values 1, 2 or 3.</li>";
+                            }
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Gender field is required.</li>";  
+                        }else{
+                            $stMb = $data[$c];
+                            for($k=0; $k < strlen($data[$c]); $k++){
+                                if( $stMb[$k] < "0" || $stMb[$k] > "9" ){
+                                    $listError .= "<li>Row ".($row-1).": Mobile only number.</li>";
+                                    break;
+                                }
+                            }
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Address field is required.</li>"; 
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The marital_status field is required.</li>";
+                        }else{
+                            if((int)$data[$c] < 1 || (int)$data[$c] >4){
+                                $listError .= "<li>Row ".($row-1).": marital_status only receives values 1, 2, 3 or 4.</li>";
+                            }
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Startwork_date field is required.</li>";   
+                        }else{
+                            if(date_create($data[$c]) == FALSE ){
+                                $listError .= "<li>Row ".($row-1).": Startwork_date is incorrect format. Example: 22-02-2000.</li>";
+                            }
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Endwork_date field is required.</li>";  
+                        }else{
+                            if(date_create($data[$c]) == FALSE ){
+                                $listError .= "<li>Row ".($row-1).": Endwork_date is incorrect format. Example: 22-02-2000.</li>";
+                            }else{
+                                if(date_create($data[$c - 1]) != FALSE){
+                                   /* dd(strtotime($data[$c - 1])."  ".strtotime($data[$c]));*/
+                                    if(strtotime($data[$c - 1]) >= strtotime($data[$c])){
+                                        $listError .= "<li>Row ".($row-1).": Startwork_date must be smaller than Endwork_date.</li>";
+                                    }
+                                }
+                            }
+
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": Employee Type field is required.</li>";  
+                        }else{
+                            $objEmployeeType = EmployeeType::select('name')->where('name', 'like', $data[$c])->get()->toArray();
+                            if($objEmployeeType == null){
+                                $listError .= "<li>Row ".($row-1).": Employee_type does not exist.</li>";
+                            }
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": Team field is required.</li>";
+                        }else{
+                            $objTeam = Team::select('name')->where('name', 'like', $data[$c])->get()->toArray();
+                            if($objTeam == null){
+                                $listError .= "<li>Row ".($row-1).": Team does not exist.</li>";
+                            }
+                        }
+                        $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": Role field is required.</li>";
+                        }else{
+                            $objTeam = Role::select('name')->where('name', 'like', $data[$c])->get()->toArray();
+                            if($objTeam == null){
+                                $listError .= "<li>Row ".($row-1).": Role does not exist.</li>";
+                            }
+                        }
+                    }
+                }
+                fclose($handle);
+                if($listError != null){
+                    if(file_exists(public_path('files/'.$nameFile))){
+                        unlink(public_path('files/'.$nameFile));
+                    }
+                }
+                return view('admin.module.employees.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row , 'urlFile' => public_path('files/'.$nameFile), 'listError' => $listError]);
+            }else{
+                \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
+                return redirect('employee');
+            }
+        }else{
+            \Session::flash('msg_fail', 'File not selected!!!');
+            return redirect('employee');
+        }
+    }
+    public function importEmployee(){
+        $urlFile = $_GET['urlFile'];
+        $row = 1;
+        $handle = fopen($urlFile, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $num = count($data);
+            $row++;
+            if($row > 2){
+                $c=0;
+                $employee = new Employee;
+                $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
+                $employee -> email = $data[$c]; $c++;          
+                $employee -> password = bcrypt($data[$c]); $c++;
+                $employee -> name = $data[$c]; $c++;
+                $employee -> birthday = date_create($data[$c]); $c++;
+                $employee -> gender = $data[$c]; $c++;
+                $employee -> mobile = $data[$c]; $c++;
+                $employee -> address = $data[$c]; $c++;
+                $employee -> marital_status = $data[$c]; $c++;
+                $employee -> startwork_date = date_create($data[$c]); $c++;
+                $employee -> endwork_date = date_create($data[$c]); $c++;
+                $employee -> is_employee = 1;
+
+                $objEmployeeType = EmployeeType::select('name','id')->where('name', 'like', $data[$c])->first();
+                $employee -> employee_type_id = $objEmployeeType -> id; $c++;
+
+                $objTeam = Team::select('name','id')->where('name', 'like', $data[$c])->first();
+                $employee -> team_id = $objTeam -> id; $c++;
+
+                $objRole = Role::select('name','id')->where('name', 'like', $data[$c])->first();
+                $employee -> role_id = $objRole -> id; $c++;
+                $employee -> created_at = new DateTime();
+                $employee -> delete_flag = 0;
+                $employee ->save();
+            }
+        }
+        fclose($handle);
+        if(file_exists($urlFile)){
+            unlink($urlFile);
+        }
+        \Session::flash('msg_success', 'Import Employees successfully!!!');
+        return redirect('employee');        
+    }
 
     public function  export(Request $request){
         return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'employee-list.csv');
