@@ -246,7 +246,7 @@ class EmployeeController extends Controller
                     if($dataEmail == null){
                         for($j = $i+1; $j < $row; $j++){
                             if($dataEmployees[$i*$num] == $dataEmployees[$j*$num]){
-                                $listError .= "<li>Email ".$dataEmployees[$i*$num]." đã bị trùng.</li>";
+                                $listError .= "<li>Email ".$dataEmployees[$i*$num]." has been repeated.</li>";
                                 $dataEmail[$dem] = $dataEmployees[$i*$num];
                                 $dem++;
                                 break;
@@ -258,11 +258,11 @@ class EmployeeController extends Controller
                             if($dataEmail[$k] == $dataEmployees[$i*$num]){
                                 $check = 1;
                             }
-                        }
+                        } 
                         if($check == 0){
                             for($j = $i+1; $j < $row; $j++){
                                 if($dataEmployees[$i*$num] == $dataEmployees[$j*$num]){
-                                    $listError .= "<li>Email ".$dataEmployees[$i*$num]." đã bị trùng.</li>";
+                                    $listError .= "<li>Email ".$dataEmployees[$i*$num]." has been repeated.</li>";
                                     $dataEmail[$dem] = $dataEmployees[$i*$num];
                                     $dem++;
                                     break;
@@ -280,76 +280,83 @@ class EmployeeController extends Controller
                     if($row > 1){
                         $c=0;
                         $employee = new Employee;
-                        $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
-                        if($objEmployee != null){
-                            $listError .= "<li>STT: ".($row-1)." Email đã tồn tại.</li>";
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Email field is required.</li>";
+                        }else{                        
+                            $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
+                            if($objEmployee != null){
+                                $listError .= "<li>Row ".($row-1).": Email already exists!!!.</li>";
+                            }
                         }
                         $c++;
+                        if($data[$c] == null){
+                            $listError .= "<li>Row ".($row-1).": The Password field is required.</li>";
+                        }
                         if(strlen($data[$c]) < 6){
-                            $listError .= "<li>STT: ".($row-1)." Password không đúng. Password ít nhất 6 ký tự.</li>";
+                            $listError .= "<li>Row ".($row-1).": The Password must be at least 6 characters..</li>";
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." Name không đúng. Name không được để trống.</li>";   
+                            $listError .= "<li>Row ".($row-1).": The Name field is required.</li>";   
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." Birthday không đúng. Birthday không được để trống.</li>"; 
+                            $listError .= "<li>Row ".($row-1).": The Birthday field is required.</li>"; 
                         }else{
                             if(date_create($data[$c]) == FALSE ){
-                                $listError .= "<li>STT: ".($row-1)." Birthday không đúng định dạng. VD: 22-02-2000.</li>";
+                                $listError .= "<li>Row ".($row-1).": Birthday is incorrect format. Example: 22-02-2000.</li>";
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." Gender không đúng. Gender không được để trống.</li>";   
+                            $listError .= "<li>Row ".($row-1).": The Gender field is required.</li>";   
                         }else{
                             if((int)$data[$c] < 1 || (int)$data[$c] >3){
-                                $listError .= "<li>STT: ".($row-1)." Gender không đúng. Gender chỉ nhận được các giá trị 1, 2 hoặc 3.</li>";
+                                $listError .= "<li>Row ".($row-1).": Gender only receives values 1, 2 or 3.</li>";
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." Mobile không đúng. Mobile không được để trống.</li>";  
+                            $listError .= "<li>Row ".($row-1).": The Gender field is required.</li>";  
                         }else{
                             $stMb = $data[$c];
                             for($k=0; $k < strlen($data[$c]); $k++){
                                 if( $stMb[$k] < "0" || $stMb[$k] > "9" ){
-                                    $listError .= "<li>STT: ".($row-1)." Mobile chỉ được nhập số.</li>";
+                                    $listError .= "<li>Row ".($row-1).": Mobile only number.</li>";
                                     break;
                                 }
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." address không đúng. address không được để trống.</li>"; 
+                            $listError .= "<li>Row ".($row-1).": The Address field is required.</li>"; 
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." marital_status không đúng. marital_status không được để trống.</li>";
+                            $listError .= "<li>Row ".($row-1).": The marital_status field is required.</li>";
                         }else{
                             if((int)$data[$c] < 1 || (int)$data[$c] >4){
-                                $listError .= "<li>STT: ".($row-1)." marital_status không đúng. marital_status chỉ nhận được các giá trị 1, 2, 3 hoặc 4.</li>";
+                                $listError .= "<li>Row ".($row-1).": marital_status only receives values 1, 2, 3 or 4.</li>";
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." startwork_date không đúng. startwork_date không được để trống.</li>";   
+                            $listError .= "<li>Row ".($row-1).": The Startwork_date field is required.</li>";   
                         }else{
                             if(date_create($data[$c]) == FALSE ){
-                                $listError .= "<li>STT: ".($row-1)." startwork_date không đúng định dạng. VD: 22-02-2000.</li>";
+                                $listError .= "<li>Row ".($row-1).": Startwork_date is incorrect format. Example: 22-02-2000.</li>";
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." endwork_date không đúng. endwork_date không được để trống.</li>";  
+                            $listError .= "<li>Row ".($row-1).": The Endwork_date field is required.</li>";  
                         }else{
                             if(date_create($data[$c]) == FALSE ){
-                                $listError .= "<li>STT: ".($row-1)." endwork_date không đúng định dạng. VD: 22-02-2000.</li>";
+                                $listError .= "<li>Row ".($row-1).": Endwork_date is incorrect format. Example: 22-02-2000.</li>";
                             }else{
                                 if(date_create($data[$c - 1]) != FALSE){
                                     if(strtotime($data[$c - 1]) > strtotime($data[$c])){
-                                        $listError .= "<li>STT: ".($row-1)." endwork_date không đúng định dạng. VD: 22-02-2000.</li>";
+                                        $listError .= "<li>Row ".($row-1).": Startwork_date must be smaller than Endwork_date.</li>";
                                     }
                                 }
                             }
@@ -357,42 +364,42 @@ class EmployeeController extends Controller
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." is_employee không đúng. is_employee không được để trống.</li>";
+                            $listError .= "<li>Row ".($row-1).": Is_employee field is required.</li>";
                         }else{
                             if((int)$data[$c] < 1){
-                                $listError .= "<li>STT: ".($row-1)." is_employee không đúng. is_employee chỉ nhận giá trị số lớn hơn 0.</li>";
+                                $listError .= "<li>Row ".($row-1).": Is_employee only takes numeric values greater than 0.</li>";
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." employee_type_id không đúng. employee_type_id không được để trống.</li>";  
+                            $listError .= "<li>Row ".($row-1).": Employee_type_id field is required.</li>";  
                         }else{
                             if((int)$data[$c] < 1){
-                                $listError .= "<li>STT: ".($row-1)." employee_type_id không đúng. employee_type_id chỉ nhận giá trị số lớn hơn 0.</li>";
+                                $listError .= "<li>Row ".($row-1).": Employee_type_id only takes numeric values greater than 0.</li>";
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." team_id không đúng. team_id không được để trống.</li>";
+                            $listError .= "<li>Row ".($row-1).": Team_id field is required.</li>";
                         }else{
                             if((int)$data[$c] < 1){
-                                $listError .= "<li>STT: ".($row-1)." team_id không đúng. team_id chỉ nhận giá trị số lớn hơn 0.</li>";
+                                $listError .= "<li>Row ".($row-1).": Team_id only takes numeric values greater than 0.</li>";
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." role_id không đúng. role_id không được để trống.</li>";
+                            $listError .= "<li>Row ".($row-1).": Role_id field is required.</li>";
                         }else{
                             if((int)$data[$c] < 1){
-                                $listError .= "<li>STT: ".($row-1)." role_id không đúng. role_id chỉ nhận giá trị số lớn hơn 0.</li>";
+                                $listError .= "<li>Row ".($row-1).": Role_id only takes numeric values greater than 0.</li>";
                             }
                         }
                         $c++;
                         if($data[$c] == null){
-                            $listError .= "<li>STT: ".($row-1)." delete_flag không đúng. delete_flag không được để trống.</li>";
+                            $listError .= "<li>Row ".($row-1).": Delete_flag field is required.</li>";
                         }else{
                             if($data[$c] != "1" && $data[$c] != "0"){
-                                $listError .= "<li>STT: ".($row-1)." delete_flag không đúng. delete_flag chỉ nhận giá trị số 0 hoặc 1.</li>";
+                                $listError .= "<li>Row ".($row-1).": Delete_flag only receives values 0 or 1.</li>";
                             }
                         }      
                     }

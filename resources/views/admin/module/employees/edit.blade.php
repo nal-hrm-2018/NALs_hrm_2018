@@ -47,7 +47,7 @@
               </div>
             </div>
             <!-- /.col -->
-            <div class="col-md-6">
+            <div class="col-md-5">
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Email Address</label>
@@ -55,48 +55,7 @@
                 <label style="color: red;">{{$errors->first('email')}}</label>
                 <!-- /.input group -->
               </div>
-              @if(isset($objEmployee))
-                @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" id="password"  name="password" value="" onchange="myFunction()">
-                    <label style="color: red;" id="minPass">
-                      {{$errors->first('password')}}
-                      <?php 
-                        if (Session::has('minPass')){
-                          echo''.Session::get("minPass");
-                        } 
-                      ?>
-                    </label>
-                  </div>
-                  <script>
-                    function myFunction() {
-                      var x = document.getElementById("password").value;
-                      if(x.length < 6){
-                        document.getElementById("minPass").innerHTML = "The Password must be at least 6 characters.";
-                      }else{
-                        document.getElementById("minPass").innerHTML = "";
-                      }
-                    }
-                  </script>
-                  <div class="form-group">
-                    <label>Confirm password</label>
-                    <input type="password" class="form-control" placeholder="Confirm password"  name="confirm_confirmation" id="confirmPass" onchange="confirmPass1()">
-                    <label style="color: red;" id="cf">{{$errors->first('confirm_confirmation')}}</label>
-                  </div>
-                  <script>
-                    function confirmPass1() {
-                      var x = document.getElementById("password").value;
-                      var y = document.getElementById("confirmPass").value;
-                      if(x != y){
-                        document.getElementById("cf").innerHTML = "The confirm password and password must match.";
-                      }else{
-                        document.getElementById("cf").innerHTML = "";
-                      }
-                    }
-                  </script>
-                @endif
-              @endif
+              
               <!-- <div class="form-group">
                 <label>Password</label>
                 <input type="password" class="form-control" placeholder="Password"  name="password" value="{!! old('password', isset($objEmployee["password"]) ? $objEmployee["password"] : null) !!}">
@@ -226,6 +185,51 @@
                 </div>
               </div>
             </div>
+            @if(isset($objEmployee))
+                @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
+                  <div class="col-md-4" id="resetPass">
+                    
+                    <p onclick="resetPass()" class="btn btn-info pull-left" >Reset password</p>                  
+                    <label style="color: red;"><?php 
+                      if (Session::has('minPass')){
+                        echo''.Session::get("minPass");
+                      } 
+                    ?></label>
+                  </div>
+                  <script>
+                    function resetPass() {
+                        document.getElementById("resetPass").innerHTML = "<div class=\"form-group\">                     <label>Password</label><input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\"  name=\"password\" value=\"\" onchange=\"myFunction()\"><label style=\"color: red;\" id=\"minPass\"></label></div>"
+                        + "<div class=\"form-group\"><label>Confirm password</label><input type=\"password\" class=\"form-control\" placeholder=\"Confirm password\" name=\"confirm_confirmation\" id=\"confirmPass\" onchange=\"confirmPass1()\"><label style=\"color: red;\" id=\"cf\"></label></div><p onclick=\"closePass()\" class=\"btn btn-info pull-left\">Close Reset password</p>";                    
+                    }
+                  </script>
+                  <script>
+                    function closePass() {
+                        document.getElementById("resetPass").innerHTML = "<p onclick=\"resetPass()\" class=\"btn btn-info pull-left\" >Reset password</p>";                    
+                    }
+                  </script>
+                  <script>
+                    function myFunction() {
+                      var x = document.getElementById("password").value;
+                      if(x.length < 6){
+                        document.getElementById("minPass").innerHTML = "The Password must be at least 6 characters.";
+                      }else{
+                        document.getElementById("minPass").innerHTML = "";
+                      }
+                    }
+                  </script>
+                  <script>
+                    function confirmPass1() {
+                      var x = document.getElementById("password").value;
+                      var y = document.getElementById("confirmPass").value;
+                      if(x != y){
+                        document.getElementById("cf").innerHTML = "The confirm password and password must match.";
+                      }else{
+                        document.getElementById("cf").innerHTML = "";
+                      }
+                    }
+                  </script>
+                @endif
+              @endif
             <!-- /.col -->
           </div>
           <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">

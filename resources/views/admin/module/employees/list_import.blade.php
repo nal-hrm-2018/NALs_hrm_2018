@@ -39,7 +39,7 @@
             if (strlen($listError) > 0) {
                 echo '<div>
                     <ul class=\'error_msg1\'>
-                        <li><h4>Xin lỗi. File CSV bạn đang lỗi. Vui lòng sửa các lỗi dưới ở file CSV. Sau đó upload lại file.</h4></li>
+                        <li><h4>Sorry. CSV file you are error. Please correct the errors below in the CSV file. Then upload the file again.</h4></li>
                     '
                     .$listError.'</ul>
                 </div>';
