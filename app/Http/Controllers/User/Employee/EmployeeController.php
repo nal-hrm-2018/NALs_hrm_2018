@@ -132,9 +132,9 @@ class EmployeeController extends Controller
         //set employee info
         $employee = Employee::find($id);
 
-        $roles = Role::pluck('name', 'id')->prepend(trans('employee_detail.drop_box.placeholder-default'));;
+        $roles = Role::pluck('name', 'id')->prepend(trans('employee.drop_box.placeholder-default'));;
 
-        $project_statuses = Status::pluck('name','id')->prepend(trans('employee_detail.drop_box.placeholder-default'));
+        $project_statuses = Status::pluck('name','id')->prepend(trans('employee.drop_box.placeholder-default'));
 
         if (!isset($employee)) {
             return abort(404);

@@ -3,7 +3,7 @@
     </div>
     <div class="col-sm-6">
         <div class="dataTables_length" id="project-list_length" style="float:right">
-            <label>Show entries
+            <label>{{trans('pagination.show.number_record_per_page')}}
                 {!! Form::select(
                     'select_length',
                     getArraySelectOption() ,
@@ -32,12 +32,12 @@
     <table id="project-list" class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>Project ID</th>
-            <th>Project Name</th>
-            <th>Role</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
+            <th>{{trans('project.id')}}</th>
+            <th>{{trans('project.name')}}</th>
+            <th>{{trans('project.role')}}</th>
+            <th>{{trans('project.start_date')}}</th>
+            <th>{{trans('project.end_date')}}</th>
+            <th>{{trans('project.status')}}</th>
         </tr>
         </thead>
         <tbody>
