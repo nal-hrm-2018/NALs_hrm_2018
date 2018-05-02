@@ -204,6 +204,7 @@
               <div class="form-group">
                 <label>Position</label>
                 <select class="form-control select2" style="width: 100%;" name="employee_type_id">
+                  <option value="" >---Position selection---</option>
                   <?php
                     foreach($dataEmployeeTypes as $val){
                       $selected = "";
@@ -219,6 +220,7 @@
                     }
                   ?>
                 </select>
+                <label style="color: red; ">{{$errors->first('employee_type_id')}}</label>
               </div>
               <div class="form-group">
                 <label>Role of team</label>

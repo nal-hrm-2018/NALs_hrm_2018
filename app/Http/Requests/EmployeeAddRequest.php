@@ -30,6 +30,7 @@ class EmployeeAddRequest extends FormRequest
             'mobile' => 'required|numeric|digits_between:10,11',
             'marital_status' => 'required',
             /*'curriculum_vitae' => 'required',*/
+            'employee_type_id' => 'required',
             'team_id' => 'required',
             'role_id' => 'required',
             /*'avatar' => 'required',*/
@@ -87,6 +88,9 @@ class EmployeeAddRequest extends FormRequest
             /*'curriculum_vitae.required' => trans('validation.required', [
                 'attribute' => 'CV'
             ]),*/
+            'employee_type_id.required' => trans('validation.required', [
+                'attribute' => 'Position'
+            ]),
             'team_id.required' => trans('validation.required', [
                 'attribute' => 'Team'
             ]),
