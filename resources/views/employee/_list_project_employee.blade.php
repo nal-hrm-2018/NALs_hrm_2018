@@ -32,8 +32,8 @@
     <table id="project-list" class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Project</th>
+            <th>Project ID</th>
+            <th>Project Name</th>
             <th>Role</th>
             <th>Start Date</th>
             <th>End Date</th>
