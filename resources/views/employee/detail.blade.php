@@ -69,7 +69,7 @@
                                                 @endif
                                             </p>
                                             <p>Team:
-                                                <strong>{{ isset($employee->teams)?$employee->teams->name:'-' }}</strong>
+                                                <strong>{{ isset($employee->team)?$employee->team->name:'-' }}</strong>
                                             </p>
                                             <p>Role:
                                                 <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'-' }}</strong>
@@ -85,24 +85,20 @@
                                                     <strong>Expire</strong>
                                                 @endif
                                             </p>
+
                                         </div>
                                         <div class="col-md-6">
                                             <div class="row">
                                                 {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
-                                                <h2 class="profile-username text-center">Project Info</h2>
+                                                <h2 class="profile-username text-center">Resource Chart</h2>
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                     <div class="form-group">
                                                         <select class="form-control" id="sel1" name="year">
-                                                            @if(count($listYears))
-                                                                @foreach($listYears as $year)
-                                                                    <option @if($year == $listValue[0]) selected
-                                                                            @endif value="{{$year}}">Resource Chart
-                                                                        - {{$year}}</option>
-                                                                @endforeach
-                                                            @else
-                                                                <option value="{{$listValue[0]}}">Resource Chart
-                                                                    - {{$listValue[0]}}</option>
-                                                            @endif
+                                                            @foreach($listYears as $year)
+                                                                <option @if($year == $listValue[0]) selected
+                                                                        @endif value="{{$year}}">Resource Chart
+                                                                    - {{$year}}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="box box-primary">

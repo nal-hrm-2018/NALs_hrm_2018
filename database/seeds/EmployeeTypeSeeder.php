@@ -11,10 +11,15 @@ class EmployeeTypeSeeder extends Seeder
      */
     public function run()
     {
-        foreach (range(1,10) as $index) {
-            DB::table('employee_types')->insert([
-                'name' => "PO"
-            ]);
+        $name = ['PO', 'BA', 'QA', 'TeamDev'];
+        if (!\App\Models\EmployeeType::first()) {
+            foreach (range(0, count($name) - 1) as $index) {
+                DB::table('employee_types')->insert([
+                    'name' => $name[$index]
+                ]);
+            }
         }
+
+
     }
 }

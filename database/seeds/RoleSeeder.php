@@ -13,13 +13,13 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $role = array('PO','TeamDev','BA','ScrumMater');
-        $faker = Faker::create();
-        foreach (range(0,count ($role)) as $index) {
-            DB::table('roles')->insert([
-                'id' => $index,
-                'name'=> $role[$index],
-            ]);
+        if(!\App\Models\Role::first()){
+            foreach (range(0,count ($role)-1) as $index) {
+                DB::table('roles')->insert([
+                    'name'=> $role[$index],
+                ]);
+            }
         }
-        $this->call(RoleSeeder::class);
+
     }
 }
