@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 class ProjectSeeder extends Seeder
 {
     /**
@@ -13,17 +14,19 @@ class ProjectSeeder extends Seeder
      */
     public function run()
     {
-
-        foreach (range(1,10) as $index) {
+        $faker = Faker::create();
+        $status = \App\Models\Status::pluck('id');
+        foreach (range(1,40) as $index) {
             DB::table('projects')->insert([
-                'id' => 'PRO_000'.$index,
-                'name' => 'Ecommerce'.$index,
+                'id' => $faker->currencyCode."".rand(1,3000),
+                'name' => $faker->name.$index,
                 'income' => '10000000',
                 'real_cost' => '30000000',
                 'description' => 'nothing to say',
-                'status_id' => 1,
-                'start_date' => '2016-04-12',
-                'end_date' => '2016-06-12'
+                'status_id' => $status[rand(0,count($status)-1)],
+                'start_date' => $faker->dateTimeBetween('-2 years', '-3 months'),
+                'estimate_end_date' => $faker->dateTimeBetween('-1 months', '-1 days'),
+
             ]);
         }
     }
