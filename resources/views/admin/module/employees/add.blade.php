@@ -172,6 +172,7 @@
               <div class="form-group">
                 <label>Team</label>
                 <select class="form-control select2" style="width: 100%;"  name="team_id">
+                  <option value="" >---Team selection---</option>
                   <?php
                     foreach($dataTeam as $val){
                       $selected = "";
@@ -187,6 +188,7 @@
                     }
                   ?>
                 </select>
+                <label style="color: red; ">{{$errors->first('team_id')}}</label>
               </div>
               <div class="form-group">
                 <label>Birthday</label>
@@ -197,12 +199,6 @@
                   <input type="date" class="form-control pull-right" id="birthday" name="birthday" value="{{ old('birthday') }} {{ isset($employee) ? $employee->birthday : null}}">
                 </div>
                 <label style="color: red; ">{{$errors->first('birthday')}}</label>
-                <!-- /.input group -->
-              </div>
-              <div class="form-group">
-                <label>Company</label>
-                <input type="text" class="form-control" placeholder="Company"  name="company" value="{!! old('company') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
-                <label style="color: red; ">{{$errors->first('company')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -227,6 +223,7 @@
               <div class="form-group">
                 <label>Role of team</label>
                 <select class="form-control select2" style="width: 100%;" name="role_id">
+                  <option value="" >---Role selection---</option>
                   <?php
                     foreach($dataRoles as $val){
                       $selected = "";
@@ -242,6 +239,7 @@
                     }
                   ?>
                 </select>
+                <label style="color: red; ">{{$errors->first('role_id')}}</label>
               </div>
               <div class="row">
                 <div class="col-md-6">
