@@ -104,6 +104,21 @@ img.thumbs {
 .error_msg li{
     list-style: none;
 }
+.error_msg1 {
+    text-align: left;
+    color: red;
+    font-weight: bold;
+    padding: 20px 5px 20px 60px;
+    border: 1px dotted #ccc;
+    background: #f7f7f7 url("../images/warning.png") no-repeat 15px center;
+    /** Thêm CSS 3.0 **/
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.error_msg1 li{
+    list-style: none;
+}
 .result_msg {
     text-align: left;
     font-style: italic;
