@@ -27,12 +27,12 @@ class TemplateExport implements  WithHeadings
             'GENDER',
             'MOBILE',
             'ADDRESS',
-            'WORK STATUS',
+            'MARITAL STATUS',
             'START WORK DATE',
             'END WORK DATE',
             'EMPLOYEE TYPE',
             'TEAM',
-            'abc'
+            'ROLE'
         ];
     }
 }

@@ -20,7 +20,7 @@
                 </div>
                 <select name="role" id="role" class="form-control">
                     <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
-                        {{  trans('employee_detail.drop_box.placeholder-default') }}
+                        {{  trans('employee.drop_box.placeholder-default') }}
                     </option>
                     @foreach($roles as $key=>$value)
                         <option value="{{ $key }}" {{ (string)$key===request('role')?'selected="selected"':'' }}>
@@ -37,7 +37,7 @@
                 </div>
                 <select name="project_status" id="project_status" class="form-control">
                     <option {{ !empty(request('project_status'))?'':'selected="selected"' }} value="">
-                        {{  trans('employee_detail.drop_box.placeholder-default') }}
+                        {{  trans('employee.drop_box.placeholder-default') }}
                     </option>
                     @foreach($project_statuses as $key=>$value)
                         <option value="{{ $key }}" {{ (string)$key===request('project_status')?'selected="selected"':'' }}>
