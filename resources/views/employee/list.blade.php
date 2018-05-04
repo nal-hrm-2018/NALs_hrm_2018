@@ -65,7 +65,7 @@
                                                         </option>
                                                     @else
                                                         <option selected="selected"  value="">
-                                                        {{  trans('employee_detail.drop_box.placeholder-default') }}
+                                                        {{  trans('employee.drop_box.placeholder-default') }}
                                                     @endif
                                                         @foreach($teams as $team)
                                                             <option value="{{ $team}}">
@@ -94,7 +94,7 @@
                                                         @else
                                                         <option selected="selected"
                                                                 value="">
-                                                        {{  trans('employee_detail.drop_box.placeholder-default') }}
+                                                        {{  trans('employee.drop_box.placeholder-default') }}
                                                         @endif
                                                         </option>
                                                         @foreach($roles as $role)
