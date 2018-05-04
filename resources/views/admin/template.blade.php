@@ -53,6 +53,7 @@
 <script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.resize.js') !!}"></script>
 <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
 <script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.pie.js') !!}"></script>
+<script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.tooltip.min.js') !!}"></script>
 <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
 <script src="{!! asset('admin/templates/js/bower_components/Flot/jquery.flot.categories.js') !!}"></script>
 <script src="{!! asset('admin/templates/js/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') !!}"></script>

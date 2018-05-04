@@ -15,5 +15,9 @@ return [
 
     'previous' => '&laquo; Previous',
     'next' => 'Next &raquo;',
+    'show'=>[
+        'number_record_per_page'=>'Show entries',
+        'description'=>'Showing :from to :to of :total entries'
+    ],
 
 ];

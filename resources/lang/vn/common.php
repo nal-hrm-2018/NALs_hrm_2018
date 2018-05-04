@@ -14,20 +14,20 @@ return [
     */
 
     'button' => [
-        'reset' => 'RESET',
-        'search' => 'SEARCH',
+        'reset' => 'LÀM MỚI',
+        'search' => 'TÌM KIẾM',
     ],
 
     'title_form' => [
-        'form_search' => 'Search Form'
+        'form_search' => 'Form Tìm Kiếm'
     ],
     'title_header'=>[
-        'employee_detail'=>'Employee Detail'
+        'employee_detail'=>'Thông Tin Nhân Viên'
     ],
     'path'=>[
-        'home'=>'Home',
-        'employee'=>'Employee',
-        'detail'=>'Detail',
+        'home'=>'Trang Chủ',
+        'employee'=>'Nhân Viên',
+        'detail'=>'Chi Tiết',
     ],
 
 ];

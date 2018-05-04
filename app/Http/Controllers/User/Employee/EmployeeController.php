@@ -141,7 +141,6 @@ class EmployeeController extends Controller
             return abort(404);
         }
 
-
         //set chart
         $year = date('Y');
         $listValue = $this->chartService->getListValueOfMonth($employee, $year);
