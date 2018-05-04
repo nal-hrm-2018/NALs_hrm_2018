@@ -196,7 +196,8 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="date" class="form-control pull-right" id="birthday" name="birthday" value="{{ old('birthday'), isset($employee) ? $employee->birthday : null}}">
+                  <input type="date" class="form-control pull-right" id="birthday" name="birthday" value="{{ old('birthday')}}<?php if(isset($employee)){
+                            echo $employee->birthday;}?>">
                 </div>
                 <label style="color: red; ">{{$errors->first('birthday')}}</label>
                 <!-- /.input group -->
@@ -251,7 +252,9 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" value="{{ old('startwork_date') , isset($employee) ? $employee->startwork_date : null}}">
+
+                      <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" value="{{ old('startwork_date')}}<?php if(isset($employee)){
+                            echo $employee->startwork_date;}?>">
                     </div>
                     <label style="color: red; ">{{$errors->first('startwork_date')}}</label>
                   </div>
@@ -263,7 +266,8 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" value="{{ old('endwork_date') , isset($employee) ? $employee->endwork_date : null}}">
+                      <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" value="{{ old('endwork_date')}}<?php if(isset($employee)){
+                            echo $employee->endwork_date;}?>">
                     </div>
                     <label style="color: red; ">{{$errors->first('endwork_date')}}</label>
                     <!-- /.input group -->
