@@ -26,10 +26,10 @@
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-default">
-                    @if($listError == null)
+                    @if($listError == null && $colError == null)
                         <a href="{{ asset('employee/importEmployee?urlFile='.$urlFile)}}"><i class="fa fa-user-plus"></i> IMPORT</a>
                     @endif
-                    @if($listError != null)
+                    @if($listError != null || $colError != null)
                         <a href="{{ asset('employee')}}"><i class="fa fa-user-plus"></i> BACK</a>
                     @endif
                 </button>
@@ -45,6 +45,17 @@
                 </div>';
             }
         ?>
+        <?php
+            if (strlen($colError) > 0) {
+                echo '<div>
+                    <ul class=\'error_msg1\'>
+                        <li><h4>Sorry. CSV file you are error. Please correct the errors below in the CSV file. Then upload the file again.</h4></li>
+                    '
+                    .$colError.'</ul>
+                </div>';
+            }
+        ?>
+        @if($colError == null)
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -84,5 +95,6 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+        @endif
     </div>
 @endsection
