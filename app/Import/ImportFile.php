@@ -5,7 +5,7 @@ use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
-
+use App\Export\TemplateExport;
 class ImportFile{
 
 	public function readFile($url){
@@ -27,11 +27,46 @@ class ImportFile{
         $handle = fopen($url, "r");
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $num = count($data);
+            break;
         }
         fclose($handle);
         return $num;
 	}
 
+    public function checkCol($url){
+        $handle = fopen($url, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $col = count($data);
+            break;
+        }
+        fclose($handle);
+        $templateExport = new TemplateExport;
+        $colTemplateExport = $templateExport -> headings();
+        $rowError = "";
+        if($col != count($colTemplateExport)){
+            $rowError .= "<li>Invalid csv file. Please check the correct number of columns with the sample file!!!</li>";
+        }
+        $num = 1;
+        
+        $i = 0;
+        $handle = fopen($url, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            if($num > 1){
+                $numCol = count($data);
+                if($numCol > count($colTemplateExport)){
+                    $rowError .= "<li>Row ".$num." has ".($numCol - count($colTemplateExport))." columns</li>";
+                    $i++;
+                }else if($numCol < count($colTemplateExport)){
+                    $rowError .= "<li>Row ".$num." is missing ".(count($colTemplateExport) - $numCol)." columns</li>";
+                    $i++;
+                }
+            }
+            
+            $num++;
+        }
+        fclose($handle);
+        return $rowError;
+    }
 	public function checkEmail($dataEmployees, $row, $num){
 		$dataEmail = array();
         $dem = 0;

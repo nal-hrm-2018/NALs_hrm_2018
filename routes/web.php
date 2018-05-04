@@ -74,9 +74,9 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 
 /*begin route list employee by Quy*/
 
-Route::resource('employee','User\Employee\EmployeeController');
+/*Route::resource('employee','User\Employee\EmployeeController');
 
-Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
+Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');*/
 
 
 

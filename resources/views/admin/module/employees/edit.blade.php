@@ -51,15 +51,14 @@
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Email Address</label>
-                <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}">
+                <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
+                  readonly="readonly"
+                @endif
+                >
                 <label style="color: red;">{{$errors->first('email')}}</label>
                 <!-- /.input group -->
               </div>
               
-              <!-- <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" placeholder="Password"  name="password" value="{!! old('password', isset($objEmployee["password"]) ? $objEmployee["password"] : null) !!}">
-              </div> -->
               <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">

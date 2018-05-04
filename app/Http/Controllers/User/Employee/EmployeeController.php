@@ -233,6 +233,13 @@ class EmployeeController extends Controller
 
                 $dataEmployees = $importFile -> readFile(public_path('files/'.$nameFile));
                 $num = $importFile -> countCol(public_path('files/'.$nameFile));
+                $colError = $importFile -> checkCol(public_path('files/'.$nameFile));
+                if($colError != null){
+                    if(file_exists(public_path('files/'.$nameFile))){
+                        unlink(public_path('files/'.$nameFile));
+                    }
+                    return view('admin.module.employees.list_import', ['urlFile' => public_path('files/'.$nameFile), 'colError' => $colError, 'listError' => $listError]);
+                }
                 $row = count($dataEmployees)/$num;
                 $listError .= $importFile -> checkEmail($dataEmployees, $row, $num);
                 $listError .= $importFile -> checkFile($dataEmployees, $num);
@@ -242,7 +249,7 @@ class EmployeeController extends Controller
                         unlink(public_path('files/'.$nameFile));
                     }
                 }
-                return view('admin.module.employees.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row , 'urlFile' => public_path('files/'.$nameFile), 'listError' => $listError]);
+                return view('admin.module.employees.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row , 'urlFile' => public_path('files/'.$nameFile), 'listError' => $listError, 'colError' => $colError]);
             }else{
                 \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
                 return redirect('employee');
