@@ -20,7 +20,7 @@
                 {!! Form::select(
                     'role',
                     $roles ,
-                    null,
+                    '0',
                     ['id'=>'role',
                     'class' => 'form-control',
                     ]
