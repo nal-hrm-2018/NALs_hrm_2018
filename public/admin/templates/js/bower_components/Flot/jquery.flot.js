@@ -3155,6 +3155,7 @@ Licensed under the MIT license.
     // Also add the plot function as a chainable property
 
     $.fn.plot = function(data, options) {
+        console.log("run-pilot2");
         return this.each(function() {
             $.plot(this, data, options);
         });
