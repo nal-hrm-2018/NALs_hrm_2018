@@ -248,7 +248,10 @@ class EmployeeController extends Controller
                         unlink(public_path('files/'.$nameFile));
                     }
                 }
-                return view('admin.module.employees.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row , 'urlFile' => public_path('files/'.$nameFile), 'listError' => $listError, 'colError' => $colError]);
+                $dataTeam = Team::select('id', 'name')->get()->toArray();
+                $dataRoles = Role::select('id', 'name')->get()->toArray();
+                $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
+                return view('admin.module.employees.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row , 'urlFile' => public_path('files/'.$nameFile), 'listError' => $listError, 'colError' => $colError,'dataTeam' => $dataTeam,'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
             }else{
                 \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
                 return redirect('employee');
