@@ -79,10 +79,10 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
                 });
         }
         if (!empty($name)) {
-            $query->Where('name', 'like', '%' . $name . '%');
+            $query->Where('employees.name', 'like', '%' . $name . '%');
         }
         if (!empty($id)) {
-            $query->Where('id', '=', $id);
+            $query->Where('employees.id', '=', $id);
         }
         if (!empty($team)) {
             $query
@@ -94,7 +94,14 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             $query->Where('email', 'like', '%' . $email . '%');
         }
         if (!empty($status)) {
-            $query->Where('work_status', 'like', '%' . $status . '%');
+            switch ($status){
+                case "Unactive":
+                    $query->Where('work_status', '=', '1');
+                    break;
+                case "Active":
+                    $query->Where('work_status', '=', '0');
+                    break;
+            }
         }
         $employeesSearch = $query
             ->where('employees.delete_flag','=',0);

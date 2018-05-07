@@ -13,21 +13,11 @@ return [
     |
     */
 
-    'button' => [
-        'reset' => 'RESET',
-        'search' => 'SEARCH',
-    ],
-
-    'title_form' => [
-        'form_search' => 'Search Form'
-    ],
-    'title_header'=>[
-        'employee_detail'=>'Employee Detail'
-    ],
-    'path'=>[
-        'home'=>'Home',
-        'employee'=>'Employee',
-        'detail'=>'Detail',
+    'previous' => '&laquo; Trước',
+    'next' => 'Sau &raquo;',
+    'show'=>[
+        'number_record_per_page'=>'Số kết quả',
+        'description'=>'Hiển thị :from đến :to trong tổng số :total kết quả'
     ],
 
 ];
