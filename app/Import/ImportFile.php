@@ -113,6 +113,11 @@ class ImportFile{
                     $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
                     if($objEmployee != null){
                         $listError .= "<li>Row ".$row.": Email already exists!!!.</li>";
+                    }else{
+                        $partten = "/^[A-Za-z0-9_\.]{6,32}@([a-zA-Z0-9]{2,12})(\.[a-zA-Z]{2,12})+$/";
+                        if(!preg_match($partten ,$data[$c], $matchs)){
+                            $listError .= "<li>Row ".$row.": The Email must be a valid email address..</li>";
+                        }
                     }
                 }
                 $c++;
