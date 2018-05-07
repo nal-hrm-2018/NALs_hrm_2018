@@ -9,7 +9,8 @@
             </h1>
 
             <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>
+                </li>
                 <li><a href="{{asset('/employee')}}">{{trans('common.path.employee')}}</a></li>
                 <li class="active">{{trans('common.path.detail')}}</li>
             </ol>
@@ -19,15 +20,15 @@
         <section class="content">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="{{ 'basic'===$active?'active':'' }}">
-                        <a href="#basic" data-toggle="tab">{{trans('employee.basic')}}</a>
+                    <li >
+                        <a id="tab-basic" href="#basic" data-toggle="tab">{{trans('employee.basic')}}</a>
                     </li>
-                    <li class="{{ 'project'===$active?'active':'' }}">
-                        <a href="#project" data-toggle="tab">{{trans('project.title')}}</a>
+                    <li>
+                        <a id="tab-project" href="#project" data-toggle="tab">{{trans('project.title')}}</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="{{ 'basic'===$active?'active':'' }} tab-pane" id="basic">
+                    <div class="tab-pane" id="basic">
                         <div class="row">
                             <div class="col-md-3">
                                 <!-- Profile Image -->
@@ -50,22 +51,36 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <h2 class="profile-username text-center">{{trans('employee.profile_info.title')}}</h2>
-                                            <p>{{trans('employee.profile_info.name')}}: <strong>{{$employee->name}}</strong></p>
-                                            <p>{{trans('employee.profile_info.email')}}: <strong>{{$employee->email}}</strong></p>
+                                            <p>{{trans('employee.profile_info.name')}}:
+                                                <strong>{{$employee->name}}</strong></p>
+                                            <p>{{trans('employee.profile_info.email')}}:
+                                                <strong>{{$employee->email}}</strong></p>
                                             <p>{{trans('employee.profile_info.gender.title')}}:
-                                                @if($employee->gender == 1) <strong>{{trans('employee.profile_info.gender.male')}}</strong>
-                                                @elseif($employee->gender == 2) <strong>{{trans('employee.profile_info.gender.female')}}</strong>
-                                                @elseif($employee->gender == 3) <strong>{{trans('employee.profile_info.gender.na')}}</strong>
+                                                @if($employee->gender == 1)
+                                                    <strong>{{trans('employee.profile_info.gender.male')}}</strong>
+                                                @elseif($employee->gender == 2)
+                                                    <strong>{{trans('employee.profile_info.gender.female')}}</strong>
+                                                @elseif($employee->gender == 3)
+                                                    <strong>{{trans('employee.profile_info.gender.na')}}</strong>
                                                 @endif
                                             </p>
-                                            <p>{{trans('employee.profile_info.birthday')}}: <strong>{{isset($employee->birthday)?date('d/m/Y', strtotime($employee->birthday)):'-'}}</strong></p>
-                                            <p>{{trans('employee.profile_info.phone')}}: <strong>{{isset($employee->mobile)?$employee->mobile:'-'}}</strong></p>
-                                            <p>{{trans('employee.profile_info.address')}}: <strong>{{isset($employee->address)?$employee->address:'-'}}</strong></p>
+                                            <p>{{trans('employee.profile_info.birthday')}}:
+                                                <strong>{{isset($employee->birthday)?date('d/m/Y', strtotime($employee->birthday)):'-'}}</strong>
+                                            </p>
+                                            <p>{{trans('employee.profile_info.phone')}}:
+                                                <strong>{{isset($employee->mobile)?$employee->mobile:'-'}}</strong></p>
+                                            <p>{{trans('employee.profile_info.address')}}:
+                                                <strong>{{isset($employee->address)?$employee->address:'-'}}</strong>
+                                            </p>
                                             <p>{{trans('employee.profile_info.marital_status.title')}}:
-                                                @if($employee->marital_status == 1) <strong>{{trans('employee.profile_info.marital_status.single')}}</strong>
-                                                @elseif($employee->marital_status == 2) <strong>{{trans('employee.profile_info.marital_status.married')}}</strong>
-                                                @elseif($employee->marital_status == 3) <strong>{{trans('employee.profile_info.marital_status.separated')}}</strong>
-                                                @elseif($employee->marital_status == 4) <strong>{{trans('employee.profile_info.marital_status.divorced')}}</strong>
+                                                @if($employee->marital_status == 1)
+                                                    <strong>{{trans('employee.profile_info.marital_status.single')}}</strong>
+                                                @elseif($employee->marital_status == 2)
+                                                    <strong>{{trans('employee.profile_info.marital_status.married')}}</strong>
+                                                @elseif($employee->marital_status == 3)
+                                                    <strong>{{trans('employee.profile_info.marital_status.separated')}}</strong>
+                                                @elseif($employee->marital_status == 4)
+                                                    <strong>{{trans('employee.profile_info.marital_status.divorced')}}</strong>
                                                 @endif
                                             </p>
                                             <p>{{trans('employee.profile_info.team')}}:
@@ -105,7 +120,8 @@
                                                         <div class="box-header with-border">
                                                             <i class="fa fa-bar-chart-o"></i>
 
-                                                            <h3 class="box-title">{{trans('chart.resource_chart.title')}} - <span
+                                                            <h3 class="box-title">{{trans('chart.resource_chart.title')}}
+                                                                - <span
                                                                         id="current-year">{{$listValue[0]}}</span></h3>
 
                                                             <div class="box-tools pull-right">
@@ -135,7 +151,7 @@
                         </div>
                         <!-- /.post -->
                     </div>
-                    <div class="{{ 'project'===$active?'active':'' }} tab-pane" id="project">
+                    <div class="tab-pane" id="project">
                         <div>
                             <button type="button" class="btn btn-info btn-default" data-toggle="modal"
                                     data-target="#myModal">
@@ -178,9 +194,9 @@
                 'info': true,
                 'autoWidth': false
             });
-            $('#sel1').change(function () {
-                var year = $('#sel1').val();
-                var id = '{{$employee->id}}';
+
+
+            function sendRequestAjax(id, year) {
                 $.ajax({
                     type: "POST",
                     url: '{{ url('/employee') }}' + '/' + id,
@@ -207,19 +223,46 @@
                         showChart(bar_data);
                     }
                 });
+            }
+
+            $('#sel1').change(function () {
+                var year = $('#sel1').val();
+                var id = '{{$employee->id}}';
+                sendRequestAjax(id, year);
             });
+
+
             $(function () {
-                var bar_data = {
-                    data: [["{{trans('chart.resource_chart.jan')}}", {{$listValue[1]}}], ["{{trans('chart.resource_chart.feb')}}", {{$listValue[2]}}],
-                        ["{{trans('chart.resource_chart.mar')}}", {{$listValue[3]}}], ["{{trans('chart.resource_chart.apr')}}", {{$listValue[4]}}],
-                        ["{{trans('chart.resource_chart.may')}}", {{$listValue[5]}}], ["{{trans('chart.resource_chart.jun')}}", {{$listValue[6]}}],
-                        ["{{trans('chart.resource_chart.jul')}}", {{$listValue[7]}}], ["{{trans('chart.resource_chart.aug')}}", {{$listValue[8]}}],
-                        ["{{trans('chart.resource_chart.sep')}}", {{$listValue[9]}}], ["{{trans('chart.resource_chart.oct')}}", {{$listValue[10]}}],
-                        ["{{trans('chart.resource_chart.nov')}}", {{$listValue[11]}}], ["{{trans('chart.resource_chart.dec')}}", {{$listValue[12]}}]],
-                    color: '#3c8dbc'
-                }
-                showChart(bar_data);
+                $("#tab-basic").bind("click", function () {
+                    activaTab('basic');
+                    var year = $('#sel1').val();
+                    var id = '{{$employee->id}}';
+                    sendRequestAjax(id, year);
+                });
             });
+
+            if ('project' === "{{$active}}") {
+                activaTab('project');
+            } else {
+                $(function () {
+                    activaTab('basic');
+                    var bar_data = {
+                        data: [["{{trans('chart.resource_chart.jan')}}", {{$listValue[1]}}], ["{{trans('chart.resource_chart.feb')}}", {{$listValue[2]}}],
+                            ["{{trans('chart.resource_chart.mar')}}", {{$listValue[3]}}], ["{{trans('chart.resource_chart.apr')}}", {{$listValue[4]}}],
+                            ["{{trans('chart.resource_chart.may')}}", {{$listValue[5]}}], ["{{trans('chart.resource_chart.jun')}}", {{$listValue[6]}}],
+                            ["{{trans('chart.resource_chart.jul')}}", {{$listValue[7]}}], ["{{trans('chart.resource_chart.aug')}}", {{$listValue[8]}}],
+                            ["{{trans('chart.resource_chart.sep')}}", {{$listValue[9]}}], ["{{trans('chart.resource_chart.oct')}}", {{$listValue[10]}}],
+                            ["{{trans('chart.resource_chart.nov')}}", {{$listValue[11]}}], ["{{trans('chart.resource_chart.dec')}}", {{$listValue[12]}}]],
+                        color: '#3c8dbc'
+                    }
+                    showChart(bar_data);
+
+                });
+            }
+
+            function activaTab(tab) {
+                $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+            };
         });
 
     </script>
@@ -243,8 +286,8 @@
                     mode: 'categories',
                     tickLength: 0
                 },
-                yaxis:{
-                    tickFormatter: function(val, axis) {
+                yaxis: {
+                    tickFormatter: function (val, axis) {
                         return '$' + val.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                     },
                 },

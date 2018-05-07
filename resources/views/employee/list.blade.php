@@ -201,7 +201,7 @@
                 </script>
                 <button type="button" class="btn btn-default export-employee" onclick="return clickExport()">
                     <a id="export"
-                       href="{{asset('export').'?'.'id='.$id.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
+                       href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
                         <i class="fa fa-vcard"></i> EXPORT</a>
                 </button>
             </ol>
