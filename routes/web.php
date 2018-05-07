@@ -81,3 +81,5 @@ Route::get('/download-template','User\Employee\EmployeeController@downloadTempla
 Route::get('/team_phu/add', function () {
     return view('teams.add');
 });
+
+Route::resource('team','Team\TeamController');
