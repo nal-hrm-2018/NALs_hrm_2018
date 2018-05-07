@@ -65,7 +65,10 @@ class TeamController extends Controller
     }
 
     public function update(TeamAddRequest $request, $id)
-    {$checkPoElementQuery = Team::select('employees.name')
+    {
+
+        die('okfine');
+        $checkPoElementQuery = Team::select('employees.name')
         ->join('employees', 'employees.team_id', '=', 'teams.id')
         ->where('name', 'like', $request->po_name)
         ->where('id', '<>', $id)->get();
