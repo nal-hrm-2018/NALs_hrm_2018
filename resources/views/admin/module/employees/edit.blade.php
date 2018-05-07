@@ -12,7 +12,11 @@
       <li class="active">Edit Employee</li>
     </ol>
   </section>
-
+  <style type="text/css">
+    .form-horizontal .form-group {
+      margin-right: 0px;
+    }
+  </style>>
   <!-- Main content -->
   <section class="content">
 
@@ -189,8 +193,8 @@
             @if(isset($objEmployee))
                 @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
                   <div class="col-md-4" id="resetPass">
-                    
-                    <p onclick="resetPass()" class="btn btn-info pull-left" >Reset password</p>                  
+                    <br />
+                    <p onclick="resetPass()" class="btn btn-info pull-left" style="margin-top: 5px;">Reset password</p>              
                     <label style="color: red;"><?php 
                       if (Session::has('minPass')){
                         echo''.Session::get("minPass");
@@ -200,12 +204,12 @@
                   <script>
                     function resetPass() {
                         document.getElementById("resetPass").innerHTML = "<div class=\"form-group\">                     <label>Password</label><input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\"  name=\"password\" value=\"\" onchange=\"myFunction()\"><label style=\"color: red;\" id=\"minPass\"></label></div>"
-                        + "<div class=\"form-group\"><label>Confirm password</label><input type=\"password\" class=\"form-control\" placeholder=\"Confirm password\" name=\"confirm_confirmation\" id=\"confirmPass\" onchange=\"confirmPass1()\"><label style=\"color: red;\" id=\"cf\"></label></div><p onclick=\"closePass()\" class=\"btn btn-info pull-left\">Close Reset password</p>";                    
+                        + "<div class=\"form-group\"><label>Confirm password</label><input type=\"password\" class=\"form-control\" placeholder=\"Confirm password\" name=\"confirm_confirmation\" id=\"confirmPass\" onchange=\"confirmPass1()\"><label style=\"color: red;\" id=\"cf\"></label></div><br /><p onclick=\"closePass()\" class=\"btn btn-info pull-left\" style=\"margin-top: 5px;\">Close Reset password</p>";                    
                     }
                   </script>
                   <script>
                     function closePass() {
-                        document.getElementById("resetPass").innerHTML = "<p onclick=\"resetPass()\" class=\"btn btn-info pull-left\" >Reset password</p>";                    
+                        document.getElementById("resetPass").innerHTML = "<br /><p onclick=\"resetPass()\" class=\"btn btn-info pull-left\" style=\"margin-top: 5px;\">Reset password</p>";                    
                     }
                   </script>
                   <script>
