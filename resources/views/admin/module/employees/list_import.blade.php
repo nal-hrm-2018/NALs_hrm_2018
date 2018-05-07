@@ -26,25 +26,74 @@
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-default">
-                    @if($listError == null)
+                    @if($listError == null && $colError == null)
                         <a href="{{ asset('employee/importEmployee?urlFile='.$urlFile)}}"><i class="fa fa-user-plus"></i> IMPORT</a>
                     @endif
-                    @if($listError != null)
+                    @if($listError != null || $colError != null)
                         <a href="{{ asset('employee')}}"><i class="fa fa-user-plus"></i> BACK</a>
                     @endif
                 </button>
             </div>
+            <br />
         </section>
+        
+        @if($listError != null)
+            <div class="content" style="height:200px; overflow: auto;">
+                <?php
+                    echo '<div>
+                        <ul class=\'error_msg1\'>
+                            <li><h4>Sorry. CSV file you are error. Please correct the errors below in the CSV file. Then upload the file again.</h4></li>
+                        '
+                        .$listError.'</ul>
+                    </div>';
+                ?>
+                <div class="row note" style="margin-left: 1px; margin-right: 1px;">
+                    <h4>NOTE:</h4>
+                    <div class="col-xs-4">
+                        <h5>There are the following roles:</h5>
+                        <ul>
+                            @foreach($dataRoles as $dataRoles)
+                                <li>
+                                    {{ $dataRoles["name"] }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-xs-4">
+                        <h5>There are the following teams:</h5>
+                        <ul>
+                            @foreach($dataTeam as $dataTeam)
+                                <li>
+                                    {{ $dataTeam["name"] }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-xs-4">
+                        <h5>There are the following employee type:</h5>
+                        <ul>
+                            @foreach($dataEmployeeTypes as $dataEmployeeTypes)
+                                <li>
+                                    {{ $dataEmployeeTypes["name"] }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <?php
-            if (strlen($listError) > 0) {
-                echo '<div>
+            if (strlen($colError) > 0) {
+                echo '<div class="content" style="height:500px; overflow: auto;">
                     <ul class=\'error_msg1\'>
                         <li><h4>Sorry. CSV file you are error. Please correct the errors below in the CSV file. Then upload the file again.</h4></li>
                     '
-                    .$listError.'</ul>
+                    .$colError.'</ul>
                 </div>';
             }
         ?>
+        @if($colError == null)
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -84,5 +133,6 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+        @endif
     </div>
 @endsection

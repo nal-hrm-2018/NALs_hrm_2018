@@ -59,7 +59,14 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             $query->Where('email', 'like', '%' . $email . '%');
         }
         if (!empty($status)) {
-            $query->Where('work_status', 'like', '%' . $status . '%');
+            switch ($status){
+                case "Unactive":
+                    $query->Where('work_status', '=', '1');
+                    break;
+                case "Active":
+                    $query->Where('work_status', '=', '0');
+                    break;
+            }
         }
         $employeesSearch = $query
             ->where('delete_flag','=',0);
