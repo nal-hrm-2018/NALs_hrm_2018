@@ -101,18 +101,24 @@
             }
             $listAdd = "";
             for($i = 0; $i < $listEmployeeID.length; $i++){
-              $listAdd += "<li><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"></i><label>ID:"+$listEmployeeID[$i]+"</label><label>"+$listEmployeeName[$i]+"</label></a></li>";
+              $listAdd += "<li  id=\"show_"+$listEmployeeID[$i]+"\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee("+$listEmployeeID[$i]+")\"></i><label>ID:"+$listEmployeeID[$i]+"</label><label>"+$listEmployeeName[$i]+"</label></a></li>";
             }
             $listChoose = "";
             for($i = 0; $i < $listEmployeeID.length; $i++){
-              $listChoose += "<input type=\"text\" name=\"employee\" id=\"employee\" value=\""+$listEmployeeID[$i]+"\" class=\"form-control width80\">";
+              $listChoose += "<input type=\"text\" name=\"employee\" id=\"employee\" value=\""+$listEmployeeID[$i]+"\" class=\"form-control width80 input_"+$listEmployeeID[$i]+"\">";
             }
-            
             document.getElementById("contextMenuTeam").innerHTML = $listAdd;
             document.getElementById("listChoose").innerHTML = $listChoose;
           }
         </script>
-
+        <script type="text/javascript">
+          function removeEmployee($id){
+            $('li').remove('#show_'+$id);
+            $('input').remove('.input_'+$id);
+            $listEmployeeID.splice($listEmployeeID.indexOf($id),1);
+            $listEmployeeName.splice($listEmployeeName.indexOf($id),1);
+          }
+        </script>
         <!-- /.row -->
       </div>
       <!-- /.box-body -->
