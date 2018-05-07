@@ -12,6 +12,7 @@ namespace App\Export;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
 class TemplateExport implements  WithHeadings
 {
@@ -35,4 +36,23 @@ class TemplateExport implements  WithHeadings
             'ROLE'
         ];
     }
+
+    /**
+     * @return array
+     */
+   /* public function sheets(): array
+    {
+        $sheets = [];
+        $sheets[] = new TemplateExport();
+        $sheets[] = new NoteTemplate();
+        return $sheets;
+    }*/
+
+    /**
+     * @return string
+     */
+    /*public function title(): string
+    {
+        return "template";
+    }*/
 }
