@@ -221,6 +221,7 @@
                 showChart(bar_data);
             });
         });
+
     </script>
     <script>
         function showChart(bar_data) {
