@@ -78,4 +78,6 @@ Route::get('/download-template','User\Employee\EmployeeController@downloadTempla
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
-
+Route::get('/team_phu/add', function () {
+    return view('teams.add');
+});
