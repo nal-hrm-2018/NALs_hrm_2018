@@ -11,6 +11,7 @@ namespace App\Service\Implement;
 
 use App\Models\Employee;
 use App\Models\Project;
+use App\Models\Team;
 use App\Service\ChartService;
 use App\Service\CommonService;
 
@@ -128,5 +129,27 @@ class ChartServiceImpl extends CommonService implements ChartService
         $listYears = array_unique($listYears);
         rsort($listYears);
         return $listYears;
+    }
+    public function getValueOfTeam(Team $team, $currentMonth)
+    {
+        $totalOnMonth = 0;
+        $employees = $team->employee;
+        foreach ($employees as $employee){
+            $totalOnMonth += $this->getValueOfEmployee($employee, $currentMonth);
+        }
+        return round($totalOnMonth, 1);
+    }
+    public function getValueOfListTeam($currentMonth)
+    {
+        $teams = Team::all()->where('delete_flag', 0);
+        $listTeams = array();
+        foreach ($teams as $team) {
+            $listTeams[$team->name] = $this->getValueOfTeam($team, $currentMonth);
+        }
+        return $listTeams;
+    }
+    public function getListMonth()
+    {
+
     }
 }

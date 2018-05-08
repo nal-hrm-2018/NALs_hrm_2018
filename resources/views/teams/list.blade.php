@@ -183,42 +183,7 @@
                 }
             });
         });
-        function showChart(bar_data) {
-            $.plot('#bar-chart', [bar_data], {
-                grid: {
-                    borderWidth: 1,
-                    borderColor: '#f3f3f3',
-                    tickColor: '#f3f3f3',
-                    hoverable: true
-                },
-                series: {
-                    bars: {
-                        show: true,
-                        barWidth: 0.75,
-                        align: 'center'
-                    }
-                },
-                xaxis: {
-                    mode: 'categories',
-                    tickLength: 0
-                },
-                yaxis: {
-                    tickFormatter: function (val, axis) {
-                        return '$' + val.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                    },
-                },
-                tooltip: {
-                    show: true,
-                    content: "<span style='font-size: 12px;line-height: 17px;max-width: 90px;background-color: #00b4ab;" +
-                    "color: #fff;text-align: center;border-radius: 6px;padding: 10px;'>%x : %y</span>",
-                    shifts: {
-                        x: 20,
-                        y: 0
-                    },
-                    defaultTheme: false
-                }
-            })
-        }
+
     </script>
 
     <script type="text/javascript">
@@ -267,18 +232,61 @@
                 $("#show-list-employee-{{$team->id}}").popover({title: "{{trans('team.members')}}", html: true,placement: "right"});
             @endforeach
             $(function () {
+                var data = [];
+                var i = 0;
+                var jsonValue = <?php echo json_encode($teamsValue)?>;
+                Object.keys(jsonValue).forEach(function(key) {
+                    console.log('Key : ' + key + ', Value : ' + jsonValue[key]);
+                    data[i] = [];
+                    data[i][0] = key;
+                    data[i][1] = jsonValue[key];
+                    i++;
+                });
                 var bar_data = {
-                    data: [["{{trans('chart.resource_chart.jan')}}", 2], ["{{trans('chart.resource_chart.feb')}}", 5],
-                        ["{{trans('chart.resource_chart.mar')}}", 7], ["{{trans('chart.resource_chart.apr')}}", 6],
-                        ["{{trans('chart.resource_chart.may')}}", 1], ["{{trans('chart.resource_chart.jun')}}", 3],
-                        ["{{trans('chart.resource_chart.jul')}}", 9], ["{{trans('chart.resource_chart.aug')}}", 8],
-                        ["{{trans('chart.resource_chart.sep')}}", 1], ["{{trans('chart.resource_chart.oct')}}", 2],
-                        ["{{trans('chart.resource_chart.nov')}}", 6], ["{{trans('chart.resource_chart.dec')}}", 7]],
+                    data: data,
                     color: '#3c8dbc'
                 };
                 showChart(bar_data);
             });
         });
+    </script>
+    <script>
+        function showChart(bar_data) {
+            $.plot('#bar-chart', [bar_data], {
+                grid: {
+                    borderWidth: 1,
+                    borderColor: '#f3f3f3',
+                    tickColor: '#f3f3f3',
+                    hoverable: true
+                },
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.75,
+                        align: 'center'
+                    }
+                },
+                xaxis: {
+                    mode: 'categories',
+                    tickLength: 0
+                },
+                yaxis: {
+                    tickFormatter: function (val, axis) {
+                        return '$' + val.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    },
+                },
+                tooltip: {
+                    show: true,
+                    content: "<span style='font-size: 12px;line-height: 17px;max-width: 90px;background-color: #00b4ab;" +
+                    "color: #fff;text-align: center;border-radius: 6px;padding: 10px;'>%x : %y</span>",
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            })
+        }
     </script>
 
 
