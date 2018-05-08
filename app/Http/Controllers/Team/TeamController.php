@@ -2,13 +2,6 @@
 
 namespace App\Http\Controllers\Team;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\TeamAddRequest;
-use App\Models\Employee;
-use App\Models\Role;
-use App\Models\Team;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Created by PhpStorm.
@@ -16,27 +9,54 @@ use Illuminate\Support\Facades\Auth;
  * Date: 5/7/2018
  * Time: 10:50 AM
  */
+
+
+namespace App\Http\Controllers\Team;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\TeamAddRequest;
+use App\Http\Rule\ValidDupeMember;
+use App\Http\Rule\ValidPoName;
+use App\Http\Rule\ValidTeamName;
+use Illuminate\Http\Request;
+use App\Models\Team;
+use App\Models\Employee;
+use Illuminate\Support\Facades\DB;
+use App\Models\Role;
+use App\Service\TeamService;
+use App\Http\Rule\ValidRepository;
+
 class TeamController extends Controller
 {
+    private $request;
+    private $teamService;
+
+    public function __construct(Request $request, TeamService $teamService)
+    {
+        $this->request = $request;
+        $this->teamService = $teamService;
+    }
+
     public function index(Request $request)
     {
-        return view('teams.test.quy_test');
+        return view('teams.list');
     }
 
     public function create()
     {
-        return null;
+        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->pluck('name', 'id');
+        return view('teams.add', compact('employees'));
     }
 
-    /**
-     * @param TeamAddRequest $request
-     * @param $id
-     * @return null
-     */
-    public function store($id)
+    public function store(TeamAddRequest $request)
     {
-        return null;
+        if($this->teamService->addNewTeam($request)){
+            session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
+            return redirect(route('teams.index'));
+        }
+        return back();
     }
+
 
     public function show($id)
     {
@@ -46,29 +66,30 @@ class TeamController extends Controller
     public function edit($id)
     {
         $allEmployees = Employee::All();
-        $onlyValue=null;
+        $onlyValue = null;
         $nameEmployee = null;
         $teamById = Team::findOrFail($id)->toArray();
         $nameTeam = $teamById['name'];
         $idUser = Auth::user()->id;
-        $poEmployee = Employee::select('email','name')
-            ->Where('team_id','=',$teamById['id'])
-            ->Where('id','=',$idUser)
+        $poEmployee = Employee::select('email', 'name')
+            ->Where('team_id', '=', $teamById['id'])
+            ->Where('id', '=', $idUser)
             ->get()->toArray();
         $values = $poEmployee;
-        foreach ($values as $value){
+        foreach ($values as $value) {
             $onlyValue = $value['email'];
-            $nameEmployee= $value['name'];
+            $nameEmployee = $value['name'];
         }
 
-        return view('teams.edit', compact('teamById', 'onlyValue','nameTeam','allEmployees','nameEmployee'));
+        return view('teams.edit', compact('teamById', 'onlyValue', 'nameTeam', 'allEmployees', 'nameEmployee'));
     }
 
     public function update(TeamAddRequest $request, $id)
-    {$checkPoElementQuery = Team::select('employees.name')
-        ->join('employees', 'employees.team_id', '=', 'teams.id')
-        ->where('name', 'like', $request->po_name)
-        ->where('id', '<>', $id)->get();
+    {
+        $checkPoElementQuery = Team::select('employees.name')
+            ->join('employees', 'employees.team_id', '=', 'teams.id')
+            ->where('name', 'like', $request->po_name)
+            ->where('id', '<>', $id)->get();
         try {
             $queryUpdateTeam = Team::find($id);
             $teamName = $request->team_name;
@@ -101,5 +122,4 @@ class TeamController extends Controller
     {
         return null;
     }
-
 }

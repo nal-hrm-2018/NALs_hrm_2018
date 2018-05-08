@@ -86,7 +86,7 @@ class EmployeeController extends Controller
             \Session::flash('msg_fail', 'Add failed!!! Email already exists!!!');
             return redirect('employee/create') -> with(['employee' => $employee]);
         }else{
-            $employee ->save();
+           $e = $employee ->save();
             \Session::flash('msg_fail', 'Account successfully created!!!');
             return redirect('employee');
         }
