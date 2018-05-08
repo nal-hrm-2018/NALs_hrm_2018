@@ -82,4 +82,5 @@ Route::get('/team_phu/add', function () {
     return view('teams.add');
 });
 
-Route::resource('team','Team\TeamController');
+Route::resource('teams','Team\TeamController');
+Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
