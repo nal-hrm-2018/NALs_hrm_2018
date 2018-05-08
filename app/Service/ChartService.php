@@ -12,6 +12,7 @@ namespace App\Service;
 use App\Models\Employee;
 use App\Models\Process;
 use App\Models\Project;
+use App\Models\Team;
 
 interface ChartService
 {
@@ -20,4 +21,7 @@ interface ChartService
     public function calculateTime($time1, $time2);
     public function getListValueOfMonth(Employee $employee, $year);
     public function getListYear(Employee $employee);
+    public function getValueOfTeam(Team $team, $currentMonth);
+    public function getValueOfListTeam($currentMonth);
+    public function getListMonth();
 }

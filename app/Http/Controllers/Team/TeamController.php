@@ -2,42 +2,58 @@
 
 namespace App\Http\Controllers\Team;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\TeamEditRequest;
-use App\Models\Employee;
-use App\Models\Role;
-use App\Models\Team;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Mockery\Exception;
-
 /**
  * Created by PhpStorm.
  * User: Ngoc Quy
  * Date: 5/7/2018
  * Time: 10:50 AM
  */
+use App\Http\Controllers\Controller;
+use App\Http\Requests\TeamAddRequest;
+use App\Http\Rule\ValidDupeMember;
+use App\Http\Rule\ValidPoName;
+use App\Http\Rule\ValidTeamName;
+use Illuminate\Http\Request;
+use App\Models\Team;
+use App\Models\Employee;
+use Illuminate\Support\Facades\DB;
+use App\Models\Role;
+use App\Service\TeamService;
+use App\Http\Rule\ValidRepository;
+use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
+
 class TeamController extends Controller
 {
+    private $request;
+    private $teamService;
+
+    public function __construct(Request $request, TeamService $teamService)
+    {
+        $this->request = $request;
+        $this->teamService = $teamService;
+    }
+
     public function index(Request $request)
     {
-        return view('teams.test.quy_test');
+        return view('teams.list');
     }
 
     public function create()
     {
-        return view('teams.add');
+        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->pluck('name', 'id');
+        return view('teams.add', compact('employees'));
     }
 
-    /**
-     * @param TeamAddRequest $request
-     * @param $id
-     * @return null
-     */
-    public function store($id)
+    public function store(TeamAddRequest $request)
     {
-        return null;
+        if($this->teamService->addNewTeam($request)){
+            session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
+            return redirect(route('teams.index'));
+        }
+        return back();
     }
+
 
     public function show($id)
     {
@@ -96,7 +112,6 @@ class TeamController extends Controller
                 foreach ($tests as $test){
                     dd(array_keys($tests));
                 }
-
 //                $multipleEmployees = $request->all()['employee'];
                 $multipleEmployeesByIds = $request->employee;
                 $queryUpdateTeam->name = $teamName;
@@ -151,7 +166,5 @@ class TeamController extends Controller
                 echo "Name Team not true !";
             }
         }
-
     }
-
 }
