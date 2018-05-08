@@ -21,7 +21,7 @@
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="/team">
             <i class="fa fa-heartbeat"></i> <span>Team</span>
           </a>
         </li>
