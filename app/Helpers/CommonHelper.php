@@ -16,3 +16,7 @@ function getArraySelectOption(){
 
      return $array;
 }
+
+function array_has_dupes($array) {
+    return count($array) !== count(array_flip($array));
+}
