@@ -9,10 +9,12 @@
 namespace App\Service\Implement;
 
 
+use App\Http\Requests\TeamEditRequest;
 use App\Service\CommonService;
 use App\Service\TeamService;
 use App\Models\Team;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use Exception;
@@ -66,5 +68,62 @@ class TeamServiceImpl extends CommonService
             session()->flash(trans('team.msg_error'), trans('team.msg_content.msg_error_add_team'));
         }
         return false;
+    }
+
+    public function updateTeam(TeamEditRequest $request, $id)
+    {
+        $getAllEmployeeInTeams = Employee::select('employees.id', 'employees.name', 'roles.name as role')
+            ->join('teams', 'teams.id', '=', 'employees.team_id')
+            ->join('roles', 'roles.id', '=', 'employees.role_id')
+            ->where('team_id', '=', Auth::user()->team_id)
+            ->orderBy('employees.id', 'asc')->get();
+        $findAllEmployeeInTeams = Employee::where('team_id', '=', Auth::user()->team_id);
+        if (isset($id)) {
+            try {
+                $queryUpdateTeam = Team::find($id);
+                $getPORole = Role::where('name', '=', 'PO')->firstOrFail();
+                $teamName = $request->team_name;
+                $poId = $request->po_name;
+                $multipleEmployeesByIds = $request->employee;
+                $queryUpdateTeam->name = $teamName;
+                $queryUpdateTeam->save();
+                if ($multipleEmployeesByIds == null){
+                    return false;
+                }
+                else{
+                    foreach ($getAllEmployeeInTeams as $getAllEmployeeInTeam){
+                        $findAllEmployeeInTeams = Employee::find($getAllEmployeeInTeam->id);
+                        if ($findAllEmployeeInTeams == null) {
+                            \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
+                            return back();
+                        } else {
+                            $findAllEmployeeInTeams->team_id = null;
+                            $findAllEmployeeInTeams->save();
+                        }
+                    }
+                    $findAllEmployeeInTeams->save();
+                    foreach ($multipleEmployeesByIds as $multipleEmployeesById) {
+                        $queryUpdateEmployee = Employee::find($multipleEmployeesById);
+                        if ($queryUpdateEmployee == null) {
+                            \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
+                            return back();
+                        } else {
+                            $queryUpdateEmployee->team_id = $queryUpdateTeam->id;
+                            $queryUpdateEmployee->role_id = 1;
+                            $queryUpdateEmployee->save();
+                        }
+                    }
+                }
+                $queryUpdateRoleToEmployee = Employee::find($poId);
+                $queryUpdateRoleToEmployee->team_id = $queryUpdateTeam->id;
+                $queryUpdateRoleToEmployee->role_id = $getPORole['id'];
+                $queryUpdateRoleToEmployee->save();
+                return true;
+            } catch (Exception $exception) {
+                return $exception->getMessage();
+            }
+        } else {
+            return false;
+        }
     }
 }

@@ -156,6 +156,7 @@
                                 <ul class="contextMenuTeam" id="contextMenuTeam">
                                     @foreach($allEmployeeInTeams as $allEmployeeInTeam)
                                         <li id="show_{{$allEmployeeInTeam->id}}">
+                                            <input type="text" hidden="hidden" name="employee[]" value="{{$allEmployeeInTeam->id}}">
                                             <a class="btn-employee-remove">
                                                 <i class="fa fa-remove"
                                                    onclick="removeEmployee({{$allEmployeeInTeam->id}} , '{{$allEmployeeInTeam->name}}') "></i>
