@@ -62,14 +62,19 @@ class TeamController extends Controller
 
     public function edit($id)
     {
-        $allEmployees = Employee::All();
+        $allEmployees = Employee::select("*")->whereNotIn('employees.team_id', function($q){
+            $q->select('id')->from('teams')->where('id',Auth::user()->team_id);
+        })->get();
         $onlyValue = null;
         $nameEmployee = null;
         $teamById = Team::findOrFail($id)->toArray();
         $nameTeam = $teamById['name'];
         $idUser = Auth::user()->id;
-        $roleTeamOfEmployee = "".Auth::user()->team_id;
-        if ($roleTeamOfEmployee != $id) {
+        $teamOfEmployee = "".Auth::user()->team_id;
+        $rolePoInRole = Role::select('id')
+            ->where('name','PO')->first();
+        $numberPoInRole = $rolePoInRole->id;
+        if ($teamOfEmployee != $id) {
             return view('errors.403');
         } else {
             $poEmployee = Employee::select('email', 'name')
@@ -86,7 +91,7 @@ class TeamController extends Controller
                 $onlyValue = $value['email'];
                 $nameEmployee = $value['name'];
             }
-            return view('teams.edit', compact('teamById', 'onlyValue', 'nameTeam', 'allEmployees','allEmployeeInTeams', 'nameEmployee'));
+            return view('teams.edit', compact('teamById', 'onlyValue', 'nameTeam', 'allEmployees','allEmployeeInTeams', 'nameEmployee','numberPoInRole'));
         }
     }
 
@@ -147,23 +152,30 @@ class TeamController extends Controller
 
     public  function checkNameTeam(Request $request){
         $name = $_GET["name"];
-        $regexNameTeam = "/(^[a-zA-Z0-9 ]{1,20}+$)+/";
+        $regexNameTeam = "/(^[a-zA-Z0-9 ]{1,50}+$)+/";
+        $rolePoInRole = Employee::select('employees.name')
+            ->join('teams','teams.id','=','employees.team_id')
+            ->join('roles','roles.id','=','employees.role_id')
+            ->where('roles.name','PO')
+            ->where('teams.name',$name)->first();
+        $namePoInRole = $rolePoInRole->email;
+        $userTest = Auth::user()->email;
         try{
             $queryGetNameTeamTable = Team::where('name', $name)->first();
         }
         catch (Exception $exception){
-            echo "<h4>Name Team has exit !</h4>";
+            echo "<h4>ERROR !</h4>";
             $queryGetNameTeamTable = null;
         }
         finally{
             if ($name == ""){
                 echo "Name Team not blank!";
             }
-            elseif (isset($queryGetNameTeamTable->name)) {
+            elseif (isset($queryGetNameTeamTable->name) &&($userTest != $namePoInRole)) {
                 echo "Name Team has exit !";
             }
             elseif (!preg_match($regexNameTeam, $name)){
-                echo "Name Team not true !";
+                echo "Name Team not true. <br>Name has less than 50 characters,number, space and !";
             }
         }
     }
