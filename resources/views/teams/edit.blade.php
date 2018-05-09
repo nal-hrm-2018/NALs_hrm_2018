@@ -102,19 +102,19 @@
                             </div>
                             <div class="form-group">
                                 <label>PO name</label><br/>
-                                <select class="form-control select2 width80" id="select_po_name" name="po_name">
+                                <select class="form-control select2 width80" id="select_po_name" name="po_name" onchange="choosePO()">
                                     @if(!empty($nameEmployee))
-                                        <option selected="selected" {{'hidden'}}  value="0">
+                                        <option selected="selected" {{'hidden'}}  value="0" id="po_0">
                                             {{$nameEmployee}}
                                         </option>
                                     @else
                                         <option selected="selected"
-                                                value="0">
+                                                value="0"  id="po_0">
                                             {{  trans('employee.drop_box.placeholder-default') }}
                                         </option>
                                     @endif
                                     @foreach($allEmployees as $allEmployee)
-                                        <option value="{{ $allEmployee['id']}}">
+                                        <option value="{{ $allEmployee['id']}}"  id="po_{{ $allEmployee['id']}}">
                                             {{ $allEmployee["name"] }}
                                         </option>
                                     @endforeach
@@ -125,8 +125,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Member</label><br/>
-                                <select class="form-control select2 width80" name="employees" id="member"
-                                        multiple="multiple">
+                                <select class="form-control select2 width80" name="employees" id="member">
                                     <option value="0" id="member_0">---Member---</option>
                                     @foreach($allEmployees as $allEmployee)
                                         <option value="{{$allEmployee["id"]}}" id="member_.{{$allEmployee["id"]}}">{{$allEmployee["name"]}}</option>
@@ -176,46 +175,74 @@
                 </div>
                 {{ Form::close() }}
                 <script type="text/javascript">
-
                     $listEmployeeID = new Array();
                     $listEmployeeName = new Array();
+                    @foreach($allEmployeeInTeams as $allEmployeeInTeam)
+                        $listEmployeeID.push({{$allEmployeeInTeam->id}});
+                        $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
+                    @endforeach
+                    $idPO = "";
+                    $namePO = "";
                 </script>
                 <script type="text/javascript">
-                    function addFunction() {
-                        $id = document.getElementById("member").value;
-                        if ($listEmployeeID == null) {
-                            $listEmployeeID[0] = document.getElementById("member").value;
-                            $listEmployeeName[0] = $("#member_" + $id).text();
-                        } else {
-                            $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
-                            $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
-                        }
-                        $listAdd = "";
-                        for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                            $listAdd += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i><label>ID:" + $listEmployeeID[$i] + "</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
-                        }
-                        $listChoose = "";
-                        for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                            $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
-                        }
-                        document.getElementById("contextMenuTeam").innerHTML = $listAdd;
-                        document.getElementById("listChoose").innerHTML = $listChoose;
-                        $('option').remove('#member_' + $id);
+                  function addFunction(){
+                    $id = document.getElementById("member").value;
+                    if($id != 0){
+                      if($listEmployeeID.length == 0){
+                        $listEmployeeID[0] = document.getElementById("member").value;
+                        $listEmployeeName[0] = $("#member_"+$id).text();
+                      }else{
+                        $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
+                        $listEmployeeName[$listEmployeeName.length] = $("#member_"+$id).text();
+                      }
+                      $listAdd = "";
+                      for($i = 0; $i < $listEmployeeID.length; $i++){
+                        $listAdd += "<li  id=\"show_"+$listEmployeeID[$i]+"\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee("+$listEmployeeID[$i]+",\'"+$listEmployeeName[$i]+"\')\"></i><label>ID:"+$listEmployeeID[$i]+"</label><label>"+$listEmployeeName[$i]+"</label></a></li>";
+                      }
+                      $listChoose = "";
+                      for($i = 0; $i < $listEmployeeID.length; $i++){
+                        $listChoose += "<input type=\"text\" name=\"employee\" id=\"employee\" value=\""+$listEmployeeID[$i]+"\" class=\"form-control width80 input_"+$listEmployeeID[$i]+"\">";
+                      }
+                      document.getElementById("contextMenuTeam").innerHTML = $listAdd;
+                      document.getElementById("listChoose").innerHTML = $listChoose;
+                      $('option').remove('#member_'+$id);
                     }
+                  }
                 </script>
                 <script type="text/javascript">
-                    function removeEmployee($id, $name) {
-                        $('li').remove('#show_' + $id);
-                        $('input').remove('.input_' + $id);
-                        $listEmployeeID.splice($listEmployeeID.indexOf($id), 1);
-                        $listEmployeeName.splice($listEmployeeName.indexOf($id), 1);
-                        $option = document.createElement("option");
-                        $option.value = $id;
-                        $option.text = $name;
-                        $option.id = "member_" + $id;
+                  function removeEmployee($id, $name){
+                    $('li').remove('#show_'+$id);
+                    $('input').remove('.input_'+$id);
+                    $listEmployeeID.splice($listEmployeeID.indexOf(""+$id),1);
+                    $listEmployeeName.splice($listEmployeeName.indexOf(""+$id),1);
+                    $option = document.createElement("option");
+                    $option.value = $id;
+                    $option.text = $name;
+                    $option.id = "member_"+$id;
+                    $select = document.getElementById('member');
+                    $select.appendChild($option);
+                  }
+                </script>
+                <script type="text/javascript">
+                  function choosePO(){
+                    if($idPO == ""){
+                      $idPO = document.getElementById("select_po_name").value;
+                      $namePO = $("#po_"+$idPO).text();
+                    }else{
+                      $option = document.createElement("option");
+                      if($idPO != 0){
+                        $option.value = $idPO;
+                        $option.text = $namePO;
+                        $option.id = "member_"+$idPO;
                         $select = document.getElementById('member');
                         $select.appendChild($option);
+                      }
+                      $idPO = document.getElementById("select_po_name").value;
+                      $namePO = $("#po_"+$idPO).text();
                     }
+                    $id = document.getElementById("select_po_name").value;
+                    $('option').remove('#member_'+$id);
+                  }
                 </script>
                 <!-- /.row -->
             </div>
