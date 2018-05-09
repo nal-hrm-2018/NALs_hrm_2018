@@ -31,6 +31,6 @@ class ValidDupeMember implements Rule
      */
     public function message()
     {
-        return trans('team.msg_content.msg_dupe_member');
+        return trans('team.msg_content.msg_dupe _member');
     }
 }

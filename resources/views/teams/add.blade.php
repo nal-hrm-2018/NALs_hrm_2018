@@ -49,7 +49,7 @@
                     {{  trans('employee.drop_box.placeholder-default') }}
                   </option>
                   @foreach($employees as $key=>$value)
-                    <option value="{{ $key }}" {{ (string)$key===request('id_po')?'selected="selected"':'' }} id="po_{{$key}}">{{ $value }}</ption>
+                    <option value="{{ $key }}" {{ (string)$key===request('id_po')?'selected="selected"':'' }} id="po_{{$key}}">{{ $value }}</option>
                   @endforeach
                 </select>
                   <label style="color: red; ">{{$errors->first('id_po')}}</label>

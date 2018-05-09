@@ -9,21 +9,32 @@
 namespace App\Http\Requests;
 
 
+use App\Http\Rule\ValidDupeMember;
+use App\Http\Rule\ValidPoName;
+use App\Rules\ValidTeamNameEdit;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TeamEditRequest extends FormRequest
 {
-    public function authorize(){
+    public function authorize()
+    {
         return true;
     }
-    public function rules(){
-        return[
-            'team_name' => 'required|max:50|nullable',
-            'po_name' => 'required|max:50|nullable',
-            'member_select' => 'required'
+
+    public function rules()
+    {
+        return [
+            'team_name' => [
+                'required',
+                'max:50',
+                'regex:/(^[a-zA-Z0-9 ]+$)+/',
+                new ValidTeamNameEdit()],
+            'po_name' => new ValidPoName(request()->get('members')),
+            'employees' => new ValidDupeMember()
         ];
     }
-    public  function messages()
+
+    public function messages()
     {
         return [
             'team_name.required' => trans('validation.required', [
@@ -32,18 +43,8 @@ class TeamEditRequest extends FormRequest
             'team_name.max' => trans('validation.max.string', [
                 'attribute' => 'Team Name'
             ]),
-            'team_name.nullable' => trans('validation.required', [
+            'team_name.regex' => trans('validation.regex', [
                 'attribute' => 'Team Name'
-            ]),
-
-            'po_name.required' => trans('validation.required', [
-                'attribute' => 'PO Name'
-            ]),
-            'po_name.max' => trans('validation.max.string', [
-                'attribute' => 'PO Name'
-            ]),
-            'po_name.nullable' => trans('validation.required', [
-                'attribute' => 'PO Name'
             ]),
         ];
     }

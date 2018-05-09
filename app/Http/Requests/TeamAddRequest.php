@@ -1,15 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
-<<<<<<< 8d479ff14ab6177582459bec85a0b7f93e79283e
  * User: Ngoc Quy
  * Date: 5/7/2018
  * Time: 2:01 PM
-=======
- * User: Alex
- * Date: 5/7/2018
- * Time: 1:37 PM
->>>>>>> implement function add new team
  */
 
 namespace App\Http\Requests;
