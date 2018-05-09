@@ -20,6 +20,7 @@ class ValidTeamName implements Rule
     {
         $team_names = Team::where('delete_flag', 0)->pluck('name')->toArray();
 
+        //check team name already in database
         if (in_array($value, $team_names)) {
             return false;
         }

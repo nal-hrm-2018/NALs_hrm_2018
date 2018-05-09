@@ -20,6 +20,7 @@ class ValidPoName implements Rule
 
     public function passes($attribute, $value)
     {
+        // check dup id po vs member
         if (in_array($value, (array)$this->id_members)) {
             return false;
         }

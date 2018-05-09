@@ -26,10 +26,8 @@
 <script type="text/javascript">
     $(function () {
         $("#btn_reset").bind("click", function () {
-            $("#role").val([]);
-            $("#role")[0].selectedIndex = 0;
-            $("#project_status").val([]);
-            $("#project_status")[0].selectedIndex = 0;
+            $("#role").val('').change()
+            $("#project_status").val('').change();
             $("#start_date").val('value', '');
             $("#end_date").val('value', '');
             $("#project_name").val('');
