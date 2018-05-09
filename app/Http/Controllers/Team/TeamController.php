@@ -20,14 +20,13 @@ use App\Service\TeamService;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 
+
 class TeamController extends Controller
 {
-    private $request;
     private $teamService;
 
-    public function __construct(Request $request, TeamService $teamService)
+    public function __construct(TeamService $teamService)
     {
-        $this->request = $request;
         $this->teamService = $teamService;
     }
 
@@ -38,7 +37,7 @@ class TeamController extends Controller
 
     public function create()
     {
-        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->pluck('name', 'id');
+        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->with('team','role')->get();
         return view('teams.add', compact('employees'));
     }
 
@@ -46,11 +45,10 @@ class TeamController extends Controller
     {
         if ($this->teamService->addNewTeam($request)) {
             session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
-            return redirect(route('teams.index'));
+            return view('teams.test.cong_test');
         }
         return back();
     }
-
 
     public function show($id)
     {
