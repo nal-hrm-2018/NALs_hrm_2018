@@ -24,7 +24,7 @@
             max-width: 250px;
             overflow: hidden;
             white-space: nowrap;
-            margin-left: 150px;
+            margin-left: 110px;
             padding: 6px 6px;
             background-color: #fff;
             border-bottom: 1px solid #ecf0f1;
@@ -111,20 +111,21 @@
                                             {{  trans('employee.drop_box.placeholder-default') }}
                                         </option>
                                     @endif
-                                        @foreach($allEmployees as $allEmployee)
-                                            <option value="{{ $allEmployee['id']}}">
-                                                {{ $allEmployee["name"] }}
-                                            </option>
-                                        @endforeach
+                                    @foreach($allEmployees as $allEmployee)
+                                        <option value="{{ $allEmployee['id']}}">
+                                            {{ $allEmployee["name"] }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Member</label><br/>
-                                <select class="form-control select2 width80" name="member" id="member">
+                                <select class="form-control select2 width80" name="member" id="member"
+                                        multiple="multiple">
                                     <option value="" id="member_0">---Member---</option>
                                     <?php
                                     foreach ($allEmployees as $allEmployee) {
-                                        echo '<option id="edit_' . $allEmployee["id"] . '" value="' . $allEmployee["id"] . '">' . $allEmployee["name"] . '</option>';
+                                        echo '<option value="' . $allEmployee["id"] . '" id="member_' . $allEmployee["id"] . '">' . $allEmployee["name"] . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -132,77 +133,87 @@
                                     <a onclick="addFunction()"><i class="fa fa-user-plus"></i> ADD</a>
                                 </button>
                             </div>
-                            <div class="form-group" id="listInTeam">
-                                <ul class="contextMenuEmployeeInTeam" id="contextMenuEmployeeInTeam">
-                                    @foreach($allEmployeeInTeams as $allEmployeeInTeam)
-                                        <li class="removeLiEmployee" data-employee-id="{{$allEmployeeInTeam->id}}">
-                                            <span data-employee-id="{{$allEmployeeInTeam->id}}"
-                                                  class="remove-employee fa fa-remove"></span>
-                                            <input type="text" name="employee_in_team[{{$allEmployeeInTeam->id}}]"
-                                                   value="{{$allEmployeeInTeam->id." ".$allEmployeeInTeam->name}}"
-                                                   readonly="readonly"
-                                                   style="border: 0px;">
-
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
                             <div class="form-group" id="listChoose" style="display: none;">
 
                             </div>
                             <div class="form-group">
                                 <ul class="contextMenuTeam" id="contextMenuTeam">
+                                    @foreach($allEmployeeInTeams as $allEmployeeInTeam)
+                                        <li id="show_{{$allEmployeeInTeam->id}}">
+                                            <a class="btn-employee-remove">
+                                                <i class="fa fa-remove"
+                                                   onclick="removeEmployee({{$allEmployeeInTeam->id}} , '{{$allEmployeeInTeam->name}}') "></i>
+                                                <label>ID:{{$allEmployeeInTeam->id}}</label>
+                                                <label>{{$allEmployeeInTeam->name}}</label>
+                                            </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
-                        <div class="col-md-6" style="display: inline; ">
-                            <div style="float: right;">
-                                <button type="reset" id="btn_reset" class="btn btn-default"><span
-                                            class="fa fa-refresh"></span>
-                                    RESET
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-1" style="display: inline;">
-                            <div style="float: right;">
-                                <button type="submit" class="btn btn-info pull-left">Update</button>
-                            </div>
+                </div>
+                <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
+                    <div class="col-md-6" style="display: inline; ">
+                        <div style="float: right;">
+                            <button type="reset" id="btn_reset" class="btn btn-default"><span
+                                        class="fa fa-refresh"></span>
+                                RESET
+                            </button>
                         </div>
                     </div>
-                    {{ Form::close() }}
-                    <script type="text/javascript">
-                        $listEmployeeID = new Array();
-                        $listEmployeeName = new Array();
-                    </script>
-                    <script type="text/javascript">
-                        function addFunction() {
-                            $id = document.getElementById("member").value;
-                            if ($listEmployeeID == null) {
-                                $listEmployeeID[0] = document.getElementById("member").value;
-                                $listEmployeeName[0] = $("#member_" + $id).text();
-                            } else {
-                                $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
-                                $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
-                            }
-                            $listAdd = "";
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listAdd += "<li><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"></i><label>ID:" + $listEmployeeID[$i] + "</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
-                            }
-                            $listChoose = "";
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listChoose += "<input type=\"text\" name=\"employee_in_team[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80\">";
-                            }
-
-                            document.getElementById("contextMenuTeam").innerHTML = $listAdd;
-                            document.getElementById("listChoose").innerHTML = $listChoose;
-                        }
-                    </script>
-                    <!-- /.row -->
+                    <div class="col-md-1" style="display: inline;">
+                        <div style="float: right;">
+                            <button type="submit" class="btn btn-info pull-left">Update</button>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.box-body -->
+                {{ Form::close() }}
+                <script type="text/javascript">
+
+                    $listEmployeeID = new Array();
+                    $listEmployeeName = new Array();
+                </script>
+                <script type="text/javascript">
+                    function addFunction() {
+                        $id = document.getElementById("member").value;
+                        if ($listEmployeeID == null) {
+                            $listEmployeeID[0] = document.getElementById("member").value;
+                            $listEmployeeName[0] = $("#member_" + $id).text();
+                        } else {
+                            $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
+                            $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
+                        }
+                        $listAdd = "";
+                        for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                            $listAdd += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i><label>ID:" + $listEmployeeID[$i] + "</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
+                        }
+                        $listChoose = "";
+                        for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                            $listChoose += "<input type=\"text\" name=\"employee\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
+                        }
+                        document.getElementById("contextMenuTeam").innerHTML = $listAdd;
+                        document.getElementById("listChoose").innerHTML = $listChoose;
+                        $('option').remove('#member_' + $id);
+                    }
+                </script>
+                <script type="text/javascript">
+                    function removeEmployee($id, $name) {
+                        $('li').remove('#show_' + $id);
+                        $('input').remove('.input_' + $id);
+                        $listEmployeeID.splice($listEmployeeID.indexOf($id), 1);
+                        $listEmployeeName.splice($listEmployeeName.indexOf($id), 1);
+                        $option = document.createElement("option");
+                        $option.value = $id;
+                        $option.text = $name;
+                        $option.id = "member_" + $id;
+                        $select = document.getElementById('member');
+                        $select.appendChild($option);
+                    }
+                </script>
+                <!-- /.row -->
             </div>
+            <!-- /.box-body -->
             <!-- /.box -->
         </section>
         <!-- /.content -->
@@ -210,14 +221,7 @@
 
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.remove-employee').click(function () {
-                var eId = $(this).data('employee-id');
-                $('li.removeLiEmployee[data-employee-id="' + eId + '"').remove();
-            });
-        });
-    </script>
-    <script type="text/javascript">
+
         $(function () {
             $("button#btn_reset").bind("click", function () {
                 var a = $("#select_po_name").val("0");
