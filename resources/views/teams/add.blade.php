@@ -103,7 +103,7 @@
           function addFunction(){
             $id = document.getElementById("member").value;
             if($id != 0){
-              if($listEmployeeID == null){
+              if($listEmployeeID.length == 0){
                 $listEmployeeID[0] = document.getElementById("member").value;
                 $listEmployeeName[0] = $("#member_"+$id).text();
               }else{
@@ -128,8 +128,8 @@
           function removeEmployee($id, $name){
             $('li').remove('#show_'+$id);
             $('input').remove('.input_'+$id);
-            $listEmployeeID.splice($listEmployeeID.indexOf($id),1);
-            $listEmployeeName.splice($listEmployeeName.indexOf($id),1);
+            $listEmployeeID.splice($listEmployeeID.indexOf(""+$id),1);
+            $listEmployeeName.splice($listEmployeeName.indexOf(""+$id),1);
             $option = document.createElement("option");
             $option.value = $id;
             $option.text = $name;
