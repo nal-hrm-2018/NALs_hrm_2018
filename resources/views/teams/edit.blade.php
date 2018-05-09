@@ -97,10 +97,12 @@
                                         @endif>
                                 <!-- /.input group -->
                             </div>
-                            <div class="form-group" id="name_error" style="color: red;"></div>
+                            <div class="" id="name_error" style="color: red;">
+                                <label style="color: red;">{{$errors->first('team_name')}}</label>
+                            </div>
                             <div class="form-group">
                                 <label>PO name</label><br/>
-                                <select class="form-control select2 width80" id="select_po_name" name="po_name[]">
+                                <select class="form-control select2 width80" id="select_po_name" name="po_name">
                                     @if(!empty($nameEmployee))
                                         <option selected="selected" {{'hidden'}}  value="0">
                                             {{$nameEmployee}}
@@ -118,20 +120,24 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="" style="color: red;">
+                                <label style="color: red;">{{$errors->first('po_name')}}</label>
+                            </div>
                             <div class="form-group">
                                 <label>Member</label><br/>
-                                <select class="form-control select2 width80" name="member" id="member"
+                                <select class="form-control select2 width80" name="employees" id="member"
                                         multiple="multiple">
-                                    <option value="" id="member_0">---Member---</option>
-                                    <?php
-                                    foreach ($allEmployees as $allEmployee) {
-                                        echo '<option value="' . $allEmployee["id"] . '" id="member_' . $allEmployee["id"] . '">' . $allEmployee["name"] . '</option>';
-                                    }
-                                    ?>
+                                    <option value="0" id="member_0">---Member---</option>
+                                    @foreach($allEmployees as $allEmployee)
+                                        <option value="{{$allEmployee["id"]}}" id="member_.{{$allEmployee["id"]}}">{{$allEmployee["name"]}}</option>
+                                    @endforeach
                                 </select>
                                 <button type="button" class="btn btn-default buttonAdd">
                                     <a onclick="addFunction()"><i class="fa fa-user-plus"></i> ADD</a>
                                 </button>
+                            </div>
+                            <div class="" style="color: red;">
+                                <label style="color: red;">{{$errors->first('employees')}}</label>
                             </div>
                             <div class="form-group" id="listChoose" style="display: none;">
 
@@ -190,7 +196,7 @@
                         }
                         $listChoose = "";
                         for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                            $listChoose += "<input type=\"text\" name=\"employee\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
+                            $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
                         }
                         document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                         document.getElementById("listChoose").innerHTML = $listChoose;

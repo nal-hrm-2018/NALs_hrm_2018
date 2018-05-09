@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Team;
  */
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TeamAddRequest;
+use App\Http\Requests\TeamEditRequest;
 use App\Http\Rule\ValidDupeMember;
 use App\Http\Rule\ValidPoName;
 use App\Http\Rule\ValidTeamName;
@@ -97,10 +98,11 @@ class TeamController extends Controller
 
     /**
      *
+     * @param TeamEditRequest $request
      * @param $id
      * @return null
      */
-    public function update(Request $request, $id)
+    public function update(TeamEditRequest $request, $id)
     {
         if (isset($id)) {
             /*$checkPoElementQuery = Team::select('employees.name')
@@ -112,8 +114,8 @@ class TeamController extends Controller
                 $getPORole = Role::where('name', '=', 'PO')->firstOrFail();
                 $teamName = $request->team_name;
                 $poId = $request->po_name;
-                $tests = $request->employee_in_team;
-                dd(array_keys($tests));
+                $tests = $request->employee;
+                dd($tests);
                 foreach ($tests as $test){
                     dd(array_keys($tests));
                 }
@@ -153,14 +155,11 @@ class TeamController extends Controller
     public  function checkNameTeam(Request $request){
         $name = $_GET["name"];
         $regexNameTeam = "/(^[a-zA-Z0-9 ]{1,50}+$)+/";
-        $rolePoInRole = Employee::select('employees.name')
-            ->join('teams','teams.id','=','employees.team_id')
-            ->join('roles','roles.id','=','employees.role_id')
-            ->where('roles.name','PO')
-            ->where('teams.name',$name)->first();
-        $namePoInRole = $rolePoInRole->email;
-        $userTest = Auth::user()->email;
         try{
+            $rolePoInRole = Team::select('teams.name')
+                ->join('employees','teams.id','=','employees.team_id')
+                ->where('employees.email',Auth::user()->email)->first();
+            $userTest = $rolePoInRole->name;
             $queryGetNameTeamTable = Team::where('name', $name)->first();
         }
         catch (Exception $exception){
@@ -171,8 +170,11 @@ class TeamController extends Controller
             if ($name == ""){
                 echo "Name Team not blank!";
             }
-            elseif (isset($queryGetNameTeamTable->name) &&($userTest != $namePoInRole)) {
-                echo "Name Team has exit !";
+            elseif (isset($queryGetNameTeamTable->name) && ($name==$userTest)) {
+                echo "Name Team is your team!";
+            }
+            elseif (isset($queryGetNameTeamTable->name)) {
+                echo "Name Team has exit!";
             }
             elseif (!preg_match($regexNameTeam, $name)){
                 echo "Name Team not true. <br>Name has less than 50 characters,number, space and !";
