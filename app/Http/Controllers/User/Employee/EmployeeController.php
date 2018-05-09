@@ -92,12 +92,6 @@ class EmployeeController extends Controller
         }
     }
 
-
-    /**
-     * @param $id
-     * @param SearchRequest $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
-     */
     public function show($id, SearchRequest $request)
     {
         $data = $request->only([
@@ -148,7 +142,15 @@ class EmployeeController extends Controller
         //set list years
         $listYears = $this->chartService->getListYear($employee);
 
-        return view('employee.detail', compact('employee', 'processes', 'listValue', 'listYears', 'roles', 'param', 'project_statuses', 'active'))->render();
+        return view('employee.detail', compact('employee',
+            'processes',
+            'listValue',
+            'listYears',
+            'roles',
+            'param',
+            'project_statuses',
+            'active'))
+            ->render();
     }
 
     public function edit($id)

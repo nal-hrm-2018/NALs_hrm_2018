@@ -18,6 +18,7 @@ class ValidDupeMember implements Rule
 
     public function passes($attribute, $value)
     {
+        // check member duplication
         if (array_has_dupes((array)$value)) {
             return false;
         }

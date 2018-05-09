@@ -28,31 +28,28 @@ class TeamServiceImpl extends CommonService
         $team_name = $request->get('team_name');
 
         try {
-            $po = Employee::findOrFail($id_po);
-
+            $po = Employee::find($id_po);
             $team = new Team();
             $team->name = $team_name;
-
             $members = Employee::where('delete_flag', 0)->whereIn('id', (array)$id_members)->get();
-            //check old role member is PO
+            //check old role member is PO ?
             foreach ($members as $member) {
                 if (config('settings.Roles.PO') === Role::findOrfail($member->role_id)->name) {
                     $member->role_id = null;
                 }
             }
-
             DB::beginTransaction();
             $team->save();
-
-            $po->team_id = $team->id;
-            $roles = Role::where('delete_flag', 0)->pluck('id', 'name');
-            $role = null;
-            if (!$roles->isEmpty()) {
-                $role = $roles[config('settings.Roles.PO')];
+            if (!is_null($po)) {
+                $po->team_id = $team->id;
+                $roles = Role::where('delete_flag', 0)->pluck('id', 'name');
+                $role = null;
+                if (!$roles->isEmpty()) {
+                    $role = $roles[config('settings.Roles.PO')];
+                }
+                $po->role_id = $role;
+                $po->save();
             }
-            $po->role_id = $role;
-            $po->save();
-
             if (!$members->isEmpty()) {
                 foreach ($members as $member) {
                     $member->team_id = $team->id;
