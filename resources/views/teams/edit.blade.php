@@ -206,6 +206,7 @@
                       document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                       document.getElementById("listChoose").innerHTML = $listChoose;
                       $('option').remove('#member_'+$id);
+                      $('option').remove('#po_'+$id);
                     }
                   }
                 </script>
@@ -213,14 +214,22 @@
                   function removeEmployee($id, $name){
                     $('li').remove('#show_'+$id);
                     $('input').remove('.input_'+$id);
-                    $listEmployeeID.splice($listEmployeeID.indexOf(""+$id),1);
-                    $listEmployeeName.splice($listEmployeeName.indexOf(""+$id),1);
+                    $listEmployeeID.splice($listEmployeeID.indexOf($id),1);
+                    $listEmployeeName.splice($listEmployeeName.indexOf($name),1);
+                    
                     $option = document.createElement("option");
                     $option.value = $id;
                     $option.text = $name;
                     $option.id = "member_"+$id;
                     $select = document.getElementById('member');
                     $select.appendChild($option);
+
+                    $option1 = document.createElement("option");
+                    $option1.value = $id;
+                    $option1.text = $name;
+                    $option1.id = "po_"+$id;
+                    $select1 = document.getElementById('select_po_name');
+                    $select1.appendChild($option1);
                   }
                 </script>
                 <script type="text/javascript">
