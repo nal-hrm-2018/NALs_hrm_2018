@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Service\ChartService;
 use App\Service\Implement\ChartServiceImpl;
 use App\Service\Implement\SearchServiceImpl;
+use App\Service\Implement\TeamServiceImpl;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
 use App\Service\SearchService;
+use App\Service\TeamService;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -29,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
     {
         App::bind(SearchService::class, SearchServiceImpl::class);
         App::bind(ChartService::class, ChartServiceImpl::class);
+        App::bind(TeamService::class, TeamServiceImpl::class);
     }
 }

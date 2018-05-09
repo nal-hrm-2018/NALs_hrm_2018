@@ -13,7 +13,7 @@
             </div>
             @include('employee._form_search_process')
             <div class="modal-footer center">
-                <button id="btn_reset" type="button" class="btn btn-default"><span class="fa fa-refresh"></span> {{ trans('common.button.reset')  }}
+                <button id="btn_reset" type="button" class="btn btn-default"><span class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
                 </button>
                 <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span> {{ trans('common.button.search')  }}</button>
             </div>

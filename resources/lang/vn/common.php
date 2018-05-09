@@ -16,6 +16,7 @@ return [
     'button' => [
         'reset' => 'LÀM MỚI',
         'search' => 'TÌM KIẾM',
+        'add' => "THÊM"
     ],
 
     'title_form' => [
@@ -27,7 +28,14 @@ return [
     'path'=>[
         'home'=>'Trang Chủ',
         'employee'=>'Nhân Viên',
+        'team' => 'Nhóm',
+        'list' => 'Danh sách',
         'detail'=>'Chi Tiết',
+    ],
+    'action'=>[
+        'view'=>'Chi tiết',
+        'edit'=>'Sửa',
+        'remove'=>'Xóa'
     ],
 
 ];

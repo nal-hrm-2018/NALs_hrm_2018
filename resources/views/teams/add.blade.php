@@ -1,4 +1,4 @@
-@extends('admin.template') 
+@extends('admin.template')
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -17,9 +17,13 @@
   <section class="content">
 
     <!-- SELECT2 EXAMPLE -->
-    <div class="box box-default">
+      <div class="box box-default">
       <div class="box-body">
-        <form action="">
+        {!! Form::open(
+            ['url' =>route('teams.store'),
+            'method'=>'Post',
+            'id'=>'form_add_team'
+        ]) !!}
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="col-md-3">
@@ -28,40 +32,44 @@
             <div class="col-md-7">
               <div class="form-group">
                 <label>Team name</label>
-                <input type="text" class="form-control width80" placeholder="Team name" name="team_name" value="">
-                <label style="color: red;"></label>
+                  {{ Form::text('team_name', old('team_name'),
+                    ['class' => 'form-control width80',
+                    'id' => 'team_name_id',
+                    'autofocus' => true,
+                    'placeholder'=>'Team name'
+                    ])
+                }}
                 <!-- /.input group -->
+                  <label style="color: red; ">{{$errors->first('team_name')}}</label>
               </div>
               <div class="form-group">
                 <label>PO name</label><br />
-                <select class="form-control select2 width80" name="po_name" id="po">
-                  <option>---PO name---</option>
-                  <option>Nguyễn Văn A</option>
-                  <option>Nguyễn Văn B</option>
-                  <option>Nguyễn Văn C</option>
-                  <option>Nguyễn Văn D</option>
-                  <option>Lê Văn A</option>
-                  <option>Hoàng Văn A</option>
-                  <option>Bùi Văn A</option>
-                  <option>Đại Văn A</option>
+                <select class="form-control select2 width80" name="id_po" onchange="choosePO()" id="id_po">
+                  <option {{ !empty(request('id_po'))?'':'selected="selected"' }} value="0" id="po_0">
+                    {{  trans('employee.drop_box.placeholder-default') }}
+                  </option>
+                  @foreach($employees as $key=>$value)
+                    <option value="{{ $key }}" {{ (string)$key===request('id_po')?'selected="selected"':'' }} id="po_{{$key}}">{{ $value }}</ption>
+                  @endforeach
                 </select>
+                  <label style="color: red; ">{{$errors->first('id_po')}}</label>
               </div>
               <div class="form-group">
                 <label>Member</label><br />
-                <select class="form-control select2 width80" name="member" id="member">
-                  <option value="0" id="member_0">---Member---</option>
-                  <option value="1" id="member_1">Nguyễn Văn A</option>
-                  <option value="2" id="member_2">Nguyễn Văn B</option>
-                  <option value="3" id="member_3">Nguyễn Văn C</option>
-                  <option value="4" id="member_4">Nguyễn Văn D</option>
-                  <option value="5" id="member_5">Lê Văn A</option>
-                  <option value="6" id="member_6">Hoàng Văn A</option>
-                  <option value="7" id="member_7">Bùi Văn A</option>
-                  <option value="8" id="member_8">Đại Văn A</option>
+                <select class="form-control select2 width80" name="members" id="member">
+                  <option selected="selected" value="0" id="member_0">
+                    {{  trans('employee.drop_box.placeholder-default') }}
+                  </option>
+                  @foreach($employees as $key=>$value)
+                    <option value="{{ $key }}" id="member_{{ $key }}">{{$value}}</option>
+                  @endforeach
                 </select>
+                  {{--<input type="hidden" name="members[]" value="42"/>--}}
+                  {{--<input type="hidden" name="members[]" value="42"/>--}}
                 <button type="button" class="btn btn-default buttonAdd">
-                    <a onclick="addFunction()"><i class="fa fa-user-plus"></i> ADD</a>
+                    <a onclick="addFunction()"><i class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
                 </button>
+                  <label style="color: red; ">{{$errors->first('members')}}</label>
               </div>
               <div class="form-group" id="listChoose" style="display: none;">
 
@@ -71,15 +79,25 @@
                 </ul>
               </div>
             </div>
-          </div>          
-          <div class="modal-footer center">
-              <button type="reset" class="btn btn-primary">Reset</button>
-              <button type="submit" class="btn btn-primary">Save</button>
           </div>
-        </form>
+          <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
+            <div class="col-md-6" style="display: inline; ">
+              <div style="float: right;" >
+                <input type="reset" value="{{ trans('common.button.reset')}}" class="btn btn-info pull-left">
+              </div>
+            </div>
+            <div class="col-md-1" style="display: inline;">
+              <div style="float: right;">
+                  <button type="submit" class="btn btn-info pull-left">{{trans('common.button.save')}}</button>
+              </div>
+            </div>
+          </div>
+          {!! Form::close() !!}
         <script type="text/javascript">
           $listEmployeeID = new Array();
           $listEmployeeName = new Array();
+          $idPO = "";
+          $namePO = "";
         </script>
         <script type="text/javascript">
           function addFunction(){
@@ -116,8 +134,29 @@
             $option.value = $id;
             $option.text = $name;
             $option.id = "member_"+$id;
-            $select =document.getElementById('member');
+            $select = document.getElementById('member');
             $select.appendChild($option);
+          }
+        </script>
+        <script type="text/javascript">
+          function choosePO(){
+            if($idPO == ""){
+              $idPO = document.getElementById("id_po").value;
+              $namePO = $("#po_"+$idPO).text();
+            }else{
+              $option = document.createElement("option");
+              if($idPO != 0){
+                $option.value = $idPO;
+                $option.text = $namePO;
+                $option.id = "member_"+$idPO;
+                $select = document.getElementById('member');
+                $select.appendChild($option);
+              }
+              $idPO = document.getElementById("id_po").value;
+              $namePO = $("#po_"+$idPO).text();
+            }
+            $id = document.getElementById("id_po").value;
+            $('option').remove('#member_'+$id);
           }
         </script>
         <!-- /.row -->

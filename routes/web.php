@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
+
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
@@ -14,9 +15,14 @@ Route::post('logout', [
 
 //cong list route cam pha'
 
+Route::get('/cong-test',
+    function () {
+    }
+);
+
 Route::get('/login', [
-    'as'=> 'login',
-    'uses'=>'Auth\LoginController@getLogin'
+    'as' => 'login',
+    'uses' => 'Auth\LoginController@getLogin'
 ]);
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
@@ -33,15 +39,15 @@ Route::post('/register', [
     'uses' => 'Auth\RegisterController@register',
 ]);
 
-Route::group(['prefix'=>'employee','middleware'=>'user'],function (){
+Route::group(['prefix' => 'employee', 'middleware' => 'user'], function () {
 
 
 });
 
-Route::group(['middleware'=>'user'],function (){
+Route::group(['middleware' => 'user'], function () {
 
     Route::get('/', [
-        'as'=> 'welcome',
+        'as' => 'welcome',
         'uses' => 'User\DashboardController@index',
     ]);
 
@@ -52,7 +58,7 @@ Route::group(['middleware'=>'user'],function (){
     Route::post('employee/postFile', 'User\Employee\EmployeeController@postFile')->name('postFile');
     /*Route::get('employee/listEmployeeImport', 'User\Employee\EmployeeController@listEmployeeImport');*/
     Route::get('employee/importEmployee', 'User\Employee\EmployeeController@importEmployee')->name('importEmployee');
-    Route::resource('employee','User\Employee\EmployeeController');
+    Route::resource('employee', 'User\Employee\EmployeeController');
     Route::post('/employee/{id}', [
         'as' => 'show_chart',
         'uses' => 'User\Employee\EmployeeController@showChart',
@@ -73,15 +79,13 @@ Route::get('/employee/edit/{id}',['as' => 'getEmployeeEdit', 'uses' => 'Admin\Em
 Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\EmployeeController@postEmployeeEdit']); */
 
 /*begin route list employee by Quy*/
-Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
-Route::get('/download-template','User\Employee\EmployeeController@downloadTemplate');
+//Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
+Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
-Route::get('/team_phu/edit', function () {
-    return view('teams.edit');
-});
-Route::get('/team_phu/add', function () {
-    return view('teams.add');
-});
-Route::resource('team','Team\TeamController');
+
+
+Route::resource('teams','Team\TeamController');
+Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
+Route::resource('teams-list', 'Team\TeamListController');
