@@ -82,4 +82,9 @@ Route::get('/team_phu/add', function () {
     return view('teams.add');
 });
 
+Route::get('/teams/{id}', [
+    'as' => 'team-detail',
+    'uses' => 'Team\TeamViewController@getMember',
+]);
+
 Route::resource('team','Team\TeamController');
