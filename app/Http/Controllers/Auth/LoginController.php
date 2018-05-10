@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthorizationRequest;
+use App\Models\Employee;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -34,6 +39,38 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    public function getLogin()
+    {
+        if (Auth::guard()->check()) {
+            return back();
+        }
+        return view('auth.login');
+    }
+
+    public function login(LoginRequest $request)
+    {
+
+        $remember = $request->get('remember');
+
+        $data = $request->only([
+            'email',
+            'password',
+        ]);
+
+        if (Auth::attempt(
+            [
+                'email' => $data['email'],
+                'password' => $data['password'],
+            ], $remember)
+        ) {
+
+            return redirect()->intended(action('User\DashboardController@index'));
+        }
+        return redirect()
+            ->action('Auth\LoginController@getLogin')
+            ->with('message', trans('auth.failed'));
     }
 }
