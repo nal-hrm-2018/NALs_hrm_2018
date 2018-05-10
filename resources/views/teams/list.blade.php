@@ -51,8 +51,8 @@
                                 <tbody class="context-menu">
                                 @foreach($teams as $team)
                                     <?php
-                                        $po = $team->employee->where('role_id', $po_id)->pluck('name');
-                                        $employees = $team->employee->where('role_id', '<>',  $po_id)->pluck('name');
+                                        $po = $team->employees->where('role_id', $po_id)->pluck('name');
+                                        $employees = $team->employees->where('role_id', '<>',  $po_id)->pluck('name');
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
@@ -121,8 +121,11 @@
                                         <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <div class="form-group">
-                                                <select class="form-control" id="sel1" name="year">
-
+                                                <select class="form-control" id="choose-month" name="month">
+                                                    @foreach($listMonth as $month)
+                                                        <option value="{{$month}}">{{trans('chart.resource_chart.title')}}
+                                                            - {{date('m/Y',strtotime($month))}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="box box-primary">
@@ -193,7 +196,7 @@
                 if (confirm('Really delete?')) {
                     $.ajax({
                         type: "DELETE",
-                        url: '{{ url('/team') }}' + '/' + elementRemove,
+                        url: '{{ url('/teams-list') }}' + '/' + elementRemove,
                         data: {
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -214,6 +217,41 @@
                 }
             });
         });
+
+        $('#choose-month').change(function () {
+            var month = $('#choose-month').val();
+            $.ajax({
+                type: "POST",
+                url: '{{ url('/teams-list') }}',
+                data: {
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    "month": month,
+                    '_method': 'POST',
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (msg) {
+                    // console.log(msg.listValueOfMonth);
+                    var data = [];
+                    var i = 0;
+                    var jsonValue = msg.listValueOfMonth;
+                    Object.keys(jsonValue).forEach(function(key) {
+                        data[i] = [];
+                        data[i][0] = key;
+                        data[i][1] = jsonValue[key];
+                        i++;
+                    });
+                    var bar_data = {
+                        data: data,
+                        color: '#3c8dbc'
+                    };
+                    showChart(bar_data);
+                }
+            })
+
+        });
+
     </script>
 
 
@@ -228,14 +266,13 @@
                 'autoWidth': false,
             });
             @foreach($teams as $team)
-                $("#show-list-employee-{{$team->id}}").popover({title: "{{trans('team.members')}}", html: true,placement: "right"});
+                $("#show-list-employee-{{$team->id}}").popover({title: "<strong>{{trans('team.members')}}</strong>", html: true,placement: "right"});
             @endforeach
             $(function () {
                 var data = [];
                 var i = 0;
                 var jsonValue = <?php echo json_encode($teamsValue)?>;
                 Object.keys(jsonValue).forEach(function(key) {
-                    console.log('Key : ' + key + ', Value : ' + jsonValue[key]);
                     data[i] = [];
                     data[i][0] = key;
                     data[i][1] = jsonValue[key];

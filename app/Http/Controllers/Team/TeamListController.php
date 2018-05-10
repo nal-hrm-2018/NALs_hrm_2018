@@ -8,6 +8,7 @@
 namespace App\Http\Controllers\Team;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\Process;
 use App\Models\Role;
 use App\Models\Team;
 use App\Service\ChartService;
@@ -25,9 +26,11 @@ class TeamListController extends Controller
         $teams = Team::all()->where('delete_flag', 0);
         $po_id = Role::all()->where('delete_flag', 0)->where('name', 'PO')->pluck('id')[0];
 
-        $teamsValue = $this->chartService->getValueOfListTeam('2018-04-01');
+        $currentMonth = date('Y-m-01');
+        $teamsValue = $this->chartService->getValueOfListTeam($currentMonth);
+        $listMonth = $this->chartService->getListMonth();
 
-        return view('teams.list', compact('teams', 'po_id', 'teamsValue'));
+        return view('teams.list', compact('teams', 'po_id', 'teamsValue', 'listMonth'));
     }
 
     public function destroy($id, Request $request)
@@ -44,5 +47,11 @@ class TeamListController extends Controller
             return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
         }
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
+    }
+    public function showChart(Request $request)
+    {
+        $month = date('Y-m-01', strtotime($request->month));
+        $teamsValue = $this->chartService->getValueOfListTeam($month);
+        return response(['listValueOfMonth' => $teamsValue]);
     }
 }
