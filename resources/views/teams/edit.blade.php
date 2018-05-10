@@ -137,9 +137,9 @@
                                 <label>Member</label><br/>
                                 <select class="form-control select2 width80" name="employees" id="member">
                                     <option value="0" id="member_0">{{ trans('employee.drop_box.placeholder-default') }}</option>
-                                    @foreach($allEmployees as $allEmployee)
-                                        <option value="{{$allEmployee["id"]}}"
-                                                id="member_{{$allEmployee["id"]}}">{{$allEmployee["name"]}}</option>
+                                    @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
+                                        <option value="{{$allEmployeeHasPO["id"]}}"
+                                                id="member_{{$allEmployeeHasPO["id"]}}">{{$allEmployeeHasPO["name"]}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-default buttonAdd">
