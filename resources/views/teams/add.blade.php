@@ -12,11 +12,16 @@
                 <li class="active">Add team</li>
             </ol>
         </section>
-
         <!-- Main content -->
+        @if(session()->get('msg_fails'))
+                <div>
+                    <ul class='error_msg'>
+                        <li> {{ session()->get("msg_fails") }}</li>
+                    </ul>
+                </div>
+        @endif
         <section class="content">
-
-            <!-- SELECT2 EXAMPLE -->
+        <!-- SELECT2 EXAMPLE -->
             <div class="box box-default">
                 <div class="box-body">
                     {!! Form::open(
@@ -30,85 +35,62 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-md-7">
-                            <div class="form-group">
-                                <label>Team name</label>
-                            {{ Form::text('team_name', old('team_name'),
-                              ['class' => 'form-control width80',
-                              'id' => 'team_name_id',
-                              'autofocus' => true,
-                              'placeholder'=>'Team name'
-                              ])
-                          }}
-                            <!-- /.input group -->
-                                <label style="color: red; ">{{$errors->first('team_name')}}</label>
-                            </div>
-                            <div class="form-group">
-                                <label>PO name</label><br/>
-                                <select class="form-control select2 width80" name="id_po" onchange="choosePO()"
-                                        id="id_po">
-                                    <option {{ !empty(old('id_po'))?'':'selected="selected"' }} value="" id="po_0">
-                                        {{  trans('employee.drop_box.placeholder-default') }}
-                                    </option>
-                                    @foreach($employees as $employee)
-                                        <option value="{{ $employee->id }}"
-                                                {{ (string)$employee->id===old('id_po')?'selected="selected"':'' }}
-                                                id="po_{{$employee->id}}">
-                                            {{ $employee->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label style="color: red; ">{{$errors->first('id_po')}}</label>
-                            </div>
-                            <div class="form-group">
-                                <label>Member</label><br/>
-                                <select class="form-control select2 width80" name="" id="member">
-                                    <option {{ !empty(old('members'))?'':'selected="selected"' }} value=""
-                                            id="member_0">
-                                        {{  trans('employee.drop_box.placeholder-default') }}
-                                    </option>
-                                    @foreach($employees as $employee)
-                                        <option value="{{ $employee->id }}" id="member_{{ $employee->id }}">{{ $employee->name }}</option>
-                                    @endforeach
-                                </select>
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
-                                <button type="button" class="btn btn-default buttonAdd">
-                                    <a onclick="addFunction()"><i
-                                                class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
-                                </button>
-                                <label style="color: red; ">{{$errors->first('members')}}</label>
-                            </div>
-                            <div class="form-group" id="listChoose" style="display: none;">
-                            </div>
-                            <div class="form-group" id="contextMenuTeam">
-                                <!-- <ul class="contextMenuTeam" id="contextMenuTeam">
+                          <div class="form-group">
+                              <label>Team name</label>
+                                {{ Form::text('team_name', old('team_name'),
+                                  ['class' => 'form-control width80',
+                                  'id' => 'team_name_id',
+                                  'autofocus' => true,
+                                  'placeholder'=>'Team name'
+                                  ])
+                                }}
+                          <!-- /.input group -->
+                              <label style="color: red; ">{{$errors->first('team_name')}}</label>
+                          </div>
+                          <div class="form-group">
+                              <label>PO name</label><br/>
+                              <select class="form-control select2 width80" name="id_po" onchange="choosePO()"
+                                      id="id_po">
+                                  <option {{ !empty(old('id_po'))?'':'selected="selected"' }} value="" id="po_0">
+                                      {{  trans('employee.drop_box.placeholder-default') }}
+                                  </option>
+                                  @foreach($employees as $employee)
+                                      <option value="{{ $employee->id }}"
+                                              {{ (string)$employee->id===old('id_po')?'selected="selected"':'' }}
+                                              id="po_{{$employee->id}}">
+                                          {{ $employee->name }}
+                                      </option>
+                                  @endforeach
+                              </select>
+                              <label style="color: red; ">{{$errors->first('id_po')}}</label>
+                          </div>
+                          <div class="form-group">
+                              <label>Member</label><br/>
+                              <select class="form-control select2 width80" name="" id="member">
+                                  <option {{ !empty(old('members'))?'':'selected="selected"' }} value=""
+                                          id="member_0">
+                                      {{  trans('employee.drop_box.placeholder-default') }}
+                                  </option>
+                                  @foreach($employees as $employee)
+                                      <option value="{{ $employee->id }}" id="member_{{ $employee->id }}">{{ $employee->name }}</option>
 
-                                </ul>
-                                <div class="box-body">
-                                  <table id="employee-list" class="table table-bordered table-striped">
-                                      <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Team</th>
-                                            <th>Role</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody class="context-menu">
-                                        <tr >
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                        </tr>
-                                      </tbody>
-                                  </table>
-                                </div> -->
-                                  <!-- /.box-body -->
-                              </div>
-                            </div>
+                                  @endforeach
+                              </select>
+                              {{--<input type="hidden" name="members[]" value="42"/>--}}
+                              {{--<input type="hidden" name="members[]" value="42"/>--}}
+                              <button type="button" class="btn btn-default buttonAdd">
+                                  <a onclick="addFunction()"><i
+                                              class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
+                              </button>
+                              <label style="color: red; ">{{$errors->first('members')}}</label>
+                          </div>
+                          <div class="form-group" id="listChoose" style="display: none;">
+                          </div>
+                          <div class="form-group" id="contextMenuTeam">
+                              
+                          </div>
                         </div>
+                      </div>
                     </div>
                     <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
                         <div class="col-md-6" style="display: inline; ">
@@ -134,6 +116,7 @@
                         $listEmployeeTeam = new Array();
                         $listEmployeeRole = new Array();
                         $idPO = document.getElementById("id_po").value;
+
                     </script>
                     <script>
                         $(function () {
@@ -180,9 +163,9 @@
                                           "<td id=\"nameEdit_"+members[i]+"\">" + $("#member_" + members[i]).text()+ "</td>"+
                                           "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ",\'" + $("#member_" + members[i]).text() + "\')\"></i></td></tr>";
                                 }
-                                listChoose="";
+                                listChoose = "";
                                 for (i = 0; i < members.length; i++) {
-                                    listChoose +=   "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + members[i] + "\" class=\"form-control width80 input_" + members[i] + "\">";
+                                    listChoose += "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + members[i] + "\" class=\"form-control width80 input_" + members[i] + "\">";
                                 }
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">"+
                                           "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">"+ $listAdd +
