@@ -57,7 +57,8 @@ class TeamController extends Controller
 
     public function edit($id)
     {
-        $allEmployees = Employee::select("*")
+        $allEmployees = Employee::query()
+            ->with(['team', 'role'])
             ->where('employees.team_id',null)
             ->orwhereNotIn('employees.team_id', function ($q) {
                 $q->select('id')->from('teams')->where('id', Auth::user()->team_id);
