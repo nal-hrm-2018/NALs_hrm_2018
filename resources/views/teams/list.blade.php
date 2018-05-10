@@ -22,7 +22,6 @@
                 <li><a href="#">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
-
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-info btn-default">
@@ -52,8 +51,8 @@
                                 <tbody class="context-menu">
                                 @foreach($teams as $team)
                                     <?php
-                                        $po = $team->employee->where('role_id', $po_id)->pluck('name');
-                                        $employees = $team->employee->where('role_id', '<>',  $po_id)->pluck('name');
+                                        $po = $team->employees->where('role_id', $po_id)->pluck('name');
+                                        $employees = $team->employees->where('role_id', '<>',  $po_id)->pluck('name');
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
@@ -113,41 +112,46 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="row">
-                                {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
-                                <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <select class="form-control" id="sel1" name="year">
-
-                                        </select>
-                                    </div>
-                                    <div class="box box-primary">
-                                        <div class="box-header with-border">
-                                            <i class="fa fa-bar-chart-o"></i>
-
-                                            <h3 class="box-title">{{trans('chart.resource_chart.title')}}
-                                                - <span
-                                                        id="current-year"></span></h3>
-
-                                            <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool"
-                                                        data-widget="collapse"><i
-                                                            class="fa fa-minus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-box-tool"
-                                                        data-widget="remove"><i class="fa fa-times"></i>
-                                                </button>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <div class="box-body">
+                                    <div class="row">
+                                        {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
+                                        <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <select class="form-control" id="choose-month" name="month">
+                                                    @foreach($listMonth as $month)
+                                                        <option value="{{$month}}">{{trans('chart.resource_chart.title')}}
+                                                            - {{date('m/Y',strtotime($month))}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                        </div>
-                                        <div class="box-body">
-                                            <div id="bar-chart" style="height: 235px;"></div>
-                                        </div>
-                                        <!-- /.box-body-->
-                                    </div>
-                                    <!-- /.box -->
+                                            <div class="box box-primary">
+                                                <div class="box-header with-border">
+                                                    <i class="fa fa-bar-chart-o"></i>
 
+                                                    <h3 class="box-title">{{trans('chart.resource_chart.title')}}
+                                                        - <span id="current-year"></span></h3>
+
+                                                    <div class="box-tools pull-right">
+                                                        <button type="button" class="btn btn-box-tool"
+                                                                data-widget="collapse"><i class="fa fa-minus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-box-tool"
+                                                                data-widget="remove"><i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div id="bar-chart" style="height: 235px;"></div>
+                                                </div>
+                                                <!-- /.box-body-->
+                                            </div>
+                                            <!-- /.box -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +171,6 @@
 
     <script type="text/javascript">
         $(function () {
-
             $('tr.team-menu').on('contextmenu', function (event) {
                 event.preventDefault();
                 $('ul.contextMenu').fadeOut("fast");
@@ -175,7 +178,6 @@
                 $('ul.contextMenu[data-team-id="' + eId + '"')
                     .show()
                     .css({top: event.pageY - 170, left: event.pageX - 250, 'z-index': 300});
-
             });
             $(document).click(function () {
                 if ($('ul.contextMenu:hover').length === 0) {
@@ -194,7 +196,7 @@
                 if (confirm('Really delete?')) {
                     $.ajax({
                         type: "DELETE",
-                        url: '{{ url('/team') }}' + '/' + elementRemove,
+                        url: '{{ url('/teams-list') }}' + '/' + elementRemove,
                         data: {
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -215,6 +217,41 @@
                 }
             });
         });
+
+        $('#choose-month').change(function () {
+            var month = $('#choose-month').val();
+            $.ajax({
+                type: "POST",
+                url: '{{ url('/teams-list') }}',
+                data: {
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    "month": month,
+                    '_method': 'POST',
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (msg) {
+                    // console.log(msg.listValueOfMonth);
+                    var data = [];
+                    var i = 0;
+                    var jsonValue = msg.listValueOfMonth;
+                    Object.keys(jsonValue).forEach(function(key) {
+                        data[i] = [];
+                        data[i][0] = key;
+                        data[i][1] = jsonValue[key];
+                        i++;
+                    });
+                    var bar_data = {
+                        data: data,
+                        color: '#3c8dbc'
+                    };
+                    showChart(bar_data);
+                }
+            })
+
+        });
+
     </script>
 
 
@@ -229,14 +266,13 @@
                 'autoWidth': false,
             });
             @foreach($teams as $team)
-                $("#show-list-employee-{{$team->id}}").popover({title: "{{trans('team.members')}}", html: true,placement: "right"});
+                $("#show-list-employee-{{$team->id}}").popover({title: "<strong>{{trans('team.members')}}</strong>", html: true,placement: "right"});
             @endforeach
             $(function () {
                 var data = [];
                 var i = 0;
                 var jsonValue = <?php echo json_encode($teamsValue)?>;
                 Object.keys(jsonValue).forEach(function(key) {
-                    console.log('Key : ' + key + ', Value : ' + jsonValue[key]);
                     data[i] = [];
                     data[i][0] = key;
                     data[i][1] = jsonValue[key];
