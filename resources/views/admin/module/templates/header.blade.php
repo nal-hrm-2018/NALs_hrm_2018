@@ -75,7 +75,7 @@
                 <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{Auth::user()->name}} - {{isset(Auth::user()->employee_type)?Auth::user()->employee_type->name:"  "  }}
+                  {{Auth::user()->name}} - {{isset(App\Models\Employee::find(1)->where('id', Auth::user()->id)->first()->employeeType->name)?App\Models\Employee::find(1)->where('id', Auth::user()->id)->first()->employeeType->name:"  "  }}
                   <small>Member since {{Auth::user()->startwork_date}}</small>
 {{--                  {{Auth::user()->name}}--}}
                   {{--<small>Member since {{Auth::user()->startwork_date}}</small>--}}
