@@ -27,6 +27,7 @@ return [
         'msg_dupe_member' => 'Member not duplicate !!',
         'msg_team_name_already' => 'Team name has already use !!',
         'msg_add_success'=>'Team successfully added!!!',
+        'msg_add_fail'=>'Add team fail!!!',
         'msg_error_add_team'=> 'Has error in process'
     ],
 

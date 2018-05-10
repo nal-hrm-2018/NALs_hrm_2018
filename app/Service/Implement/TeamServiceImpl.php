@@ -36,8 +36,11 @@ class TeamServiceImpl extends CommonService
             $members = Employee::where('delete_flag', 0)->whereIn('id', (array)$id_members)->get();
             //check old role member is PO ?
             foreach ($members as $member) {
-                if (config('settings.Roles.PO') === Role::findOrfail($member->role_id)->name) {
-                    $member->role_id = null;
+                $member_role = Role::find($member->role_id);
+                if (!is_null($member_role)) {
+                    if (config('settings.Roles.PO') === Role::find($member->role_id)->name) {
+                        $member->role_id = null;
+                    }
                 }
             }
             DB::beginTransaction();
