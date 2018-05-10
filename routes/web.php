@@ -89,3 +89,4 @@ Route::get('/download-template', 'User\Employee\EmployeeController@downloadTempl
 Route::resource('teams','Team\TeamController');
 Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
 Route::resource('teams-list', 'Team\TeamListController');
+Route::post('teams-list','Team\TeamListController@showChart');
