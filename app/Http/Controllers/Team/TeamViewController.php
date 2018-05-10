@@ -14,11 +14,6 @@ class TeamViewController
 {
     public function getMember($id_team)
     {
-        $member=Employee::where([
-            ['team_id','=', $id_team],
-            ['delete_flag','=', 0]
-        ])->get();
 
-        return view('teams.view',compact('member'));
     }
 }
