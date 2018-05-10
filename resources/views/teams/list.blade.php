@@ -17,22 +17,17 @@
                 <small>Nal solution</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>
+                </li>
                 <li><a href="{{asset('/teams')}}"> {{trans('common.path.team')}}</a></li>
                 <li><a href="#">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
-        @if(session()->get('msg_success'))
-            <div>
-                <ul class='result_msg'>
-                    <li> {{ session()->get("msg_success") }}</li>
-                </ul>
-            </div>
-        @endif
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-info btn-default">
-                    <a href="{{ asset('teams/create')}}"><i class="fa fa-user-plus"></i>{{trans('common.button.add')}}</a>
+                    <a href="{{ asset('teams/create')}}"><i class="fa fa-user-plus"></i>{{trans('common.button.add')}}
+                    </a>
                 </button>
             </div>
         </section>
@@ -55,7 +50,7 @@
             </div>';
     }
     ?>
-        <!-- Main content -->
+    <!-- Main content -->
 
         <section class="content">
             <div class="row">
@@ -76,8 +71,8 @@
                                 <tbody class="context-menu">
                                 @foreach($teams as $team)
                                     <?php
-                                        $po = $team->employees->where('role_id', $po_id)->pluck('name');
-                                        $employees = $team->employees->where('role_id', '<>',  $po_id)->pluck('name');
+                                    $po = $team->employees->where('role_id', $po_id)->pluck('name');
+                                    $employees = $team->employees->where('role_id', '<>', $po_id)->pluck('name');
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
@@ -86,38 +81,40 @@
                                         <td>{{sizeof($po)>0?$po[0]:'--'}}</td>
                                         <td>
                                             <?php
-                                                $count = 0;
-                                                foreach ($employees as $employee){
-                                                    if(sizeof($employees)>0 && sizeof($employees)<=3){
-                                                        echo $employee;
-                                                        if($count < sizeof($employees)-1) echo ', ';
-                                                        $count++;
-                                                    } else if(sizeof($employees)>3){
-                                                        echo $employee;
-                                                        if($count < 3) echo ', ';
-                                                        if($count == 2){
-                                                            $data = "";
-                                                            foreach ($employees as $employee) $data .= '<p>' .$employee .'</p>';
-                                                            echo '<a href="javascript:void(0)" class="show-list-employee"
-                                                            id="show-list-employee-'. $team->id .'" data-content="'. $data .'">[...]</a>';
-                                                            break;
-                                                        }
-                                                        $count++;
-                                                    } else {
-                                                        echo '--';
+                                            $count = 0;
+                                            foreach ($employees as $employee) {
+                                                if (sizeof($employees) > 0 && sizeof($employees) <= 3) {
+                                                    echo $employee;
+                                                    if ($count < sizeof($employees) - 1) echo ', ';
+                                                    $count++;
+                                                } else if (sizeof($employees) > 3) {
+                                                    echo $employee;
+                                                    if ($count < 3) echo ', ';
+                                                    if ($count == 2) {
+                                                        $data = "";
+                                                        foreach ($employees as $employee) $data .= '<p>' . $employee . '</p>';
+                                                        echo '<a href="javascript:void(0)" class="show-list-employee"
+                                                            id="show-list-employee-' . $team->id . '" data-content="' . $data . '">[...]</a>';
+                                                        break;
                                                     }
+                                                    $count++;
+                                                } else {
+                                                    echo '--';
                                                 }
+                                            }
                                             ?>
                                         </td>
                                         <td class="text-center">{{sizeof($employees) + 1}}</td>
 
                                         <ul class="contextMenu" data-team-id="{{$team->id}}" hidden>
                                             <li><a href="teams/{{$team->id}}"><i
-                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
+                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}
+                                                </a></li>
                                             <li><a href="teams/{{$team->id}}/edit"><i class="fa fa-edit"></i>
                                                     {{trans('common.action.edit')}}</a></li>
                                             <li><a class="btn-team-remove" data-team-id="{{$team->id}}"><i
-                                                            class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
+                                                            class="fa fa-remove"></i> {{trans('common.action.remove')}}
+                                                </a></li>
                                         </ul>
                                     </tr>
                                 @endforeach
@@ -158,7 +155,9 @@
                                                     <i class="fa fa-bar-chart-o"></i>
 
                                                     <h3 class="box-title">{{trans('chart.resource_chart.title')}}
-                                                        - <span id="current-month">{{date('m/Y',strtotime($listMonth[0]))}}</span></h3>
+                                                        -
+                                                        <span id="current-month">{{date('m/Y',strtotime($listMonth[0]))}}</span>
+                                                    </h3>
 
                                                     <div class="box-tools pull-right">
                                                         <button type="button" class="btn btn-box-tool"
@@ -261,7 +260,7 @@
                     var data = [];
                     var i = 0;
                     var jsonValue = msg.listValueOfMonth;
-                    Object.keys(jsonValue).forEach(function(key) {
+                    Object.keys(jsonValue).forEach(function (key) {
                         data[i] = [];
                         data[i][0] = key;
                         data[i][1] = jsonValue[key];
@@ -274,7 +273,7 @@
                     showChart(bar_data);
                 }
             });
-            $('#current-month').html((monthFormat.getMonth()+1)+'/'+monthFormat.getFullYear());
+            $('#current-month').html((monthFormat.getMonth() + 1) + '/' + monthFormat.getFullYear());
 
         });
 
@@ -293,7 +292,11 @@
             });
             $(".show-list-employee").hover(function () {
                 var id = $(this).attr('id');
-                $("#" + id).popover({title: "<strong>{{trans('team.members')}}</strong>", html: true, placement: "right"});
+                $("#" + id).popover({
+                    title: "<strong>{{trans('team.members')}}</strong>",
+                    html: true,
+                    placement: "right"
+                });
             });
             $(document).click(function () {
                 if ($('.show-list-employee:hover').length === 0) {
@@ -304,7 +307,7 @@
                 var data = [];
                 var i = 0;
                 var jsonValue = <?php echo json_encode($teamsValue)?>;
-                Object.keys(jsonValue).forEach(function(key) {
+                Object.keys(jsonValue).forEach(function (key) {
                     data[i] = [];
                     data[i][0] = key;
                     data[i][1] = jsonValue[key];
