@@ -305,7 +305,7 @@
                 series: {
                     bars: {
                         show: true,
-                        barWidth: 0.75,
+                        barWidth: 0.65,
                         align: 'center'
                     }
                 },
