@@ -55,7 +55,7 @@ class TeamController extends Controller
     {
         if ($this->teamService->addNewTeam($request)) {
             session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
-            return view('teams.test.cong_test');
+            return redirect(route('teams.index'));
         }
         session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
         return back();
