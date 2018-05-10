@@ -137,9 +137,9 @@
                                 <label>Member</label><br/>
                                 <select class="form-control select2 width80" name="employees" id="member">
                                     <option value="0" id="member_0">{{ trans('employee.drop_box.placeholder-default') }}</option>
-                                    @foreach($allEmployees as $allEmployee)
-                                        <option value="{{$allEmployee["id"]}}"
-                                                id="member_{{$allEmployee["id"]}}">{{$allEmployee["name"]}}</option>
+                                    @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
+                                        <option value="{{$allEmployeeHasPO["id"]}}"
+                                                id="member_{{$allEmployeeHasPO["id"]}}">{{$allEmployeeHasPO["name"]}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-default buttonAdd">
@@ -277,20 +277,10 @@
                 select_members.val('0');
                 $("#team_name").val('');
 
-                /*$("#contextMenuTeam").html(function () {
-
-                    }
-                );*/
-                {{--@if(\Illuminate\Support\Facades\Auth::user()->id != null)
-                var select_po = $('#select_po_name');
-                select_po.val('{{$idUser}}');
-
-                @endif--}}
                 var select_po = $('#select_po_name');
                 select_po.val({{$idEmployee}}).change();
 
 
-                {{--$('#select_po_name').prop('selectedIndex',{{$idEmployee}});--}}
                 $("#contextMenuTeam").innerHTML ="";
                 $("#listChoose").innerHTML ="";
 
@@ -323,6 +313,7 @@
                 }
                 document.getElementById("contextMenuTeam").innerHTML = $listAdd1;
                 document.getElementById("listChoose").innerHTML = $listChoose1;
+                $listEmployeeID1 = null; $listEmployeeName1 =null;
             });
         });
     </script>
