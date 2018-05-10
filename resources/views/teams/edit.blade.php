@@ -125,7 +125,7 @@
                                     @endif
                                     @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
                                         @if(\Illuminate\Support\Facades\Auth::user()->id == $allEmployeeHasPO->id )
-                                            <option selected="selected" {{'hidden'}}  value="{{$idEmployee}}" id="po_0">
+                                            <option selected="selected" {{'hidden'}}  value="{{$idEmployee}}" id="po_{{$nameEmployee}}">
                                                 {{$nameEmployee}}
                                             </option>
                                         @else
