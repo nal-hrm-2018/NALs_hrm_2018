@@ -98,7 +98,7 @@
                         <div class="col-md-7">
                             <div class="form-group">
                                 <label>Team name</label>
-                                <input type="text" class="form-control width80" id="edit_id" placeholder="Team name"
+                                <input type="text" class="form-control width80" id="team_name" placeholder="Team name"
                                        name="team_name"
                                        value="{!! old('name', isset($teamById["name"]) ? $teamById["name"] : null) !!}"
                                        @if(\Illuminate\Support\Facades\Auth::user()->role_id != $numberPoInRole)
@@ -153,9 +153,9 @@
 
                             </div>
                             <div class="form-group">
-                                <ul class="contextMenuTeam" id="contextMenuTeam">
+                                <ul class="contextMenuTeam" id="contextMenuTeam" >
                                     @foreach($allEmployeeInTeams as $allEmployeeInTeam)
-                                        <li id="show_{{$allEmployeeInTeam->id}}">
+                                        <li class="listInTeam" id="show_{{$allEmployeeInTeam->id}}" data-employee-id="{{$allEmployeeInTeam->id}}">
                                             <input type="text" hidden="hidden" name="employee[]" value="{{$allEmployeeInTeam->id}}">
                                             <a class="btn-employee-remove">
                                                 <i class="fa fa-remove"
@@ -173,10 +173,8 @@
                 <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
                     <div class="col-md-6" style="display: inline; ">
                         <div style="float: right;">
-                            <button type="reset" id="btn_reset" class="btn btn-default"><span
-                                        class="fa fa-refresh"></span>
-                                RESET
-                            </button>
+                            <input id="btn_reset_form_team" type="button" value="{{ trans('common.button.reset')}}"
+                                   class="btn btn-default pull-left">
                         </div>
                     </div>
                     <div class="col-md-1" style="display: inline;">
@@ -273,13 +271,25 @@
         <!-- /.content -->
     </div>
 
-    <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-    <script type="text/javascript">
-
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
         $(function () {
-            $("button#btn_reset").bind("click", function () {
-                var a = $("#select_po_name").val("0");
-                console.log(a);
+            $("#btn_reset_form_team").bind("click", function () {
+                var select_po = $('#select_po_name');
+                select_po.val('0');
+                var select_members = $("#member");
+                select_members.val('0');
+                $("#team_name").val('');
+
+                var eId = $("li.listInTeam").data('employee-id');
+
+                /*$("#contextMenuTeam").html(function () {
+
+                    }
+                );*/
+                $("#contextMenuTeam").remove();
+                $("#listChoose").remove();
             });
         });
     </script>
