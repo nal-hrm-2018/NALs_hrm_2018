@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Team;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TeamAddRequest;
 use App\Http\Requests\TeamEditRequest;
+use App\Service\ChartService;
 use Illuminate\Http\Request;
 use App\Models\Team;
 use App\Models\Employee;
@@ -24,15 +25,24 @@ use Mockery\Exception;
 class TeamController extends Controller
 {
     private $teamService;
+    private $chartService;
 
-    public function __construct(TeamService $teamService)
+    public function __construct(TeamService $teamService, ChartService $chartService)
     {
         $this->teamService = $teamService;
+        $this->chartService = $chartService;
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return view('teams.list');
+        $teams = Team::all()->where('delete_flag', 0);
+        $po_id = Role::all()->where('delete_flag', 0)->where('name', 'PO')->pluck('id')[0];
+
+        $currentMonth = date('Y-m-01');
+        $teamsValue = $this->chartService->getValueOfListTeam($currentMonth);
+        $listMonth = $this->chartService->getListMonth();
+
+        return view('teams.list', compact('teams', 'po_id', 'teamsValue', 'listMonth'));
     }
 
     public function create()
@@ -53,18 +63,22 @@ class TeamController extends Controller
 
     public function show($id)
     {
-        return null;
+        $member = Employee::where([
+            ['team_id', '=', $id],
+            ['delete_flag', '=', 0]
+        ])->get();
+        return view('teams.view', compact('member'));
     }
 
     public function edit($id)
     {
         $allEmployees = Employee::query()
             ->with(['team', 'role'])
-            ->where('employees.team_id',null)
-
+            ->where('employees.team_id', null)
             ->orwhereNotIn('employees.team_id', function ($q) {
                 $q->select('id')->from('teams')->where('id', Auth::user()->team_id);
             })->get();
+        $allEmployeeHasPOs = Employee::where('delete_flag', 0)->get();
         $onlyValue = null;
         $nameEmployee = null;
         try {
@@ -99,7 +113,7 @@ class TeamController extends Controller
                 $nameEmployee = $value['name'];
                 $idEmployee = $value['id'];
             }
-            return view('teams.edit', compact('teamById','idUser', 'onlyValue', 'nameTeam', 'allEmployees', 'allEmployeeInTeams','idEmployee','nameEmployee', 'numberPoInRole','allRoleInTeam','allTeam'));
+            return view('teams.edit', compact('teamById', 'idUser', 'onlyValue', 'nameTeam', 'allEmployeeHasPOs', 'allEmployees', 'allEmployeeInTeams', 'idEmployee', 'nameEmployee', 'numberPoInRole', 'allRoleInTeam', 'allTeam'));
 
         }
     }
@@ -112,18 +126,27 @@ class TeamController extends Controller
      */
     public function update(TeamEditRequest $request, $id)
     {
-        if ($this->teamService->updateTeam($request, $id)){
+        if ($this->teamService->updateTeam($request, $id)) {
             return redirect('employee');
-        }
-        else{
+        } else {
             return back();
         }
     }
 
-    public
-    function destroy($id, Request $request)
+    public function destroy($id, Request $request)
     {
-        return null;
+        if ($request->ajax()) {
+            $team = Team::where('id', $id)->where('delete_flag', 0)->first();
+            $team->delete_flag = 1;
+            $team->save();
+            $employees = Employee::where('team_id', $id)->get();
+            foreach ($employees as $employee) {
+                $employee->team_id = null;
+                $employee->save();
+            }
+            return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
+        }
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
 
     public
@@ -154,5 +177,12 @@ class TeamController extends Controller
                 echo "Name Team not true. <br>Name has less than 50 characters,number, space and !";
             }
         }
+    }
+
+    public function showChart(Request $request)
+    {
+        $month = date('Y-m-01', strtotime($request->month));
+        $teamsValue = $this->chartService->getValueOfListTeam($month);
+        return response(['listValueOfMonth' => $teamsValue]);
     }
 }
