@@ -51,30 +51,29 @@
                                 <tbody class="context-menu">
                                 @foreach($teams as $team)
                                     <?php
-                                        $po = $team->employees->where('role_id', $po_id)->pluck('name');
-                                        $employees = $team->employees->where('role_id', '<>',  $po_id)->pluck('name');
+                                        $po = $team->employees->where('role_id', $po_id)->first();
+                                        $employees = $team->employees->where('role_id', '<>',  $po_id);
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
                                         <td>{{$team->id}}</td>
                                         <td>{{$team->name}}</td>
-                                        <td>{{sizeof($po)>0?$po[0]:'--'}}</td>
+                                        <td><a href="employee/{{$po->id}}">{{isset($po)?$po->name:'--'}}</a></td>
                                         <td>
                                             <?php
                                                 $count = 0;
                                                 foreach ($employees as $employee){
                                                     if(sizeof($employees)>0 && sizeof($employees)<=3){
-                                                        echo $employee;
+                                                        echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
                                                         if($count < sizeof($employees)-1) echo ', ';
                                                         $count++;
                                                     } else if(sizeof($employees)>3){
-                                                        echo $employee;
+                                                        echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
                                                         if($count < 3) echo ', ';
                                                         if($count == 2){
-                                                            $data = "";
-                                                            foreach ($employees as $employee) $data .= '<p>' .$employee .'</p>';
                                                             echo '<a href="javascript:void(0)" class="show-list-employee"
-                                                            id="show-list-employee-'. $team->id .'" data-content="'. $data .'">[...]</a>';
+                                                            id="show-list-employee-'. $team->id .'" data-toggle="modal"
+                                                            data-target="#show-list-members">[...]</a>';
                                                             break;
                                                         }
                                                         $count++;
@@ -98,6 +97,35 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            <div id="show-list-members" class="modal fade" role="dialog" >
+                                <div class="modal-dialog" style="width: 400px">
+                                    <!-- Modal content-->
+                                    <div class="modal-content" >
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title"><th>{{trans('team.members')}} - Team: <span id="team_name_modal"></span></th></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table id="member-list" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{trans('employee.profile_info.id')}}</th>
+                                                    <th>{{trans('employee.profile_info.name')}}</th>
+                                                    <th>{{trans('employee.profile_info.role')}}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="context-menu" id="table-list-members">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -266,15 +294,7 @@
                 'info': true,
                 'autoWidth': false,
             });
-            $(".show-list-employee").hover(function () {
-                var id = $(this).attr('id');
-                $("#" + id).popover({title: "<strong>{{trans('team.members')}}</strong>", html: true, placement: "right"});
-            });
-            $(document).click(function () {
-                if ($('.show-list-employee:hover').length === 0) {
-                    $('.popover').fadeOut("fast");
-                }
-            });
+
             $(function () {
                 var data = [];
                 var i = 0;
@@ -331,6 +351,34 @@
             })
         }
     </script>
+
+    <script>
+        $('.show-list-employee').click(function () {
+            var id = $(this).attr('id');
+            var id_team = id.slice(19);
+            var length_id = id_team.length;
+            var html = "";
+            <?php
+                foreach($teams as $team){
+                    $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
+                    echo "var html". $team->id ." = '';";
+                    foreach($employeesModal as $employee){
+                        echo "html". $team->id ." += '<tr><td>". $employee->id ."</td><td><a href=\"employee/". $employee->id ."\">". $employee->name ."</a></td><td>". $employee->role->name ."</td></tr>';";
+                    }
+                    echo "html". $team->id ." += '" .$team->id ."';";
+                }
+                ?>
+                    var html = "";
+            @foreach($teams as $team)
+                if(id_team == html{{$team->id}}.slice(-length_id)){
+                    html = html{{$team->id}}.slice(0, html{{$team->id}}.length - length_id);
+                    $('#team_name_modal').html('{{$team->name}}');
+                }
+            @endforeach
+            $('#table-list-members').html(html);
+        });
+    </script>
+
 
 
 @endsection
