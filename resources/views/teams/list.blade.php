@@ -18,14 +18,14 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{asset('/team')}}"> {{trans('common.path.team')}}</a></li>
+                <li><a href="{{asset('/teams')}}"> {{trans('common.path.team')}}</a></li>
                 <li><a href="#">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-info btn-default">
-                    <a href="{{ asset('team/create')}}"><i class="fa fa-user-plus"></i>{{trans('common.button.add')}}</a>
+                    <a href="{{ asset('teams/create')}}"><i class="fa fa-user-plus"></i>{{trans('common.button.add')}}</a>
                 </button>
             </div>
         </section>
@@ -196,7 +196,7 @@
                 if (confirm('Really delete?')) {
                     $.ajax({
                         type: "DELETE",
-                        url: '{{ url('/teams-list') }}' + '/' + elementRemove,
+                        url: '{{ url('/teams') }}' + '/' + elementRemove,
                         data: {
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -223,7 +223,7 @@
             var monthFormat = new Date(month);
             $.ajax({
                 type: "POST",
-                url: '{{ url('/teams-list') }}',
+                url: '{{ url('/teams/chart') }}',
                 data: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
