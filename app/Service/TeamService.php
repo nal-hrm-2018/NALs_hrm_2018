@@ -8,9 +8,11 @@
 
 namespace App\Service;
 use App\Http\Requests\CommonRequest;
+use App\Http\Requests\TeamEditRequest;
 
 interface TeamService
 {
     public function addNewTeam( $Request);
+    public function updateTeam( TeamEditRequest $request, $id);
 
 }
