@@ -12,7 +12,11 @@
       <li class="active">Edit Employee</li>
     </ol>
   </section>
-
+  <style type="text/css">
+    .form-horizontal .form-group {
+      margin-right: 0px;
+    }
+  </style>
   <!-- Main content -->
   <section class="content">
 
@@ -51,15 +55,14 @@
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Email Address</label>
-                <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}">
+                <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
+                  readonly="readonly"
+                @endif
+                >
                 <label style="color: red;">{{$errors->first('email')}}</label>
                 <!-- /.input group -->
               </div>
               
-              <!-- <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" placeholder="Password"  name="password" value="{!! old('password', isset($objEmployee["password"]) ? $objEmployee["password"] : null) !!}">
-              </div> -->
               <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
@@ -130,6 +133,7 @@
               <div class="form-group">
                 <label>Position</label>
                 <select class="form-control select2" style="width: 100%;" name="employee_type_id">
+                  <option value="" >---Position selection---</option>
                   <?php
                     foreach($dataEmployeeTypes as $val){
                       $selected = "";
@@ -140,6 +144,7 @@
                     }
                   ?>
                 </select>
+                <label style="color: red; ">{{$errors->first('employee_type_id')}}</label>
               </div>
               <div class="form-group">
                 <label>Role of team</label>
@@ -188,8 +193,8 @@
             @if(isset($objEmployee))
                 @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
                   <div class="col-md-4" id="resetPass">
-                    
-                    <p onclick="resetPass()" class="btn btn-info pull-left" >Reset password</p>                  
+                    <br />
+                    <p onclick="resetPass()" class="btn btn-info pull-left" style="margin-top: 5px;">Reset password</p>              
                     <label style="color: red;"><?php 
                       if (Session::has('minPass')){
                         echo''.Session::get("minPass");
@@ -199,12 +204,12 @@
                   <script>
                     function resetPass() {
                         document.getElementById("resetPass").innerHTML = "<div class=\"form-group\">                     <label>Password</label><input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\"  name=\"password\" value=\"\" onchange=\"myFunction()\"><label style=\"color: red;\" id=\"minPass\"></label></div>"
-                        + "<div class=\"form-group\"><label>Confirm password</label><input type=\"password\" class=\"form-control\" placeholder=\"Confirm password\" name=\"confirm_confirmation\" id=\"confirmPass\" onchange=\"confirmPass1()\"><label style=\"color: red;\" id=\"cf\"></label></div><p onclick=\"closePass()\" class=\"btn btn-info pull-left\">Close Reset password</p>";                    
+                        + "<div class=\"form-group\"><label>Confirm password</label><input type=\"password\" class=\"form-control\" placeholder=\"Confirm password\" name=\"confirm_confirmation\" id=\"confirmPass\" onchange=\"confirmPass1()\"><label style=\"color: red;\" id=\"cf\"></label></div><br /><p onclick=\"closePass()\" class=\"btn btn-info pull-left\" style=\"margin-top: 5px;\">Close Reset password</p>";                    
                     }
                   </script>
                   <script>
                     function closePass() {
-                        document.getElementById("resetPass").innerHTML = "<p onclick=\"resetPass()\" class=\"btn btn-info pull-left\" >Reset password</p>";                    
+                        document.getElementById("resetPass").innerHTML = "<br /><p onclick=\"resetPass()\" class=\"btn btn-info pull-left\" style=\"margin-top: 5px;\">Reset password</p>";                    
                     }
                   </script>
                   <script>
@@ -212,10 +217,14 @@
                       var x = document.getElementById("password").value;
                       if(x.length < 6){
                         document.getElementById("minPass").innerHTML = "The Password must be at least 6 characters.";
-                        document.getElementById("cf").innerHTML = "The confirm password and password must match.";
                       }else{
                         document.getElementById("minPass").innerHTML = "";
+                      }
+                      var y = document.getElementById("confirmPass").value;
+                      if(x!=y){
                         document.getElementById("cf").innerHTML = "The confirm password and password must match.";
+                      }else{
+                        document.getElementById("cf").innerHTML = "";
                       }
                     }
                   </script>

@@ -16,17 +16,27 @@ return [
     'button' => [
         'reset' => 'RESET',
         'search' => 'SEARCH',
+        'add' => 'ADD',
+        'save' => 'SAVE',
     ],
 
     'title_form' => [
         'form_search' => 'Search Form'
     ],
-    'label_form' =>[
-        'project_name' => 'Project Name',
-        'start_date'=>'Start Date',
-        'end_date'=>'End Date',
-        'role_name' => 'Role',
-        'status_project'=> 'Status Project'
-    ]
+    'title_header'=>[
+        'employee_detail'=>'Employee Detail'
+    ],
+    'path'=>[
+        'home'=>'Home',
+        'employee'=>'Employee',
+        'team' => 'Team',
+        'list' => 'List',
+        'detail'=>'Detail',
+    ],
+    'action'=>[
+        'view'=>'View',
+        'edit'=>'Edit',
+        'remove'=>'Remove'
+    ],
 
 ];

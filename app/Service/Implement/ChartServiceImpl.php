@@ -10,9 +10,12 @@ namespace App\Service\Implement;
 
 
 use App\Models\Employee;
+use App\Models\Process;
 use App\Models\Project;
+use App\Models\Team;
 use App\Service\ChartService;
 use App\Service\CommonService;
+use Carbon\Carbon;
 
 class ChartServiceImpl extends CommonService implements ChartService
 {
@@ -32,11 +35,15 @@ class ChartServiceImpl extends CommonService implements ChartService
         $total = 0;
         if(strtotime($project->start_date) < strtotime(date('Y-m-d'))){
             //x
-            $income = $project->income;
-            $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
-            $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
-            if (!isset($project->end_date)) {
-                $income = ($income / $estimateTime) * $currentTime;
+            $income = 0;
+            if(strtotime($project->start_date) < strtotime(date('Y-m-d'))){
+                $income = $project->income;
+
+                if (!isset($project->end_date) && strtotime($project->estimate_end_date) > strtotime(date('Y-m-d'))) {
+                    $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
+                    $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
+                    $income = ($income / $estimateTime) * $currentTime;
+                }
             }
 
             //y
@@ -53,30 +60,34 @@ class ChartServiceImpl extends CommonService implements ChartService
             }
 
             //z
-            $manPowerOnMonth = 0;
-            if(strtotime($currentEmployee->processes->where('project_id', $project->id)->first()->start_date) < strtotime(date('Y-m-d'))){
-                //man power of current employee in this project
-                $manPower = $currentEmployee->processes->where('project_id', $project->id)->first()->man_power;
-                //start date of current employee in this project
-                $currentEmployeeStartDate = $currentEmployee->processes->where('project_id', $project->id)->first()->start_date;
-                //start date of current employee in this project
-                $currentEmployeeEndDate = date('Y-m-d');
+            if($powerAllEmployeeOnProject != 0){
+                $manPowerOnMonth = 0;
+                if(strtotime($currentEmployee->processes->where('project_id', $project->id)->first()->start_date) < strtotime(date('Y-m-d'))){
+                    //man power of current employee in this project
+                    $manPower = $currentEmployee->processes->where('project_id', $project->id)->first()->man_power;
+                    //start date of current employee in this project
+                    $currentEmployeeStartDate = $currentEmployee->processes->where('project_id', $project->id)->first()->start_date;
+                    //start date of current employee in this project
+                    $currentEmployeeEndDate = date('Y-m-d');
 
-                if (isset($currentEmployee->processes->where('project_id', $project->id)->first()->end_date)) {
-                    $currentEmployeeEndDate = $currentEmployee->processes->where('project_id', $project->id)->first()->end_date;
+                    if (isset($currentEmployee->processes->where('project_id', $project->id)->first()->end_date)) {
+                        $currentEmployeeEndDate = $currentEmployee->processes->where('project_id', $project->id)->first()->end_date;
+                    }
+
+                    if (strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&
+                        strtotime($currentMonth) != strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))) {
+                        $manPowerOnMonth = $this->calculateTime(date('Y-m-t', strtotime($currentEmployeeStartDate)), $currentEmployeeStartDate) * $manPower;
+                    } else if (strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate))) &&
+                        strtotime($currentMonth) != strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))) {
+                        $manPowerOnMonth = $this->calculateTime($currentEmployeeEndDate, $currentMonth) * $manPower;
+                    } else if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&
+                        strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))){
+                        $manPowerOnMonth = $this->calculateTime($currentEmployeeEndDate, $currentEmployeeStartDate) * $manPower;
+                    } else if(strtotime($currentMonth) > strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))
+                        && strtotime($currentMonth) < strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))){
+                        $manPowerOnMonth = 30 * $manPower;
+                    }
                 }
-
-                if (strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))) {
-                    $manPowerOnMonth = $this->calculateTime(date('Y-m-t', strtotime($currentEmployeeStartDate)), $currentEmployeeStartDate) * $manPower;
-                } else if (strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))) {
-                    $manPowerOnMonth = $this->calculateTime($currentEmployeeEndDate, $currentMonth) * $manPower;
-                } else if(strtotime($currentMonth) > strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))
-                    && strtotime($currentMonth) < strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))){
-                    $manPowerOnMonth = 30 * $manPower;
-                }
-            }
-
-            if ($powerAllEmployeeOnProject != 0) {
                 $total = ($income / $powerAllEmployeeOnProject) * $manPowerOnMonth;
             }
         }
@@ -120,5 +131,36 @@ class ChartServiceImpl extends CommonService implements ChartService
         $listYears = array_unique($listYears);
         rsort($listYears);
         return $listYears;
+    }
+    public function getValueOfTeam(Team $team, $currentMonth)
+    {
+        $totalOnMonth = 0;
+        $employees = $team->employees;
+        foreach ($employees as $employee){
+            $totalOnMonth += $this->getValueOfEmployee($employee, $currentMonth);
+        }
+        return round($totalOnMonth, 1);
+    }
+    public function getValueOfListTeam($currentMonth)
+    {
+        $teams = Team::all()->where('delete_flag', 0);
+        $listTeams = array();
+        foreach ($teams as $team) {
+            $listTeams[$team->name] = $this->getValueOfTeam($team, $currentMonth);
+        }
+        return $listTeams;
+    }
+    public function getListMonth()
+    {
+        $startMonth = date('Y-m', strtotime(Process::all()->min('start_date')));
+        $currentMonth = date('Y-m');
+        $listMonth = array($currentMonth);
+        $i = 1;
+        while(strtotime($startMonth) < strtotime($currentMonth)){
+            $listMonth[$i++] = $startMonth;
+            $startMonth = strtotime(date("Y-m-d", strtotime($startMonth)) . " +1 month");
+            $startMonth = date('Y-m', $startMonth);
+        }
+        return $listMonth;
     }
 }
