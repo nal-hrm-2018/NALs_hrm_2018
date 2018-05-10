@@ -17,6 +17,7 @@ return [
         'reset' => 'RESET',
         'search' => 'SEARCH',
         'add' => 'ADD',
+        'save' => 'SAVE',
     ],
 
     'title_form' => [
