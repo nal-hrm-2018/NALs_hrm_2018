@@ -10,10 +10,12 @@ namespace App\Service\Implement;
 
 
 use App\Models\Employee;
+use App\Models\Process;
 use App\Models\Project;
 use App\Models\Team;
 use App\Service\ChartService;
 use App\Service\CommonService;
+use Carbon\Carbon;
 
 class ChartServiceImpl extends CommonService implements ChartService
 {
@@ -133,7 +135,7 @@ class ChartServiceImpl extends CommonService implements ChartService
     public function getValueOfTeam(Team $team, $currentMonth)
     {
         $totalOnMonth = 0;
-        $employees = $team->employee;
+        $employees = $team->employees;
         foreach ($employees as $employee){
             $totalOnMonth += $this->getValueOfEmployee($employee, $currentMonth);
         }
@@ -150,6 +152,15 @@ class ChartServiceImpl extends CommonService implements ChartService
     }
     public function getListMonth()
     {
-
+        $startMonth = date('Y-m', strtotime(Process::all()->min('start_date')));
+        $currentMonth = date('Y-m');
+        $listMonth = array($currentMonth);
+        $i = 1;
+        while(strtotime($startMonth) < strtotime($currentMonth)){
+            $listMonth[$i++] = $startMonth;
+            $startMonth = strtotime(date("Y-m-d", strtotime($startMonth)) . " +1 month");
+            $startMonth = date('Y-m', $startMonth);
+        }
+        return $listMonth;
     }
 }
