@@ -133,8 +133,6 @@ class ChartServiceImpl extends CommonService implements ChartService
     public function getValueOfTeam(Team $team, $currentMonth)
     {
         $totalOnMonth = 0;
-        dd($team->employees);
-
         $employees = $team->employee;
         foreach ($employees as $employee){
             $totalOnMonth += $this->getValueOfEmployee($employee, $currentMonth);
