@@ -97,7 +97,7 @@ class TeamController extends Controller
                 $nameEmployee = $value['name'];
                 $idEmployee = $value['id'];
             }
-            return view('teams.edit', compact('teamById', 'onlyValue', 'nameTeam', 'allEmployees', 'allEmployeeInTeams','idEmployee','nameEmployee', 'numberPoInRole','allRoleInTeam','allTeam'));
+            return view('teams.edit', compact('teamById','idUser', 'onlyValue', 'nameTeam', 'allEmployees', 'allEmployeeInTeams','idEmployee','nameEmployee', 'numberPoInRole','allRoleInTeam','allTeam'));
         }
     }
 
@@ -134,6 +134,9 @@ class TeamController extends Controller
                 ->where('employees.email', Auth::user()->email)->first();
             $userTest = $rolePoInRole->name;
             $queryGetNameTeamTable = Team::where('name', $name)->first();
+            $allEmployeeInTean = Team::select('teams.name')
+                ->join('employees', 'teams.id', '=', 'employees.team_id')
+                ->get()->toArray();
         } catch (Exception $exception) {
             echo "<h4>ERROR !</h4>";
             $queryGetNameTeamTable = null;
