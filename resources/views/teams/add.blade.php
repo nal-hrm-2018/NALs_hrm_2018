@@ -12,11 +12,16 @@
                 <li class="active">Add team</li>
             </ol>
         </section>
-
         <!-- Main content -->
+        @if(session()->get('msg_fails'))
+                <div>
+                    <ul class='error_msg'>
+                        <li> {{ session()->get("msg_fails") }}</li>
+                    </ul>
+                </div>
+        @endif
         <section class="content">
-
-            <!-- SELECT2 EXAMPLE -->
+        <!-- SELECT2 EXAMPLE -->
             <div class="box box-default">
                 <div class="box-body">
                     {!! Form::open(
@@ -46,7 +51,7 @@
                                 <label>PO name</label><br/>
                                 <select class="form-control select2 width80" name="id_po" onchange="choosePO()"
                                         id="id_po">
-                                    <option {{ !empty(old('id_po'))?'':'selected="selected"' }} value="0" id="po_0">
+                                    <option {{ !empty(old('id_po'))?'':'selected="selected"' }} value="" id="po_0">
                                         {{  trans('employee.drop_box.placeholder-default') }}
                                     </option>
                                     @foreach($employees as $employee)
@@ -68,6 +73,7 @@
                                     </option>
                                     @foreach($employees as $employee)
                                         <option value="{{ $employee->id }}" id="member_{{ $employee->id }}">{{ $employee->name }}</option>
+
                                     @endforeach
                                 </select>
                                 {{--<input type="hidden" name="members[]" value="42"/>--}}
@@ -111,6 +117,7 @@
                         $listEmployeeTeam = new Array();
                         $listEmployeeRole = new Array();
                         $idPO = document.getElementById("id_po").value;
+
                     </script>
                     <script>
                         $(function () {
@@ -152,9 +159,9 @@
                                     @endforeach
                                     listAdd += "<li  id=\"show_" + members[i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ",\'" + $("#member_" + members[i]).text() + "\')\"></i><label>ID:" + members[i] + "</label>&emsp;<label id=\"teamEdit_"+members[i]+"\">"+$teamEdit+"</label>&emsp;<label id=\"roleEdit_"+members[i]+"\">"+$roleEdit+ "</label>&emsp;<label id=\"nameEdit_"+members[i]+"\">"+$("#member_" + members[i]).text() + "</label></a></li>";
                                 }
-                                listChoose="";
+                                listChoose = "";
                                 for (i = 0; i < members.length; i++) {
-                                    listChoose +=   "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + members[i] + "\" class=\"form-control width80 input_" + members[i] + "\">";
+                                    listChoose += "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + members[i] + "\" class=\"form-control width80 input_" + members[i] + "\">";
                                 }
                                 document.getElementById("contextMenuTeam").innerHTML = listAdd;
                                 document.getElementById("listChoose").innerHTML = listChoose;
