@@ -22,6 +22,13 @@
                 <li><a href="#">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
+        @if(session()->get('msg_success'))
+            <div>
+                <ul class='result_msg'>
+                    <li> {{ session()->get("msg_success") }}</li>
+                </ul>
+            </div>
+        @endif
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-info btn-default">
