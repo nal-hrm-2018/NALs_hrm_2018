@@ -35,63 +35,62 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-md-7">
-                            <div class="form-group">
-                                <label>Team name</label>
-                            {{ Form::text('team_name', old('team_name'),
-                              ['class' => 'form-control width80',
-                              'id' => 'team_name_id',
-                              'autofocus' => true,
-                              'placeholder'=>'Team name'
-                              ])
-                          }}
-                            <!-- /.input group -->
-                                <label style="color: red; ">{{$errors->first('team_name')}}</label>
-                            </div>
-                            <div class="form-group">
-                                <label>PO name</label><br/>
-                                <select class="form-control select2 width80" name="id_po" onchange="choosePO()"
-                                        id="id_po">
-                                    <option {{ !empty(old('id_po'))?'':'selected="selected"' }} value="" id="po_0">
-                                        {{  trans('employee.drop_box.placeholder-default') }}
-                                    </option>
-                                    @foreach($employees as $employee)
-                                        <option value="{{ $employee->id }}"
-                                                {{ (string)$employee->id===old('id_po')?'selected="selected"':'' }}
-                                                id="po_{{$employee->id}}">
-                                            {{ $employee->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label style="color: red; ">{{$errors->first('id_po')}}</label>
-                            </div>
-                            <div class="form-group">
-                                <label>Member</label><br/>
-                                <select class="form-control select2 width80" name="" id="member">
-                                    <option {{ !empty(old('members'))?'':'selected="selected"' }} value=""
-                                            id="member_0">
-                                        {{  trans('employee.drop_box.placeholder-default') }}
-                                    </option>
-                                    @foreach($employees as $employee)
-                                        <option value="{{ $employee->id }}" id="member_{{ $employee->id }}">{{ $employee->name }}</option>
+                          <div class="form-group">
+                              <label>Team name</label>
+                                {{ Form::text('team_name', old('team_name'),
+                                  ['class' => 'form-control width80',
+                                  'id' => 'team_name_id',
+                                  'autofocus' => true,
+                                  'placeholder'=>'Team name'
+                                  ])
+                                }}
+                          <!-- /.input group -->
+                              <label style="color: red; ">{{$errors->first('team_name')}}</label>
+                          </div>
+                          <div class="form-group">
+                              <label>PO name</label><br/>
+                              <select class="form-control select2 width80" name="id_po" onchange="choosePO()"
+                                      id="id_po">
+                                  <option {{ !empty(old('id_po'))?'':'selected="selected"' }} value="" id="po_0">
+                                      {{  trans('employee.drop_box.placeholder-default') }}
+                                  </option>
+                                  @foreach($employees as $employee)
+                                      <option value="{{ $employee->id }}"
+                                              {{ (string)$employee->id===old('id_po')?'selected="selected"':'' }}
+                                              id="po_{{$employee->id}}">
+                                          {{ $employee->name }}
+                                      </option>
+                                  @endforeach
+                              </select>
+                              <label style="color: red; ">{{$errors->first('id_po')}}</label>
+                          </div>
+                          <div class="form-group">
+                              <label>Member</label><br/>
+                              <select class="form-control select2 width80" name="" id="member">
+                                  <option {{ !empty(old('members'))?'':'selected="selected"' }} value=""
+                                          id="member_0">
+                                      {{  trans('employee.drop_box.placeholder-default') }}
+                                  </option>
+                                  @foreach($employees as $employee)
+                                      <option value="{{ $employee->id }}" id="member_{{ $employee->id }}">{{ $employee->name }}</option>
 
-                                    @endforeach
-                                </select>
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
-                                <button type="button" class="btn btn-default buttonAdd">
-                                    <a onclick="addFunction()"><i
-                                                class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
-                                </button>
-                                <label style="color: red; ">{{$errors->first('members')}}</label>
-                            </div>
-                            <div class="form-group" id="listChoose" style="display: none;">
-                            </div>
-                            <div class="form-group">
-                                <ul class="contextMenuTeam" id="contextMenuTeam">
-
-                                </ul>
-                            </div>
+                                  @endforeach
+                              </select>
+                              {{--<input type="hidden" name="members[]" value="42"/>--}}
+                              {{--<input type="hidden" name="members[]" value="42"/>--}}
+                              <button type="button" class="btn btn-default buttonAdd">
+                                  <a onclick="addFunction()"><i
+                                              class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
+                              </button>
+                              <label style="color: red; ">{{$errors->first('members')}}</label>
+                          </div>
+                          <div class="form-group" id="listChoose" style="display: none;">
+                          </div>
+                          <div class="form-group" id="contextMenuTeam">
+                              
+                          </div>
                         </div>
+                      </div>
                     </div>
                     <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
                         <div class="col-md-6" style="display: inline; ">
@@ -149,7 +148,7 @@
                         $(document).ready(function () {
                             var members = {!! json_encode(old('members')) !!} ;
                             if (null != members) {
-                                listAdd = "";
+                                $listAdd = "";
                                 for (i = 0; i < members.length; i++) {
                                     @foreach($employees as $employee)
                                       if({{$employee->id}} == members[i]){
@@ -157,13 +156,21 @@
                                         $roleEdit = '{{isset($employee->role)?$employee->role->name:'---' }}';
                                       }
                                     @endforeach
-                                    listAdd += "<li  id=\"show_" + members[i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ",\'" + $("#member_" + members[i]).text() + "\')\"></i><label>ID:" + members[i] + "</label>&emsp;<label id=\"teamEdit_"+members[i]+"\">"+$teamEdit+"</label>&emsp;<label id=\"roleEdit_"+members[i]+"\">"+$roleEdit+ "</label>&emsp;<label id=\"nameEdit_"+members[i]+"\">"+$("#member_" + members[i]).text() + "</label></a></li>";
+                                    $listAdd += "<tr id=\"show_" + members[i] + "\">"+
+                                          "<td>" + members[i]+"</td>"+
+                                          "<td id=\"teamEdit_"+members[i]+"\">"+$teamEdit+"</td>"+
+                                          "<td id=\"roleEdit_"+members[i]+"\">"+$roleEdit+"</td>"+
+                                          "<td id=\"nameEdit_"+members[i]+"\">" + $("#member_" + members[i]).text()+ "</td>"+
+                                          "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ",\'" + $("#member_" + members[i]).text() + "\')\"></i></td></tr>";
                                 }
                                 listChoose = "";
                                 for (i = 0; i < members.length; i++) {
                                     listChoose += "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + members[i] + "\" class=\"form-control width80 input_" + members[i] + "\">";
                                 }
-                                document.getElementById("contextMenuTeam").innerHTML = listAdd;
+                                $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">"+
+                                          "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">"+ $listAdd +
+                                          "</tbody></table></div>";
+                                document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                                 document.getElementById("listChoose").innerHTML = listChoose;
                             }
                         });
@@ -207,12 +214,23 @@
                               $listAdd = "";
 
                               for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                  $listAdd += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i]+"&emsp;" + "</label><label>"+$listEmployeeTeam[$i]+"&emsp;"+$listEmployeeRole[$i]+"&emsp;" + $listEmployeeName[$i]+ "</label></a></li>";
+                                  $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">"+
+                                          "<td>" + $listEmployeeID[$i]+"</td>"+
+                                          "<td>"+$listEmployeeTeam[$i]+"</td>"+
+                                          "<td>"+$listEmployeeRole[$i]+"</td>"+
+                                          "<td>" + $listEmployeeName[$i]+ "</td>"+
+                                          "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";                              
                               }
+
+                              $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">"+
+                                          "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">"+ $listAdd +
+                                          "</tbody></table></div>";
+
                               $listChoose = "";
                               for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                   $listChoose += "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
                               }
+                              
                               document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                               document.getElementById("listChoose").innerHTML = $listChoose;
                               $('#member_'+$id).prop('disabled', true);
@@ -226,7 +244,7 @@
                     </script>
                     <script type="text/javascript">
                         function removeEmployee($id, $name) {
-                          $('li').remove('#show_' + $id);
+                          $('tr').remove('#show_' + $id);
                           $('input').remove('.input_' + $id);
                           $listEmployeeID.splice($listEmployeeID.indexOf("" + $id), 1);
                           $listEmployeeName.splice($listEmployeeName.indexOf($name), 1);
@@ -241,7 +259,7 @@
                     </script>
                     <script type="text/javascript">
                         function choosePO() {
-                          if ($idPO != 0) {
+                          if ($idPO != "") {
                             $('#member_'+$idPO).prop('disabled', false);
                             $('#member').select2();
                           }
@@ -274,7 +292,7 @@
 
         ul.contextMenuTeam li {
             min-width: 100px;
-            max-width: 500px;
+            max-width: 450px;
             overflow: hidden;
             white-space: nowrap;
             margin-left: 0px;

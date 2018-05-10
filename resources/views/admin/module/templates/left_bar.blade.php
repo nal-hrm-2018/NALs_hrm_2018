@@ -28,7 +28,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('teams-list')}}"><i class="fa fa-circle-o"></i> List Team</a></li>
+            <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i> List Team</a></li>
             <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i> Add Team</a></li>
           </ul>
         </li>
