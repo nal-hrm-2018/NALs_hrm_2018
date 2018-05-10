@@ -124,14 +124,15 @@
                                         </option>
                                     @endif
                                     @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
-                                        @if($allEmployeeHasPO->name == $nameEmployee)
-                                            <span hidden="hidden">{{$nameEmployee}}</span>
-                                            @else
-
-                                        <option value="{{ $allEmployeeHasPO['id']}}" id="po_{{ $allEmployeeHasPO['id']}}">
-                                            {{ $allEmployeeHasPO -> name }}
-                                        </option>
-                                            @endif
+                                        @if(\Illuminate\Support\Facades\Auth::user()->id == $allEmployeeHasPO->id )
+                                            <option selected="selected" {{'hidden'}}  value="{{$idEmployee}}" id="po_0">
+                                                {{$nameEmployee}}
+                                            </option>
+                                        @else
+                                            <option value="{{ $allEmployeeHasPO['id']}}" id="po_{{ $allEmployeeHasPO['id']}}">
+                                                {{ $allEmployeeHasPO -> name }}
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -209,7 +210,6 @@
                 {{ Form::close() }}
                 <script type="text/javascript"
                     src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
                 <script type="text/javascript">
                     $listEmployeeID = new Array();
                     $listEmployeeName = new Array();
@@ -221,15 +221,12 @@
                         $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
                         $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}');
                         
-                        $('#member_{{$allEmployeeInTeam->id}}').prop('disabled', true);
-                        $('#member').select2();
-
-                        /*$('#po_{{$allEmployeeInTeam->id}}').prop('disabled', true);
-                        $('#select_po_name').select2();*/
+                        $('#member_{{$allEmployeeInTeam->id}}').prop('disabled', true);                        
+                        $('#po_{{$allEmployeeInTeam->id}}').prop('disabled', true);                        
                     @endforeach
                     $idPO = document.getElementById("select_po_name").value;
-                    /*$('#member_'+$idPO).prop('disabled', true);
-                    $('#member').select2();*/
+                    $('#member_'+$idPO).prop('disabled', true);
+                    
                     $dem = 0;
                 </script>
                 <script type="text/javascript">
