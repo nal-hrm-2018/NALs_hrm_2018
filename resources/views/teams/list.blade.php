@@ -87,9 +87,9 @@
                                         <td class="text-center">{{sizeof($employees) + 1}}</td>
 
                                         <ul class="contextMenu" data-team-id="{{$team->id}}" hidden>
-                                            <li><a href="team/{{$team->id}}"><i
+                                            <li><a href="teams/{{$team->id}}"><i
                                                             class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
-                                            <li><a href="team/{{$team->id}}/edit"><i class="fa fa-edit"></i>
+                                            <li><a href="teams/{{$team->id}}/edit"><i class="fa fa-edit"></i>
                                                     {{trans('common.action.edit')}}</a></li>
                                             <li><a class="btn-team-remove" data-team-id="{{$team->id}}"><i
                                                             class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
@@ -133,7 +133,7 @@
                                                     <i class="fa fa-bar-chart-o"></i>
 
                                                     <h3 class="box-title">{{trans('chart.resource_chart.title')}}
-                                                        - <span id="current-year"></span></h3>
+                                                        - <span id="current-month">{{date('m/Y',strtotime($listMonth[0]))}}</span></h3>
 
                                                     <div class="box-tools pull-right">
                                                         <button type="button" class="btn btn-box-tool"
@@ -220,6 +220,7 @@
 
         $('#choose-month').change(function () {
             var month = $('#choose-month').val();
+            var monthFormat = new Date(month);
             $.ajax({
                 type: "POST",
                 url: '{{ url('/teams-list') }}',
@@ -232,7 +233,6 @@
                     _token: '{{csrf_token()}}',
                 },
                 success: function (msg) {
-                    // console.log(msg.listValueOfMonth);
                     var data = [];
                     var i = 0;
                     var jsonValue = msg.listValueOfMonth;
@@ -248,7 +248,8 @@
                     };
                     showChart(bar_data);
                 }
-            })
+            });
+            $('#current-month').html((monthFormat.getMonth()+1)+'/'+monthFormat.getFullYear());
 
         });
 
@@ -265,9 +266,15 @@
                 'info': true,
                 'autoWidth': false,
             });
-            @foreach($teams as $team)
-                $("#show-list-employee-{{$team->id}}").popover({title: "<strong>{{trans('team.members')}}</strong>", html: true,placement: "right"});
-            @endforeach
+            $(".show-list-employee").hover(function () {
+                var id = $(this).attr('id');
+                $("#" + id).popover({title: "<strong>{{trans('team.members')}}</strong>", html: true, placement: "right"});
+            });
+            $(document).click(function () {
+                if ($('.show-list-employee:hover').length === 0) {
+                    $('.popover').fadeOut("fast");
+                }
+            });
             $(function () {
                 var data = [];
                 var i = 0;

@@ -137,9 +137,9 @@
                                 <label>Member</label><br/>
                                 <select class="form-control select2 width80" name="employees" id="member">
                                     <option value="0" id="member_0">{{ trans('employee.drop_box.placeholder-default') }}</option>
-                                    @foreach($allEmployees as $allEmployee)
-                                        <option value="{{$allEmployee["id"]}}"
-                                                id="member_{{$allEmployee["id"]}}">{{$allEmployee["name"]}}</option>
+                                    @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
+                                        <option value="{{$allEmployeeHasPO["id"]}}"
+                                                id="member_{{$allEmployeeHasPO["id"]}}">{{$allEmployeeHasPO["name"]}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-default buttonAdd">
@@ -202,6 +202,9 @@
                     </div>
                 </div>
                 {{ Form::close() }}
+                <script type="text/javascript"
+                    src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
                 <script type="text/javascript">
                     $listEmployeeID = new Array();
                     $listEmployeeName = new Array();
@@ -212,8 +215,16 @@
                         $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
                         $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
                         $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}');
+                        
+                        $('#member_{{$allEmployeeInTeam->id}}').prop('disabled', true);
+                        $('#member').select2();
+
+                        /*$('#po_{{$allEmployeeInTeam->id}}').prop('disabled', true);
+                        $('#select_po_name').select2();*/
                     @endforeach
                     $idPO = document.getElementById("select_po_name").value;
+                    /*$('#member_'+$idPO).prop('disabled', true);
+                    $('#member').select2();*/
                     $dem = 0;
                 </script>
                 <script type="text/javascript">
@@ -294,8 +305,6 @@
         <!-- /.content -->
     </div>
 
-    <script type="text/javascript"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
         $(function () {
             $("#btn_reset_form_team").bind("click", function () {
@@ -304,20 +313,10 @@
                 select_members.val('0');
                 $("#team_name").val('');
 
-                /*$("#contextMenuTeam").html(function () {
-
-                    }
-                );*/
-                {{--@if(\Illuminate\Support\Facades\Auth::user()->id != null)
-                var select_po = $('#select_po_name');
-                select_po.val('{{$idUser}}');
-
-                @endif--}}
                 var select_po = $('#select_po_name');
                 select_po.val({{$idEmployee}}).change();
 
 
-                {{--$('#select_po_name').prop('selectedIndex',{{$idEmployee}});--}}
                 $("#contextMenuTeam").innerHTML ="";
                 $("#listChoose").innerHTML ="";
 
@@ -350,6 +349,7 @@
                 }
                 document.getElementById("contextMenuTeam").innerHTML = $listAdd1;
                 document.getElementById("listChoose").innerHTML = $listChoose1;
+                $listEmployeeID1 = null; $listEmployeeName1 =null;
             });
         });
     </script>
