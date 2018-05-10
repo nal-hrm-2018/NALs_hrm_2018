@@ -215,8 +215,9 @@
                             }
                             document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                             document.getElementById("listChoose").innerHTML = $listChoose;
-                            $('option').remove('#member_' + $id);
-                            $('option').remove('#po_' + $id);
+                            /*$('option').remove('#member_' + $id);
+                            $('option').remove('#po_' + $id);*/
+                            $('option').prop('disabled', '#member_' + $id);
                         }
                     }
                 </script>
@@ -281,20 +282,10 @@
                 select_members.val('0');
                 $("#team_name").val('');
 
-                /*$("#contextMenuTeam").html(function () {
-
-                    }
-                );*/
-                {{--@if(\Illuminate\Support\Facades\Auth::user()->id != null)
-                var select_po = $('#select_po_name');
-                select_po.val('{{$idUser}}');
-
-                @endif--}}
                 var select_po = $('#select_po_name');
                 select_po.val({{$idEmployee}}).change();
 
 
-                {{--$('#select_po_name').prop('selectedIndex',{{$idEmployee}});--}}
                 $("#contextMenuTeam").innerHTML ="";
                 $("#listChoose").innerHTML ="";
 
@@ -314,6 +305,7 @@
                 }
                 document.getElementById("contextMenuTeam").innerHTML = $listAdd1;
                 document.getElementById("listChoose").innerHTML = $listChoose1;
+                $listEmployeeID1 = null; $listEmployeeName1 =null;
             });
         });
     </script>
