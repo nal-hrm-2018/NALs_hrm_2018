@@ -56,32 +56,32 @@
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Email Address</label>
-                <input type="text" class="form-control" placeholder="Email Address" name="email" 
+                <input type="text" class="form-control" placeholder="Email Address" name="email" id="email"
                   value="{!! old('email') !!} {{ isset($employee) ? $employee->email : null}}">
                 <label style="color: red;">{{$errors->first('email')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control" placeholder="Password"  name="password" value="{!! old('password') !!}">
+                <input type="password" class="form-control" placeholder="Password"  name="password" id="password" value="{!! old('password') !!}">
                 <label style="color: red; ">{{$errors->first('password')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Confirm password</label>
-                <input type="password" class="form-control" placeholder="Confirm password"  name="confirm_confirmation" value="{!! old('password') !!}">
+                <input type="password" class="form-control" placeholder="Confirm password"  name="confirm_confirmation" id="cfPass" value="{!! old('password') !!}">
                 <label style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
+                <input type="text" class="form-control" placeholder="Name"  name="name" id="name" value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
                 <label style="color: red; ">{{$errors->first('name')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Address</label>
-                <input type="text" class="form-control" placeholder="Address"  name="address" value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
+                <input type="text" class="form-control" placeholder="Address"  name="address" id="address" value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
                 <label style="color: red; ">{{$errors->first('address')}}</label>
                 <!-- /.input group -->
               </div>
@@ -91,7 +91,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
                   </div>
-                  <input type="number" class="form-control" placeholder="Phone"  name="mobile" value="{!! old('mobile') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
+                  <input type="number" class="form-control" placeholder="Phone"  name="mobile" id="mobile" value="{!! old('mobile') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
                 </div>
                 <label style="color: red; ">{{$errors->first('mobile')}}</label>
                 <!-- /.input group -->
@@ -171,7 +171,7 @@
               </div>
               <div class="form-group">
                 <label>Team</label>
-                <select class="form-control select2" style="width: 100%;"  name="team_id">
+                <select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">
                   <option value="" >---Team selection---</option>
                   <?php
                     foreach($dataTeam as $val){
@@ -280,7 +280,8 @@
           <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
             <div class="col-md-6" style="display: inline; ">    
               <div style="float: right;" >
-                <input type="reset" value="Reset" class="btn btn-info pull-left">   
+                <input id="btn_reset_form_team" type="button" value="{{ trans('common.button.reset')}}"
+                                   class="btn btn-default pull-left">   
               </div>
             </div>
             <div class="col-md-2" style="display: inline;">    
@@ -290,6 +291,25 @@
             </div>
           </div>
         </form>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script>
+            $(function () {
+                $("#btn_reset_form_team").bind("click", function () {
+
+                    /*var select_members = $("#member");
+                    select_members.val('0');*/
+                    $("#email").val('');
+                    $("#password").val('');
+                    $("#cfPass").val('');
+                    $("#name").val('');
+                    $("#address").val('');
+                    $("#mobile").val('');
+                    var select_team = $("#team_id");
+                    select_team.val('');
+                });
+            });
+        </script>
         <!-- /.row -->
       </div>
       <!-- /.box-body -->

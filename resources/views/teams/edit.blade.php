@@ -124,14 +124,15 @@
                                         </option>
                                     @endif
                                     @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
-                                        @if($allEmployeeHasPO->name == $nameEmployee)
-                                            <span hidden="hidden">{{$nameEmployee}}</span>
-                                            @else
-
-                                        <option value="{{ $allEmployeeHasPO['id']}}" id="po_{{ $allEmployeeHasPO['id']}}">
-                                            {{ $allEmployeeHasPO -> name }}
-                                        </option>
-                                            @endif
+                                        @if(\Illuminate\Support\Facades\Auth::user()->id == $allEmployeeHasPO->id )
+                                            <option selected="selected" {{'hidden'}}  value="{{$idEmployee}}" id="po_0">
+                                                {{$nameEmployee}}
+                                            </option>
+                                        @else
+                                            <option value="{{ $allEmployeeHasPO['id']}}" id="po_{{ $allEmployeeHasPO['id']}}">
+                                                {{ $allEmployeeHasPO -> name }}
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -155,24 +156,40 @@
                                 <label style="color: red;">{{$errors->first('employees')}}</label>
                             </div>
                             <div class="form-group" id="listChoose" style="display: none;">
-
+                                @foreach($allEmployeeInTeams as $allEmployeeInTeam)
+                                    <input type="text" hidden="hidden" name="employee[]" value="{{$allEmployeeInTeam->id}}">
+                                @endforeach
                             </div>
-                            <div class="form-group">
-                                <ul class="contextMenuTeam" id="contextMenuTeam" >
-                                    @foreach($allEmployeeInTeams as $allEmployeeInTeam)
-                                        <li class="listInTeam" id="show_{{$allEmployeeInTeam->id}}" data-employee-id="{{$allEmployeeInTeam->id}}">
-                                            <input type="text" hidden="hidden" name="employee[]" value="{{$allEmployeeInTeam->id}}">
-                                            <a class="btn-employee-remove">
-                                                <i class="fa fa-remove"
-                                                   onclick="removeEmployee({{$allEmployeeInTeam->id}} , '{{$allEmployeeInTeam->name}}') "></i>
-                                                <label>ID:{{$allEmployeeInTeam->id}}</label>&emsp;
-                                                <label>{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}</label>&emsp;
-                                                <label>{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}</label>&emsp;
-                                                <label>{{$allEmployeeInTeam->name}}</label>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                            <div class="form-group" id="contextMenuTeam">
+                                <div class="box-body">
+                                  <table id="employee-list" class="table table-bordered table-striped">
+                                      <thead>
+                                        <tr>                                            
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Team</th>
+                                            <th>Role</th>
+                                            <th>Remove</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody class="context-menu">
+                                        @foreach($allEmployeeInTeams as $allEmployeeInTeam)
+                                            <tr id="show_{{$allEmployeeInTeam->id}}">                                                
+                                                <td>{{$allEmployeeInTeam->id}}</td>
+                                                <td>{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}</td>
+                                                <td>{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}</td>
+                                                <td>{{$allEmployeeInTeam->name}}</td>
+                                                <td>
+                                                    <a class="btn-employee-remove" style="margin-left: 25px;">
+                                                        <i class="fa fa-remove"
+                                                       onclick="removeEmployee({{$allEmployeeInTeam->id}} , '{{$allEmployeeInTeam->name}}') "></i>
+                                                   </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                      </tbody>
+                                  </table>
+                                </div>                                                                   
                             </div>
                         </div>
                     </div>
@@ -191,6 +208,8 @@
                     </div>
                 </div>
                 {{ Form::close() }}
+                <script type="text/javascript"
+                    src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                 <script type="text/javascript">
                     $listEmployeeID = new Array();
                     $listEmployeeName = new Array();
@@ -201,8 +220,13 @@
                         $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
                         $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
                         $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}');
+                        
+                        $('#member_{{$allEmployeeInTeam->id}}').prop('disabled', true);                        
+                        $('#po_{{$allEmployeeInTeam->id}}').prop('disabled', true);                        
                     @endforeach
                     $idPO = document.getElementById("select_po_name").value;
+                    $('#member_'+$idPO).prop('disabled', true);
+                    
                     $dem = 0;
                 </script>
                 <script type="text/javascript">
@@ -222,12 +246,23 @@
 
                             $listAdd = "";
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listAdd += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "&emsp;</label><label>" + $listEmployeeTeam[$i] + "&emsp;</label><label>" + $listEmployeeRole[$i] + "&emsp;</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
+                                $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">"+
+                                        "<td>" + $listEmployeeID[$i]+"</td>"+
+                                        "<td>"+$listEmployeeTeam[$i]+"</td>"+
+                                        "<td>"+$listEmployeeRole[$i]+"</td>"+
+                                        "<td>" + $listEmployeeName[$i]+ "</td>"+
+                                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";                              
                             }
+
+                            $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">"+
+                                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">"+ $listAdd +
+                                    "</tbody></table></div>";
                             $listChoose = "";
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                 $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
                             }
+
+
                             document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                             document.getElementById("listChoose").innerHTML = $listChoose;
 
@@ -241,7 +276,7 @@
                 </script>
                 <script type="text/javascript">
                     function removeEmployee($id, $name) {
-                        $('li').remove('#show_' + $id);
+                        $('tr').remove('#show_' + $id);
                         $('input').remove('.input_' + $id);
                         $listEmployeeID.splice($listEmployeeID.indexOf($id), 1);
                         $listEmployeeName.splice($listEmployeeName.indexOf($name), 1);
@@ -272,8 +307,6 @@
         <!-- /.content -->
     </div>
 
-    <script type="text/javascript"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
         $(function () {
             $("#btn_reset_form_team").bind("click", function () {
