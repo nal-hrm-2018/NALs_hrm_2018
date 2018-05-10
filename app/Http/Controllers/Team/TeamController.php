@@ -37,7 +37,7 @@ class TeamController extends Controller
 
     public function create()
     {
-        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->with('team','role')->get();
+        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->with('team', 'role')->get();
         return view('teams.add', compact('employees'));
     }
 
@@ -47,6 +47,7 @@ class TeamController extends Controller
             session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
             return view('teams.test.cong_test');
         }
+        session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
         return back();
     }
 
@@ -57,17 +58,18 @@ class TeamController extends Controller
 
     public function edit($id)
     {
-        $allEmployees = Employee::select("*")
+        $allEmployees = Employee::query()
+            ->with(['team', 'role'])
             ->where('employees.team_id',null)
+
             ->orwhereNotIn('employees.team_id', function ($q) {
                 $q->select('id')->from('teams')->where('id', Auth::user()->team_id);
             })->get();
         $onlyValue = null;
         $nameEmployee = null;
-        try{
+        try {
             $teamById = Team::findOrFail($id)->toArray();
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return $exception->getMessage();
         }
         $nameTeam = $teamById['name'];
@@ -81,7 +83,7 @@ class TeamController extends Controller
         if ($teamOfEmployee != $id) {
             return view('errors.403');
         } else {
-            $poEmployee = Employee::select('id','email', 'name')
+            $poEmployee = Employee::select('id', 'email', 'name')
                 ->Where('team_id', '=', $teamById['id'])
                 ->Where('id', '=', $idUser)
                 ->get()->toArray();
@@ -98,6 +100,7 @@ class TeamController extends Controller
                 $idEmployee = $value['id'];
             }
             return view('teams.edit', compact('teamById','idUser', 'onlyValue', 'nameTeam', 'allEmployees', 'allEmployeeInTeams','idEmployee','nameEmployee', 'numberPoInRole','allRoleInTeam','allTeam'));
+
         }
     }
 

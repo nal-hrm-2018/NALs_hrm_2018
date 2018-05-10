@@ -21,10 +21,10 @@
 
         ul.contextMenuTeam li {
             min-width: 100px;
-            max-width: 250px;
+            max-width: 350px;
             overflow: hidden;
             white-space: nowrap;
-            margin-left: 110px;
+            margin-left: 130px;
             padding: 6px 6px;
             background-color: #fff;
             border-bottom: 1px solid #ecf0f1;
@@ -125,7 +125,7 @@
                                     @endif
                                     @foreach($allEmployees as $allEmployee)
                                         <option value="{{ $allEmployee['id']}}" id="po_{{ $allEmployee['id']}}">
-                                            {{ $allEmployee["name"] }}
+                                            {{ $allEmployee -> name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -160,7 +160,9 @@
                                             <a class="btn-employee-remove">
                                                 <i class="fa fa-remove"
                                                    onclick="removeEmployee({{$allEmployeeInTeam->id}} , '{{$allEmployeeInTeam->name}}') "></i>
-                                                <label>ID:{{$allEmployeeInTeam->id}}</label>
+                                                <label>ID:{{$allEmployeeInTeam->id}}</label>&emsp;
+                                                <label>{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}</label>&emsp;
+                                                <label>{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}</label>&emsp;
                                                 <label>{{$allEmployeeInTeam->name}}</label>
                                             </a>
                                         </li>
@@ -187,27 +189,35 @@
                 <script type="text/javascript">
                     $listEmployeeID = new Array();
                     $listEmployeeName = new Array();
+                    $listEmployeeTeam = new Array();
+                    $listEmployeeRole = new Array();
                     @foreach($allEmployeeInTeams as $allEmployeeInTeam)
-                    $listEmployeeID.push({{$allEmployeeInTeam->id}});
-                    $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
+                        $listEmployeeID.push({{$allEmployeeInTeam->id}});
+                        $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
+                        $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
+                        $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}');
                     @endforeach
-                        $idPO = "";
-                    $namePO = "";
+                    $idPO = document.getElementById("select_po_name").value;
+                    $dem = 0;
                 </script>
                 <script type="text/javascript">
                     function addFunction() {
                         $id = document.getElementById("member").value;
                         if ($id != 0) {
-                            if ($listEmployeeID.length == 0) {
-                                $listEmployeeID[0] = document.getElementById("member").value;
-                                $listEmployeeName[0] = $("#member_" + $id).text();
-                            } else {
-                                $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
-                                $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
-                            }
+                            $dem ++;
+                                                           
+                            $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
+                            $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text(); 
+                            @foreach($allEmployees as $allEmployee)
+                                if({{ $allEmployee -> id }} == $listEmployeeID[$listEmployeeID.length -1]){
+                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($allEmployee->team)?$allEmployee->team->name:'---'}}';
+                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($allEmployee->role)?$allEmployee->role->name:'---'}}';
+                                }     
+                            @endforeach
+
                             $listAdd = "";
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listAdd += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
+                                $listAdd += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "&emsp;</label><label>" + $listEmployeeTeam[$i] + "&emsp;</label><label>" + $listEmployeeRole[$i] + "&emsp;</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
                             }
                             $listChoose = "";
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
@@ -215,8 +225,12 @@
                             }
                             document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                             document.getElementById("listChoose").innerHTML = $listChoose;
-                            $('option').remove('#member_' + $id);
-                            $('option').remove('#po_' + $id);
+
+                            $('#member_'+$id).prop('disabled', true);
+                            $('#member').select2();
+
+                            $('#po_'+$id).prop('disabled', true);
+                            $('#select_po_name').select2();
                         }
                     }
                 </script>
@@ -227,40 +241,22 @@
                         $listEmployeeID.splice($listEmployeeID.indexOf($id), 1);
                         $listEmployeeName.splice($listEmployeeName.indexOf($name), 1);
 
-                        $option = document.createElement("option");
-                        $option.value = $id;
-                        $option.text = $name;
-                        $option.id = "member_" + $id;
-                        $select = document.getElementById('member');
-                        $select.appendChild($option);
+                        $('#member_'+$id).prop('disabled', false);
+                        $('#member').select2();
 
-                        $option1 = document.createElement("option");
-                        $option1.value = $id;
-                        $option1.text = $name;
-                        $option1.id = "po_" + $id;
-                        $select1 = document.getElementById('select_po_name');
-                        $select1.appendChild($option1);
+                        $('#po_'+$id).prop('disabled', false);
+                        $('#select_po_name').select2();
                     }
                 </script>
                 <script type="text/javascript">
                     function choosePO() {
-                        if ($idPO == "") {
-                            $idPO = document.getElementById("select_po_name").value;
-                            $namePO = $("#po_" + $idPO).text();
-                        } else {
-                            $option = document.createElement("option");
-                            if ($idPO != 0) {
-                                $option.value = $idPO;
-                                $option.text = $namePO;
-                                $option.id = "member_" + $idPO;
-                                $select = document.getElementById('member');
-                                $select.appendChild($option);
-                            }
-                            $idPO = document.getElementById("select_po_name").value;
-                            $namePO = $("#po_" + $idPO).text();
+                        if ($idPO != 0) {
+                            $('#member_'+$idPO).prop('disabled', false);
+                            $('#member').select2();
                         }
-                        $id = document.getElementById("select_po_name").value;
-                        $('option').remove('#member_' + $id);
+                        $idPO = document.getElementById("select_po_name").value;
+                        $('#member_'+$idPO).prop('disabled', true);
+                        $('#member').select2();
                     }
                 </script>
                 <!-- /.row -->
@@ -298,19 +294,32 @@
                 $("#contextMenuTeam").innerHTML ="";
                 $("#listChoose").innerHTML ="";
 
-                $listEmployeeID1 = new Array();
-                $listEmployeeName1 = new Array();
+                for($i = $listEmployeeID.length - $dem; $i < $listEmployeeID.length; $i++){
+                    $('#member_'+$listEmployeeID[$i]).prop('disabled', false);
+                    $('#member').select2();
+
+                    $('#po_'+$listEmployeeID[$i]).prop('disabled', false);
+                    $('#select_po_name').select2();
+                }
+
+                $listEmployeeID = new Array();
+                $listEmployeeName = new Array();
+                $listEmployeeTeam = new Array();
+                $listEmployeeRole = new Array();
                 @foreach($allEmployeeInTeams as $allEmployeeInTeam)
-                $listEmployeeID1.push({{$allEmployeeInTeam->id}});
-                $listEmployeeName1.push('{{$allEmployeeInTeam->name}}');
+                    $listEmployeeID.push({{$allEmployeeInTeam->id}});
+                    $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
+                    $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
+                    $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}'); 
                 @endforeach
-                    $listAdd1 = "";
-                for ($i = 0; $i < $listEmployeeID1.length; $i++) {
-                    $listAdd1 += "<li  id=\"show_" + $listEmployeeID1[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID1[$i] + ",\'" + $listEmployeeName1[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
+                $listAdd1 = "";
+
+                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                    $listAdd1 += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "&emsp;</label><label>" + $listEmployeeTeam[$i] + "&emsp;</label><label>" + $listEmployeeRole[$i] + "&emsp;</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
                 }
                 $listChoose1 = "";
-                for ($i = 0; $i < $listEmployeeID1.length; $i++) {
-                    $listChoose1 += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID1[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID1[$i] + "\">";
+                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                    $listChoose1 += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
                 }
                 document.getElementById("contextMenuTeam").innerHTML = $listAdd1;
                 document.getElementById("listChoose").innerHTML = $listChoose1;
