@@ -264,6 +264,7 @@
                 $('.nav-tabs a[href="#' + tab + '"]').tab('show');
             };
         });
+
     </script>
     <script>
         function showChart(bar_data) {

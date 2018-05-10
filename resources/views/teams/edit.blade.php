@@ -1,124 +1,6 @@
 @extends('admin.template')
 @section('content')
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Edit team
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="/team">Teams</a></li>
-                <li class="active">Add team</li>
-            </ol>
-        </section>
 
-        <!-- Main content -->
-        <section class="content">
-
-            <!-- SELECT2 EXAMPLE -->
-            <div class="box box-default">
-                <div class="box-body">
-                    {{ Form::model($teamById, ['url' => ['/team', $teamById["id"]],'class' => 'form-horizontal','method'=>isset($teamById["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="row">
-                            <div class="col-md-3">
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label>Team name</label>
-                                    <input type="text" class="form-control width80" placeholder="Team name"
-                                           name="team_name"
-                                           value="{!! old('name', isset($teamById["name"]) ? $teamById["name"] : null) !!}"
-                                           @if(\Illuminate\Support\Facades\Auth::user()->email != $onlyValue)
-                                           readonly="readonly"
-                                            @endif>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>PO name</label><br/>
-                                    <select class="form-control select2 width80" name="po_name">
-                                        <option>---PO name---</option>
-                                        <?php
-                                            foreach ($allEmployees as $allEmployee){
-                                                echo '<option value="'.$allEmployee["id"].'">'.$allEmployee["name"].'</option>';
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Member</label><br/>
-                                    <select class="form-control select2 width80" name="member" id="member">
-                                        <option value="0" id="member_0">---Member---</option>
-                                        <?php
-                                        foreach ($allEmployees as $allEmployee){
-                                            echo '<option value="'.$allEmployee["id"].'">'.$allEmployee["name"].'</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                    <button type="button" class="btn btn-default buttonAdd">
-                                        <a onclick="addFunction()"><i class="fa fa-user-plus"></i> ADD</a>
-                                    </button>
-                                </div>
-                                <div class="form-group" id="listChoose" style="display: none;">
-
-                                </div>
-                                <div class="form-group">
-                                    <ul class="contextMenuTeam" id="contextMenuTeam">
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
-                            <div class="col-md-6" style="display: inline; ">
-                                <div style="float: right;">
-                                    <input type="reset" value="Reset" class="btn btn-info pull-left">
-                                </div>
-                            </div>
-                            <div class="col-md-1" style="display: inline;">
-                                <div style="float: right;">
-                                    <button type="submit" class="btn btn-info pull-left">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    {{ Form::close() }}
-                    <script type="text/javascript">
-                        $listEmployeeID = new Array();
-                        $listEmployeeName = new Array();
-                    </script>
-                    <script type="text/javascript">
-                        function addFunction() {
-                            $id = document.getElementById("member").value;
-                            if ($listEmployeeID == null) {
-                                $listEmployeeID[0] = document.getElementById("member").value;
-                                $listEmployeeName[0] = $("#member_" + $id).text();
-                            } else {
-                                $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
-                                $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
-                            }
-                            $listAdd = "";
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listAdd += "<li><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"></i><label>ID:" + $listEmployeeID[$i] + "</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
-                            }
-                            $listChoose = "";
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listChoose += "<input type=\"text\" name=\"employee\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80\">";
-                            }
-
-                            document.getElementById("contextMenuTeam").innerHTML = $listAdd;
-                            document.getElementById("listChoose").innerHTML = $listChoose;
-                        }
-                    </script>
-
-                    <!-- /.row -->
-                </div>
-                <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
-        </section>
-        <!-- /.content -->
-    </div>
     <style type="text/css">
         .width80 {
             width: 80%;
@@ -133,12 +15,16 @@
             transition: color .4s, background .4s;
         }
 
+        li {
+            list-style-type: none;
+        }
+
         ul.contextMenuTeam li {
             min-width: 100px;
-            max-width: 250px;
+            max-width: 350px;
             overflow: hidden;
             white-space: nowrap;
-            margin-left: 150px;
+            margin-left: 130px;
             padding: 6px 6px;
             background-color: #fff;
             border-bottom: 1px solid #ecf0f1;
@@ -174,4 +60,281 @@
             color: #2980b9
         }
     </style>
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Edit team
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="/team">Teams</a></li>
+                <li class="active">Add team</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- SELECT2 EXAMPLE -->
+            <div class="box box-default">
+                <div class="box-body">
+                    <?php
+                    if (Session::get('msg_fail') != "") {
+                        echo '<div>
+                                <ul class=\'error_msg\'>
+                                    <li>' . Session::get("msg_fail") . '</li>
+                                </ul>
+                            </div>';
+                    }
+                    ?>
+                    {{Form::model($teamById,array('url' => ['/teams', $teamById['id']], 'method' => 'PUT'))}}
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label>Team name</label>
+                                <input type="text" class="form-control width80" id="team_name" placeholder="Team name"
+                                       name="team_name"
+                                       value="{!! old('name', isset($teamById["name"]) ? $teamById["name"] : null) !!}"
+                                       @if(\Illuminate\Support\Facades\Auth::user()->role_id != $numberPoInRole)
+                                       readonly="readonly"
+                                        @endif>
+                                <!-- /.input group -->
+                            </div>
+                            <div class="" id="name_error" style="color: red;">
+                                <label style="color: red;">{{$errors->first('team_name')}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label>PO name</label><br/>
+                                <select class="form-control select2 width80" id="select_po_name" name="po_name"
+                                        onchange="choosePO()">
+                                    @if(!empty($nameEmployee))
+                                        <option selected="selected" {{'hidden'}}  value="{{$idEmployee}}" id="po_0">
+                                            {{$nameEmployee}}
+                                        </option>
+                                    @else
+                                        <option selected="selected"
+                                                value="0" id="po_0">
+                                            {{  trans('employee.drop_box.placeholder-default') }}
+                                        </option>
+                                    @endif
+                                    @foreach($allEmployees as $allEmployee)
+                                        <option value="{{ $allEmployee['id']}}" id="po_{{ $allEmployee['id']}}">
+                                            {{ $allEmployee -> name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="" style="color: red;">
+                                <label style="color: red;">{{$errors->first('po_name')}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Member</label><br/>
+                                <select class="form-control select2 width80" name="employees" id="member">
+                                    <option value="0" id="member_0">{{ trans('employee.drop_box.placeholder-default') }}</option>
+                                    @foreach($allEmployees as $allEmployee)
+                                        <option value="{{$allEmployee["id"]}}"
+                                                id="member_{{$allEmployee["id"]}}">{{$allEmployee["name"]}}</option>
+                                    @endforeach
+                                </select>
+                                <button type="button" class="btn btn-default buttonAdd">
+                                    <a onclick="addFunction()"><i class="fa fa-user-plus"></i> ADD</a>
+                                </button>
+                            </div>
+                            <div class="" style="color: red;">
+                                <label style="color: red;">{{$errors->first('employees')}}</label>
+                            </div>
+                            <div class="form-group" id="listChoose" style="display: none;">
+
+                            </div>
+                            <div class="form-group">
+                                <ul class="contextMenuTeam" id="contextMenuTeam" >
+                                    @foreach($allEmployeeInTeams as $allEmployeeInTeam)
+                                        <li class="listInTeam" id="show_{{$allEmployeeInTeam->id}}" data-employee-id="{{$allEmployeeInTeam->id}}">
+                                            <input type="text" hidden="hidden" name="employee[]" value="{{$allEmployeeInTeam->id}}">
+                                            <a class="btn-employee-remove">
+                                                <i class="fa fa-remove"
+                                                   onclick="removeEmployee({{$allEmployeeInTeam->id}} , '{{$allEmployeeInTeam->name}}') "></i>
+                                                <label>ID:{{$allEmployeeInTeam->id}}</label>&emsp;
+                                                <label>{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}</label>&emsp;
+                                                <label>{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}</label>&emsp;
+                                                <label>{{$allEmployeeInTeam->name}}</label>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
+                    <div class="col-md-6" style="display: inline; ">
+                        <div style="float: right;">
+                            <input id="btn_reset_form_team" type="button" value="{{ trans('common.button.reset')}}"
+                                   class="btn btn-default pull-left">
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="display: inline;">
+                        <div style="float: right;">
+                            <button type="submit" class="btn btn-info pull-left">Update</button>
+                        </div>
+                    </div>
+                </div>
+                {{ Form::close() }}
+                <script type="text/javascript">
+                    $listEmployeeID = new Array();
+                    $listEmployeeName = new Array();
+                    $listEmployeeTeam = new Array();
+                    $listEmployeeRole = new Array();
+                    @foreach($allEmployeeInTeams as $allEmployeeInTeam)
+                        $listEmployeeID.push({{$allEmployeeInTeam->id}});
+                        $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
+                        $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
+                        $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}');
+                    @endforeach
+                    $idPO = document.getElementById("select_po_name").value;
+                    $dem = 0;
+                </script>
+                <script type="text/javascript">
+                    function addFunction() {
+                        $id = document.getElementById("member").value;
+                        if ($id != 0) {
+                            $dem ++;
+                                                           
+                            $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
+                            $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text(); 
+                            @foreach($allEmployees as $allEmployee)
+                                if({{ $allEmployee -> id }} == $listEmployeeID[$listEmployeeID.length -1]){
+                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($allEmployee->team)?$allEmployee->team->name:'---'}}';
+                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($allEmployee->role)?$allEmployee->role->name:'---'}}';
+                                }     
+                            @endforeach
+
+                            $listAdd = "";
+                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                                $listAdd += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "&emsp;</label><label>" + $listEmployeeTeam[$i] + "&emsp;</label><label>" + $listEmployeeRole[$i] + "&emsp;</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
+                            }
+                            $listChoose = "";
+                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                                $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
+                            }
+                            document.getElementById("contextMenuTeam").innerHTML = $listAdd;
+                            document.getElementById("listChoose").innerHTML = $listChoose;
+
+                            $('#member_'+$id).prop('disabled', true);
+                            $('#member').select2();
+
+                            $('#po_'+$id).prop('disabled', true);
+                            $('#select_po_name').select2();
+                        }
+                    }
+                </script>
+                <script type="text/javascript">
+                    function removeEmployee($id, $name) {
+                        $('li').remove('#show_' + $id);
+                        $('input').remove('.input_' + $id);
+                        $listEmployeeID.splice($listEmployeeID.indexOf($id), 1);
+                        $listEmployeeName.splice($listEmployeeName.indexOf($name), 1);
+
+                        $('#member_'+$id).prop('disabled', false);
+                        $('#member').select2();
+
+                        $('#po_'+$id).prop('disabled', false);
+                        $('#select_po_name').select2();
+                    }
+                </script>
+                <script type="text/javascript">
+                    function choosePO() {
+                        if ($idPO != 0) {
+                            $('#member_'+$idPO).prop('disabled', false);
+                            $('#member').select2();
+                        }
+                        $idPO = document.getElementById("select_po_name").value;
+                        $('#member_'+$idPO).prop('disabled', true);
+                        $('#member').select2();
+                    }
+                </script>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+            <!-- /.box -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#btn_reset_form_team").bind("click", function () {
+
+                var select_members = $("#member");
+                select_members.val('0');
+                $("#team_name").val('');
+
+                /*$("#contextMenuTeam").html(function () {
+
+                    }
+                );*/
+                {{--@if(\Illuminate\Support\Facades\Auth::user()->id != null)
+                var select_po = $('#select_po_name');
+                select_po.val('{{$idUser}}');
+
+                @endif--}}
+                var select_po = $('#select_po_name');
+                select_po.val({{$idEmployee}}).change();
+
+
+                {{--$('#select_po_name').prop('selectedIndex',{{$idEmployee}});--}}
+                $("#contextMenuTeam").innerHTML ="";
+                $("#listChoose").innerHTML ="";
+
+                for($i = $listEmployeeID.length - $dem; $i < $listEmployeeID.length; $i++){
+                    $('#member_'+$listEmployeeID[$i]).prop('disabled', false);
+                    $('#member').select2();
+
+                    $('#po_'+$listEmployeeID[$i]).prop('disabled', false);
+                    $('#select_po_name').select2();
+                }
+
+                $listEmployeeID = new Array();
+                $listEmployeeName = new Array();
+                $listEmployeeTeam = new Array();
+                $listEmployeeRole = new Array();
+                @foreach($allEmployeeInTeams as $allEmployeeInTeam)
+                    $listEmployeeID.push({{$allEmployeeInTeam->id}});
+                    $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
+                    $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
+                    $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}'); 
+                @endforeach
+                $listAdd1 = "";
+
+                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                    $listAdd1 += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "&emsp;</label><label>" + $listEmployeeTeam[$i] + "&emsp;</label><label>" + $listEmployeeRole[$i] + "&emsp;</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
+                }
+                $listChoose1 = "";
+                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                    $listChoose1 += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
+                }
+                document.getElementById("contextMenuTeam").innerHTML = $listAdd1;
+                document.getElementById("listChoose").innerHTML = $listChoose1;
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#edit_id").blur(function () {
+                var name = $(this).val();
+                $.get("/checkTeamNameEdit", {name: name}, function (data) {
+                    console.log(data);
+                    $("#name_error").html(data);
+                });
+            });
+        });
+    </script>
 @endsection

@@ -197,23 +197,32 @@
                                         <td>{{ isset($employee->role)? $employee->role->name: "--.--" }}</td>
 
                                         <td>
-                                                @if($employee->projects->isEmpty())
-                                                    {{"--.--"}}
-                                                @else
-                                                    @foreach($employee->projects as $project)
-                                                        <?php
-                                                            if(isset($project->name)){
-                                                                if(isset($employee->projects->last()->name)){
-                                                                    echo $project->name;
-                                                                } else {
-                                                                    echo $project->name." , ";
-                                                                }
+                                            @if($employee->projects->isEmpty())
+                                                {{"--.--"}}
+                                            @else
+                                                    <?php
+                                                    $count = 0;
+                                                    foreach ($employee->projects as $project){
+                                                        if(sizeof($employee->projects)>0 && sizeof($employee->projects)<=3){
+                                                            echo $project->name;
+                                                            if($count < sizeof($employee->projects)-1) echo ', ';
+                                                            $count++;
+                                                        } else if(sizeof($employee->projects)>3){
+                                                            echo $project->name;
+                                                            if($count < 3) echo ', ';
+                                                            if($count == 2){
+                                                                $data = "";
+                                                                foreach ($employee->projects as $project) $data .= '<p>' .$project->name .'</p>';
+                                                                echo '<a href="javascript:void(0)" class="show-list-project"
+                                                            id="show-list-project-'. $employee->id .'" data-content="'. $data .'">[...]</a>';
+                                                                break;
                                                             }
-                                                        ?>
+                                                            $count++;
+                                                        }
+                                                    }
+                                                    ?>
+                                            @endif
 
-
-                                                @endforeach
-                                                @endif
                                         </td>
                                         <td>{{ isset($employee->email)? $employee->email: "--.--" }}</td>
                                         <td>{{ isset($employee->mobile)? $employee->mobile: "--.--" }}</td>
@@ -303,6 +312,10 @@
                 'info': true,
                 'autoWidth': false,
             });
+
+            @foreach($member as $employee)
+            $("#show-list-project-{{$employee->id}}").popover({title: "<strong>List Project</strong>", html: true,placement: "right"});
+            @endforeach
         });
     </script>
     <script type="text/javascript">

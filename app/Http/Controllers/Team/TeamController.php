@@ -2,40 +2,52 @@
 
 namespace App\Http\Controllers\Team;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\TeamAddRequest;
-use App\Models\Employee;
-use App\Models\Role;
-use App\Models\Team;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 /**
  * Created by PhpStorm.
  * User: Ngoc Quy
  * Date: 5/7/2018
  * Time: 10:50 AM
  */
+use App\Http\Controllers\Controller;
+use App\Http\Requests\TeamAddRequest;
+use App\Http\Requests\TeamEditRequest;
+use Illuminate\Http\Request;
+use App\Models\Team;
+use App\Models\Employee;
+use Illuminate\Support\Facades\DB;
+use App\Models\Role;
+use App\Service\TeamService;
+use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
+
+
 class TeamController extends Controller
 {
+    private $teamService;
+
+    public function __construct(TeamService $teamService)
+    {
+        $this->teamService = $teamService;
+    }
+
     public function index(Request $request)
     {
-        return view('teams.test.quy_test');
+        return view('teams.list');
     }
 
     public function create()
     {
-        return null;
+        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->with('team','role')->get();
+        return view('teams.add', compact('employees'));
     }
 
-    /**
-     * @param TeamAddRequest $request
-     * @param $id
-     * @return null
-     */
-    public function store($id)
+    public function store(TeamAddRequest $request)
     {
-        return null;
+        if ($this->teamService->addNewTeam($request)) {
+            session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
+            return view('teams.test.cong_test');
+        }
+        return back();
     }
 
     public function show($id)
@@ -45,61 +57,100 @@ class TeamController extends Controller
 
     public function edit($id)
     {
-        $allEmployees = Employee::All();
-        $onlyValue=null;
+        $allEmployees = Employee::query()
+            ->with(['team', 'role'])
+            ->where('employees.team_id',null)
+            ->orwhereNotIn('employees.team_id', function ($q) {
+                $q->select('id')->from('teams')->where('id', Auth::user()->team_id);
+            })->get();
+        $onlyValue = null;
         $nameEmployee = null;
-        $teamById = Team::findOrFail($id)->toArray();
-        $nameTeam = $teamById['name'];
-        $idUser = Auth::user()->id;
-        $poEmployee = Employee::select('email','name')
-            ->Where('team_id','=',$teamById['id'])
-            ->Where('id','=',$idUser)
-            ->get()->toArray();
-        $values = $poEmployee;
-        foreach ($values as $value){
-            $onlyValue = $value['email'];
-            $nameEmployee= $value['name'];
+        try{
+            $teamById = Team::findOrFail($id)->toArray();
         }
-
-        return view('teams.edit', compact('teamById', 'onlyValue','nameTeam','allEmployees','nameEmployee'));
-    }
-
-    public function update(TeamAddRequest $request, $id)
-    {$checkPoElementQuery = Team::select('employees.name')
-        ->join('employees', 'employees.team_id', '=', 'teams.id')
-        ->where('name', 'like', $request->po_name)
-        ->where('id', '<>', $id)->get();
-        try {
-            $queryUpdateTeam = Team::find($id);
-            $teamName = $request->team_name;
-            $poName = $request->po_name;
-
-            $multipleEmployees = $request->all()['employee'];
-            $multipleEmployeesByIds = $request->all()['id'];
-
-            $queryUpdateTeam->name = $teamName;
-            $queryUpdateTeam->employee->name = $poName;
-
-            foreach ($multipleEmployeesByIds as $multipleEmployeesById) {
-                $queryUpdateEmployee = Employee::find($multipleEmployeesById);
-                if ($queryUpdateEmployee == null) {
-                    \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
-                    return back();
-                } else {
-                    $queryUpdateEmployee->team_id = $queryUpdateTeam->id;
-                    $queryUpdateEmployee->save();
-                }
-            }
-            $queryUpdateTeam->save();
-            return view('teams.test.quy_test');
-        } catch (Exception $exception) {
+        catch (\Exception $exception){
             return $exception->getMessage();
         }
+        $nameTeam = $teamById['name'];
+        $idUser = Auth::user()->id;
+        $teamOfEmployee = "" . Auth::user()->team_id;
+        $rolePoInRole = Role::select('id')
+            ->where('name', 'PO')->first();
+        $numberPoInRole = $rolePoInRole->id;
+        $allRoleInTeam = Role::all();
+        $allTeam = Team::all();
+        if ($teamOfEmployee != $id) {
+            return view('errors.403');
+        } else {
+            $poEmployee = Employee::select('id','email', 'name')
+                ->Where('team_id', '=', $teamById['id'])
+                ->Where('id', '=', $idUser)
+                ->get()->toArray();
+            $allEmployeeInTeams = Employee::select('employees.id', 'employees.name', 'roles.name as role')
+                ->join('teams', 'teams.id', '=', 'employees.team_id')
+                ->join('roles', 'roles.id', '=', 'employees.role_id')
+                ->where('team_id', '=', Auth::user()->team_id)
+                ->where('roles.name', '<>', 'PO')
+                ->orderBy('employees.id', 'asc')->get();
+            $values = $poEmployee;
+            foreach ($values as $value) {
+                $onlyValue = $value['email'];
+                $nameEmployee = $value['name'];
+                $idEmployee = $value['id'];
+            }
+            return view('teams.edit', compact('teamById','idUser', 'onlyValue', 'nameTeam', 'allEmployees', 'allEmployeeInTeams','idEmployee','nameEmployee', 'numberPoInRole','allRoleInTeam','allTeam'));
+        }
     }
 
-    public function destroy($id, Request $request)
+    /**
+     *
+     * @param TeamEditRequest $request
+     * @param $id
+     * @return null
+     */
+    public function update(TeamEditRequest $request, $id)
+    {
+        if ($this->teamService->updateTeam($request, $id)){
+            return redirect('employee');
+        }
+        else{
+            return back();
+        }
+    }
+
+    public
+    function destroy($id, Request $request)
     {
         return null;
     }
 
+    public
+    function checkNameTeam(Request $request)
+    {
+        $name = $_GET["name"];
+        $regexNameTeam = "/(^[a-zA-Z0-9 ]{1,50}+$)+/";
+        try {
+            $rolePoInRole = Team::select('teams.name')
+                ->join('employees', 'teams.id', '=', 'employees.team_id')
+                ->where('employees.email', Auth::user()->email)->first();
+            $userTest = $rolePoInRole->name;
+            $queryGetNameTeamTable = Team::where('name', $name)->first();
+            $allEmployeeInTean = Team::select('teams.name')
+                ->join('employees', 'teams.id', '=', 'employees.team_id')
+                ->get()->toArray();
+        } catch (Exception $exception) {
+            echo "<h4>ERROR !</h4>";
+            $queryGetNameTeamTable = null;
+        } finally {
+            if ($name == "") {
+                echo "Name Team not blank!";
+            } elseif (isset($queryGetNameTeamTable->name) && ($name == $userTest)) {
+                echo "Name Team is your team!";
+            } elseif (isset($queryGetNameTeamTable->name)) {
+                echo "Name Team has exit!";
+            } elseif (!preg_match($regexNameTeam, $name)) {
+                echo "Name Team not true. <br>Name has less than 50 characters,number, space and !";
+            }
+        }
+    }
 }

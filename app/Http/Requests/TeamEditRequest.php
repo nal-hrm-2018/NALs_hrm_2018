@@ -9,28 +9,32 @@
 namespace App\Http\Requests;
 
 
-use App\Http\Rule\ValidTeamName;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Rule\ValidDupeMember;
 use App\Http\Rule\ValidPoName;
+use App\Rules\ValidTeamNameEdit;
+use Illuminate\Foundation\Http\FormRequest;
 
-class TeamAddRequest extends FormRequest
+class TeamEditRequest extends FormRequest
 {
-    public function authorize(){
+    public function authorize()
+    {
         return true;
     }
-    public function rules(){
-        return[
+
+    public function rules()
+    {
+        return [
             'team_name' => [
                 'required',
                 'max:50',
                 'regex:/(^[a-zA-Z0-9 ]+$)+/',
-                new ValidTeamName()],
-            'id_po' => new ValidPoName(request()->get('members')),
-            'members' => new ValidDupeMember()
+                new ValidTeamNameEdit()],
+            'po_name' => new ValidPoName(request()->get('members')),
+            'employees' => new ValidDupeMember()
         ];
     }
-    public  function messages()
+
+    public function messages()
     {
         return [
             'team_name.required' => trans('validation.required', [
@@ -44,6 +48,5 @@ class TeamAddRequest extends FormRequest
             ]),
         ];
     }
-
 
 }

@@ -16,6 +16,8 @@ return [
     'button' => [
         'reset' => 'RESET',
         'search' => 'SEARCH',
+        'add' => 'ADD',
+        'save' => 'SAVE',
     ],
 
     'title_form' => [
@@ -27,7 +29,14 @@ return [
     'path'=>[
         'home'=>'Home',
         'employee'=>'Employee',
+        'team' => 'Team',
+        'list' => 'List',
         'detail'=>'Detail',
+    ],
+    'action'=>[
+        'view'=>'View',
+        'edit'=>'Edit',
+        'remove'=>'Remove'
     ],
 
 ];
