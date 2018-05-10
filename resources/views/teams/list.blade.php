@@ -87,9 +87,9 @@
                                         <td class="text-center">{{sizeof($employees) + 1}}</td>
 
                                         <ul class="contextMenu" data-team-id="{{$team->id}}" hidden>
-                                            <li><a href="team/{{$team->id}}"><i
+                                            <li><a href="teams/{{$team->id}}"><i
                                                             class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
-                                            <li><a href="team/{{$team->id}}/edit"><i class="fa fa-edit"></i>
+                                            <li><a href="teams/{{$team->id}}/edit"><i class="fa fa-edit"></i>
                                                     {{trans('common.action.edit')}}</a></li>
                                             <li><a class="btn-team-remove" data-team-id="{{$team->id}}"><i
                                                             class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>

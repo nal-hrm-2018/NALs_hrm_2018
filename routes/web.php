@@ -87,7 +87,12 @@ Route::get('/download-template', 'User\Employee\EmployeeController@downloadTempl
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
+Route::get('/teams/{id}', [
+    'as' => 'team-detail',
+    'uses' => 'Team\TeamViewController@getMember',
+]);
 
+Route::resource('team','Team\TeamController');
 Route::resource('teams','Team\TeamController');
 Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
 Route::resource('teams-list', 'Team\TeamListController');
