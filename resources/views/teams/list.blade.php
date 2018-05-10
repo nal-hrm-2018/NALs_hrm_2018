@@ -22,7 +22,6 @@
                 <li><a href="#">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
-
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-info btn-default">
@@ -113,41 +112,43 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="row">
-                                {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
-                                <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <select class="form-control" id="sel1" name="year">
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <div class="box-body">
+                                    <div class="row">
+                                        {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
+                                        <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <select class="form-control" id="sel1" name="year">
 
-                                        </select>
-                                    </div>
-                                    <div class="box box-primary">
-                                        <div class="box-header with-border">
-                                            <i class="fa fa-bar-chart-o"></i>
-
-                                            <h3 class="box-title">{{trans('chart.resource_chart.title')}}
-                                                - <span
-                                                        id="current-year"></span></h3>
-
-                                            <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool"
-                                                        data-widget="collapse"><i
-                                                            class="fa fa-minus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-box-tool"
-                                                        data-widget="remove"><i class="fa fa-times"></i>
-                                                </button>
+                                                </select>
                                             </div>
-                                        </div>
-                                        <div class="box-body">
-                                            <div id="bar-chart" style="height: 235px;"></div>
-                                        </div>
-                                        <!-- /.box-body-->
-                                    </div>
-                                    <!-- /.box -->
+                                            <div class="box box-primary">
+                                                <div class="box-header with-border">
+                                                    <i class="fa fa-bar-chart-o"></i>
 
+                                                    <h3 class="box-title">{{trans('chart.resource_chart.title')}}
+                                                        - <span id="current-year"></span></h3>
+
+                                                    <div class="box-tools pull-right">
+                                                        <button type="button" class="btn btn-box-tool"
+                                                                data-widget="collapse"><i class="fa fa-minus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-box-tool"
+                                                                data-widget="remove"><i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div id="bar-chart" style="height: 235px;"></div>
+                                                </div>
+                                                <!-- /.box-body-->
+                                            </div>
+                                            <!-- /.box -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +168,6 @@
 
     <script type="text/javascript">
         $(function () {
-
             $('tr.team-menu').on('contextmenu', function (event) {
                 event.preventDefault();
                 $('ul.contextMenu').fadeOut("fast");
@@ -175,7 +175,6 @@
                 $('ul.contextMenu[data-team-id="' + eId + '"')
                     .show()
                     .css({top: event.pageY - 170, left: event.pageX - 250, 'z-index': 300});
-
             });
             $(document).click(function () {
                 if ($('ul.contextMenu:hover').length === 0) {
