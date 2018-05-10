@@ -123,10 +123,15 @@
                                             {{  trans('employee.drop_box.placeholder-default') }}
                                         </option>
                                     @endif
-                                    @foreach($allEmployees as $allEmployee)
-                                        <option value="{{ $allEmployee['id']}}" id="po_{{ $allEmployee['id']}}">
-                                            {{ $allEmployee -> name }}
+                                    @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
+                                        @if($allEmployeeHasPO->name == $nameEmployee)
+                                            <span hidden="hidden">{{$nameEmployee}}</span>
+                                            @else
+
+                                        <option value="{{ $allEmployeeHasPO['id']}}" id="po_{{ $allEmployeeHasPO['id']}}">
+                                            {{ $allEmployeeHasPO -> name }}
                                         </option>
+                                            @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -319,7 +324,7 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#edit_id").blur(function () {
+            $("#team_name").blur(function () {
                 var name = $(this).val();
                 $.get("/checkTeamNameEdit", {name: name}, function (data) {
                     console.log(data);
