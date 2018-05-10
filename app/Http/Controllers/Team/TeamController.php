@@ -65,7 +65,7 @@ class TeamController extends Controller
             ->orwhereNotIn('employees.team_id', function ($q) {
                 $q->select('id')->from('teams')->where('id', Auth::user()->team_id);
             })->get();
-        $allEmployeeHasPOs = Employee::where('id', $id)->where('delete_flag', 0)->get();
+        $allEmployeeHasPOs = Employee::where('delete_flag', 0)->get();
         $onlyValue = null;
         $nameEmployee = null;
         try {
