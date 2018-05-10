@@ -136,7 +136,7 @@
                             <div class="form-group">
                                 <label>Member</label><br/>
                                 <select class="form-control select2 width80" name="employees" id="member">
-                                    <option value="0" id="member_0">---Member---</option>
+                                    <option value="0" id="member_0">{{ trans('employee.drop_box.placeholder-default') }}</option>
                                     @foreach($allEmployees as $allEmployee)
                                         <option value="{{$allEmployee["id"]}}"
                                                 id="member_{{$allEmployee["id"]}}">{{$allEmployee["name"]}}</option>
@@ -276,20 +276,44 @@
     <script>
         $(function () {
             $("#btn_reset_form_team").bind("click", function () {
-                var select_po = $('#select_po_name');
-                select_po.val('0');
+
                 var select_members = $("#member");
                 select_members.val('0');
                 $("#team_name").val('');
-
-                var eId = $("li.listInTeam").data('employee-id');
 
                 /*$("#contextMenuTeam").html(function () {
 
                     }
                 );*/
-                $("#contextMenuTeam").remove();
-                $("#listChoose").remove();
+                {{--@if(\Illuminate\Support\Facades\Auth::user()->id != null)
+                var select_po = $('#select_po_name');
+                select_po.val('{{$idUser}}');
+
+                @endif--}}
+                var select_po = $('#select_po_name');
+                select_po.val({{$idEmployee}}).change();
+
+
+                {{--$('#select_po_name').prop('selectedIndex',{{$idEmployee}});--}}
+                $("#contextMenuTeam").innerHTML ="";
+                $("#listChoose").innerHTML ="";
+
+                $listEmployeeID1 = new Array();
+                $listEmployeeName1 = new Array();
+                @foreach($allEmployeeInTeams as $allEmployeeInTeam)
+                $listEmployeeID1.push({{$allEmployeeInTeam->id}});
+                $listEmployeeName1.push('{{$allEmployeeInTeam->name}}');
+                @endforeach
+                    $listAdd1 = "";
+                for ($i = 0; $i < $listEmployeeID1.length; $i++) {
+                    $listAdd1 += "<li  id=\"show_" + $listEmployeeID1[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID1[$i] + ",\'" + $listEmployeeName1[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
+                }
+                $listChoose1 = "";
+                for ($i = 0; $i < $listEmployeeID1.length; $i++) {
+                    $listChoose1 += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID1[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID1[$i] + "\">";
+                }
+                document.getElementById("contextMenuTeam").innerHTML = $listAdd1;
+                document.getElementById("listChoose").innerHTML = $listChoose1;
             });
         });
     </script>
