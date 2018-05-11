@@ -101,7 +101,7 @@
                                                         echo '--';
                                                     }
                                                     $count++;
-                                                } 
+                                                }
                                             ?>
                                         </td>
                                         <td class="text-center">{{sizeof($employees) + 1}}</td>
