@@ -37,7 +37,6 @@ class TeamController extends Controller
     {
         $teams = Team::all()->where('delete_flag', 0);
         $po_id = Role::all()->where('delete_flag', 0)->where('name', 'PO')->pluck('id')[0];
-//        echo $po_id;
 
         $currentMonth = date('Y-m-01');
         $teamsValue = $this->chartService->getValueOfListTeam($currentMonth);
@@ -64,6 +63,10 @@ class TeamController extends Controller
 
     public function show($id)
     {
+        $team = Team::where('delete_flag', 0)->find($id);
+        if (!isset($team)) {
+            return abort(404);
+        }
         $member = Employee::where([
             ['team_id', '=', $id],
             ['delete_flag', '=', 0]
