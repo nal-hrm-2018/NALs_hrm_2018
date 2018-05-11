@@ -37,15 +37,13 @@ class TeamController extends Controller
     {
         $teams = Team::all()->where('delete_flag', 0);
         $po_id = Role::all()->where('delete_flag', 0)->where('name', 'PO')->pluck('id')[0];
+//        echo $po_id;
 
         $currentMonth = date('Y-m-01');
         $teamsValue = $this->chartService->getValueOfListTeam($currentMonth);
         $listMonth = $this->chartService->getListMonth();
 
         return view('teams.list', compact('teams', 'po_id', 'teamsValue', 'listMonth'));
-//        $team = $teams->first();
-//        $employeesModal = $team->employees->where('role_id', '<>',  '9')->first();
-//        echo $employeesModal->name;
     }
 
     public function create()

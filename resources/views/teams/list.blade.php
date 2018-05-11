@@ -78,7 +78,13 @@
                                         data-team-id="{{$team->id}}">
                                         <td>{{$team->id}}</td>
                                         <td>{{$team->name}}</td>
-                                        <td><a href="employee/{{$po->id}}">{{isset($po)?$po->name:'--'}}</a></td>
+                                        <td>
+                                            @if(isset($po))
+                                                <a href="employee/{{$po->id}}">{{$po->name}}</a>
+                                                @else
+                                                --
+                                            @endif
+                                        </td>
                                         <td>
                                             <?php
                                                 $count = 0;
@@ -104,7 +110,7 @@
                                                 }
                                             ?>
                                         </td>
-                                        <td class="text-center">{{sizeof($employees) + 1}}</td>
+                                        <td class="text-center">{{isset($po)?(sizeof($employees) + 1):sizeof($employees)}}</td>
 
                                         <ul class="contextMenu" data-team-id="{{$team->id}}" hidden>
                                             <li><a href="teams/{{$team->id}}"><i
