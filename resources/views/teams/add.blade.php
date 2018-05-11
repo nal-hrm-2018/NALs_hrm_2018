@@ -125,7 +125,7 @@
                               select_po.val('').change();
                               var select_members = $("#member");
                               select_members.val('').change();
-                              $("#team_name").val('');
+                              $("#team_name_id").val('');
 
                               for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                   $('#member_'+$listEmployeeID[$i]).prop('disabled', false);
@@ -166,7 +166,7 @@
                                 listChoose = "";
                                 for (i = 0; i < members.length; i++) {
                                     listChoose += "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + members[i] + "\" class=\"form-control width80 input_" + members[i] + "\">";
-                                }
+                                }                                
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">"+
                                           "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">"+ $listAdd +
                                           "</tbody></table></div>";
@@ -202,7 +202,15 @@
                     <script type="text/javascript">
                         function addFunction() {
                             $id = document.getElementById("member").value;
-                            if ($id != 0) {
+                            $check = true;
+                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                              if($id == $listEmployeeID[$i]){
+                                $check = false;
+                                break;
+                              }
+                            }
+
+                            if ($id != 0 && $check == true) {
                               $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
                               $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
                               @foreach($employees as $employee)
@@ -255,6 +263,9 @@
                           $('#po_'+$id).prop('disabled', false);
                           $('#id_po').select2();
 
+                          if($listEmployeeID.length == 0){
+                            document.getElementById("contextMenuTeam").innerHTML = "";
+                          }
                         }
                     </script>
                     <script type="text/javascript">

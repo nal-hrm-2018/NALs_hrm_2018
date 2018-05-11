@@ -116,6 +116,7 @@
 
                                     @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
                                         @if(\Illuminate\Support\Facades\Auth::user()->id == $allEmployeeHasPO->id )
+
                                             <option selected="selected"  value="{{$idEmployee}}" id="po_0">
                                                 {{$nameEmployee}}
                                             </option>
@@ -153,6 +154,7 @@
                             </div>
                             <div class="form-group" id="contextMenuTeam">
                                 <div class="box-body">
+                                    @if(!($allEmployeeInTeams->isEmpty()))
                                   <table id="employee-list" class="table table-bordered table-striped">
                                       <thead>
                                         <tr>                                            
@@ -180,6 +182,7 @@
                                         @endforeach
                                       </tbody>
                                   </table>
+                                  @endif
                                 </div>                                                                   
                             </div>
                         </div>
@@ -225,8 +228,15 @@
                         $id = document.getElementById("member").value;
                         $idPo = document.getElementById("po_0").value;
 
-                        if($id != 0) {
-                            dem++;
+                        $check = true;
+                        for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                          if($id == $listEmployeeID[$i]){
+                            $check = false;
+                            break;
+                          }
+                        }
+                        if($id != 0 && $check == true) {
+                            $dem++;
                             $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
                             $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
                             @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
@@ -284,6 +294,10 @@
 
                         $('#po_'+$id).prop('disabled', false);
                         $('#select_po_name').select2();
+
+                        if($listEmployeeID.length == 0){
+                            document.getElementById("contextMenuTeam").innerHTML = "";
+                        }
                     }
                 </script>
                 <script type="text/javascript">
