@@ -56,15 +56,15 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        $dataTeam = Team::select('id', 'name')->get()->toArray();
-        $dataRoles = Role::select('id', 'name')->get()->toArray();
-        $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
+        $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        $dataEmployeeTypes = EmployeeType::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         return view('admin.module.employees.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function store(EmployeeAddRequest $request)
     {
-        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->get()->toArray();
+        $objEmployee = Employee::select('email')->where('delete_flag', 0)->where('email', 'like', $request->email)->get()->toArray();
         $employee = new Employee;
         $employee->email = $request->email;
         $employee->password = bcrypt($request->password);
@@ -155,7 +155,7 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        $objEmployee = Employee::findOrFail($id)->toArray();
+        $objEmployee = Employee::findOrFail($id)->where('delete_flag', 0)->toArray();
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
