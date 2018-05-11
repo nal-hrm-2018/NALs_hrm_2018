@@ -48,8 +48,8 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
 
-        $roles = Role::pluck('name', 'id');
-        $teams = Team::pluck('name', 'id');
+        $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
+        $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
         return view('employee.list', compact('employees', 'roles', 'teams', 'param'));
     }
@@ -156,8 +156,8 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $objEmployee = Employee::findOrFail($id)->toArray();
-        $dataTeam = Team::select('id', 'name')->get()->toArray();
-        $dataRoles = Role::select('id', 'name')->get()->toArray();
+        $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
 
         return view('admin.module.employees.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
