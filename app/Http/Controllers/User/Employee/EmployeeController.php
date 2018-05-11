@@ -155,7 +155,7 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        $objEmployee = Employee::findOrFail($id)->where('delete_flag', 0)->toArray();
+        $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
