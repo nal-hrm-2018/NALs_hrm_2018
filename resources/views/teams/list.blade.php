@@ -88,26 +88,30 @@
                                         <td>
                                             <?php
                                                 $count = 0;
-                                                foreach ($employees as $employee){
-                                                    if(sizeof($employees)>0 && sizeof($employees)<=3){
-                                                        echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
-                                                        if($count < sizeof($employees)-1) echo ', ';
-                                                        $count++;
-                                                    } else if(sizeof($employees)>3){
-                                                        echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
-                                                        if($count < 3) echo ', ';
-                                                        if($count == 2){
-                                                            echo '<a href="javascript:void(0)" class="show-list-employee"
+                                                if(count($employees) > 0){
+                                                    foreach ($employees as $employee){
+                                                        if(sizeof($employees)>0 && sizeof($employees)<=3){
+                                                            echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
+                                                            if($count < sizeof($employees)-1) echo ', ';
+                                                            $count++;
+                                                        } else if(sizeof($employees)>3){
+                                                            echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
+                                                            if($count <= 3) echo ', ';
+                                                            if($count == 2){
+                                                                echo '<a href="javascript:void(0)" class="show-list-employee"
                                                             id="show-list-employee-'. $team->id .'" data-toggle="modal"
                                                             data-target="#show-list-members">[...]</a>';
-                                                            break;
+                                                                break;
+                                                            }
+                                                            $count++;
+                                                        } else {
+                                                            echo '--';
                                                         }
-                                                        $count++;
-                                                    } else {
-                                                        echo '--';
                                                     }
-                                                    $count++;
+                                                } else{
+                                                    echo "--";
                                                 }
+
                                             ?>
                                         </td>
                                         <td class="text-center">{{isset($po)?(sizeof($employees) + 1):sizeof($employees)}}</td>
@@ -126,7 +130,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div id="show-list-members" class="modal fade" role="dialog" >
+                            <div id="show-list-members" class="modal fade" role="dialog">
                                 <div class="modal-dialog" style="width: 400px">
                                     <!-- Modal content-->
                                     <div class="modal-content" >
@@ -177,14 +181,20 @@
                                         {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
                                         <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            <div class="form-group">
-                                                <select class="form-control" id="choose-month" name="month">
-                                                    @foreach($listMonth as $month)
-                                                        <option value="{{$month}}">{{trans('chart.resource_chart.title')}}
-                                                            - {{date('m/Y',strtotime($month))}}</option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="row">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="choose-month" name="month">
+                                                            @foreach($listMonth as $month)
+                                                                <option value="{{$month}}">{{trans('chart.resource_chart.title')}}
+                                                                    - {{date('m/Y',strtotime($month))}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
+
                                             <div class="box box-primary">
                                                 <div class="box-header with-border">
                                                     <i class="fa fa-bar-chart-o"></i>
@@ -393,7 +403,12 @@
                     $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
                     echo "var html". $team->id ." = '';";
                     foreach($employeesModal as $employee){
-                        echo "html". $team->id ." += '<tr><td>". $employee->id ."</td><td><a href=\"employee/". $employee->id ."\">". $employee->name ."</a></td><td>". $employee->role->name ."</td></tr>';";
+                        if(isset($employee->role)){
+                            echo "html". $team->id ." += '<tr><td>". $employee->id ."</td><td><a href=\"employee/". $employee->id ."\">". $employee->name ."</a></td><td>". $employee->role->name ."</td></tr>';";
+                        } else {
+                            echo "html". $team->id ." += '<tr><td>". $employee->id ."</td><td><a href=\"employee/". $employee->id ."\">". $employee->name ."</a></td><td>--</td></tr>';";
+                        }
+
                     }
                     echo "html". $team->id ." += '" .$team->id ."';";
                 }
