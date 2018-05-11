@@ -106,7 +106,7 @@ class TeamServiceImpl extends CommonService
 
                     $findAllEmployeeInTeams->save();
 
-                    $member_role = Role::select('id')->where('name','=','TeamDev')->first()->id;
+                    $member_role_dev = Role::select('id')->where('name','=','TeamDev')->first()->id;
 
 
                     foreach ($multipleEmployeesByIds as $multipleEmployeesById) {
@@ -118,7 +118,7 @@ class TeamServiceImpl extends CommonService
                             $member_role = Role::find($queryUpdateEmployee->role_id)->where('delete_flag',0);
                             if (!is_null($member_role)) {
                                 if (config('settings.Roles.PO') === Role::find($queryUpdateEmployee->role_id)->name) {
-                                    $queryUpdateEmployee->role_id = $member_role;
+                                    $queryUpdateEmployee->role_id = $member_role_dev;
                                 }
                             }
                             $queryUpdateEmployee->team_id = $queryUpdateTeam->id;
@@ -132,7 +132,8 @@ class TeamServiceImpl extends CommonService
                 $queryUpdateRoleToEmployee->save();
                 return true;
             } catch (Exception $exception) {
-                return $exception->getMessage();
+
+                return false;
             }
         } else {
             return false;
