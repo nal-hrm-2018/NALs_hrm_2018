@@ -79,19 +79,14 @@ Route::get('/employee/edit/{id}',['as' => 'getEmployeeEdit', 'uses' => 'Admin\Em
 Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\EmployeeController@postEmployeeEdit']); */
 
 /*begin route list employee by Quy*/
-//Route::get('/export ', 'User\Employee\EmployeeController@export')->name('export');
+Route::get('/quy-test', function (){
+    return view('teams.test.quy_test');
+});
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
-Route::get('/teams/{id}', [
-    'as' => 'team-detail',
-    'uses' => 'Team\TeamViewController@getMember',
-]);
-
-Route::resource('team','Team\TeamController');
 Route::resource('teams','Team\TeamController');
 Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
-Route::resource('teams-list', 'Team\TeamListController');
-Route::post('teams-list','Team\TeamListController@showChart');
+Route::post('teams/chart','Team\TeamController@showChart');

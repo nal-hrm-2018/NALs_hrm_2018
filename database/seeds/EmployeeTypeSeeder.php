@@ -11,7 +11,7 @@ class EmployeeTypeSeeder extends Seeder
      */
     public function run()
     {
-        $name = ['PO', 'BA', 'QA', 'TeamDev'];
+        $name = ['InterShip', 'Fulltime', 'Parttime', 'Contractual employee'];
         if (!\App\Models\EmployeeType::first()) {
             foreach (range(0, count($name) - 1) as $index) {
                 DB::table('employee_types')->insert([
