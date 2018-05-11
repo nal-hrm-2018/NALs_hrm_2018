@@ -105,12 +105,20 @@ class TeamServiceImpl extends CommonService
                     $findAllEmployeeInTeams->save();
                     foreach ($multipleEmployeesByIds as $multipleEmployeesById) {
                         $queryUpdateEmployee = Employee::find($multipleEmployeesById);
+                        $roleIDEmployee = Employee::select('employees.role_id')
+                            ->join('rolesss', 'roles.id', '=', $queryUpdateEmployee['role_id'])
+                            ->where('employees.id', $queryUpdateEmployee['id'])
+                            ->first();
+                        dd($roleIDEmployee);
+                        /*$roleID = Role::select('roles.id')
+                            ->join('employees', 'roles.id', '=', 'employees.role_id')
+                            ->where('roles.name', '=', 'TeamDev')->first();*/
                         if ($queryUpdateEmployee == null) {
                             \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
                             return back();
                         } else {
                             $queryUpdateEmployee->team_id = $queryUpdateTeam->id;
-                            $queryUpdateEmployee->role_id = 1;
+                            $queryUpdateEmployee->role_id = $roleIDEmployee->id;
                             $queryUpdateEmployee->save();
                         }
                     }
