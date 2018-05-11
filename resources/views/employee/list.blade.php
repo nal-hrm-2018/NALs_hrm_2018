@@ -68,8 +68,8 @@
                                                         {{  trans('employee.drop_box.placeholder-default') }}
                                                     @endif
                                                         @foreach($teams as $team)
-                                                            <option value="{{ $team}}">
-                                                                {{ $team }}
+                                                            <option value="{{ $team->name}}">
+                                                                {{ $team->name }}
                                                             </option>
                                                         @endforeach
                                                 </select>
@@ -98,8 +98,8 @@
                                                         @endif
                                                         </option>
                                                         @foreach($roles as $role)
-                                                            <option value="{{ $role}}">
-                                                                {{ $role }}
+                                                            <option value="{{ $role->name}}">
+                                                                {{ $role ->name}}
                                                             </option>
                                                         @endforeach
                                                 </select>

@@ -20,7 +20,7 @@
             <ol class="breadcrumb">
                 <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li><a href="{{asset('/teams')}}"> Teams</a></li>
-                <li><a href="#">Detail</a></li>
+                <li><a href="">Detail</a></li>
             </ol>
 
         </section>
