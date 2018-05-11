@@ -68,9 +68,9 @@
                 Edit team
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="/team">Teams</a></li>
-                <li class="active">Add team</li>
+                <li><a href="/"><i class="fa fa-dashboard"></i> {{trans("common.path.home")}}</a></li>
+                <li><a href="{{route('teams.index')}}">{{trans("common.path.team")}}</a></li>
+                <li class="active">Edit team</li>
             </ol>
         </section>
 
@@ -189,7 +189,7 @@
                     <div class="col-md-6" style="display: inline; ">
                         <div style="float: right;">
                             <input id="btn_reset_form_team" type="button" value="{{ trans('common.button.reset')}}"
-                                   class="btn btn-default pull-left">
+                                   class="btn btn-default pull-left" />
                         </div>
                     </div>
                     <div class="col-md-1" style="display: inline;">
@@ -226,7 +226,7 @@
                         $idPo = document.getElementById("po_0").value;
 
                         if($id != 0) {
-                            dem++;
+                            $dem++;
                             $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
                             $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
                             @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
