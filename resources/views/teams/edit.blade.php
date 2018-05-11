@@ -113,19 +113,10 @@
                                 <label>PO name</label><br/>
                                 <select class="form-control select2 width80" id="select_po_name" name="po_name"
                                         onchange="choosePO()">
-                                    @if(!empty($nameEmployee))
-                                        <option selected="selected" {{'hidden'}}  value="{{$idEmployee}}" id="po_0">
-                                            {{$nameEmployee}}
-                                        </option>
-                                    @else
-                                        <option selected="selected"
-                                                value="0" id="po_0">
-                                            {{  trans('employee.drop_box.placeholder-default') }}
-                                        </option>
-                                    @endif
+
                                     @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
                                         @if(\Illuminate\Support\Facades\Auth::user()->id == $allEmployeeHasPO->id )
-                                            <option selected="selected" {{'hidden'}}  value="{{$idEmployee}}" id="po_0">
+                                            <option selected="selected"  value="{{$idEmployee}}" id="po_0">
                                                 {{$nameEmployee}}
                                             </option>
                                         @else
@@ -157,7 +148,7 @@
                             </div>
                             <div class="form-group" id="listChoose" style="display: none;">
                                 @foreach($allEmployeeInTeams as $allEmployeeInTeam)
-                                    <input type="text" hidden="hidden" name="employee[]" value="{{$allEmployeeInTeam->id}}">
+                                    <input type="text" hidden="hidden" class="input_{{$allEmployeeInTeam->id}}" name="employee[]" id="" value="{{$allEmployeeInTeam->id}}">
                                 @endforeach
                             </div>
                             <div class="form-group" id="contextMenuTeam">
@@ -221,8 +212,8 @@
                         $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
                         $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}');
                         
-                        $('#member_{{$allEmployeeInTeam->id}}').prop('disabled', true);                        
-                        $('#po_{{$allEmployeeInTeam->id}}').prop('disabled', true);                        
+                        $('#member_{{$allEmployeeInTeam->id}}').prop('disabled', true);
+                        $('#po_{{$allEmployeeInTeam->id}}').prop('disabled', true);
                     @endforeach
                     $idPO = document.getElementById("select_po_name").value;
                     $('#member_'+$idPO).prop('disabled', true);
@@ -232,44 +223,51 @@
                 <script type="text/javascript">
                     function addFunction() {
                         $id = document.getElementById("member").value;
-                        if ($id != 0) {
-                            $dem ++;
-                                                           
+                        $idPo = document.getElementById("po_0").value;
+
+                        if($id != 0) {
+                            dem++;
                             $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
-                            $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text(); 
-                            @foreach($allEmployees as $allEmployee)
-                                if({{ $allEmployee -> id }} == $listEmployeeID[$listEmployeeID.length -1]){
-                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($allEmployee->team)?$allEmployee->team->name:'---'}}';
-                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($allEmployee->role)?$allEmployee->role->name:'---'}}';
-                                }     
+                            $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
+                            @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
+                            if ({{ $allEmployeeHasPO -> id }} == $listEmployeeID[$listEmployeeID.length - 1]
+                        )
+                            {
+                                $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($allEmployeeHasPO->team)?$allEmployeeHasPO->team->name:'---'}}';
+                                $listEmployeeRole[$listEmployeeRole.length] = '{{isset($allEmployeeHasPO->role)?$allEmployeeHasPO->role->name:'---'}}';
+                            }
                             @endforeach
 
-                            $listAdd = "";
+                                $listAdd = "";
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">"+
-                                        "<td>" + $listEmployeeID[$i]+"</td>"+
-                                        "<td>"+$listEmployeeTeam[$i]+"</td>"+
-                                        "<td>"+$listEmployeeRole[$i]+"</td>"+
-                                        "<td>" + $listEmployeeName[$i]+ "</td>"+
-                                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";                              
+                                $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +
+                                    "<td>" + $listEmployeeID[$i] + "</td>" +
+                                    "<td>" + $listEmployeeTeam[$i] + "</td>" +
+                                    "<td>" + $listEmployeeRole[$i] + "</td>" +
+                                    "<td>" + $listEmployeeName[$i] + "</td>" +
+                                    "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";
                             }
 
-                            $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">"+
-                                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">"+ $listAdd +
-                                    "</tbody></table></div>";
+                            $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
+                                "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
+                                "</tbody></table></div>";
                             $listChoose = "";
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                 $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
+                                if ($listEmployeeID[$i] == $idPo) {
+                                    $('#po_0').prop('disabled', true);
+                                    $('#select_po_name').select2();
+                                }
                             }
 
 
                             document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                             document.getElementById("listChoose").innerHTML = $listChoose;
 
-                            $('#member_'+$id).prop('disabled', true);
+                            $('#member_' + $id).prop('disabled', true);
                             $('#member').select2();
 
-                            $('#po_'+$id).prop('disabled', true);
+                            $('#po_' + $id).prop('disabled', true);
                             $('#select_po_name').select2();
                         }
                     }
@@ -290,11 +288,14 @@
                 </script>
                 <script type="text/javascript">
                     function choosePO() {
+                        var id = {{\Illuminate\Support\Facades\Auth::user()->id}}
                         if ($idPO != 0) {
                             $('#member_'+$idPO).prop('disabled', false);
                             $('#member').select2();
+
                         }
                         $idPO = document.getElementById("select_po_name").value;
+                        console.log($idPO);
                         $('#member_'+$idPO).prop('disabled', true);
                         $('#member').select2();
                     }

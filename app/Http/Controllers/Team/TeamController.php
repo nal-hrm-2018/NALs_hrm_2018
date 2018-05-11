@@ -37,6 +37,7 @@ class TeamController extends Controller
     {
         $teams = Team::all()->where('delete_flag', 0);
         $po_id = Role::all()->where('delete_flag', 0)->where('name', 'PO')->pluck('id')[0];
+//        echo $po_id;
 
         $currentMonth = date('Y-m-01');
         $teamsValue = $this->chartService->getValueOfListTeam($currentMonth);
@@ -55,7 +56,7 @@ class TeamController extends Controller
     {
         if ($this->teamService->addNewTeam($request)) {
             session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
-            return view('teams.test.cong_test');
+            return redirect(route('teams.index'));
         }
         session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
         return back();
@@ -78,7 +79,9 @@ class TeamController extends Controller
             ->orwhereNotIn('employees.team_id', function ($q) {
                 $q->select('id')->from('teams')->where('id', Auth::user()->team_id);
             })->get();
-        $allEmployeeHasPOs = Employee::where('delete_flag', 0)->get();
+        $allEmployeeHasPOs = Employee::query()
+            ->with(['team', 'role'])
+            ->where('delete_flag', 0)->get();
         $onlyValue = null;
         $nameEmployee = null;
         try {
@@ -101,7 +104,7 @@ class TeamController extends Controller
                 ->Where('team_id', '=', $teamById['id'])
                 ->Where('id', '=', $idUser)
                 ->get()->toArray();
-            $allEmployeeInTeams = Employee::select('employees.id', 'employees.name', 'roles.name as role')
+            $allEmployeeInTeams = Employee::select('employees.id', 'employees.name','teams.name as team', 'roles.name as role')
                 ->join('teams', 'teams.id', '=', 'employees.team_id')
                 ->join('roles', 'roles.id', '=', 'employees.role_id')
                 ->where('team_id', '=', Auth::user()->team_id)
@@ -127,8 +130,10 @@ class TeamController extends Controller
     public function update(TeamEditRequest $request, $id)
     {
         if ($this->teamService->updateTeam($request, $id)) {
-            return redirect('employee');
+            session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
+            return redirect('teams');
         } else {
+            session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
             return back();
         }
     }
