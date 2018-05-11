@@ -6,6 +6,7 @@ return[
     ],
     'basic'=>'Basic',
     'profile_info'=>[
+        'id'=>'Employee ID',
         'title'=>'Profile Information',
         'name'=>'Name',
         'email'=>'Email',
