@@ -34,12 +34,13 @@ class TeamServiceImpl extends CommonService
             $team = new Team();
             $team->name = $team_name;
             $members = Employee::where('delete_flag', 0)->whereIn('id', (array)$id_members)->get();
+            $member_role_dev = Role::select('id')->where('name','=','TeamDev')->first()->id;
             //check old role member is PO ?
             foreach ($members as $member) {
-                $member_role = Role::find($member->role_id);
+                $member_role = Role::find($member->role_id)->where('delete_flag',0);
                 if (!is_null($member_role)) {
                     if (config('settings.Roles.PO') === Role::find($member->role_id)->name) {
-                        $member->role_id = null;
+                        $member->role_id = $member_role_dev;
                     }
                 }
             }
@@ -102,23 +103,25 @@ class TeamServiceImpl extends CommonService
                             $findAllEmployeeInTeams->save();
                         }
                     }
+
                     $findAllEmployeeInTeams->save();
+
+                    $member_role_dev = Role::select('id')->where('name','=','TeamDev')->first()->id;
+
+
                     foreach ($multipleEmployeesByIds as $multipleEmployeesById) {
                         $queryUpdateEmployee = Employee::find($multipleEmployeesById);
-                        $roleIDEmployee = Employee::select('employees.role_id')
-                            ->join('rolesss', 'roles.id', '=', $queryUpdateEmployee['role_id'])
-                            ->where('employees.id', $queryUpdateEmployee['id'])
-                            ->first();
-                        dd($roleIDEmployee);
-                        /*$roleID = Role::select('roles.id')
-                            ->join('employees', 'roles.id', '=', 'employees.role_id')
-                            ->where('roles.name', '=', 'TeamDev')->first();*/
                         if ($queryUpdateEmployee == null) {
                             \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
                             return back();
                         } else {
+                            $member_role = Role::find($queryUpdateEmployee->role_id)->where('delete_flag',0);
+                            if (!is_null($member_role)) {
+                                if (config('settings.Roles.PO') === Role::find($queryUpdateEmployee->role_id)->name) {
+                                    $queryUpdateEmployee->role_id = $member_role_dev;
+                                }
+                            }
                             $queryUpdateEmployee->team_id = $queryUpdateTeam->id;
-                            $queryUpdateEmployee->role_id = $roleIDEmployee->id;
                             $queryUpdateEmployee->save();
                         }
                     }
@@ -129,7 +132,8 @@ class TeamServiceImpl extends CommonService
                 $queryUpdateRoleToEmployee->save();
                 return true;
             } catch (Exception $exception) {
-                return $exception->getMessage();
+
+                return false;
             }
         } else {
             return false;

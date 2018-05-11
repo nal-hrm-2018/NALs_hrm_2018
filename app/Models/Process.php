@@ -40,6 +40,6 @@ class Process extends Model
     }
     public function performances()
     {
-        return $this->hasMany('App\Models\Performance', 'process_id');
+        return $this->hasMany('App\Models\Performance', 'process_id')->where('delete_flag', '=', 0);
     }
 }
