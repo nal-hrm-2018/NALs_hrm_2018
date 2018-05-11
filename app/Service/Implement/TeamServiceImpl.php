@@ -88,7 +88,8 @@ class TeamServiceImpl extends CommonService
                 $queryUpdateTeam->name = $teamName;
                 $queryUpdateTeam->save();
                 if ($multipleEmployeesByIds == null){
-                    return false;
+                    $queryUpdateTeam->save();
+                    return true;
                 }
                 else{
                     foreach ($getAllEmployeeInTeams as $getAllEmployeeInTeam){

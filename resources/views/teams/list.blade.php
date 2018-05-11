@@ -17,20 +17,40 @@
                 <small>Nal solution</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{asset('/team')}}"> {{trans('common.path.team')}}</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>
+                </li>
+                <li><a href="{{asset('/teams')}}"> {{trans('common.path.team')}}</a></li>
                 <li><a href="#">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-info btn-default">
-                    <a href="{{ asset('team/create')}}"><i class="fa fa-user-plus"></i>{{trans('common.button.add')}}</a>
+                    <a href="{{ asset('teams/create')}}"><i class="fa fa-user-plus"></i>{{trans('common.button.add')}}
+                    </a>
                 </button>
             </div>
         </section>
-
         <!-- Main content -->
+    <?php
+    if (Session::has('msg_fail')) {
+        echo '<div>
+                <ul class=\'error_msg\'>
+                    <li>' . Session::get("msg_fail") . '</li>
+                </ul>
+            </div>';
+    }
+    ?>
+    <?php
+    if (Session::has('msg_success')) {
+        echo '<div>
+                <ul class=\'result_msg\'>
+                    <li>' . Session::get("msg_success") . '</li>
+                </ul>
+            </div>';
+    }
+    ?>
+    <!-- Main content -->
 
         <section class="content">
             <div class="row">
@@ -51,53 +71,84 @@
                                 <tbody class="context-menu">
                                 @foreach($teams as $team)
                                     <?php
-                                        $po = $team->employees->where('role_id', $po_id)->pluck('name');
-                                        $employees = $team->employees->where('role_id', '<>',  $po_id)->pluck('name');
+                                        $po = $team->employees->where('role_id', $po_id)->first();
+                                        $employees = $team->employees->where('role_id', '<>',  $po_id);
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
                                         <td>{{$team->id}}</td>
                                         <td>{{$team->name}}</td>
-                                        <td>{{sizeof($po)>0?$po[0]:'--'}}</td>
+                                        <td><a href="employee/{{$po->id}}">{{isset($po)?$po->name:'--'}}</a></td>
                                         <td>
                                             <?php
                                                 $count = 0;
                                                 foreach ($employees as $employee){
                                                     if(sizeof($employees)>0 && sizeof($employees)<=3){
-                                                        echo $employee;
+                                                        echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
                                                         if($count < sizeof($employees)-1) echo ', ';
                                                         $count++;
                                                     } else if(sizeof($employees)>3){
-                                                        echo $employee;
+                                                        echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
                                                         if($count < 3) echo ', ';
                                                         if($count == 2){
-                                                            $data = "";
-                                                            foreach ($employees as $employee) $data .= '<p>' .$employee .'</p>';
                                                             echo '<a href="javascript:void(0)" class="show-list-employee"
-                                                            id="show-list-employee-'. $team->id .'" data-content="'. $data .'">[...]</a>';
+                                                            id="show-list-employee-'. $team->id .'" data-toggle="modal"
+                                                            data-target="#show-list-members">[...]</a>';
                                                             break;
                                                         }
                                                         $count++;
                                                     } else {
                                                         echo '--';
                                                     }
-                                                }
+                                                    $count++;
+                                                } 
                                             ?>
                                         </td>
                                         <td class="text-center">{{sizeof($employees) + 1}}</td>
 
                                         <ul class="contextMenu" data-team-id="{{$team->id}}" hidden>
                                             <li><a href="teams/{{$team->id}}"><i
-                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
+                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}
+                                                </a></li>
                                             <li><a href="teams/{{$team->id}}/edit"><i class="fa fa-edit"></i>
                                                     {{trans('common.action.edit')}}</a></li>
                                             <li><a class="btn-team-remove" data-team-id="{{$team->id}}"><i
-                                                            class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
+                                                            class="fa fa-remove"></i> {{trans('common.action.remove')}}
+                                                </a></li>
                                         </ul>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+                            <div id="show-list-members" class="modal fade" role="dialog" >
+                                <div class="modal-dialog" style="width: 400px">
+                                    <!-- Modal content-->
+                                    <div class="modal-content" >
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title"><th>{{trans('team.members')}} - Team: <span id="team_name_modal"></span></th></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table id="member-list" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{trans('employee.profile_info.id')}}</th>
+                                                    <th>{{trans('employee.profile_info.name')}}</th>
+                                                    <th>{{trans('employee.profile_info.role')}}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="context-menu" id="table-list-members">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -133,7 +184,9 @@
                                                     <i class="fa fa-bar-chart-o"></i>
 
                                                     <h3 class="box-title">{{trans('chart.resource_chart.title')}}
-                                                        - <span id="current-month">{{date('m/Y',strtotime($listMonth[0]))}}</span></h3>
+                                                        -
+                                                        <span id="current-month">{{date('m/Y',strtotime($listMonth[0]))}}</span>
+                                                    </h3>
 
                                                     <div class="box-tools pull-right">
                                                         <button type="button" class="btn btn-box-tool"
@@ -196,7 +249,7 @@
                 if (confirm('Really delete?')) {
                     $.ajax({
                         type: "DELETE",
-                        url: '{{ url('/teams-list') }}' + '/' + elementRemove,
+                        url: '{{ url('/teams') }}' + '/' + elementRemove,
                         data: {
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -223,7 +276,7 @@
             var monthFormat = new Date(month);
             $.ajax({
                 type: "POST",
-                url: '{{ url('/teams-list') }}',
+                url: '{{ url('/teams/chart') }}',
                 data: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -236,7 +289,7 @@
                     var data = [];
                     var i = 0;
                     var jsonValue = msg.listValueOfMonth;
-                    Object.keys(jsonValue).forEach(function(key) {
+                    Object.keys(jsonValue).forEach(function (key) {
                         data[i] = [];
                         data[i][0] = key;
                         data[i][1] = jsonValue[key];
@@ -249,7 +302,7 @@
                     showChart(bar_data);
                 }
             });
-            $('#current-month').html((monthFormat.getMonth()+1)+'/'+monthFormat.getFullYear());
+            $('#current-month').html((monthFormat.getMonth() + 1) + '/' + monthFormat.getFullYear());
 
         });
 
@@ -266,20 +319,11 @@
                 'info': true,
                 'autoWidth': false,
             });
-            $(".show-list-employee").hover(function () {
-                var id = $(this).attr('id');
-                $("#" + id).popover({title: "<strong>{{trans('team.members')}}</strong>", html: true, placement: "right"});
-            });
-            $(document).click(function () {
-                if ($('.show-list-employee:hover').length === 0) {
-                    $('.popover').fadeOut("fast");
-                }
-            });
             $(function () {
                 var data = [];
                 var i = 0;
                 var jsonValue = <?php echo json_encode($teamsValue)?>;
-                Object.keys(jsonValue).forEach(function(key) {
+                Object.keys(jsonValue).forEach(function (key) {
                     data[i] = [];
                     data[i][0] = key;
                     data[i][1] = jsonValue[key];
@@ -305,7 +349,7 @@
                 series: {
                     bars: {
                         show: true,
-                        barWidth: 0.75,
+                        barWidth: 0.65,
                         align: 'center'
                     }
                 },
@@ -331,6 +375,34 @@
             })
         }
     </script>
+
+    <script>
+        $('.show-list-employee').click(function () {
+            var id = $(this).attr('id');
+            var id_team = id.slice(19);
+            var length_id = id_team.length;
+            var html = "";
+            <?php
+                foreach($teams as $team){
+                    $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
+                    echo "var html". $team->id ." = '';";
+                    foreach($employeesModal as $employee){
+                        echo "html". $team->id ." += '<tr><td>". $employee->id ."</td><td><a href=\"employee/". $employee->id ."\">". $employee->name ."</a></td><td>". $employee->role->name ."</td></tr>';";
+                    }
+                    echo "html". $team->id ." += '" .$team->id ."';";
+                }
+                ?>
+                    var html = "";
+            @foreach($teams as $team)
+                if(id_team == html{{$team->id}}.slice(-length_id)){
+                    html = html{{$team->id}}.slice(0, html{{$team->id}}.length - length_id);
+                    $('#team_name_modal').html('{{$team->name}}');
+                }
+            @endforeach
+            $('#table-list-members').html(html);
+        });
+    </script>
+
 
 
 @endsection
