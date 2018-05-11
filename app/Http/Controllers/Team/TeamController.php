@@ -43,6 +43,9 @@ class TeamController extends Controller
         $listMonth = $this->chartService->getListMonth();
 
         return view('teams.list', compact('teams', 'po_id', 'teamsValue', 'listMonth'));
+//        $team = $teams->first();
+//        $employeesModal = $team->employees->where('role_id', '<>',  '9')->first();
+//        echo $employeesModal->name;
     }
 
     public function create()
