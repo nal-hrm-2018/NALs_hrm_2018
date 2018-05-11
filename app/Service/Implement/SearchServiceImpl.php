@@ -22,6 +22,8 @@ class SearchServiceImpl extends CommonService implements SearchService
     {
         $query = Process::query();
 
+        $query->where('delete_flag','=',0);
+
         if (!empty($request['id'])) {
             $query
                 ->whereHas('employee', function ($query) use ($request) {

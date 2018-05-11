@@ -96,7 +96,7 @@
                                                             $count++;
                                                         } else if(sizeof($employees)>3){
                                                             echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
-                                                            if($count < 3) echo ', ';
+                                                            if($count <= 3) echo ', ';
                                                             if($count == 2){
                                                                 echo '<a href="javascript:void(0)" class="show-list-employee"
                                                             id="show-list-employee-'. $team->id .'" data-toggle="modal"
@@ -107,7 +107,6 @@
                                                         } else {
                                                             echo '--';
                                                         }
-                                                        $count++;
                                                     }
                                                 } else{
                                                     echo "--";
@@ -182,14 +181,20 @@
                                         {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
                                         <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            <div class="form-group">
-                                                <select class="form-control" id="choose-month" name="month">
-                                                    @foreach($listMonth as $month)
-                                                        <option value="{{$month}}">{{trans('chart.resource_chart.title')}}
-                                                            - {{date('m/Y',strtotime($month))}}</option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="row">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="choose-month" name="month">
+                                                            @foreach($listMonth as $month)
+                                                                <option value="{{$month}}">{{trans('chart.resource_chart.title')}}
+                                                                    - {{date('m/Y',strtotime($month))}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
+
                                             <div class="box box-primary">
                                                 <div class="box-header with-border">
                                                     <i class="fa fa-bar-chart-o"></i>
