@@ -87,7 +87,7 @@
                                                 <strong>{{ isset($employee->team)?$employee->team->name:'-' }}</strong>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
-                                                <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'-' }}</strong>
+                                                <strong>{{ isset($employee->employeeType)?$employee->role->name:'-' }}</strong>
                                             </p>
 
                                             <p>{{trans('employee.profile_info.policy_date')}}:

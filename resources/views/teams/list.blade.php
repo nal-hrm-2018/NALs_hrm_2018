@@ -98,7 +98,7 @@
                                                             echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
                                                             if($count <= 3) echo ', ';
                                                             if($count == 2){
-                                                                echo '<a href="javascript:void(0)" class="show-list-employee"
+                                                                echo '<a href="#" class="show-list-employee"
                                                             id="show-list-employee-'. $team->id .'" data-toggle="modal"
                                                             data-target="#show-list-members">[...]</a>';
                                                                 break;
