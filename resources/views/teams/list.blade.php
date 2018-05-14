@@ -394,33 +394,33 @@
 
     <script>
         $('.show-list-employee').click(function () {
+            $('#table-list-members').html("");
             var id = $(this).attr('id');
             var id_team = id.slice(19);
-            var length_id = id_team.length;
-            var html = "";
             <?php
                 foreach($teams as $team){
                     $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
-                    echo "var html". $team->id ." = '';";
                     foreach($employeesModal as $employee){
                         if(isset($employee->role)){
-                            echo "html". $team->id ." += '<tr><td>". $employee->id ."</td><td><a href=\"employee/". $employee->id ."\">". $employee->name ."</a></td><td>". $employee->role->name ."</td></tr>';";
+                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a>'. $employee->name .'</a></td><td>'. $employee->role->name .'</td></tr>";';
                         } else {
-                            echo "html". $team->id ." += '<tr><td>". $employee->id ."</td><td><a href=\"employee/". $employee->id ."\">". $employee->name ."</a></td><td>--</td></tr>';";
+                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a>'. $employee->name .'</a></td><td>--</td></tr>";';
                         }
-
                     }
-                    echo "html". $team->id ." += '" .$team->id ."';";
                 }
                 ?>
-                    var html = "";
             @foreach($teams as $team)
-                if(id_team == html{{$team->id}}.slice(-length_id)){
-                    html = html{{$team->id}}.slice(0, html{{$team->id}}.length - length_id);
+                if(id_team == "{{$team->id}}"){
                     $('#team_name_modal').html('{{$team->name}}');
+                    <?php
+                        $employeesAppend = $team->employees->where('role_id', '<>',  $po_id);
+                    ?>
+                    @foreach($employeesAppend as $employee)
+                        $('#table-list-members').append(html_{{$team->id}}_{{$employee->id}});
+                    @endforeach
                 }
             @endforeach
-            $('#table-list-members').html(html);
+
         });
     </script>
 
