@@ -21,7 +21,7 @@
                 <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li><a href="{{asset('/teams-list')}}"> Teams</a></li>
                 <li><a href="#">Detail</a></li>
-            </ol>
+                    </ol>
         </section>
 
         <!-- Main content -->

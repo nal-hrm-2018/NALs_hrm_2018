@@ -44,7 +44,7 @@ class Project extends Model
      */
     public function processes()
     {
-        return $this->hasMany('App\Models\Process', 'project_id');
+        return $this->hasMany('App\Models\Process', 'project_id')->where('delete_flag', '=', 0);
     }
 
     public function status(){
