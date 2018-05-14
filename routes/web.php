@@ -70,6 +70,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::resource('teams','Team\TeamController');
     Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
     Route::post('teams/chart','Team\TeamController@showChart');
+
+    Route::resource('vendors','User\Vendor\VendorController');
 });
 
 //cong list route cam pha'
