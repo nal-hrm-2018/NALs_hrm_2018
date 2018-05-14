@@ -65,6 +65,11 @@ Route::group(['middleware' => 'user'], function () {
     ]);
 
     Route::get('/export', 'User\Employee\EmployeeController@export')->name('export');
+
+
+    Route::resource('teams','Team\TeamController');
+    Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
+    Route::post('teams/chart','Team\TeamController@showChart');
 });
 
 //cong list route cam pha'
@@ -87,6 +92,3 @@ Route::get('/download-template', 'User\Employee\EmployeeController@downloadTempl
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
-Route::resource('teams','Team\TeamController');
-Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
-Route::post('teams/chart','Team\TeamController@showChart');
