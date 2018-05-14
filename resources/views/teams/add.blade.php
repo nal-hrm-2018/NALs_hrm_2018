@@ -110,20 +110,7 @@
                     <script type="text/javascript"
                             src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-                    <script type="text/javascript">
-                      $(document).ready(function (){
-                        $("#form_add_team").submit( function(){
-                          return confirmAction('Would you like to add it?');
-                        });
-                      });
-                    </script>
-                    <script type="text/javascript">
-                      $(document).ready(function (){
-                        $("#btn_reset_form_team").click( function(){
-                          return confirmAction('Do you want to reset?');
-                        });
-                      });
-                    </script>
+                    
                     <script type="text/javascript">
                         $listEmployeeID = new Array();
                         $listEmployeeName = new Array();
