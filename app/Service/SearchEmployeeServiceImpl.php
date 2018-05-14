@@ -27,15 +27,13 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             'team' => !empty($request->team) ? $request->team : '',
             'email' => !empty($request->email) ? $request->email : '',
             'role' => !empty($request->role) ? $request->role : '',
-            'status' => !empty($request->status) ? $request->status : '',
         ];
-        foreach ($params as $key => $value){
+        foreach ($params as $key => $value) {
             $id = $value['id'];
             $name = $value['name'];
             $team = $value['team'];
             $role = $value['role'];
             $email = $value['email'];
-            $status = $value['status'];
         }
         if (!empty($role)) {
             $query
@@ -46,30 +44,45 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if (!empty($name)) {
             $query->Where('name', 'like', '%' . $name . '%');
         }
+
+        if (!is_null($request['is_employee'])) {
+            $query->Where('is_employee', $request['is_employee']);
+        }
+
+        if (!empty($request['role_in_process'])) {
+            $role_in_process= $request['role_in_process'];
+            $query
+                ->whereHas('processes', function ($query) use ( $role_in_process ) {
+                    $query->where("role_id", $role_in_process);
+                });
+        }
+
+        if (!empty($request['company'])) {
+            $query->Where('company', 'like', '%' . $request['company'] . '%');
+        }
+
         if (!empty($id)) {
             $query->Where('id', '=', $id);
         }
         if (!empty($team)) {
             $query
                 ->whereHas('team', function ($query) use ($team) {
-                    $query->where("name", 'like', '%' . $team. '%');
+                    $query->where("name", 'like', '%' . $team . '%');
                 });
         }
         if (!empty($email)) {
             $query->Where('email', 'like', '%' . $email . '%');
         }
-        if (!empty($status)) {
-            switch ($status){
-                case "Unactive":
-                    $query->Where('work_status', '=', '1');
-                    break;
-                case "Active":
-                    $query->Where('work_status', '=', '0');
-                    break;
-            }
+
+        if (!is_null($request['status'])) {
+            $query->Where('work_status', $request['status']);
         }
+
+        $x =$query->toSql();
+
         $employeesSearch = $query
-            ->where('delete_flag','=',0);
+            ->where('delete_flag', '=', 0);
+
 
         return $employeesSearch;
     }
