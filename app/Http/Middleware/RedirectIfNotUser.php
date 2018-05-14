@@ -16,6 +16,7 @@ class RedirectIfNotUser
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
+            $request['is_employee']= config('settings.Employees.is_employee');
             return $next($request);
         }
         return redirect()->action('Auth\LoginController@getLogin');

@@ -10,6 +10,7 @@ namespace App\Service\Implement;
 
 
 use App\Http\Requests\CommonRequest;
+use App\Models\Employee;
 use App\Service\SearchService;
 use App\Models\Process;
 use App\Service\CommonService;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 class SearchServiceImpl extends CommonService implements SearchService
 {
 
-    public function search($request)
+    public function searchProcess($request)
     {
         $query = Process::query();
 
@@ -62,4 +63,6 @@ class SearchServiceImpl extends CommonService implements SearchService
 
         return $query;
     }
+
+
 }

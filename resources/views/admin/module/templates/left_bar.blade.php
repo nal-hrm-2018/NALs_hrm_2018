@@ -16,8 +16,8 @@
         </li>
         <li>
 
-          <a href="#">
-            <i class="fa fa-handshake-o"></i> <span>Vendor</span>
+          <a href={{route('vendors.index')}}>
+            <i class="fa fa-handshake-o"></i> <span>{{trans('common.path.vendors')}}</span>
           </a>
         </li>
         <li class="treeview">

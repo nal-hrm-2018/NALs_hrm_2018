@@ -24,11 +24,14 @@ return [
         'form_search' => 'Search Form'
     ],
     'title_header'=>[
-        'employee_detail'=>'Employee Detail'
+        'employee_detail'=>'Employee Detail',
+        'vendor_list'=>'Vendor List',
+        'nal_solution' =>'Nal solution'
     ],
     'path'=>[
         'home'=>'Home',
         'employee'=>'Employee',
+        'vendors'=>'Vendors',
         'team' => 'Teams',
         'list' => 'List',
         'detail'=>'Detail',
