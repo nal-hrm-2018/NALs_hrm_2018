@@ -1,15 +1,15 @@
-@extends('admin.template')
+@extends('admin.template') 
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Edit employee
+      Edit Vendor
     </h1>
     <ol class="breadcrumb">
       <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="/employee">Employee</a></li>
-      <li class="active">Edit Employee</li>
+      <li><a href="/vendors">Vendor</a></li>
+      <li class="active">Edit Vendor</li>
     </ol>
   </section>
   <style type="text/css">
@@ -37,7 +37,7 @@
                 return confirm($msg)
             }
         </SCRIPT>
-        {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
+        {{ Form::model($objEmployee, ['url' => ['/vendor', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="col-md-3">
@@ -62,7 +62,7 @@
                 <label style="color: red;">{{$errors->first('email')}}</label>
                 <!-- /.input group -->
               </div>
-
+              
               <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
@@ -76,7 +76,7 @@
                 <!-- /.input group -->
               </div>
               <div class="form-group">
-                <label>Mobile</label>
+                <label>Mobile</label> 
                 <div class="input-group">
                   <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
@@ -98,27 +98,18 @@
                 <label>Married</label>
                 <select class="form-control select2" style="width: 100%;"  name="marital_status">
                   <option value="1" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 1) echo'selected'; ?>>Single</option>
-                  <option value="2" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 2) echo'selected'; ?>>Married</option>
+                  <option value="2" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 2) echo'selected'; ?>>Married</option>          
                   <option value="3" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 3) echo'selected'; ?>>Separated</option>
                   <option value="4" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 4) echo'selected'; ?>>Devorce</option>
                 </select>
               </div>
               <div class="form-group">
-                <label>Team</label>
-                <select class="form-control select2" style="width: 100%;"  name="team_id">
-                  <option value="" >---Team selection---</option>
-                  <?php
-                    foreach($dataTeam as $val){
-                      $selected = "";
-                      if($val["id"] == old('team_id', isset($objEmployee["team_id"]) ? $objEmployee["team_id"] : null)){
-                        $selected = "selected";
-                      }
-                      echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
-                    }
-                  ?>
-                </select>
-                <label style="color: red; ">{{$errors->first('team_id')}}</label>
+                <label>Company</label>
+                <input type="text" class="form-control" placeholder="Company"  name="company" value="{!! old('name', isset($objEmployee["company"]) ? $objEmployee["company"] : null) !!}">
+                <label style="color: red;">{{$errors->first('company')}}</label>
+                <!-- /.input group -->
               </div>
+
               <div class="form-group">
                 <label>Birthday</label>
                 <div class="input-group date">
@@ -130,22 +121,7 @@
                 <label style="color: red;">{{$errors->first('birthday')}}</label>
                 <!-- /.input group -->
               </div>
-              <div class="form-group">
-                <label>Position</label>
-                <select class="form-control select2" style="width: 100%;" name="employee_type_id">
-                  <option value="" >---Position selection---</option>
-                  <?php
-                    foreach($dataEmployeeTypes as $val){
-                      $selected = "";
-                      if($val["id"] == old('employee_type_id', isset($objEmployee["employee_type_id"]) ? $objEmployee["employee_type_id"] : null)){
-                        $selected = "selected";
-                      }
-                      echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
-                    }
-                  ?>
-                </select>
-                <label style="color: red; ">{{$errors->first('employee_type_id')}}</label>
-              </div>
+
               <div class="form-group">
                 <label>Role of team</label>
                 <select class="form-control select2" style="width: 100%;" name="role_id">
@@ -194,22 +170,22 @@
                 @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
                   <div class="col-md-4" id="resetPass">
                     <br />
-                    <p onclick="resetPass()" class="btn btn-info pull-left" style="margin-top: 5px;">Reset password</p>
-                    <label style="color: red;"><?php
+                    <p onclick="resetPass()" class="btn btn-info pull-left" style="margin-top: 5px;">Reset password</p>              
+                    <label style="color: red;"><?php 
                       if (Session::has('minPass')){
                         echo''.Session::get("minPass");
-                      }
+                      } 
                     ?></label>
                   </div>
                   <script>
                     function resetPass() {
                         document.getElementById("resetPass").innerHTML = "<div class=\"form-group\">                     <label>Password</label><input type=\"password\" class=\"form-control\" placeholder=\"Password\" id=\"password\"  name=\"password\" value=\"\" onchange=\"myFunction()\"><label style=\"color: red;\" id=\"minPass\"></label></div>"
-                        + "<div class=\"form-group\"><label>Confirm password</label><input type=\"password\" class=\"form-control\" placeholder=\"Confirm password\" name=\"confirm_confirmation\" id=\"confirmPass\" onchange=\"confirmPass1()\"><label style=\"color: red;\" id=\"cf\"></label></div><br /><p onclick=\"closePass()\" class=\"btn btn-info pull-left\" style=\"margin-top: 5px;\">Close Reset password</p>";
+                        + "<div class=\"form-group\"><label>Confirm password</label><input type=\"password\" class=\"form-control\" placeholder=\"Confirm password\" name=\"confirm_confirmation\" id=\"confirmPass\" onchange=\"confirmPass1()\"><label style=\"color: red;\" id=\"cf\"></label></div><br /><p onclick=\"closePass()\" class=\"btn btn-info pull-left\" style=\"margin-top: 5px;\">Close Reset password</p>";                    
                     }
                   </script>
                   <script>
                     function closePass() {
-                        document.getElementById("resetPass").innerHTML = "<br /><p onclick=\"resetPass()\" class=\"btn btn-info pull-left\" style=\"margin-top: 5px;\">Reset password</p>";
+                        document.getElementById("resetPass").innerHTML = "<br /><p onclick=\"resetPass()\" class=\"btn btn-info pull-left\" style=\"margin-top: 5px;\">Reset password</p>";                    
                     }
                   </script>
                   <script>
@@ -244,14 +220,14 @@
             <!-- /.col -->
           </div>
           <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
-            <div class="col-md-6" style="display: inline; ">
+            <div class="col-md-6" style="display: inline; ">    
               <div style="float: right;" >
-                <input type="reset" value="Reset" class="btn btn-info pull-left">
+                <input type="reset" value="Reset" class="btn btn-info pull-left">  
               </div>
             </div>
-            <div class="col-md-2" style="display: inline;">
-              <div style="float: right;">
-                  <button type="submit" class="btn btn-info pull-left">Edit Employee</button>
+            <div class="col-md-2" style="display: inline;">    
+              <div style="float: right;">      
+                  <button type="submit" class="btn btn-info pull-left">Edit Vendor</button>
               </div>
             </div>
           </div>
