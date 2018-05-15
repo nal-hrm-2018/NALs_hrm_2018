@@ -271,7 +271,7 @@
                                         "<td>" + $listEmployeeTeam[$i] + "</td>" +
                                         "<td>" + $listEmployeeRole[$i] + "</td>" +
                                         "<td>" + $listEmployeeName[$i] + "</td>" +
-                                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";
+                                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\"" + $listEmployeeName[$i] + "\")\"></i></td></tr>";
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
@@ -379,7 +379,7 @@
                         "<td>" + $listEmployeeTeam[$i] + "</td>" +
                         "<td>" + $listEmployeeRole[$i] + "</td>" +
                         "<td>" + $listEmployeeName[$i] + "</td>" +
-                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";
+                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\"" + $listEmployeeName[$i] + "\")\"></i></td></tr>";
                 }
 
                 $listAdd1 = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +

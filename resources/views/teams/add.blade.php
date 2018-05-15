@@ -162,7 +162,7 @@
                                           "<td id=\"teamEdit_"+members[i]+"\">"+$teamEdit+"</td>"+
                                           "<td id=\"roleEdit_"+members[i]+"\">"+$roleEdit+"</td>"+
                                           "<td id=\"nameEdit_"+members[i]+"\">" + $("#member_" + members[i]).text()+ "</td>"+
-                                          "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ",\'" + $("#member_" + members[i]).text() + "\')\"></i></td></tr>";
+                                          "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ",\"" + $("#member_" + members[i]).text() + "\")\"></i></td></tr>";
                                 }
                                 listChoose = "";
                                 for (i = 0; i < members.length; i++) {
@@ -232,7 +232,7 @@
                                             "<td>"+$listEmployeeTeam[$i]+"</td>"+
                                             "<td>"+$listEmployeeRole[$i]+"</td>"+
                                             "<td>" + $listEmployeeName[$i]+ "</td>"+
-                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";                              
+                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\"" + $listEmployeeName[$i] + "\")\"></i></td></tr>";                              
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">"+
@@ -283,6 +283,15 @@
                           $idPO = document.getElementById("id_po").value;
                           $('#member_'+$idPO).prop('disabled', true);
                           $('#member').select2();
+                        }
+                    </script>
+                    <script type="text/javascript">
+                        function editName($name) {
+                          for ($i = 0; $i < $name.length; $i++) {
+                            if($name.chartAt($i) == '\''){
+
+                            }
+                          }
                         }
                     </script>                                       
                     <!-- /.row -->
