@@ -38,7 +38,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if (!empty($role)) {
             $query
                 ->whereHas('role', function ($query) use ($role) {
-                    $query->where("name", 'like', '%' . $role . '%');
+                    $query->where("name",$role);
                 });
         }
         if (!empty($name)) {
@@ -78,11 +78,8 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             $query->Where('work_status', $request['status']);
         }
 
-        $x =$query->toSql();
-
         $employeesSearch = $query
             ->where('delete_flag', '=', 0);
-
 
         return $employeesSearch;
     }

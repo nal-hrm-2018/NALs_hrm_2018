@@ -13,19 +13,17 @@
         @if(session()->has('msg_fail'))
             <div>
                 <ul class='error_msg'>
-                    <li>{{Session::get("msg_fail")}}</li>
+                    <li>{{session()->get('msg_fail')}}</li>
                 </ul>
             </div>
         @endif
         @if(session()->has('msg_success'))
             <div>
                 <ul class='result_msg'>
-                    <li>{{Session::get("msg_success")}}</li>
+                    <li>{{session()->get('msg_success')}}</li>
                 </ul>
             </div>
         @endif
-
-
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
@@ -36,7 +34,7 @@
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
                     </a></li>
                 <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendors')}}</a></li>
-                <li><a href="#">{{trans('common.path.list')}}</a></li>
+                <li class="active"><a href="#">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
 
