@@ -106,10 +106,18 @@
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">Status</button>
+                                                    <button type="button" class="btn width-100">{{trans('employee.profile_info.status')}}</button>
                                                 </div>
-                                                <input type="text" name="status" id="statusEmployee"
-                                                       class="form-control">
+                                                <select name="status" id="status" class="form-control">
+                                                    <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
+                                                        {{  trans('employee.drop_box.placeholder-default') }}
+                                                    </option>
+                                                    @foreach($status as $key=>$value)
+                                                        <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

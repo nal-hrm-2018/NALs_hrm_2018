@@ -47,11 +47,11 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-
+        $status = [0=> "Active", 1=>"Unactive"];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
-        return view('employee.list', compact('employees', 'roles', 'teams', 'param'));
+        return view('employee.list', compact('employees','status', 'roles', 'teams', 'param'));
     }
 
     public function create()
@@ -100,7 +100,8 @@ class EmployeeController extends Controller
                 'start_date' => $request->get('start_date'),
                 'end_date' => $request->get('end_date'),
                 'project_status' => $request->get('project_status'),
-                'number_record_per_page' => $request->get('number_record_per_page')
+                'number_record_per_page' => $request->get('number_record_per_page'),
+                'is_employee' => $request->get('is_employee'),
             ]
         );
 
@@ -110,7 +111,7 @@ class EmployeeController extends Controller
 
         $data['id'] = $id;
 
-        $processes = $this->searchService->search($data)->orderBy('project_id', 'desc')->paginate($data['number_record_per_page']);
+        $processes = $this->searchService->searchProcess($data)->orderBy('project_id', 'desc')->paginate($data['number_record_per_page']);
 
         $processes->setPath('');
 
