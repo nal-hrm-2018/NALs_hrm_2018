@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\User\Vendor;
 
+
+use App\Export\VendorExport;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Service\SearchEmployeeService;
 use App\Models\Employee;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VendorController extends Controller
 {
@@ -108,4 +111,10 @@ class VendorController extends Controller
             }
         }
     }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new VendorExport($this->searchEmployeeService, $request), 'vendor-list.csv');
+    }
+
 }

@@ -70,8 +70,10 @@ Route::group(['middleware' => 'user'], function () {
     Route::resource('teams','Team\TeamController');
     Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
     Route::post('teams/chart','Team\TeamController@showChart');
-
+    Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
     Route::resource('vendors','User\Vendor\VendorController');
+
+
 });
 
 //cong list route cam pha'
@@ -89,6 +91,7 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 Route::get('/quy-test', function (){
     return view('teams.test.quy_test');
 });
+
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 /*the end route list employee by Quy*/
 
