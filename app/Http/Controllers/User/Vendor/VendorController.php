@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\User\Vendor;
 
+
+use App\Export\TemplateVendorExport;
+use App\Export\VendorExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\VendorEditRequest;
+use App\Service\SearchService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Models\Employee;
@@ -16,6 +20,8 @@ use App\Service\SearchService;
 use App\Models\EmployeeType;
 use DateTime;
 use App\Service\SearchEmployeeService;
+use Maatwebsite\Excel\Facades\Excel;
+
 class VendorController extends Controller
 {
     protected $searchService;
@@ -202,6 +208,15 @@ class VendorController extends Controller
                 return redirect(route('vendors.index'));
             }
         }
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new VendorExport($this->searchEmployeeService, $request), 'vendor-list.csv');
+    }
+    public function downloadTemplateVendor()
+    {
+        return Excel::download(new TemplateVendorExport(), 'template-vendor.csv');
     }
 
     public function showChart($id, Request $request)

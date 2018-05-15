@@ -71,6 +71,7 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
     Route::post('teams/chart','Team\TeamController@showChart');
 
+    Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
     Route::resource('vendors','User\Vendor\VendorController');
     Route::post('/vendors/{id}', [
         'as' => 'vendor_show_chart',
@@ -93,7 +94,9 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 Route::get('/quy-test', function (){
     return view('teams.test.quy_test');
 });
+
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
+Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
