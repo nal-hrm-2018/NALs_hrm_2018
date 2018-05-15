@@ -31,6 +31,7 @@ return [
     'path'=>[
         'home'=>'Home',
         'employee'=>'Employee',
+        'vendor'=>'Vendor',
         'vendors'=>'Vendors',
         'team' => 'Teams',
         'list' => 'List',

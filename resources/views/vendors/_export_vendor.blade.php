@@ -1,6 +1,6 @@
 <?php
-$id = null; $name = null; $company = null; $role = null; $email = null; $status = null;
-$arrays[] = $_GET;
+$id = null; $name = null; $company = null; $role = null; $email = null; $status = -1;
+$arrays[] = request();
 /*if (!empty($arrays)){
     dd('aaa');
 }
@@ -23,7 +23,9 @@ foreach ($arrays as $key => $value) {
     if (!empty($value['email'])) {
         $email = $value['email'];
     }
-    if (!empty($value['status'])) {
+    if (is_null($value['status'])){
+        $status = "";
+    }else{
         $status = $value['status'];
     }
     /*dd($status);

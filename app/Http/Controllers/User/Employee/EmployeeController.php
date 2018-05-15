@@ -117,16 +117,14 @@ class EmployeeController extends Controller
 
         $param = (Input::except('page'));
 
-        $active = $request->all();
-
-        if ($active) {
+        if ($request->get('number_record_per_page')) {
             $active = 'project';
         } else {
             $active = 'basic';
         }
 
         //set employee info
-        $employee = Employee::where('delete_flag', 0)->find($id);
+        $employee = Employee::where('delete_flag', 0)->where('is_employee', '1')->find($id);
 
         $roles = Role::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
 

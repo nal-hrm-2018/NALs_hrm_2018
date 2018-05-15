@@ -51,7 +51,6 @@ class VendorExport implements FromCollection, WithEvents, WithHeadings
      */
     public function collection()
     {
-
         $query = Employee::query();
         $query->select('employees.id', 'employees.name', 'employees.company', 'roles.name as role', 'employees.work_status')
             ->join('roles', 'roles.id', '=', 'employees.role_id');
@@ -77,7 +76,7 @@ class VendorExport implements FromCollection, WithEvents, WithHeadings
         if (!empty($company)) {
             $query->Where('company', 'like', '%' . $company . '%');
         }
-        if (!is_null($status)) {
+        if ($status != "") {
             $query->Where('work_status', $status);
         }
 

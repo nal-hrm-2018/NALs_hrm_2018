@@ -12,15 +12,15 @@
     <div class="content-wrapper">
         @if(session()->has('msg_fail'))
             <div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
+                <ul class='error_msg'>
+                    <li>{{Session::get("msg_fail")}}</li>
                 </ul>
             </div>
         @endif
         @if(session()->has('msg_success'))
             <div>
-                <ul class=\'result_msg\'>
-                    <li>' . Session::get("msg_success") . '</li>
+                <ul class='result_msg'>
+                    <li>{{Session::get("msg_success")}}</li>
                 </ul>
             </div>
         @endif
@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <button type="button" class="btn btn-default">
-                    <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
+                    <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
 
                 @include("vendors._export_vendor")

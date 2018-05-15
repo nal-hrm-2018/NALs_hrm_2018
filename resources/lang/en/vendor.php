@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title'=>'Vendor Detail',
     'drop_box'=>[
         'placeholder-default' => 'Please Select'
     ],
