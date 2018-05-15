@@ -21,7 +21,7 @@
     <div class="col-md-6">
         <!-- /.form-group -->
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.email')}}</label>
+            <label>{{trans('vendor.profile_info.email')}} </label><label style="color: red;font-size: large">*</label>
             {{ Form::text('email', old('email'),
                 [
                 'placeholder'=>trans('vendor.profile_info.email'),
@@ -34,7 +34,7 @@
             <!-- /.input group -->
         </div>
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.password')}}</label>
+            <label>{{trans('vendor.profile_info.password')}}</label></label><label style="color: red;font-size: large">*</label>
             {{ Form::password('password',
             [
                 'class' => 'form-control',
@@ -58,7 +58,7 @@
             <!-- /.input group -->
         </div>
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.name')}}</label>
+            <label>{{trans('vendor.profile_info.name')}}</label></label><label style="color: red;font-size: large">*</label>
             {{ Form::text('name', old('name'),
                     [
                     'placeholder'=>trans('vendor.profile_info.name'),
@@ -71,7 +71,7 @@
             <!-- /.input group -->
         </div>
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.address')}}</label>
+            <label>{{trans('vendor.profile_info.address')}}</label></label><label style="color: red;font-size: large">*</label>
             {{ Form::text('address', old('address'),
                     [
                     'placeholder'=>trans('vendor.profile_info.address'),
@@ -84,7 +84,7 @@
             <!-- /.input group -->
         </div>
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.phone')}}</label>
+            <label>{{trans('vendor.profile_info.phone')}}</label></label><label style="color: red;font-size: large">*</label>
             <div class="input-group">
                 <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
@@ -103,7 +103,7 @@
             <!-- /.input group -->
         </div>
         <div class="form-group">
-            <label>Gender</label>
+            <label>{{trans('vendor.profile_info.gender.title')}}</label></label><label style="color: red;font-size: large">*</label>
             <select name="gender" id="gender" class="form-control select2">
                 <option {{ !empty(old('gender'))?'':'selected="selected"' }} value="">
                     {{  trans('vendor.drop_box.placeholder-default') }}
@@ -117,7 +117,7 @@
             <label style="color: red; ">{{$errors->first('gender')}}</label>
         </div>
         <div class="form-group">
-            <label>Married</label>
+            <label>{{trans('vendor.profile_info.married')}}</label></label><label style="color: red;font-size: large">*</label>
             <select name="marital_status" id="married" class="form-control select2">
                 <option {{ !empty(old('marital_status'))?'':'selected="selected"' }} value="">
                     {{  trans('vendor.drop_box.placeholder-default') }}
@@ -131,7 +131,7 @@
             <label style="color: red; ">{{$errors->first('marital_status')}}</label>
         </div>
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.birthday')}}</label>
+            <label>{{trans('vendor.profile_info.birthday')}}</label></label><label style="color: red;font-size: large">*</label>
             <div class="input-group date">
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
@@ -143,7 +143,7 @@
             <!-- /.input group -->
         </div>
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.company')}}</label>
+            <label>{{trans('vendor.profile_info.company')}}</label></label><label style="color: red;font-size: large">*</label>
             {{ Form::text('company', old('company'),
                     [
                     'placeholder'=>trans('vendor.profile_info.company'),
@@ -156,7 +156,7 @@
             <!-- /.input group -->
         </div>
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.position.position')}}</label>
+            <label>{{trans('vendor.profile_info.position.position')}}</label></label><label style="color: red;font-size: large">*</label>
             <select name="employee_type_id" id="position" class="form-control select2">
                 <option {{ !empty(old('employee_type_id'))?'':'selected="selected"' }} value="">
                     {{  trans('vendor.drop_box.placeholder-default') }}
@@ -170,7 +170,7 @@
             <label style="color: red; ">{{$errors->first('employee_type_id')}}</label>
         </div>
         <div class="form-group">
-            <label>{{trans('vendor.profile_info.role_in_team')}}</label>
+            <label>{{trans('vendor.profile_info.role_in_team')}}</label></label><label style="color: red;font-size: large">*</label>
             <select name="role_id" id="role_team" class="form-control select2">
                 <option {{ !empty(old('role_id'))?'':'selected="selected"' }} value="">
                     {{  trans('vendor.drop_box.placeholder-default') }}
@@ -186,7 +186,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>{{trans('vendor.profile_info.start_work_date')}}</label>
+                    <label>{{trans('vendor.profile_info.start_work_date')}}</label></label><label style="color: red;font-size: large">*</label>
                     <div class="input-group date">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
@@ -201,7 +201,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>{{trans('vendor.profile_info.end_work_date')}}</label>
+                    <label>{{trans('vendor.profile_info.end_work_date')}}</label></label><label style="color: red;font-size: large">*</label>
                     <div class="input-group date">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>

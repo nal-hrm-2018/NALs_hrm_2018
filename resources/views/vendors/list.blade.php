@@ -34,7 +34,7 @@
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
                     </a></li>
                 <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendors')}}</a></li>
-                <li class="active"><a href="#">{{trans('common.path.list')}}</a></li>
+                <li class="active"><a href="javascript:void(0)">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
 
@@ -208,7 +208,7 @@
                 $("#employeeName").val('');
                 $("#employeeCompany").val('');
                 $("#employeeEmail").val('');
-                $("#role_in_process").val('').change()
+                $("#role").val('').change()
                 $("#status").val('').change()
             });
         });
