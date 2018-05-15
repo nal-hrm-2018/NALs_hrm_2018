@@ -29,6 +29,7 @@ return [
     'path'=>[
         'home'=>'Home',
         'employee'=>'Employee',
+        'vendor'=>'Vendor',
         'team' => 'Teams',
         'list' => 'List',
         'detail'=>'Detail',

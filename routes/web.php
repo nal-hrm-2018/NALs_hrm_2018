@@ -72,6 +72,10 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('teams/chart','Team\TeamController@showChart');
 
     Route::resource('vendors','User\Vendor\VendorController');
+    Route::post('/vendors/{id}', [
+        'as' => 'vendor_show_chart',
+        'uses' => 'User\Vendor\VendorController@showChart',
+    ]);
 });
 
 //cong list route cam pha'

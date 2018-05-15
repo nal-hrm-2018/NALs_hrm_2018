@@ -402,9 +402,9 @@
                     $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
                     foreach($employeesModal as $employee){
                         if(isset($employee->role)){
-                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a>'. $employee->name .'</a></td><td>'. $employee->role->name .'</td></tr>";';
+                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>'. $employee->role->name .'</td></tr>";';
                         } else {
-                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a>'. $employee->name .'</a></td><td>--</td></tr>";';
+                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>--</td></tr>";';
                         }
                     }
                 }

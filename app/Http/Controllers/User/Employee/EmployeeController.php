@@ -125,7 +125,7 @@ class EmployeeController extends Controller
         }
 
         //set employee info
-        $employee = Employee::where('delete_flag', 0)->find($id);
+        $employee = Employee::where('delete_flag', 0)->where('is_employee', '1')->find($id);
 
         $roles = Role::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
 
