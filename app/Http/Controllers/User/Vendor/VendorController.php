@@ -12,6 +12,7 @@ use App\Models\Team;
 use App\Models\Role;
 use App\Models\Status;
 use App\Service\ChartService;
+use App\Service\SearchService;
 use App\Models\EmployeeType;
 use DateTime;
 use App\Service\SearchEmployeeService;
