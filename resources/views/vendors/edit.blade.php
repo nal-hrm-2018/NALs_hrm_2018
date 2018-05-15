@@ -37,7 +37,7 @@
                 return confirm($msg)
             }
         </SCRIPT>
-        {{ Form::model($objEmployee, ['url' => ['/vendor', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
+        {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="col-md-3">
@@ -105,7 +105,7 @@
               </div>
               <div class="form-group">
                 <label>Company</label>
-                <input type="text" class="form-control" placeholder="Company"  name="company" value="{!! old('name', isset($objEmployee["company"]) ? $objEmployee["company"] : null) !!}">
+                <input type="text" class="form-control" placeholder="Company"  name="company" value="{!! old('company', isset($objEmployee["company"]) ? $objEmployee["company"] : null) !!}">
                 <label style="color: red;">{{$errors->first('company')}}</label>
                 <!-- /.input group -->
               </div>
