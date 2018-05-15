@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                <h4 class="modal-title">{{trans('vendor.title_detail')}}</h4>
+                <h4 class="modal-title">{{trans('vendor.title')}}</h4>
             </h1>
 
             <ol class="breadcrumb">
@@ -21,7 +21,7 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li >
-                        <a id="tab-basic" href="#basic" data-toggle="tab">{{trans('employee.basic')}}</a>
+                        <a id="tab-basic" href="#basic" data-toggle="tab">{{trans('vendor.basic')}}</a>
                     </li>
                     <li>
                         <a id="tab-project" href="#project" data-toggle="tab">{{trans('project.title')}}</a>
@@ -50,55 +50,55 @@
                                 <div class="box box-primary">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h2 class="profile-username text-center">{{trans('employee.profile_info.title')}}</h2>
-                                            <p>{{trans('employee.profile_info.name')}}:
+                                            <h2 class="profile-username text-center">{{trans('vendor.profile_info.title')}}</h2>
+                                            <p>{{trans('vendor.profile_info.name')}}:
                                                 <strong>{{$vendor->name}}</strong></p>
-                                            <p>{{trans('employee.profile_info.email')}}:
+                                            <p>{{trans('vendor.profile_info.email')}}:
                                                 <strong>{{$vendor->email}}</strong></p>
-                                            <p>{{trans('employee.profile_info.gender.title')}}:
+                                            <p>{{trans('vendor.profile_info.gender.title')}}:
                                                 @if($vendor->gender == 1)
-                                                    <strong>{{trans('employee.profile_info.gender.male')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.gender.male')}}</strong>
                                                 @elseif($vendor->gender == 2)
-                                                    <strong>{{trans('employee.profile_info.gender.female')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.gender.female')}}</strong>
                                                 @elseif($vendor->gender == 3)
-                                                    <strong>{{trans('employee.profile_info.gender.na')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.gender.na')}}</strong>
                                                 @endif
                                             </p>
-                                            <p>{{trans('employee.profile_info.birthday')}}:
+                                            <p>{{trans('vendor.profile_info.birthday')}}:
                                                 <strong>{{isset($vendor->birthday)?date('d/m/Y', strtotime($vendor->birthday)):'-'}}</strong>
                                             </p>
-                                            <p>{{trans('employee.profile_info.phone')}}:
+                                            <p>{{trans('vendor.profile_info.phone')}}:
                                                 <strong>{{isset($vendor->mobile)?$vendor->mobile:'-'}}</strong></p>
-                                            <p>{{trans('employee.profile_info.address')}}:
+                                            <p>{{trans('vendor.profile_info.address')}}:
                                                 <strong>{{isset($vendor->address)?$vendor->address:'-'}}</strong>
                                             </p>
-                                            <p>{{trans('employee.profile_info.marital_status.title')}}:
+                                            <p>{{trans('vendor.profile_info.marital_status.title')}}:
                                                 @if($vendor->marital_status == 1)
-                                                    <strong>{{trans('employee.profile_info.marital_status.single')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.marital_status.single')}}</strong>
                                                 @elseif($vendor->marital_status == 2)
-                                                    <strong>{{trans('employee.profile_info.marital_status.married')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.marital_status.married')}}</strong>
                                                 @elseif($vendor->marital_status == 3)
-                                                    <strong>{{trans('employee.profile_info.marital_status.separated')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.marital_status.separated')}}</strong>
                                                 @elseif($vendor->marital_status == 4)
-                                                    <strong>{{trans('employee.profile_info.marital_status.divorced')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.marital_status.divorced')}}</strong>
                                                 @endif
                                             </p>
-                                            <p>{{trans('employee.profile_info.role')}}:
+                                            <p>{{trans('vendor.profile_info.role')}}:
                                                 <strong>{{ isset($vendor->role)?$vendor->role->name:'-' }}</strong>
                                             </p>
-                                            <p>{{trans('vendor.company')}}:
+                                            <p>{{trans('vendor.profile_info.company')}}:
                                                 <strong>{{ isset($vendor->company)?$vendor->company:'-' }}</strong>
                                             </p>
 
-                                            <p>{{trans('employee.profile_info.policy_date')}}:
+                                            <p>{{trans('vendor.profile_info.policy_date')}}:
                                                 <strong>{{date('d/m/Y', strtotime($vendor->startwork_date))}}
                                                     - {{date('d/m/Y', strtotime($vendor->endwork_date))}}</strong>
                                             </p>
-                                            <p>{{trans('employee.profile_info.policy_status.title')}}:
+                                            <p>{{trans('vendor.profile_info.policy_status.title')}}:
                                                 @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
-                                                    <strong>{{trans('employee.profile_info.policy_status.unexpired')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.policy_status.unexpired')}}</strong>
                                                 @else
-                                                    <strong>{{trans('employee.profile_info.policy_status.expired')}}</strong>
+                                                    <strong>{{trans('vendor.profile_info.policy_status.expired')}}</strong>
                                                 @endif
                                             </p>
 

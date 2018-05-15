@@ -84,15 +84,13 @@ class VendorController extends Controller
 
         $data['id'] = $id;
 
-        $processes = $this->searchService->search($data)->orderBy('project_id', 'desc')->paginate($data['number_record_per_page']);
+        $processes = $this->searchService->searchProcess($data)->orderBy('project_id', 'desc')->paginate($data['number_record_per_page']);
 
         $processes->setPath('');
 
         $param = (Input::except('page'));
 
-        $active = $request->all();
-
-        if ($active) {
+        if ($request->get('number_record_per_page')) {
             $active = 'project';
         } else {
             $active = 'basic';

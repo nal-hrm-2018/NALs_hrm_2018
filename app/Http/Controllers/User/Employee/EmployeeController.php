@@ -117,9 +117,7 @@ class EmployeeController extends Controller
 
         $param = (Input::except('page'));
 
-        $active = $request->all();
-
-        if ($active) {
+        if ($request->get('number_record_per_page')) {
             $active = 'project';
         } else {
             $active = 'basic';
