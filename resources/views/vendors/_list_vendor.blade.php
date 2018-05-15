@@ -18,7 +18,7 @@
                     <td>{{ isset($vendor->id )? $vendor->id : "--.--"}}</td>
                     <td>{{ isset($vendor->name)? $vendor->name: "--.--" }}</td>
                     <td>{{ isset($vendor->company)? $vendor->company: "--.--"}}</td>
-                    <td>{{ isset($vendor->processes)?(isset($vendor->roles)?getRoleofVendor($vendor):"--.--" ):"--.--" }}</td>
+                    <td>{{ isset($vendor->role)?$vendor->role->name:"--.--" }}</td>
                     <td>
                         @if($vendor->work_status == 0) {{ trans('vendor.profile_info.work_status.active') }}
                         @elseif($vendor->work_status == 1) {{ trans('vendor.profile_info.work_status.unactive') }}

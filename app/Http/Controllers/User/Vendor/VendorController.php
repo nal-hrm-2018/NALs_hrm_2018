@@ -9,14 +9,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\VendorEditRequest;
 use App\Service\SearchService;
+use App\Http\Requests\VendorAddRequest;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Models\Employee;
-use App\Models\Team;
 use App\Models\Role;
 use App\Models\Status;
 use App\Service\ChartService;
-use App\Service\SearchService;
 use App\Models\EmployeeType;
 use DateTime;
 use App\Service\SearchEmployeeService;
@@ -50,26 +50,49 @@ class VendorController extends Controller
      */
     public function create()
     {
-        //
+        $genders = [1 => config('settings.Gender.female'), 2 => config('settings.Gender.male'),
+            3=>config('settings.Gender.n_a')];
+
+        $marries = [1=>config('settings.Married.single'),2=>config('settings.Married.married'),
+            3=>config('settings.Married.separated'),4=>config('settings.Married.devorce')];
+
+        $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+
+        $employeeTypes = EmployeeType::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+        return view('vendors.add', compact('teams','roles','employeeTypes','genders','marries'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(VendorAddRequest $request)
     {
-        //
+        $data =[
+            'email'=>$request->get('email'),
+            'password'=>$request->get('password'),
+            'name'=>$request->get('name'),
+            'address'=>$request->get('address'),
+            'mobile'=>$request->get('mobile'),
+            'gender'=>$request->get('gender'),
+            'marital_status'=>$request->get('marital_status'),
+            'birthday'=>$request->get('birthday'),
+            'company'=>$request->get('company'),
+            'employee_type_id'=>$request->get('employee_type_id'),
+            'role_id'=>$request->get('role_id'),
+            'startwork_date'=>$request->get('startwork_date'),
+            'endwork_date'=>$request->get('endwork_date'),
+            'is_employee'=>config('settings.Employees.not_employee'),
+            'delete_flag'=>config('settings.delete_flag.not_deleted'),
+            'work_status'=>config('settings.work_status.active'),
+        ];
+
+        if(is_null(Employee::create($data))){
+            session()->flash(trans('vendor.msg_fails'), trans('vendor.msg_content.msg_add_fail'));
+            return back()->withInput(Input::all());
+        }else{
+            session()->flash(trans('vendor.msg_success'), trans('vendor.msg_content.msg_add_success'));
+            return redirect(route('vendors.index'));
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id, SearchRequest $request)
     {
         $data = $request->only([
@@ -182,12 +205,6 @@ class VendorController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id, Request $request)
     {
         $employees = Employee::where('id', $id)->where('delete_flag', 0)->first();

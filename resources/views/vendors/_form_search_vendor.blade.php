@@ -38,25 +38,14 @@
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
             <div class="input-group margin">
                 <div class="input-group-btn">
-                    <button type="button" class="btn width-100">{{trans('vendor.profile_info.email')}}</button>
-                </div>
-                {{ Form::email('email', old('email'),
-                [
-                    'class' => 'form-control',
-                    'id'=>'employeeEmail'
-                ])
-                }}
-            </div>
-            <div class="input-group margin">
-                <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{trans('vendor.profile_info.role')}}</button>
                 </div>
-                <select name="role_in_process" id="role_in_process" class="form-control">
-                    <option {{ !empty(request('role_in_process'))?'':'selected="selected"' }} value="">
+                <select name="role" id="role" class="form-control">
+                    <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
                         {{  trans('vendor.drop_box.placeholder-default') }}
                     </option>
                     @foreach($roles as $key=>$value)
-                        <option value="{{ $key }}" {{ (string)$key===request('role_in_process')?'selected="selected"':'' }}>
+                        <option value="{{ $value }}" {{ (string)$value===request('role')?'selected="selected"':'' }}>
                             {{ $value }}
                         </option>
                     @endforeach

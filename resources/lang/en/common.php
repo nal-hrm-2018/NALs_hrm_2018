@@ -13,6 +13,10 @@ return [
     |
     */
 
+    'confirm_message'=>[
+        'add_action'=>'Do you want to add?',
+    ],
+
     'button' => [
         'reset' => 'RESET',
         'search' => 'SEARCH',
