@@ -20,8 +20,8 @@ use App\Service\ChartService;
 use App\Models\EmployeeType;
 use DateTime;
 use App\Service\SearchEmployeeService;
+use App\Import\ImportFile;
 use Maatwebsite\Excel\Facades\Excel;
-
 class VendorController extends Controller
 {
     protected $searchService;
@@ -225,6 +225,124 @@ class VendorController extends Controller
                 return redirect(route('vendors.index'));
             }
         }
+    }
+    public function postFile(Request $request)
+    {
+        $listError = "";
+        if ($request->hasFile('myFile')) {
+            $file = $request->file("myFile");
+            if ($file->getClientOriginalExtension('myFile') == "csv") {
+                $nameFile = $file->getClientOriginalName('myFile');
+                $file->move('files', $nameFile);
+
+                $importFile = new ImportFile;
+
+                $dataVendor = $importFile->readFile(public_path('files/' . $nameFile));
+                $num = $importFile->countCol(public_path('files/' . $nameFile));
+
+                $templateExport = new TemplateVendorExport;
+                $colTemplateExport = $templateExport -> headings();
+
+                $colError = $importFile->checkCol(public_path('files/' . $nameFile), count($colTemplateExport));
+                if ($colError != null) {
+                    if (file_exists(public_path('files/' . $nameFile))) {
+                        unlink(public_path('files/' . $nameFile));
+                    }
+                    return view('vendors.list_import', ['urlFile' => public_path('files/' . $nameFile), 'colError' => $colError, 'listError' => $listError]);
+                }
+                $row = count($dataVendor) / $num;
+                $listError .= $importFile->checkEmail($dataVendor, $row, $num);
+                $listError .= $importFile->checkFileVendor($dataVendor, $num);
+
+                if ($listError != null) {
+                    if (file_exists(public_path('files/' . $nameFile))) {
+                        unlink(public_path('files/' . $nameFile));
+                    }
+                }
+                $dataRoles = Role::select('id', 'name')->get()->toArray();
+                $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
+                return view('vendors.list_import', ['dataVendor' => $dataVendor, 'num' => $num, 'row' => $row, 'urlFile' => public_path('files/' . $nameFile), 'listError' => $listError, 'colError' => $colError, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+            } else {
+                \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
+                return redirect('vendors');
+            }
+        } else {
+            \Session::flash('msg_fail', 'File not selected!!!');
+            return redirect('vendors');
+        }
+    }
+
+    public function importVendor()
+    {
+        $urlFile = $_GET['urlFile'];
+        $importFile = new ImportFile;
+
+        $data = $importFile->readFile($urlFile);
+        $num = $importFile->countCol($urlFile);
+        $row = count($data) / $num;
+
+        for ($row = 1; $row < count($data) / $num; $row++) {
+            $c = $row * $num;
+            if ($c < $row * ($num + 1)) {
+                $vendor = new Employee;
+                $vendor->email = $data[$c];
+                $c++;
+                $vendor->password = bcrypt($data[$c]);
+                $c++;
+                $vendor->name = $data[$c];
+                $c++;
+                $vendor->birthday = date_create($data[$c]);
+                $c++;
+                if (strnatcasecmp($data[$c], "female") == 0) {
+                    $vendor->gender = 1;
+                } else if (strnatcasecmp($data[$c], "male") == 0) {
+                    $vendor->gender = 2;
+                } else {
+                    $vendor->gender = 3;
+                }
+                $c++;
+                $vendor->mobile = $data[$c];
+                $c++;
+                $vendor->address = $data[$c];
+                $c++;
+
+                if (strnatcasecmp($data[$c], "single") == 0) {
+                    $vendor->marital_status = 1;
+                } else if (strnatcasecmp($data[$c], "married") == 0) {
+                    $vendor->marital_status = 2;
+                } else if (strnatcasecmp($data[$c], "separated") == 0) {
+                    $vendor->marital_status = 3;
+                } else {
+                    $vendor->marital_status = 4;
+                }
+                $c++;
+                $vendor->startwork_date = date_create($data[$c]);
+                $c++;
+                $vendor->endwork_date = date_create($data[$c]);
+                $c++;
+                $vendor->is_employee = 0;
+
+                $objEmployeeType = EmployeeType::select('name', 'id')->where('name', 'like', $data[$c])->first();
+                $vendor->employee_type_id = $objEmployeeType->id;
+                $c++;
+
+                $vendor->company = $data[$c];
+                $c++;
+
+                $objRole = Role::select('name', 'id')->where('name', 'like', $data[$c])->first();
+                $vendor->role_id = $objRole->id;
+                $c++;
+                
+                $vendor->created_at = new DateTime();
+                $vendor->delete_flag = 0;
+                $vendor->save();
+            }
+        }
+        if (file_exists($urlFile)) {
+            unlink($urlFile);
+        }
+        \Session::flash('msg_success', 'Import Vendors successfully!!!');
+        return redirect('vendors');
     }
 
     public function export(Request $request)

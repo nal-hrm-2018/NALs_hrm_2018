@@ -85,13 +85,13 @@
                 </button>
                 <div id="import" class="modal fade" role="dialog">
                     <div class="modal-dialog">
-                        <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
+                        <form method="post" action="{{ asset('vendors/postFile')}}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">IMPORT EMPLOYEE</h4>
+                                    <h4 class="modal-title">IMPORT VENDOR</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">

@@ -71,6 +71,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
     Route::post('teams/chart','Team\TeamController@showChart');
 
+    Route::post('vendors/postFile', 'User\Vendor\VendorController@postFile')->name('postFile');
+    Route::get('vendors/importVendor', 'User\Vendor\VendorController@importVendor')->name('importVendor');
     Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
     Route::resource('vendors','User\Vendor\VendorController');
     Route::post('/vendors/{id}', [
