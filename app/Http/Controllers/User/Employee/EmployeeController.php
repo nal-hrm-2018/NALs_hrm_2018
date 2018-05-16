@@ -28,7 +28,6 @@ use App\Models\Status;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\EmployeeEditRequest;
 use App\Import\ImportFile;
-
 class EmployeeController extends Controller
 {
     /**
@@ -47,11 +46,11 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-
+        $status = [0=> "Active", 1=>"Unactive"];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
-        return view('employee.list', compact('employees', 'roles', 'teams', 'param'));
+        return view('employee.list', compact('employees','status', 'roles', 'teams', 'param'));
     }
 
     public function create()
@@ -59,7 +58,7 @@ class EmployeeController extends Controller
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
-        return view('admin.module.employees.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        return view('employee.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function store(EmployeeAddRequest $request)
@@ -100,7 +99,8 @@ class EmployeeController extends Controller
                 'start_date' => $request->get('start_date'),
                 'end_date' => $request->get('end_date'),
                 'project_status' => $request->get('project_status'),
-                'number_record_per_page' => $request->get('number_record_per_page')
+                'number_record_per_page' => $request->get('number_record_per_page'),
+                'is_employee' => $request->get('is_employee'),
             ]
         );
 
@@ -110,7 +110,7 @@ class EmployeeController extends Controller
 
         $data['id'] = $id;
 
-        $processes = $this->searchService->search($data)->orderBy('project_id', 'desc')->paginate($data['number_record_per_page']);
+        $processes = $this->searchService->searchProcess($data)->orderBy('project_id', 'desc')->paginate($data['number_record_per_page']);
 
         $processes->setPath('');
 
@@ -160,7 +160,7 @@ class EmployeeController extends Controller
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
 
-        return view('admin.module.employees.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        return view('employee.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
@@ -234,7 +234,11 @@ class EmployeeController extends Controller
 
                 $dataEmployees = $importFile->readFile(public_path('files/' . $nameFile));
                 $num = $importFile->countCol(public_path('files/' . $nameFile));
-                $colError = $importFile->checkCol(public_path('files/' . $nameFile));
+
+                $templateExport = new TemplateExport;
+                $colTemplateExport = $templateExport -> headings();
+
+                $colError = $importFile->checkCol(public_path('files/' . $nameFile),count($colTemplateExport));
                 if ($colError != null) {
                     if (file_exists(public_path('files/' . $nameFile))) {
                         unlink(public_path('files/' . $nameFile));
@@ -243,7 +247,7 @@ class EmployeeController extends Controller
                 }
                 $row = count($dataEmployees) / $num;
                 $listError .= $importFile->checkEmail($dataEmployees, $row, $num);
-                $listError .= $importFile->checkFile($dataEmployees, $num);
+                $listError .= $importFile->checkFileEmployee($dataEmployees, $num);
 
                 if ($listError != null) {
                     if (file_exists(public_path('files/' . $nameFile))) {
@@ -253,7 +257,7 @@ class EmployeeController extends Controller
                 $dataTeam = Team::select('id', 'name')->get()->toArray();
                 $dataRoles = Role::select('id', 'name')->get()->toArray();
                 $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
-                return view('admin.module.employees.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row, 'urlFile' => public_path('files/' . $nameFile), 'listError' => $listError, 'colError' => $colError, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+                return view('employee.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row, 'urlFile' => public_path('files/' . $nameFile), 'listError' => $listError, 'colError' => $colError, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
             } else {
                 \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
                 return redirect('employee');
@@ -277,7 +281,6 @@ class EmployeeController extends Controller
             $c = $row * $num;
             if ($c < $row * ($num + 1)) {
                 $employee = new Employee;
-                $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
                 $employee->email = $data[$c];
                 $c++;
                 $employee->password = bcrypt($data[$c]);

@@ -110,7 +110,6 @@
                     <script type="text/javascript"
                             src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-                    
                     <script type="text/javascript">
                         $listEmployeeID = new Array();
                         $listEmployeeName = new Array();
@@ -162,7 +161,7 @@
                                           "<td id=\"teamEdit_"+members[i]+"\">"+$teamEdit+"</td>"+
                                           "<td id=\"roleEdit_"+members[i]+"\">"+$roleEdit+"</td>"+
                                           "<td id=\"nameEdit_"+members[i]+"\">" + $("#member_" + members[i]).text()+ "</td>"+
-                                          "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ",\"" + $("#member_" + members[i]).text() + "\")\"></i></td></tr>";
+                                          "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ")\"></i></td></tr>";
                                 }
                                 listChoose = "";
                                 for (i = 0; i < members.length; i++) {
@@ -226,13 +225,13 @@
                                 @endforeach
                                 $listAdd = "";
 
-                                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                                for ($i = 0; $i < $listEmployeeID.length; $i++) {                                    
                                     $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">"+
                                             "<td>" + $listEmployeeID[$i]+"</td>"+
                                             "<td>"+$listEmployeeTeam[$i]+"</td>"+
                                             "<td>"+$listEmployeeRole[$i]+"</td>"+
                                             "<td>" + $listEmployeeName[$i]+ "</td>"+
-                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\"" + $listEmployeeName[$i] + "\")\"></i></td></tr>";                              
+                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i]+")\"></i></td></tr>";                              
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">"+
@@ -257,11 +256,11 @@
                         }
                     </script>
                     <script type="text/javascript">
-                        function removeEmployee($id, $name) {
+                        function removeEmployee($id) {
                           $('tr').remove('#show_' + $id);
                           $('input').remove('.input_' + $id);
-                          $listEmployeeID.splice($listEmployeeID.indexOf("" + $id), 1);
-                          $listEmployeeName.splice($listEmployeeName.indexOf($name), 1);
+                          $listEmployeeName.splice($listEmployeeID.indexOf("" + $id), 1);
+                          $listEmployeeID.splice($listEmployeeID.indexOf("" + $id), 1);                          
 
                           $('#member_'+$id).prop('disabled', false);
                           $('#member').select2();
@@ -285,15 +284,7 @@
                           $('#member').select2();
                         }
                     </script>
-                    <script type="text/javascript">
-                        function editName($name) {
-                          for ($i = 0; $i < $name.length; $i++) {
-                            if($name.chartAt($i) == '\''){
-
-                            }
-                          }
-                        }
-                    </script>                                       
+                                                           
                     <!-- /.row -->
                 </div>
                 <!-- /.box-body -->

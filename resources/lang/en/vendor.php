@@ -1,16 +1,22 @@
 <?php
-return[
 
+return [
     'drop_box'=>[
         'placeholder-default' => 'Please Select'
     ],
     'basic'=>'Basic',
     'profile_info'=>[
-        'id'=>'Employee ID',
+        'id'=>'Vendor ID',
         'title'=>'Profile Information',
         'name'=>'Name',
         'email'=>'Email',
         'status'=>'Status',
+        'company'=>'Company',
+        'cv'=>'CV',
+        'work_status'=>[
+            'active'=>'Active',
+            'unactive'=>'Unactive',
+        ],
         'gender'=>[
             'title'=>'Gender',
             'male'=>'Male',
@@ -36,6 +42,4 @@ return[
             'expired'=>'Expired'
         ],
     ],
-
-
 ];
