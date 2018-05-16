@@ -303,7 +303,7 @@
                             <div class="col-md-6" style="display: inline; ">
                                 <div style="float: right;">
                                     <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span
-                                                class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
+                                        class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
                                     </button>
                                 </div>
                             </div>
