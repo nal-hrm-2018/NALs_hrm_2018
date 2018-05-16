@@ -93,12 +93,12 @@
                 <div class="pull-right">
 
                   <SCRIPT LANGUAGE="JavaScript">
-                      function confirmAction() {
-                          return confirm("Are you sure logout ???")
+                      function confirmAction(msg) {
+                          return confirm(msg)
                       }
                   </SCRIPT>
 
-                  <form action="{{route('logout')}}" onSubmit="return confirmAction()">
+                  <form action="{{route('logout')}}" id="logout-employee" onSubmit="return confirmAction('Are you sure logout?')">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Logout') }}</button>
                   </form>
 

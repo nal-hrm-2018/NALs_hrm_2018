@@ -10,7 +10,7 @@
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
                     </a></li>
                 <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendors')}}</a></li>
-                <li class="active"><a href="#">{{trans('vendor.title_header.add_vendor')}}</a></li>
+                <li class="active"><a href="javascript:void(0)">{{trans('vendor.title_header.add_vendor')}}</a></li>
             </ol>
         </section>
 

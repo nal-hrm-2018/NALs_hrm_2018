@@ -52,26 +52,35 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Name</button>
                                                 </div>
-                                                <input type="text" name="name" id="nameEmployee" class="form-control">
+                                                {{--<input type="text" name="name" id="nameEmployee" class="form-control">--}}
+                                                {{ Form::text('name', old('name'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'nameEmployee',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Team</button>
                                                 </div>
                                                 <select name="team" id="team_employee" class="form-control">
-                                                    @if(!empty($_GET['team']))
+                                                    {{--@if(!empty($_GET['team']))
                                                         <option selected="selected" {{'hidden'}}  value="">
                                                             {{$_GET['team']}}
                                                         </option>
                                                     @else
-                                                        <option selected="selected"  value="">
+                                                        <option selected="selected" value="">
                                                         {{  trans('employee.drop_box.placeholder-default') }}
-                                                    @endif
-                                                        @foreach($teams as $team)
-                                                            <option value="{{ $team->name}}">
-                                                                {{ $team->name }}
-                                                            </option>
-                                                        @endforeach
+                                                    @endif--}}
+                                                        <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                            {{  trans('vendor.drop_box.placeholder-default') }}
+                                                        </option>
+                                                    @foreach($teams as $team)
+                                                        <option value="{{ $team->name}}" {{ (string)$team->name===request('team')?'selected="selected"':'' }}>
+                                                            {{ $team->name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -80,25 +89,34 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Email</button>
                                                 </div>
-                                                <input type="text" name="email" id="emailEmployee" class="form-control">
+                                                {{--<input type="text" name="email" id="emailEmployee" class="form-control">--}}
+                                                {{ Form::text('email', old('email'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'emailEmployee',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Role</button>
                                                 </div>
                                                 <select name="role" id="role_employee" class="form-control">
-                                                    @if(!empty($_GET['role']))
+                                                    {{--@if(!empty($_GET['role']))
                                                         <option selected="selected" {{'hidden'}}  value="">
-                                                        {{$_GET['role']}}
+                                                            {{$_GET['role']}}
                                                         </option>
-                                                        @else
+                                                    @else
                                                         <option selected="selected"
                                                                 value="">
-                                                        {{  trans('employee.drop_box.placeholder-default') }}
-                                                        @endif
-                                                        </option>
+                                                            {{  trans('employee.drop_box.placeholder-default') }}
+                                                            @endif
+                                                        </option>--}}
+                                                    <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                        {{  trans('vendor.drop_box.placeholder-default') }}
+                                                    </option>
                                                         @foreach($roles as $role)
-                                                            <option value="{{ $role->name}}">
+                                                            <option value="{{ $role->name}}"{{ (string)$role->name===request('role')?'selected="selected"':'' }}>
                                                                 {{ $role ->name}}
                                                             </option>
                                                         @endforeach
@@ -106,7 +124,8 @@
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('employee.profile_info.status')}}</button>
+                                                    <button type="button"
+                                                            class="btn width-100">{{trans('employee.profile_info.status')}}</button>
                                                 </div>
                                                 <select name="status" id="status" class="form-control">
                                                     <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
@@ -124,7 +143,7 @@
 
                                 </div>
                                 <div class="modal-footer center">
-                                    <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                    <button id="btn_reset_employee"  type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
                                         RESET
                                     </button>
                                     <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
@@ -426,11 +445,13 @@
     </script>
     <script type="text/javascript">
         $(function () {
-            $("#btn_reset").bind("click", function () {
-                $("#role_employee").val([]);
-                $("#role_employee")[0].selectedIndex = 0;
-                $("#team_employee").val([]);
-                $("#team_employee")[0].selectedIndex = 0;
+            $("#btn_reset_employee").on("click", function () {
+                $("#nameEmployee").val('');
+                $("#employeeId").val('');
+                $("#emailEmployee").val('');
+                $("#role_employee").val('').change();
+                $("#team_employee").val('').change();
+                $("#status").val('').change();
             });
         });
     </script>
