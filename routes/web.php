@@ -73,7 +73,12 @@ Route::group(['middleware' => 'user'], function () {
 
     Route::post('vendors/postFile', 'User\Vendor\VendorController@postFile')->name('postFile');
     Route::get('vendors/importVendor', 'User\Vendor\VendorController@importVendor')->name('importVendor');
+    Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
     Route::resource('vendors','User\Vendor\VendorController');
+    Route::post('/vendors/{id}', [
+        'as' => 'vendor_show_chart',
+        'uses' => 'User\Vendor\VendorController@showChart',
+    ]);
 });
 
 //cong list route cam pha'
@@ -91,7 +96,9 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 Route::get('/quy-test', function (){
     return view('teams.test.quy_test');
 });
+
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
+Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');

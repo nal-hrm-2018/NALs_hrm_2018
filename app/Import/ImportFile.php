@@ -332,6 +332,10 @@ class ImportFile{
                 }
                 $c++;
                 if($data[$c] == null){
+                    $listError .= "<li>Row ".$row.": Company field is required.</li>";
+                }
+                $c++;
+                if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": Role field is required.</li>";
                 }else{
                     $objTeam = Role::select('name')->where('name', 'like', $data[$c])->get()->toArray();
@@ -339,10 +343,7 @@ class ImportFile{
                         $listError .= "<li>Row ".$row.": Role does not exist.</li>";
                     }
                 }
-                $c++;
-                if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": Company field is required.</li>";
-                }
+                
             }
         }
         

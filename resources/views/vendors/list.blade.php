@@ -12,20 +12,18 @@
     <div class="content-wrapper">
         @if(session()->has('msg_fail'))
             <div>
-                <ul class="error_msg">
-                    <li>{{Session::get("msg_fail")}}</li>
+                <ul class='error_msg'>
+                    <li>{{session()->get('msg_fail')}}</li>
                 </ul>
             </div>
         @endif
         @if(session()->has('msg_success'))
             <div>
-                <ul class="result_msg">
-                    <li>{{Session::get("msg_success")}}</li>
+                <ul class='result_msg'>
+                    <li>{{session()->get('msg_success')}}</li>
                 </ul>
             </div>
         @endif
-
-
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
@@ -36,7 +34,7 @@
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
                     </a></li>
                 <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendors')}}</a></li>
-                <li><a href="#">{{trans('common.path.list')}}</a></li>
+                <li class="active"><a href="#">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
 
@@ -116,43 +114,10 @@
                     </div>
                 </div>
                 <button type="button" class="btn btn-default">
-                    <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
+                    <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
-                <?php
-                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
-                $arrays[] = $_GET;
-                foreach ($arrays as $key => $value) {
-                    if (!empty($value['id'])) {
-                        $id = $value['id'];
-                    }
-                    if (!empty($value['name'])) {
-                        $name = $value['name'];
-                    }
-                    if (!empty($value['team'])) {
-                        $team = $value['team'];
-                    }
-                    if (!empty($value['role'])) {
-                        $role = $value['role'];
-                    }
-                    if (!empty($value['email'])) {
-                        $email = $value['email'];
-                    }
-                    if (!empty($value['status'])) {
-                        $status = $value['status'];
-                    }
-                }
-                ?>
 
-                <script type="text/javascript">
-                    function clickExport() {
-                        return confirm("Are you sure?")
-                    }
-                </script>
-                <button type="button" class="btn btn-default export-employee" onclick="return clickExport()">
-                    <a id="export"
-                       href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
-                        <i class="fa fa-vcard"></i> EXPORT</a>
-                </button>
+                @include("vendors._export_vendor")
             </ol>
         </section>
 

@@ -13,6 +13,10 @@ return [
     |
     */
 
+    'confirm_message'=>[
+        'add_action'=>'Do you want to add?',
+    ],
+
     'button' => [
         'reset' => 'RESET',
         'search' => 'SEARCH',
@@ -31,6 +35,7 @@ return [
     'path'=>[
         'home'=>'Home',
         'employee'=>'Employee',
+        'vendor'=>'Vendor',
         'vendors'=>'Vendors',
         'team' => 'Teams',
         'list' => 'List',

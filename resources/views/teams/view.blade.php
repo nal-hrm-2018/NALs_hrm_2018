@@ -19,39 +19,9 @@
 
             <ol class="breadcrumb">
                 <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{asset('/teams')}}"> Teams</a></li>
-                <li><a href="">Detail</a></li>
-            </ol>
-
-        </section>
-
-        <section class="content-header">
-            <ol class="breadcrumb">
-                <?php
-                $id = null; $name = null; $role = null; $project_name = null; $email = null; $phone = null;
-                $arrays[] = $_GET;
-                foreach ($arrays as $key => $value) {
-                    if (!empty($value['id'])) {
-                        $id = $value['id'];
-                    }
-                    if (!empty($value['name'])) {
-                        $name = $value['name'];
-                    }
-                    if (!empty($value['project'])) {
-                        $project_name = $value['project'];
-                    }
-                    if (!empty($value['role'])) {
-                        $role = $value['role'];
-                    }
-                    if (!empty($value['email'])) {
-                        $email = $value['email'];
-                    }
-                    if (!empty($value['mobile'])) {
-                        $phone = $value['mobile'];
-                    }
-                }
-                ?>
-            </ol>
+                <li><a href="{{asset('/teams-list')}}"> Teams</a></li>
+                <li><a href="#">Detail</a></li>
+                    </ol>
         </section>
 
         <!-- Main content -->
