@@ -81,6 +81,7 @@ class TeamServiceImpl extends CommonService
         $findAllEmployeeInTeams = Employee::where('team_id', '=', Auth::user()->team_id);
         if (isset($id)) {
             try {
+                DB::beginTransaction();
                 $queryUpdateTeam = Team::find($id);
                 $getPORole = Role::where('name', '=', 'PO')->firstOrFail();
                 $teamName = $request->team_name;
@@ -130,9 +131,10 @@ class TeamServiceImpl extends CommonService
                 $queryUpdateRoleToEmployee->team_id = $queryUpdateTeam->id;
                 $queryUpdateRoleToEmployee->role_id = $getPORole['id'];
                 $queryUpdateRoleToEmployee->save();
+                DB::commit();
                 return true;
             } catch (Exception $exception) {
-
+                DB::rollBack();
                 return false;
             }
         } else {
