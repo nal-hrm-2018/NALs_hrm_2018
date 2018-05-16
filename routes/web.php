@@ -56,8 +56,8 @@ Route::group(['middleware' => 'user'], function () {
         'uses' => 'User\DashboardController@index',
     ]);
     Route::post('employee/postFile', 'User\Employee\EmployeeController@postFile')->name('postFile');
-    /*Route::get('employee/listEmployeeImport', 'User\Employee\EmployeeController@listEmployeeImport');*/
     Route::get('employee/importEmployee', 'User\Employee\EmployeeController@importEmployee')->name('importEmployee');
+    Route::post('employee/edit-password', 'User\Employee\EmployeeController@editPass')->name('editPass');
     Route::resource('employee', 'User\Employee\EmployeeController');
     Route::post('/employee/{id}', [
         'as' => 'show_chart',
