@@ -451,6 +451,7 @@
                 $("#emailEmployee").val('');
                 $("#role_employee").val('').change();
                 $("#team_employee").val('').change();
+                $("#status").val('').change();
             });
         });
     </script>
