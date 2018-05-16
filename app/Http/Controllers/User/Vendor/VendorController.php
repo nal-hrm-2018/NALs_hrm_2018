@@ -22,6 +22,7 @@ use DateTime;
 use App\Service\SearchEmployeeService;
 use App\Import\ImportFile;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Hash;
 class VendorController extends Controller
 {
     protected $searchService;
@@ -172,16 +173,8 @@ class VendorController extends Controller
     public function update(VendorEditRequest $request, $id)
     {
         $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->where('id', '<>', $id)->get()->toArray();
-        $pass = $request->password;
         $employee = Employee::find($id);
         $employee->email = $request->email;
-        if ($pass != null) {
-            if (strlen($pass) < 6) {
-                return back()->with(['minPass' => 'The Password must be at least 6 characters.', 'employee' => $employee]);
-            } else {
-                $employee->password = bcrypt($request->password);
-            }
-        }
         $employee->name = $request->name;
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
@@ -205,6 +198,29 @@ class VendorController extends Controller
         }
     }
 
+     public function editPass(Request $request)
+    {
+        $employee = Employee::find(\Illuminate\Support\Facades\Auth::user()->id);
+        $oldPass = $request -> old_pass;
+        $newPass = $request -> new_pass;
+        $cfPass = $request -> cf_pass;
+        if(!Hash::check($oldPass, $employee -> password)){
+            return back()->with(['error' => 'Old password is incorrect!!!', 'employee' => $employee]);
+        }else{
+            if($newPass != $cfPass){
+                return back()->with(['error' => 'The confirm password and password must match!!!', 'employee' => $employee]);
+            }else{
+                if (strlen($newPass) < 6) {
+                    return back()->with(['error' => 'The Password must be at least 6 characters!!!', 'employee' => $employee]);
+                }else {
+                    $employee->password = bcrypt($newPass);
+                    $employee->save();
+                    \Session::flash('msg_success', 'Password successfully edited!!!');
+                    return redirect('vendors/'.$employee->id.'/edit');
+                }
+            }
+        }
+    }
     public function destroy($id, Request $request)
     {
         $employees = Employee::where('id', $id)->where('delete_flag', 0)->first();

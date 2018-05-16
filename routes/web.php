@@ -74,6 +74,7 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('vendors/postFile', 'User\Vendor\VendorController@postFile')->name('postFile');
     Route::get('vendors/importVendor', 'User\Vendor\VendorController@importVendor')->name('importVendor');
     Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
+    Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors','User\Vendor\VendorController');
     Route::post('/vendors/{id}', [
         'as' => 'vendor_show_chart',
