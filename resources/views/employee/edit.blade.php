@@ -64,7 +64,7 @@
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Email Address</label>
-                <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
+                <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
                   readonly="readonly"
                 @endif
                 >
@@ -74,13 +74,13 @@
 
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+                <input type="text" class="form-control" placeholder="Name"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
                 <label style="color: red;">{{$errors->first('name')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Address</label>
-                <input type="text" class="form-control" placeholder="Address"  name="address" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
+                <input type="text" class="form-control" placeholder="Address"  name="address" id="adress" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
                 <label style="color: red;">{{$errors->first('address')}}</label>
                 <!-- /.input group -->
               </div>
@@ -90,22 +90,22 @@
                   <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
                   </div>
-                  <input type="number" class="form-control" placeholder="Phone"  name="mobile" value="{!! old('mobile', isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}">
+                  <input type="number" class="form-control" placeholder="Phone"  name="mobile" id="mobile" value="{!! old('mobile', isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}">
                 </div>
                 <label style="color: red;">{{$errors->first('mobile')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Gender</label>
-                <select class="form-control select2" style="width: 100%;" name="gender">
-                  <option value="1" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 1) echo'selected'; ?>>Female</option>
-                  <option value="2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>Male</option>
-                  <option value="3" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 3) echo'selected'; ?>>N/a</option>
+                <select class="form-control select2" style="width: 100%;" name="gender" id="gender">
+                  <option value="1" id="gender_1" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 1) echo'selected'; ?>>Female</option>
+                  <option value="2" id="gender_2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>Male</option>
+                  <option value="3" id="gender_3" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 3) echo'selected'; ?>>N/a</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>Married</label>
-                <select class="form-control select2" style="width: 100%;"  name="marital_status">
+                <select class="form-control select2" style="width: 100%;"  name="marital_status" id="marital_status">
                   <option value="1" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 1) echo'selected'; ?>>Single</option>
                   <option value="2" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 2) echo'selected'; ?>>Married</option>
                   <option value="3" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 3) echo'selected'; ?>>Separated</option>
@@ -114,7 +114,7 @@
               </div>
               <div class="form-group">
                 <label>Team</label>
-                <select class="form-control select2" style="width: 100%;"  name="team_id">
+                <select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">
                   <option value="" >---Team selection---</option>
                   <?php
                     foreach($dataTeam as $val){
@@ -134,14 +134,14 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="date" class="form-control pull-right" id="birthday" name="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
+                  <input type="date" class="form-control pull-right" id="birthday" name="birthday" id="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
                 </div>
                 <label style="color: red;">{{$errors->first('birthday')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Position</label>
-                <select class="form-control select2" style="width: 100%;" name="employee_type_id">
+                <select class="form-control select2" style="width: 100%;" name="employee_type_id" id="employee_type_id">
                   <option value="" >---Position selection---</option>
                   <?php
                     foreach($dataEmployeeTypes as $val){
@@ -157,7 +157,7 @@
               </div>
               <div class="form-group">
                 <label>Role of team</label>
-                <select class="form-control select2" style="width: 100%;" name="role_id">
+                <select class="form-control select2" style="width: 100%;" name="role_id" id="role_id">
                   <option value="" >---Role selection---</option>
                   <?php
                     foreach($dataRoles as $val){
@@ -179,7 +179,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
+                      <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
                     </div>
                     <label style="color: red;">{{$errors->first('startwork_date')}}</label>
                   </div>
@@ -191,7 +191,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
+                      <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
                     </div>
                     <label style="color: red;">{{$errors->first('endwork_date')}}</label>
                     <!-- /.input group -->
@@ -201,7 +201,7 @@
               <div class="row">
                 <br />
                 <div class="col-md-3" style="margin-left: 100px;">
-                  <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                  <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
                       RESET
                   </button>
                 </div>
@@ -362,6 +362,27 @@
       </div>
       <!-- /.box-body -->
     </div>
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#btn_reset_form_employee").bind("click", function () {
+                $("#email").val('{!! old(isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}');
+                $("#name").val('{!! old(isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}');
+                $("#address").val('{!! old(isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}');
+                $("#mobile").val('{!! old(isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}');
+                $("#endwork_date").val('value', '{!! old(isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}');
+                $("#startwork_date").val('value', '{!! old(isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}');
+                $("#endwork_date").val('value', '{!! old(isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}');
+
+                $("#gender").val('{!! isset($objEmployee["gender"]) ? $objEmployee["gender"] : null !!}').change();
+                $("#marital_status").val('{!! isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null !!}').change();
+                $("#team_id").val('{!! isset($objEmployee["team_id"]) ? $objEmployee["team_id"] : null !!}').change();
+                $("#employee_type_id").val('{!! isset($objEmployee["employee_type_id"]) ? $objEmployee["employee_type_id"] : null !!}').change();
+                $("#role_id").val('{!! isset($objEmployee["role_id"]) ? $objEmployee["role_id"] : null !!}').change();
+            });
+        });
+    </script>
     <!-- /.box -->
   </section>
   <!-- /.content -->
