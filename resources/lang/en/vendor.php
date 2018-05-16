@@ -27,6 +27,7 @@ return [
         'confirm_password'=> 'Confirm password',
         'company'=>'Company',
         'cv'=>'CV',
+        'married'=>'Married',
         'start_work_date'=>'Start work date',
         'end_work_date'=>'End work date',
         'work_status'=>[

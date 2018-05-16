@@ -43,7 +43,6 @@ class VendorAddRequest extends CommonRequest
             'role_id' => 'required',
             'company'=> [
                 'required',
-                'regex:/(^[a-zA-Z0-9 ]+$)+/',
                 ],
             /*'avatar' => 'required',*/
             'birthday' =>[
@@ -67,9 +66,6 @@ class VendorAddRequest extends CommonRequest
     {
         return [
             'company.required' => trans('validation.required', [
-                'attribute' => 'Company'
-            ]),
-            'company.regex' => trans('validation.regex', [
                 'attribute' => 'Company'
             ]),
             'email.required' => trans('validation.required', [
