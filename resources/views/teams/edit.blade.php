@@ -197,26 +197,24 @@
                     </div>
                     <div class="col-md-1" style="display: inline;">
                         <div style="float: right;">
-                            <button type="submit" class="btn btn-info pull-left">Update</button>
+                            <button type="submit" id="button-edit-team" class="btn btn-info pull-left">Update</button>
                         </div>
                     </div>
                 </div>
                 {{ Form::close() }}
-                <script type="text/javascript"
-                    src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-                <script type="text/javascript">
-                  $(document).ready(function (){
-                    $("#form_edit_team").submit( function(){
-                      return confirmAction('Would you like to edit it?');
-                    });
-                  });
-                </script>
                 <script type="text/javascript">
                   $(document).ready(function (){
                     $("#btn_reset_form_team").click( function(){
                       return confirmAction('Do you want to reset?');
                     });
                   });
+                </script>
+                <script type="text/javascript">
+                    $(document).ready(function (){
+                        $("#form_edit_team").submit( function(){
+                            return confirmAction('Would you like to edit it?');
+                        });
+                    });
                 </script>
                 <script type="text/javascript">
                     $listEmployeeID = new Array();

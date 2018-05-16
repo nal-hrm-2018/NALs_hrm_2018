@@ -33,11 +33,7 @@
                         $employee = Session::get("employee");
                     }
                     ?>
-                    <SCRIPT LANGUAGE="JavaScript">
-                        function confirmAction($msg) {
-                            return confirm($msg);
-                        }
-                    </SCRIPT>
+
                     <form action="{{asset('employee')}}" method="post" class="form-horizontal"
                           onSubmit="return confirmAction('Would you like to add it?')"
                           onreset="return confirmAction('Do you want to reset?')">
