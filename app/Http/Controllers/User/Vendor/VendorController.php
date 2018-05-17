@@ -161,6 +161,10 @@ class VendorController extends Controller
      */
     public function edit($id)
     {
+        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',1)->find($id);
+        if ($employee != null) {
+            return abort(404);
+        }
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
@@ -172,7 +176,10 @@ class VendorController extends Controller
 
     public function update(VendorEditRequest $request, $id)
     {
-        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->where('id', '<>', $id)->get()->toArray();
+        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',1)->find($id);
+        if ($employee != null) {
+            return abort(404);
+        }
         $employee = Employee::find($id);
         $employee->email = $request->email;
         $employee->name = $request->name;
@@ -187,14 +194,12 @@ class VendorController extends Controller
         $employee->employee_type_id = $request->employee_type_id;
         $employee->role_id = $request->role_id;
         $employee->updated_at = new DateTime();
-        if ($objEmployee != null) {
-            \Session::flash('msg_fail', 'Edit failed!!! Email already exists!!!');
-            return back()->with(['vendors' => $employee]);
-            // return redirect('vendors/'.$id.'/edit') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
-        } else {
-            $employee->save();
+        if ($employee->save()) {
             \Session::flash('msg_success', 'Account successfully edited!!!');
-            return redirect('vendors');
+            return redirect('vendors');            
+        } else {
+            \Session::flash('msg_fail', 'Edit failed!!!');
+            return back()->with(['vendors' => $employee]);
         }
     }
 

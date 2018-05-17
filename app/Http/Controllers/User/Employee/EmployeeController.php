@@ -64,7 +64,6 @@ class EmployeeController extends Controller
 
     public function store(EmployeeAddRequest $request)
     {
-        $objEmployee = Employee::select('email')->where('delete_flag', 0)->where('email', 'like', $request->email)->get()->toArray();
         $employee = new Employee;
         $employee->email = $request->email;
         $employee->password = bcrypt($request->password);
@@ -82,14 +81,15 @@ class EmployeeController extends Controller
         $employee->role_id = $request->role_id;
         $employee->created_at = new DateTime();
         $employee->delete_flag = 0;
-        if ($objEmployee != null) {
-            \Session::flash('msg_fail', 'Add failed!!! Email already exists!!!');
-            return redirect('employee/create')->with(['employee' => $employee]);
-        } else {
-            $employee->save();
-            \Session::flash('msg_fail', 'Account successfully created!!!');
+        
+        if($employee->save()){
+            \Session::flash('msg_success', 'Account successfully created!!!');
             return redirect('employee');
+        }else{
+            \Session::flash('msg_fail', 'Account failed created!!!');
+            return back()->with(['employee' => $employee]);
         }
+        
     }
 
     public function show($id, SearchRequest $request)
@@ -156,6 +156,10 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
+        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',0)->find($id);
+        if ($employee != null) {
+            return abort(404);
+        }
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
@@ -166,7 +170,10 @@ class EmployeeController extends Controller
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->where('id', '<>', $id)->get()->toArray();
+        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',0)->find($id);
+        if ($employee != null) {
+            return abort(404);
+        }
         $employee = Employee::find($id);
         $employee->email = $request->email;
         $employee->name = $request->name;
@@ -181,14 +188,12 @@ class EmployeeController extends Controller
         $employee->team_id = $request->team_id;
         $employee->role_id = $request->role_id;
         $employee->updated_at = new DateTime();
-        if ($objEmployee != null) {
-            \Session::flash('msg_fail', 'Edit failed!!! Email already exists!!!');
-            return back()->with(['employee' => $employee]);
-            // return redirect('employee/'.$id.'/edit') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
-        } else {
-            $employee->save();
+        if ($employee->save()) {
             \Session::flash('msg_success', 'Account successfully edited!!!');
             return redirect('employee');
+        } else {
+            \Session::flash('msg_fail', 'Account failed edited!!!');
+            return back()->with(['employee' => $employee]);
         }
     }
     public function editPass(Request $request)
