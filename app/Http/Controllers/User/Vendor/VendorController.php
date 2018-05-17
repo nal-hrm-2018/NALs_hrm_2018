@@ -68,7 +68,7 @@ class VendorController extends Controller
     {
         $data =[
             'email'=>$request->get('email'),
-            'password'=>$request->get('password'),
+            'password'=>bcrypt($request->get('password')),
             'name'=>$request->get('name'),
             'address'=>$request->get('address'),
             'mobile'=>$request->get('mobile'),
@@ -161,8 +161,8 @@ class VendorController extends Controller
      */
     public function edit($id)
     {
-        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',1)->find($id);
-        if ($employee != null) {
+        $employee = Employee::where('delete_flag', 0)->where('is_employee',0)->find($id);
+        if ($employee == null) {
             return abort(404);
         }
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
@@ -176,11 +176,10 @@ class VendorController extends Controller
 
     public function update(VendorEditRequest $request, $id)
     {
-        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',1)->find($id);
-        if ($employee != null) {
+        $employee = Employee::where('delete_flag', 0)->where('is_employee',0)->find($id);
+        if ($employee == null) {
             return abort(404);
         }
-        $employee = Employee::find($id);
         $employee->email = $request->email;
         $employee->name = $request->name;
         $employee->birthday = $request->birthday;
