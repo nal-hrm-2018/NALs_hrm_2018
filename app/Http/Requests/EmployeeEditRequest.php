@@ -28,9 +28,17 @@ class EmployeeEditRequest extends FormRequest
             'confirm_confirmation' => 'same:password',
             'name' => 'required',
             'address' => 'required',
-            'gender' => 'required',
+            'gender' => [
+                'required',
+                'integer',
+                'digits_between:1,3',
+            ],
             'mobile' => 'required|numeric|digits_between:10,11',
-            'marital_status' => 'required',
+            'marital_status' =>  [
+                'required',
+                'integer',
+                'digits_between:1,4',
+            ],
             /*'curriculum_vitae' => 'required',*/
             'employee_type_id' => 'required',
             'team_id' => 'required',
@@ -67,6 +75,12 @@ class EmployeeEditRequest extends FormRequest
             'gender.required' => trans('validation.required', [
                 'attribute' => 'Gender'
             ]),
+            'gender.integer' => trans('validation.not_in', [
+                'attribute' => 'Gender'
+            ]),
+            'gender.digits_between' => trans('validation.not_in', [
+                'attribute' => 'Gender'
+            ]),
             'mobile.required' => trans('validation.required', [
                 'attribute' => 'Mobile'
             ]),
@@ -79,6 +93,12 @@ class EmployeeEditRequest extends FormRequest
                 'max' => '11'
             ]),
             'marital_status.required' => trans('validation.required', [
+                'attribute' => 'Married'
+            ]),
+            'marital_status.integer' => trans('validation.not_in', [
+                'attribute' => 'Married'
+            ]),
+            'marital_status.digits_between' => trans('validation.not_in', [
                 'attribute' => 'Married'
             ]),
             /*'curriculum_vitae.required' => trans('validation.required', [

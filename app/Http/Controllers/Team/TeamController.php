@@ -76,6 +76,10 @@ class TeamController extends Controller
 
     public function edit($id)
     {
+        $team = Team::where('delete_flag', 0)->find($id);
+        if (!isset($team)) {
+            return abort(404);
+        }
         $allEmployees = Employee::query()
             ->with(['team', 'role'])
             ->where('employees.team_id', null)

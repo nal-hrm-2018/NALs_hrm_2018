@@ -135,6 +135,7 @@
                                         >N/a
                                         </option>
                                     </select>
+                                    <label style="color: red;">{{$errors->first('gender')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Married</label>
@@ -180,6 +181,7 @@
                                         >Devorce
                                         </option>
                                     </select>
+                                    <label style="color: red;">{{$errors->first('marital_status')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Team</label>

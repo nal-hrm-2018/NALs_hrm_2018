@@ -161,6 +161,10 @@ class VendorController extends Controller
      */
     public function edit($id)
     {
+        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',1)->find($id);
+        if ($employee != null) {
+            return abort(404);
+        }
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
@@ -172,6 +176,10 @@ class VendorController extends Controller
 
     public function update(VendorEditRequest $request, $id)
     {
+        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',1)->find($id);
+        if ($employee != null) {
+            return abort(404);
+        }
         $employee = Employee::find($id);
         $employee->email = $request->email;
         $employee->name = $request->name;
