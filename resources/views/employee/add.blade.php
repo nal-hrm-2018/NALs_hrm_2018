@@ -20,13 +20,13 @@
             <div class="box box-default">
                 <div class="box-body">
                     <?php
-                    if (Session::get('msg_fail') != "") {
-                        echo '<div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
-                </ul>
-            </div>';
-                    }
+                        if (Session::get('msg_fail') != "") {
+                            echo '<div>
+                                <ul class=\'error_msg\'>
+                                    <li>' . Session::get("msg_fail") . '</li>
+                                </ul>
+                            </div>';
+                        }
                     ?>
                     <?php
                     if (Session::get('employee') != "") {
@@ -55,8 +55,7 @@
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     <input type="text" class="form-control" placeholder="Email Address" name="email"
-                                           id="email"
-                                           value="{!! old('email') !!} {{ isset($employee) ? $employee->email : null}}">
+                                           id="email" value="{!! old('email') !!}{{ isset($employee) ? $employee->email : null}}">
                                     <label style="color: red;">{{$errors->first('email')}}</label>
                                     <!-- /.input group -->
                                 </div>
@@ -136,6 +135,7 @@
                                         >N/a
                                         </option>
                                     </select>
+                                    <label style="color: red;">{{$errors->first('gender')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Married</label>
@@ -181,6 +181,7 @@
                                         >Devorce
                                         </option>
                                     </select>
+                                    <label style="color: red;">{{$errors->first('marital_status')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Team</label>

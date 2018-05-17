@@ -98,6 +98,7 @@
                   <option value="2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>Male</option>
                   <option value="3" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 3) echo'selected'; ?>>N/a</option>
                 </select>
+                <label style="color: red;">{{$errors->first('gender')}}</label>
               </div>
               <div class="form-group">
                 <label>Married</label>
@@ -107,6 +108,7 @@
                   <option value="3" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 3) echo'selected'; ?>>Separated</option>
                   <option value="4" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 4) echo'selected'; ?>>Devorce</option>
                 </select>
+                <label style="color: red;">{{$errors->first('marital_status')}}</label>
               </div>
               <div class="form-group">
                 <label>Company</label>

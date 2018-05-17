@@ -85,7 +85,11 @@
               <!-- Menu Footer-->
               <li class="user-footer" >
                 <div class="pull-left">
-                  <form action="{{asset('employee/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
+                  @if(Illuminate\Support\Facades\Auth::user()->is_employee === 1)
+                    <form action="{{asset('employee/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
+                  @else
+                    <form action="{{asset('vendors/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
+                  @endif                  
                     <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Update Profile') }}</button>
                   </form>
                 </div>
