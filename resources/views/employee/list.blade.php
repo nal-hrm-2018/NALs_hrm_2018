@@ -299,7 +299,7 @@
                                 @foreach($employees as $employee)
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
-                                        <td>{{ isset($employee->id )? $employee->id : "--.--"}}</td>
+                                        <td  class="text-center">{{ isset($employee->id )? $employee->id : "--.--"}}</td>
                                         <td>{{ isset($employee->name)? $employee->name: "--.--" }}</td>
                                         <td>{{ isset($employee->team)? $employee->team->name: "--.--"}}</td>
                                         <td>{{ isset($employee->role)? $employee->role->name: "--.--" }}</td>
@@ -311,7 +311,7 @@
                                         </td>
                                         <td style="text-align: center;width: 50px;">
                                             <button type="button" class="btn btn-default">
-                                                <a href="#"><i class="fa fa-cloud-download"></i> CV</a>
+                                                <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>
                                             </button>
                                         </td>
 

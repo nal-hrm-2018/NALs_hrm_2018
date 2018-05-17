@@ -15,7 +15,7 @@
             @foreach($vendors as $vendor)
                 <tr class="employee-menu" id="employee-id-{{$vendor->id}}"
                     data-employee-id="{{$vendor->id}}">
-                    <td>{{ isset($vendor->id )? $vendor->id : "--.--"}}</td>
+                    <td class="text-center">{{ isset($vendor->id )? $vendor->id : "--.--"}}</td>
                     <td>{{ isset($vendor->name)? $vendor->name: "--.--" }}</td>
                     <td>{{ isset($vendor->company)? $vendor->company: "--.--"}}</td>
                     <td>{{ isset($vendor->role)?$vendor->role->name:"--.--" }}</td>

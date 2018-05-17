@@ -61,7 +61,7 @@
                             <table id="team-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>{{trans('team.id')}}</th>
+                                    <th class="text-center">{{trans('team.id')}}</th>
                                     <th>{{trans('team.name')}}</th>
                                     <th>{{trans('team.po')}}</th>
                                     <th>{{trans('team.members')}}</th>
