@@ -61,7 +61,7 @@
                             <table id="team-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">{{trans('team.id')}}</th>
+                                    <th>{{trans('team.id')}}</th>
                                     <th>{{trans('team.name')}}</th>
                                     <th>{{trans('team.po')}}</th>
                                     <th>{{trans('team.members')}}</th>
@@ -76,7 +76,7 @@
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
-                                        <td>{{$team->id}}</td>
+                                        <td class="text-center" >{{$team->id}}</td>
                                         <td>{{$team->name}}</td>
                                         <td>
                                             @if(isset($po))
