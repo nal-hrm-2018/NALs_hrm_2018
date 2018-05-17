@@ -6,6 +6,7 @@ use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
 use App\Export\TemplateExport;
+use DateTime;
 class ImportFile{
 
 	public function readFile($url){
@@ -103,6 +104,8 @@ class ImportFile{
 	}
 	public function checkFileEmployee($data, $num){
 		$listError ="";
+        $date = new DateTime;
+        $date = $date->format('Y-m-d H:i:s');
 		for ( $row = 1; $row < count($data)/$num; $row++) {
 			$c = $row*$num;
 			if($c < $row*($num+1)){
@@ -136,6 +139,10 @@ class ImportFile{
                 }else{
                     if(date_create($data[$c]) == FALSE ){
                         $listError .= "<li>Row ".$row.": Birthday is incorrect format. Example: 22-02-2000.</li>";
+                    }else{
+                        if(strtotime($data[$c]) >= strtotime($date)){
+                                $listError .= "<li>Row ".$row.": The Birthday must be a date before Today.</li>";
+                            }
                     }
                 }
                 $c++;
@@ -229,6 +236,8 @@ class ImportFile{
 	}
     public function checkFileVendor($data, $num){
         $listError ="";
+        $date = new DateTime;
+        $date = $date->format('Y-m-d H:i:s');
         for ( $row = 1; $row < count($data)/$num; $row++) {
             $c = $row*$num;
             if($c < $row*($num+1)){
@@ -262,6 +271,11 @@ class ImportFile{
                 }else{
                     if(date_create($data[$c]) == FALSE ){
                         $listError .= "<li>Row ".$row.": Birthday is incorrect format. Example: 22-02-2000.</li>";
+                    }else{
+                        
+                        if(strtotime($data[$c]) >= strtotime($date)){
+                                $listError .= "<li>Row ".$row.": The Birthday must be a date before Today.</li>";
+                            }
                     }
                 }
                 $c++;

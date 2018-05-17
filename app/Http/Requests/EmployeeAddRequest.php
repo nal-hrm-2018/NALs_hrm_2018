@@ -21,7 +21,7 @@ class EmployeeAddRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|email|unique:employees,email' ,
             'password' => 'required|min:6',
             'confirm_confirmation' => 'required|same:password',
             'name' => 'required',
@@ -47,6 +47,9 @@ class EmployeeAddRequest extends FormRequest
                 'attribute' => 'Email'
             ]),
             'email.email' => trans('validation.email', [
+                'attribute' => 'Email'
+            ]),
+            'email.unique' => trans('validation.unique', [
                 'attribute' => 'Email'
             ]),
             'password.required' => trans('validation.required', [

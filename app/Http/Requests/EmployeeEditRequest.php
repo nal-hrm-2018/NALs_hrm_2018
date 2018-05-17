@@ -10,7 +10,7 @@ namespace App\Http\Requests;
 
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Http\Rule\ValidEmail;
 class EmployeeEditRequest extends FormRequest
 {
     public function authorize()
@@ -21,7 +21,10 @@ class EmployeeEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'email' =>[ 
+                'required',
+                'email',
+                new ValidEmail(request()->get('email'), request()->route()->parameters())],
             'confirm_confirmation' => 'same:password',
             'name' => 'required',
             'address' => 'required',
@@ -48,7 +51,6 @@ class EmployeeEditRequest extends FormRequest
             'email.email' => trans('validation.email', [
                 'attribute' => 'Email'
             ]),
-            
             'password.min' => trans('validation.min.string', [
                 'attribute' => 'Password',
                 'min' => '6'

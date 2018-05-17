@@ -172,7 +172,6 @@ class VendorController extends Controller
 
     public function update(VendorEditRequest $request, $id)
     {
-        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->where('id', '<>', $id)->get()->toArray();
         $employee = Employee::find($id);
         $employee->email = $request->email;
         $employee->name = $request->name;
@@ -187,14 +186,12 @@ class VendorController extends Controller
         $employee->employee_type_id = $request->employee_type_id;
         $employee->role_id = $request->role_id;
         $employee->updated_at = new DateTime();
-        if ($objEmployee != null) {
-            \Session::flash('msg_fail', 'Edit failed!!! Email already exists!!!');
-            return back()->with(['vendors' => $employee]);
-            // return redirect('vendors/'.$id.'/edit') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
-        } else {
-            $employee->save();
+        if ($employee->save()) {
             \Session::flash('msg_success', 'Account successfully edited!!!');
-            return redirect('vendors');
+            return redirect('vendors');            
+        } else {
+            \Session::flash('msg_fail', 'Edit failed!!!');
+            return back()->with(['vendors' => $employee]);
         }
     }
 
