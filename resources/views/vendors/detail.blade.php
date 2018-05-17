@@ -57,11 +57,11 @@
                                                 <strong>{{$vendor->email}}</strong></p>
                                             <p>{{trans('vendor.profile_info.gender.title')}}:
                                                 @if($vendor->gender == 1)
-                                                    <strong>{{trans('vendor.profile_info.gender.male')}}</strong>
+                                                    <span class="label label-info">{{trans('vendor.profile_info.gender.male')}}</span>
                                                 @elseif($vendor->gender == 2)
-                                                    <strong>{{trans('vendor.profile_info.gender.female')}}</strong>
+                                                    <span class="label label-success">{{trans('vendor.profile_info.gender.female')}}</span>
                                                 @elseif($vendor->gender == 3)
-                                                    <strong>{{trans('vendor.profile_info.gender.na')}}</strong>
+                                                    <span class="label label-warning">{{trans('vendor.profile_info.gender.na')}}</span>
                                                 @endif
                                             </p>
                                             <p>{{trans('vendor.profile_info.birthday')}}:
@@ -74,17 +74,17 @@
                                             </p>
                                             <p>{{trans('vendor.profile_info.marital_status.title')}}:
                                                 @if($vendor->marital_status == 1)
-                                                    <strong>{{trans('vendor.profile_info.marital_status.single')}}</strong>
+                                                    <span class="label label-default">{{trans('vendor.profile_info.marital_status.single')}}</span>
                                                 @elseif($vendor->marital_status == 2)
-                                                    <strong>{{trans('vendor.profile_info.marital_status.married')}}</strong>
+                                                    <span class="label label-primary">{{trans('vendor.profile_info.marital_status.married')}}</span>
                                                 @elseif($vendor->marital_status == 3)
-                                                    <strong>{{trans('vendor.profile_info.marital_status.separated')}}</strong>
+                                                    <span class="label label-warning">{{trans('vendor.profile_info.marital_status.separated')}}</span>
                                                 @elseif($vendor->marital_status == 4)
-                                                    <strong>{{trans('vendor.profile_info.marital_status.divorced')}}</strong>
+                                                    <span class="label label-danger">{{trans('vendor.profile_info.marital_status.divorced')}}</span>
                                                 @endif
                                             </p>
                                             <p>{{trans('vendor.profile_info.role')}}:
-                                                <strong>{{ isset($vendor->role)?$vendor->role->name:'-' }}</strong>
+                                                <span class="label label-primary">{{ isset($vendor->role)?$vendor->role->name:'-' }}</span>
                                             </p>
                                             <p>{{trans('vendor.profile_info.company')}}:
                                                 <strong>{{ isset($vendor->company)?$vendor->company:'-' }}</strong>
@@ -96,9 +96,9 @@
                                             </p>
                                             <p>{{trans('vendor.profile_info.policy_status.title')}}:
                                                 @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
-                                                    <strong>{{trans('vendor.profile_info.policy_status.unexpired')}}</strong>
+                                                    <span class="label label-primary">{{trans('vendor.profile_info.policy_status.unexpired')}}</span>
                                                 @else
-                                                    <strong>{{trans('vendor.profile_info.policy_status.expired')}}</strong>
+                                                    <span class="label label-danger">{{trans('vendor.profile_info.policy_status.expired')}}</span>
                                                 @endif
                                             </p>
 

@@ -67,11 +67,8 @@
     var url = window.location.href;
     // var path = window.location.pathname;
     $(document).ready(function () {
-        var i = 0;
         $('.sidebar-menu li').each(function () {
             var href = $(this).find('a').attr('href');
-            // alert(href.indexOf('/'));
-            // if()
             if(href == url){
                 $(this).addClass('active');
                 $(this).find('i').attr('class', 'fa fa-bullseye');

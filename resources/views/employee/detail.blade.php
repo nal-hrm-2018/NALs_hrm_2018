@@ -57,11 +57,11 @@
                                                 <strong>{{$employee->email}}</strong></p>
                                             <p>{{trans('employee.profile_info.gender.title')}}:
                                                 @if($employee->gender == 1)
-                                                    <strong>{{trans('employee.profile_info.gender.male')}}</strong>
+                                                    <span class="label label-info">{{trans('employee.profile_info.gender.male')}}</span>
                                                 @elseif($employee->gender == 2)
-                                                    <strong>{{trans('employee.profile_info.gender.female')}}</strong>
+                                                    <span class="label label-success">{{trans('employee.profile_info.gender.female')}}</span>
                                                 @elseif($employee->gender == 3)
-                                                    <strong>{{trans('employee.profile_info.gender.na')}}</strong>
+                                                    <span class="label label-warning">{{trans('employee.profile_info.gender.na')}}</span>
                                                 @endif
                                             </p>
                                             <p>{{trans('employee.profile_info.birthday')}}:
@@ -74,20 +74,20 @@
                                             </p>
                                             <p>{{trans('employee.profile_info.marital_status.title')}}:
                                                 @if($employee->marital_status == 1)
-                                                    <strong>{{trans('employee.profile_info.marital_status.single')}}</strong>
+                                                    <span class="label label-default">{{trans('employee.profile_info.marital_status.single')}}</span>
                                                 @elseif($employee->marital_status == 2)
-                                                    <strong>{{trans('employee.profile_info.marital_status.married')}}</strong>
+                                                    <span class="label label-primary">{{trans('employee.profile_info.marital_status.married')}}</span>
                                                 @elseif($employee->marital_status == 3)
-                                                    <strong>{{trans('employee.profile_info.marital_status.separated')}}</strong>
+                                                    <span class="label label-warning">{{trans('employee.profile_info.marital_status.separated')}}</span>
                                                 @elseif($employee->marital_status == 4)
-                                                    <strong>{{trans('employee.profile_info.marital_status.divorced')}}</strong>
+                                                    <span class="label label-danger">{{trans('employee.profile_info.marital_status.divorced')}}</span>
                                                 @endif
                                             </p>
                                             <p>{{trans('employee.profile_info.team')}}:
-                                                <strong>{{ isset($employee->team)?$employee->team->name:'-' }}</strong>
+                                                <span class="label label-primary">{{ isset($employee->team)?$employee->team->name:'-' }}</span>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
-                                                <strong>{{ isset($employee->employeeType)?$employee->role->name:'-' }}</strong>
+                                                <span class="label label-primary">{{ isset($employee->employeeType)?$employee->role->name:'-' }}</span>
                                             </p>
 
                                             <p>{{trans('employee.profile_info.policy_date')}}:
@@ -95,9 +95,9 @@
                                                     - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
                                             <p>{{trans('employee.profile_info.policy_status.title')}}:
                                                 @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
-                                                    <strong>{{trans('employee.profile_info.policy_status.unexpired')}}</strong>
+                                                    <span class="label label-primary">{{trans('employee.profile_info.policy_status.unexpired')}}</span>
                                                 @else
-                                                    <strong>{{trans('employee.profile_info.policy_status.expired')}}</strong>
+                                                    <span class="label label-danger">{{trans('employee.profile_info.policy_status.expired')}}</span>
                                                 @endif
                                             </p>
 
