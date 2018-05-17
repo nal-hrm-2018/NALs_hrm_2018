@@ -28,6 +28,7 @@ return [
     'path'=>[
         'home'=>'Trang Chủ',
         'employee'=>'Nhân Viên',
+        'vendor'=>'Nhân Viên Ngoài',
         'team' => 'Nhóm',
         'list' => 'Danh sách',
         'detail'=>'Chi Tiết',

@@ -11,6 +11,6 @@ use App\Http\Requests\CommonRequest;
 
 interface SearchService
 {
-    public function search( $Request);
+    public function searchProcess( $Request);
 
 }

@@ -11,7 +11,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Rule\ValidEmail;
-class EmployeeEditRequest extends FormRequest
+class VendorEditRequest extends FormRequest
 {
     public function authorize()
     {
@@ -21,7 +21,7 @@ class EmployeeEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' =>[ 
+            'email' => [ 
                 'required',
                 'email',
                 new ValidEmail(request()->get('email'), request()->route()->parameters())],
@@ -39,11 +39,8 @@ class EmployeeEditRequest extends FormRequest
                 'integer',
                 'digits_between:1,4',
             ],
-            /*'curriculum_vitae' => 'required',*/
-            'employee_type_id' => 'required',
-            'team_id' => 'required',
+            'company' => 'required',
             'role_id' => 'required',
-            /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
             'startwork_date' => 'required',
             'endwork_date' => 'required|after:startwork_date'
@@ -59,6 +56,7 @@ class EmployeeEditRequest extends FormRequest
             'email.email' => trans('validation.email', [
                 'attribute' => 'Email'
             ]),
+            
             'password.min' => trans('validation.min.string', [
                 'attribute' => 'Password',
                 'min' => '6'
@@ -101,15 +99,12 @@ class EmployeeEditRequest extends FormRequest
             'marital_status.digits_between' => trans('validation.not_in', [
                 'attribute' => 'Married'
             ]),
+            'company.required' => trans('validation.required', [
+                'attribute' => 'Company'
+            ]),
             /*'curriculum_vitae.required' => trans('validation.required', [
                 'attribute' => 'CV'
             ]),*/
-            'employee_type_id.required' => trans('validation.required', [
-                'attribute' => 'Position'
-            ]),
-            'team_id.required' => trans('validation.required', [
-                'attribute' => 'Team'
-            ]),
             'role_id.required' => trans('validation.required', [
                 'attribute' => 'Role'
             ]),

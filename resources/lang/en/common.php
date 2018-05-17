@@ -13,6 +13,10 @@ return [
     |
     */
 
+    'confirm_message'=>[
+        'add_action'=>'Do you want to add?',
+    ],
+
     'button' => [
         'reset' => 'RESET',
         'search' => 'SEARCH',
@@ -24,11 +28,15 @@ return [
         'form_search' => 'Search Form'
     ],
     'title_header'=>[
-        'employee_detail'=>'Employee Detail'
+        'employee_detail'=>'Employee Detail',
+        'vendor_list'=>'Vendor List',
+        'nal_solution' =>'Nal solution'
     ],
     'path'=>[
         'home'=>'Home',
         'employee'=>'Employee',
+        'vendor'=>'Vendor',
+        'vendors'=>'Vendors',
         'team' => 'Teams',
         'list' => 'List',
         'detail'=>'Detail',

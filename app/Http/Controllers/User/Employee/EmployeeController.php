@@ -28,7 +28,7 @@ use App\Models\Status;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\EmployeeEditRequest;
 use App\Import\ImportFile;
-
+use Illuminate\Support\Facades\Hash;
 class EmployeeController extends Controller
 {
     /**
@@ -47,11 +47,11 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-
+        $status = [0=> "Active", 1=>"Unactive"];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
-        return view('employee.list', compact('employees', 'roles', 'teams', 'param'));
+        return view('employee.list', compact('employees','status', 'roles', 'teams', 'param'));
     }
 
     public function create()
@@ -59,12 +59,11 @@ class EmployeeController extends Controller
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
-        return view('admin.module.employees.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        return view('employee.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function store(EmployeeAddRequest $request)
     {
-        $objEmployee = Employee::select('email')->where('delete_flag', 0)->where('email', 'like', $request->email)->get()->toArray();
         $employee = new Employee;
         $employee->email = $request->email;
         $employee->password = bcrypt($request->password);
@@ -82,14 +81,15 @@ class EmployeeController extends Controller
         $employee->role_id = $request->role_id;
         $employee->created_at = new DateTime();
         $employee->delete_flag = 0;
-        if ($objEmployee != null) {
-            \Session::flash('msg_fail', 'Add failed!!! Email already exists!!!');
-            return redirect('employee/create')->with(['employee' => $employee]);
-        } else {
-            $employee->save();
-            \Session::flash('msg_fail', 'Account successfully created!!!');
+        
+        if($employee->save()){
+            \Session::flash('msg_success', 'Account successfully created!!!');
             return redirect('employee');
+        }else{
+            \Session::flash('msg_fail', 'Account failed created!!!');
+            return back()->with(['employee' => $employee]);
         }
+        
     }
 
     public function show($id, SearchRequest $request)
@@ -100,23 +100,12 @@ class EmployeeController extends Controller
                 'start_date' => $request->get('start_date'),
                 'end_date' => $request->get('end_date'),
                 'project_status' => $request->get('project_status'),
-                'number_record_per_page' => $request->get('number_record_per_page')
+                'number_record_per_page' => $request->get('number_record_per_page'),
+                'is_employee' => $request->get('is_employee'),
             ]
         );
 
-        if (!isset($data['number_record_per_page'])) {
-            $data['number_record_per_page'] = config('settings.paginate');
-        }
-
-        $data['id'] = $id;
-
-        $processes = $this->searchService->search($data)->orderBy('project_id', 'desc')->paginate($data['number_record_per_page']);
-
-        $processes->setPath('');
-
-        $param = (Input::except('page'));
-
-        $active = $request->all();
+        $active = $request->get('number_record_per_page');
 
         if ($active) {
             $active = 'project';
@@ -124,10 +113,22 @@ class EmployeeController extends Controller
             $active = 'basic';
         }
 
-        //set employee info
-        $employee = Employee::where('delete_flag', 0)->find($id);
+        if (!isset($data['number_record_per_page'])) {
+            $data['number_record_per_page'] = config('settings.paginate');
+        }
 
-        $roles = Role::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+        $data['id'] = $id;
+
+        $processes = $this->searchService->searchProcess($data)->orderBy('project_id', 'desc')->paginate($data['number_record_per_page']);
+
+        $processes->setPath('');
+
+        $param = (Input::except('page'));
+
+        //set employee info
+        $employee = Employee::where('delete_flag', 0)->where('is_employee', '1')->find($id);
+
+        $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
 
         $project_statuses = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
 
@@ -155,27 +156,25 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
+        $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
+        if ($employee == null) {
+            return abort(404);
+        }
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
 
-        return view('admin.module.employees.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        return view('employee.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $objEmployee = Employee::select('email')->where('email', 'like', $request->email)->where('id', '<>', $id)->get()->toArray();
-        $pass = $request->password;
-        $employee = Employee::find($id);
-        $employee->email = $request->email;
-        if ($pass != null) {
-            if (strlen($pass) < 6) {
-                return back()->with(['minPass' => 'The Password must be at least 6 characters.', 'employee' => $employee]);
-            } else {
-                $employee->password = bcrypt($request->password);
-            }
+        $employee = Employee::where('delete_flag', 0)->where('is_employee',0)->find($id);
+        if ($employee == null) {
+            return abort(404);
         }
+        $employee->email = $request->email;
         $employee->name = $request->name;
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
@@ -188,16 +187,38 @@ class EmployeeController extends Controller
         $employee->team_id = $request->team_id;
         $employee->role_id = $request->role_id;
         $employee->updated_at = new DateTime();
-        if ($objEmployee != null) {
-            \Session::flash('msg_fail', 'Edit failed!!! Email already exists!!!');
-            return back()->with(['employee' => $employee]);
-            // return redirect('employee/'.$id.'/edit') -> with(['msg_fail' => 'Edit failed!!! Email already exists']);
-        } else {
-            $employee->save();
+        if ($employee->save()) {
             \Session::flash('msg_success', 'Account successfully edited!!!');
             return redirect('employee');
+        } else {
+            \Session::flash('msg_fail', 'Account failed edited!!!');
+            return back()->with(['employee' => $employee]);
         }
     }
+    public function editPass(Request $request)
+    {
+        $employee = Employee::find(\Illuminate\Support\Facades\Auth::user()->id);
+        $oldPass = $request -> old_pass;
+        $newPass = $request -> new_pass;
+        $cfPass = $request -> cf_pass;
+        if(!Hash::check($oldPass, $employee -> password)){
+            return back()->with(['error' => 'Old password is incorrect!!!', 'employee' => $employee]);
+        }else{
+            if($newPass != $cfPass){
+                return back()->with(['error' => 'The confirm password and password must match!!!', 'employee' => $employee]);
+            }else{
+                if (strlen($newPass) < 6) {
+                    return back()->with(['error' => 'The Password must be at least 6 characters!!!', 'employee' => $employee]);
+                }else {
+                    $employee->password = bcrypt($newPass);
+                    $employee->save();
+                    \Session::flash('msg_success', 'Password successfully edited!!!');
+                    return redirect('employee/'.$employee->id.'/edit');
+                }
+            }
+        }
+    }
+
 
     public function destroy($id, Request $request)
     {
@@ -234,7 +255,11 @@ class EmployeeController extends Controller
 
                 $dataEmployees = $importFile->readFile(public_path('files/' . $nameFile));
                 $num = $importFile->countCol(public_path('files/' . $nameFile));
-                $colError = $importFile->checkCol(public_path('files/' . $nameFile));
+
+                $templateExport = new TemplateExport;
+                $colTemplateExport = $templateExport -> headings();
+
+                $colError = $importFile->checkCol(public_path('files/' . $nameFile),count($colTemplateExport));
                 if ($colError != null) {
                     if (file_exists(public_path('files/' . $nameFile))) {
                         unlink(public_path('files/' . $nameFile));
@@ -243,7 +268,7 @@ class EmployeeController extends Controller
                 }
                 $row = count($dataEmployees) / $num;
                 $listError .= $importFile->checkEmail($dataEmployees, $row, $num);
-                $listError .= $importFile->checkFile($dataEmployees, $num);
+                $listError .= $importFile->checkFileEmployee($dataEmployees, $num);
 
                 if ($listError != null) {
                     if (file_exists(public_path('files/' . $nameFile))) {
@@ -253,7 +278,7 @@ class EmployeeController extends Controller
                 $dataTeam = Team::select('id', 'name')->get()->toArray();
                 $dataRoles = Role::select('id', 'name')->get()->toArray();
                 $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
-                return view('admin.module.employees.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row, 'urlFile' => public_path('files/' . $nameFile), 'listError' => $listError, 'colError' => $colError, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+                return view('employee.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row, 'urlFile' => public_path('files/' . $nameFile), 'listError' => $listError, 'colError' => $colError, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
             } else {
                 \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
                 return redirect('employee');
@@ -277,7 +302,6 @@ class EmployeeController extends Controller
             $c = $row * $num;
             if ($c < $row * ($num + 1)) {
                 $employee = new Employee;
-                $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
                 $employee->email = $data[$c];
                 $c++;
                 $employee->password = bcrypt($data[$c]);

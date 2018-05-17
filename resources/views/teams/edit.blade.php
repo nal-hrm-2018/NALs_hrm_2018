@@ -89,7 +89,7 @@
                             </div>';
                     }
                     ?>
-                    {{Form::model($teamById,array('url' => ['/teams', $teamById['id']], 'method' => 'PUT'))}}
+                    {{Form::model($teamById,array('url' => ['/teams', $teamById['id']], 'method' => 'PUT', 'id' => 'form_edit_team'))}}
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="row">
                         <div class="col-md-3">
@@ -175,7 +175,7 @@
                                                 <td>
                                                     <a class="btn-employee-remove" style="margin-left: 25px;">
                                                         <i class="fa fa-remove"
-                                                       onclick="removeEmployee({{$allEmployeeInTeam->id}} , '{{$allEmployeeInTeam->name}}') "></i>
+                                                       onclick='removeEmployee({{$allEmployeeInTeam->id}} , "{{$allEmployeeInTeam->name}}") '></i>
                                                    </a>
                                                 </td>
                                             </tr>
@@ -197,13 +197,25 @@
                     </div>
                     <div class="col-md-1" style="display: inline;">
                         <div style="float: right;">
-                            <button type="submit" class="btn btn-info pull-left">Update</button>
+                            <button type="submit" id="button-edit-team" class="btn btn-info pull-left">Update</button>
                         </div>
                     </div>
                 </div>
                 {{ Form::close() }}
-                <script type="text/javascript"
-                    src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                <script type="text/javascript">
+                  $(document).ready(function (){
+                    $("#btn_reset_form_team").click( function(){
+                      return confirmAction('Do you want to reset?');
+                    });
+                  });
+                </script>
+                <script type="text/javascript">
+                    $(document).ready(function (){
+                        $("#form_edit_team").submit( function(){
+                            return confirmAction('Would you like to edit it?');
+                        });
+                    });
+                </script>
                 <script type="text/javascript">
                     $listEmployeeID = new Array();
                     $listEmployeeName = new Array();
@@ -227,68 +239,71 @@
                     function addFunction() {
                         $id = document.getElementById("member").value;
                         $idPo = document.getElementById("po_0").value;
-
-                        $check = true;
-                        for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                          if($id == $listEmployeeID[$i]){
-                            $check = false;
-                            break;
-                          }
-                        }
-                        if($id != 0 && $check == true) {
-                            $dem++;
-                            $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
-                            $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
-                            @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
-                            if ({{ $allEmployeeHasPO -> id }} == $listEmployeeID[$listEmployeeID.length - 1]
-                        )
-                            {
-                                $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($allEmployeeHasPO->team)?$allEmployeeHasPO->team->name:'---'}}';
-                                $listEmployeeRole[$listEmployeeRole.length] = '{{isset($allEmployeeHasPO->role)?$allEmployeeHasPO->role->name:'---'}}';
+                        if($id == document.getElementById("select_po_name").value){
+                            alert("Member matches with PO, Please select another member !!!");
+                        }else{
+                            $check = true;
+                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                              if($id == $listEmployeeID[$i]){
+                                $check = false;
+                                break;
+                              }
                             }
-                            @endforeach
+                            if($id != 0 && $check == true) {
+                                $dem++;
+                                $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
+                                $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
+                                @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
+                                if ({{ $allEmployeeHasPO -> id }} == $listEmployeeID[$listEmployeeID.length - 1]
+                            )
+                                {
+                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($allEmployeeHasPO->team)?$allEmployeeHasPO->team->name:'---'}}';
+                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($allEmployeeHasPO->role)?$allEmployeeHasPO->role->name:'---'}}';
+                                }
+                                @endforeach
 
                                 $listAdd = "";
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +
-                                    "<td>" + $listEmployeeID[$i] + "</td>" +
-                                    "<td>" + $listEmployeeTeam[$i] + "</td>" +
-                                    "<td>" + $listEmployeeRole[$i] + "</td>" +
-                                    "<td>" + $listEmployeeName[$i] + "</td>" +
-                                    "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";
-                            }
-
-                            $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
-                                "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
-                                "</tbody></table></div>";
-                            $listChoose = "";
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
-                                if ($listEmployeeID[$i] == $idPo) {
-                                    $('#po_0').prop('disabled', true);
-                                    $('#select_po_name').select2();
+                                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                                    $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +
+                                        "<td>" + $listEmployeeID[$i] + "</td>" +
+                                        "<td>" + $listEmployeeTeam[$i] + "</td>" +
+                                        "<td>" + $listEmployeeRole[$i] + "</td>" +
+                                        "<td>" + $listEmployeeName[$i] + "</td>" +
+                                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
                                 }
+
+                                $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
+                                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
+                                    "</tbody></table></div>";
+                                $listChoose = "";
+                                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                                    $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
+                                    if ($listEmployeeID[$i] == $idPo) {
+                                        $('#po_0').prop('disabled', true);
+                                        $('#select_po_name').select2();
+                                    }
+                                }
+
+
+                                document.getElementById("contextMenuTeam").innerHTML = $listAdd;
+                                document.getElementById("listChoose").innerHTML = $listChoose;
+
+                                $('#member_' + $id).prop('disabled', true);
+                                $('#member').select2();
+
+                                $('#po_' + $id).prop('disabled', true);
+                                $('#select_po_name').select2();
                             }
-
-
-                            document.getElementById("contextMenuTeam").innerHTML = $listAdd;
-                            document.getElementById("listChoose").innerHTML = $listChoose;
-
-                            $('#member_' + $id).prop('disabled', true);
-                            $('#member').select2();
-
-                            $('#po_' + $id).prop('disabled', true);
-                            $('#select_po_name').select2();
                         }
                     }
                 </script>
                 <script type="text/javascript">
-                    function removeEmployee($id, $name) {
+                    function removeEmployee($id) {
                         $('tr').remove('#show_' + $id);
                         $('input').remove('.input_' + $id);
+                        $listEmployeeName.splice($listEmployeeID.indexOf($id), 1);
                         $listEmployeeID.splice($listEmployeeID.indexOf($id), 1);
-                        $listEmployeeName.splice($listEmployeeName.indexOf($name), 1);
-
+                        
                         $('#member_'+$id).prop('disabled', false);
                         $('#member').select2();
 
@@ -356,14 +371,18 @@
                     $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}'); 
                 @endforeach
                 $listAdd1 = "";
+                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                    $listAdd1 += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +
+                        "<td>" + $listEmployeeID[$i] + "</td>" +
+                        "<td>" + $listEmployeeTeam[$i] + "</td>" +
+                        "<td>" + $listEmployeeRole[$i] + "</td>" +
+                        "<td>" + $listEmployeeName[$i] + "</td>" +
+                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
+                }
 
-                for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                    $listAdd1 += "<li  id=\"show_" + $listEmployeeID[$i] + "\"><a class=\"btn-employee-remove\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i><label>ID:" + $listEmployeeID[$i] + "&emsp;</label><label>" + $listEmployeeTeam[$i] + "&emsp;</label><label>" + $listEmployeeRole[$i] + "&emsp;</label><label>" + $listEmployeeName[$i] + "</label></a></li>";
-                }
-                $listChoose1 = "";
-                for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                    $listChoose1 += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
-                }
+                $listAdd1 = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
+                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd1 +
+                    "</tbody></table></div>";
                 document.getElementById("contextMenuTeam").innerHTML = $listAdd1;
                 document.getElementById("listChoose").innerHTML = $listChoose1;
                 $listEmployeeID1 = null; $listEmployeeName1 =null;

@@ -8,10 +8,7 @@
 
 namespace App\Http\Requests;
 
-
-use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Rule\ValidEmail;
-class EmployeeEditRequest extends FormRequest
+class VendorAddRequest extends CommonRequest
 {
     public function authorize()
     {
@@ -21,11 +18,13 @@ class EmployeeEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' =>[ 
+            'email' => [
                 'required',
                 'email',
-                new ValidEmail(request()->get('email'), request()->route()->parameters())],
-            'confirm_confirmation' => 'same:password',
+                'unique:employees,email'
+            ],
+            'password' => 'required|min:6',
+            'confirm_confirmation' => 'required|same:password',
             'name' => 'required',
             'address' => 'required',
             'gender' => [
@@ -41,27 +40,52 @@ class EmployeeEditRequest extends FormRequest
             ],
             /*'curriculum_vitae' => 'required',*/
             'employee_type_id' => 'required',
-            'team_id' => 'required',
             'role_id' => 'required',
+            'company'=> [
+                'required',
+                ],
             /*'avatar' => 'required',*/
-            'birthday' => 'required|before:today',
-            'startwork_date' => 'required',
-            'endwork_date' => 'required|after:startwork_date'
+            'birthday' =>[
+                'required',
+                'before:today',
+                'date_format:"Y-m-d"'
+            ],
+            'startwork_date' =>[
+                'required',
+                'date_format:"Y-m-d"'
+            ],
+            'endwork_date' => [
+                'required',
+                'date_format:"Y-m-d"',
+                'after:startwork_date'
+            ]
         ];
     }
 
     public function messages()
     {
         return [
+            'company.required' => trans('validation.required', [
+                'attribute' => 'Company'
+            ]),
             'email.required' => trans('validation.required', [
                 'attribute' => 'Email'
             ]),
             'email.email' => trans('validation.email', [
                 'attribute' => 'Email'
             ]),
+            'email.unique' => trans('validation.unique', [
+                'attribute' => 'Email'
+            ]),
+            'password.required' => trans('validation.required', [
+                'attribute' => 'Password'
+            ]),
             'password.min' => trans('validation.min.string', [
                 'attribute' => 'Password',
                 'min' => '6'
+            ]),
+            'confirm_confirmation.required' => trans('validation.required', [
+                'attribute' => 'confirm password'
             ]),
             'confirm_confirmation.same' => trans('validation.same', [
                 'attribute' => 'confirm password'
@@ -107,9 +131,6 @@ class EmployeeEditRequest extends FormRequest
             'employee_type_id.required' => trans('validation.required', [
                 'attribute' => 'Position'
             ]),
-            'team_id.required' => trans('validation.required', [
-                'attribute' => 'Team'
-            ]),
             'role_id.required' => trans('validation.required', [
                 'attribute' => 'Role'
             ]),
@@ -119,6 +140,10 @@ class EmployeeEditRequest extends FormRequest
             'birthday.required' => trans('validation.required', [
                 'attribute' => 'Birthday'
             ]),
+            'birthday.date_format' => trans('validation.date_format', [
+                'attribute' => 'Birthday',
+                'format' => 'dd-mm-YYYY'
+            ]),
             'birthday.before' => trans('validation.before', [
                 'attribute' => 'Birthday',
                 'date' => 'Today'
@@ -126,12 +151,20 @@ class EmployeeEditRequest extends FormRequest
             'startwork_date.required' => trans('validation.required', [
                 'attribute' => 'Start Work Date'
             ]),
+            'startwork_date.date_format' => trans('validation.date_format', [
+                'attribute' => 'Start Work Date',
+                'format' => 'dd-mm-YYYY'
+            ]),
             'endwork_date.required' => trans('validation.required', [
                 'attribute' => 'End Work Date'
             ]),
             'endwork_date.date_format' => trans('validation.date_format', [
                 'attribute' => 'End Work Date',
                 'format' => 'dd-mm-YYYY'
+            ]),
+            'endwork_date.after' => trans('validation.after', [
+                'attribute' => 'End Work Date',
+                'date'=>'Start Work Date'
             ]),
         ];
     }

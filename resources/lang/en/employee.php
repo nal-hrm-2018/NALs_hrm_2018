@@ -10,6 +10,7 @@ return[
         'title'=>'Profile Information',
         'name'=>'Name',
         'email'=>'Email',
+        'status'=>'Status',
         'gender'=>[
             'title'=>'Gender',
             'male'=>'Male',

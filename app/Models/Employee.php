@@ -107,5 +107,8 @@ class Employee extends Model implements
             ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'project_id', 'role_id');
     }
 
+    public function roles(){
+        return $this->belongsToMany('App\Models\Role', 'processes', 'employee_id', 'role_id');
+    }
 
 }
