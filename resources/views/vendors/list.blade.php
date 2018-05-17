@@ -12,20 +12,18 @@
     <div class="content-wrapper">
         @if(session()->has('msg_fail'))
             <div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
+                <ul class='error_msg'>
+                    <li>{{session()->get('msg_fail')}}</li>
                 </ul>
             </div>
         @endif
         @if(session()->has('msg_success'))
             <div>
-                <ul class=\'result_msg\'>
-                    <li>' . Session::get("msg_success") . '</li>
+                <ul class='result_msg'>
+                    <li>{{session()->get('msg_success')}}</li>
                 </ul>
             </div>
         @endif
-
-
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
@@ -36,7 +34,7 @@
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
                     </a></li>
                 <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendors')}}</a></li>
-                <li><a href="#">{{trans('common.path.list')}}</a></li>
+                <li class="active"><a href="javascript:void(0)">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
 
@@ -87,13 +85,13 @@
                 </button>
                 <div id="import" class="modal fade" role="dialog">
                     <div class="modal-dialog">
-                        <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
+                        <form method="post" action="{{ asset('vendors/postFile')}}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">IMPORT EMPLOYEE</h4>
+                                    <h4 class="modal-title">IMPORT VENDOR</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
@@ -116,43 +114,10 @@
                     </div>
                 </div>
                 <button type="button" class="btn btn-default">
-                    <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
+                    <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
-                <?php
-                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
-                $arrays[] = $_GET;
-                foreach ($arrays as $key => $value) {
-                    if (!empty($value['id'])) {
-                        $id = $value['id'];
-                    }
-                    if (!empty($value['name'])) {
-                        $name = $value['name'];
-                    }
-                    if (!empty($value['team'])) {
-                        $team = $value['team'];
-                    }
-                    if (!empty($value['role'])) {
-                        $role = $value['role'];
-                    }
-                    if (!empty($value['email'])) {
-                        $email = $value['email'];
-                    }
-                    if (!empty($value['status'])) {
-                        $status = $value['status'];
-                    }
-                }
-                ?>
 
-                <script type="text/javascript">
-                    function clickExport() {
-                        return confirm("Are you sure?")
-                    }
-                </script>
-                <button type="button" class="btn btn-default export-employee" onclick="return clickExport()">
-                    <a id="export"
-                       href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
-                        <i class="fa fa-vcard"></i> EXPORT</a>
-                </button>
+                @include("vendors._export_vendor")
             </ol>
         </section>
 
@@ -243,7 +208,7 @@
                 $("#employeeName").val('');
                 $("#employeeCompany").val('');
                 $("#employeeEmail").val('');
-                $("#role_in_process").val('').change()
+                $("#role").val('').change()
                 $("#status").val('').change()
             });
         });

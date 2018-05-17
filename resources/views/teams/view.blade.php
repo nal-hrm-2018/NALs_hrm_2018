@@ -19,38 +19,8 @@
 
             <ol class="breadcrumb">
                 <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{asset('/teams')}}"> Teams</a></li>
-                <li><a href="">Detail</a></li>
-            </ol>
-
-        </section>
-
-        <section class="content-header">
-            <ol class="breadcrumb">
-                <?php
-                $id = null; $name = null; $role = null; $project_name = null; $email = null; $phone = null;
-                $arrays[] = $_GET;
-                foreach ($arrays as $key => $value) {
-                    if (!empty($value['id'])) {
-                        $id = $value['id'];
-                    }
-                    if (!empty($value['name'])) {
-                        $name = $value['name'];
-                    }
-                    if (!empty($value['project'])) {
-                        $project_name = $value['project'];
-                    }
-                    if (!empty($value['role'])) {
-                        $role = $value['role'];
-                    }
-                    if (!empty($value['email'])) {
-                        $email = $value['email'];
-                    }
-                    if (!empty($value['mobile'])) {
-                        $phone = $value['mobile'];
-                    }
-                }
-                ?>
+                <li><a href="{{asset('/teams-list')}}"> Teams</a></li>
+                <li><a href="#">Detail</a></li>
             </ol>
         </section>
 
@@ -91,16 +61,15 @@
                                     <th>Doing Projects</th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                                    <th>CV</th>
                                 </tr>
                                 </thead>
-                              {{-- {{var_dump($member[3]->projects->toArray())}}--}}
+                                {{-- {{var_dump($member[3]->projects->toArray())}}--}}
                                 <tbody class="context-menu">
                                 @foreach($member as $employee)
 
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
-                                        <td style="text-align: center" >{{ isset($employee->id)? $employee->id: "--.--" }}</td>
+                                        <td style="text-align: center">{{ isset($employee->id)? $employee->id: "--.--" }}</td>
                                         <td>{{ isset($employee->name)? $employee->name: "--.--" }}</td>
                                         <td>{{ isset($employee->role)? $employee->role->name: "--.--" }}</td>
 
@@ -108,43 +77,42 @@
                                             @if($employee->projects->isEmpty())
                                                 {{"--.--"}}
                                             @else
-                                                    <?php
-                                                    $count = 0;
-                                                    foreach ($employee->projects as $project){
-                                                        if(sizeof($employee->projects)>0 && sizeof($employee->projects)<=3){
-                                                            echo $project->name;
-                                                            if($count < sizeof($employee->projects)-1) echo ', ';
-                                                            $count++;
-                                                        } else if(sizeof($employee->projects)>3){
-                                                            echo $project->name;
-                                                            if($count < 3) echo ', ';
-                                                            if($count == 2){
-                                                                $data = "";
-                                                                foreach ($employee->projects as $project) $data .= '<p>' .$project->name .'</p>';
-                                                                echo '<a href="javascript:void(0)" class="show-list-project"
-                                                            id="show-list-project-'. $employee->id .'" data-content="'. $data .'">[...]</a>';
-                                                                break;
-                                                            }
-                                                            $count++;
+                                                <?php
+                                                $count = 0;
+                                                foreach ($employee->projects as $project) {
+                                                    if (sizeof($employee->projects) > 0 && sizeof($employee->projects) <= 3) {
+                                                        echo $project->name;
+                                                        if ($count < sizeof($employee->projects) - 1) echo ', ';
+                                                        $count++;
+                                                    } else if (sizeof($employee->projects) > 3) {
+                                                        echo $project->name;
+                                                        if ($count < 3) echo ', ';
+                                                        if ($count == 2) {
+                                                            $data = "";
+                                                            /*foreach ($employee->projects as $project) $data .= '<p>' .$project->name .'</p>';
+                                                            echo '<a href="javascript:void(0)" class="show-list-project"
+                                                        id="show-list-project-'. $employee->id .'" data-content="'. $data .'">[...]</a>';
+                                                            break;*/
+                                                            echo '<a href="#" class="show-list-employee"
+                                                            id="show-list-employee-' . $employee->id . '" data-toggle="modal"
+                                                            data-target="#show-list-members">[...]</a>';
+                                                            break;
                                                         }
+                                                        $count++;
                                                     }
-                                                    ?>
+                                                }
+                                                ?>
                                             @endif
 
                                         </td>
                                         <td>{{ isset($employee->email)? $employee->email: "--.--" }}</td>
                                         <td>{{ isset($employee->mobile)? $employee->mobile: "--.--" }}</td>
-                                        <td style="text-align: center;width: 50px;">
-                                            <button type="button" class="btn btn-default">
-                                                <a href="#"><i class="fa fa-cloud-download"></i> CV</a>
-                                            </button>
-                                        </td>
-
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
 
                                             <li><a href="{!! asset('employee/'.$employee->id)!!}"><i
                                                             class="fa fa-id-card"></i> View</a></li>
-                                            <li><a href="{!! asset('employee/'.$employee->id.'/edit')!!}"><i class="fa fa-edit"></i>
+                                            <li><a href="{!! asset('employee/'.$employee->id.'/edit')!!}"><i
+                                                            class="fa fa-edit"></i>
                                                     Edit</a></li>
                                         </ul>
                                     </tr>
@@ -152,6 +120,38 @@
 
                                 </tbody>
                             </table>
+                            <div id="show-list-members" class="modal fade" role="dialog">
+                                <div class="modal-dialog" style="width: 400px">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">
+                                                <th>Name Project Of Employee</th>
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table id="member-list" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Name:</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="context-menu"  id="table-list-members">
+                                                <tr>
+
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -221,8 +221,40 @@
                 'autoWidth': false,
             });
 
-            @foreach($member as $employee)
-            $("#show-list-project-{{$employee->id}}").popover({title: "<strong>List Project</strong>", html: true,placement: "right"});
+            {{--@foreach($member as $employee)
+            $("#show-list-project-{{$employee->id}}").popover({
+                title: "<strong>List Project</strong>",
+                html: true,
+                placement: "right"
+            });
+            @endforeach--}}
+        });
+    </script>
+    <script>
+        $('.show-list-employee').click(function () {
+            $('#table-list-members').html("");
+            var id = $(this).attr('id');
+            var id_team = id.slice(19);
+            {{--            $('#table-list-members').append(html_{{$project->name}});--}}
+
+            <?php
+            $employeesModal = $member;
+            foreach ($employeesModal as $employee) {
+                foreach ($employee->projects as $project) {
+                    echo
+                        ' var html_' . $project->id .
+                        '= "<tr><td>' . $project->name .
+                        '</td></tr>";';
+                }
+            }
+            ?>
+            @foreach($employeesModal as $employee)
+            @foreach($employee->projects as $project)
+            if(id_team == "{{$employee->id}}") {
+
+            $('#table-list-members').append(html_{{$project->id}});
+            }
+            @endforeach
             @endforeach
         });
     </script>

@@ -20,24 +20,20 @@
             <div class="box box-default">
                 <div class="box-body">
                     <?php
-                    if (Session::get('msg_fail') != "") {
-                        echo '<div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
-                </ul>
-            </div>';
-                    }
+                        if (Session::get('msg_fail') != "") {
+                            echo '<div>
+                                <ul class=\'error_msg\'>
+                                    <li>' . Session::get("msg_fail") . '</li>
+                                </ul>
+                            </div>';
+                        }
                     ?>
                     <?php
                     if (Session::get('employee') != "") {
                         $employee = Session::get("employee");
                     }
                     ?>
-                    <SCRIPT LANGUAGE="JavaScript">
-                        function confirmAction($msg) {
-                            return confirm($msg);
-                        }
-                    </SCRIPT>
+
                     <form action="{{asset('employee')}}" method="post" class="form-horizontal"
                           onSubmit="return confirmAction('Would you like to add it?')"
                           onreset="return confirmAction('Do you want to reset?')">
@@ -59,8 +55,7 @@
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     <input type="text" class="form-control" placeholder="Email Address" name="email"
-                                           id="email"
-                                           value="{!! old('email') !!} {{ isset($employee) ? $employee->email : null}}">
+                                           id="email" value="{!! old('email') !!}{{ isset($employee) ? $employee->email : null}}">
                                     <label style="color: red;">{{$errors->first('email')}}</label>
                                     <!-- /.input group -->
                                 </div>
@@ -140,6 +135,7 @@
                                         >N/a
                                         </option>
                                     </select>
+                                    <label style="color: red;">{{$errors->first('gender')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Married</label>
@@ -185,6 +181,7 @@
                                         >Devorce
                                         </option>
                                     </select>
+                                    <label style="color: red;">{{$errors->first('marital_status')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Team</label>
@@ -307,7 +304,7 @@
                             <div class="col-md-6" style="display: inline; ">
                                 <div style="float: right;">
                                     <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span
-                                                class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
+                                        class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
                                     </button>
                                 </div>
                             </div>

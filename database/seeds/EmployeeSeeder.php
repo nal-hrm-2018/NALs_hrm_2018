@@ -64,6 +64,26 @@ class EmployeeSeeder extends Seeder
             ]);
         }
 
+        foreach (range(1, 40) as $index)
+        {
+            DB::table('employees')->insert(['email' => $faker->email,
+                'password' => bcrypt('12345678'),
+                'name' => $faker->name,
+                'birthday' => $faker->dateTimeBetween('-40 years', '-10 years'),
+                'gender' => rand(1, 2),
+                'mobile' => '0905123421',
+                'address' => $faker->address,
+                'company' => $faker->company,
+                'marital_status' => rand(1, 2),
+                'startwork_date' => $faker->dateTimeBetween('-2 years', '-2 months'),
+                'endwork_date' => $faker->dateTimeBetween('-1 months', 'now'),
+                'curriculum_vitae' => 1,
+                'is_employee' => 0,
+                'avatar' => $faker->imageUrl(480, 600),
+                'employee_type_id' => $employee_types[rand(0, count($employee_types) - 1)],
+                'role_id' => $roles[rand(0, count($roles) - 1)],]);
+        }
+
 
     }
 

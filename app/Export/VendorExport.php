@@ -25,7 +25,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
  * Time: 4:47 PM
  */
 
-class InvoicesExport implements FromCollection,WithEvents, WithHeadings
+class VendorExport implements FromCollection, WithEvents, WithHeadings
 {
     use Exportable, RegistersEventListeners;
     private $searchEmployeeService;
@@ -40,37 +40,27 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
      * @var Request
      */
 
-    public function __construct(SearchEmployeeService $searchEmployeeService,Request $request)
+    public function __construct(SearchEmployeeService $searchEmployeeService, Request $request)
     {
         $this->request = $request;
         $this->searchEmployeeService = $searchEmployeeService;
     }
+
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-
         $query = Employee::query();
-        $query->select('employees.id', 'employees.name', 'teams.name as team', 'roles.name as role', 'employees.email', 'employees.work_status')
-            ->join('teams','teams.id','=','employees.team_id')
-            ->join('roles','roles.id','=','employees.role_id');
-        $params['search'] = [
-            'id' => !empty($this->request->id) ? $this->request->id : '',
-            'name' => !empty($this->request->name) ? $this->request->name : '',
-            'team' => !empty($this->request->team) ? $this->request->team : '',
-            'email' => !empty($this->request->email) ? $this->request->email : '',
-            'role' => !empty($this->request->role) ? $this->request->role : '',
-            'status' => !empty($this->request->status) ? $this->request->status : '',
-        ];
-        foreach ($params as $key => $value){
-            $id = $value['id'];
-            $name = $value['name'];
-            $team = $value['team'];
-            $role = $value['role'];
-            $email = $value['email'];
-            $status = $value['status'];
-        }
+        $query->select('employees.id', 'employees.name', 'employees.company', 'roles.name as role', 'employees.work_status')
+            ->join('roles', 'roles.id', '=', 'employees.role_id');
+
+        $id = !empty($this->request->id) ? $this->request->id : '';
+        $name = !empty($this->request->name) ? $this->request->name : '';
+        $company = !empty($this->request->company) ? $this->request->company : '';
+        $role = !empty($this->request->role) ? $this->request->role : '';
+        $status = !is_null($this->request->status) ? $this->request->status : '';
+
         if (!empty($role)) {
             $query
                 ->whereHas('role', function ($query) use ($role) {
@@ -83,33 +73,24 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
         if (!empty($id)) {
             $query->Where('employees.id', '=', $id);
         }
-        if (!empty($team)) {
-            $query
-                ->whereHas('team', function ($query) use ($team) {
-                    $query->where("name", 'like', '%' . $team. '%');
-                });
+        if (!empty($company)) {
+            $query->Where('company', 'like', '%' . $company . '%');
         }
-        if (!empty($email)) {
-            $query->Where('email', 'like', '%' . $email . '%');
+        if ($status != "") {
+            $query->Where('work_status', $status);
         }
-        if (!empty($status)) {
-            switch ($status){
-                case "Unactive":
-                    $query->Where('work_status', '=', '1');
-                    break;
-                case "Active":
-                    $query->Where('work_status', '=', '0');
-                    break;
-            }
-        }
+
         $employeesSearch = $query
-            ->where('employees.delete_flag','=',0);
+            ->where('employees.delete_flag', '=', 0)
+            ->where('employees.is_employee', '=', 0);
         $returnCollectionEmployee = $employeesSearch->get();
-         return  $returnCollectionEmployee->map(function(Employee $item) {
-             $item->work_status = $item->work_status?'Unactive':'Active';
+
+         return $returnCollectionEmployee->map(function (Employee $item) {
+             $item->work_status = $item->work_status ? 'Unactive' : 'Active';
              return $item;
          });
     }
+
     public static function beforeExport(BeforeExport $event)
     {
         //
@@ -136,11 +117,10 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
+            'VENDOR ID',
             'NAME',
-            'TEAM',
+            'COMPANY',
             'ROLE',
-            'EMAIL',
             'STATUS'
         ];
     }

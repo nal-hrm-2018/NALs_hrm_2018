@@ -15,10 +15,10 @@
             @foreach($vendors as $vendor)
                 <tr class="employee-menu" id="employee-id-{{$vendor->id}}"
                     data-employee-id="{{$vendor->id}}">
-                    <td>{{ isset($vendor->id )? $vendor->id : "--.--"}}</td>
+                    <td class="text-center">{{ isset($vendor->id )? $vendor->id : "--.--"}}</td>
                     <td>{{ isset($vendor->name)? $vendor->name: "--.--" }}</td>
                     <td>{{ isset($vendor->company)? $vendor->company: "--.--"}}</td>
-                    <td>{{ isset($vendor->processes)?(isset($vendor->roles)?getRoleofVendor($vendor):"--.--" ):"--.--" }}</td>
+                    <td>{{ isset($vendor->role)?$vendor->role->name:"--.--" }}</td>
                     <td>
                         @if($vendor->work_status == 0) {{ trans('vendor.profile_info.work_status.active') }}
                         @elseif($vendor->work_status == 1) {{ trans('vendor.profile_info.work_status.unactive') }}
@@ -33,7 +33,7 @@
                         <li><a href={{ route('vendors.edit',$vendor->id)}}><i
                                         class="fa fa-edit"></i>
                                 {{trans('common.action.edit')}}</a></li>
-                        <li><a class="btn-employee-remove" data-employee-id="{{$vendor->id}}"><i
+                        <li><a href="javascript:void(0)" class="btn-employee-remove" data-employee-id="{{$vendor->id}}"><i
                                         class="fa fa-remove"></i> {{trans('common.action.remove')}}
                             </a></li>
                     </ul>

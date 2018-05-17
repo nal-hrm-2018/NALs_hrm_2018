@@ -175,7 +175,7 @@
                                                 <td>
                                                     <a class="btn-employee-remove" style="margin-left: 25px;">
                                                         <i class="fa fa-remove"
-                                                       onclick="removeEmployee({{$allEmployeeInTeam->id}} , '{{$allEmployeeInTeam->name}}') "></i>
+                                                       onclick='removeEmployee({{$allEmployeeInTeam->id}} , "{{$allEmployeeInTeam->name}}") '></i>
                                                    </a>
                                                 </td>
                                             </tr>
@@ -197,26 +197,24 @@
                     </div>
                     <div class="col-md-1" style="display: inline;">
                         <div style="float: right;">
-                            <button type="submit" class="btn btn-info pull-left">Update</button>
+                            <button type="submit" id="button-edit-team" class="btn btn-info pull-left">Update</button>
                         </div>
                     </div>
                 </div>
                 {{ Form::close() }}
-                <script type="text/javascript"
-                    src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-                <script type="text/javascript">
-                  $(document).ready(function (){
-                    $("#form_edit_team").submit( function(){
-                      return confirmAction('Would you like to edit it?');
-                    });
-                  });
-                </script>
                 <script type="text/javascript">
                   $(document).ready(function (){
                     $("#btn_reset_form_team").click( function(){
                       return confirmAction('Do you want to reset?');
                     });
                   });
+                </script>
+                <script type="text/javascript">
+                    $(document).ready(function (){
+                        $("#form_edit_team").submit( function(){
+                            return confirmAction('Would you like to edit it?');
+                        });
+                    });
                 </script>
                 <script type="text/javascript">
                     $listEmployeeID = new Array();
@@ -271,7 +269,7 @@
                                         "<td>" + $listEmployeeTeam[$i] + "</td>" +
                                         "<td>" + $listEmployeeRole[$i] + "</td>" +
                                         "<td>" + $listEmployeeName[$i] + "</td>" +
-                                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";
+                                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
@@ -300,12 +298,12 @@
                     }
                 </script>
                 <script type="text/javascript">
-                    function removeEmployee($id, $name) {
+                    function removeEmployee($id) {
                         $('tr').remove('#show_' + $id);
                         $('input').remove('.input_' + $id);
+                        $listEmployeeName.splice($listEmployeeID.indexOf($id), 1);
                         $listEmployeeID.splice($listEmployeeID.indexOf($id), 1);
-                        $listEmployeeName.splice($listEmployeeName.indexOf($name), 1);
-
+                        
                         $('#member_'+$id).prop('disabled', false);
                         $('#member').select2();
 
@@ -379,7 +377,7 @@
                         "<td>" + $listEmployeeTeam[$i] + "</td>" +
                         "<td>" + $listEmployeeRole[$i] + "</td>" +
                         "<td>" + $listEmployeeName[$i] + "</td>" +
-                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ",\'" + $listEmployeeName[$i] + "\')\"></i></td></tr>";
+                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
                 }
 
                 $listAdd1 = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +

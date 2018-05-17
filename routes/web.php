@@ -56,8 +56,8 @@ Route::group(['middleware' => 'user'], function () {
         'uses' => 'User\DashboardController@index',
     ]);
     Route::post('employee/postFile', 'User\Employee\EmployeeController@postFile')->name('postFile');
-    /*Route::get('employee/listEmployeeImport', 'User\Employee\EmployeeController@listEmployeeImport');*/
     Route::get('employee/importEmployee', 'User\Employee\EmployeeController@importEmployee')->name('importEmployee');
+    Route::post('employee/edit-password', 'User\Employee\EmployeeController@editPass')->name('editPass');
     Route::resource('employee', 'User\Employee\EmployeeController');
     Route::post('/employee/{id}', [
         'as' => 'show_chart',
@@ -71,6 +71,10 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
     Route::post('teams/chart','Team\TeamController@showChart');
 
+    Route::post('vendors/postFile', 'User\Vendor\VendorController@postFile')->name('postFile');
+    Route::get('vendors/importVendor', 'User\Vendor\VendorController@importVendor')->name('importVendor');
+    Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
+    Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors','User\Vendor\VendorController');
     Route::post('/vendors/{id}', [
         'as' => 'vendor_show_chart',
@@ -93,7 +97,9 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 Route::get('/quy-test', function (){
     return view('teams.test.quy_test');
 });
+
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
+Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');

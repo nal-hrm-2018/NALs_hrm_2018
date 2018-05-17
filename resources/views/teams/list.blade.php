@@ -76,7 +76,7 @@
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
-                                        <td>{{$team->id}}</td>
+                                        <td class="text-center" >{{$team->id}}</td>
                                         <td>{{$team->name}}</td>
                                         <td>
                                             @if(isset($po))
