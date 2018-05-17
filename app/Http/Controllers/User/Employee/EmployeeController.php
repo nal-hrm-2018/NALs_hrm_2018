@@ -156,8 +156,8 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',0)->find($id);
-        if ($employee != null) {
+        $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
+        if ($employee == null) {
             return abort(404);
         }
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
@@ -170,11 +170,10 @@ class EmployeeController extends Controller
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $employee = Employee::where('delete_flag', 1)->orwhere('is_employee',0)->find($id);
-        if ($employee != null) {
+        $employee = Employee::where('delete_flag', 0)->where('is_employee',0)->find($id);
+        if ($employee == null) {
             return abort(404);
         }
-        $employee = Employee::find($id);
         $employee->email = $request->email;
         $employee->name = $request->name;
         $employee->birthday = $request->birthday;
