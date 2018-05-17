@@ -32,7 +32,7 @@
             </div>';
           }
         ?>
-        
+
         {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
