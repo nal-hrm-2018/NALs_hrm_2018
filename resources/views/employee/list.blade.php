@@ -299,8 +299,8 @@
                                         <td><p class="fix-center-employee">{{ isset($employee->role)? $employee->role->name: "-" }}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">
-                                            @if($employee->work_status == 0) Active
-                                            @elseif($employee->work_status == 1) Inactive
+                                            @if($employee->work_status == 0) <span class="label label-primary">Active</span>
+                                            @elseif($employee->work_status == 1) <span class="label label-danger">Inactive</span>
                                             @endif
                                             </p>
                                         </td>
@@ -316,7 +316,7 @@
                                                             class="fa fa-id-card"></i> View</a></li>
                                             <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
                                                     Edit</a></li>
-                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
+                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
                                                             class="fa fa-remove"></i> Remove</a></li>
                                         </ul>
                                     </tr>
@@ -333,7 +333,7 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
-        <a href="#" class="cd-top">Back To Top</a>
+
     </div>
     {{-- @if(isset($param))
          {{  $employees->appends($param)->render() }}
@@ -387,8 +387,9 @@
         $(function () {
             $('.btn-employee-remove').click(function () {
                 var elementRemove = $(this).data('employee-id');
+                var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Really delete?')) {
+                if (confirm('Do you want to delete employee "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/employee') }}' + '/' + elementRemove,
