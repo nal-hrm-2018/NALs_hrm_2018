@@ -180,7 +180,7 @@
                                             <div class="input-group-btn">
                                                 <button type="button" class="btn width-100">Select file csv</button>
                                             </div>
-                                            <input type="file" id="myfile" name="myFile" class="form-control" onchange="return fileValidation();">
+                                            <input type="file" id="myfile" name="myFile" class="form-control" >
                                         </div>
                                     </div>
                                 </div>
@@ -192,26 +192,14 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- <script>
-                            function fileValidation(){
-                               /* var fileInput = document.getElementById('file');
-                                var filePath = fileInput.value;
-                                if(filePath.size < 5242880){
-                                    alert('13');
-                                    fileInput.value = '';
-                                    return false;
-                                }else{
-                                    alert('112312123');
-                                }*/
-                                alert();
-                                $('#myfile').bind('change', function() {
-                                    alert('13');
-                                  //this.files[0].size gets the size of your file.
-                                  alert(this.files[0].size);
-
-                                });
-                            }
-                        </script> -->
+                        <script type="text/javascript">
+                            $('#myfile').bind('change', function() {
+                                if(this.files[0].size > 5242880){
+                                    alert("The selected file is too large. Maximum size is 5MB.");
+                                    document.getElementById('myfile').value = "";
+                                }    
+                            });
+                        </script>
                     </div>
                 </div>
 
@@ -345,6 +333,7 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+        <a href="#" class="cd-top">Back To Top</a>
     </div>
     {{-- @if(isset($param))
          {{  $employees->appends($param)->render() }}

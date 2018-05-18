@@ -248,7 +248,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
             if(5242880 < $file->getSize()){ 
-                \Session::flash('msg_fail', '1312');
+                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
                 return redirect('employee');
             }           
             if ($file->getClientOriginalExtension('myFile') == "csv") {

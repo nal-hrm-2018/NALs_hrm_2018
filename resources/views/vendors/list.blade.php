@@ -83,9 +83,9 @@
                                     <div class="row">
                                         <div class="input-group margin">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">Chon file csv</button>
+                                                <button type="button" class="btn width-100">Select file csv</button>
                                             </div>
-                                            <input type="file" name="myFile" class="form-control">
+                                            <input type="file" id="myfile" name="myFile" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -97,6 +97,14 @@
                                 </div>
                             </div>
                         </form>
+                        <script type="text/javascript">
+                            $('#myfile').bind('change', function() {
+                                if(this.files[0].size > 5242880){
+                                    alert("The selected file is too large. Maximum size is 5MB.");
+                                    document.getElementById('myfile').value = "";
+                                }    
+                            });
+                        </script>
                     </div>
                 </div>
                 <button type="button" class="btn btn-default">
@@ -121,6 +129,7 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+        <a href="#" class="cd-top">Back To Top</a>
     </div>
 
 
