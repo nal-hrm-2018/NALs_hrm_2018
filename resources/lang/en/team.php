@@ -18,10 +18,10 @@ return [
     'po'=>'PO Name',
     'members'=>'Members Name',
     'number_of_member'=>'Number of Member',
-    'msg_fails' => 'msg_fails',
+    'msg_fails' => 'msg_fail',
     'msg_success' => 'msg_success',
     'msg_error' => 'msg_error',
-
+    'confirm_add_team' => 'You want add new team ?',
     'msg_content' => [
         'msg_dupe_po_member' => 'PO not duplicate Member !!',
         'msg_dupe_member' => 'Member not duplicate !!',
