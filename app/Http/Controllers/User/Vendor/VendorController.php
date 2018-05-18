@@ -251,6 +251,10 @@ class VendorController extends Controller
         $listError = "";
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
+            if(5242880 < $file->getSize()){ 
+                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
+                return redirect('employee');
+            } 
             if ($file->getClientOriginalExtension('myFile') == "csv") {
                 $nameFile = $file->getClientOriginalName('myFile');
                 $file->move('files', $nameFile);
