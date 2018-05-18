@@ -152,8 +152,8 @@
                                 for (i = 0; i < members.length; i++) {
                                     @foreach($employees as $employee)
                                       if({{$employee->id}} == members[i]){
-                                        $teamEdit = '{{isset($employee->team)?$employee->team->name:'---' }}';
-                                        $roleEdit = '{{isset($employee->role)?$employee->role->name:'---' }}';
+                                        $teamEdit = '{{isset($employee->team)?$employee->team->name:'-' }}';
+                                        $roleEdit = '{{isset($employee->role)?$employee->role->name:'-' }}';
                                       }
                                     @endforeach
                                     $listAdd += "<tr id=\"show_" + members[i] + "\">"+

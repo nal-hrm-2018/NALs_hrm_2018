@@ -177,22 +177,43 @@
                                     <div class="row">
                                         <div class="input-group margin">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">Chon file csv</button>
+                                                <button type="button" class="btn width-100">Select file csv</button>
                                             </div>
-                                            <input type="file" name="myFile" class="form-control">
+                                            <input type="file" id="myfile" name="myFile" class="form-control" onchange="return fileValidation();">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer center">
-                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
-                                                class="fa fa-search"></span>
+                                    <button type="submit" id="searchListEmployee" id="i_submit" class="btn btn-primary"><span
+                                                class="glyphicon glyphicon-upload"></span>
                                         IMPORT
                                     </button>
                                 </div>
                             </div>
                         </form>
+                        <!-- <script>
+                            function fileValidation(){
+                               /* var fileInput = document.getElementById('file');
+                                var filePath = fileInput.value;
+                                if(filePath.size < 5242880){
+                                    alert('13');
+                                    fileInput.value = '';
+                                    return false;
+                                }else{
+                                    alert('112312123');
+                                }*/
+                                alert();
+                                $('#myfile').bind('change', function() {
+                                    alert('13');
+                                  //this.files[0].size gets the size of your file.
+                                  alert(this.files[0].size);
+
+                                });
+                            }
+                        </script> -->
                     </div>
                 </div>
+
                 <button type="button" class="btn btn-default">
                     <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
