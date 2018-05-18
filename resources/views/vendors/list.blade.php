@@ -107,7 +107,7 @@
                         </script>
                     </div>
                 </div>
-                <button type="button" class="btn btn-default">
+                <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('vendor.msg_content.msg_download_template')}}')">
                     <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
 
@@ -209,4 +209,16 @@
             });
         });
     </script>
+    
+    <style>
+        #contain-canvas{
+            visibility:hidden;
+        }
+        span#contain-canvas{
+            position: relative;
+            left: 27px;
+            margin-left: -20px;
+        }
+    </style>
+
 @endsection

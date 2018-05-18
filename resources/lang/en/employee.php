@@ -36,6 +36,10 @@ return[
             'expired'=>'Expired'
         ],
     ],
+    'msg_content'=>[
+        'msg_download_employee_template'=>'Are you want to download the Employee Template?',
+        'msg_download_employee_list'=>'Are you want to download the Employee List?'
+    ]
 
 
 ];
