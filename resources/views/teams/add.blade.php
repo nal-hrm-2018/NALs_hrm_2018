@@ -13,17 +13,13 @@
             </ol>
         </section>
         <!-- Main content -->
-        @if(session()->get('msg_fails'))
-                <div>
-                    <ul class='error_msg'>
-                        <li> {{ session()->get("msg_fails") }}</li>
-                    </ul>
-                </div>
-        @endif
         <section class="content">
         <!-- SELECT2 EXAMPLE -->
+
             <div class="box box-default">
                 <div class="box-body">
+                    <div id="msg">
+                    </div>
                     {!! Form::open(
                         ['url' =>route('teams.store'),
                         'method'=>'Post',
@@ -119,6 +115,11 @@
 
                     </script>
                     <script>
+                        $(document).ready(function () {
+                            $("#form_add_team").submit(function () {
+                                return confirm('{{trans('team.confirm_add_team')}}');
+                            });
+                        });
                         $(function () {
                             $("#btn_reset_form_team").bind("click", function () {
                               var select_po = $('#id_po');

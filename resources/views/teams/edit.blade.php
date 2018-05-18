@@ -80,15 +80,8 @@
             <!-- SELECT2 EXAMPLE -->
             <div class="box box-default">
                 <div class="box-body">
-                    <?php
-                    if (Session::get('msg_fail') != "") {
-                        echo '<div>
-                                <ul class=\'error_msg\'>
-                                    <li>' . Session::get("msg_fail") . '</li>
-                                </ul>
-                            </div>';
-                    }
-                    ?>
+                    <div id="msg">
+                    </div>
                     {{Form::model($teamById,array('url' => ['/teams', $teamById['id']], 'method' => 'PUT', 'id' => 'form_edit_team'))}}
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="row">

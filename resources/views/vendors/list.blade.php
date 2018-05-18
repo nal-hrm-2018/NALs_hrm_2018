@@ -10,20 +10,6 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        @if(session()->has('msg_fail'))
-            <div>
-                <ul class='error_msg'>
-                    <li>{{session()->get('msg_fail')}}</li>
-                </ul>
-            </div>
-        @endif
-        @if(session()->has('msg_success'))
-            <div>
-                <ul class='result_msg'>
-                    <li>{{session()->get('msg_success')}}</li>
-                </ul>
-            </div>
-        @endif
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
@@ -131,6 +117,7 @@
 
         <!-- Main content -->
 
+        <div id="msg"></div>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -142,6 +129,7 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+        <a href="#" class="cd-top">Back To Top</a>
     </div>
 
 

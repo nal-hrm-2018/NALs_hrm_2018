@@ -235,7 +235,7 @@
                         return confirm("Are you sure?")
                     }
                 </script>
-                <button type="button" class="btn btn-default export-employee" onclick="return clickExport()">
+                <button  type="button" class="btn btn-default export-employee" onclick="return clickExport()">
                     <a id="export"
                        href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
                         <i class="fa fa-vcard"></i> EXPORT</a>
@@ -243,26 +243,9 @@
             </ol>
         </section>
 
+            <div id="msg">
+            </div>
         <!-- Main content -->
-        <?php
-        if (Session::has('msg_fail')) {
-            echo '<div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
-        <?php
-        if (Session::has('msg_success')) {
-            echo '<div>
-                <ul class=\'result_msg\'>
-                    <li>' . Session::get("msg_success") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
-
         <section class="content">
             {{--<div class="row">
                 <div class="col-sm-6">
@@ -347,6 +330,7 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+        <a href="#" class="cd-top">Back To Top</a>
     </div>
     {{-- @if(isset($param))
          {{  $employees->appends($param)->render() }}

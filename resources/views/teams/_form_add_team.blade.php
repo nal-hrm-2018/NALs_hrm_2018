@@ -89,6 +89,8 @@
             select_members.val('').change();
             $("#team_name").val('');
         });
+        
+
     });
 </script>
 
