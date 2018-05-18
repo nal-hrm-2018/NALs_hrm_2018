@@ -203,7 +203,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-default">
+                <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
                     <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
                 <?php
@@ -230,16 +230,54 @@
                     }
                 }
                 ?>
+                <SCRIPT LANGUAGE="JavaScript">
+                    function confirmExport(msg) {
+                        $check = confirm(msg);
+                        if($check == true){
+                            $(document).ready(function (){
+                                var ctx = document.getElementById('my_canvas').getContext('2d');
+                                var al = 0;
+                                var start = 4.72;
+                                var cw = ctx.canvas.width;
+                                var ch = ctx.canvas.height;
+                                var diff;
+                                function runTime() {
+                                    diff = ((al / 100) * Math.PI*0.2*10).toFixed(2);
+                                    ctx.clearRect(0, 0, cw, ch);
+                                    ctx.lineWidth = 3;
+                                    ctx.fillStyle = '#09F';
+                                    ctx.strokeStyle = "#09F";
+                                    ctx.textAlign = 'center';
+                                    ctx.beginPath();
+                                    ctx.arc(10, 10, 5, start, diff/1+start, false);
+                                    ctx.stroke();
+                                    if (al >= 100) {
+                                        clearTimeout(sim);
+                                        sim = null;
+                                        al=0;
+                                        $("#contain-canvas").css("visibility","hidden")
+                                        // Add scripting here that will run when progress completes
+                                    }
+                                    al++;
+                                }
+                                var sim = null;
+                                    $("i.fa fa-vcard").css("visibility","hidden")
+                                    $("#contain-canvas").css("visibility","visible")
+                                    sim = setInterval(runTime, 15 );
 
-                <script type="text/javascript">
-                    function clickExport() {
-                        return confirm("Are you sure?")
+                            });
+                        }
+                        return $check;
                     }
-                </script>
-                <button  type="button" class="btn btn-default export-employee" onclick="return clickExport()">
+                </SCRIPT>
+                <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                     <a id="export"
                        href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
-                        <i class="fa fa-vcard"></i> EXPORT</a>
+                        <i class="fa fa-vcard"></i>
+                        <span id="contain-canvas" style="">
+                            <canvas id="my_canvas" width="16" height="16" style=""></canvas>
+                        </span>
+                        EXPORT</a>
                 </button>
             </ol>
         </section>
@@ -456,7 +494,51 @@
             });
         });
     </script>
+    {{--<script type="text/javascript">
+        $(document).ready(function (){
+            var ctx = document.getElementById('my_canvas').getContext('2d');
+            var al = 0;
+            var start = 4.72;
+            var cw = ctx.canvas.width;
+            var ch = ctx.canvas.height;
+            var diff;
+            function runTime() {
+                diff = ((al / 100) * Math.PI*0.2*10).toFixed(2);
+                ctx.clearRect(0, 0, cw, ch);
+                ctx.lineWidth = 3;
+                ctx.fillStyle = '#09F';
+                ctx.strokeStyle = "#09F";
+                ctx.textAlign = 'center';
+//                ctx.fillText(al+'%', cw*.5, ch*.5+2, cw);
+                ctx.beginPath();
+                ctx.arc(10, 10, 5, start, diff/1+start, false);
+                ctx.stroke();
+                if (al >= 100) {
+                    clearTimeout(sim);
+                    sim = null;
+                    al=0;
+                    $("#contain-canvas").css("visibility","hidden")
+                    // Add scripting here that will run when progress completes
+                }
+                al++;
+            }
+            var sim = null;
+            $("#click-here").click(function () {
+                $("i.fa fa-vcard").css("visibility","hidden")
+                $("#contain-canvas").css("visibility","visible")
+                sim = setInterval(runTime, 15 );
+            });
+        });
 
+    </script>--}}
     <style>
+        #contain-canvas{
+            visibility:hidden;
+        }
+        span#contain-canvas{
+            position: relative;
+            left: 27px;
+            margin-left: -20px;
+        }
     </style>
 @endsection
