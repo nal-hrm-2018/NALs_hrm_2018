@@ -158,8 +158,9 @@
         $(function () {
             $('.btn-employee-remove').click(function () {
                 var elementRemove = $(this).data('employee-id');
+                var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Really delete?')) {
+                if (confirm('Do you want to delete vendor "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/vendors') }}' + '/' + elementRemove,

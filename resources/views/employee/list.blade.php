@@ -316,7 +316,7 @@
                                                             class="fa fa-id-card"></i> View</a></li>
                                             <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
                                                     Edit</a></li>
-                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
+                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
                                                             class="fa fa-remove"></i> Remove</a></li>
                                         </ul>
                                     </tr>
@@ -387,8 +387,9 @@
         $(function () {
             $('.btn-employee-remove').click(function () {
                 var elementRemove = $(this).data('employee-id');
+                var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Really delete?')) {
+                if (confirm('Do you want to delete employee "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/employee') }}' + '/' + elementRemove,

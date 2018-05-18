@@ -33,8 +33,8 @@
                         <li><a href={{ route('vendors.edit',$vendor->id)}}><i
                                         class="fa fa-edit"></i>
                                 {{trans('common.action.edit')}}</a></li>
-                        <li><a href="javascript:void(0)" class="btn-employee-remove" data-employee-id="{{$vendor->id}}"><i
-                                        class="fa fa-remove"></i> {{trans('common.action.remove')}}
+                        <li><a href="javascript:void(0)" class="btn-employee-remove" data-employee-id="{{$vendor->id}}"
+                               data-employee-name="{{$vendor->name}}"><i class="fa fa-remove"></i> {{trans('common.action.remove')}}
                             </a></li>
                     </ul>
                 </tr>
