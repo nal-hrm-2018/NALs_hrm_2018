@@ -4,7 +4,7 @@
         <table id="employee-list" class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>{{trans('vendor.profile_info.id')}}</th>
+                <th  class="small-row-id text-center">{{trans('vendor.profile_info.id')}}</th>
                 <th>{{trans('vendor.profile_info.name')}}</th>
                 <th>{{trans('vendor.profile_info.company')}}</th>
                 <th>{{trans('vendor.profile_info.role')}}</th>

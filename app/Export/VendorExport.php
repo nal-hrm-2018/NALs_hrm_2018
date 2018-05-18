@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Export;
+use App\Models\Role;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -52,8 +53,9 @@ class VendorExport implements FromCollection, WithEvents, WithHeadings
     public function collection()
     {
         $query = Employee::query();
-        $query->select('employees.id', 'employees.name', 'employees.company', 'roles.name as role', 'employees.work_status')
-            ->join('roles', 'roles.id', '=', 'employees.role_id');
+        $query->select('employees.id', 'employees.name', 'employees.company','employees.role_id', 'employees.work_status');
+        /*$query->select('employees.id', 'employees.name', 'employees.company', 'roles.name as role', 'employees.work_status')
+            ->join('roles', 'roles.id', '=', 'employees.role_id');*/
 
         $id = !empty($this->request->id) ? $this->request->id : '';
         $name = !empty($this->request->name) ? $this->request->name : '';
@@ -86,6 +88,13 @@ class VendorExport implements FromCollection, WithEvents, WithHeadings
         $returnCollectionEmployee = $employeesSearch->get();
 
          return $returnCollectionEmployee->map(function (Employee $item) {
+             if ($item->role_id == null){
+                 $item->role_id = "-";
+             }
+             else{
+                 $roleFindId = Role::where('id',$item->role_id)->first();
+                 $item->role_id = $roleFindId->name;
+             }
              $item->work_status = $item->work_status ? 'Unactive' : 'Active';
              return $item;
          });

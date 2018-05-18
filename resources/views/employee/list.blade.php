@@ -8,6 +8,7 @@
 @extends('admin.template')
 @section('content')
 
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -179,7 +180,7 @@
                                             <div class="input-group-btn">
                                                 <button type="button" class="btn width-100">Select file csv</button>
                                             </div>
-                                            <input type="file" id="myfile" name="myFile" class="form-control" onchange="return fileValidation();">
+                                            <input type="file" id="myfile" name="myFile" class="form-control" >
                                         </div>
                                     </div>
                                 </div>
@@ -191,26 +192,14 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- <script>
-                            function fileValidation(){
-                               /* var fileInput = document.getElementById('file');
-                                var filePath = fileInput.value;
-                                if(filePath.size < 5242880){
-                                    alert('13');
-                                    fileInput.value = '';
-                                    return false;
-                                }else{
-                                    alert('112312123');
-                                }*/
-                                alert();
-                                $('#myfile').bind('change', function() {
-                                    alert('13');
-                                  //this.files[0].size gets the size of your file.
-                                  alert(this.files[0].size);
-
-                                });
-                            }
-                        </script> -->
+                        <script type="text/javascript">
+                            $('#myfile').bind('change', function() {
+                                if(this.files[0].size > 5242880){
+                                    alert("The selected file is too large. Maximum size is 5MB.");
+                                    document.getElementById('myfile').value = "";
+                                }    
+                            });
+                        </script>
                     </div>
                 </div>
 
@@ -287,10 +276,11 @@
                     <div class="box">
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="employee-list" class="table table-bordered table-striped">
+                            <table id="employee-list" class="table table-bordered table-striped"
+                            style="border-collapse:  collapse;">
                                 <thead>
                                 <tr>
-                                    <th>Employee ID</th>
+                                    <th class="small-row-id text-center">Employee ID</th>
                                     <th>Name</th>
                                     <th>Team</th>
                                     <th>Role</th>
@@ -303,18 +293,19 @@
                                 @foreach($employees as $employee)
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
-                                        <td  class="text-center">{{ isset($employee->id )? $employee->id : "--.--"}}</td>
-                                        <td>{{ isset($employee->name)? $employee->name: "--.--" }}</td>
-                                        <td>{{ isset($employee->team)? $employee->team->name: "--.--"}}</td>
-                                        <td>{{ isset($employee->role)? $employee->role->name: "--.--" }}</td>
-                                        <td>{{ isset($employee->email)? $employee->email: "--.--" }}</td>
-                                        <td>
+                                        <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->team)? $employee->team->name: "-"}}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->role)? $employee->role->name: "-" }}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
+                                        <td><p class="fix-center-employee">
                                             @if($employee->work_status == 0) Active
-                                            @elseif($employee->work_status == 1) Unactive
+                                            @elseif($employee->work_status == 1) Inactive
                                             @endif
+                                            </p>
                                         </td>
                                         <td style="text-align: center;width: 50px;">
-                                            <button type="button" class="btn btn-default">
+                                            <button type="button" class="btn btn-default cv-button">
                                                 <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>
                                             </button>
                                         </td>
@@ -342,6 +333,7 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+        <a href="#" class="cd-top">Back To Top</a>
     </div>
     {{-- @if(isset($param))
          {{  $employees->appends($param)->render() }}
@@ -444,9 +436,14 @@
                 'ordering': true,
                 'info': true,
                 'autoWidth': false,
+                'borderCollapse':'collapse'
             });
+//            $('#employee-list').css(borderCollapse, collapse);
         });
     </script>
+    {{--<script type="text/javascript">
+        document.getElementById("employee-list").style.borderCollapse = "collapse";
+    </script>--}}
     <script type="text/javascript">
         $(function () {
             $("#btn_reset_employee").on("click", function () {
@@ -459,4 +456,7 @@
             });
         });
     </script>
+
+    <style>
+    </style>
 @endsection

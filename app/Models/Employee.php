@@ -49,6 +49,7 @@ class Employee extends Model implements
         'employee_type_id',
         'team_id',
         'role_id',
+        'salary_id',
         'updated_at',
         'last_updated_by_employee',
         'created_at',

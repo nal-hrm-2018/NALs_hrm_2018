@@ -251,6 +251,10 @@ class VendorController extends Controller
         $listError = "";
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
+            if(5242880 < $file->getSize()){ 
+                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
+                return redirect('employee');
+            } 
             if ($file->getClientOriginalExtension('myFile') == "csv") {
                 $nameFile = $file->getClientOriginalName('myFile');
                 $file->move('files', $nameFile);
@@ -393,11 +397,13 @@ class VendorController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new VendorExport($this->searchEmployeeService, $request), 'vendor-list.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new VendorExport($this->searchEmployeeService, $request), 'vendor-list-'.$time.'.csv');
     }
     public function downloadTemplateVendor()
     {
-        return Excel::download(new TemplateVendorExport(), 'template-vendor.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new TemplateVendorExport(), 'vendor-template-'.$time.'.csv');
     }
 
     public function showChart($id, Request $request)

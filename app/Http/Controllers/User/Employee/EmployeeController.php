@@ -47,7 +47,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $status = [0=> "Active", 1=>"Unactive"];
+        $status = [0=> "Active", 1=>"Inactive"];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
@@ -248,7 +248,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
             if(5242880 < $file->getSize()){ 
-                \Session::flash('msg_fail', '1312');
+                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
                 return redirect('employee');
             }           
             if ($file->getClientOriginalExtension('myFile') == "csv") {
@@ -390,12 +390,14 @@ class EmployeeController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'employee-list.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'employee-list-'.$time.'.csv');
     }
 
     public function downloadTemplate()
     {
-        return Excel::download(new TemplateExport(), 'template.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new TemplateExport(), 'employee-template-'.$time.'.csv');
     }
     /*
             ALL DEBUG
