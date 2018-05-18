@@ -169,8 +169,8 @@
                                         @foreach($allEmployeeInTeams as $allEmployeeInTeam)
                                             <tr id="show_{{$allEmployeeInTeam->id}}">                                                
                                                 <td>{{$allEmployeeInTeam->id}}</td>
-                                                <td>{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}</td>
-                                                <td>{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}</td>
+                                                <td>{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'-'}}</td>
+                                                <td>{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'-'}}</td>
                                                 <td>{{$allEmployeeInTeam->name}}</td>
                                                 <td>
                                                     <a class="btn-employee-remove" style="margin-left: 25px;">
