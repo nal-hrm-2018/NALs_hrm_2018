@@ -137,12 +137,14 @@ class ImportFile{
                 if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The Birthday field is required.</li>"; 
                 }else{
-                    if(date_create($data[$c]) == FALSE ){
-                        $listError .= "<li>Row ".$row.": Birthday is incorrect format. Example: 22-02-2000.</li>";
-                    }else{
-                        if(strtotime($data[$c]) >= strtotime($date)){
-                                $listError .= "<li>Row ".$row.": The Birthday must be a date before Today.</li>";
-                            }
+                    if($data[$c] != "-"){
+                        if(date_create($data[$c]) == FALSE ){
+                            $listError .= "<li>Row ".$row.": Birthday is incorrect format. Example: 22-02-2000.</li>";
+                        }else{
+                            if(strtotime($data[$c]) >= strtotime($date)){
+                                    $listError .= "<li>Row ".$row.": The Birthday must be a date before Today.</li>";
+                                }
+                        }
                     }
                 }
                 $c++;
@@ -156,13 +158,15 @@ class ImportFile{
 
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Gender field is required.</li>";  
+                    $listError .= "<li>Row ".$row.": The Mobile field is required.</li>";  
                 }else{
-                    $stMb = $data[$c];
-                    for($k=0; $k < strlen($data[$c]); $k++){
-                        if( $stMb[$k] < "0" || $stMb[$k] > "9" ){
-                            $listError .= "<li>Row ".$row.": Mobile only number.</li>";
-                            break;
+                    if($data[$c] != "-"){
+                        $stMb = $data[$c];
+                        for($k=0; $k < strlen($data[$c]); $k++){
+                            if( $stMb[$k] < "0" || $stMb[$k] > "9" ){
+                                $listError .= "<li>Row ".$row.": Mobile only number.</li>";
+                                break;
+                            }
                         }
                     }
                 }
@@ -174,29 +178,35 @@ class ImportFile{
                 if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The marital_status field is required.</li>";
                 }else{
-                    if(strnatcasecmp($data[$c], "single") != 0 && strnatcasecmp($data[$c], "married") != 0 && strnatcasecmp($data[$c], "separated") != 0 && strnatcasecmp($data[$c], "devorce") != 0){
-                        $listError .= "<li>Row ".$row.": Marital status only receives values Single, Married, Separated or Devorce.</li>";
+                    if($data[$c] != "-"){
+                        if(strnatcasecmp($data[$c], "single") != 0 && strnatcasecmp($data[$c], "married") != 0 && strnatcasecmp($data[$c], "separated") != 0 && strnatcasecmp($data[$c], "devorce") != 0){
+                            $listError .= "<li>Row ".$row.": Marital status only receives values Single, Married, Separated or Devorce.</li>";
+                        }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The Startwork_date field is required.</li>";   
                 }else{
-                    if(date_create($data[$c]) == FALSE ){
-                        $listError .= "<li>Row ".$row.": Startwork_date is incorrect format. Example: 22-02-2000.</li>";
+                    if($data[$c] != "-"){
+                        if(date_create($data[$c]) == FALSE ){
+                            $listError .= "<li>Row ".$row.": Startwork_date is incorrect format. Example: 22-02-2000.</li>";
+                        }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The Endwork_date field is required.</li>";  
                 }else{
-                    if(date_create($data[$c]) == FALSE ){
-                        $listError .= "<li>Row ".$row.": Endwork_date is incorrect format. Example: 22-02-2000.</li>";
-                    }else{
-                        if(date_create($data[$c - 1]) != FALSE){
-                           /* dd(strtotime($data[$c - 1])."  ".strtotime($data[$c]));*/
-                            if(strtotime($data[$c - 1]) >= strtotime($data[$c])){
-                                $listError .= "<li>Row ".$row.": Startwork_date must be smaller than Endwork_date.</li>";
+                    if($data[$c] != "-"){
+                        if(date_create($data[$c]) == FALSE ){
+                            $listError .= "<li>Row ".$row.": Endwork_date is incorrect format. Example: 22-02-2000.</li>";
+                        }else{
+                            if(date_create($data[$c - 1]) != FALSE){
+                               /* dd(strtotime($data[$c - 1])."  ".strtotime($data[$c]));*/
+                                if(strtotime($data[$c - 1]) >= strtotime($data[$c])){
+                                    $listError .= "<li>Row ".$row.": Startwork_date must be smaller than Endwork_date.</li>";
+                                }
                             }
                         }
                     }
@@ -269,13 +279,15 @@ class ImportFile{
                 if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The Birthday field is required.</li>"; 
                 }else{
-                    if(date_create($data[$c]) == FALSE ){
-                        $listError .= "<li>Row ".$row.": Birthday is incorrect format. Example: 22-02-2000.</li>";
-                    }else{
-                        
-                        if(strtotime($data[$c]) >= strtotime($date)){
-                                $listError .= "<li>Row ".$row.": The Birthday must be a date before Today.</li>";
-                            }
+                    if($data[$c] != "-"){
+                        if(date_create($data[$c]) == FALSE ){
+                            $listError .= "<li>Row ".$row.": Birthday is incorrect format. Example: 22-02-2000.</li>";
+                        }else{
+                            
+                            if(strtotime($data[$c]) >= strtotime($date)){
+                                    $listError .= "<li>Row ".$row.": The Birthday must be a date before Today.</li>";
+                                }
+                        }
                     }
                 }
                 $c++;
@@ -289,13 +301,15 @@ class ImportFile{
 
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Gender field is required.</li>";  
+                    $listError .= "<li>Row ".$row.": The Mobile field is required.</li>";  
                 }else{
-                    $stMb = $data[$c];
-                    for($k=0; $k < strlen($data[$c]); $k++){
-                        if( $stMb[$k] < "0" || $stMb[$k] > "9" ){
-                            $listError .= "<li>Row ".$row.": Mobile only number.</li>";
-                            break;
+                    if($data[$c] != "-"){
+                        $stMb = $data[$c];
+                        for($k=0; $k < strlen($data[$c]); $k++){
+                            if( $stMb[$k] < "0" || $stMb[$k] > "9" ){
+                                $listError .= "<li>Row ".$row.": Mobile only number.</li>";
+                                break;
+                            }
                         }
                     }
                 }
@@ -307,33 +321,38 @@ class ImportFile{
                 if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The marital_status field is required.</li>";
                 }else{
-                    if(strnatcasecmp($data[$c], "single") != 0 && strnatcasecmp($data[$c], "married") != 0 && strnatcasecmp($data[$c], "separated") != 0 && strnatcasecmp($data[$c], "devorce") != 0){
-                        $listError .= "<li>Row ".$row.": Marital status only receives values Single, Married, Separated or Devorce.</li>";
+                    if($data[$c] != "-"){
+                        if(strnatcasecmp($data[$c], "single") != 0 && strnatcasecmp($data[$c], "married") != 0 && strnatcasecmp($data[$c], "separated") != 0 && strnatcasecmp($data[$c], "devorce") != 0){
+                            $listError .= "<li>Row ".$row.": Marital status only receives values Single, Married, Separated or Devorce.</li>";
+                        }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The Startwork_date field is required.</li>";   
                 }else{
-                    if(date_create($data[$c]) == FALSE ){
-                        $listError .= "<li>Row ".$row.": Startwork_date is incorrect format. Example: 22-02-2000.</li>";
+                    if($data[$c] != "-"){
+                        if(date_create($data[$c]) == FALSE ){
+                            $listError .= "<li>Row ".$row.": Startwork_date is incorrect format. Example: 22-02-2000.</li>";
+                        }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The Endwork_date field is required.</li>";  
                 }else{
-                    if(date_create($data[$c]) == FALSE ){
-                        $listError .= "<li>Row ".$row.": Endwork_date is incorrect format. Example: 22-02-2000.</li>";
-                    }else{
-                        if(date_create($data[$c - 1]) != FALSE){
-                           /* dd(strtotime($data[$c - 1])."  ".strtotime($data[$c]));*/
-                            if(strtotime($data[$c - 1]) >= strtotime($data[$c])){
-                                $listError .= "<li>Row ".$row.": Startwork_date must be smaller than Endwork_date.</li>";
+                    if($data[$c] != "-"){
+                        if(date_create($data[$c]) == FALSE ){
+                            $listError .= "<li>Row ".$row.": Endwork_date is incorrect format. Example: 22-02-2000.</li>";
+                        }else{
+                            if(date_create($data[$c - 1]) != FALSE){
+                               /* dd(strtotime($data[$c - 1])."  ".strtotime($data[$c]));*/
+                                if(strtotime($data[$c - 1]) >= strtotime($data[$c])){
+                                    $listError .= "<li>Row ".$row.": Startwork_date must be smaller than Endwork_date.</li>";
+                                }
                             }
                         }
                     }
-
                 }
                 $c++;
                 if($data[$c] == null){

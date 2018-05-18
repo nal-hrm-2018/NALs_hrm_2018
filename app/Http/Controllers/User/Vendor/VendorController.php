@@ -311,7 +311,11 @@ class VendorController extends Controller
                 $c++;
                 $vendor->name = $data[$c];
                 $c++;
-                $vendor->birthday = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $vendor->birthday = date_create("0-0-0");
+                }else{
+                    $vendor->birthday = date_create($data[$c]);
+                }
                 $c++;
                 if (strnatcasecmp($data[$c], "female") == 0) {
                     $vendor->gender = 1;
@@ -321,32 +325,54 @@ class VendorController extends Controller
                     $vendor->gender = 3;
                 }
                 $c++;
-                $vendor->mobile = $data[$c];
-                $c++;
-                $vendor->address = $data[$c];
-                $c++;
-
-                if (strnatcasecmp($data[$c], "single") == 0) {
-                    $vendor->marital_status = 1;
-                } else if (strnatcasecmp($data[$c], "married") == 0) {
-                    $vendor->marital_status = 2;
-                } else if (strnatcasecmp($data[$c], "separated") == 0) {
-                    $vendor->marital_status = 3;
-                } else {
-                    $vendor->marital_status = 4;
+                if($data[$c] == "-"){
+                    $vendor->mobile = "";
+                }else{
+                    $vendor->mobile = $data[$c];
                 }
                 $c++;
-                $vendor->startwork_date = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $vendor->address = "";
+                }else{
+                    $vendor->address = $data[$c];
+                }
                 $c++;
-                $vendor->endwork_date = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $vendor->address = 1;
+                }else{
+                    if (strnatcasecmp($data[$c], "single") == 0) {
+                        $vendor->marital_status = 1;
+                    } else if (strnatcasecmp($data[$c], "married") == 0) {
+                        $vendor->marital_status = 2;
+                    } else if (strnatcasecmp($data[$c], "separated") == 0) {
+                        $vendor->marital_status = 3;
+                    } else {
+                        $vendor->marital_status = 4;
+                    }
+                }
+                $c++;
+                if($data[$c] == "-"){
+                    $vendor->startwork_date = date_create("0-0-0");
+                }else{
+                    $vendor->startwork_date = date_create($data[$c]);
+                }
+                $c++;
+                if($data[$c] == "-"){
+                    $vendor->endwork_date = date_create("1-0-0");
+                }else{
+                    $vendor->endwork_date = date_create($data[$c]);
+                }
                 $c++;
                 $vendor->is_employee = 0;
 
                 $objEmployeeType = EmployeeType::select('name', 'id')->where('name', 'like', $data[$c])->first();
                 $vendor->employee_type_id = $objEmployeeType->id;
                 $c++;
-
-                $vendor->company = $data[$c];
+                if($data[$c] == "-"){
+                    $vendor->company = "";
+                }else{
+                    $vendor->company = $data[$c];
+                }
                 $c++;
 
                 $objRole = Role::select('name', 'id')->where('name', 'like', $data[$c])->first();

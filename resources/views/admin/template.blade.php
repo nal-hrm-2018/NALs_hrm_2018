@@ -16,24 +16,48 @@
 <div class="wrapper">
     @include('admin.module.templates.header')
     @include('admin.module.templates.left_bar')
-    @yield('content')
     <script>
-        var count = 0; // needed for safari
-        window.onload = function () {
-            if (typeof history.pushState === "function") {
-                history.pushState("back", null, null);
-                window.onpopstate = function () {
-                    history.pushState('back', null, null);
-                    if (count == 1) {
-                        location.href = '{{ URL::previous()}}';
-                    }
-                };
+        // jQuery(document).ready(function($) {
+        //
+        //     if (window.history && window.history.pushState) {
+        //
+        //         // window.history.pushState('forward', null, './#forward');
+        //         history.pushState("back", null, null);
+        //
+        //         $(window).on('popstate', function() {
+        //             $('#xxx').val(1);
+        //             alert('Back button was pressed.');
+        //             window.history.back();
+        //
+        //         });
+        //
+        //     }
+        // });
+        document.addEventListener('DOMContentLoaded', function () {
+            var ibackbutton = document.getElementById("backbuttonstate");
+            var html = "";
+            if (ibackbutton.value == "0") {
+                // Page has been loaded for the first time - Set marker
+                <?php
+                if (Session::has('msg_success')) {
+                    echo 'html =' . '"<div > <ul class=\"result_msg\"> <li>' . Session::get("msg_success") . '</li></ul> </div>";';
+                }
+                ?>
+                <?php
+                if (Session::has('msg_fail')) {
+                    echo 'html =' . '"<div > <ul class=\"error_msg\"> <li>' . Session::get("msg_fail") . '</li></ul> </div>";';
+                }
+                ?>
+                $('#msg').html(html);
+                ibackbutton.value = "1";
+
+            } else {
+                // Back button has been fired.. Do Something different..
             }
-        }
-        setTimeout(function () {
-            count = 1;
-        }, 200);
+        }, false);
     </script>
+    <input style="display:none;" type="text" id="backbuttonstate" value="0"/>
+    @yield('content')
     @include('admin.module.templates.footer')
     <div class="control-sidebar-bg"></div>
 </div>

@@ -10,6 +10,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/drop/css/style.css') }} ">
     <!-- Custom Css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/login/css/custom.css') }} ">
 

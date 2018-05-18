@@ -20,13 +20,7 @@
             <!-- SELECT2 EXAMPLE -->
             <div class="box box-default">
                 <div class="box-body">
-                    @if(session()->has('msg_fails'))
-                        <div>
-                            <ul class='error_msg'>
-                                <li>{{session()->get('msg_fails')}}</li>
-                            </ul>
-                        </div>
-                    @endif
+                    <div id="msg"></div>
                     @include('vendors._form_add_vendor')
                     <script type="text/javascript"
                             src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
