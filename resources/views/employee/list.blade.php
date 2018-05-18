@@ -292,7 +292,7 @@
                             style="border-collapse:  collapse;">
                                 <thead>
                                 <tr>
-                                    <th>Employee ID</th>
+                                    <th class="small-row-id text-center">Employee ID</th>
                                     <th>Name</th>
                                     <th>Team</th>
                                     <th>Role</th>

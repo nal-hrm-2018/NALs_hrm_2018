@@ -59,6 +59,9 @@ ul.contextMenu li:last-child:hover a:hover{color:#2980b9}
 p.fix-center-employee {
     padding-top: 10px;
 }
+th.small-row-id {
+    width: 73px;
+}
 
 /*
 table.dataTable{
