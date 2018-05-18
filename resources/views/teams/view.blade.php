@@ -52,13 +52,13 @@
 
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
-                                        <td style="text-align: center">{{ isset($employee->id)? $employee->id: "--.--" }}</td>
-                                        <td>{{ isset($employee->name)? $employee->name: "--.--" }}</td>
-                                        <td>{{ isset($employee->role)? $employee->role->name: "--.--" }}</td>
+                                        <td style="text-align: center">{{ isset($employee->id)? $employee->id: "-" }}</td>
+                                        <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+                                        <td>{{ isset($employee->role)? $employee->role->name: "-" }}</td>
 
                                         <td>
                                             @if($employee->projects->isEmpty())
-                                                {{"--.--"}}
+                                                {{"-"}}
                                             @else
                                                 <?php
                                                 $count = 0;
@@ -196,11 +196,11 @@
     <script>
         $(document).ready(function () {
             $('#employee-list').DataTable({
-                'paging': true,
-                'lengthChange': true,
+                'paging': false,
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false,
             });
 

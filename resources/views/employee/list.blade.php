@@ -33,8 +33,10 @@
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
-                        <form method="get" role="form" id="form_search_process">
+                        <form method="get" role="form" id="form_search_employee">
                             <!-- Modal content-->
+                            <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                                   value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -286,27 +288,6 @@
             </div>
         <!-- Main content -->
         <section class="content">
-            {{--<div class="row">
-                <div class="col-sm-6">
-                </div>
-                <div class="col-sm-6">
-                    <div class="dataTables_length" id="project-list_length" style="float:right">
-                        <label>Show entries
-                            {!! Form::select(
-                                'select_length',
-                                getArraySelectOption(25,5) ,
-                                null ,
-                                [
-                                'id'=>'select_length',
-                                'class' => 'form-control input-sm',
-                                'aria-controls'=>"employee-list"
-                                ]
-                                )
-                             !!}
-                        </label>
-                    </div>
-                </div>
-            </div>--}}
             <div class="row">
                 <input id="number_record_per_page" type="hidden" name="number_record_per_page"
                        value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
@@ -314,8 +295,34 @@
                     <div class="box">
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="employee-list" class="table table-bordered table-striped"
-                            style="border-collapse:  collapse;">
+                            <div>
+                                <div class="dataTables_length" id="project-list_length" style="float:right">
+                                    <label>{{trans('pagination.show.number_record_per_page')}}
+                                        {!! Form::select(
+                                            'select_length',
+                                            getArraySelectOption() ,
+                                            null ,
+                                            [
+                                            'id'=>'select_length',
+                                            'class' => 'form-control input-sm',
+                                            'aria-controls'=>"project-list"
+                                            ]
+                                            )
+                                         !!}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <script>
+                                (function () {
+                                    $('#select_length').change(function () {
+                                        $("#number_record_per_page").val($(this).val());
+                                        $('#form_search_employee').submit()
+                                    });
+                                })();
+
+                            </script>
+                            <table id="employee-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th class="small-row-id text-center">Employee ID</th>
@@ -337,8 +344,8 @@
                                         <td><p class="fix-center-employee">{{ isset($employee->role)? $employee->role->name: "-" }}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">
-                                            @if($employee->work_status == 0) Active
-                                            @elseif($employee->work_status == 1) Inactive
+                                            @if($employee->work_status == 0) <span class="label label-primary">Active</span>
+                                            @elseif($employee->work_status == 1) <span class="label label-danger">Inactive</span>
                                             @endif
                                             </p>
                                         </td>
@@ -354,13 +361,16 @@
                                                             class="fa fa-id-card"></i> View</a></li>
                                             <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
                                                     Edit</a></li>
-                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
+                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
                                                             class="fa fa-remove"></i> Remove</a></li>
                                         </ul>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+                            @if(isset($param))
+                                {{  $employees->appends($param)->render('vendor.pagination.custom') }}
+                            @endif
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -371,27 +381,9 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
-        <a href="#" class="cd-top">Back To Top</a>
+
     </div>
-    {{-- @if(isset($param))
-         {{  $employees->appends($param)->render() }}
-     @endif--}}
-
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-
-    {{--<script type="text/javascript">
-        $(document).ready(function () {
-            $('#employee-list').DataTable({
-                'paging': false,
-                'lengthChange': true,
-                'searching': false,
-                'ordering': true,
-                'info': true,
-                'autoWidth': false
-            });
-        });
-    </script>--}}
-
     <script>
         (function () {
             $('#select_length').change(function () {
@@ -425,8 +417,9 @@
         $(function () {
             $('.btn-employee-remove').click(function () {
                 var elementRemove = $(this).data('employee-id');
+                var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Really delete?')) {
+                if (confirm('Do you want to delete employee "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/employee') }}' + '/' + elementRemove,
@@ -468,11 +461,11 @@
     <script>
         $(document).ready(function () {
             $('#employee-list').DataTable({
-                'paging': true,
-                'lengthChange': true,
+                'paging': false,
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false,
                 'borderCollapse':'collapse'
             });

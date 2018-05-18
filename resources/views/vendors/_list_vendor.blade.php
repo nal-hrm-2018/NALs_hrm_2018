@@ -15,13 +15,13 @@
             @foreach($vendors as $vendor)
                 <tr class="employee-menu" id="employee-id-{{$vendor->id}}"
                     data-employee-id="{{$vendor->id}}">
-                    <td class="text-center">{{ isset($vendor->id )? $vendor->id : "--.--"}}</td>
-                    <td>{{ isset($vendor->name)? $vendor->name: "--.--" }}</td>
-                    <td>{{ isset($vendor->company)? $vendor->company: "--.--"}}</td>
-                    <td>{{ isset($vendor->role)?$vendor->role->name:"--.--" }}</td>
+                    <td class="text-center">{{ isset($vendor->id )? $vendor->id : "-"}}</td>
+                    <td>{{ isset($vendor->name)? $vendor->name: "-" }}</td>
+                    <td>{{ isset($vendor->company)? $vendor->company: "-"}}</td>
+                    <td>{{ isset($vendor->role)?$vendor->role->name:"-" }}</td>
                     <td>
-                        @if($vendor->work_status == 0) {{ trans('vendor.profile_info.work_status.active') }}
-                        @elseif($vendor->work_status == 1) {{ trans('vendor.profile_info.work_status.unactive') }}
+                        @if($vendor->work_status == 0) <span class="label label-primary">{{ trans('vendor.profile_info.work_status.active') }}</span>
+                        @elseif($vendor->work_status == 1) <span class="label label-danger">{{ trans('vendor.profile_info.work_status.inactive') }}</span>
                         @endif
                     </td>
 
@@ -33,8 +33,8 @@
                         <li><a href={{ route('vendors.edit',$vendor->id)}}><i
                                         class="fa fa-edit"></i>
                                 {{trans('common.action.edit')}}</a></li>
-                        <li><a href="javascript:void(0)" class="btn-employee-remove" data-employee-id="{{$vendor->id}}"><i
-                                        class="fa fa-remove"></i> {{trans('common.action.remove')}}
+                        <li><a href="javascript:void(0)" class="btn-employee-remove" data-employee-id="{{$vendor->id}}"
+                               data-employee-name="{{$vendor->name}}"><i class="fa fa-remove"></i> {{trans('common.action.remove')}}
                             </a></li>
                     </ul>
                 </tr>

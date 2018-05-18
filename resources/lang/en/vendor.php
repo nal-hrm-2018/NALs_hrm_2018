@@ -32,7 +32,7 @@ return [
         'end_work_date'=>'End work date',
         'work_status'=>[
             'active'=>'Active',
-            'unactive'=>'Unactive',
+            'inactive'=>'Inactive',
         ],
         'gender'=>[
             'title'=>'Gender',

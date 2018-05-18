@@ -50,7 +50,12 @@ class EmployeeController extends Controller
         $status = [0=> "Active", 1=>"Inactive"];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
-        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
+        $employees->setPath('');
+        $param = (Input::except('page'));
         return view('employee.list', compact('employees','status', 'roles', 'teams', 'param'));
     }
 
@@ -170,7 +175,7 @@ class EmployeeController extends Controller
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $employee = Employee::where('delete_flag', 0)->where('is_employee',0)->find($id);
+        $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
         if ($employee == null) {
             return abort(404);
         }
