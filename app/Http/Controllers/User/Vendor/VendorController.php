@@ -40,8 +40,13 @@ class VendorController extends Controller
         $status = [0 => "Active", 1 => "Unactive"];
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $request['is_employee'] = config('settings.Employees.not_employee');
-        $vendors = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
-        return view('vendors.list', compact('vendors', 'roles', 'status'));
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
+        $vendors = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
+        $vendors->setPath('');
+        $param = (Input::except(['page','is_employee']));
+        return view('vendors.list', compact('vendors', 'roles', 'status','param'));
     }
 
     /**
