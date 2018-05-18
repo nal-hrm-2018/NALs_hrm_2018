@@ -188,11 +188,11 @@
     <script>
         $(document).ready(function () {
             $('#employee-list').DataTable({
-                'paging': true,
-                'lengthChange': true,
+                'paging': false,
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false,
             });
         });

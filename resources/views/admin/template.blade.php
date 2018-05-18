@@ -113,11 +113,11 @@
     $(function () {
         $('#example1').DataTable()
         $('#example2').DataTable({
-            'paging': true,
+            'paging': false,
             'lengthChange': false,
             'searching': false,
             'ordering': true,
-            'info': true,
+            'info': false,
             'autoWidth': false
         })
     })
