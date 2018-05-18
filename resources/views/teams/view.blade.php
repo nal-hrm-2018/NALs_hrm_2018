@@ -25,24 +25,7 @@
         </section>
 
         <!-- Main content -->
-        <?php
-        if (Session::has('msg_fail')) {
-            echo '<div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
-        <?php
-        if (Session::has('msg_success')) {
-            echo '<div>
-                <ul class=\'result_msg\'>
-                    <li>' . Session::get("msg_success") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
+      <div id="msg"></div>
 
         <section class="content">
             <div class="row">

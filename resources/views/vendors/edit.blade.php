@@ -23,25 +23,15 @@
     <!-- SELECT2 EXAMPLE -->
     <div class="box box-default">
       <div class="box-body">
-        <?php
-          if(Session::get('msg_fail') != ""){
-            echo '<div>
-                <ul class=\'error_msg\'>
-                    <li>'.Session::get("msg_fail").'</li>
-                </ul>
-            </div>';
-          }
-        ?>
-        <?php
-        if (Session::has('msg_success')) {
-            echo '<div>
-                <ul class=\'result_msg\'>
-                    <li>' . Session::get("msg_success") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
 
+        <div id="msg"></div>
+        <SCRIPT LANGUAGE="JavaScript">
+            function confirmAction($msg) {
+                return confirm($msg)
+            }
+        </SCRIPT>
+        {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">

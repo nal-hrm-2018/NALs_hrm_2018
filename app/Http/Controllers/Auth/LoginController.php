@@ -71,6 +71,6 @@ class LoginController extends Controller
         }
         return redirect()
             ->action('Auth\LoginController@getLogin')
-            ->with('message', trans('auth.failed'));
+            ->with('msg_fail', trans('auth.failed'));
     }
 }
