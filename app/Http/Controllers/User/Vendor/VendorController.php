@@ -367,11 +367,13 @@ class VendorController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new VendorExport($this->searchEmployeeService, $request), 'vendor-list.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new VendorExport($this->searchEmployeeService, $request), 'vendor-list-'.$time.'.csv');
     }
     public function downloadTemplateVendor()
     {
-        return Excel::download(new TemplateVendorExport(), 'template-vendor.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new TemplateVendorExport(), 'vendor-template-'.$time.'.csv');
     }
 
     public function showChart($id, Request $request)
