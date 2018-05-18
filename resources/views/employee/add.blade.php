@@ -18,22 +18,13 @@
 
             <!-- SELECT2 EXAMPLE -->
             <div class="box box-default">
-                <div class="box-body">
-                    <?php
-                        if (Session::get('msg_fail') != "") {
-                            echo '<div>
-                                <ul class=\'error_msg\'>
-                                    <li>' . Session::get("msg_fail") . '</li>
-                                </ul>
-                            </div>';
+                <div id="msg">
+                </div>
+                    <SCRIPT LANGUAGE="JavaScript">
+                        function confirmAction($msg) {
+                            return confirm($msg);
                         }
-                    ?>
-                    <?php
-                    if (Session::get('employee') != "") {
-                        $employee = Session::get("employee");
-                    }
-                    ?>
-
+                    </SCRIPT>
                     <form action="{{asset('employee')}}" method="post" class="form-horizontal"
                           onSubmit="return confirmAction('Would you like to add it?')"
                           onreset="return confirmAction('Do you want to reset?')">

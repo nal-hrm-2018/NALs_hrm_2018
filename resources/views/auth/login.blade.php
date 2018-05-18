@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <script>
-        document.getElementById('email').title = "";
-    </script>
     <div class="login-box">
         <div class="login-logo">
             <img class="image-logon" src="{!! asset('admin/templates/images/login/images/logo/logo.jpg') !!}"
@@ -17,20 +14,12 @@
                 @csrf
                 <div class="form-group has-feedback">
                     <input id="email"
-                           type="email"
                            class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                            name="email"
                            value="{{ old('email') }}"
                            placeholder="{{ trans('auth.placeholder_email') }}"
                            autofocus
                     />
-
-                    @if ($errors->has('email'))
-                        <span class="invalid-feedback">
-                                        <strong class="invalid-login">{{ $errors->first('email') }}</strong>
-                                    </span>
-
-                    @endif
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
@@ -38,13 +27,18 @@
                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                            placeholder="{{ trans('auth.placeholder_password') }}"
                            name="password">
-
-                    @if ($errors->has('password'))
-                        <span class="invalid-feedback">
-                                        <strong class="invalid-login">{{ $errors->first('password') }}</strong>
-                                    </span>
-                    @endif
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @if(session()->has('msg_fail')||$errors->has('password')||$errors->has('email'))
+                            <div>
+                                <ul class='error_msg'>
+                                    <li>{{trans('auth.failed')}}</li>
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
@@ -62,15 +56,6 @@
                     <!-- /.col -->
                 </div>
             </form>
-            <div class="row">
-                <div class="col-md-8">
-                    @if (Session::has('message'))
-                        <div class="alert alert-warning warning-login-register">
-                            <p>{{ Session::get('message') }}</p>
-                        </div>
-                    @endif
-                </div>
-            </div>
             <!-- /.social-auth-links -->
         </div>
         <!-- /.login-box-body -->
