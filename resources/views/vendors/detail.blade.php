@@ -165,7 +165,7 @@
 
                         @include('vendors._list_project_vendor')
                         @if(isset($param))
-                            {{  $processes->appends($param)->render() }}
+                            {{  $processes->appends($param)->render('vendor.pagination.custom') }}
                         @endif
                     </div>
                 </div>
@@ -188,10 +188,10 @@
         $(document).ready(function () {
             $('#project-list').DataTable({
                 'paging': false,
-                'lengthChange': true,
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false
             });
 

@@ -312,11 +312,11 @@
     <script>
         $(document).ready(function () {
             $('#team-list').DataTable({
-                'paging': true,
-                'lengthChange': true,
+                'paging': false,s
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false,
             });
             $(function () {
