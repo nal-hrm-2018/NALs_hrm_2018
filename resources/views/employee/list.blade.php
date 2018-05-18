@@ -299,8 +299,8 @@
                                         <td><p class="fix-center-employee">{{ isset($employee->role)? $employee->role->name: "-" }}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">
-                                            @if($employee->work_status == 0) Active
-                                            @elseif($employee->work_status == 1) Inactive
+                                            @if($employee->work_status == 0) <span class="label label-primary">Active</span>
+                                            @elseif($employee->work_status == 1) <span class="label label-danger">Inactive</span>
                                             @endif
                                             </p>
                                         </td>
@@ -333,7 +333,7 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
-        <a href="#" class="cd-top">Back To Top</a>
+
     </div>
     {{-- @if(isset($param))
          {{  $employees->appends($param)->render() }}

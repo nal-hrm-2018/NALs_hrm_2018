@@ -53,8 +53,6 @@
                                             <h2 class="profile-username text-center">{{trans('vendor.profile_info.title')}}</h2>
                                             <p>{{trans('vendor.profile_info.name')}}:
                                                 <strong>{{$vendor->name}}</strong></p>
-                                            <p>{{trans('vendor.profile_info.email')}}:
-                                                <strong>{{$vendor->email}}</strong></p>
                                             <p>{{trans('vendor.profile_info.gender.title')}}:
                                                 @if($vendor->gender == 1)
                                                     <span class="label label-info">{{trans('vendor.profile_info.gender.male')}}</span>
@@ -67,6 +65,8 @@
                                             <p>{{trans('vendor.profile_info.birthday')}}:
                                                 <strong>{{isset($vendor->birthday)?date('d/m/Y', strtotime($vendor->birthday)):'-'}}</strong>
                                             </p>
+                                            <p>{{trans('vendor.profile_info.email')}}:
+                                                <strong>{{$vendor->email}}</strong></p>
                                             <p>{{trans('vendor.profile_info.phone')}}:
                                                 <strong>{{isset($vendor->mobile)?$vendor->mobile:'-'}}</strong></p>
                                             <p>{{trans('vendor.profile_info.address')}}:
@@ -84,7 +84,7 @@
                                                 @endif
                                             </p>
                                             <p>{{trans('vendor.profile_info.role')}}:
-                                                <span class="label label-primary">{{ isset($vendor->role)?$vendor->role->name:'-' }}</span>
+                                                <strong>{{ isset($vendor->role)?$vendor->role->name:'-' }}</strong>
                                             </p>
                                             <p>{{trans('vendor.profile_info.company')}}:
                                                 <strong>{{ isset($vendor->company)?$vendor->company:'-' }}</strong>

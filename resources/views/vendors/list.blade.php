@@ -129,7 +129,6 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
-        <a href="#" class="cd-top">Back To Top</a>
     </div>
 
 

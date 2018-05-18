@@ -65,7 +65,7 @@
                                             @if(isset($po))
                                                 <a href="employee/{{$po->id}}">{{$po->name}}</a>
                                                 @else
-                                                --
+                                                -
                                             @endif
                                         </td>
                                         <td>
@@ -88,11 +88,11 @@
                                                             }
                                                             $count++;
                                                         } else {
-                                                            echo '--';
+                                                            echo '-';
                                                         }
                                                     }
                                                 } else{
-                                                    echo "--";
+                                                    echo "-";
                                                 }
 
                                             ?>
@@ -312,7 +312,7 @@
     <script>
         $(document).ready(function () {
             $('#team-list').DataTable({
-                'paging': false,
+                'paging': true,
                 'lengthChange': true,
                 'searching': false,
                 'ordering': true,
@@ -386,7 +386,7 @@
                     $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
                     foreach($employeesModal as $employee){
                         if(isset($employee->role)){
-                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td><span class=\"label label-primary\">'. $employee->role->name .'</span></td></tr>";';
+                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>'. $employee->role->name .'</td></tr>";';
                         } else {
                             echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>-</td></tr>";';
                         }

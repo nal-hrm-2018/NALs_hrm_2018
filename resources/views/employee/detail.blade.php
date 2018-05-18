@@ -53,8 +53,6 @@
                                             <h2 class="profile-username text-center">{{trans('employee.profile_info.title')}}</h2>
                                             <p>{{trans('employee.profile_info.name')}}:
                                                 <strong>{{$employee->name}}</strong></p>
-                                            <p>{{trans('employee.profile_info.email')}}:
-                                                <strong>{{$employee->email}}</strong></p>
                                             <p>{{trans('employee.profile_info.gender.title')}}:
                                                 @if($employee->gender == 1)
                                                     <span class="label label-info">{{trans('employee.profile_info.gender.male')}}</span>
@@ -67,6 +65,10 @@
                                             <p>{{trans('employee.profile_info.birthday')}}:
                                                 <strong>{{isset($employee->birthday)?date('d/m/Y', strtotime($employee->birthday)):'-'}}</strong>
                                             </p>
+                                            <p>{{trans('employee.profile_info.email')}}:
+                                                <strong>{{$employee->email}}</strong></p>
+
+
                                             <p>{{trans('employee.profile_info.phone')}}:
                                                 <strong>{{isset($employee->mobile)?$employee->mobile:'-'}}</strong></p>
                                             <p>{{trans('employee.profile_info.address')}}:
@@ -84,10 +86,10 @@
                                                 @endif
                                             </p>
                                             <p>{{trans('employee.profile_info.team')}}:
-                                                <span class="label label-primary">{{ isset($employee->team)?$employee->team->name:'-' }}</span>
+                                                <strong>{{ isset($employee->team)?$employee->team->name:'-' }}</strong>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
-                                                <span class="label label-primary">{{ isset($employee->employeeType)?$employee->role->name:'-' }}</span>
+                                                <strong>{{ isset($employee->employeeType)?$employee->role->name:'-' }}</strong>
                                             </p>
 
                                             <p>{{trans('employee.profile_info.policy_date')}}:
