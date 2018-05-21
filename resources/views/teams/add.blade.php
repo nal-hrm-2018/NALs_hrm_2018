@@ -236,12 +236,23 @@
                                     $listAdd = "";
 
                                 for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                    $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +
-                                        "<td>" + $listEmployeeID[$i] + "</td>" +
-                                        "<td>" + $listEmployeeTeam[$i] + "</td>" +
-                                        "<td>" + $listEmployeeRole[$i] + "</td>" +
-                                        "<td>" + $listEmployeeName[$i] + "</td>" +
-                                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
+                                    $classBtr = '';
+                                    if($listEmployeeRole[$i] == 'PO'){
+                                        $classBtr = 'label label-primary';
+                                    } else if($listEmployeeRole[$i] == 'Dev'){
+                                        $classBtr = 'label label-success';
+                                    } else if($listEmployeeRole[$i] == 'BA'){
+                                        $classBtr = 'label label-info';
+                                    } else if($listEmployeeRole[$i] == 'ScrumMaster'){
+                                        $classBtr = 'label label-warning';
+                                    }
+                                    $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">"+
+                                            "<td>" + $listEmployeeID[$i]+"</td>"+
+                                            "<td>"+$listEmployeeTeam[$i]+"</td>"+
+                                            "<td><span class=\""+ $classBtr +"\">"+$listEmployeeRole[$i]+"</span></td>"+
+                                            "<td>" + $listEmployeeName[$i]+ "</td>"+
+                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i]+")\"></i></td></tr>";                              
+
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +

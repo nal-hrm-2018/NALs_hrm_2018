@@ -45,10 +45,28 @@
                     <td class="text-center">{{ isset($vendor->id )? $vendor->id : "-"}}</td>
                     <td>{{ isset($vendor->name)? $vendor->name: "-" }}</td>
                     <td>{{ isset($vendor->company)? $vendor->company: "-"}}</td>
-                    <td>{{ isset($vendor->role)?$vendor->role->name:"-" }}</td>
                     <td>
-                        @if($vendor->work_status == 0) <span class="label label-primary">{{ trans('vendor.profile_info.work_status.active') }}</span>
-                        @elseif($vendor->work_status == 1) <span class="label label-danger">{{ trans('vendor.profile_info.work_status.inactive') }}</span>
+                        <?php
+                        if(isset($vendor->role)){
+                            if($vendor->role->name == "PO"){
+                                echo "<span class='label label-primary'>". $vendor->role->name ."</span>";
+                            } else if($vendor->role->name == "Dev"){
+                                echo "<span class='label label-success'>". $vendor->role->name ."</span>";
+                            } else if($vendor->role->name == "BA"){
+                                echo "<span class='label label-info'>". $vendor->role->name ."</span>";
+                            } else if($vendor->role->name == "ScrumMaster"){
+                                echo "<span class='label label-warning'>". $vendor->role->name ."</span>";
+                            }
+                        } else {
+                            echo "-";
+                        }
+                        ?>
+                    </td>
+                    <td>
+                        @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
+                            <span class="label label-primary">{{trans('vendor.profile_info.policy_status.unexpired')}}</span>
+                        @else
+                            <span class="label label-danger">{{trans('vendor.profile_info.policy_status.expired')}}</span>
                         @endif
                     </td>
 

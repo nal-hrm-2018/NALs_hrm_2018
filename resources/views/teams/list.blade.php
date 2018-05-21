@@ -165,13 +165,12 @@
                                         <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <div class="row">
-                                                <div class="col-md-3"></div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <select class="form-control" id="choose-month" name="month">
                                                             @foreach($listMonth as $month)
-                                                                <option value="{{$month}}">{{trans('chart.resource_chart.title')}}
-                                                                    - {{date('m/Y',strtotime($month))}}</option>
+                                                                <option value="{{$month}}">{{date('m/Y',strtotime($month))}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -312,7 +311,7 @@
     <script>
         $(document).ready(function () {
             $('#team-list').DataTable({
-                'paging': false,s
+                'paging': false,
                 'lengthChange': false,
                 'searching': false,
                 'ordering': true,
@@ -386,7 +385,17 @@
                     $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
                     foreach($employeesModal as $employee){
                         if(isset($employee->role)){
-                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>'. $employee->role->name .'</td></tr>";';
+                            $classBtr = '';
+                            if($employee->role->name == 'PO'){
+                                $classBtr = 'label label-primary';
+                            } else if($employee->role->name == 'Dev'){
+                                $classBtr = 'label label-success';
+                            } else if($employee->role->name == 'BA'){
+                                $classBtr = 'label label-info';
+                            } else if($employee->role->name == 'ScrumMaster'){
+                                $classBtr = 'label label-warning';
+                            }
+                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td><span class=\"'. $classBtr .'\">'. $employee->role->name .'</span></td></tr>";';
                         } else {
                             echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>-</td></tr>";';
                         }
