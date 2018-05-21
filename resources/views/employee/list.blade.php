@@ -8,6 +8,7 @@
 @extends('admin.template')
 @section('content')
 
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -32,8 +33,10 @@
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
-                        <form method="get" role="form" id="form_search_process">
+                        <form method="get" role="form" id="form_search_employee">
                             <!-- Modal content-->
+                            <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                                   value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -177,23 +180,32 @@
                                     <div class="row">
                                         <div class="input-group margin">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">Chon file csv</button>
+                                                <button type="button" class="btn width-100">Select file csv</button>
                                             </div>
-                                            <input type="file" name="myFile" class="form-control">
+                                            <input type="file" id="myfile" name="myFile" class="form-control" >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer center">
-                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
-                                                class="fa fa-search"></span>
+                                    <button type="submit" id="searchListEmployee" id="i_submit" class="btn btn-primary"><span
+                                                class="glyphicon glyphicon-upload"></span>
                                         IMPORT
                                     </button>
                                 </div>
                             </div>
                         </form>
+                        <script type="text/javascript">
+                            $('#myfile').bind('change', function() {
+                                if(this.files[0].size > 5242880){
+                                    alert("The selected file is too large. Maximum size is 5MB.");
+                                    document.getElementById('myfile').value = "";
+                                }    
+                            });
+                        </script>
                     </div>
                 </div>
-                <button type="button" class="btn btn-default">
+
+                <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
                     <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
                 <?php
@@ -220,62 +232,62 @@
                     }
                 }
                 ?>
+                <SCRIPT LANGUAGE="JavaScript">
+                    function confirmExport(msg) {
+                        $check = confirm(msg);
+                        if($check == true){
+                            $(document).ready(function (){
+                                var ctx = document.getElementById('my_canvas').getContext('2d');
+                                var al = 0;
+                                var start = 4.72;
+                                var cw = ctx.canvas.width;
+                                var ch = ctx.canvas.height;
+                                var diff;
+                                function runTime() {
+                                    diff = ((al / 100) * Math.PI*0.2*10).toFixed(2);
+                                    ctx.clearRect(0, 0, cw, ch);
+                                    ctx.lineWidth = 3;
+                                    ctx.fillStyle = '#09F';
+                                    ctx.strokeStyle = "#09F";
+                                    ctx.textAlign = 'center';
+                                    ctx.beginPath();
+                                    ctx.arc(10, 10, 5, start, diff/1+start, false);
+                                    ctx.stroke();
+                                    if (al >= 100) {
+                                        clearTimeout(sim);
+                                        sim = null;
+                                        al=0;
+                                        $("#contain-canvas").css("visibility","hidden")
+                                        // Add scripting here that will run when progress completes
+                                    }
+                                    al++;
+                                }
+                                var sim = null;
+                                    $("i.fa fa-vcard").css("visibility","hidden")
+                                    $("#contain-canvas").css("visibility","visible")
+                                    sim = setInterval(runTime, 15 );
 
-                <script type="text/javascript">
-                    function clickExport() {
-                        return confirm("Are you sure?")
+                            });
+                        }
+                        return $check;
                     }
-                </script>
-                <button type="button" class="btn btn-default export-employee" onclick="return clickExport()">
+                </SCRIPT>
+                <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                     <a id="export"
                        href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
-                        <i class="fa fa-vcard"></i> EXPORT</a>
+                        <i class="fa fa-vcard"></i>
+                        <span id="contain-canvas" style="">
+                            <canvas id="my_canvas" width="16" height="16" style=""></canvas>
+                        </span>
+                        EXPORT</a>
                 </button>
             </ol>
         </section>
 
+            <div id="msg">
+            </div>
         <!-- Main content -->
-        <?php
-        if (Session::has('msg_fail')) {
-            echo '<div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
-        <?php
-        if (Session::has('msg_success')) {
-            echo '<div>
-                <ul class=\'result_msg\'>
-                    <li>' . Session::get("msg_success") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
-
         <section class="content">
-            {{--<div class="row">
-                <div class="col-sm-6">
-                </div>
-                <div class="col-sm-6">
-                    <div class="dataTables_length" id="project-list_length" style="float:right">
-                        <label>Show entries
-                            {!! Form::select(
-                                'select_length',
-                                getArraySelectOption(25,5) ,
-                                null ,
-                                [
-                                'id'=>'select_length',
-                                'class' => 'form-control input-sm',
-                                'aria-controls'=>"employee-list"
-                                ]
-                                )
-                             !!}
-                        </label>
-                    </div>
-                </div>
-            </div>--}}
             <div class="row">
                 <input id="number_record_per_page" type="hidden" name="number_record_per_page"
                        value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
@@ -283,10 +295,37 @@
                     <div class="box">
                         <!-- /.box-header -->
                         <div class="box-body">
+                            <div>
+                                <div class="dataTables_length" id="project-list_length" style="float:right">
+                                    <label>{{trans('pagination.show.number_record_per_page')}}
+                                        {!! Form::select(
+                                            'select_length',
+                                            getArraySelectOption() ,
+                                            null ,
+                                            [
+                                            'id'=>'select_length',
+                                            'class' => 'form-control input-sm',
+                                            'aria-controls'=>"project-list"
+                                            ]
+                                            )
+                                         !!}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <script>
+                                (function () {
+                                    $('#select_length').change(function () {
+                                        $("#number_record_per_page").val($(this).val());
+                                        $('#form_search_employee').submit()
+                                    });
+                                })();
+
+                            </script>
                             <table id="employee-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Employee ID</th>
+                                    <th class="small-row-id text-center">Employee ID</th>
                                     <th>Name</th>
                                     <th>Team</th>
                                     <th>Role</th>
@@ -299,18 +338,19 @@
                                 @foreach($employees as $employee)
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
-                                        <td  class="text-center">{{ isset($employee->id )? $employee->id : "--.--"}}</td>
-                                        <td>{{ isset($employee->name)? $employee->name: "--.--" }}</td>
-                                        <td>{{ isset($employee->team)? $employee->team->name: "--.--"}}</td>
-                                        <td>{{ isset($employee->role)? $employee->role->name: "--.--" }}</td>
-                                        <td>{{ isset($employee->email)? $employee->email: "--.--" }}</td>
-                                        <td>
-                                            @if($employee->work_status == 0) Active
-                                            @elseif($employee->work_status == 1) Unactive
+                                        <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->team)? $employee->team->name: "-"}}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->role)? $employee->role->name: "-" }}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
+                                        <td><p class="fix-center-employee">
+                                            @if($employee->work_status == 0) <span class="label label-primary">Active</span>
+                                            @elseif($employee->work_status == 1) <span class="label label-danger">Inactive</span>
                                             @endif
+                                            </p>
                                         </td>
                                         <td style="text-align: center;width: 50px;">
-                                            <button type="button" class="btn btn-default">
+                                            <button type="button" class="btn btn-default cv-button">
                                                 <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>
                                             </button>
                                         </td>
@@ -321,13 +361,16 @@
                                                             class="fa fa-id-card"></i> View</a></li>
                                             <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
                                                     Edit</a></li>
-                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}"><i
+                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
                                                             class="fa fa-remove"></i> Remove</a></li>
                                         </ul>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+                            @if(isset($param))
+                                {{  $employees->appends($param)->render('vendor.pagination.custom') }}
+                            @endif
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -338,26 +381,9 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+
     </div>
-    {{-- @if(isset($param))
-         {{  $employees->appends($param)->render() }}
-     @endif--}}
-
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-
-    {{--<script type="text/javascript">
-        $(document).ready(function () {
-            $('#employee-list').DataTable({
-                'paging': false,
-                'lengthChange': true,
-                'searching': false,
-                'ordering': true,
-                'info': true,
-                'autoWidth': false
-            });
-        });
-    </script>--}}
-
     <script>
         (function () {
             $('#select_length').change(function () {
@@ -391,8 +417,9 @@
         $(function () {
             $('.btn-employee-remove').click(function () {
                 var elementRemove = $(this).data('employee-id');
+                var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Really delete?')) {
+                if (confirm('Do you want to delete employee "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/employee') }}' + '/' + elementRemove,
@@ -434,15 +461,20 @@
     <script>
         $(document).ready(function () {
             $('#employee-list').DataTable({
-                'paging': true,
-                'lengthChange': true,
+                'paging': false,
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false,
+                'borderCollapse':'collapse'
             });
+//            $('#employee-list').css(borderCollapse, collapse);
         });
     </script>
+    {{--<script type="text/javascript">
+        document.getElementById("employee-list").style.borderCollapse = "collapse";
+    </script>--}}
     <script type="text/javascript">
         $(function () {
             $("#btn_reset_employee").on("click", function () {
@@ -455,4 +487,51 @@
             });
         });
     </script>
+    {{--<script type="text/javascript">
+        $(document).ready(function (){
+            var ctx = document.getElementById('my_canvas').getContext('2d');
+            var al = 0;
+            var start = 4.72;
+            var cw = ctx.canvas.width;
+            var ch = ctx.canvas.height;
+            var diff;
+            function runTime() {
+                diff = ((al / 100) * Math.PI*0.2*10).toFixed(2);
+                ctx.clearRect(0, 0, cw, ch);
+                ctx.lineWidth = 3;
+                ctx.fillStyle = '#09F';
+                ctx.strokeStyle = "#09F";
+                ctx.textAlign = 'center';
+//                ctx.fillText(al+'%', cw*.5, ch*.5+2, cw);
+                ctx.beginPath();
+                ctx.arc(10, 10, 5, start, diff/1+start, false);
+                ctx.stroke();
+                if (al >= 100) {
+                    clearTimeout(sim);
+                    sim = null;
+                    al=0;
+                    $("#contain-canvas").css("visibility","hidden")
+                    // Add scripting here that will run when progress completes
+                }
+                al++;
+            }
+            var sim = null;
+            $("#click-here").click(function () {
+                $("i.fa fa-vcard").css("visibility","hidden")
+                $("#contain-canvas").css("visibility","visible")
+                sim = setInterval(runTime, 15 );
+            });
+        });
+
+    </script>--}}
+    <style>
+        #contain-canvas{
+            visibility:hidden;
+        }
+        span#contain-canvas{
+            position: relative;
+            left: 27px;
+            margin-left: -20px;
+        }
+    </style>
 @endsection

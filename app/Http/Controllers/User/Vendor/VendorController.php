@@ -40,8 +40,13 @@ class VendorController extends Controller
         $status = [0 => "Active", 1 => "Unactive"];
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $request['is_employee'] = config('settings.Employees.not_employee');
-        $vendors = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
-        return view('vendors.list', compact('vendors', 'roles', 'status'));
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
+        $vendors = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
+        $vendors->setPath('');
+        $param = (Input::except(['page','is_employee']));
+        return view('vendors.list', compact('vendors', 'roles', 'status','param'));
     }
 
     /**
@@ -251,6 +256,10 @@ class VendorController extends Controller
         $listError = "";
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
+            if(5242880 < $file->getSize()){ 
+                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
+                return redirect('employee');
+            } 
             if ($file->getClientOriginalExtension('myFile') == "csv") {
                 $nameFile = $file->getClientOriginalName('myFile');
                 $file->move('files', $nameFile);
@@ -311,7 +320,11 @@ class VendorController extends Controller
                 $c++;
                 $vendor->name = $data[$c];
                 $c++;
-                $vendor->birthday = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $vendor->birthday = date_create("0-0-0");
+                }else{
+                    $vendor->birthday = date_create($data[$c]);
+                }
                 $c++;
                 if (strnatcasecmp($data[$c], "female") == 0) {
                     $vendor->gender = 1;
@@ -321,32 +334,54 @@ class VendorController extends Controller
                     $vendor->gender = 3;
                 }
                 $c++;
-                $vendor->mobile = $data[$c];
-                $c++;
-                $vendor->address = $data[$c];
-                $c++;
-
-                if (strnatcasecmp($data[$c], "single") == 0) {
-                    $vendor->marital_status = 1;
-                } else if (strnatcasecmp($data[$c], "married") == 0) {
-                    $vendor->marital_status = 2;
-                } else if (strnatcasecmp($data[$c], "separated") == 0) {
-                    $vendor->marital_status = 3;
-                } else {
-                    $vendor->marital_status = 4;
+                if($data[$c] == "-"){
+                    $vendor->mobile = "";
+                }else{
+                    $vendor->mobile = $data[$c];
                 }
                 $c++;
-                $vendor->startwork_date = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $vendor->address = "";
+                }else{
+                    $vendor->address = $data[$c];
+                }
                 $c++;
-                $vendor->endwork_date = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $vendor->address = 1;
+                }else{
+                    if (strnatcasecmp($data[$c], "single") == 0) {
+                        $vendor->marital_status = 1;
+                    } else if (strnatcasecmp($data[$c], "married") == 0) {
+                        $vendor->marital_status = 2;
+                    } else if (strnatcasecmp($data[$c], "separated") == 0) {
+                        $vendor->marital_status = 3;
+                    } else {
+                        $vendor->marital_status = 4;
+                    }
+                }
+                $c++;
+                if($data[$c] == "-"){
+                    $vendor->startwork_date = date_create("0-0-0");
+                }else{
+                    $vendor->startwork_date = date_create($data[$c]);
+                }
+                $c++;
+                if($data[$c] == "-"){
+                    $vendor->endwork_date = date_create("1-0-0");
+                }else{
+                    $vendor->endwork_date = date_create($data[$c]);
+                }
                 $c++;
                 $vendor->is_employee = 0;
 
                 $objEmployeeType = EmployeeType::select('name', 'id')->where('name', 'like', $data[$c])->first();
                 $vendor->employee_type_id = $objEmployeeType->id;
                 $c++;
-
-                $vendor->company = $data[$c];
+                if($data[$c] == "-"){
+                    $vendor->company = "";
+                }else{
+                    $vendor->company = $data[$c];
+                }
                 $c++;
 
                 $objRole = Role::select('name', 'id')->where('name', 'like', $data[$c])->first();
@@ -367,11 +402,13 @@ class VendorController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new VendorExport($this->searchEmployeeService, $request), 'vendor-list.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new VendorExport($this->searchEmployeeService, $request), 'vendor-list-'.$time.'.csv');
     }
     public function downloadTemplateVendor()
     {
-        return Excel::download(new TemplateVendorExport(), 'template-vendor.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new TemplateVendorExport(), 'vendor-template-'.$time.'.csv');
     }
 
     public function showChart($id, Request $request)

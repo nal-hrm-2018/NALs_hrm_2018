@@ -32,24 +32,7 @@
             </div>
         </section>
         <!-- Main content -->
-    <?php
-    if (Session::has('msg_fail')) {
-        echo '<div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
-                </ul>
-            </div>';
-    }
-    ?>
-    <?php
-    if (Session::has('msg_success')) {
-        echo '<div>
-                <ul class=\'result_msg\'>
-                    <li>' . Session::get("msg_success") . '</li>
-                </ul>
-            </div>';
-    }
-    ?>
+        <div id="msg"></div>
     <!-- Main content -->
 
         <section class="content">
@@ -61,7 +44,7 @@
                             <table id="team-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>{{trans('team.id')}}</th>
+                                    <th class="text-center">{{trans('team.id')}}</th>
                                     <th>{{trans('team.name')}}</th>
                                     <th>{{trans('team.po')}}</th>
                                     <th>{{trans('team.members')}}</th>
@@ -82,7 +65,7 @@
                                             @if(isset($po))
                                                 <a href="employee/{{$po->id}}">{{$po->name}}</a>
                                                 @else
-                                                --
+                                                -
                                             @endif
                                         </td>
                                         <td>
@@ -105,16 +88,16 @@
                                                             }
                                                             $count++;
                                                         } else {
-                                                            echo '--';
+                                                            echo '-';
                                                         }
                                                     }
                                                 } else{
-                                                    echo "--";
+                                                    echo "-";
                                                 }
 
                                             ?>
                                         </td>
-                                        <td class="text-center">{{isset($po)?(sizeof($employees) + 1):sizeof($employees)}}</td>
+                                        <td class="text-center"><span class="badge">{{isset($po)?(sizeof($employees) + 1):sizeof($employees)}}</span></td>
 
                                         <ul class="contextMenu" data-team-id="{{$team->id}}" hidden>
                                             <li><a href="teams/{{$team->id}}"><i
@@ -122,7 +105,7 @@
                                                 </a></li>
                                             <li><a href="teams/{{$team->id}}/edit"><i class="fa fa-edit"></i>
                                                     {{trans('common.action.edit')}}</a></li>
-                                            <li><a class="btn-team-remove" data-team-id="{{$team->id}}"><i
+                                            <li><a class="btn-team-remove" data-team-id="{{$team->id}}" data-team-name="{{$team->name}}"><i
                                                             class="fa fa-remove"></i> {{trans('common.action.remove')}}
                                                 </a></li>
                                         </ul>
@@ -261,8 +244,9 @@
         $(function () {
             $('.btn-team-remove').click(function () {
                 var elementRemove = $(this).data('team-id');
+                var nameRemove = $(this).data('team-name');
                 console.log("element: " + elementRemove);
-                if (confirm('Really delete?')) {
+                if (confirm('Do you want to delete team "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/teams') }}' + '/' + elementRemove,
@@ -277,7 +261,7 @@
                         success: function (msg) {
                             alert("Remove " + msg.status);
                             var fade = "team-id-" + msg.id;
-                            $('ul.contextMenu[data-team-id="' + msg.id + '"').hide()
+                            $('ul.contextMenu[data-team-id="' + msg.id + '"').hide();
                             var fadeElement = $('#' + fade);
                             console.log(fade);
                             fadeElement.fadeOut("fast");
@@ -328,11 +312,11 @@
     <script>
         $(document).ready(function () {
             $('#team-list').DataTable({
-                'paging': false,
-                'lengthChange': true,
+                'paging': false,s
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false,
             });
             $(function () {
@@ -404,7 +388,7 @@
                         if(isset($employee->role)){
                             echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>'. $employee->role->name .'</td></tr>";';
                         } else {
-                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>--</td></tr>";';
+                            echo ' var html_'. $team->id . '_' . $employee->id .' = "<tr><td>'. $employee->id .'</td><td><a href=\"employee/'. $employee->id .'\">'. $employee->name .'</a></td><td>-</td></tr>";';
                         }
                     }
                 }

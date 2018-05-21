@@ -25,24 +25,7 @@
         </section>
 
         <!-- Main content -->
-        <?php
-        if (Session::has('msg_fail')) {
-            echo '<div>
-                <ul class=\'error_msg\'>
-                    <li>' . Session::get("msg_fail") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
-        <?php
-        if (Session::has('msg_success')) {
-            echo '<div>
-                <ul class=\'result_msg\'>
-                    <li>' . Session::get("msg_success") . '</li>
-                </ul>
-            </div>';
-        }
-        ?>
+      <div id="msg"></div>
 
         <section class="content">
             <div class="row">
@@ -69,13 +52,13 @@
 
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
-                                        <td style="text-align: center">{{ isset($employee->id)? $employee->id: "--.--" }}</td>
-                                        <td>{{ isset($employee->name)? $employee->name: "--.--" }}</td>
-                                        <td>{{ isset($employee->role)? $employee->role->name: "--.--" }}</td>
+                                        <td style="text-align: center">{{ isset($employee->id)? $employee->id: "-" }}</td>
+                                        <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+                                        <td>{{ isset($employee->role)? $employee->role->name: "-" }}</td>
 
                                         <td>
                                             @if($employee->projects->isEmpty())
-                                                {{"--.--"}}
+                                                {{"-"}}
                                             @else
                                                 <?php
                                                 $count = 0;
@@ -213,11 +196,11 @@
     <script>
         $(document).ready(function () {
             $('#employee-list').DataTable({
-                'paging': true,
-                'lengthChange': true,
+                'paging': false,
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false,
             });
 

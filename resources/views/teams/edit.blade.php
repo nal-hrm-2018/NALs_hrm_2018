@@ -80,15 +80,8 @@
             <!-- SELECT2 EXAMPLE -->
             <div class="box box-default">
                 <div class="box-body">
-                    <?php
-                    if (Session::get('msg_fail') != "") {
-                        echo '<div>
-                                <ul class=\'error_msg\'>
-                                    <li>' . Session::get("msg_fail") . '</li>
-                                </ul>
-                            </div>';
-                    }
-                    ?>
+                    <div id="msg">
+                    </div>
                     {{Form::model($teamById,array('url' => ['/teams', $teamById['id']], 'method' => 'PUT', 'id' => 'form_edit_team'))}}
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="row">
@@ -169,8 +162,8 @@
                                         @foreach($allEmployeeInTeams as $allEmployeeInTeam)
                                             <tr id="show_{{$allEmployeeInTeam->id}}">                                                
                                                 <td>{{$allEmployeeInTeam->id}}</td>
-                                                <td>{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}</td>
-                                                <td>{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}</td>
+                                                <td>{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'-'}}</td>
+                                                <td>{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'-'}}</td>
                                                 <td>{{$allEmployeeInTeam->name}}</td>
                                                 <td>
                                                     <a class="btn-employee-remove" style="margin-left: 25px;">

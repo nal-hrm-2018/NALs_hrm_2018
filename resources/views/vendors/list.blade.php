@@ -10,20 +10,6 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        @if(session()->has('msg_fail'))
-            <div>
-                <ul class='error_msg'>
-                    <li>{{session()->get('msg_fail')}}</li>
-                </ul>
-            </div>
-        @endif
-        @if(session()->has('msg_success'))
-            <div>
-                <ul class='result_msg'>
-                    <li>{{session()->get('msg_success')}}</li>
-                </ul>
-            </div>
-        @endif
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
@@ -97,9 +83,9 @@
                                     <div class="row">
                                         <div class="input-group margin">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">Chon file csv</button>
+                                                <button type="button" class="btn width-100">Select file csv</button>
                                             </div>
-                                            <input type="file" name="myFile" class="form-control">
+                                            <input type="file" id="myfile" name="myFile" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -111,9 +97,17 @@
                                 </div>
                             </div>
                         </form>
+                        <script type="text/javascript">
+                            $('#myfile').bind('change', function() {
+                                if(this.files[0].size > 5242880){
+                                    alert("The selected file is too large. Maximum size is 5MB.");
+                                    document.getElementById('myfile').value = "";
+                                }    
+                            });
+                        </script>
                     </div>
                 </div>
-                <button type="button" class="btn btn-default">
+                <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('vendor.msg_content.msg_download_template')}}')">
                     <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
 
@@ -123,6 +117,7 @@
 
         <!-- Main content -->
 
+        <div id="msg"></div>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -163,8 +158,9 @@
         $(function () {
             $('.btn-employee-remove').click(function () {
                 var elementRemove = $(this).data('employee-id');
+                var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Really delete?')) {
+                if (confirm('Do you want to delete vendor "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/vendors') }}' + '/' + elementRemove,
@@ -192,16 +188,26 @@
     <script>
         $(document).ready(function () {
             $('#employee-list').DataTable({
-                'paging': true,
-                'lengthChange': true,
+                'paging': false,
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false,
             });
         });
     </script>
     <script type="text/javascript">
+        $(document).ready(function () {
+            var old = '{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:'' }}';
+            var options = $("#select_length option");
+            var select = $('#select_length');
+            for(var i = 0 ; i< options.length ; i++){
+                if(options[i].value=== old){
+                    select.val(old).change();
+                }
+            }
+        });
         $(function () {
             $("#btn_reset_vendor").on("click", function () {
                 $("#employeeId").val('');
@@ -213,4 +219,16 @@
             });
         });
     </script>
+    
+    <style>
+        #contain-canvas{
+            visibility:hidden;
+        }
+        span#contain-canvas{
+            position: relative;
+            left: 27px;
+            margin-left: -20px;
+        }
+    </style>
+
 @endsection

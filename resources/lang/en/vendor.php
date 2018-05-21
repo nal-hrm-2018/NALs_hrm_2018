@@ -32,7 +32,7 @@ return [
         'end_work_date'=>'End work date',
         'work_status'=>[
             'active'=>'Active',
-            'unactive'=>'Unactive',
+            'inactive'=>'Inactive',
         ],
         'gender'=>[
             'title'=>'Gender',
@@ -71,6 +71,8 @@ return [
     'msg_content' => [
         'msg_add_success'=>'Vendor successfully added!!!',
         'msg_add_fail'=>'Add Vendor fail!!!',
-        'msg_error_add_team'=> 'Has error in process'
+        'msg_error_add_team'=> 'Has error in process',
+        'msg_download_template'=>'Are you want to download the Vendor Template?',
+        'msg_download_vendor_list'=>'Are you want to download the Vendor List?'
     ],
 ];

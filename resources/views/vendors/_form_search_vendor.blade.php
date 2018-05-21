@@ -1,6 +1,8 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                   value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
             <div class="input-group margin">
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{trans('vendor.profile_info.id')}}</button>

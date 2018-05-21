@@ -47,10 +47,15 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $status = [0=> "Active", 1=>"Unactive"];
+        $status = [0=> "Active", 1=>"Inactive"];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
-        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->get();
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
+        $employees->setPath('');
+        $param = (Input::except('page'));
         return view('employee.list', compact('employees','status', 'roles', 'teams', 'param'));
     }
 
@@ -170,7 +175,7 @@ class EmployeeController extends Controller
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $employee = Employee::where('delete_flag', 0)->where('is_employee',0)->find($id);
+        $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
         if ($employee == null) {
             return abort(404);
         }
@@ -247,6 +252,10 @@ class EmployeeController extends Controller
         $listError = "";
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
+            if(5242880 < $file->getSize()){ 
+                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
+                return redirect('employee');
+            }           
             if ($file->getClientOriginalExtension('myFile') == "csv") {
                 $nameFile = $file->getClientOriginalName('myFile');
                 $file->move('files', $nameFile);
@@ -264,7 +273,7 @@ class EmployeeController extends Controller
                     if (file_exists(public_path('files/' . $nameFile))) {
                         unlink(public_path('files/' . $nameFile));
                     }
-                    return view('admin.module.employees.list_import', ['urlFile' => public_path('files/' . $nameFile), 'colError' => $colError, 'listError' => $listError]);
+                    return view('employee.list_import', ['urlFile' => public_path('files/' . $nameFile), 'colError' => $colError, 'listError' => $listError]);
                 }
                 $row = count($dataEmployees) / $num;
                 $listError .= $importFile->checkEmail($dataEmployees, $row, $num);
@@ -283,6 +292,7 @@ class EmployeeController extends Controller
                 \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
                 return redirect('employee');
             }
+
         } else {
             \Session::flash('msg_fail', 'File not selected!!!');
             return redirect('employee');
@@ -308,8 +318,13 @@ class EmployeeController extends Controller
                 $c++;
                 $employee->name = $data[$c];
                 $c++;
-                $employee->birthday = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $employee->birthday = date_create("0-0-0");
+                }else{
+                    $employee->birthday = date_create($data[$c]);
+                }
                 $c++;
+                
                 if (strnatcasecmp($data[$c], "female") == 0) {
                     $employee->gender = 1;
                 } else if (strnatcasecmp($data[$c], "male") == 0) {
@@ -318,35 +333,51 @@ class EmployeeController extends Controller
                     $employee->gender = 3;
                 }
                 $c++;
-                $employee->mobile = $data[$c];
-                $c++;
-                $employee->address = $data[$c];
-                $c++;
-
-                if (strnatcasecmp($data[$c], "single") == 0) {
-                    $employee->marital_status = 1;
-                } else if (strnatcasecmp($data[$c], "married") == 0) {
-                    $employee->marital_status = 2;
-                } else if (strnatcasecmp($data[$c], "separated") == 0) {
-                    $employee->marital_status = 3;
-                } else {
-                    $employee->marital_status = 4;
+                if($data[$c] == "-"){
+                    $employee->mobile = "";
+                }else{
+                    $employee->mobile = $data[$c];
                 }
                 $c++;
-                $employee->startwork_date = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $employee->address = "";
+                }else{
+                    $employee->address = $data[$c];
+                }
                 $c++;
-                $employee->endwork_date = date_create($data[$c]);
+                if($data[$c] == "-"){
+                    $employee->marital_status = 1;
+                }else{
+                    if (strnatcasecmp($data[$c], "single") == 0) {
+                        $employee->marital_status = 1;
+                    } else if (strnatcasecmp($data[$c], "married") == 0) {
+                        $employee->marital_status = 2;
+                    } else if (strnatcasecmp($data[$c], "separated") == 0) {
+                        $employee->marital_status = 3;
+                    } else {
+                        $employee->marital_status = 4;
+                    }
+                }
+                $c++;
+                if($data[$c] == "-"){
+                    $employee->startwork_date = date_create("0-0-0");
+                }else{
+                    $employee->startwork_date = date_create($data[$c]);
+                }
+                $c++;
+                if($data[$c] == "-"){
+                    $employee->endwork_date = date_create("01-0-0");
+                }else{
+                    $employee->endwork_date = date_create($data[$c]);
+                }
                 $c++;
                 $employee->is_employee = 1;
-
                 $objEmployeeType = EmployeeType::select('name', 'id')->where('name', 'like', $data[$c])->first();
                 $employee->employee_type_id = $objEmployeeType->id;
                 $c++;
-
                 $objTeam = Team::select('name', 'id')->where('name', 'like', $data[$c])->first();
                 $employee->team_id = $objTeam->id;
                 $c++;
-
                 $objRole = Role::select('name', 'id')->where('name', 'like', $data[$c])->first();
                 $employee->role_id = $objRole->id;
                 $c++;
@@ -364,12 +395,14 @@ class EmployeeController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'employee-list.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new InvoicesExport($this->searchEmployeeService, $request), 'employee-list-'.$time.'.csv');
     }
 
     public function downloadTemplate()
     {
-        return Excel::download(new TemplateExport(), 'template.csv');
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new TemplateExport(), 'employee-template-'.$time.'.csv');
     }
     /*
             ALL DEBUG
