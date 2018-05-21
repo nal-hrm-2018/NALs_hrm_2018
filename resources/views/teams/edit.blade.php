@@ -116,16 +116,20 @@
                                         onchange="choosePO()">
 
                                     @foreach($allEmployeeHasPOs as $allEmployeeHasPO)
-                                        @if(\Illuminate\Support\Facades\Auth::user()->id == $allEmployeeHasPO->id )
-
+                                        {{--@if(\Illuminate\Support\Facades\Auth::user()->id != $numberPoInRole )
                                             <option selected="selected"  value="{{$idEmployee}}" id="po_0">
-                                                {{$nameEmployee}}
+                                                {{$poEmployee->name}}
                                             </option>
-                                        @else
-                                            <option value="{{ $allEmployeeHasPO['id']}}" id="po_{{ $allEmployeeHasPO['id']}}">
+                                        @else--}}
+                                            {{--<option value="0" id="po_0">{{ trans('employee.drop_box.placeholder-default') }}</option>--}}
+                                            {{$selected = ""}}
+                                            @if( $allEmployeeHasPO['id'] == $poEmployee->id)
+                                                {{$selected = "selected"}}
+                                            @endif
+                                            <option value="{{ $allEmployeeHasPO['id']}}" id="po_{{ $allEmployeeHasPO['id']}}" {{$selected}}>
                                                 {{ $allEmployeeHasPO -> name }}
                                             </option>
-                                        @endif
+
                                     @endforeach
                                 </select>
                             </div>
@@ -255,7 +259,7 @@
                 <script type="text/javascript">
                     function addFunction() {
                         $id = document.getElementById("member").value;
-                        $idPo = document.getElementById("po_0").value;
+                        $idPo = document.getElementById("po_{{$poEmployee->id}}").value;
                         if($id == document.getElementById("select_po_name").value){
                             alert("Member matches with PO, Please select another member !!!");
                         }else{
@@ -306,7 +310,7 @@
                                 for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                     $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
                                     if ($listEmployeeID[$i] == $idPo) {
-                                        $('#po_0').prop('disabled', true);
+                                        $('#po_{{$poEmployee->id}}').prop('disabled', true);
                                         $('#select_po_name').select2();
                                     }
                                 }
