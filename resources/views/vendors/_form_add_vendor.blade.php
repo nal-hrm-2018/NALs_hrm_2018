@@ -233,3 +233,9 @@
     </div>
 </div>
 {!! Form::close() !!}
+<style>
+    button.btn.btn-info.pull-left {
+        float: left;
+        width:  115px;
+    }
+</style>

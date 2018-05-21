@@ -232,7 +232,7 @@
                               </div>
                             </div>
                             <div class="modal-footer center">
-                              <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                              <button id="btn_reset_form_vendor" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
                                   RESET
                               </button>
                               <button type="submit" id="searchListEmployee" class="btn btn-primary">
