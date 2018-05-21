@@ -104,7 +104,7 @@ class TeamController extends Controller
         $numberPoInRole = $rolePoInRole->id;
         $allRoleInTeam = Role::all();
         $allTeam = Team::all();
-        if ($teamOfEmployee == null) {
+        if ($teamOfEmployee != $id) {
             return view('errors.403');
         } else {
             $poEmployee = Employee::select('id', 'email', 'name')
