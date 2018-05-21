@@ -124,13 +124,6 @@ class ImportFile{
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Password field is required.</li>";
-                }
-                if(strlen($data[$c]) < 6){
-                    $listError .= "<li>Row ".$row.": The Password must be at least 6 characters..</li>";
-                }
-                $c++;
-                if($data[$c] == null){
                     $listError .= "<li>Row ".$row.": The Name field is required.</li>";   
                 }
                 $c++;
@@ -263,13 +256,6 @@ class ImportFile{
                             $listError .= "<li>Row ".$row.": The Email must be a valid email address..</li>";
                         }
                     }
-                }
-                $c++;
-                if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Password field is required.</li>";
-                }
-                if(strlen($data[$c]) < 6){
-                    $listError .= "<li>Row ".$row.": The Password must be at least 6 characters..</li>";
                 }
                 $c++;
                 if($data[$c] == null){

@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="modal-footer center">
                                     <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
-                                                class="fa fa-search"></span>
+                                                class="glyphicon glyphicon-upload"></span>
                                         IMPORT
                                     </button>
                                 </div>
@@ -160,7 +160,7 @@
                 var elementRemove = $(this).data('employee-id');
                 var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Do you want to delete vendor "'+ nameRemove +'"?')) {
+                if (confirm('Do you want to delete vendor has id: '+elementRemove+'. Name: "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/vendors') }}' + '/' + elementRemove,
