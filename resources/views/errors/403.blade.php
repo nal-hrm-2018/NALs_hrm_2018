@@ -2,7 +2,7 @@
 @section('content')
     <div class="content-wrapper">
         <section>
-            <h4>You don't access denied. Call Us, please!...</h4>
+            <div id="msg"></div>
         </section>
     </div>
 @endsection

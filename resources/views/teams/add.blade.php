@@ -100,11 +100,17 @@
                     <div class="col-md-1" style="display: inline;">
                         <div style="float: right;">
                             <button type="submit"
-                                    class="btn btn-info pull-left">{{trans('common.button.save')}}</button>
+                                    class="btn btn-info pull-left" id="tolen">{{trans('common.button.save')}}</button>
                         </div>
                     </div>
                 </div>
                 {!! Form::close() !!}
+                <style>
+                    button.btn.btn-info.pull-left {
+                        float:  left;
+                        width: 115px;
+                    }
+                </style>
                 <script type="text/javascript"
                         src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
