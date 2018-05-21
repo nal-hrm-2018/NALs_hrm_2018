@@ -90,8 +90,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer center">
-                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
-                                                class="fa fa-search"></span>
+                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><<span
+                                                class="glyphicon glyphicon-upload"></span>
                                         IMPORT
                                     </button>
                                 </div>

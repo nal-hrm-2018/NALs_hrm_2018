@@ -320,7 +320,7 @@ class VendorController extends Controller
                 $vendor->name = $data[$c];
                 $c++;
                 if($data[$c] == "-"){
-                    $vendor->birthday = date_create("0-0-0");
+                    $vendor->birthday = null;
                 }else{
                     $vendor->birthday = date_create($data[$c]);
                 }
@@ -360,15 +360,23 @@ class VendorController extends Controller
                 }
                 $c++;
                 if($data[$c] == "-"){
-                    $vendor->startwork_date = date_create("0-0-0");
+                    $vendor->startwork_date = null;
                 }else{
                     $vendor->startwork_date = date_create($data[$c]);
                 }
                 $c++;
                 if($data[$c] == "-"){
-                    $vendor->endwork_date = date_create("1-0-0");
+                    $vendor->endwork_date = null;
+                    $vendor->work_status = 0;
                 }else{
+                    $date = new DateTime;
+                    $date = $date->format('Y-m-d H:i:s');
                     $vendor->endwork_date = date_create($data[$c]);
+                    if(strtotime($data[$c]) < strtotime($date)){
+                        $vendor->work_status = 1;
+                    }else{
+                        $vendor->work_status = 0;
+                    }
                 }
                 $c++;
                 $vendor->is_employee = 0;

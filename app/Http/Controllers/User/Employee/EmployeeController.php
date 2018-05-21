@@ -80,6 +80,13 @@ class EmployeeController extends Controller
         $employee->marital_status = $request->marital_status;
         $employee->startwork_date = $request->startwork_date;
         $employee->endwork_date = $request->endwork_date;
+        $date = new DateTime;
+        $date = $date->format('Y-m-d H:i:s');
+        if(strtotime($employee->endwork_date) < strtotime($date)){
+            $employee->work_status = 1;
+        }else{
+            $employee->work_status = 0;
+        }
         $employee->is_employee = 1;
         $employee->employee_type_id = $request->employee_type_id;
         $employee->team_id = $request->team_id;
@@ -188,6 +195,13 @@ class EmployeeController extends Controller
         $employee->marital_status = $request->marital_status;
         $employee->startwork_date = $request->startwork_date;
         $employee->endwork_date = $request->endwork_date;
+        $date = new DateTime;
+        $date = $date->format('Y-m-d H:i:s');
+        if(strtotime($employee->endwork_date) < strtotime($date)){
+            $employee->work_status = 1;
+        }else{
+            $employee->work_status = 0;
+        }
         $employee->employee_type_id = $request->employee_type_id;
         $employee->team_id = $request->team_id;
         $employee->role_id = $request->role_id;
@@ -318,7 +332,7 @@ class EmployeeController extends Controller
                 $employee->name = $data[$c];
                 $c++;
                 if($data[$c] == "-"){
-                    $employee->birthday = date_create("0-0-0");
+                    $employee->birthday = null;
                 }else{
                     $employee->birthday = date_create($data[$c]);
                 }
@@ -359,15 +373,23 @@ class EmployeeController extends Controller
                 }
                 $c++;
                 if($data[$c] == "-"){
-                    $employee->startwork_date = date_create("0-0-0");
+                    $employee->startwork_date = null;
                 }else{
                     $employee->startwork_date = date_create($data[$c]);
                 }
                 $c++;
                 if($data[$c] == "-"){
-                    $employee->endwork_date = date_create("01-0-0");
+                    $employee->endwork_date = null;
+                    $employee->work_status = 0;
                 }else{
+                    $date = new DateTime;
+                    $date = $date->format('Y-m-d H:i:s');
                     $employee->endwork_date = date_create($data[$c]);
+                    if(strtotime($data[$c]) < strtotime($date)){
+                        $employee->work_status = 1;
+                    }else{
+                        $employee->work_status = 0;
+                    }
                 }
                 $c++;
                 $employee->is_employee = 1;
