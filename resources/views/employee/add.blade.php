@@ -301,7 +301,7 @@
                             </div>
                             <div class="col-md-2" style="display: inline;">
                                 <div style="float: right;">
-                                    <button type="submit" class="btn btn-info pull-left">Add Employee</button>
+                                    <button type="submit" class="btn btn-info pull-left">ADD</button>
                                 </div>
                             </div>
                         </div>

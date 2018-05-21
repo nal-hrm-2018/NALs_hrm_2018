@@ -73,6 +73,13 @@
                 <li class="active">Edit team</li>
             </ol>
         </section>
+        <SCRIPT LANGUAGE="JavaScript">
+            function confirmTeam($msg) {
+                name = $('#team_name').val();
+                id = $('#id_team').val();
+                return confirm("Would you like to edit team "+name+" (id = "+id+")");
+            }
+        </SCRIPT>
 
         <!-- Main content -->
         <section class="content">
@@ -84,6 +91,7 @@
                     </div>
                     {{Form::model($teamById,array('url' => ['/teams', $teamById['id']], 'method' => 'PUT', 'id' => 'form_edit_team'))}}
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" id="id_team" value="{{ $teamById['id'] }}">
                     <div class="row">
                         <div class="col-md-3">
                         </div>
@@ -190,7 +198,7 @@
                     </div>
                     <div class="col-md-1" style="display: inline;">
                         <div style="float: right;">
-                            <button type="submit" id="button-edit-team" class="btn btn-info pull-left">Update</button>
+                            <button type="submit" id="button-edit-team" class="btn btn-info pull-left">SAVE</button>
                         </div>
                     </div>
                 </div>
@@ -205,7 +213,7 @@
                 <script type="text/javascript">
                     $(document).ready(function (){
                         $("#form_edit_team").submit( function(){
-                            return confirmAction('Would you like to edit it?');
+                            return confirmTeam('');
                         });
                     });
                 </script>
@@ -333,55 +341,56 @@
     <script>
         $(function () {
             $("#btn_reset_form_team").bind("click", function () {
-                $("#lb_error_team_name").empty();
-                $("#lb_error_po_name").empty();
-                $("#lb_error_employees").empty();
+                location.reload();
+                {{--$("#lb_error_team_name").empty();--}}
+                {{--$("#lb_error_po_name").empty();--}}
+                {{--$("#lb_error_employees").empty();--}}
 
-                var select_members = $("#member");
-                select_members.val('0');
-                $("#team_name").val('');
+                {{--var select_members = $("#member");--}}
+                {{--select_members.val('0');--}}
+                {{--$("#team_name").val('');--}}
 
-                var select_po = $('#select_po_name');
-                select_po.val({{$idEmployee}}).change();
+                {{--var select_po = $('#select_po_name');--}}
+                {{--select_po.val({{$idEmployee}}).change();--}}
 
 
-                $("#contextMenuTeam").innerHTML ="";
-                $("#listChoose").innerHTML ="";
+                {{--$("#contextMenuTeam").innerHTML ="";--}}
+                {{--$("#listChoose").innerHTML ="";--}}
 
-                for($i = $listEmployeeID.length - $dem; $i < $listEmployeeID.length; $i++){
-                    $('#member_'+$listEmployeeID[$i]).prop('disabled', false);
-                    $('#member').select2();
+                {{--for($i = $listEmployeeID.length - $dem; $i < $listEmployeeID.length; $i++){--}}
+                    {{--$('#member_'+$listEmployeeID[$i]).prop('disabled', false);--}}
+                    {{--$('#member').select2();--}}
 
-                    $('#po_'+$listEmployeeID[$i]).prop('disabled', false);
-                    $('#select_po_name').select2();
-                }
+                    {{--$('#po_'+$listEmployeeID[$i]).prop('disabled', false);--}}
+                    {{--$('#select_po_name').select2();--}}
+                {{--}--}}
 
-                $listEmployeeID = new Array();
-                $listEmployeeName = new Array();
-                $listEmployeeTeam = new Array();
-                $listEmployeeRole = new Array();
-                @foreach($allEmployeeInTeams as $allEmployeeInTeam)
-                    $listEmployeeID.push({{$allEmployeeInTeam->id}});
-                    $listEmployeeName.push('{{$allEmployeeInTeam->name}}');
-                    $listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');
-                    $listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}'); 
-                @endforeach
-                $listAdd1 = "";
-                for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                    $listAdd1 += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +
-                        "<td>" + $listEmployeeID[$i] + "</td>" +
-                        "<td>" + $listEmployeeTeam[$i] + "</td>" +
-                        "<td>" + $listEmployeeRole[$i] + "</td>" +
-                        "<td>" + $listEmployeeName[$i] + "</td>" +
-                        "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
-                }
+                {{--$listEmployeeID = new Array();--}}
+                {{--$listEmployeeName = new Array();--}}
+                {{--$listEmployeeTeam = new Array();--}}
+                {{--$listEmployeeRole = new Array();--}}
+                {{--@foreach($allEmployeeInTeams as $allEmployeeInTeam)--}}
+                    {{--$listEmployeeID.push({{$allEmployeeInTeam->id}});--}}
+                    {{--$listEmployeeName.push('{{$allEmployeeInTeam->name}}');--}}
+                    {{--$listEmployeeTeam.push('{{isset($allEmployeeInTeam->team)?$allEmployeeInTeam->team:'---'}}');--}}
+                    {{--$listEmployeeRole.push('{{isset($allEmployeeInTeam->role)?$allEmployeeInTeam->role:'---'}}'); --}}
+                {{--@endforeach--}}
+                {{--$listAdd1 = "";--}}
+                {{--for ($i = 0; $i < $listEmployeeID.length; $i++) {--}}
+                    {{--$listAdd1 += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +--}}
+                        {{--"<td>" + $listEmployeeID[$i] + "</td>" +--}}
+                        {{--"<td>" + $listEmployeeTeam[$i] + "</td>" +--}}
+                        {{--"<td>" + $listEmployeeRole[$i] + "</td>" +--}}
+                        {{--"<td>" + $listEmployeeName[$i] + "</td>" +--}}
+                        {{--"<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i] + ")\"></i></td></tr>";--}}
+                {{--}--}}
 
-                $listAdd1 = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
-                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd1 +
-                    "</tbody></table></div>";
-                document.getElementById("contextMenuTeam").innerHTML = $listAdd1;
-                document.getElementById("listChoose").innerHTML = $listChoose1;
-                $listEmployeeID1 = null; $listEmployeeName1 =null;
+                {{--$listAdd1 = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +--}}
+                    {{--"<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd1 +--}}
+                    {{--"</tbody></table></div>";--}}
+                {{--document.getElementById("contextMenuTeam").innerHTML = $listAdd1;--}}
+                {{--document.getElementById("listChoose").innerHTML = $listChoose1;--}}
+                {{--$listEmployeeID1 = null; $listEmployeeName1 =null;--}}
             });
         });
     </script>

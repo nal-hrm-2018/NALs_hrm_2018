@@ -29,7 +29,7 @@
             function confirmVendor($msg) {
                 name = $('#name').val();
                 id = $('#id_vendor').val();
-                return confirm("Would you like to edit vendor "+name+" ("+id+")");
+                return confirm("Would you like to edit vendor "+name+" (id = "+id+")");
             }
         </SCRIPT>
 
@@ -244,29 +244,30 @@
                       <script type="text/javascript">
                           $(function () {
                               $("#btn_reset_form_vendor").on("click", function () {
-                                  $("#lb_error_email").empty();
-                                  $("#lb_error_address").empty();
-                                  $("#lb_error_birthday").empty();
-                                  $("#lb_error_endwork_date").empty();
-                                  $("#lb_error_startwork_date").empty();
-                                  $("#lb_error_gender").empty();
-                                  $("#lb_error_marital_status").empty();
-                                  $("#lb_error_mobile").empty();
-                                  $("#lb_error_name").empty();
-                                  $("#lb_error_role_id").empty();
-                                  $("#lb_error_company").empty();
+                                  location.reload();
+                                  {{--$("#lb_error_email").empty();--}}
+                                  {{--$("#lb_error_address").empty();--}}
+                                  {{--$("#lb_error_birthday").empty();--}}
+                                  {{--$("#lb_error_endwork_date").empty();--}}
+                                  {{--$("#lb_error_startwork_date").empty();--}}
+                                  {{--$("#lb_error_gender").empty();--}}
+                                  {{--$("#lb_error_marital_status").empty();--}}
+                                  {{--$("#lb_error_mobile").empty();--}}
+                                  {{--$("#lb_error_name").empty();--}}
+                                  {{--$("#lb_error_role_id").empty();--}}
+                                  {{--$("#lb_error_company").empty();--}}
 
-                                  $("#email").val('{!! old(isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}');
-                                  $("#name").val('{!! old(isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}');
-                                  $("#address").val('{!! old(isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}');
-                                  $("#mobile").val('{!! old(isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}');
-                                  $("#birthday").val('value', '{!! old(isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}');
-                                  $("#startwork_date").val('value', '{!! old(isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}');
-                                  $("#endwork_date").val('value', '{!! old(isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}');
+                                  {{--$("#email").val('{!! old(isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}');--}}
+                                  {{--$("#name").val('{!! old(isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}');--}}
+                                  {{--$("#address").val('{!! old(isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}');--}}
+                                  {{--$("#mobile").val('{!! old(isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}');--}}
+                                  {{--$("#birthday").val('value', '{!! old(isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}');--}}
+                                  {{--$("#startwork_date").val('value', '{!! old(isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}');--}}
+                                  {{--$("#endwork_date").val('value', '{!! old(isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}');--}}
 
-                                  $("#gender").val('{!! isset($objEmployee["gender"]) ? $objEmployee["gender"] : null !!}').change();
-                                  $("#marital_status").val('{!! isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null !!}').change();
-                                  $("#role_id").val('{!! isset($objEmployee["role_id"]) ? $objEmployee["role_id"] : null !!}').change();
+                                  {{--$("#gender").val('{!! isset($objEmployee["gender"]) ? $objEmployee["gender"] : null !!}').change();--}}
+                                  {{--$("#marital_status").val('{!! isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null !!}').change();--}}
+                                  {{--$("#role_id").val('{!! isset($objEmployee["role_id"]) ? $objEmployee["role_id"] : null !!}').change();--}}
                               });
                           });
                         function validate(){
