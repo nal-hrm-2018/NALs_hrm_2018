@@ -95,7 +95,7 @@ class VendorExport implements FromCollection, WithEvents, WithHeadings
                  $roleFindId = Role::where('id',$item->role_id)->first();
                  $item->role_id = $roleFindId->name;
              }
-             $item->work_status = $item->work_status ? 'Unactive' : 'Active';
+             $item->work_status = $item->work_status ? 'Inactive' : 'Active';
              return $item;
          });
     }

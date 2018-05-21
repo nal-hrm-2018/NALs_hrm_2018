@@ -1,6 +1,33 @@
 <div class="box">
     <!-- /.box-header -->
     <div class="box-body">
+        <div>
+            <div class="dataTables_length" id="project-list_length" style="float:right">
+                <label>{{trans('pagination.show.number_record_per_page')}}
+                    {!! Form::select(
+                        'select_length',
+                        getArraySelectOption() ,
+                        null ,
+                        [
+                        'id'=>'select_length',
+                        'class' => 'form-control input-sm',
+                        'aria-controls'=>"project-list"
+                        ]
+                        )
+                     !!}
+                </label>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                $('#select_length').change(function () {
+                    $("#number_record_per_page").val($(this).val());
+                    $('#form_search_vendor').submit()
+                });
+            })();
+
+        </script>
         <table id="employee-list" class="table table-bordered table-striped">
             <thead>
             <tr>
@@ -41,6 +68,9 @@
             @endforeach
             </tbody>
         </table>
+        @if(isset($param))
+            {{  $vendors->appends($param)->render('vendor.pagination.custom') }}
+        @endif
     </div>
     <!-- /.box-body -->
 </div>
