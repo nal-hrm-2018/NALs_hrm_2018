@@ -100,7 +100,7 @@
                                 <!-- /.input group -->
                             </div>
                             <div class="" id="name_error" style="color: red;">
-                                <label style="color: red;">{{$errors->first('team_name')}}</label>
+                                <label id="lb_error_team_name" style="color: red; ">{{$errors->first('team_name')}}</label>
                             </div>
                             <div class="form-group">
                                 <label>PO name</label><br/>
@@ -122,7 +122,7 @@
                                 </select>
                             </div>
                             <div class="" style="color: red;">
-                                <label style="color: red;">{{$errors->first('po_name')}}</label>
+                                <label id="lb_error_po_name" style="color: red;">{{$errors->first('po_name')}}</label>
                             </div>
                             <div class="form-group">
                                 <label>Member</label><br/>
@@ -138,7 +138,7 @@
                                 </button>
                             </div>
                             <div class="" style="color: red;">
-                                <label style="color: red;">{{$errors->first('employees')}}</label>
+                                <label id="lb_error_employees" style="color: red;">{{$errors->first('employees')}}</label>
                             </div>
                             <div class="form-group" id="listChoose" style="display: none;">
                                 @foreach($allEmployeeInTeams as $allEmployeeInTeam)
@@ -333,6 +333,9 @@
     <script>
         $(function () {
             $("#btn_reset_form_team").bind("click", function () {
+                $("#lb_error_team_name").empty();
+                $("#lb_error_po_name").empty();
+                $("#lb_error_employees").empty();
 
                 var select_members = $("#member");
                 select_members.val('0');

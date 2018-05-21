@@ -30,12 +30,27 @@
                         }
                         $(function () {
                             $("#btn_reset_form_vendor").on("click", function () {
+                                $("#lb_error_email").empty();
+                                $("#lb_error_password").empty();
+                                $("#lb_error_address").empty();
+                                $("#lb_error_birthday").empty();
+                                $("#lb_error_employee_type_id").empty();
+                                $("#lb_error_endwork_date").empty();
+                                $("#lb_error_startwork_date").empty();
+                                $("#lb_error_gender").empty();
+                                $("#lb_error_marital_status").empty();
+                                $("#lb_error_mobile").empty();
+                                $("#lb_error_name").empty();
+                                $("#lb_error_role_id").empty();
+                                $("#lb_error_company").empty();
+                                $("#lb_error_password_confirm").empty();
                                 $("#email").val('');
                                 $("#password").val('');
                                 $("#cfPass").val('');
                                 $("#name").val('');
                                 $("#address").val('');
                                 $("#mobile").val('');
+                                $("#company").val('');
                                 $("#gender").val('').change();
                                 $("#married").val('').change();
                                 $("#role_team").val('').change();
