@@ -34,7 +34,7 @@ class TeamServiceImpl extends CommonService
             $team = new Team();
             $team->name = $team_name;
             $members = Employee::where('delete_flag', 0)->whereIn('id', (array)$id_members)->get();
-            $member_role_dev = Role::select('id')->where('name','=','TeamDev')->first()->id;
+            $member_role_dev = Role::select('id')->where('name','=','Dev')->first()->id;
             //check old role member is PO ?
             foreach ($members as $member) {
                 $member_role = Role::find($member->role_id)->where('delete_flag',0);
@@ -107,7 +107,7 @@ class TeamServiceImpl extends CommonService
 
                     $findAllEmployeeInTeams->save();
 
-                    $member_role_dev = Role::select('id')->where('name','=','TeamDev')->first()->id;
+                    $member_role_dev = Role::select('id')->where('name','=','Dev')->first()->id;
 
 
                     foreach ($multipleEmployeesByIds as $multipleEmployeesById) {

@@ -12,7 +12,7 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $role = array('PO','TeamDev','BA','ScrumMater');
+        $role = array('PO','Dev','BA','ScrumMater');
         if(!\App\Models\Role::first()){
             foreach (range(0,count ($role)-1) as $index) {
                 DB::table('roles')->insert([

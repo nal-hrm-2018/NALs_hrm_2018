@@ -160,7 +160,7 @@
                 var elementRemove = $(this).data('employee-id');
                 var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Do you want to delete vendor "'+ nameRemove +'"?')) {
+                if (confirm('Do you want to delete vendor has id: '+elementRemove+'. Name: "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/vendors') }}' + '/' + elementRemove,
