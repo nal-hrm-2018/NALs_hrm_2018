@@ -21,7 +21,6 @@ class TemplateVendorExport implements  WithHeadings
     {
         return [
             'EMAIL',
-            'PASSWORD',
             'NAME',
             'BIRTHDAY',
             'GENDER',

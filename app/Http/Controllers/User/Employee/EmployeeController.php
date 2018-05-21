@@ -314,8 +314,7 @@ class EmployeeController extends Controller
                 $employee = new Employee;
                 $employee->email = $data[$c];
                 $c++;
-                $employee->password = bcrypt($data[$c]);
-                $c++;
+                $employee->password = bcrypt("123456");
                 $employee->name = $data[$c];
                 $c++;
                 if($data[$c] == "-"){

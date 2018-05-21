@@ -316,8 +316,7 @@ class VendorController extends Controller
                 $vendor = new Employee;
                 $vendor->email = $data[$c];
                 $c++;
-                $vendor->password = bcrypt($data[$c]);
-                $c++;
+                $vendor->password = bcrypt("123456");
                 $vendor->name = $data[$c];
                 $c++;
                 if($data[$c] == "-"){
