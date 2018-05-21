@@ -27,13 +27,16 @@
         <div id="msg">
         </div>
         <SCRIPT LANGUAGE="JavaScript">
-            function confirmAction($msg) {
-                return confirm($msg)
+            function confirmEmployee($msg) {
+                name = $('#name').val();
+                id = $('#id_employee').val();
+                return confirm("Would you like to edit employee "+name+" (id = "+id+")");
             }
         </SCRIPT>
           <div class="row">
-            {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
+            {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmEmployee("Would you like to edit it?")'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
             <div class="col-md-3">
               <CENTER>
                 <div>
@@ -53,20 +56,20 @@
                   readonly="readonly"
                 @endif
                 >
-                <label style="color: red;">{{$errors->first('email')}}</label>
+                <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
-                <label style="color: red;">{{$errors->first('name')}}</label>
+                <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Address</label>
                 <input type="text" class="form-control" placeholder="Address"  name="address" id="adress" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
-                <label style="color: red;">{{$errors->first('address')}}</label>
+                <label id="lb_error_address" style="color: red;">{{$errors->first('address')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -77,7 +80,7 @@
                   </div>
                   <input type="number" class="form-control" placeholder="Phone"  name="mobile" id="mobile" value="{!! old('mobile', isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}">
                 </div>
-                <label style="color: red;">{{$errors->first('mobile')}}</label>
+                <label id="lb_error_mobile" style="color: red;">{{$errors->first('mobile')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -87,7 +90,7 @@
                   <option value="2" id="gender_2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>Male</option>
                   <option value="3" id="gender_3" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 3) echo'selected'; ?>>N/a</option>
                 </select>
-                <label style="color: red;">{{$errors->first('gender')}}</label>
+                <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
               </div>
               <div class="form-group">
                 <label>Married</label>
@@ -97,7 +100,7 @@
                   <option value="3" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 3) echo'selected'; ?>>Separated</option>
                   <option value="4" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 4) echo'selected'; ?>>Devorce</option>
                 </select>
-                <label style="color: red;">{{$errors->first('marital_status')}}</label>
+                <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
               </div>
               <div class="form-group">
                 <label>Team</label>
@@ -113,7 +116,7 @@
                     }
                   ?>
                 </select>
-                <label style="color: red; ">{{$errors->first('team_id')}}</label>
+                <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
               </div>
               <div class="form-group">
                 <label>Birthday</label>
@@ -123,7 +126,7 @@
                   </div>
                   <input type="date" class="form-control pull-right" id="birthday" name="birthday" id="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
                 </div>
-                <label style="color: red;">{{$errors->first('birthday')}}</label>
+                <label id="lb_error_birthday" style="color: red;">{{$errors->first('birthday')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -140,7 +143,7 @@
                     }
                   ?>
                 </select>
-                <label style="color: red; ">{{$errors->first('employee_type_id')}}</label>
+                <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
               </div>
               <div class="form-group">
                 <label>Role of team</label>
@@ -156,7 +159,7 @@
                     }
                   ?>
                 </select>
-                <label style="color: red; ">{{$errors->first('role_id')}}</label>
+                <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
               </div>
               <div class="row">
                 <div class="col-md-6">
@@ -168,7 +171,7 @@
                       </div>
                       <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
                     </div>
-                    <label style="color: red;">{{$errors->first('startwork_date')}}</label>
+                    <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -180,7 +183,7 @@
                       </div>
                       <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
                     </div>
-                    <label style="color: red;">{{$errors->first('endwork_date')}}</label>
+                    <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
                     <!-- /.input group -->
                   </div>
                 </div>
@@ -194,7 +197,7 @@
                 </div>
                 <div class="col-md-4">
                   <button type="submit" class="btn btn-primary">
-                      Edit Employee
+                      SAVE
                   </button>
                 </div>
               </div>
@@ -253,7 +256,7 @@
                               </div>
                             </div>
                             <div class="modal-footer center">
-                              <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                              <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
                                   RESET
                               </button>
                               <button type="submit" id="searchListEmployee" class="btn btn-primary">
@@ -354,19 +357,33 @@
     <script>
         $(function () {
             $("#btn_reset_form_employee").bind("click", function () {
-                $("#email").val('{!! old(isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}');
-                $("#name").val('{!! old(isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}');
-                $("#address").val('{!! old(isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}');
-                $("#mobile").val('{!! old(isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}');
-                $("#endwork_date").val('value', '{!! old(isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}');
-                $("#startwork_date").val('value', '{!! old(isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}');
-                $("#endwork_date").val('value', '{!! old(isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}');
+                location.reload();
+                {{--$("#lb_error_email").empty();--}}
+                {{--$("#lb_error_password").empty();--}}
+                {{--$("#lb_error_address").empty();--}}
+                {{--$("#lb_error_birthday").empty();--}}
+                {{--$("#lb_error_employee_type_id").empty();--}}
+                {{--$("#lb_error_endwork_date").empty();--}}
+                {{--$("#lb_error_startwork_date").empty();--}}
+                {{--$("#lb_error_gender").empty();--}}
+                {{--$("#lb_error_marital_status").empty();--}}
+                {{--$("#lb_error_mobile").empty();--}}
+                {{--$("#lb_error_name").empty();--}}
+                {{--$("#lb_error_role_id").empty();--}}
+                {{--$("#lb_error_team_id").empty();--}}
+                {{--$("#email").val('{!! old(isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}');--}}
+                {{--$("#name").val('{!! old(isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}');--}}
+                {{--$("#address").val('{!! old(isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}');--}}
+                {{--$("#mobile").val('{!! old(isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}');--}}
+                {{--$("#endwork_date").val('value', '{!! old(isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}');--}}
+                {{--$("#startwork_date").val('value', '{!! old(isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}');--}}
+                {{--$("#endwork_date").val('value', '{!! old(isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}');--}}
 
-                $("#gender").val('{!! isset($objEmployee["gender"]) ? $objEmployee["gender"] : null !!}').change();
-                $("#marital_status").val('{!! isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null !!}').change();
-                $("#team_id").val('{!! isset($objEmployee["team_id"]) ? $objEmployee["team_id"] : null !!}').change();
-                $("#employee_type_id").val('{!! isset($objEmployee["employee_type_id"]) ? $objEmployee["employee_type_id"] : null !!}').change();
-                $("#role_id").val('{!! isset($objEmployee["role_id"]) ? $objEmployee["role_id"] : null !!}').change();
+                {{--$("#gender").val('{!! isset($objEmployee["gender"]) ? $objEmployee["gender"] : null !!}').change();--}}
+                {{--$("#marital_status").val('{!! isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null !!}').change();--}}
+                {{--$("#team_id").val('{!! isset($objEmployee["team_id"]) ? $objEmployee["team_id"] : null !!}').change();--}}
+                {{--$("#employee_type_id").val('{!! isset($objEmployee["employee_type_id"]) ? $objEmployee["employee_type_id"] : null !!}').change();--}}
+                {{--$("#role_id").val('{!! isset($objEmployee["role_id"]) ? $objEmployee["role_id"] : null !!}').change();--}}
             });
         });
     </script>

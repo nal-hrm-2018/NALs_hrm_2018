@@ -26,15 +26,17 @@
 
         <div id="msg"></div>
         <SCRIPT LANGUAGE="JavaScript">
-            function confirmAction($msg) {
-                return confirm($msg)
+            function confirmVendor($msg) {
+                name = $('#name').val();
+                id = $('#id_vendor').val();
+                return confirm("Would you like to edit vendor "+name+" (id = "+id+")");
             }
         </SCRIPT>
-        {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
-          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
           <div class="row">
-            {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmAction("Would you like to edit it?")'])}}
+            {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmVendor("")'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" id="id_vendor" value="{{$objEmployee["id"]}}"/>
             <div class="col-md-3">
               <CENTER>
                 <div>
@@ -50,24 +52,24 @@
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Email Address</label>
-                <input type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
+                <input id="email" type="text" class="form-control" placeholder="Email Address" name="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
                   readonly="readonly"
                 @endif
                 >
-                <label style="color: red;">{{$errors->first('email')}}</label>
+                <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
                 <!-- /.input group -->
               </div>
               
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
-                <label style="color: red;">{{$errors->first('name')}}</label>
+                <input id="name" type="text" class="form-control" placeholder="Name"  name="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+                <label id="lb_error_name" style="color: red; ">{{$errors->first('name')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Address</label>
-                <input type="text" class="form-control" placeholder="Address"  name="address" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
-                <label style="color: red;">{{$errors->first('address')}}</label>
+                <input id="address" type="text" class="form-control" placeholder="Address"  name="address" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
+                <label id="lb_error_address" style="color: red; ">{{$errors->first('address')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
@@ -76,34 +78,34 @@
                   <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
                   </div>
-                  <input type="number" class="form-control" placeholder="Phone"  name="mobile" value="{!! old('mobile', isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}">
+                  <input id="mobile" type="number" class="form-control" placeholder="Phone"  name="mobile" value="{!! old('mobile', isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}">
                 </div>
-                <label style="color: red;">{{$errors->first('mobile')}}</label>
+                <label id="lb_error_mobile" style="color: red; ">{{$errors->first('mobile')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
                 <label>Gender</label>
-                <select class="form-control select2" style="width: 100%;" name="gender">
+                <select id="gender" class="form-control select2" style="width: 100%;" name="gender">
                   <option value="1" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 1) echo'selected'; ?>>Female</option>
                   <option value="2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>Male</option>
                   <option value="3" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 3) echo'selected'; ?>>N/a</option>
                 </select>
-                <label style="color: red;">{{$errors->first('gender')}}</label>
+                <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
               </div>
               <div class="form-group">
                 <label>Married</label>
-                <select class="form-control select2" style="width: 100%;"  name="marital_status">
+                <select id="marital_status" class="form-control select2" style="width: 100%;"  name="marital_status">
                   <option value="1" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 1) echo'selected'; ?>>Single</option>
                   <option value="2" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 2) echo'selected'; ?>>Married</option>          
                   <option value="3" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 3) echo'selected'; ?>>Separated</option>
                   <option value="4" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 4) echo'selected'; ?>>Devorce</option>
                 </select>
-                <label style="color: red;">{{$errors->first('marital_status')}}</label>
+                <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
               </div>
               <div class="form-group">
                 <label>Company</label>
                 <input type="text" class="form-control" placeholder="Company"  name="company" value="{!! old('company', isset($objEmployee["company"]) ? $objEmployee["company"] : null) !!}">
-                <label style="color: red;">{{$errors->first('company')}}</label>
+                <label id="lb_error_company" style="color: red; ">{{$errors->first('company')}}</label>
                 <!-- /.input group -->
               </div>
 
@@ -115,13 +117,13 @@
                   </div>
                   <input type="date" class="form-control pull-right" id="birthday" name="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
                 </div>
-                <label style="color: red;">{{$errors->first('birthday')}}</label>
+                <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Role of team</label>
-                <select class="form-control select2" style="width: 100%;" name="role_id">
+                <select id="role_id" class="form-control select2" style="width: 100%;" name="role_id">
                   <option value="" >---Role selection---</option>
                   <?php
                     foreach($dataRoles as $val){
@@ -133,7 +135,7 @@
                     }
                   ?>
                 </select>
-                <label style="color: red; ">{{$errors->first('role_id')}}</label>
+                <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
               </div>
               <div class="row">
                 <div class="col-md-6">
@@ -145,7 +147,7 @@
                       </div>
                       <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
                     </div>
-                    <label style="color: red;">{{$errors->first('startwork_date')}}</label>
+                    <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -157,7 +159,7 @@
                       </div>
                       <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
                     </div>
-                    <label style="color: red;">{{$errors->first('endwork_date')}}</label>
+                    <label id="lb_error_endwork_date" style="color: red; ">{{$errors->first('endwork_date')}}</label>
                     <!-- /.input group -->
                   </div>
                 </div>
@@ -166,12 +168,12 @@
                 <br />
                 <div class="col-md-3" style="margin-left: 100px;">
                   <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
-                      RESET
+                      Reset
                   </button>
                 </div>
                 <div class="col-md-4">
                   <button type="submit" class="btn btn-primary">
-                      Edit VENDOR
+                      Edit
                   </button>
                 </div>
               </div>
@@ -240,6 +242,34 @@
                         </div>
                       </form>
                       <script type="text/javascript">
+                          $(function () {
+                              $("#btn_reset_form_vendor").on("click", function () {
+                                  location.reload();
+                                  {{--$("#lb_error_email").empty();--}}
+                                  {{--$("#lb_error_address").empty();--}}
+                                  {{--$("#lb_error_birthday").empty();--}}
+                                  {{--$("#lb_error_endwork_date").empty();--}}
+                                  {{--$("#lb_error_startwork_date").empty();--}}
+                                  {{--$("#lb_error_gender").empty();--}}
+                                  {{--$("#lb_error_marital_status").empty();--}}
+                                  {{--$("#lb_error_mobile").empty();--}}
+                                  {{--$("#lb_error_name").empty();--}}
+                                  {{--$("#lb_error_role_id").empty();--}}
+                                  {{--$("#lb_error_company").empty();--}}
+
+                                  {{--$("#email").val('{!! old(isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}');--}}
+                                  {{--$("#name").val('{!! old(isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}');--}}
+                                  {{--$("#address").val('{!! old(isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}');--}}
+                                  {{--$("#mobile").val('{!! old(isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}');--}}
+                                  {{--$("#birthday").val('value', '{!! old(isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}');--}}
+                                  {{--$("#startwork_date").val('value', '{!! old(isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}');--}}
+                                  {{--$("#endwork_date").val('value', '{!! old(isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}');--}}
+
+                                  {{--$("#gender").val('{!! isset($objEmployee["gender"]) ? $objEmployee["gender"] : null !!}').change();--}}
+                                  {{--$("#marital_status").val('{!! isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null !!}').change();--}}
+                                  {{--$("#role_id").val('{!! isset($objEmployee["role_id"]) ? $objEmployee["role_id"] : null !!}').change();--}}
+                              });
+                          });
                         function validate(){
                           var old_pass = document.getElementById("old_pass").value;
                           var new_pass = document.getElementById("new_pass").value;

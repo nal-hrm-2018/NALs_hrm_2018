@@ -19,7 +19,7 @@
           ])
       }}
         <!-- /.input group -->
-            <label style="color: red; ">{{$errors->first('team_name')}}</label>
+            <label id="lb_error_team_name" style="color: red; ">{{$errors->first('team_name')}}</label>
         </div>
         <div class="form-group">
             <label>PO name</label><br/>
@@ -34,7 +34,7 @@
                     </option>
                 @endforeach
             </select>
-            <label style="color: red; ">{{$errors->first('id_po')}}</label>
+            <label id="lb_error_id_po" style="color: red; ">{{$errors->first('id_po')}}</label>
         </div>
         <div class="form-group">
             <label>Member</label><br/>
@@ -54,7 +54,7 @@
             <button type="button" class="btn btn-default buttonAdd">
                 <a onclick="addFunction()"><i class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
             </button>
-            <label style="color: red; ">{{$errors->first('members')}}</label>
+            <label id="lb_error_members" style="color: red; ">{{$errors->first('members')}}</label>
         </div>
         <div class="form-group" id="listChoose" style="display: none;">
 
@@ -83,6 +83,9 @@
 <script>
     $(function () {
         $("#btn_reset_form_team").bind("click", function () {
+            $("#lb_error_team_name").empty();
+            $("#lb_error_id_po").empty();
+            $("#lb_error_members").empty();
             var select_po = $('#id_po');
             select_po.val('').change();
             var select_members = $("#members");

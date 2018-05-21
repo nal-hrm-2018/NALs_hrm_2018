@@ -341,12 +341,30 @@
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->team)? $employee->team->name: "-"}}</p></td>
-                                        <td><p class="fix-center-employee">{{ isset($employee->role)? $employee->role->name: "-" }}</p></td>
+                                        <td><p class="fix-center-employee">
+                                            <?php
+                                                if(isset($employee->role)){
+                                                    if($employee->role->name == "PO"){
+                                                        echo "<span class='label label-primary'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "Dev"){
+                                                        echo "<span class='label label-success'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "BA"){
+                                                        echo "<span class='label label-info'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "ScrumMaster"){
+                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                    }
+                                                } else {
+                                                    echo "-";
+                                                }
+                                                ?>
+                                            </p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">
-                                            @if($employee->work_status == 0) <span class="label label-primary">Active</span>
-                                            @elseif($employee->work_status == 1) <span class="label label-danger">Inactive</span>
-                                            @endif
+                                                @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
+                                                    <span class="label label-primary">{{trans('employee.profile_info.policy_status.unexpired')}}</span>
+                                                @else
+                                                    <span class="label label-danger">{{trans('employee.profile_info.policy_status.expired')}}</span>
+                                                @endif
                                             </p>
                                         </td>
                                         <td style="text-align: center;width: 50px;">
@@ -419,7 +437,7 @@
                 var elementRemove = $(this).data('employee-id');
                 var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Do you want to delete employee "'+ nameRemove +'"?')) {
+                if (confirm('Do you want to delete employee has id: '+elementRemove+'. Name: "'+ nameRemove +'"?')) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/employee') }}' + '/' + elementRemove,

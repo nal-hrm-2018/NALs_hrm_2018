@@ -47,28 +47,28 @@
                                     <label>Email Address</label>
                                     <input type="text" class="form-control" placeholder="Email Address" name="email"
                                            id="email" value="{!! old('email') !!}{{ isset($employee) ? $employee->email : null}}">
-                                    <label style="color: red;">{{$errors->first('email')}}</label>
+                                    <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
                                     <input type="password" class="form-control" placeholder="Password" name="password"
                                            id="password" value="{!! old('password') !!}">
-                                    <label style="color: red; ">{{$errors->first('password')}}</label>
+                                    <label id="lb_error_password" style="color: red; ">{{$errors->first('password')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>Confirm password</label>
                                     <input type="password" class="form-control" placeholder="Confirm password"
                                            name="confirm_confirmation" id="cfPass" value="{!! old('password') !!}">
-                                    <label style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
+                                    <label id="lb_error_password_confirm" style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>Name</label>
                                     <input type="text" class="form-control" placeholder="Name" name="name" id="name"
                                            value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
-                                    <label style="color: red; ">{{$errors->first('name')}}</label>
+                                    <label id="lb_error_name" style="color: red; ">{{$errors->first('name')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
@@ -76,7 +76,7 @@
                                     <input type="text" class="form-control" placeholder="Address" name="address"
                                            id="address"
                                            value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
-                                    <label style="color: red; ">{{$errors->first('address')}}</label>
+                                    <label id="lb_error_address" style="color: red; ">{{$errors->first('address')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
@@ -89,7 +89,7 @@
                                                id="mobile"
                                                value="{!! old('mobile') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
                                     </div>
-                                    <label style="color: red; ">{{$errors->first('mobile')}}</label>
+                                    <label id="lb_error_mobile" style="color: red; ">{{$errors->first('mobile')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
@@ -126,7 +126,7 @@
                                         >N/a
                                         </option>
                                     </select>
-                                    <label style="color: red;">{{$errors->first('gender')}}</label>
+                                    <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Married</label>
@@ -172,7 +172,7 @@
                                         >Devorce
                                         </option>
                                     </select>
-                                    <label style="color: red;">{{$errors->first('marital_status')}}</label>
+                                    <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Team</label>
@@ -194,7 +194,7 @@
                                         }
                                         ?>
                                     </select>
-                                    <label style="color: red; ">{{$errors->first('team_id')}}</label>
+                                    <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Birthday</label>
@@ -207,7 +207,7 @@
                                                    echo $employee->birthday;
                                                }?>">
                                     </div>
-                                    <label style="color: red; ">{{$errors->first('birthday')}}</label>
+                                    <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
@@ -229,7 +229,7 @@
                                         }
                                         ?>
                                     </select>
-                                    <label style="color: red; ">{{$errors->first('employee_type_id')}}</label>
+                                    <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>Role of team</label>
@@ -250,7 +250,7 @@
                                         }
                                         ?>
                                     </select>
-                                    <label style="color: red; ">{{$errors->first('role_id')}}</label>
+                                    <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -267,7 +267,7 @@
                                                            echo $employee->startwork_date;
                                                        }?>">
                                             </div>
-                                            <label style="color: red; ">{{$errors->first('startwork_date')}}</label>
+                                            <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -283,7 +283,7 @@
                                                            echo $employee->endwork_date;
                                                        }?>">
                                             </div>
-                                            <label style="color: red; ">{{$errors->first('endwork_date')}}</label>
+                                            <label id="lb_error_endwork_date" style="color: red; ">{{$errors->first('endwork_date')}}</label>
                                             <!-- /.input group -->
                                         </div>
                                     </div>
@@ -301,7 +301,7 @@
                             </div>
                             <div class="col-md-2" style="display: inline;">
                                 <div style="float: right;">
-                                    <button type="submit" class="btn btn-info pull-left">Add Employee</button>
+                                    <button type="submit" class="btn btn-info pull-left">ADD</button>
                                 </div>
                             </div>
                         </div>
@@ -311,6 +311,20 @@
                     <script>
                         $(function () {
                             $("#btn_reset_form_employee").bind("click", function () {
+                                $("#lb_error_email").empty();
+                                $("#lb_error_password").empty();
+                                $("#lb_error_address").empty();
+                                $("#lb_error_birthday").empty();
+                                $("#lb_error_employee_type_id").empty();
+                                $("#lb_error_endwork_date").empty();
+                                $("#lb_error_startwork_date").empty();
+                                $("#lb_error_gender").empty();
+                                $("#lb_error_marital_status").empty();
+                                $("#lb_error_mobile").empty();
+                                $("#lb_error_name").empty();
+                                $("#lb_error_role_id").empty();
+                                $("#lb_error_team_id").empty();
+                                $("#lb_error_password_confirm").empty();
                                 $("#email").val('');
                                 $("#password").val('');
                                 $("#cfPass").val('');

@@ -43,7 +43,7 @@
                                     <th>Role</th>
                                     <th>Doing Projects</th>
                                     <th>Email</th>
-                                    <th>Phone</th>
+                                    <th class="text-center">Phone</th>
                                 </tr>
                                 </thead>
                                 {{-- {{var_dump($member[3]->projects->toArray())}}--}}
@@ -54,7 +54,23 @@
                                         data-employee-id="{{$employee->id}}">
                                         <td style="text-align: center">{{ isset($employee->id)? $employee->id: "-" }}</td>
                                         <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-                                        <td>{{ isset($employee->role)? $employee->role->name: "-" }}</td>
+                                        <td>
+                                            <?php
+                                            if(isset($employee->role)){
+                                                if($employee->role->name == "PO"){
+                                                    echo "<span class='label label-primary'>". $employee->role->name ."</span>";
+                                                } else if($employee->role->name == "Dev"){
+                                                    echo "<span class='label label-success'>". $employee->role->name ."</span>";
+                                                } else if($employee->role->name == "BA"){
+                                                    echo "<span class='label label-info'>". $employee->role->name ."</span>";
+                                                } else if($employee->role->name == "ScrumMaster"){
+                                                    echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                }
+                                            } else {
+                                                echo "-";
+                                            }
+                                            ?>
+                                        </td>
 
                                         <td>
                                             @if($employee->projects->isEmpty())
@@ -88,8 +104,8 @@
                                             @endif
 
                                         </td>
-                                        <td>{{ isset($employee->email)? $employee->email: "--.--" }}</td>
-                                        <td>{{ isset($employee->mobile)? $employee->mobile: "--.--" }}</td>
+                                        <td>{{ isset($employee->email)? $employee->email: "-" }}</td>
+                                        <td class="text-center">{{ isset($employee->mobile)? $employee->mobile: "-" }}</td>
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
 
                                             <li><a href="{!! asset('employee/'.$employee->id)!!}"><i

@@ -35,8 +35,8 @@
             <th>{{trans('project.id')}}</th>
             <th>{{trans('project.name')}}</th>
             <th>{{trans('project.role')}}</th>
-            <th>{{trans('project.start_date')}}</th>
-            <th>{{trans('project.end_date')}}</th>
+            <th class="text-center">{{trans('project.start_date')}}</th>
+            <th class="text-center">{{trans('project.end_date')}}</th>
             <th>{{trans('project.status')}}</th>
         </tr>
         </thead>
@@ -46,10 +46,44 @@
             <tr>
                 <td>{{ isset($process->project)?$process->project->id:'-' }}</td>
                 <td>{{ isset($process->project)?$process->project->name:'-' }}</td>
-                <td>{{ isset($process->role)?$process->role->name:'-'}}</td>
+                <td>
+                    <?php
+                    if(isset($process->role)){
+                        if($process->role->name == "PO"){
+                            echo "<span class='label label-primary'>". $process->role->name ."</span>";
+                        } else if($process->role->name == "Dev"){
+                            echo "<span class='label label-success'>". $process->role->name ."</span>";
+                        } else if($process->role->name == "BA"){
+                            echo "<span class='label label-info'>". $process->role->name ."</span>";
+                        } else if($process->role->name == "ScrumMaster"){
+                            echo "<span class='label label-warning'>". $process->role->name ."</span>";
+                        }
+                    } else {
+                        echo "-";
+                    }
+                    ?>
+                </td>
                 <td>{{isset($process->start_date)?date('d/m/Y', strtotime($process->start_date)):'-'}}</td>
                 <td>{{isset($process->end_date)?date('d/m/Y', strtotime($process->end_date)):'-'}}</td>
-                <td>{{isset($process->project)?getProjectStatus($process->project):'-'}}</td>
+                <td>
+                    <?php
+                    if(isset($process->project)){
+                        if(getProjectStatus($process->project) == "kick off"){
+                            echo "<span class='label label-primary'>". getProjectStatus($process->project) ."</span>";
+                        } else if(getProjectStatus($process->project) == "pending"){
+                            echo "<span class='label label-danger'>". getProjectStatus($process->project) ."</span>";
+                        } else if(getProjectStatus($process->project) == "in-progress"){
+                            echo "<span class='label label-info'>". getProjectStatus($process->project) ."</span>";
+                        } else if(getProjectStatus($process->project) == "releasing"){
+                            echo "<span class='label label-warning'>". getProjectStatus($process->project) ."</span>";
+                        } else if(getProjectStatus($process->project) == "complete"){
+                            echo "<span class='label label-success'>". getProjectStatus($process->project) ."</span>";
+                        }
+                    } else {
+                        echo "-";
+                    }
+                    ?>
+                </td>
 
             </tr>
         @endforeach
