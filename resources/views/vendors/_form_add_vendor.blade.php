@@ -30,7 +30,7 @@
                 'autofocus' => true,
                 ])
             }}
-            <label style="color: red;">{{$errors->first('email')}}</label>
+            <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
             <!-- /.input group -->
         </div>
         <div class="form-group">
@@ -42,7 +42,7 @@
                 'placeholder'=>trans('vendor.profile_info.password')
             ])
             }}
-            <label style="color: red; ">{{$errors->first('password')}}</label>
+            <label id="lb_error_password" style="color: red; ">{{$errors->first('password')}}</label>
             <!-- /.input group -->
         </div>
         <div class="form-group">
@@ -54,7 +54,7 @@
                 'placeholder'=>trans('vendor.profile_info.confirm_password')
             ])
             }}
-            <label style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
+            <label id="lb_error_password_confirm" style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
             <!-- /.input group -->
         </div>
         <div class="form-group">
@@ -67,7 +67,7 @@
                     'autofocus' => true,
                     ])
                 }}
-            <label style="color: red; ">{{$errors->first('name')}}</label>
+            <label id="lb_error_name" style="color: red; ">{{$errors->first('name')}}</label>
             <!-- /.input group -->
         </div>
         <div class="form-group">
@@ -80,7 +80,7 @@
                     'autofocus' => true,
                     ])
                 }}
-            <label style="color: red; ">{{$errors->first('address')}}</label>
+            <label id="lb_error_address" style="color: red; ">{{$errors->first('address')}}</label>
             <!-- /.input group -->
         </div>
         <div class="form-group">
@@ -99,7 +99,7 @@
                 }}
 
             </div>
-            <label style="color: red; ">{{$errors->first('mobile')}}</label>
+            <label id="lb_error_mobile" style="color: red; ">{{$errors->first('mobile')}}</label>
             <!-- /.input group -->
         </div>
         <div class="form-group">
@@ -114,7 +114,7 @@
                     </option>
                 @endforeach
             </select>
-            <label style="color: red; ">{{$errors->first('gender')}}</label>
+            <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
         </div>
         <div class="form-group">
             <label>{{trans('vendor.profile_info.married')}}</label></label><label style="color: red;font-size: large">*</label>
@@ -128,7 +128,7 @@
                     </option>
                 @endforeach
             </select>
-            <label style="color: red; ">{{$errors->first('marital_status')}}</label>
+            <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
         </div>
         <div class="form-group">
             <label>{{trans('vendor.profile_info.birthday')}}</label></label><label style="color: red;font-size: large">*</label>
@@ -139,7 +139,7 @@
                 <input type="date" class="form-control pull-right" id="birthday" name="birthday"
                        value="{{ old('birthday')}}"/>
             </div>
-            <label style="color: red; ">{{$errors->first('birthday')}}</label>
+            <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
             <!-- /.input group -->
         </div>
         <div class="form-group">
@@ -152,7 +152,7 @@
                     'autofocus' => true,
                     ])
                 }}
-            <label style="color: red; ">{{$errors->first('company')}}</label>
+            <label id="lb_error_company" style="color: red; ">{{$errors->first('company')}}</label>
             <!-- /.input group -->
         </div>
         <div class="form-group">
@@ -167,7 +167,7 @@
                     </option>
                 @endforeach
             </select>
-            <label style="color: red; ">{{$errors->first('employee_type_id')}}</label>
+            <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
         </div>
         <div class="form-group">
             <label>{{trans('vendor.profile_info.role_in_team')}}</label></label><label style="color: red;font-size: large">*</label>
@@ -181,7 +181,7 @@
                     </option>
                 @endforeach
             </select>
-            <label style="color: red; ">{{$errors->first('role_id')}}</label>
+            <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -196,7 +196,7 @@
                                name="startwork_date"
                                value="{{old('startwork_date')}}"/>
                     </div>
-                    <label style="color: red; ">{{$errors->first('startwork_date')}}</label>
+                    <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
                 </div>
             </div>
             <div class="col-md-6">
@@ -210,7 +210,7 @@
                                name="endwork_date"
                                value="{{ old('endwork_date')}}"/>
                     </div>
-                    <label style="color: red; ">{{$errors->first('endwork_date')}}</label>
+                    <label id="lb_error_endwork_date" style="color: red; ">{{$errors->first('endwork_date')}}</label>
                     <!-- /.input group -->
                 </div>
             </div>
