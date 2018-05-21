@@ -105,7 +105,8 @@ class TeamController extends Controller
         $allRoleInTeam = Role::all();
         $allTeam = Team::all();
         if ($teamOfEmployee != $id) {
-            return view('errors.403');
+            session()->flash('msg_fail','You dont access denied. Call Us, please!...');
+            return redirect(route('teams.index'));
         } else {
             $poEmployee = Employee::select('id', 'email', 'name')
                 ->Where('team_id', '=', $teamById['id'])

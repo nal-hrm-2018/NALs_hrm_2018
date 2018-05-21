@@ -3,7 +3,7 @@
 return [
     'title'=>'Vendor Detail',
     'button'=>[
-        'add_vendor' => 'Add'
+        'add_vendor' => 'ADD'
     ],
     'title_header'=>[
         'add_vendor'=>'Add Vendor',

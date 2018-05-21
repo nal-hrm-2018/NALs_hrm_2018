@@ -360,10 +360,10 @@
                                             </p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">
-                                                @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
-                                                    <span class="label label-primary">{{trans('employee.profile_info.policy_status.unexpired')}}</span>
+                                                @if($employee->work_status == 0)
+                                                    <span class="label label-primary">Active</span>
                                                 @else
-                                                    <span class="label label-danger">{{trans('employee.profile_info.policy_status.expired')}}</span>
+                                                    <span class="label label-danger">Inactive</span>
                                                 @endif
                                             </p>
                                         </td>
