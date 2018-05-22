@@ -54,9 +54,9 @@
                                             <p>{{trans('employee.profile_info.name')}}:
                                                 <strong>{{$employee->name}}</strong></p>
                                             <p>{{trans('employee.profile_info.gender.title')}}:
-                                                @if($employee->gender == 1)
+                                                @if($employee->gender == 2)
                                                     <span class="label label-info">{{trans('employee.profile_info.gender.male')}}</span>
-                                                @elseif($employee->gender == 2)
+                                                @elseif($employee->gender == 1)
                                                     <span class="label label-success">{{trans('employee.profile_info.gender.female')}}</span>
                                                 @elseif($employee->gender == 3)
                                                     <span class="label label-warning">{{trans('employee.profile_info.gender.na')}}</span>
