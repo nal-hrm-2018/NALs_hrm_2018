@@ -75,7 +75,7 @@
                 <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{Auth::user()->name}} - {{isset(App\Models\Employee::find(1)->where('id', Auth::user()->id)->first()->employeeType->name)?App\Models\Employee::find(1)->where('id', Auth::user()->id)->first()->employeeType->name:"  "  }}
+                  {{Auth::user()->name}} - {{isset(App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name)?App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name:"  "  }}
                   <small>Member since {{Auth::user()->startwork_date}}</small>
 {{--                  {{Auth::user()->name}}--}}
                   {{--<small>Member since {{Auth::user()->startwork_date}}</small>--}}
@@ -85,7 +85,11 @@
               <!-- Menu Footer-->
               <li class="user-footer" >
                 <div class="pull-left">
-                  <form action="{{asset('employee/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
+                  @if(Illuminate\Support\Facades\Auth::user()->is_employee === 1)
+                    <form action="{{asset('employee/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
+                  @else
+                    <form action="{{asset('vendors/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
+                  @endif                  
                     <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Update Profile') }}</button>
                   </form>
                 </div>
@@ -93,12 +97,12 @@
                 <div class="pull-right">
 
                   <SCRIPT LANGUAGE="JavaScript">
-                      function confirmAction() {
-                          return confirm("Are you sure logout ???")
+                      function confirmAction(msg) {
+                          return confirm(msg)
                       }
                   </SCRIPT>
 
-                  <form action="{{route('logout')}}" onSubmit="return confirmAction()">
+                  <form action="{{route('logout')}}" id="logout-employee" onSubmit="return confirmAction('Are you sure logout?')">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Logout') }}</button>
                   </form>
 

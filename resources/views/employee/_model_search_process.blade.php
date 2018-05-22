@@ -44,7 +44,5 @@
                 select.val(old).change();
             }
         }
-
-
     });
 </script>

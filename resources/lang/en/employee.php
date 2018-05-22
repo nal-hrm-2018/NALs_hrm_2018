@@ -6,9 +6,11 @@ return[
     ],
     'basic'=>'Basic',
     'profile_info'=>[
+        'id'=>'Employee ID',
         'title'=>'Profile Information',
         'name'=>'Name',
         'email'=>'Email',
+        'status'=>'Status',
         'gender'=>[
             'title'=>'Gender',
             'male'=>'Male',
@@ -34,6 +36,10 @@ return[
             'expired'=>'Expired'
         ],
     ],
+    'msg_content'=>[
+        'msg_download_employee_template'=>'Are you want to download the Employee Template?',
+        'msg_download_employee_list'=>'Are you want to download the Employee List?'
+    ]
 
 
 ];

@@ -53,20 +53,22 @@
                                             <h2 class="profile-username text-center">{{trans('employee.profile_info.title')}}</h2>
                                             <p>{{trans('employee.profile_info.name')}}:
                                                 <strong>{{$employee->name}}</strong></p>
-                                            <p>{{trans('employee.profile_info.email')}}:
-                                                <strong>{{$employee->email}}</strong></p>
                                             <p>{{trans('employee.profile_info.gender.title')}}:
                                                 @if($employee->gender == 1)
-                                                    <strong>{{trans('employee.profile_info.gender.male')}}</strong>
+                                                    <span class="label label-info">{{trans('employee.profile_info.gender.male')}}</span>
                                                 @elseif($employee->gender == 2)
-                                                    <strong>{{trans('employee.profile_info.gender.female')}}</strong>
+                                                    <span class="label label-success">{{trans('employee.profile_info.gender.female')}}</span>
                                                 @elseif($employee->gender == 3)
-                                                    <strong>{{trans('employee.profile_info.gender.na')}}</strong>
+                                                    <span class="label label-warning">{{trans('employee.profile_info.gender.na')}}</span>
                                                 @endif
                                             </p>
                                             <p>{{trans('employee.profile_info.birthday')}}:
                                                 <strong>{{isset($employee->birthday)?date('d/m/Y', strtotime($employee->birthday)):'-'}}</strong>
                                             </p>
+                                            <p>{{trans('employee.profile_info.email')}}:
+                                                <strong>{{$employee->email}}</strong></p>
+
+
                                             <p>{{trans('employee.profile_info.phone')}}:
                                                 <strong>{{isset($employee->mobile)?$employee->mobile:'-'}}</strong></p>
                                             <p>{{trans('employee.profile_info.address')}}:
@@ -74,20 +76,34 @@
                                             </p>
                                             <p>{{trans('employee.profile_info.marital_status.title')}}:
                                                 @if($employee->marital_status == 1)
-                                                    <strong>{{trans('employee.profile_info.marital_status.single')}}</strong>
+                                                    <span class="label label-default">{{trans('employee.profile_info.marital_status.single')}}</span>
                                                 @elseif($employee->marital_status == 2)
-                                                    <strong>{{trans('employee.profile_info.marital_status.married')}}</strong>
+                                                    <span class="label label-primary">{{trans('employee.profile_info.marital_status.married')}}</span>
                                                 @elseif($employee->marital_status == 3)
-                                                    <strong>{{trans('employee.profile_info.marital_status.separated')}}</strong>
+                                                    <span class="label label-warning">{{trans('employee.profile_info.marital_status.separated')}}</span>
                                                 @elseif($employee->marital_status == 4)
-                                                    <strong>{{trans('employee.profile_info.marital_status.divorced')}}</strong>
+                                                    <span class="label label-danger">{{trans('employee.profile_info.marital_status.divorced')}}</span>
                                                 @endif
                                             </p>
                                             <p>{{trans('employee.profile_info.team')}}:
                                                 <strong>{{ isset($employee->team)?$employee->team->name:'-' }}</strong>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
-                                                <strong>{{ isset($employee->employeeType)?$employee->employeeType->name:'-' }}</strong>
+                                                <?php
+                                                if(isset($employee->role)){
+                                                    if($employee->role->name == "PO"){
+                                                        echo "<span class='label label-primary'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "Dev"){
+                                                        echo "<span class='label label-success'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "BA"){
+                                                        echo "<span class='label label-info'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "ScrumMaster"){
+                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                    }
+                                                } else {
+                                                    echo "-";
+                                                }
+                                                ?>
                                             </p>
 
                                             <p>{{trans('employee.profile_info.policy_date')}}:
@@ -95,9 +111,9 @@
                                                     - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
                                             <p>{{trans('employee.profile_info.policy_status.title')}}:
                                                 @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
-                                                    <strong>{{trans('employee.profile_info.policy_status.unexpired')}}</strong>
+                                                    <span class="label label-primary">{{trans('employee.profile_info.policy_status.unexpired')}}</span>
                                                 @else
-                                                    <strong>{{trans('employee.profile_info.policy_status.expired')}}</strong>
+                                                    <span class="label label-danger">{{trans('employee.profile_info.policy_status.expired')}}</span>
                                                 @endif
                                             </p>
 
@@ -107,15 +123,18 @@
                                                 {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
                                                 <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="form-group">
-                                                        <select class="form-control" id="sel1" name="year">
-                                                            @foreach($listYears as $year)
-                                                                <option @if($year == $listValue[0]) selected
-                                                                        @endif value="{{$year}}">{{trans('chart.resource_chart.title')}}
-                                                                    - {{$year}}</option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="row">
+                                                        <div class="col-md-3"></div>
+                                                        <div class="form-group col-md-6">
+                                                            <select class="form-control" id="sel1" name="year">
+                                                                @foreach($listYears as $year)
+                                                                    <option @if($year == $listValue[0]) selected
+                                                                            @endif value="{{$year}}">Year: {{$year}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                     </div>
+
                                                     <div class="box box-primary">
                                                         <div class="box-header with-border">
                                                             <i class="fa fa-bar-chart-o"></i>
@@ -165,7 +184,7 @@
 
                         @include('employee._list_project_employee')
                         @if(isset($param))
-                            {{  $processes->appends($param)->render() }}
+                            {{  $processes->appends($param)->render('vendor.pagination.custom') }}
                         @endif
                     </div>
                 </div>
@@ -188,10 +207,10 @@
         $(document).ready(function () {
             $('#project-list').DataTable({
                 'paging': false,
-                'lengthChange': true,
+                'lengthChange': false,
                 'searching': false,
                 'ordering': true,
-                'info': true,
+                'info': false,
                 'autoWidth': false
             });
 

@@ -20,12 +20,12 @@ class Role extends Model
 
     public function employees()
     {
-        return $this->hasMany('App\Models\Employee', 'role_id');
+        return $this->hasMany('App\Models\Employee', 'role_id')->where('delete_flag', '=', 0);
     }
 
     public function processes()
     {
-        return $this->hasMany('App\Models\Process','role_id');
+        return $this->hasMany('App\Models\Process','role_id')->where('delete_flag', '=', 0);
     }
 
 }
