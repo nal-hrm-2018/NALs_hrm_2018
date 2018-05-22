@@ -256,7 +256,7 @@
                               </div>
                             </div>
                             <div class="modal-footer center">
-                              <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                              <button id="btn_reset_edit_password" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                   RESET
                               </button>
                               <button type="submit" id="searchListEmployee" class="btn btn-primary">
@@ -266,6 +266,13 @@
                         </div>
                       </form>
                       <script type="text/javascript">
+                          $(function () {
+                              $('#btn_reset_edit_password').click(function () {
+                                  $('#errorCfPass').empty();
+                                  $('#errorOldPass').empty();
+                                  $('#errorNewPass').empty();
+                              });
+                          })
                         function validate(){
                           var old_pass = document.getElementById("old_pass").value;
                           var new_pass = document.getElementById("new_pass").value;

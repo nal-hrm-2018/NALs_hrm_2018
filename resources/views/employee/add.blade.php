@@ -345,9 +345,14 @@
                     <!-- /.row -->
                 </div>
                 <!-- /.box-body -->
-            </div>
             <!-- /.box -->
         </section>
         <!-- /.content -->
     </div>
+    <style>
+        button.btn.btn-info.pull-left {
+            float:  left;
+            width: 115px;
+        }
+    </style>
 @endsection
