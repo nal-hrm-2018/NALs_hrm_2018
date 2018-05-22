@@ -94,13 +94,13 @@
                     <div class="col-md-6" style="display: inline; ">
                         <div style="float: right;">
                             <input id="btn_reset_form_team" type="button" value="{{ trans('common.button.reset')}}"
-                                   class="btn btn-info pull-left">
+                                   class="btn btn-default pull-left">
                         </div>
                     </div>
                     <div class="col-md-1" style="display: inline;">
                         <div style="float: right;">
                             <button type="submit"
-                                    class="btn btn-info pull-left" id="tolen">{{trans('common.button.save')}}</button>
+                                    class="btn btn-info pull-left">{{trans('common.button.save')}}</button>
                         </div>
                     </div>
                 </div>
@@ -108,7 +108,6 @@
                 <style>
                     button.btn.btn-info.pull-left {
                         float:  left;
-                        width: 115px;
                     }
                 </style>
                 <script type="text/javascript"

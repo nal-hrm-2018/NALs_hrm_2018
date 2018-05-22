@@ -34,7 +34,7 @@
             }
         </SCRIPT>
           <div class="row">
-            {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmEmployee("Would you like to edit it?")'])}}
+            {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','onSubmit' => 'return confirmEmployee("Would you like to edit it?")'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
             <div class="col-md-3">
@@ -256,7 +256,7 @@
                               </div>
                             </div>
                             <div class="modal-footer center">
-                              <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
+                              <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                   RESET
                               </button>
                               <button type="submit" id="searchListEmployee" class="btn btn-primary">
@@ -357,6 +357,7 @@
     <script>
         $(function () {
             $("#btn_reset_form_employee").bind("click", function () {
+				if(confirmAction("Do you want to reset?"))
                 location.reload();
                 {{--$("#lb_error_email").empty();--}}
                 {{--$("#lb_error_password").empty();--}}
