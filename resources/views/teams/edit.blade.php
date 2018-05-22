@@ -224,13 +224,6 @@
                 </div>
                 {{ Form::close() }}
                 <script type="text/javascript">
-                  $(document).ready(function (){
-                    $("#btn_reset_form_team").click( function(){
-                      return confirmAction('Do you want to reset?');
-                    });
-                  });
-                </script>
-                <script type="text/javascript">
                     $(document).ready(function (){
                         $("#form_edit_team").submit( function(){
                             return confirmTeam('');
@@ -371,6 +364,7 @@
     <script>
         $(function () {
             $("#btn_reset_form_team").bind("click", function () {
+				if(confirmAction('Do you want to reset?'))
                 location.reload();
                 {{--$("#lb_error_team_name").empty();--}}
                 {{--$("#lb_error_po_name").empty();--}}
