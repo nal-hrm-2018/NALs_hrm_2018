@@ -28,13 +28,13 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Project ID</label>
-                                    <input type="text" class="form-control" placeholder="Project ID" value="">
+                                    <input type="text" class="form-control" placeholder="Project ID" name="id" id="id"  value="">
                                     <label id="lb_error_email" style="color: red;"></label>
                                 </div>
                                
                                 <div class="form-group">
                                     <label>Project name</label>
-                                    <input type="text" class="form-control" placeholder="Project name" value="">
+                                    <input type="text" class="form-control" placeholder="Project name" name="name" id="name" value="">
                                     <label id="lb_error_email" style="color: red;"></label>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" class="form-control pull-right" value="">
+                                        <input type="date" class="form-control pull-right" name="estimate_start_date" id="estimate_start_date" value="">
                                     </div>
                                     <label id="lb_error_birthday" style="color: red; "></label>
                                     <!-- /.input group -->
@@ -61,8 +61,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" class="form-control pull-right" id="birthday" name="birthday"
-                                               value="">
+                                        <input type="date" class="form-control pull-right" name="estimate_end_date" id="estimate_end_date" value="">
                                     </div>
                                     <label id="lb_error_birthday" style="color: red; "></label>
                                     <!-- /.input group -->
@@ -75,7 +74,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" class="form-control pull-right" value="">
+                                        <input type="date" class="form-control pull-right" name="start_date" id="start_date" value="">
                                     </div>
                                     <label id="lb_error_birthday" style="color: red; "></label>
                                     <!-- /.input group -->
@@ -87,7 +86,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" class="form-control pull-right" value="">
+                                        <input type="date" class="form-control pull-right" name="end_date" id="end_date" value="">
                                     </div>
                                     <label id="lb_error_birthday" style="color: red; "></label>
                                     <!-- /.input group -->
@@ -105,7 +104,7 @@
                         	<div class="col-md-2">
                         		<div class="form-group">
 	                                <label>Member</label><br/>
-	                                <select class="form-control select2">
+	                                <select class="form-control select2" name="employee_id" id="employee_id" >
 	                     				<option>1</option>
 	                     				<option>1</option>
 	                     				<option>1</option>
@@ -121,7 +120,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" class="form-control pull-left" value="" style="width: 80%">
+                                        <input type="date" class="form-control pull-left" name="start_date" id="start_date" value="" style="width: 80%">
                                     </div>
                                     <label id="lb_error_birthday" style="color: red; "></label>
                                     <!-- /.input group -->
@@ -134,7 +133,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" class="form-control pull-left" value="" style="width: 80%">
+                                        <input type="date" class="form-control pull-left" name="end_date" id="end_date" value="" style="width: 80%">
                                     </div>
                                     <label id="lb_error_birthday" style="color: red; "></label>
                                     <!-- /.input group -->
@@ -143,14 +142,14 @@
                         	<div class="col-md-2" style="margin-left: 5px;">
                         		<div class="form-group">
                                     <label>Man power</label>
-                                    <input type="text" class="form-control" placeholder="Man power" value="">
+                                    <input type="text" class="form-control" placeholder="Man power" name="man_power" id="man_power" value="">
                                     <label id="lb_error_email" style="color: red;"></label>
                                 </div>
                         	</div>
                         	<div class="col-md-2" style="margin-left: 5px;">
                         		<div class="form-group">
 	                                <label>Role</label><br/>
-	                                <select class="form-control select2">
+	                                <select class="form-control select2" name="role_id" id="role_id" >
 	                     				<option>1</option>
 	                     				<option>1</option>
 	                     				<option>1</option>
@@ -243,21 +242,21 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Income</label>
-                                    <input type="text" class="form-control" placeholder="Income" value="">
+                                    <input type="text" class="form-control" placeholder="Income" name="income" id="income" value="" >
                                     <label id="lb_error_email" style="color: red;"></label>
                                 </div>
                             </div>
                             <div class="col-md-3" style="margin-left: 10px;">
                                 <div class="form-group">
                                     <label>Estimate cost</label>
-                                    <input type="text" class="form-control" placeholder="Estimate cost" value="">
+                                    <input type="text" class="form-control" placeholder="Estimate cost" name="" id="" value="">
                                     <label id="lb_error_email" style="color: red;"></label>
                                 </div>
                             </div>
                             <div class="col-md-3" style="margin-left: 10px;">
                                 <div class="form-group">
                                     <label>Real cost</label>
-                                    <input type="text" class="form-control" placeholder="Real cost" value="">
+                                    <input type="text" class="form-control" placeholder="Real cost" name="real_cost" id="real_cost" value="">
                                     <label id="lb_error_email" style="color: red;"></label>
                                 </div>
                             </div>
@@ -268,7 +267,7 @@
                         	<div class="col-md-9">
                         		<div class="form-group">
                                     <label>Description</label>
-                                    <textarea class="form-control" placeholder="Description" value=""></textarea>
+                                    <textarea class="form-control" placeholder="Description" name="description" id="description" value=""></textarea>
                                     <label id="lb_error_email" style="color: red;"></label>
                                 </div>
                         	</div>
@@ -279,7 +278,7 @@
                         	<div class="col-md-3">
                         		<div class="form-group">
 	                                <label>Kick off</label><br/>
-	                                <select class="form-control select2">
+	                                <select class="form-control select2" name="status_id" id="status_id" >
 	                     				<option>1</option>
 	                     				<option>1</option>
 	                     				<option>1</option>
@@ -304,42 +303,6 @@
                             </div>
                         </div>
                     </form>
-                    <script type="text/javascript"
-                            src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-                    <script>
-                        $(function () {
-                            $("#btn_reset_form_employee").bind("click", function () {
-                                $("#lb_error_email").empty();
-                                $("#lb_error_password").empty();
-                                $("#lb_error_address").empty();
-                                $("#lb_error_birthday").empty();
-                                $("#lb_error_employee_type_id").empty();
-                                $("#lb_error_endwork_date").empty();
-                                $("#lb_error_startwork_date").empty();
-                                $("#lb_error_gender").empty();
-                                $("#lb_error_marital_status").empty();
-                                $("#lb_error_mobile").empty();
-                                $("#lb_error_name").empty();
-                                $("#lb_error_role_id").empty();
-                                $("#lb_error_team_id").empty();
-                                $("#lb_error_password_confirm").empty();
-                                $("#email").val('');
-                                $("#password").val('');
-                                $("#cfPass").val('');
-                                $("#name").val('');
-                                $("#address").val('');
-                                $("#mobile").val('');
-                                $("#gender").val('1').change();
-                                $("#married").val('1').change();
-                                $("#team_id").val('').change();
-                                $("#role_team").val('').change();
-                                $("#position").val('').change();
-                                $("#birthday").val('value', '');
-                                $("#startwork_date").val('value', '');
-                                $("#endwork_date").val('value', '');
-                            });
-                        });
-                    </script>
                     <!-- /.row -->
                 </div>
                 <!-- /.box-body -->
