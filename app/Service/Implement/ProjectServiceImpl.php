@@ -39,4 +39,9 @@ class ProjectServiceImpl extends CommonService
         return $query;
 //        $x = $query->toSql();
     }
+
+    public function addProject($request)
+    {
+        return false;
+    }
 }
