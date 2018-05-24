@@ -39,8 +39,8 @@ class ValidManPower implements Rule
 
             $totalManPower = $manPower + getTotalManPowerofProcesses($available_processes);
             if ($totalManPower > 1) {
-                $this->message = "Total man power of member id " . request()->get('id').' = '.$totalManPower.' is over 1 - '.$available_processes;
-                session()->flash('available_processes', $available_processes);
+                $this->message = "Total man power of member id " . request()->get('id').' = '.$totalManPower.' is over 1';
+                session()->push('available_processes', $available_processes->toArray());
                 return false;
             } else {
                 return true;
