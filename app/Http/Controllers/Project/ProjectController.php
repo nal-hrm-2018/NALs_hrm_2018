@@ -17,6 +17,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
+        return view('projects.list');
 
     }
 
@@ -32,15 +33,13 @@ class ProjectController extends Controller
         if (!isset($project)) {
             return abort(404);
         }
-        $member = Employee::select('employees.id','employees.name','processes.*','employees.email','employees.mobile')
+        $member = Employee::select('employees.id','employees.name','employees.email','employees.mobile','employees.is_employee','processes.*')
             ->join('processes', 'processes.employee_id', '=', 'employees.id')
             ->where([
             ['processes.project_id', '=', $id],
-            ['employees.delete_flag', '=', 0],
             ['processes.delete_flag', '=', 0]])
             ->orderByRaw('role_id DESC')
             ->get();
-
         return view('projects.view', compact('member','project'));
     }
 
