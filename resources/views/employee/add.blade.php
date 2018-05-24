@@ -301,7 +301,7 @@
                             </div>
                             <div class="col-md-2" style="display: inline;">
                                 <div style="float: right;">
-                                    <button type="submit" class="btn btn-info pull-left">Add Employee</button>
+                                    <button type="submit" class="btn btn-info pull-left">ADD</button>
                                 </div>
                             </div>
                         </div>
@@ -345,9 +345,14 @@
                     <!-- /.row -->
                 </div>
                 <!-- /.box-body -->
-            </div>
             <!-- /.box -->
         </section>
         <!-- /.content -->
     </div>
+    <style>
+        button.btn.btn-info.pull-left {
+            float:  left;
+            width: 115px;
+        }
+    </style>
 @endsection

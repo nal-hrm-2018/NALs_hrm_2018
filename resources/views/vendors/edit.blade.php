@@ -29,7 +29,7 @@
             function confirmVendor($msg) {
                 name = $('#name').val();
                 id = $('#id_vendor').val();
-                return confirm("Would you like to edit vendor "+name+" ("+id+")");
+                return confirm("Would you like to edit vendor "+name+" (id = "+id+")");
             }
         </SCRIPT>
 
@@ -167,18 +167,27 @@
               <div class="row">
                 <br />
                 <div class="col-md-3" style="margin-left: 100px;">
-                  <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
-                      Reset
+                  <button type="button" id="btn_reset_form_vendor" class="btn btn-default"><span class="fa fa-refresh"></span>
+                      RESET
                   </button>
                 </div>
                 <div class="col-md-4">
                   <button type="submit" class="btn btn-primary">
-                      Edit
+                      SAVE
                   </button>
                 </div>
               </div>
             </div>
             {{ Form::close() }}
+			<script>
+			$(function () {
+                $("#btn_reset_form_vendor").on("click", function () {
+					if(confirmAction('Do you want to reset?')){
+                    location.reload();
+					}
+                });
+            });
+			</script>
             @if(isset($objEmployee))
                 @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
                   <br />                  
@@ -232,7 +241,7 @@
                               </div>
                             </div>
                             <div class="modal-footer center">
-                              <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                              <button id="btn_reset_edit_password" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                   RESET
                               </button>
                               <button type="submit" id="searchListEmployee" class="btn btn-primary">
@@ -243,32 +252,12 @@
                       </form>
                       <script type="text/javascript">
                           $(function () {
-                              $("#btn_reset_form_vendor").on("click", function () {
-                                  $("#lb_error_email").empty();
-                                  $("#lb_error_address").empty();
-                                  $("#lb_error_birthday").empty();
-                                  $("#lb_error_endwork_date").empty();
-                                  $("#lb_error_startwork_date").empty();
-                                  $("#lb_error_gender").empty();
-                                  $("#lb_error_marital_status").empty();
-                                  $("#lb_error_mobile").empty();
-                                  $("#lb_error_name").empty();
-                                  $("#lb_error_role_id").empty();
-                                  $("#lb_error_company").empty();
-
-                                  $("#email").val('{!! old(isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}');
-                                  $("#name").val('{!! old(isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}');
-                                  $("#address").val('{!! old(isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}');
-                                  $("#mobile").val('{!! old(isset($objEmployee["mobile"]) ? $objEmployee["mobile"] : null) !!}');
-                                  $("#birthday").val('value', '{!! old(isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}');
-                                  $("#startwork_date").val('value', '{!! old(isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}');
-                                  $("#endwork_date").val('value', '{!! old(isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}');
-
-                                  $("#gender").val('{!! isset($objEmployee["gender"]) ? $objEmployee["gender"] : null !!}').change();
-                                  $("#marital_status").val('{!! isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null !!}').change();
-                                  $("#role_id").val('{!! isset($objEmployee["role_id"]) ? $objEmployee["role_id"] : null !!}').change();
+                              $('#btn_reset_edit_password').click(function () {
+                                  $('#errorCfPass').empty();
+                                  $('#errorOldPass').empty();
+                                  $('#errorNewPass').empty();
                               });
-                          });
+                          })
                         function validate(){
                           var old_pass = document.getElementById("old_pass").value;
                           var new_pass = document.getElementById("new_pass").value;

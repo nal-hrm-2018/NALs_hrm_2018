@@ -94,7 +94,7 @@
                     <div class="col-md-6" style="display: inline; ">
                         <div style="float: right;">
                             <input id="btn_reset_form_team" type="button" value="{{ trans('common.button.reset')}}"
-                                   class="btn btn-info pull-left">
+                                   class="btn btn-default pull-left">
                         </div>
                     </div>
                     <div class="col-md-1" style="display: inline;">
@@ -105,6 +105,11 @@
                     </div>
                 </div>
                 {!! Form::close() !!}
+                <style>
+                    button.btn.btn-info.pull-left {
+                        float:  left;
+                    }
+                </style>
                 <script type="text/javascript"
                         src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>

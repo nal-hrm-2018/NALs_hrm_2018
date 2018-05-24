@@ -105,12 +105,13 @@ class TeamController extends Controller
         $allRoleInTeam = Role::all();
         $allTeam = Team::all();
         if ($teamOfEmployee != $id) {
-            return view('errors.403');
+            session()->flash('msg_fail','You dont access denied. Call Us, please!...');
+            return redirect(route('teams.index'));
         } else {
             $poEmployee = Employee::select('id', 'email', 'name')
                 ->Where('team_id', '=', $teamById['id'])
-                ->Where('id', '=', $idUser)
-                ->get()->toArray();
+                ->Where('role_id', '=', $numberPoInRole)
+                ->get()->first();
             $allEmployeeInTeams = Employee::select('employees.id', 'employees.name','teams.name as team', 'roles.name as role')
                 ->join('teams', 'teams.id', '=', 'employees.team_id')
                 ->join('roles', 'roles.id', '=', 'employees.role_id')
@@ -123,7 +124,7 @@ class TeamController extends Controller
                 $nameEmployee = $value['name'];
                 $idEmployee = $value['id'];
             }
-            return view('teams.edit', compact('teamById', 'idUser', 'onlyValue', 'nameTeam', 'allEmployeeHasPOs', 'allEmployees', 'allEmployeeInTeams', 'idEmployee', 'nameEmployee', 'numberPoInRole', 'allRoleInTeam', 'allTeam'));
+            return view('teams.edit', compact('poEmployee','teamById', 'idUser', 'onlyValue', 'nameTeam', 'allEmployeeHasPOs', 'allEmployees', 'allEmployeeInTeams', 'idEmployee', 'nameEmployee', 'numberPoInRole', 'allRoleInTeam', 'allTeam'));
 
         }
     }
