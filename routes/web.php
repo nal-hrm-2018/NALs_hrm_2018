@@ -117,7 +117,9 @@ Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\
 Route::get('/quy-test', function () {
     return view('teams.test.quy_test');
 });
-
+Route::get('/phu-test', function (){
+    return view('projects.add');
+});
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
 /*the end route list employee by Quy*/
