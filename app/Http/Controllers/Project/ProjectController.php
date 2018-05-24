@@ -9,6 +9,8 @@ namespace App\Http\Controllers\Project;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -26,6 +28,19 @@ class ProjectController extends Controller
 
     public function show($id)
     {
+        $project = Project::where('delete_flag', 0)->find($id);
+
+        if (!isset($project)) {
+            return abort(404);
+        }
+        $member = Employee::select('employees.id','employees.name','employees.email','employees.mobile','employees.is_employee','processes.*')
+            ->join('processes', 'processes.employee_id', '=', 'employees.id')
+            ->where([
+            ['processes.project_id', '=', $id],
+            ['processes.delete_flag', '=', 0]])
+            ->orderByRaw('role_id DESC')
+            ->get();
+        return view('projects.view', compact('member','project'));
     }
 
     public function edit($id)
