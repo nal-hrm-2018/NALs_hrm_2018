@@ -41,7 +41,7 @@ class ProjectAddRequest extends CommonRequest
             'estimate_start_date' =>
                 [
                     'required',
-                    'after_or_equal:today',
+//                    'after_or_equal:today',
                 ],
             'estimate_end_date' =>
                 [
@@ -116,10 +116,10 @@ class ProjectAddRequest extends CommonRequest
             'estimate_start_date.required' => trans('validation.required', [
                 'attribute' => 'Estimate Start Date',
             ]),
-            'estimate_start_date.after_or_equal' => trans('validation.after_or_equal', [
-                'attribute' => 'Estimate Start Date',
-                'date' => 'to day'
-            ]),
+//            'estimate_start_date.after_or_equal' => trans('validation.after_or_equal', [
+//                'attribute' => 'Estimate Start Date',
+//                'date' => 'to day'
+//            ]),
 
             'estimate_end_date.required' => trans('validation.required', [
                 'attribute' => 'Estimate End Date'

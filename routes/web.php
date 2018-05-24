@@ -124,3 +124,14 @@ Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTe
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
+Route::get('/phuc_test', [
+        'uses' => function () {
+            return view('projects.phuc_test');
+        },
+        'as' => 'phuc_test_get'
+    ]
+
+);
+
+Route::post('/phuc_test', 'Project\ProjectController@phucTest');
+Route::get('/phuc_test2', 'Project\ProjectController@phucTest2');
