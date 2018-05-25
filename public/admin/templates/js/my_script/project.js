@@ -76,6 +76,7 @@ function requestAjax(url,token) {
             }
 
             if (json.hasOwnProperty('msg_success')) {
+
                 $('#list_error').html('');
                 $('#list_error').css('display', 'none');
                 alert(json['msg_success'])
@@ -86,6 +87,7 @@ function requestAjax(url,token) {
                     "<td style=\"width: 17%;\" >" + man_power + "</td>" +
                     "<td style=\"width: 17%;\" >" + role_name + "</td>" +
                     "<td style=\"width: 27%;\" >" + formatDate(start_date_process) + "</td>" +
+
                     "<td>" + formatDate(end_date_process) + "</td>" +
                     "<td> <a>" +
                     "<i name=\"" + employee_name + "\" id=\"" + id_member + "\" class=\"fa fa-remove removeajax\"></i>" +
@@ -171,4 +173,5 @@ function resetFormAddProject() {
     $("#description").val('');
     $("#status").val('').change();
     $(document).scrollTop( $("#list_error").offset().top );
+
 }

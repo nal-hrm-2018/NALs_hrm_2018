@@ -9,8 +9,7 @@
                 Add project
             </h1>
             <ol class="breadcrumb">
-                <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
-                    </a></li>
+                <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
                 <li><a href="{{route('projects.index')}}">{{trans('project.title')}}</a></li>
                 <li class="active">{{trans('common.path.add_project')}}</li>
             </ol>

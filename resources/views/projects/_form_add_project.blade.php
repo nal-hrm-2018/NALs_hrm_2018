@@ -307,12 +307,14 @@
                 resetFormAddProject();
             }
         });
+
         $(document).on('click', ".removeajax", function (event) {
             var target = $(event.target).parent().closest('tr');
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
             if (confirm("Do you want remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
                 removeAjax(employee_id, target, '{{route('removeProcessAjax')}}', '{{csrf_token()}}');
+
             }
         });
         $('#btn_add_process').on("click", function () {
@@ -323,6 +325,7 @@
             } else {
                 if (confirm("Do you want add  " + employee_name + " (id=" + employee_id + ") to project ?")) {
                     requestAjax('{{route('checkProcessAjax')}}', '{{csrf_token()}}');
+
                 }
             }
 
