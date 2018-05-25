@@ -8,24 +8,28 @@
 
 namespace App\Http\Controllers\Project;
 
-
-use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Http\Controllers\Controller;
 use App\Models\Project;
-use App\Http\Requests\ProjectAddRequest;
-use App\Service\ProjectService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\ProcessAddRequest;
 use App\Models\Role;
 use App\Models\Status;
+use App\Models\Team;
+use App\Service\SearchProjectService;
+use App\Service\ProjectService;
+use App\Http\Requests\ProjectAddRequest;
+use App\Http\Requests\ProcessAddRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class ProjectController extends Controller
 {
+    private $searchProjectService;
     private $projectService;
 
-    public function __construct(ProjectService $projectService)
+    public function __construct(SearchProjectService $searchProjectService,ProjectService $projectService)
     {
+        $this->searchProjectService = $searchProjectService;
         $this->projectService = $projectService;
         if (!session()->has('processes'))
             session()->put('processes', []);
@@ -33,9 +37,22 @@ class ProjectController extends Controller
             session()->put('available_processes', []);
     }
 
-    public function index()
+    public function index(Request $request)
+
     {
-        return view('projects.list');
+        $allStatusValue = Status::all();
+        $poRole = Role::select('id')
+            ->where('name', 'PO')->first();
+
+        $projects = $this->searchProjectService->searchProject($request)
+            ->orderBy('start_date', 'DESC')->orderBy('end_date', 'DESC')
+            ->paginate($request['number_record_per_page']);
+        $projects->setPath('');
+
+        $getAllStatusInStatusTable = Status::all();
+
+        $param = (Input::except('page'));
+        return view('projects.list', compact('param','allStatusValue','projects','poRole','getAllStatusInStatusTable'));
 
     }
 
@@ -120,5 +137,13 @@ class ProjectController extends Controller
 
     public function destroy($id, Request $request)
     {
+        if ($request->ajax()) {
+            $project = Project::where('id', $id)->where('delete_flag', 0)->first();
+            $project->delete_flag = 1;
+            $project->save();
+
+            return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
+        }
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
 }
