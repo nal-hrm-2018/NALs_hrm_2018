@@ -138,16 +138,16 @@
                                             <span class="badge">{{isset($project->processes)?(sizeof($project->processes)!=0?sizeof($project->processes):'-'):'-'}}</span>
                                         </td>
                                         <td>
-                                            {{isset($project->start_date)? $project->start_date:"-"}}
-                                        </td>
-                                        <td>
-                                            {{isset($project->end_date)? $project->end_date : "-"}}
-                                        </td>
-                                        <td>
-                                            {{isset($project->estimate_start_date)? $project->estimate_start_date :"-"}}
+                                            {{isset($project->estimate_start_date)? $project->estimate_start_date:"-"}}
                                         </td>
                                         <td>
                                             {{isset($project->estimate_end_date)? $project->estimate_end_date : "-"}}
+                                        </td>
+                                        <td>
+                                            {{isset($project->start_date)? $project->start_date :"-"}}
+                                        </td>
+                                        <td>
+                                            {{isset($project->end_date)? $project->end_date : "-"}}
                                         </td>
                                         <td>
                                             @if($project->status_id == 1)

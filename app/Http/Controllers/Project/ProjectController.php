@@ -29,45 +29,47 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $allStatusValue = Status::all();
-//        $projects = Project::where('delete_flag', 0)->orderBy('start_date', 'DESC')->orderBy('end_date', 'DESC')->paginate($request['number_record_per_page']);
-        $projects = $this->searchProjectService->searchProject($request)->orderBy('start_date', 'DESC')->orderBy('end_date', 'DESC')->paginate($request['number_record_per_page']);
-        $projects->setPath('');
         $poRole = Role::select('id')
             ->where('name', 'PO')->first();
+
+        $projects = $this->searchProjectService->searchProject($request)
+            ->orderBy('start_date', 'DESC')->orderBy('end_date', 'DESC')
+            ->paginate($request['number_record_per_page']);
+        $projects->setPath('');
+
         $getAllStatusInStatusTable = Status::all();
 
-        /*foreach ($projects as $project){
-
-            dd($project->status);
-            foreach ($project->processes as $process){
-                $poInProject = $process->employee->where('role_id',$idRolePo);
-                if (!is_null($poInProject)){
-                }
-            }
-        }*/
         $param = (Input::except('page'));
         return view('projects.list', compact('param','allStatusValue','projects','poRole','getAllStatusInStatusTable'));
 
     }
 
     public function create()
-    {
+    {dd('create');
 
     }
 
     public function show($id)
-    {
+    {dd('abcshow');
     }
 
     public function edit($id)
-    {
+    {dd('eidt');
     }
 
     public function update(Request $request, $id)
-    {
+    {dd('abc');
     }
 
     public function destroy($id, Request $request)
     {
+        if ($request->ajax()) {
+            $project = Project::where('id', $id)->where('delete_flag', 0)->first();
+            $project->delete_flag = 1;
+            $project->save();
+
+            return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
+        }
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
 }

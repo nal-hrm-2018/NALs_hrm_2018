@@ -26,14 +26,28 @@
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">Project Name</button>
                                         </div>
-                                        <input type="text" name="name" id="project_name" class="form-control">
+                                        {{--<input type="text" name="name" id="project_name" class="form-control"
+                                               value="{{!empty(request('name'))?request('name'):null}}"/>--}}
+                                        {{ Form::text('name', old('name'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_name',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                     </div>
                                     <label style="color: red; margin-left: 130px;" id="error_project_name"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">PO Name</button>
                                         </div>
-                                        <input type="text" name="po_name" id="project_po_name" class="form-control">
+                                        {{--<input type="text" name="po_name" id="project_po_name" class="form-control"--}}
+                                               {{--value="{{!empty(request('po_name'))?request('po_name'):null}}"/>--}}
+                                        {{ Form::text('po_name', old('po_name'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_po_name',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                     </div>
                                     <label style="color: red; margin-left: 130px;" id="error_po_name"></label>
                                     <div class="input-group margin">
@@ -42,10 +56,24 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                                <input type="number" name="number_from" id="project_number_from" class="form-control">
+                                                {{--<input type="number" name="number_from" id="project_number_from" class="form-control"--}}
+                                                       {{--value="{{!empty(request('number_from'))?request('number_from'):null}}"/>--}}
+                                                {{ Form::number('number_from', old('number_from'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_number_from',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                                <input type="number" name="number_to" id="project_number_to" class="form-control">
+                                                {{--<input type="number" name="number_to" id="project_number_to" class="form-control"--}}
+                                                       {{--value="{{!empty(request('number_to'))?request('number_to'):null}}"/>--}}
+                                                {{ Form::number('number_to', old('number_to'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_number_to',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                         </div>
                                     </div>
@@ -54,7 +82,14 @@
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">Employee Name</button>
                                         </div>
-                                        <input type="text" name="name_member" id="project_name_member" class="form-control">
+                                        {{--<input type="text" name="name_member" id="project_name_member" class="form-control"--}}
+                                               {{--value="{{!empty(request('name_member'))?request('name_member'):null}}"/>--}}
+                                        {{ Form::text('name_member', old('name_member'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_name_member',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                     </div>
                                     <label style="color: red; margin-left: 130px;" id="error_project_name_member"></label>
 
@@ -70,10 +105,24 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                                <input type="date" name="number_from" id="project_date_from" class="form-control">
+                                                {{--<input type="date" name="project_date_from" id="project_date_from" class="form-control"--}}
+                                                       {{--value="{{!empty(request('project_date_from'))?request('project_date_from'):null}}"/>--}}
+                                                {{ Form::date('project_date_from', old('project_date_from'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_date_from',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                                <input type="date" name="number_to" id="project_date_to" class="form-control">
+                                                {{--<input type="date" name="project_date_to" id="project_date_to" class="form-control"--}}
+                                                       {{--value="{{!empty(request('project_date_to'))?request('project_date_to'):null}}"/>--}}
+                                                {{ Form::date('project_date_to', old('project_date_to'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_date_to',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                         </div>
                                     </div>
@@ -84,10 +133,24 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                                <input type="date" name="number_from" id="project_date_real_from" class="form-control">
+                                                {{--<input type="date" name="project_date_real_from" id="project_date_real_from" class="form-control"--}}
+                                                       {{--value="{{!empty(request('project_date_real_from'))?request('project_date_real_from'):null}}"/>--}}
+                                                {{ Form::date('project_date_real_from', old('project_date_real_from'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_date_real_from',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                                <input type="date" name="number_to" id="project_date_real_to" class="form-control">
+                                                {{--<input type="date" name="project_date_real_to" id="project_date_real_to" class="form-control"--}}
+                                                       {{--value="{{!empty(request('project_date_real_to'))?request('project_date_real_to'):null}}"/>--}}
+                                                {{ Form::date('project_date_real_to', old('project_date_real_to'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_date_real_to',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                         </div>
                                     </div>
@@ -113,7 +176,7 @@
 
                         </div>
                         <div class="modal-footer center">
-                            <button id="btn_reset_edit_password" type="reset" class="btn btn-default"><span
+                            <button id="btn_reset_edit_password" type="button" class="btn btn-default"><span
                                         class="fa fa-refresh"></span>
                                 RESET
                             </button>
