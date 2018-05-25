@@ -9,6 +9,8 @@
 namespace App\Http\Requests;
 
 use App\Http\Rule\Project\ValidEndDateProject;
+use App\Http\Rule\Project\ValidStatusProject;
+
 class ProjectAddRequest extends CommonRequest
 {
     public function authorize()
@@ -18,50 +20,59 @@ class ProjectAddRequest extends CommonRequest
 
     public function rules()
     {
-        return [
-            'id' =>
-                [
+        return
+            [
+                'id' =>
+                    [
+                        'required',
+                        'unique:projects,id'
+                    ],
+                'name' => 'required',
+                'start_date_project' =>
+                    [
+                        'nullable',
+                        'after_or_equal:today',
+                    ],
+                'end_date_project' =>
+                    [
+                        'nullable',
+                        'after_or_equal:start_date_project',
+                        new ValidEndDateProject(request()->get('start_date_project')),
+                        'before_or_equal:today',
+                    ],
+
+                'estimate_start_date' =>
+                    [
+                        'required',
+                        'after_or_equal:today',
+                    ],
+                'estimate_end_date' =>
+                    [
+                        'required',
+                        'after_or_equal:estimate_start_date'
+                    ],
+                'income' =>
+                    [
+                        'required',
+                        'numeric',
+                        'min:0'
+                    ],
+                'real_cost' =>
+                    [
+                        'nullable',
+                        'numeric',
+                        'min:0',
+                    ],
+                'status' => [
                     'required',
-                    'unique:projects,id'
+                    new ValidStatusProject(
+                        request()->get('start_date_project'),
+                        request()->get('end_date_project'),
+                        request()->get('estimate_start_date'),
+                        request()->get('estimate_end_date')
+                    ),
                 ],
-            'name' => 'required',
-            'start_date_project' =>
-                [
-                    'nullable',
-                    'after_or_equal:today',
-                ],
-            'end_date_project' =>
-                [
-                    'nullable',
-                    'after_or_equal:start_date_project',
-                    new ValidEndDateProject(request()->get('start_date_project')),
-        		    'before_or_equal:today',
-                ],
-	    
-            'estimate_start_date' =>
-                [
-                    'required',
-                    'after_or_equal:today',
-                ],
-            'estimate_end_date' =>
-                [
-                    'required',
-                    'after_or_equal:estimate_start_date'
-                ],
-            'income' =>
-                [
-                    'required',
-                    'numeric',
-                    'min:0'
-                ],
-            'real_cost' =>
-                [
-                    'nullable',
-                    'numeric',
-                    'min:0',
-                ],
-            'status' => 'required',
-        ];
+            ];
     }
 
     public function messages()
@@ -100,17 +111,17 @@ class ProjectAddRequest extends CommonRequest
 
             'start_date_project.after_or_equal' => trans('validation.after_or_equal', [
                 'attribute' => 'Start Date Project',
-                'date'=>'to day'
+                'date' => 'to day'
             ]),
 
             'end_date_project.after_or_equal' => trans('validation.after_or_equal', [
                 'attribute' => 'End Date Project',
-                'date'=>'Start Date Project'
+                'date' => 'Start Date Project'
             ]),
 
             'end_date_project.before_or_equal' => trans('validation.before_or_equal', [
                 'attribute' => 'End Date Project',
-                'date'=>'to day'
+                'date' => 'to day'
             ]),
 
             'estimate_start_date.required' => trans('validation.required', [

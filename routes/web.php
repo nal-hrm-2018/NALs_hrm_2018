@@ -15,35 +15,9 @@ Route::post('logout', [
     'as' => 'logout',
     'Auth\LogoutController@postLogout']);
 
+
 //cong list route cam pha'
 
-Route::post('/cong_test', [
-        'uses' => function (\Illuminate\Http\Request $request) {
-            $processAddRequest = new ProcessAddRequest();
-            $validator = Validator::make($request->all(), $processAddRequest->rules(),$processAddRequest->messages());
-            if ($validator->fails()) {
-                return response()->json([$validator->messages(), 'available_processes' => session()->get('available_processes')]);
-            }
-            if (!session()->has('processes'))
-                session()->put('processes',[]);
-
-            $process = $request->input();
-            session()->push('processes', $process);
-            return response()->json(['success' => 'Record is successfully added']);
-        },
-        'as' => 'cong_test'
-    ]
-
-);
-
-Route::get('/cong_test', [
-        'uses' => function () {
-            return view('projects.test_project_form');
-        },
-        'as' => 'cong_test_get'
-    ]
-
-);
 
 Route::get('/login', [
     'as' => 'login',
@@ -101,11 +75,18 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors', 'User\Vendor\VendorController');
+    Route::post('projects/removeProcessAjax',[
+        'as'=>'removeProcessAjax',
+        'uses'=>'Project\ProjectController@removeProcessAjax'
+    ]);
     Route::resource('projects', 'Project\ProjectController');
     Route::post('projects/checkProcessAjax',[
         'as'=>'checkProcessAjax',
         'uses'=>'Project\ProjectController@checkProcessesAjax'
     ]);
+
+
+
     Route::post('/vendors/{id}', [
         'as' => 'vendor_show_chart',
         'uses' => 'User\Vendor\VendorController@showChart',

@@ -1,15 +1,17 @@
 @extends('admin.template')
 @section('content')
+
     <div class="content-wrapper">
+
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
                 Add project
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="/employee">Project</a></li>
-                <li class="active">Add project</li>
+                <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
+                <li><a href="{{route('projects.index')}}">{{trans('project.title')}}</a></li>
+                <li class="active">{{trans('common.path.add_project')}}</li>
             </ol>
         </section>
 

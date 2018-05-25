@@ -25,6 +25,7 @@
 
         @include("projects._form_search_project_list")
         {{--table data project--}}
+        <div id="msg"></div>
         <section class="content">
             <div class="row">
                 <input id="number_record_per_page" type="hidden" name="number_record_per_page"

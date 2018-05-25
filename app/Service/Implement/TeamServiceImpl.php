@@ -66,7 +66,7 @@ class TeamServiceImpl extends CommonService
             return true;
         } catch (Exception $ex) {
             DB::rollBack();
-            session()->flash(trans('team.msg_error'), trans('team.msg_content.msg_error_add_team'));
+            session()->flash(trans('team.msg_error'), trans('project.msg_content.msg_add_error'));
         }
         return false;
     }
