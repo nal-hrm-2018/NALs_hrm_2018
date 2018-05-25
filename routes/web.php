@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ProcessAddRequest;
 
 Route::get('/index', function () {
     return view('admin.module.index.index');
@@ -15,9 +17,32 @@ Route::post('logout', [
 
 //cong list route cam pha'
 
-Route::get('/cong-test',
-    function () {
-    }
+Route::post('/cong_test', [
+        'uses' => function (\Illuminate\Http\Request $request) {
+            $processAddRequest = new ProcessAddRequest();
+            $validator = Validator::make($request->all(), $processAddRequest->rules(),$processAddRequest->messages());
+            if ($validator->fails()) {
+                return response()->json([$validator->messages(), 'available_processes' => session()->get('available_processes')]);
+            }
+            if (!session()->has('processes'))
+                session()->put('processes',[]);
+
+            $process = $request->input();
+            session()->push('processes', $process);
+            return response()->json(['success' => 'Record is successfully added']);
+        },
+        'as' => 'cong_test'
+    ]
+
+);
+
+Route::get('/cong_test', [
+        'uses' => function () {
+            return view('projects.test_project_form');
+        },
+        'as' => 'cong_test_get'
+    ]
+
 );
 
 Route::get('/login', [
@@ -67,20 +92,26 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/export', 'User\Employee\EmployeeController@export')->name('export');
 
 
-    Route::resource('teams','Team\TeamController');
+    Route::resource('teams', 'Team\TeamController');
     Route::get('checkTeamNameEdit', 'Team\TeamController@checkNameTeam');
-    Route::post('teams/chart','Team\TeamController@showChart');
+    Route::post('teams/chart', 'Team\TeamController@showChart');
 
     Route::post('vendors/postFile', 'User\Vendor\VendorController@postFile')->name('postFile');
     Route::get('vendors/importVendor', 'User\Vendor\VendorController@importVendor')->name('importVendor');
     Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
-    Route::resource('vendors','User\Vendor\VendorController');
-    Route::resource('projects','Project\ProjectController');
+    Route::resource('vendors', 'User\Vendor\VendorController');
+    Route::resource('projects', 'Project\ProjectController');
+    Route::post('projects/checkProcessAjax',[
+        'as'=>'checkProcessAjax',
+        'uses'=>'Project\ProjectController@checkProcessesAjax'
+    ]);
     Route::post('/vendors/{id}', [
         'as' => 'vendor_show_chart',
         'uses' => 'User\Vendor\VendorController@showChart',
     ]);
+
+
 });
 
 //cong list route cam pha'
@@ -95,10 +126,12 @@ Route::get('/employee/edit/{id}',['as' => 'getEmployeeEdit', 'uses' => 'Admin\Em
 Route::post('/employee/edit/{id}',['as' => 'postEmployeeEdit', 'uses' => 'Admin\EmployeeController@postEmployeeEdit']); */
 
 /*begin route list employee by Quy*/
-Route::get('/quy-test', function (){
+Route::get('/quy-test', function () {
     return view('teams.test.quy_test');
 });
-
+Route::get('/phu-test', function (){
+    return view('projects.add');
+});
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
 /*the end route list employee by Quy*/

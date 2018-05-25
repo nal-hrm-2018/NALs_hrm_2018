@@ -38,3 +38,16 @@ function getRoleofVendor($vendor)
     }
     return $text;
 }
+
+function getTotalManPowerofProcesses($processes)
+{
+    $total = 0;
+    foreach ($processes as $item){
+        $total = $total+$item->man_power;
+    }
+    return $total;
+}
+
+function getArrayManPower(){
+    return [0.125,0.25,0.5,0.75,1];
+}
