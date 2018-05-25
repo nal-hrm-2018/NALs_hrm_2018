@@ -18,15 +18,25 @@ class ValidManPower implements Rule
     private $message;
     private $projectService;
 
-    public function __construct($start_date_process, $end_date_process)
+    public function __construct(
+        $start_date_process,
+        $end_date_process,
+        $estimate_start_date_project,
+        $estimate_end_date_project
+    )
     {
         $this->projectService = app(ProjectService::class);
         $this->start_date_process = $start_date_process;
         $this->end_date_process = $end_date_process;
+        $this->estimate_start_date_project = $estimate_start_date_project;
+        $this->estimate_end_date_project = $estimate_end_date_project;
     }
 
     public function passes($attribute, $value)
     {
+        if (empty($this->estimate_start_date_project) && empty($this->estimate_end_date_project)) {
+            return false;
+        }
         $manPower = $value;
         if (empty($this->start_date_process) || empty($this->end_date_process || is_null($manPower))) {
             return false;
@@ -39,8 +49,8 @@ class ValidManPower implements Rule
 
             $totalManPower = $manPower + getTotalManPowerofProcesses($available_processes);
             if ($totalManPower > 1) {
-                $this->message = "Total man power of member id " . request()->get('id').' = '.$totalManPower.' is over 1';
-                session()->push('available_processes', $available_processes->toArray());
+                $this->message = "Total man power of member id " . request()->get('id') . ' = ' . $totalManPower . ' is over 1';
+                request()->request->add($available_processes->toArray());
                 return false;
             } else {
                 return true;

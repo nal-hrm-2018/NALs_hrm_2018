@@ -1,5 +1,13 @@
 @extends('admin.template')
 @section('content')
+    @if(session()->has('error_messages'))
+        @foreach(session()->get('error_messages') as $key=>$errors)
+            {{'key='.$key.'---'}}
+            @foreach($errors->all() as $error)
+            {{'msg='.$error.'---'}}
+            @endforeach
+        @endforeach
+    @endif
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
