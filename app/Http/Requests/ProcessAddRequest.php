@@ -11,7 +11,8 @@ namespace App\Http\Requests;
 use App\Http\Rule\Project\ValidEndDateProject;
 use App\Http\Rule\Project\ValidEndDateProcess;
 use App\Http\Rule\Project\ValidManPower;
-
+use App\Http\Rule\Project\ValidRoleProject;
+use App\Http\Rule\Project\ValidDupeMember;
 class ProcessAddRequest extends CommonRequest
 {
     public function authorize()
@@ -25,7 +26,8 @@ class ProcessAddRequest extends CommonRequest
             'id' =>
                 [
                     'required',
-                    'exists:employees,id'
+                    'exists:employees,id',
+                    new ValidDupeMember(session()->get('processes')),
                 ],
             'start_date_project' =>
                 [
@@ -70,12 +72,18 @@ class ProcessAddRequest extends CommonRequest
             'man_power' =>
                 [
                     'required',
-                    new ValidManPower(request()->get('start_date_process'), request()->get('end_date_process'))
+                    new ValidManPower(
+                        request()->get('start_date_process'),
+                        request()->get('end_date_process'),
+                        request()->get('estimate_start_date'),
+                        request()->get('estimate_end_date')
+                        )
                 ],
             'role' =>
                 [
                     'required',
-                    'exists:roles,id'
+                    'exists:roles,id',
+                    new ValidRoleProject(session()->get('processes')),
                 ]
         ];
     }

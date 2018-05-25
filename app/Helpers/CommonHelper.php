@@ -33,7 +33,7 @@ function getRoleofVendor($vendor)
         if ($key === count($arr_roles) - 1) {
             $text = $text . $value;
         } else {
-            $text = $text . $value. ",";
+            $text = $text . $value . ",";
         }
     }
     return $text;
@@ -42,12 +42,35 @@ function getRoleofVendor($vendor)
 function getTotalManPowerofProcesses($processes)
 {
     $total = 0;
-    foreach ($processes as $item){
-        $total = $total+$item->man_power;
+    foreach ($processes as $item) {
+        $total = $total + $item->man_power;
     }
     return $total;
 }
 
-function getArrayManPower(){
-    return [0.125,0.25,0.5,0.75,1];
+function getArrayManPower()
+{
+    return [0.125, 0.25, 0.5, 0.75, 1];
+}
+
+function hasDupeProject($processes, $key)
+{
+    for ($i = 0; $i < count($processes) - 1; $i++) {
+        for ($j = $i + 1; $j < count($processes); $j++) {
+            if ($processes[$i][$key] === $processes[$j][$key]) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function hasDupeProjectPO($processes, $id_po)
+{
+    foreach ($processes as $process) {
+        if ($process['role'] === $id_po) {
+            return true;
+        }
+    }
+    return false;
 }

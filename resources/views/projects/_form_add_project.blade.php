@@ -258,7 +258,7 @@
         <div class="form-group">
             <label>Income</label>
             <input type="text" class="form-control" placeholder="Income" name="income" id="income" value="">
-            <label id="lb_error_email" style="color: red;"></label>
+            <label id="lb_error_income" style="color: red;">{{$errors->first('income')}}</label>
         </div>
     </div>
     <div class="col-md-3" style="margin-left: 10px;">
@@ -272,7 +272,7 @@
         <div class="form-group">
             <label>Real cost</label>
             <input type="text" class="form-control" placeholder="Real cost" name="real_cost" id="real_cost" value="">
-            <label id="lb_error_email" style="color: red;"></label>
+            <label id="lb_error_real_cost" style="color: red;">{{$errors->first('real_cost')}}</label>
         </div>
     </div>
 </div>
@@ -284,7 +284,7 @@
             <label>Description</label>
             <textarea class="form-control" placeholder="Description" name="description" id="description"
                       value=""></textarea>
-            <label id="lb_error_email" style="color: red;"></label>
+            <label id="lb_error_description" style="color: red;"></label>
         </div>
     </div>
 </div>
@@ -304,7 +304,7 @@
                     </option>
                 @endforeach
             </select>
-            <label id="lb_error_members" style="color: red; "></label>
+            <label id="lb_error_project_status" style="color: red; ">{{$errors->first('status')}}</label>
         </div>
     </div>
 </div>
@@ -318,7 +318,7 @@
     </div>
     <div class="col-md-2" style="display: inline;">
         <div style="float: right;">
-            <button type="submit" class="btn btn-info pull-left">ADD</button>
+            <button type="submit" class="btn btn-info pull-left">{{trans('common.button.add')}}</button>
         </div>
     </div>
 </div>
@@ -357,19 +357,14 @@
 
             },
             success: function (json) {
-                $('.id').html('');
-                $('.man_power').html('');
-                $('.start_date_project').html('');
-                $('.end_date_project').html('');
-                $('.estimate_start_date').html('');
-                $('.estimate_end_date').html('');
-                $('.start_date_process').html('');
-                $('.end_date_process').html('');
-                $('.role').html('');
+                var string = '';
                 console.log(json);
                 $.each(json[0], function (key, value) {
-
+                    string += value;
                 });
+                $('#msg').html('');
+                $('#msg').html(string);
+
             },
             error: function (json) {
                 if (json.status === 422) {
