@@ -7,28 +7,28 @@
  */
 
 namespace App\Http\Rule\Project;
-
 use Illuminate\Contracts\Validation\Rule;
-use Carbon\Carbon;
-
-class ValidEndDateProject implements Rule
+use Illuminate\Http\Request;
+use App\Models\Team;
+class ValidDupeMember implements Rule
 {
     private $message;
-    private $real_start_date;
-
-    public function __construct($real_start_date)
+    private $processes;
+    public function __construct($processes)
     {
-        $this->real_start_date = $real_start_date;
+        $this->processes=$processes;
     }
 
     public function passes($attribute, $value)
     {
-        if (empty($this->real_start_date) && !empty($value)) {
-            $this->message = "The real start date is not selected ,Can't be select The real end date .";
+        // check member duplication
+        $employee_id = $value;
+        $this->processes[]=['employee_id'=>$employee_id];
+        if(hasDupeProject($this->processes,'employee_id')){
+            $this->message = "Member in process can't duplicate .";
             return false;
         }
         return true;
-
     }
 
     /**

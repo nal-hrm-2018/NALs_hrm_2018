@@ -2,6 +2,16 @@
 return [
 
     'paginate' => 20,
+
+    'project_status'=>[
+        'kick_off'=> 'kick off',
+        'pending'=>'pending',
+        'in_progress'=>'in-progress',
+        'releasing'=>'releasing',
+        'complete'=>'complete',
+        'planing'=>'planing'
+    ],
+
     'Roles'=>[
         'PO'=>'PO',
         'TeamDev'=>'TeamDev',
