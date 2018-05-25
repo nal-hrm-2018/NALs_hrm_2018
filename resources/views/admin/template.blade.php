@@ -108,6 +108,7 @@
 <!-- SlimScroll -->
 <script src="{!! asset('admin/templates/js/plugins/iCheck/icheck.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/my_script/myscript.js') !!}"></script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/my_script/project.js') !!}"></script>
 <script src="{!! asset('admin/templates/js/go_to_top/go_to_top.js') !!}"></script>
 <script>
     $(function () {

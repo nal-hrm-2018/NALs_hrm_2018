@@ -5,390 +5,327 @@
 'class'=>"form-horizontal"
 ]) !!}
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-<div class="row">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label>Project ID</label>
-            {{ Form::text('id', old('id'),
-                ['class' => 'form-control',
-                'id' => 'id',
-                'autofocus' => true,
-                'placeholder'=>"Project ID",
-                ])
-            }}
-            <label class="id" id="lb_error_project_id" style="color: red; ">{{$errors->first('id')}}</label>
-        </div>
-
-        <div class="form-group">
-            <label>Project name</label>
-            {{ Form::text('name', old('name'),
-                ['class' => 'form-control',
-                'id' => 'name',
-                'autofocus' => true,
-                'placeholder'=>"Project ID",
-                ])
-            }}
-            <label class="name" id="lb_error_project_name" style="color: red; ">{{$errors->first('name')}}</label>
-        </div>
-    </div>
+<div id="list_error" class="col-md-12 alert alert-danger" style="display: none">
+    @if(session()->has('error_messages'))
+        <script>
+            $(function () {
+                $("#list_error").css('display', 'block');
+            })
+        </script>
+        @foreach(session()->get('error_messages') as $key=>$values)
+            {{" Employee(id=".$key.") : ".(!is_null(getEmployee((int)$key))?getEmployee((int)$key)->name:'id wrong')}}
+            <br>
+            @foreach($values->all() as $value)
+                @if(!is_null($value))
+                    {{" Error : ".$value }}<br>
+                @endif
+            @endforeach
+        @endforeach
+    @endif
+    @if($errors->any())
+        <script>
+            $(function () {
+                $("#list_error").css('display', 'block');
+            })
+        </script>
+        @foreach($errors->all() as $key=>$error)
+            @if(!is_null($error))
+                {{" Error : ".$error }}<br>
+            @endif
+        @endforeach
+    @endif
 </div>
-<div class="row">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label>Estimate start date</label>
-            <div class="input-group date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <input type="date" class="form-control pull-right" name="estimate_start_date" id="estimate_start_date"
-                       value="{{ old('estimate_start_date')}}"/>
-            </div>
-            <label class="estimate_start_date" id="lb_error_estimate_start_date"
-                   style="color: red; ">{{$errors->first('estimate_start_date')}}</label>
-            <!-- /.input group -->
-        </div>
-
-        <div class="form-group">
-            <label>Estimate end date</label>
-            <div class="input-group date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <input type="date" class="form-control pull-right" name="estimate_end_date" id="estimate_end_date"
-                       value="{{ old('estimate_end_date')}}">
-            </div>
-            <label class="estimate_end_date" id="lb_error_estimate_end_date"
-                   style="color: red; ">{{$errors->first('estimate_end_date')}}</label>
-            <!-- /.input group -->
-        </div>
-    </div>
-    <div class="col-md-3" style="margin-left: 10px;">
-        <div class="form-group">
-            <label>Start work Date </label>
-            <div class="input-group date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <input type="date" class="form-control pull-right" name="start_date_project" id="start_date_project"
-                       value="{{ old('start_date_project')}}">
-            </div>
-            <label class="start_date_project" id="lb_error_start_date_project"
-                   style="color: red; ">{{$errors->first('start_date_project')}}</label>
-            <!-- /.input group -->
-        </div>
-
-        <div class="form-group">
-            <label>End work date</label>
-            <div class="input-group date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <input type="date" class="form-control pull-right" name="end_date_project" id="end_date_project"
-                       value="{{ old('end_date_project')}}">
-            </div>
-            <label class="end_date_project" id="lb_error_end_date_project"
-                   style="color: red; ">{{$errors->first('end_date_project')}}</label>
-            <!-- /.input group -->
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-1" style="margin-left: 0px;">
-        <br/>
-        <button type="button" id="btn_add_process" class="btn btn-default buttonAdd">
-            <i class="fa fa-user-plus"></i> ADD
-        </button>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <label>Member</label><br/>
-            <select name="employee_id" id="employee_id" class="form-control select2">
-                <option {{ !empty(old('employees'))?'':'selected="selected"' }} value="">
-                    {{  trans('vendor.drop_box.placeholder-default') }}
-                </option>
-                @foreach($employees as $employee)
-                    <option value="{{ $employee->id }}"
-                            id="member_{{ $employee->id }}">{{ $employee->name }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div class="col-md-2" style="margin-left: 5px;">
-        <div class="form-group">
-            <label>Start date</label>
-            <div class="input-group date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <input type="date" class="form-control pull-left" name="start_date_process" id="start_date_process"
-                       value="{{ old('start_date_process')}}" style="width: 80%">
-            </div>
-            <!-- /.input group -->
-        </div>
-    </div>
-    <div class="col-md-2" style="margin-left: 5px;">
-        <div class="form-group">
-            <label>End date</label>
-            <div class="input-group date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <input type="date" class="form-control pull-left" name="end_date_process" id="end_date_process"
-                       value="{{ old('end_date_process')}}" style="width: 80%">
-            </div>
-            <!-- /.input group -->
-        </div>
-    </div>
-    <div class="col-md-2" style="margin-left: 5px;">
-        <div class="form-group">
-            <label>Man power</label>
-            <select name="man_power" id="man_power" class="form-control select2">
-                <option {{ !empty(old('man_power'))?'':'selected="selected"' }} value="">
-                    {{  trans('vendor.drop_box.placeholder-default') }}
-                </option>
-                @foreach($manPowers as $key=>$value)
-                    <option value="{{ $key }}" {{ (string)$key===old('man_power')?'selected="selected"':'' }}>
-                        {{ $value }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div class="col-md-2" style="margin-left: 5px;">
-        <div class="form-group">
-            <label>Role</label><br/>
-            <select name="role" id="role" class="form-control select2">
-                <option {{ !empty(old('role'))?'':'selected="selected"' }} value="">
-                    {{  trans('vendor.drop_box.placeholder-default') }}
-                </option>
-                @foreach($roles as $key=>$value)
-                    <option value="{{ $key }}" {{ (string)$key===old('role')?'selected="selected"':'' }}>
-                        {{ $value }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-</div>
-<div class="row">
+<div class="col-md-6 col-md-offset-1">
     <div>
-        <div class="col-md-1" style="margin-left: 0px;">
-
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <a class="btn-employee-remove" style="float: left">
-                <i class="fa fa-remove"
-                   onclick='removeEmployee() '></i>
-            </a>
-            <span style="float: right;">Nguyễn Văn A</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">1</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">Dev</span>
-        </div>
+        <label>{{trans('project.id')}}</label>
+        {{ Form::text('id', old('id'),
+            ['class' => 'form-control',
+            'id' => 'id',
+            'autofocus' => true,
+            'placeholder'=>"Project ID",
+            ])
+        }}
+        {{--<label class="id" id="lb_error_project_id" style="color: red; ">{{$errors->first('id')}}</label>--}}
     </div>
     <div>
-        <div class="col-md-1" style="margin-left: 0px;">
-
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <a class="btn-employee-remove" style="float: left">
-                <i class="fa fa-remove"
-                   onclick='removeEmployee() '></i>
-            </a>
-            <span style="float: right;">Nguyễn Văn A</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">1</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">Dev</span>
-        </div>
+        <label>{{trans('project.project_name')}}</label>
+        {{ Form::text('name', old('name'),
+            ['class' => 'form-control',
+            'id' => 'name',
+            'autofocus' => true,
+            'placeholder'=>"Project ID",
+            ])
+        }}
+        {{--<label class="name" id="lb_error_project_name" style="color: red; ">{{$errors->first('name')}}</label>--}}
     </div>
     <div>
-        <div class="col-md-1" style="margin-left: 0px;">
+        <label>{{trans('project.estimate_start_date')}}</label>
+        <div class="input-group date">
+            <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </div>
+            <input type="date" class="form-control pull-right" name="estimate_start_date"
+                   id="estimate_start_date"
+                   value="{{ old('estimate_start_date')}}"/>
 
         </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <a class="btn-employee-remove" style="float: left">
-                <i class="fa fa-remove"
-                   onclick='removeEmployee() '></i>
-            </a>
-            <span style="float: right;">Nguyễn Văn A</span>
+    {{--<label class="estimate_start_date" id="lb_error_estimate_start_date"--}}
+    {{--style="color: red; ">{{$errors->first('estimate_start_date')}}</label>--}}
+    <!-- /.input group -->
+    </div>
+    <div>
+        <label>{{trans('project.estimate_end_date')}}</label>
+        <div class="input-group date">
+            <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </div>
+            <input type="date" class="form-control pull-right" name="estimate_end_date" id="estimate_end_date"
+                   value="{{ old('estimate_end_date')}}">
+
         </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
+    {{--<label class="estimate_end_date" id="lb_error_estimate_end_date"--}}
+    {{--style="color: red; ">{{$errors->first('estimate_end_date')}}</label>--}}
+    <!-- /.input group -->
+    </div>
+    <div>
+        <label>Start work date</label>
+        <div class="input-group date">
+            <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </div>
+            <input type="date" class="form-control pull-right" name="start_date_project" id="start_date_project"
+                   value="{{ old('start_date_project')}}">
+
         </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
+        <label class="start_date_project" id="lb_error_start_date_project"
+               style="color: red; ">{{$errors->first('start_date_project')}}</label>
+        <!-- /.input group -->
+    </div>
+    <div>
+        <label>End work date</label>
+        <div class="input-group date">
+            <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </div>
+            <input type="date" class="form-control pull-right" name="end_date_project" id="end_date_project"
+                   value="{{ old('end_date_project')}}">
         </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">1</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">Dev</span>
-        </div>
+    {{--<label class="end_date_project" id="lb_error_end_date_project"--}}
+    {{--style="color: red; ">{{$errors->first('end_date_project')}}</label>--}}
+    <!-- /.input group -->
     </div>
 
 </div>
+<div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
+<div class="col-md-2">
+    <button type="button" id="btn_add_process" class="btn btn-primary " >
+        <i class="fa fa-user-plus"></i> Add
+    </button>
+</div>
+<div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
+<div class="col-md-2">
+    <label>Member</label><br/>
+    <select name="employee_id" id="employee_id" class="form-control select2">
+        <option {{ !empty(old('employees'))?'':'selected="selected"' }} value="">
+            {{  trans('vendor.drop_box.placeholder-default') }}
+        </option>
+        @foreach($employees as $employee)
+            <option value="{{ $employee->id }}"
+                    {{ (string)$employee->id===old('employee_id')?'selected="selected"':'' }}
+                    id="member_{{ $employee->id }}">{{ $employee->name }}</option>
+        @endforeach
+    </select>
+</div>
+<div class="col-md-2">
+    <label>Man power</label><br/>
+    <select name="man_power" id="man_power" class="form-control">
+        <option {{ !empty(old('man_power'))?'':'selected="selected"' }} value="">
+            {{  trans('vendor.drop_box.placeholder-default') }}
+        </option>
+        @foreach($manPowers as $key=>$value)
+            <option value="{{ $value }}" {{ (string)$value===old('man_power')?'selected="selected"':'' }}>
+                {{ $value }}
+            </option>
+        @endforeach
+    </select>
+</div>
+<div class="col-md-2">
+    <label>Role</label><br/>
+    <select name="role" id="role" class="form-control">
+        <option {{ !empty(old('role'))?'':'selected="selected"' }} value="">
+            {{  trans('vendor.drop_box.placeholder-default') }}
+        </option>
+        @foreach($roles as $key=>$value)
+            <option value="{{ $key }}" {{ (string)$key===old('role')?'selected="selected"':'' }}>
+                {{ $value }}
+            </option>
+        @endforeach
+    </select>
+</div>
+<div class="col-md-3">
+    <label>Start date</label>
+    <div class="input-group date">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input type="date" class="form-control  " name="start_date_process" id="start_date_process"
+               value="{{ old('start_date_process')}}">
+    </div>
+    <!-- /.input group -->
+</div>
+<div class="col-md-3">
+    <label>End date</label>
+    <div class="input-group date ">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input type="date" class="form-control " name="end_date_process" id="end_date_process"
+               value="{{ old('end_date_process')}}">
+    </div>
+    <!-- /.input group -->
+</div>
+<div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
+{{--table--}}
+<div id="table_add" class="col-md-12" style="display: block">
+    <table class="table table-hover">
+        <thead>
+        </thead>
+        <tbody id="list_add">
 
-<div class="row">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label>Income</label>
-            <input type="text" class="form-control" placeholder="Income" name="income" id="income" value="">
-            <label id="lb_error_email" style="color: red;"></label>
-        </div>
-    </div>
-    <div class="col-md-3" style="margin-left: 10px;">
-        <div class="form-group">
-            <label>Estimate cost</label>
-            <input type="text" class="form-control" placeholder="Estimate cost" name="" id="" value="">
-            <label id="lb_error_email" style="color: red;"></label>
-        </div>
-    </div>
-    <div class="col-md-3" style="margin-left: 10px;">
-        <div class="form-group">
-            <label>Real cost</label>
-            <input type="text" class="form-control" placeholder="Real cost" name="real_cost" id="real_cost" value="">
-            <label id="lb_error_email" style="color: red;"></label>
-        </div>
-    </div>
+        @if(session()->has('processes'))
+            @foreach(session()->get('processes') as $process)
+                <tr id="member_{{$process['employee_id']}}">
+                    <td style="width: 17%;">
+                        {{
+                        !is_null(getEmployee($process['employee_id']))?
+                        getEmployee($process['employee_id'])->name:''
+                        }}
+                    </td>
+                    <td style="width: 17%;">{{$process['man_power']}}</td>
+                    <td style="width: 17%;">
+                        {{
+                        !is_null(getRole($process['role']))?
+                        getRole($process['role'])->name:''
+                        }}
+                    </td>
+                    <td style="width: 27%;">{{$process['start_date_process']}}</td>
+                    <td>{{$process['end_date_process']}}
+                    </td>
+                    <td><a><i id="40" class="fa fa-remove removeajax"></i></a></td>
+                </tr>
+            @endforeach
+        @endif
+        </tbody>
+    </table>
 </div>
-<div class="row">
-    <div class="col-md-1">
+<div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
+
+<div class="col-md-6 col-md-offset-1" >
+    <div>
+        <label>Income</label>
+        {{ Form::number('income', old('income'),
+            ['class' => 'form-control',
+            'id' => 'income',
+            'autofocus' => true,
+            'placeholder'=>"Income",
+            ])
+        }}
+        {{--<label id="lb_error_income" style="color: red;">{{$errors->first('income')}}</label>--}}
     </div>
-    <div class="col-md-9">
-        <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" placeholder="Description" name="description" id="description"
-                      value=""></textarea>
-            <label id="lb_error_email" style="color: red;"></label>
-        </div>
+    <div>
+        <label>Estimate cost</label>
+        {{ Form::number('estimate_cost', old('estimate_cost'),
+            ['class' => 'form-control',
+            'id' => 'estimate_cost',
+            'autofocus' => true,
+            'placeholder'=>"Estimate cost",
+            ])
+        }}
+        {{--<label id="lb_error_estimate_cost" style="color: red;"></label>--}}
     </div>
-</div>
-<div class="row">
-    <div class="col-md-1">
+    <div>
+        <label>Real cost</label>
+        {{ Form::number('real_cost', old('real_cost'),
+            ['class' => 'form-control',
+            'id' => 'real_cost',
+            'autofocus' => true,
+            'placeholder'=>"Real cost",
+            ])
+        }}
+        {{--<label id="lb_error_real_cost" style="color: red;">{{$errors->first('real_cost')}}</label>--}}
     </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label>Status</label><br/>
-            <select name="status" id="status" class="form-control select2">
-                <option {{ !empty(old('status'))?'':'selected="selected"' }} value="">
-                    {{  trans('vendor.drop_box.placeholder-default') }}
+    <div>
+        <label>Description</label>
+        {{ Form::textarea('description', old('description'),
+            ['class' => 'form-control',
+            'id' => 'description',
+            'autofocus' => true,
+            'placeholder'=>"Description",
+            ])
+        }}
+        {{--<label id="lb_error_description" style="color: red;"></label>--}}
+    </div>
+    <div>
+        <label>Status</label><br/>
+        <select name="status" id="status" class="form-control">
+            <option {{ !empty(old('status'))?'':'selected="selected"' }} value="">
+                {{  trans('vendor.drop_box.placeholder-default') }}
+            </option>
+            @foreach($project_status as $key=>$value)
+                <option value="{{ $key }}" {{ (string)$key===old('status')?'selected="selected"':'' }}>
+                    {{ $value }}
                 </option>
-                @foreach($project_status as $key=>$value)
-                    <option value="{{ $key }}" {{ (string)$key===old('status')?'selected="selected"':'' }}>
-                        {{ $value }}
-                    </option>
-                @endforeach
-            </select>
-            <label id="lb_error_members" style="color: red; "></label>
-        </div>
+            @endforeach
+        </select>
+        {{--<label id="lb_error_project_status" style="color: red; ">{{$errors->first('status')}}</label>--}}
     </div>
 </div>
-<div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
-    <div class="col-md-6" style="display: inline; ">
-        <div style="float: right;">
-            <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span
-                        class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
-            </button>
-        </div>
-    </div>
-    <div class="col-md-2" style="display: inline;">
-        <div style="float: right;">
-            <button type="submit" class="btn btn-info pull-left">ADD</button>
-        </div>
-    </div>
+<div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
+<div class=" col-md-6 text-center col-md-offset-1" style="margin-top: 20px;">
+    <button id="btn_reset_form_project" type="button" class="btn btn-default" style="width: 150px"><span
+                class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
+    </button>
+    <button type="submit" class="btn btn-primary"
+            style="width: 150px">{{trans('common.button.add')}}</button>
 </div>
-
+{{-- nhan hien bang nhap form --}}
 {!! Form::close() !!}
 
 <script>
-    function requestAjax() {
-        var employee_id = $('#employee_id').val();
-        var estimate_start_date = $('#estimate_start_date').val();
-        var estimate_end_date = $('#estimate_end_date').val();
-        var start_date_project = $('#start_date_project').val();
-        var end_date_project = $('#end_date_project').val();
-        var end_date_process = $('#end_date_process').val();
-        var start_date_process = $('#start_date_process').val();
-        var man_power = $('#man_power').val();
-        var role = $('#role').val();
-
-        $.ajax({
-            url: '{{route('checkProcessAjax')}}',
-            type: 'POST',
-            data: {
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                id: employee_id,
-                estimate_start_date: estimate_start_date,
-                estimate_end_date: estimate_end_date,
-                start_date_project: start_date_project,
-                end_date_project: end_date_project,
-                end_date_process: end_date_process,
-                start_date_process: start_date_process,
-                man_power: man_power,
-                role: role,
-                _token: '{{csrf_token()}}',
-
-            },
-            success: function (json) {
-                $('.id').html('');
-                $('.man_power').html('');
-                $('.start_date_project').html('');
-                $('.end_date_project').html('');
-                $('.estimate_start_date').html('');
-                $('.estimate_end_date').html('');
-                $('.start_date_process').html('');
-                $('.end_date_process').html('');
-                $('.role').html('');
-                console.log(json);
-                $.each(json[0], function (key, value) {
-
-                });
-            },
-            error: function (json) {
-                if (json.status === 422) {
-                    var errors = json.responseJSON;
-                    $.each(json.responseJSON, function (key, value) {
-                        $('#msg').html(value);
-                    });
-                } else {
-                    // Error
-                    // Incorrect credentials
-                    // alert('Incorrect credentials. Please try again.')
-                }
+    // public/admin/template/myscript/project
+    $(document).ready(function () {
+        $('#end_date_project').on('change',function (event) {
+            var target = $(event.target);
+            if(!target.val()){
+                $('#btn_add_process').attr('disabled', false);
+            }else{
+                $('#btn_add_process').attr('disabled','disabled');
             }
         });
-    }
-
-    $(document).ready(function () {
+        $('#btn_reset_form_project').on('click',function (event) {
+            if(confirm("Do you wan't reset all field ?")){
+                resetFormAddProject();
+            }
+        });
+        $(document).on('click', ".removeajax", function (event) {
+            var target = $(event.target).parent().closest('tr');
+            var employee_id = $(event.target).attr('id');
+            var employee_name = $(event.target).attr('name');
+            if (confirm("Do you want remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
+                removeAjax(employee_id, target, '{{route('removeProcessAjax')}}', '{{csrf_token()}}');
+            }
+        });
         $('#btn_add_process').on("click", function () {
-            requestAjax();
+            var employee_id = $('#employee_id :selected').val();
+            var employee_name = $('#employee_id :selected').text();
+            if (employee_id === '' || employee_name === '') {
+                return confirm('Please choose employee !')
+            } else {
+                if (confirm("Do you want add  " + employee_name + " (id=" + employee_id + ") to project ?")) {
+                    requestAjax('{{route('checkProcessAjax')}}', '{{csrf_token()}}');
+                }
+            }
+
         });
     });
 

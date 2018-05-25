@@ -11,7 +11,7 @@ class Process extends Model
     protected $fillable = [
         'id',
         'employee_id',
-        'projects_id',
+        'project_id',
         'role_id',
         'check_project_exit',
         'man_power',
