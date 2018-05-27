@@ -234,8 +234,8 @@
                                 if ({{$employee->id}} == $listEmployeeID[$listEmployeeID.length - 1]
                             )
                                 {
-                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($employee->team)?$employee->team->name:'---' }}';
-                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($employee->role)?$employee->role->name:'---' }}';
+                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($employee->team)?$employee->team->name:'-' }}';
+                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($employee->role)?$employee->role->name:'-' }}';
                                 }
                                 @endforeach
                                     $listAdd = "";

@@ -20,7 +20,7 @@
             <div class="box box-default">
                 <div id="msg">
                 </div>
-                @include('projects._form_add_project');
+                @include('projects._form_add_project')
             </div>
             <!-- /.box-body -->
             <!-- /.box -->

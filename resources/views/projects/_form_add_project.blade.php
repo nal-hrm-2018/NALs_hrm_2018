@@ -151,7 +151,7 @@
                     {{  trans('vendor.drop_box.placeholder-default') }}
                 </option>
                 @foreach($manPowers as $key=>$value)
-                    <option value="{{ $key }}" {{ (string)$key===old('man_power')?'selected="selected"':'' }}>
+                    <option value="{{ $key }}" {{ (string)$key===old('man_power')?'selected="selected"':'' }} id="man_power_{{ $key }}">
                         {{ $value }}
                     </option>
                 @endforeach
@@ -166,7 +166,7 @@
                     {{  trans('vendor.drop_box.placeholder-default') }}
                 </option>
                 @foreach($roles as $key=>$value)
-                    <option value="{{ $key }}" {{ (string)$key===old('role')?'selected="selected"':'' }}>
+                    <option value="{{ $key }}" {{ (string)$key===old('role')?'selected="selected"':'' }} id="role_{{ $key }}">
                         {{ $value }}
                     </option>
                 @endforeach
@@ -175,80 +175,7 @@
     </div>
 
 </div>
-<div class="row">
-    <div>
-        <div class="col-md-1" style="margin-left: 0px;">
-
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <a class="btn-employee-remove" style="float: left">
-                <i class="fa fa-remove"
-                   onclick='removeEmployee() '></i>
-            </a>
-            <span style="float: right;">Nguyễn Văn A</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">1</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">Dev</span>
-        </div>
-    </div>
-    <div>
-        <div class="col-md-1" style="margin-left: 0px;">
-
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <a class="btn-employee-remove" style="float: left">
-                <i class="fa fa-remove"
-                   onclick='removeEmployee() '></i>
-            </a>
-            <span style="float: right;">Nguyễn Văn A</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">1</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">Dev</span>
-        </div>
-    </div>
-    <div>
-        <div class="col-md-1" style="margin-left: 0px;">
-
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <a class="btn-employee-remove" style="float: left">
-                <i class="fa fa-remove"
-                   onclick='removeEmployee() '></i>
-            </a>
-            <span style="float: right;">Nguyễn Văn A</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">22-02-1996</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">1</span>
-        </div>
-        <div class="col-md-2" style="margin-left: 5px;">
-            <span style="float: right;">Dev</span>
-        </div>
-    </div>
-
+<div class="row" id="listProcess">
 </div>
 
 <div class="row">
@@ -326,6 +253,13 @@
 {!! Form::close() !!}
 
 <script>
+    var listEmployee = new Array();
+    var listEndDate = new Array();
+    var listStartDate = new Array();
+    var listManPower = new Array();
+    var listRole = new Array();
+</script>
+<script>
     function requestAjax() {
         var employee_id = $('#employee_id').val();
         var estimate_start_date = $('#estimate_start_date').val();
@@ -357,19 +291,16 @@
 
             },
             success: function (json) {
-                $('.id').html('');
-                $('.man_power').html('');
-                $('.start_date_project').html('');
-                $('.end_date_project').html('');
-                $('.estimate_start_date').html('');
-                $('.estimate_end_date').html('');
-                $('.start_date_process').html('');
-                $('.end_date_process').html('');
-                $('.role').html('');
+                if(json.hasOwnProperty("msg_success")){
+                    addProcess();
+                }else{
+                var string="";
                 console.log(json);
                 $.each(json[0], function (key, value) {
-
+                    string += value;
+                    $('#msg').html(string);
                 });
+                }
             },
             error: function (json) {
                 if (json.status === 422) {
@@ -392,4 +323,63 @@
         });
     });
 
+</script>
+<script>
+    function addProcess(){
+        var employee_id = $('#employee_id').val();
+        var end_date_process = $('#end_date_process').val();
+        var start_date_process = $('#start_date_process').val();
+        var man_power = $('#man_power').val();
+        var role = $('#role').val();
+        var check = true;
+        for (var i = 0; i < listEmployee.length; i++) {
+            if (employee_id == listEmployee[i]) {
+                alert("member da dc chon");
+                check = false;
+                break;
+            }
+
+        }
+        var listAdd = "";
+        if(employee_id != 0 && check == true){
+            listEmployee[listEmployee.length] = employee_id;
+            listEndDate[listEndDate.length] = end_date_process;
+            listStartDate[listStartDate.length] = start_date_process;
+            listManPower[listManPower.length] = man_power;
+            listRole[listRole.length] = role;
+        
+            for (var i = 0; i < listEmployee.length; i++) {
+                var member = $('#member_'+listEmployee[i]).text();
+                var man_power = $('#man_power_'+listManPower[i]).text();
+                var name_role = $('#role_'+listRole[i]).text();
+                listAdd +="<div id=\"process_"+listEmployee[i]+"\"><div class=\"col-md-1\" style=\"margin-left: 0px;\"></div>"+
+                "<div class=\"col-md-2\" style=\"margin-left: 5px;\"><a class=\"btn-employee-remove\" style=\"float: left\"><i class=\"fa fa-remove\" onclick='removeProcess("+listEmployee[i]+") '></i></a>"+
+                "<span style=\"float: right;\">"+member+"</span></div>"+
+                "<div class=\"col-md-2\" style=\"margin-left: 5px;\"><span style=\"float: right;\">"+listStartDate[i]+"</span></div>"+
+                "<div class=\"col-md-2\" style=\"margin-left: 5px;\"><span style=\"float: right;\">"+listEndDate[i]+"</span></div>"+
+                "<div class=\"col-md-2\" style=\"margin-left: 5px;\"><span style=\"float: right;\">"+man_power+"</span></div>"+
+                "<div class=\"col-md-2\" style=\"margin-left: 5px;\"><span style=\"float: right;\">"+name_role+"</span></div></div>";
+            }
+            $('#member_' + employee_id).prop('disabled', true);
+            $('#employee_id').select2();
+            document.getElementById("listProcess").innerHTML = listAdd;
+        }
+        
+
+    }
+
+</script>
+<script type="text/javascript">
+    function removeProcess(id) {
+        $('div').remove('#process_' + id);
+        listEmployee.splice(listEmployee.indexOf("" + id), 1);
+        listEndDate.splice(listEmployee.indexOf("" + id), 1);
+        listStartDate.splice(listEmployee.indexOf("" + id), 1);
+        listEndDate.splice(listEmployee.indexOf("" + id), 1);
+        listManPower.splice(listEmployee.indexOf("" + id), 1);
+        listRole.splice( listEmployee.indexOf("" + id), 1);
+
+        $('#member_' + id).prop('disabled', false);
+        $('#employee_id').select2();
+    }
 </script>
