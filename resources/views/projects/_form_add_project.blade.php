@@ -97,9 +97,9 @@
                    value="{{ old('start_date_project')}}">
 
         </div>
-        <label class="start_date_project" id="lb_error_start_date_project"
-               style="color: red; ">{{$errors->first('start_date_project')}}</label>
-        <!-- /.input group -->
+    {{--<label class="start_date_project" id="lb_error_start_date_project"--}}
+    {{--style="color: red; ">{{$errors->first('start_date_project')}}</label>--}}
+    <!-- /.input group -->
     </div>
     <div>
         <label>End work date</label>
@@ -118,7 +118,7 @@
 </div>
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
 <div class="col-md-2">
-    <button type="button" id="btn_add_process" class="btn btn-primary " >
+    <button type="button" id="btn_add_process" class="btn btn-primary ">
         <i class="fa fa-user-plus"></i> Add
     </button>
 </div>
@@ -201,17 +201,19 @@
                         getEmployee($process['employee_id'])->name:''
                         }}
                     </td>
-                    <td style="width: 17%;">{{$process['man_power']}}</td>
+                    <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
                     <td style="width: 17%;">
                         {{
                         !is_null(getRole($process['role']))?
                         getRole($process['role'])->name:''
                         }}
                     </td>
-                    <td style="width: 27%;">{{$process['start_date_process']}}</td>
-                    <td>{{$process['end_date_process']}}
-                    </td>
-                    <td><a><i id="40" class="fa fa-remove removeajax"></i></a></td>
+                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
+                    <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
+                    <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
+                                    getEmployee($process['employee_id'])->name:'' }}"
+                              id="{{$process['employee_id']}}" class="fa fa-remove removeajax"></i>
+                        </a></td>
                 </tr>
             @endforeach
         @endif
@@ -220,7 +222,7 @@
 </div>
 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
 
-<div class="col-md-6 col-md-offset-1" >
+<div class="col-md-6 col-md-offset-1">
     <div>
         <label>Income</label>
         {{ Form::number('income', old('income'),
@@ -285,7 +287,7 @@
     <button id="btn_reset_form_project" type="button" class="btn btn-default" style="width: 150px"><span
                 class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
     </button>
-    <button type="submit" class="btn btn-primary"
+    <button id="btn_submit_form_add_project" type="submit" class="btn btn-primary"
             style="width: 150px">{{trans('common.button.add')}}</button>
 </div>
 {{-- nhan hien bang nhap form --}}
@@ -293,17 +295,15 @@
 
 <script>
     // public/admin/template/myscript/project
+
+
     $(document).ready(function () {
-        $('#end_date_project').on('change',function (event) {
-            var target = $(event.target);
-            if(!target.val()){
-                $('#btn_add_process').attr('disabled', false);
-            }else{
-                $('#btn_add_process').attr('disabled','disabled');
-            }
+        $('#form_add_project').on('submit', function (event) {
+            return confirm("Do you want add new Project ?");
         });
-        $('#btn_reset_form_project').on('click',function (event) {
-            if(confirm("Do you wan't reset all field ?")){
+
+        $('#btn_reset_form_project').on('click', function (event) {
+            if (confirm("Do you wan't reset all field ?")) {
                 resetFormAddProject();
             }
         });
@@ -318,6 +318,7 @@
             }
         });
         $('#btn_add_process').on("click", function () {
+            $('#estimate_cost').val(calculateEstimateCost());
             var employee_id = $('#employee_id :selected').val();
             var employee_name = $('#employee_id :selected').text();
             if (employee_id === '' || employee_name === '') {

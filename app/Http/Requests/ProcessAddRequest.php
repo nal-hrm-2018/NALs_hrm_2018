@@ -67,17 +67,19 @@ class ProcessAddRequest extends CommonRequest
         return [
             'employee_id' =>
                 [
+                    'bail',
                     'required',
                     new ValidMember(),
                     new ValidDupeMember(session()->get('processes')),
                 ],
             'start_date_project' =>
                 [
+                    'bail',
                     'nullable',
-                    'after_or_equal:today',
                 ],
             'end_date_project' =>
                 [
+                    'bail',
                     'nullable',
                     'after_or_equal:start_date_project',
                     new ValidEndDateProject(request()->get('start_date_project')),
@@ -86,21 +88,23 @@ class ProcessAddRequest extends CommonRequest
 
             'estimate_start_date' =>
                 [
+                    'bail',
                     'required',
-                    'after_or_equal:today',
                 ],
             'estimate_end_date' =>
                 [
+                    'bail',
                     'required',
                     'after_or_equal:estimate_start_date'
                 ],
             'start_date_process' =>
                 [
+                    'bail',
                     'required',
-                    'after_or_equal:today',
                 ],
             'end_date_process' =>
                 [
+                    'bail',
                     'required',
                     'after_or_equal:start_date_process',
                     new ValidEndDateProcess(

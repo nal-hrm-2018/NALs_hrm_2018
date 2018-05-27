@@ -42,11 +42,11 @@ class ValidEndDateProcess implements Rule
     public function passes($attribute, $value)
     {
         $end_date_process = $value;
-        if (empty($this->estimate_start_date_project) && empty($this->estimate_end_date_project)) {
+        if (empty($this->estimate_start_date_project) || empty($this->estimate_end_date_project)) {
             return false;
         }
         if (!empty($this->real_end_date_project) && !empty($this->real_start_date_project)) {
-            $this->message = 'Cant add process because this project has finished at '.date('d/m/Y',strtotime($this->real_end_date_project));
+            $this->message = 'Cant add process because The end date project has defined at '.date('d/m/Y',strtotime($this->real_end_date_project));
             return false;
         }
         $end_date_process = Carbon::parse($end_date_process);
@@ -59,7 +59,7 @@ class ValidEndDateProcess implements Rule
                 if ($start_date_process->gte($real_start_date_project) && $end_date_process->lte($real_end_date_project)) {
                     return true;
                 } else {
-                    $this->message = "start date process and end date process must be between real start date project and real end date project.";
+                    $this->message = "The start date process and end date process must be between real start date project and real end date project.";
                     return false;
                 }
             } else {
@@ -68,7 +68,7 @@ class ValidEndDateProcess implements Rule
                 if ($start_date_process->gte($real_start_date_project) && $end_date_process->lte($estimate_end_date_project)) {
                     return true;
                 } else {
-                    $this->message = "start date process and end date process must be between real start date project and estimate end date project.";
+                    $this->message = "The start date process and end date process must be between real start date project and estimate end date project.";
                     return false;
                 }
             }
@@ -83,7 +83,7 @@ class ValidEndDateProcess implements Rule
                 if ($start_date_process->gte($estimate_start_date_project) && $end_date_process->lte($estimate_end_date_project)) {
                     return true;
                 } else {
-                    $this->message = "start date process and end date process must be between estimate start date project and estimate end date project.";
+                    $this->message = "The start date process and end date process must be between estimate start date project and estimate end date project.";
                     return false;
                 }
             }

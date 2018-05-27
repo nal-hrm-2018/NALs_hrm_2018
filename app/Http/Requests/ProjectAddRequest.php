@@ -24,17 +24,19 @@ class ProjectAddRequest extends CommonRequest
             [
                 'id' =>
                     [
+                        'bail',
                         'required',
                         'unique:projects,id'
                     ],
                 'name' => 'required',
                 'start_date_project' =>
                     [
+                        'bail',
                         'nullable',
-                        'after_or_equal:today',
                     ],
                 'end_date_project' =>
                     [
+                        'bail',
                         'nullable',
                         'after_or_equal:start_date_project',
                         new ValidEndDateProject(request()->get('start_date_project')),
@@ -43,27 +45,31 @@ class ProjectAddRequest extends CommonRequest
 
                 'estimate_start_date' =>
                     [
+                        'bail',
                         'required',
-                        'after_or_equal:today',
                     ],
                 'estimate_end_date' =>
                     [
+                        'bail',
                         'required',
                         'after_or_equal:estimate_start_date'
                     ],
                 'income' =>
                     [
+                        'bail',
                         'required',
                         'numeric',
                         'min:0'
                     ],
                 'real_cost' =>
                     [
+                        'bail',
                         'nullable',
                         'numeric',
                         'min:0',
                     ],
                 'status' => [
+                    'bail',
                     'required',
                     new ValidStatusProject(
                         request()->get('start_date_project'),
