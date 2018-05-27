@@ -11,7 +11,7 @@ class StatusProjectSeeder extends Seeder
      */
     public function run()
     {
-        $name = ['kick off', 'pending','in-progress','releasing','complete'];
+        $name = ['kick off', 'pending','in-progress','releasing','complete','planing'];
         if(!\App\Models\Status::first()){
             foreach (range(0,count($name)-1) as $index) {
                 DB::table('statuses')->insert([
