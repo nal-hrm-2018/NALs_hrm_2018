@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
+
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ProcessAddRequest;
+
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
@@ -17,11 +19,16 @@ Route::post('logout', [
 
 Route::post('/cong_test', [
         'uses' => function (\Illuminate\Http\Request $request) {
-            $validator = Validator::make($request->all(),(new ProcessAddRequest())->rules());
-
+            $processAddRequest = new ProcessAddRequest();
+            $validator = Validator::make($request->all(), $processAddRequest->rules(),$processAddRequest->messages());
             if ($validator->fails()) {
-                return response()->json($validator->messages());
+                return response()->json([$validator->messages(), 'available_processes' => session()->get('available_processes')]);
             }
+            if (!session()->has('processes'))
+                session()->put('processes',[]);
+
+            $process = $request->input();
+            session()->push('processes', $process);
             return response()->json(['success' => 'Record is successfully added']);
         },
         'as' => 'cong_test'
@@ -93,13 +100,18 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('vendors/importVendor', 'User\Vendor\VendorController@importVendor')->name('importVendor');
     Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
-    Route::resource('vendors','User\Vendor\VendorController');
-    Route::resource('projects','Project\ProjectController');
-
+    Route::resource('vendors', 'User\Vendor\VendorController');
+    Route::resource('projects', 'Project\ProjectController');
+    Route::post('projects/checkProcessAjax',[
+        'as'=>'checkProcessAjax',
+        'uses'=>'Project\ProjectController@checkProcessesAjax'
+    ]);
     Route::post('/vendors/{id}', [
         'as' => 'vendor_show_chart',
         'uses' => 'User\Vendor\VendorController@showChart',
     ]);
+
+
 });
 
 //cong list route cam pha'
@@ -126,14 +138,3 @@ Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTe
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
 
-Route::get('/phuc_test', [
-        'uses' => function () {
-            return view('projects.phuc_test');
-        },
-        'as' => 'phuc_test_get'
-    ]
-
-);
-
-Route::post('/phuc_test', 'Project\ProjectController@phucTest');
-Route::get('/phuc_test2', 'Project\ProjectController@phucTest2');

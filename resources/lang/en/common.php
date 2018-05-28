@@ -13,6 +13,10 @@ return [
     |
     */
 
+    'msg_fails' => 'msg_fails',
+    'msg_success' => 'msg_success',
+    'msg_error' => 'msg_error',
+
     'confirm_message'=>[
         'add_action'=>'Do you want to add?',
     ],

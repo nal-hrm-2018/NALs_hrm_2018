@@ -47,3 +47,7 @@ function getTotalManPowerofProcesses($processes)
     }
     return $total;
 }
+
+function getArrayManPower(){
+    return [0.125,0.25,0.5,0.75,1];
+}

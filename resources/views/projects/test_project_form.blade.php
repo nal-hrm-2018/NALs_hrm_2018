@@ -10,8 +10,8 @@
 ]) !!}
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="row">
-    <div class="col-md-3">
-        @if(session()->has('available_processes'))
+    <div class="col-md-3" >
+        @if(session()->has('available_processes1'))
             @foreach(session()->get('available_processes') as $item)
                 {{ 'ID = '. $item->employee_id}}
                 {{ 'start_date= '.date('d/m/Y',strtotime($item->start_date)) }}
@@ -157,13 +157,14 @@
             $('.start_date_process').html('');
             $('.end_date_process').html('');
             $('.role').html('');
+            var data = ['asd','dewf'];
             $.ajax({
                 url: form.attr('action'),
                 type: form.attr('method'),
                 data:$(this).serialize(),
                 success: function (json) {
                     console.log(json);
-                    $.each(json, function (key, value) {
+                    $.each(json[0], function (key, value) {
                         $('.'+key).html('');
                         $('.'+key).html(value);
                     });
