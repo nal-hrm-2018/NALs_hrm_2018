@@ -58,7 +58,7 @@ class ProjectServiceImpl extends CommonService
         ];
         try {
             $project = new Project($project_data);
-            $processes = session()->get('processes');
+            $processes = request()->get('processes');
             DB::beginTransaction();
             $project->save();
             foreach ($processes as $process) {

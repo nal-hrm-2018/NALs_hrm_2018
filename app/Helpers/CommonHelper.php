@@ -81,7 +81,7 @@ function hasDupeProjectPO($processes, $id_po)
 function checkValidProjectData()
 {
     // ham nay sinh ra de chong lai tinh trang thay doi thong tin project sau khi da add process
-    $processes = session()->get('processes');
+    $processes = request()->get('processes');
     $processAddRequest = new ProcessAddRequest();
     $error_messages = array();
     if (!empty($processes)) {
