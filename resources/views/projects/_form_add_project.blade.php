@@ -195,20 +195,26 @@
         @if(session()->has('processes'))
             @foreach(session()->get('processes') as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <td style="width: 17%;">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][role]" value="{{$process['role']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date_process']}}">
+                    <td class="members" style="width: 17%;">
                         {{
                         !is_null(getEmployee($process['employee_id']))?
                         getEmployee($process['employee_id'])->name:''
                         }}
                     </td>
                     <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
-                    <td style="width: 17%;">
+                    <td class="roles" style="width: 17%;">
                         {{
                         !is_null(getRole($process['role']))?
                         getRole($process['role'])->name:''
                         }}
                     </td>
-                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
+                    <td class="start_date_process"
+                        style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
                     <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
                     <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
                                     getEmployee($process['employee_id'])->name:'' }}"
@@ -234,7 +240,7 @@
     </div>
     <div>
         <label>Estimate cost</label>
-        {{ Form::number('estimate_cost', old('estimate_cost'),
+        {{ Form::text('estimate_cost', old('estimate_cost'),
             ['class' => 'form-control',
             'id' => 'estimate_cost',
             'autofocus' => true,
@@ -298,7 +304,13 @@
 
     $(document).ready(function () {
         $('#form_add_project').on('submit', function (event) {
-            return confirm("Do you want add new Project ?");
+            if (confirm("Do you want add new Project ?")) {
+
+                return true;
+
+            } else {
+
+            }
         });
 
         $('#btn_reset_form_project').on('click', function (event) {

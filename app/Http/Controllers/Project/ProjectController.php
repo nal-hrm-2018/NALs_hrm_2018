@@ -33,9 +33,6 @@ class ProjectController extends Controller
     {
         $this->searchProjectService = $searchProjectService;
         $this->projectService = $projectService;
-        if (!session()->has('processes')){
-            session()->put('processes', []);
-        }
     }
 
     public function index(Request $request)
@@ -66,9 +63,6 @@ class ProjectController extends Controller
             if ($validator->fails()) {
                 return response()->json([$validator->messages(), 'available_processes' => request()->get('available_processes')]);
             }
-
-            $process = $request->input();
-            session()->push('processes', $process);
             return response()->json([trans('project.msg_success') => trans('project.msg_content.msg_check_process_success')]);
         }
         return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_check_process_fail')]);
@@ -102,15 +96,6 @@ class ProjectController extends Controller
 
     public function create()
     {
-        // phan biet giua redirect do error va new request
-        if (!session()->has('error_messages') && !session()->has('errors')) {
-            //neu new request thi xoa thong tin session cu
-            session()->forget('processes');
-        } else {
-            // neu redirect do error se gui lai thong tin session cu
-            view()->share('processes', session()->get('processes'));
-        }
-
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
         $manPowers = getArrayManPower();
@@ -123,6 +108,7 @@ class ProjectController extends Controller
         $error_messages = checkValidProjectData();
         if (!empty($error_messages)) {
             session()->flash('error_messages', $error_messages);
+            session()->flash('processes', $request->get('processes'));
             return back()->withInput();
         }
 

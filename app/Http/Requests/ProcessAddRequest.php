@@ -34,11 +34,12 @@ class ProcessAddRequest extends CommonRequest
         return [
             'start_date_process' =>
                 [
+                    'bail',
                     'required',
-                    'after_or_equal:today',
                 ],
             'end_date_process' =>
                 [
+                    'bail',
                     'required',
                     'after_or_equal:start_date_process',
                     new ValidEndDateProcess(
@@ -51,6 +52,7 @@ class ProcessAddRequest extends CommonRequest
                 ],
             'man_power' =>
                 [
+                    'bail',
                     'required',
                     new ValidManPower(
                         $start_date_process,
@@ -70,12 +72,13 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     new ValidMember(),
-                    new ValidDupeMember(session()->get('processes')),
+                    new ValidDupeMember(request()->get('processes')),
                 ],
             'start_date_project' =>
                 [
                     'bail',
                     'nullable',
+                    'before_or_equal:estimate_end_date',
                 ],
             'end_date_project' =>
                 [
@@ -95,7 +98,7 @@ class ProcessAddRequest extends CommonRequest
                 [
                     'bail',
                     'required',
-                    'after_or_equal:estimate_start_date'
+                    'after_or_equal:estimate_start_date',
                 ],
             'start_date_process' =>
                 [
@@ -117,6 +120,7 @@ class ProcessAddRequest extends CommonRequest
                 ],
             'man_power' =>
                 [
+                    'bail',
                     'required',
                     new ValidManPower(
                         request()->get('start_date_process'),
@@ -127,9 +131,10 @@ class ProcessAddRequest extends CommonRequest
                 ],
             'role' =>
                 [
+                    'bail',
                     'required',
                     'exists:roles,id',
-                    new ValidRoleProject(session()->get('processes')),
+                    new ValidRoleProject(request()->get('processes')),
                 ]
         ];
     }
