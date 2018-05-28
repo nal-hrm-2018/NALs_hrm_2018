@@ -97,9 +97,14 @@ class SearchProjectServiceImpl implements SearchProjectService
         * search by Status in project
         */
         if (!empty($params['status'])) {
-            $status = $params['status'] * 1;
-            $query->where("status_id", $status);
+//            $status = $params['status'] * 1;
+//            $query->where("status_id", $status);
+            $query
+                ->whereHas('status', function ($query) use ($params) {
+                    $query->where("name", 'like', '%' . $params['status'] . '%');
+                });
         }
+
 
         $query->where('delete_flag', 0);
         return $query;
