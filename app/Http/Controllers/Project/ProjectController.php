@@ -33,10 +33,9 @@ class ProjectController extends Controller
     {
         $this->searchProjectService = $searchProjectService;
         $this->projectService = $projectService;
-        if (!session()->has('processes'))
-            $processes = array();
-//            unset($processes[0]);
-        session()->put('processes', []);
+        if (!session()->has('processes')){
+            session()->put('processes', []);
+        }
     }
 
     public function index(Request $request)
@@ -89,6 +88,7 @@ class ProjectController extends Controller
                         if ($process['employee_id'] === request()->get('id')) {
                             unset($processes[$index]);
                             session()->forget('processes');
+                            $processes=array_values($processes);
                             session()->put('processes', $processes);
                             return response()->json([trans('project.msg_success') => trans('project.msg_content.msg_remove_process_success')]);
                         }

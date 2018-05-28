@@ -17,12 +17,15 @@
 
         <!-- Main content -->
         <section class="content">
-
-            <!-- SELECT2 EXAMPLE -->
-            <div class="box box-default">
-                <div id="msg">
+            <div class="row>">
+                <!-- SELECT2 EXAMPLE -->
+                <div class="box box-primary">
+                    <div id="msg">
+                    </div>
+                    <div class="box-body">
+                        @include('projects._form_add_project');
+                    </div>
                 </div>
-                @include('projects._form_add_project');
             </div>
             <!-- /.box-body -->
             <!-- /.box -->

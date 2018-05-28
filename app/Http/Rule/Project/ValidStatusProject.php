@@ -57,24 +57,24 @@ class ValidStatusProject implements Rule
         }
         if (empty($this->real_start_date)) {
             if ($status !== $planing) {
-                $this->message = 'real start date is not selected , project status must be planing';
+                $this->message = 'The real start date is not selected , project status must be status planing';
                 return false;
             }
             return true;
         } else {
             if (empty($this->real_end_date)) {
                 if ($status === $planing) {
-                    $this->message = "real start date is selected ,can't select planing";
+                    $this->message = "The real start date is selected ,can't select status planing";
                     return false;
                 }
                 if ($status === $complete) {
-                    $this->message = "real end date is not select  ,can't select complete";
+                    $this->message = "The real end date is not select  ,can't select status complete";
                     return false;
                 }
                 return true;
             } else {
                 if ($status !== $complete) {
-                    $this->message = "real end date is select  ,you can't select another";
+                    $this->message = "The real end date is selected  ,you can't select other than status complete";
                     return false;
                 }
                 return true;
