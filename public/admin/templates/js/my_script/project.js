@@ -105,7 +105,6 @@ function requestAjax(url, token) {
             }
 
             if (json.hasOwnProperty('msg_success')) {
-
                 $('#list_error').html('');
                 $('#list_error').css('display', 'none');
                 alert(json['msg_success'])
@@ -159,9 +158,9 @@ function removeAjax(id, target, url, token) {
         },
         success: function (json) {
             if (json.hasOwnProperty('msg_success')) {
-                $('#estimate_cost').val(calculateEstimateCost());
                 alert(json['msg_success']);
                 object_this.remove();
+                $('#estimate_cost').val(calculateEstimateCost());
             }
             if (json.hasOwnProperty('msg_fail')) {
                 alert(json['msg_fail'])
@@ -203,5 +202,4 @@ function resetFormAddProject() {
     $("#description").val('');
     $("#status").val('').change();
     $(document).scrollTop($("#list_error").offset().top);
-
 }

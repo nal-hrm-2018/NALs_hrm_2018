@@ -220,8 +220,6 @@
         </tbody>
     </table>
 </div>
-<div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-
 <div class="col-md-6 col-md-offset-1">
     <div>
         <label>Income</label>
@@ -308,7 +306,6 @@
                 resetFormAddProject();
             }
         });
-
         $(document).on('click', ".removeajax", function (event) {
             var target = $(event.target).parent().closest('tr');
             var employee_id = $(event.target).attr('id');
@@ -319,7 +316,6 @@
             }
         });
         $('#btn_add_process').on("click", function () {
-            $('#estimate_cost').val(calculateEstimateCost());
             var employee_id = $('#employee_id :selected').val();
             var employee_name = $('#employee_id :selected').text();
             if (employee_id === '' || employee_name === '') {
@@ -327,11 +323,9 @@
             } else {
                 if (confirm("Do you want add  " + employee_name + " (id=" + employee_id + ") to project ?")) {
                     requestAjax('{{route('checkProcessAjax')}}', '{{csrf_token()}}');
-
                 }
             }
 
         });
     });
-
 </script>

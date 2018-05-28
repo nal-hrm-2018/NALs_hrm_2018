@@ -39,7 +39,6 @@ class ValidManPower implements Rule
             || empty($this->start_date_process) || empty($this->end_date_process)) {
             return false;
         }
-
         $manPower = $value;
 
         $available_processes = $this->projectService->getProcessbetweenDate(
