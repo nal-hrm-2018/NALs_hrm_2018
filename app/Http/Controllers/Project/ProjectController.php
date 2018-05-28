@@ -154,15 +154,47 @@ class ProjectController extends Controller
 
     public function edit($id)
     {
+        // phan biet giua redirect do error va new request
+        if (!session()->has('error_messages') && !session()->has('errors')) {
+            //neu new request thi xoa thong tin session cu
+            session()->forget('processes');
+        } else {
+            // neu redirect do error se gui lai thong tin session cu
+            view()->share('processes', session()->get('processes'));
+        }
+//        session()->forget('processes');
+        $currentProject = Project::where('delete_flag', 0)->find($id);
+        $processes = $currentProject->processes()->get();
+        $tempProcess = array();
+        foreach ($processes as $process){
+            $tempProcess['employee_id'] = $process->employee_id;
+            $tempProcess['start_date_project'] = $currentProject->start_date;
+            $tempProcess['end_date_project'] = $currentProject->end_date;
+            $tempProcess['estimate_start_date'] = $currentProject->estimate_start_date;
+            $tempProcess['estimate_end_date'] = $currentProject->estimate_end_date;
+            $tempProcess['start_date_process'] = $process->start_date;
+            $tempProcess['end_date_process'] = $process->end_date;
+            $tempProcess['man_power'] = $process->man_power;
+            $tempProcess['role'] = $process->role_id;
+            session()->push('processes', $tempProcess);
+        }
+
+//        foreach (session()->get('processes') as $item){
+//            echo $item['employee_id']."-";
+//        }
+
+
+
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
         $manPowers = getArrayManPower();
         $project_status = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
-        return view('projects.edit', compact('roles', 'employees', 'manPowers', 'project_status'));
+        return view('projects.edit', compact('roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
     }
 
     public function update(Request $request, $id)
     {
+
     }
 
     public function destroy($id, Request $request)
