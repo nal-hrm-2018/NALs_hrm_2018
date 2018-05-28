@@ -164,7 +164,7 @@
                                                 {{  trans('employee.drop_box.placeholder-default') }}
                                             </option>
                                             @foreach($getAllStatusInStatusTable as $getStatusInStatusTable)
-                                                <option value="{{ $getStatusInStatusTable->id }}" {{ (string)$getStatusInStatusTable->id ===request('status')?'selected="selected"':'' }}>
+                                                <option value="{{ $getStatusInStatusTable->name }}" {{ (string)$getStatusInStatusTable->name ===request('status')?'selected="selected"':'' }}>
                                                     {{ $getStatusInStatusTable->name }}
                                                 </option>
                                             @endforeach
