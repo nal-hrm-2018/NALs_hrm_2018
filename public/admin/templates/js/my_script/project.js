@@ -123,6 +123,8 @@ function requestAjax(url, token) {
                 $('#table_add').css('display', 'block');
                 $('#list_add').prepend(element);
                 $('#estimate_cost').val(calculateEstimateCost());
+                $('#member_' + id_member).prop('disabled', true);
+                $('#employee_id').select2();
             }
             if (json.hasOwnProperty('msg_fail')) {
                 alert(json['msg_fail'])
@@ -161,6 +163,8 @@ function removeAjax(id, target, url, token) {
                 alert(json['msg_success']);
                 object_this.remove();
                 $('#estimate_cost').val(calculateEstimateCost());
+                $('#member_' + id).prop('disabled', false);
+                $('#employee_id').select2();
             }
             if (json.hasOwnProperty('msg_fail')) {
                 alert(json['msg_fail'])
@@ -203,3 +207,5 @@ function resetFormAddProject() {
     $("#status").val('').change();
     $(document).scrollTop($("#list_error").offset().top);
 }
+
+
