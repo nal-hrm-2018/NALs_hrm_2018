@@ -44,7 +44,8 @@ return [
         'team' => 'Teams',
         'list' => 'List',
         'detail'=>'Detail',
-        'add_project'=>'Add project'
+        'add_project'=>'Add project',
+        'edit_project'=>'Edit project'
     ],
     'action'=>[
         'view'=>'View',

@@ -151,15 +151,15 @@
                                             {{isset($project->end_date)? $project->end_date : "-"}}
                                         </td>
                                         <td>
-                                            @if($project->status_id == 1)
+                                            @if($project->status->name == 'Pending')
                                                 <span class='label label-primary'>{{$project->status->name}}</span>
-                                            @elseif($project->status_id == 2)
+                                            @elseif($project->status->name == 'Complete')
                                                 <span class='label label-success'>{{$project->status->name}}</span>
-                                            @elseif($project->status_id == 3)
+                                            @elseif($project->status->name == 'In-Progress')
                                                 <span class='label label-info'>{{$project->status->name}}</span>
-                                            @elseif($project->status_id == 4)
+                                            @elseif($project->status->name == 'Releasing')
                                                 <span class='label label-warning'>{{$project->status->name}}</span>
-                                            @elseif($project->status_id == 5)
+                                            @elseif($project->status->name == 'Kick Off')
                                                 <span class='label label-danger'>{{$project->status->name}}</span>
                                             @else
                                                 -
