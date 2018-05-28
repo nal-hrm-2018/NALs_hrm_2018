@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'msg_fails' => 'msg_fails',
+    'msg_fails' => 'msg_fail',
     'msg_success' => 'msg_success',
     'msg_error' => 'msg_error',
 
@@ -44,6 +44,7 @@ return [
         'team' => 'Teams',
         'list' => 'List',
         'detail'=>'Detail',
+        'add_project'=>'Add project'
     ],
     'action'=>[
         'view'=>'View',

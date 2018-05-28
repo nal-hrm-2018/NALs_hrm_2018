@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use App\Service\ChartService;
 use App\Service\Implement\ChartServiceImpl;
+
+use App\Service\Implement\SearchProjectServiceServiceImpl;
+use App\Service\SearchProjectService;
 use App\Service\Implement\ProjectServiceImpl;
 use App\Service\Implement\SearchServiceImpl;
 use App\Service\Implement\TeamServiceImpl;
