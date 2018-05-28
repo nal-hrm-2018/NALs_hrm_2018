@@ -24,7 +24,7 @@ class ValidEndDateProject implements Rule
     public function passes($attribute, $value)
     {
         if (empty($this->real_start_date) && !empty($value)) {
-            $this->message = "The real start date is null , real end day can't be not null .";
+            $this->message = "The real start date is not selected ,Can't be select The real end date .";
             return false;
         }
         return true;
