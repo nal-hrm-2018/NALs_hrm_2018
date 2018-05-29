@@ -32,6 +32,13 @@ class ProcessAddRequest extends CommonRequest
     )
     {
         return [
+            'employee_id' =>
+                [
+                    'bail',
+                    'required',
+                    new ValidMember(),
+                    new ValidDupeMember(request()->get('processes')),
+                ],
             'start_date_process' =>
                 [
                     'bail',
@@ -61,6 +68,13 @@ class ProcessAddRequest extends CommonRequest
                         $estimate_end_date
                     )
                 ],
+            'role_id' =>
+                [
+                    'bail',
+                    'required',
+                    'exists:roles,id',
+                    new ValidRoleProject(request()->get('processes')),
+                ]
         ];
     }
 
@@ -129,7 +143,7 @@ class ProcessAddRequest extends CommonRequest
                         request()->get('estimate_end_date')
                     )
                 ],
-            'role' =>
+            'role_id' =>
                 [
                     'bail',
                     'required',

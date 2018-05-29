@@ -73,7 +73,7 @@ function requestAjax(url, token) {
             end_date_process: end_date_process,
             start_date_process: start_date_process,
             man_power: man_power,
-            role: role,
+            role_id: role,
             _token: token,
 
         },
@@ -121,7 +121,7 @@ function requestAjax(url, token) {
                     "<i name=\"" + employee_name + "\" id=\"" + id_member + "\" class=\"fa fa-remove removeajax\"></i>" +
                     "</a> </td>" +
                     "<input type=\"hidden\" name=\"processes["+id_member+"][employee_id]\" value=\""+id_member+"\"/>"+
-                    "<input type=\"hidden\" name=\"processes["+id_member+"][role]\" value=\""+role+"\"/>"+
+                    "<input type=\"hidden\" name=\"processes["+id_member+"][role_id]\" value=\""+role+"\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+"][start_date_process]\" value=\""+start_date_process+"\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+"][end_date_process]\" value=\""+end_date_process+"\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+"][man_power]\" value=\""+man_power+"\"/>"+
@@ -142,46 +142,6 @@ function requestAjax(url, token) {
                 $.each(json.responseJSON, function (key, value) {
                     $('#list_error').html(value);
 
-                });
-            } else {
-                // Error
-                // Incorrect credentials
-                // alert('Incorrect credentials. Please try again.')
-            }
-        }
-    });
-}
-
-function removeAjax(id, target, url, token) {
-    var object_this = target;
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: {
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            _token: token,
-            id: id,
-        },
-        success: function (json) {
-            if (json.hasOwnProperty('msg_success')) {
-                alert(json['msg_success']);
-                object_this.remove();
-                $('#estimate_cost').val(calculateEstimateCost());
-                $('#member_' + id).prop('disabled', false);
-                $('#employee_id').select2();
-            }
-            if (json.hasOwnProperty('msg_fail')) {
-                alert(json['msg_fail'])
-            }
-
-        },
-        error: function (json) {
-            if (json.status === 422) {
-                var errors = json.responseJSON;
-                $.each(json.responseJSON, function (key, value) {
-                    $('#list_error').html(value);
                 });
             } else {
                 // Error

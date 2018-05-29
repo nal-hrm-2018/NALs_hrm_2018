@@ -25,13 +25,13 @@ class ValidRoleProject implements Rule
 
     public function passes($attribute, $value)
     {
-
         $id_po = (string)Role::select('id')->where('delete_flag', 0)->where('name', '=', config('settings.Roles.PO'))->first()->id;
-        $id_role_current = $value;
-        $this->processes['role'] =['role'=>$id_role_current] ;
-        if (hasDupeProjectPO($this->processes, $id_po)) {
-            $this->message = "Project can't has over one PO .";
-            return false;
+        if ($id_po === $value) {
+            if (hasDupeProject($this->processes, 'role_id', $value)) {
+                $this->message = "Project can't has over one PO .";
+                return false;
+            }
+            return true;
         }
         return true;
     }

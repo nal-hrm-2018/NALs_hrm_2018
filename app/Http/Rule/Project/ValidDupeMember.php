@@ -25,9 +25,7 @@ class ValidDupeMember implements Rule
     public function passes($attribute, $value)
     {
         // check member duplication
-        $employee_id = $value;
-        $this->processes[] = ['employee_id' => $employee_id];
-        if (hasDupeProject($this->processes, 'employee_id')) {
+        if (hasDupeProject($this->processes,'employee_id', $value)) {
             $this->message = "Member in process can't duplicate .";
             return false;
         }

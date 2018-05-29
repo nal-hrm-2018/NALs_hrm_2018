@@ -1,8 +1,10 @@
 <?php
+
 use App\Http\Requests\ProcessAddRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
 use App\Models\Role;
+
 function test()
 {
     return "test helper";
@@ -32,11 +34,13 @@ function getRoleofVendor($vendor)
 {
     $text = "";
     $arr_roles = array_unique($vendor->roles()->pluck('name')->toArray());
-    foreach ($arr_roles as $key => $value) {
-        if ($key === count($arr_roles) - 1) {
-            $text = $text . $value;
-        } else {
-            $text = $text . $value . ",";
+    if (!empty($processes)) {
+        foreach ($arr_roles as $key => $value) {
+            if ($key === count($arr_roles) - 1) {
+                $text = $text . $value;
+            } else {
+                $text = $text . $value . ",";
+            }
         }
     }
     return $text;
@@ -45,8 +49,10 @@ function getRoleofVendor($vendor)
 function getTotalManPowerofProcesses($processes)
 {
     $total = 0;
-    foreach ($processes as $item) {
-        $total = $total + $item->man_power;
+    if (!empty($processes)) {
+        foreach ($processes as $item) {
+            $total = $total + $item->man_power;
+        }
     }
     return $total;
 }
@@ -56,24 +62,19 @@ function getArrayManPower()
     return [0.125, 0.25, 0.5, 0.75, 1];
 }
 
-function hasDupeProject($processes, $key)
+function hasDupeProject($processes, $key, $value)
 {
-    for ($i = 0; $i < count($processes) - 1; $i++) {
-        for ($j = $i + 1; $j < count($processes); $j++) {
-            if ($processes[$i][$key] === $processes[$j][$key]) {
+    $count = 0;
+    if (!empty($processes)) {
+        foreach ($processes as $process) {
+            if ($process[$key] === $value) {
+                $count++;
+            }
+            if ($count > 1) {
                 return true;
             }
         }
-    }
-    return false;
-}
-
-function hasDupeProjectPO($processes, $id_po)
-{
-    foreach ($processes as $process) {
-        if ($process['role'] === $id_po) {
-            return true;
-        }
+        return false;
     }
     return false;
 }
@@ -108,10 +109,12 @@ function checkValidProjectData()
     return $error_messages;
 }
 
-function getEmployee($id){
-    return Employee::where('delete_flag','=',0)->find($id);
+function getEmployee($id)
+{
+    return Employee::where('delete_flag', '=', 0)->find($id);
 }
 
-function getRole($id){
-	return Role::where('delete_flag','=',0)->find($id);
+function getRole($id)
+{
+    return Role::where('delete_flag', '=', 0)->find($id);
 }

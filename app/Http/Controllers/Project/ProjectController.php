@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Project;
 
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
+use App\Models\Process;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\Status;
@@ -68,32 +69,6 @@ class ProjectController extends Controller
         return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_check_process_fail')]);
     }
 
-    public function removeProcessAjax()
-    {
-        if (\request()->ajax()) {
-            if (!session()->has('processes')) {
-                return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_remove_process_fail')]);
-            } else {
-                $processes = session()->get('processes');
-                if (empty($processes)) {
-                    return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_remove_process_fail')]);
-                } else {
-                    foreach ($processes as $index => $process) {
-                        if ($process['employee_id'] === request()->get('id')) {
-                            unset($processes[$index]);
-                            session()->forget('processes');
-                            $processes=array_values($processes);
-                            session()->put('processes', $processes);
-                            return response()->json([trans('project.msg_success') => trans('project.msg_content.msg_remove_process_success')]);
-                        }
-                    }
-                    return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_remove_process_fail')]);
-                }
-            }
-        }
-        return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_remove_process_fail')]);
-    }
-
     public function create()
     {
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
@@ -113,7 +88,6 @@ class ProjectController extends Controller
         }
 
         if (!is_null($this->projectService->addProject($request))) {
-            session()->forget('processes');
             session()->flash(trans('common.msg_success'), trans('project.msg_content.msg_add_success'));
             return redirect(route('projects.index'));
         }
@@ -140,37 +114,14 @@ class ProjectController extends Controller
 
     public function edit($id)
     {
-        // phan biet giua redirect do error va new request
-        if (!session()->has('error_messages') && !session()->has('errors')) {
-            //neu new request thi xoa thong tin session cu
-            session()->forget('processes');
-        } else {
-            // neu redirect do error se gui lai thong tin session cu
-            view()->share('processes', session()->get('processes'));
-        }
-//        session()->forget('processes');
         $currentProject = Project::where('delete_flag', 0)->find($id);
-        $processes = $currentProject->processes()->get();
-        $tempProcess = array();
-        foreach ($processes as $process){
-            $tempProcess['employee_id'] = $process->employee_id;
-            $tempProcess['start_date_project'] = $currentProject->start_date;
-            $tempProcess['end_date_project'] = $currentProject->end_date;
-            $tempProcess['estimate_start_date'] = $currentProject->estimate_start_date;
-            $tempProcess['estimate_end_date'] = $currentProject->estimate_end_date;
-            $tempProcess['start_date_process'] = $process->start_date;
-            $tempProcess['end_date_process'] = $process->end_date;
-            $tempProcess['man_power'] = $process->man_power;
-            $tempProcess['role'] = $process->role_id;
-            session()->push('processes', $tempProcess);
+        if(is_null($currentProject)){
+            return abort(404);
         }
-
-//        foreach (session()->get('processes') as $item){
-//            echo $item['employee_id']."-";
-//        }
-
-
-
+        if(!\session()->get('errors')&&!\session()->get('error_messages')){
+            $processes = $currentProject->processes()->get();
+            view()->share('processes',$processes);
+        }
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
         $manPowers = getArrayManPower();
@@ -180,7 +131,19 @@ class ProjectController extends Controller
 
     public function update(ProjectAddRequest $request, $id)
     {
+        $error_messages = checkValidProjectData();
+        if (!empty($error_messages)) {
+            session()->flash('error_messages', $error_messages);
+            session()->flash('processes', $request->get('processes'));
+            return back()->withInput();
+        }
 
+        if (!is_null($this->projectService->editProject($request))) {
+            session()->flash(trans('common.msg_success'), trans('project.msg_content.msg_edit_success'));
+            return redirect(route('projects.index'));
+        }
+        session()->flash(trans('common.msg_fails'), trans('project.msg_content.msg_edit_fail'));
+        return back();
 
 
     }
