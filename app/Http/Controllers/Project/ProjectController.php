@@ -178,8 +178,10 @@ class ProjectController extends Controller
         return view('projects.edit', compact('roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ProjectAddRequest $request, $id)
     {
+
+
 
     }
 

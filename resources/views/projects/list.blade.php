@@ -151,16 +151,18 @@
                                             {{isset($project->end_date)? $project->end_date : "-"}}
                                         </td>
                                         <td>
-                                            @if($project->status->name == 'Pending')
+                                            @if($project->status->name == 'pending')
                                                 <span class='label label-primary'>{{$project->status->name}}</span>
-                                            @elseif($project->status->name == 'Complete')
+                                            @elseif($project->status->name == 'complete')
                                                 <span class='label label-success'>{{$project->status->name}}</span>
-                                            @elseif($project->status->name == 'In-Progress')
+                                            @elseif($project->status->name == 'in-progress')
                                                 <span class='label label-info'>{{$project->status->name}}</span>
-                                            @elseif($project->status->name == 'Releasing')
+                                            @elseif($project->status->name == 'releasing')
                                                 <span class='label label-warning'>{{$project->status->name}}</span>
-                                            @elseif($project->status->name == 'Kick Off')
+                                            @elseif($project->status->name == 'kick off')
                                                 <span class='label label-danger'>{{$project->status->name}}</span>
+                                            @elseif($project->status->name == 'planning')
+                                                <span class='label label-default'>{{$project->status->name}}</span>
                                             @else
                                                 -
                                             @endif
