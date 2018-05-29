@@ -49,6 +49,7 @@ class Employee extends Model implements
         'employee_type_id',
         'team_id',
         'role_id',
+        'salary_id',
         'updated_at',
         'last_updated_by_employee',
         'created_at',
@@ -58,12 +59,12 @@ class Employee extends Model implements
 
 
     protected $hidden = [
-        'password','remember_token'
+        'password', 'remember_token'
     ];
 
     public function employeeType()
     {
-        return $this->belongsTo('App\Models\EmployeeType','employee_type_id');
+        return $this->belongsTo('App\Models\EmployeeType', 'employee_type_id');
 
     }
 
@@ -72,7 +73,7 @@ class Employee extends Model implements
      */
     public function performances()
     {
-        return $this->hasMany('App\Models\Performance', 'employee_id');
+        return $this->hasMany('App\Models\Performance', 'employee_id')->where('delete_flag', '=', 0);
     }
 
     /**
@@ -88,24 +89,27 @@ class Employee extends Model implements
      */
     public function processes()
     {
-        return $this->hasMany('App\Models\Process');
+        return $this->hasMany('App\Models\Process')->where('delete_flag', '=', 0);
     }
 
-    public function team(){
-        return $this->belongsTo('App\Models\Team','team_id');
-    }
-    public function role(){
-        return $this->belongsTo('App\Models\Role','role_id');
+    public function team()
+    {
+        return $this->belongsTo('App\Models\Team', 'team_id');
     }
 
-    public function projects(){
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role', 'role_id');
+    }
+
+    public function projects()
+    {
         return $this->belongsToMany('App\Models\Project', 'processes', 'employee_id', 'project_id')
-                    ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'project_id', 'role_id');
+            ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'project_id', 'role_id');
     }
 
-
-
-
-
+    public function roles(){
+        return $this->belongsToMany('App\Models\Role', 'processes', 'employee_id', 'role_id');
+    }
 
 }

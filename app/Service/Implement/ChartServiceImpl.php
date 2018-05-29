@@ -70,14 +70,14 @@ class ChartServiceImpl extends CommonService implements ChartService
                     //start date of current employee in this project
                     $currentEmployeeEndDate = date('Y-m-d');
 
-                    if (isset($currentEmployee->processes->where('project_id', $project->id)->first()->end_date)) {
+                    if(isset($currentEmployee->processes->where('project_id', $project->id)->first()->end_date)) {
                         $currentEmployeeEndDate = $currentEmployee->processes->where('project_id', $project->id)->first()->end_date;
                     }
 
-                    if (strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&
+                    if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&
                         strtotime($currentMonth) != strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))) {
                         $manPowerOnMonth = $this->calculateTime(date('Y-m-t', strtotime($currentEmployeeStartDate)), $currentEmployeeStartDate) * $manPower;
-                    } else if (strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate))) &&
+                    } else if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate))) &&
                         strtotime($currentMonth) != strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))) {
                         $manPowerOnMonth = $this->calculateTime($currentEmployeeEndDate, $currentMonth) * $manPower;
                     } else if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&

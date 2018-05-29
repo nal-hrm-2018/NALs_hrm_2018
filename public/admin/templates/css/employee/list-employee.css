@@ -55,3 +55,27 @@ ul.contextMenu li:last-child{
 ul.contextMenu li:last-child a{width:26%;}
 ul.contextMenu li:last-child:hover a{color:#2c3e50}
 ul.contextMenu li:last-child:hover a:hover{color:#2980b9}
+
+p.fix-center-employee {
+    padding-top: 10px;
+}
+th.small-row-id {
+    width: 73px;
+}
+
+/*
+table.dataTable{
+    border-collapse:  collapse;
+}
+
+table#employee-list tbody tr td {
+    position:  relative;
+    top: 10px;
+}
+table#employee-list {
+    border-collapse:  collapse;
+}
+button.btn.btn-default.cv-button{
+    position: relative;
+    top: -11px;
+}*/
