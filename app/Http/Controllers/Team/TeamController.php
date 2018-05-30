@@ -47,7 +47,7 @@ class TeamController extends Controller
 
     public function create()
     {
-        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->where('is_employee', 1)->with('team', 'role')->get();
+        $employees = Employee::orderBy('name', 'asc')->where('is_employee',1)->where('delete_flag', 0)->with('team', 'role')->get();
         return view('teams.add', compact('employees'));
     }
 

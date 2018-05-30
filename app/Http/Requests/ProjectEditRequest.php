@@ -21,13 +21,13 @@ class ProjectEditRequest extends CommonRequest
 
     public function rules()
     {
+        session()->flash('processes',request()->get('processes'));
         return
             [
                 'id' =>
                     [
                         'bail',
                         'required',
-                        'unique:projects,id'
                     ],
                 'name' => 'required',
                 'start_date_project' =>
@@ -35,13 +35,12 @@ class ProjectEditRequest extends CommonRequest
                         'bail',
                         'nullable',
                     ],
-                /*'end_date_project' =>
+                'end_date_project' =>
                     [
                         'bail',
                         'nullable',
                         'after_or_equal:start_date_project',
                         new ValidEndDateProject(request()->get('start_date_project')),
-                        'before_or_equal:today',
                     ],
 
                 'estimate_start_date' =>
@@ -78,7 +77,7 @@ class ProjectEditRequest extends CommonRequest
                         request()->get('estimate_start_date'),
                         request()->get('estimate_end_date')
                     ),
-                ],*/
+                ],
             ];
     }
 

@@ -42,6 +42,7 @@ function calculateEstimateCost() {
     for(var i = 0 ; i<manpowers.length ; i++ ){
         total_cost = total_cost+ getEstimateCost(formatDate(end_date_processes[i],'Y/m/d'),formatDate(start_date_processes[i],'Y/m/d'),manpowers[i]);
     }
+	total_cost = total_cost.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")+" VND";
     return total_cost;
 }
 
@@ -74,7 +75,7 @@ function requestAjax(url, token) {
             end_date_process: end_date_process,
             start_date_process: start_date_process,
             man_power: man_power,
-            role: role,
+            role_id: role,
             _token: token,
 
         },
@@ -113,7 +114,7 @@ function requestAjax(url, token) {
                 alert(json['msg_success']);
                 var id_member = $('#employee_id :selected').val();
                 var element =
-                    "<tr id=\"member_" + id_member + " \">" +
+                    "<tr  id=\"member_" + id_member + " \">" +
                     "<td style=\"width: 17%;\" >" + employee_name + "</td>" +
                     "<td class=\"man_power\" style=\"width: 17%;\" >" + man_power + "</td>" +
                     "<td style=\"width: 17%;\" >" + role_name + "</td>" +
@@ -122,7 +123,13 @@ function requestAjax(url, token) {
                     "<td> <a>" +
                     "<i name=\"" + employee_name + "\" id=\"" + id_member + "\" class=\"fa fa-remove removeajax\"></i>" +
                     "</a> </td>" +
-                    "</tr>";
+                    "<input type=\"hidden\" name=\"processes["+id_member+"][employee_id]\" value=\""+id_member+"\"/>"+
+                    "<input type=\"hidden\" name=\"processes["+id_member+"][role_id]\" value=\""+role+"\"/>"+
+                    "<input type=\"hidden\" name=\"processes["+id_member+"][start_date_process]\" value=\""+start_date_process+"\"/>"+
+                    "<input type=\"hidden\" name=\"processes["+id_member+"][end_date_process]\" value=\""+end_date_process+"\"/>"+
+                    "<input type=\"hidden\" name=\"processes["+id_member+"][man_power]\" value=\""+man_power+"\"/>"+
+                    "</tr>"
+
                 $('#table_add').css('display', 'block');
                 $('#list_add').prepend(element);
                 $('#estimate_cost').val(calculateEstimateCost());
@@ -148,6 +155,7 @@ function requestAjax(url, token) {
         }
     });
 }
+
 
 // function removeAjax(id, target, url, token) {
 //     var object_this = target;
@@ -204,7 +212,6 @@ function resetFormAddProject() {
     $("#start_date_process").val('').change();
     $("#end_date_process").val('').change();
     $("#income").val('');
-    $("#estimate_cost").val('');
     $("#real_cost").val('');
     $("#description").val('');
     $("#status").val('').change();

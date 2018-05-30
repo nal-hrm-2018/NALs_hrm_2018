@@ -151,12 +151,12 @@
 </div>
 <div class="col-md-2">
     <label>Role</label><br/>
-    <select name="role" id="role" class="form-control">
-        <option {{ !empty(old('role'))?'':'selected="selected"' }} value="">
+    <select name="role_id" id="role" class="form-control">
+        <option {{ !empty(old('role_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
         </option>
         @foreach($roles as $key=>$value)
-            <option value="{{ $key }}" {{ (string)$key===old('role')?'selected="selected"':'' }}>
+            <option value="{{ $key }}" {{ (string)$key===old('role_id')?'selected="selected"':'' }}>
                 {{ $value }}
             </option>
         @endforeach
@@ -191,28 +191,63 @@
         <thead>
         </thead>
         <tbody id="list_add">
+        @if(isset($processes))
+            @foreach($processes as $process)
+                <tr id="member_{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date_process']}}">
+                    <td style="width: 17%;">
+                        {{
+                        !is_null(getEmployee($process['employee_id']))?
+                        getEmployee($process['employee_id'])->name:''
+                        }}
+                    </td>
+                    <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
+                    <td style="width: 17%;">
+                        {{
+                        !is_null(getRole($process['role_id']))?
+                        getRole($process['role_id'])->name:''
+                        }}
+                    </td>
+                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
+                    <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
+                    <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
+                                    getEmployee($process['employee_id'])->name:'' }}"
+                              id="{{$process['employee_id']}}" class="fa fa-remove removeajax"></i>
+                        </a></td>
+                </tr>
+            @endforeach
+        @endif
+        @if(session()->has('processes'))
+            @foreach(session()->get('processes') as $process)
+                <tr id="member_{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date_process']}}">
+                    <td style="width: 17%;">
+                        {{
+                        !is_null(getEmployee($process['employee_id']))?
+                        getEmployee($process['employee_id'])->name:''
+                        }}
+                    </td>
+                    <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
+                    <td style="width: 17%;">
+                        {{
+                        !is_null(getRole($process['role_id']))?
+                        getRole($process['role_id'])->name:''
 
-        @if(isset($currentProject->processes))
-            @foreach($currentProject->processes as $process)
-                <tr id="member_{{$process->employee_id}}_{{$process->role_id}}">
-                    <td style="width: 17%;">
-                        {{
-                        !is_null(getEmployee($process->employee_id))?
-                        getEmployee($process->employee_id)->name:''
                         }}
                     </td>
-                    <td class="man_power" style="width: 17%;">{{$process->man_power}}</td>
-                    <td style="width: 17%;">
-                        {{
-                        !is_null(getRole($process->role_id))?
-                        getRole($process->role_id)->name:''
-                        }}
-                    </td>
-                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process->start_date)) }}</td>
-                    <td class="end_date_process">{{ date('d/m/Y',strtotime($process->end_date)) }}</td>
-                    <td><a><i name="{{!is_null(getEmployee($process->employee_id))?
-                                    getEmployee($process->employee_id)->name:'' }}"
-                              id="{{$process->employee_id}}" class="fa fa-remove remove_employee"></i>
+                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
+                    <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
+                    <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
+                                    getEmployee($process['employee_id'])->name:'' }}"
+                              id="{{$process['employee_id']}}" class="fa fa-remove remove_employee"></i>
                         </a></td>
                 </tr>
             @endforeach

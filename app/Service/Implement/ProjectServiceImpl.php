@@ -58,21 +58,23 @@ class ProjectServiceImpl extends CommonService
         ];
         try {
             $project = new Project($project_data);
-            $processes = session()->get('processes');
+            $processes = request()->get('processes');
             DB::beginTransaction();
             $project->save();
-            foreach ($processes as $process) {
-                $process_data = [
-                    'employee_id' => $process['employee_id'],
-                    'project_id' => $project->id,
-                    'role_id' => $process['role'],
-                    'check_project_exit' => 1,
-                    'man_power' => (float)$process['man_power'],
-                    'start_date' => $process['start_date_process'],
-                    'end_date' => $process['end_date_process'],
-                ];
-                $process_model = new Process($process_data);
-                $process_model->save();
+            if (!empty($processes)) {
+                foreach ($processes as $process) {
+                    $process_data = [
+                        'employee_id' => $process['employee_id'],
+                        'project_id' => $project->id,
+                        'role_id' => $process['role_id'],
+                        'check_project_exit' => 1,
+                        'man_power' => (float)$process['man_power'],
+                        'start_date' => $process['start_date_process'],
+                        'end_date' => $process['end_date_process'],
+                    ];
+                    $process_model = new Process($process_data);
+                    $process_model->save();
+                }
             }
             DB::commit();
             return $project;
@@ -85,8 +87,10 @@ class ProjectServiceImpl extends CommonService
 
     public function editProject($request, $id)
     {
+        dd($id);
+        dd($request);
         $project_data = [
-            'id' => $id,
+            'id' => $request->get('id'),
             'name' => $request->get('name'),
             'income' => $request->get('income'),
             'real_cost' => $request->get('real_cost'),
@@ -98,30 +102,14 @@ class ProjectServiceImpl extends CommonService
             'estimate_start_date' => $request->get('estimate_start_date'),
         ];
         try {
-            dd($project_data);
-            $project = Project::where('delete_flag', 0)->find($id);
-            $processes = session()->get('processes');
             DB::beginTransaction();
-            $project->save();
-            foreach ($processes as $process) {
-                $process_data = [
-                    'employee_id' => $process['employee_id'],
-                    'project_id' => $project->id,
-                    'role_id' => $process['role'],
-                    'check_project_exit' => 1,
-                    'man_power' => (float)$process['man_power'],
-                    'start_date' => $process['start_date_process'],
-                    'end_date' => $process['end_date_process'],
-                ];
-                $process_model = new Process($process_data);
-                $process_model->save();
-            }
+
             DB::commit();
-            return $project;
+
         } catch (Exception $ex) {
             DB::rollBack();
-            session()->flash(trans('common.msg_error'), trans('project.msg_content.msg_add_error'));
-            return null;
+            session()->flash(trans('common.msg_error'), trans('project.msg_content.msg_edit_error'));
+            return false;
         }
     }
 }
