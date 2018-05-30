@@ -70,7 +70,7 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     new ValidMember(),
-                    new ValidDupeMember(session()->get('processes')),
+                    new ValidDupeMember(request()->get('processes')),
                 ],
             'start_date_project' =>
                 [
