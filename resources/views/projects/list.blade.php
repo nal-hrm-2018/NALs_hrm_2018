@@ -112,7 +112,12 @@
                                                 foreach ($allMemberNotPOInProject as $employeeInProject) {
                                                     if ($employeeInProject->role_id <> $poRole->id) {
                                                         if (sizeof($allMemberNotPOInProject) > 0 && sizeof($allMemberNotPOInProject) <= 3) {
-                                                            echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                            if ($employeeInProject->employee->delete_flag == 0){
+                                                                echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                            }
+                                                            else{
+                                                                echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                            }
                                                             if ($count < sizeof($allMemberNotPOInProject) - 1) echo ', ';
                                                             $count++;
                                                         } else if (sizeof($allMemberNotPOInProject) > 3) {
