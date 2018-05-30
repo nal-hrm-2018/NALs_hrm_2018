@@ -91,7 +91,13 @@
                                                 }
 
                                                 if (!is_null($getPO)) {
-                                                    echo '<a href="employee/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
+                                                    if ($employeeInProject->employee->is_employee == $isEmployee){
+                                                        echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                    }
+                                                    else if($employeeInProject->employee->is_employee == $isVendor){
+                                                        dd($employeeInProject->employee->is_employee);
+                                                        echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                    }
                                                 } else {
                                                     echo "-";
                                                 }
@@ -112,7 +118,7 @@
                                                 foreach ($allMemberNotPOInProject as $employeeInProject) {
                                                     if ($employeeInProject->role_id <> $poRole->id) {
                                                         if (sizeof($allMemberNotPOInProject) > 0 && sizeof($allMemberNotPOInProject) <= 3) {
-                                                            if ($employeeInProject->employee->delete_flag == 0){
+                                                            if ($employeeInProject->employee->is_employee == $isEmployee){
                                                                 echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
                                                             }
                                                             else{
@@ -121,7 +127,12 @@
                                                             if ($count < sizeof($allMemberNotPOInProject) - 1) echo ', ';
                                                             $count++;
                                                         } else if (sizeof($allMemberNotPOInProject) > 3) {
-                                                            echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                            if ($employeeInProject->employee->is_employee == $isEmployee){
+                                                                echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                            }
+                                                            else{
+                                                                echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                            }
                                                             if ($count <= 2) echo ', ';
                                                             if ($count == 1) {
                                                                 echo '<a href="#" class="show-list-employee"

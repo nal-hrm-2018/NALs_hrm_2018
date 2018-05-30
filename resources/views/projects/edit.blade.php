@@ -23,7 +23,7 @@
                     <div id="msg">
                     </div>
                     <div class="box-body">
-                        @include('projects._form_edit_project');
+                        @include('projects._form_edit_project')
                     </div>
                 </div>
             </div>
