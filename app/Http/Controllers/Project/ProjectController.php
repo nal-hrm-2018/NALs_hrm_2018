@@ -51,7 +51,10 @@ class ProjectController extends Controller
         $getAllStatusInStatusTable = Status::all();
 
         $param = (Input::except('page'));
-        return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable'));
+
+        $isEmployee = 1;
+        $isVendor = 0;
+        return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable','isEmployee','isVendor'));
 
     }
 
@@ -64,6 +67,7 @@ class ProjectController extends Controller
             if ($validator->fails()) {
                 return response()->json([$validator->messages(), 'available_processes' => request()->get('available_processes')]);
             }
+
             return response()->json([trans('project.msg_success') => trans('project.msg_content.msg_check_process_success')]);
         }
         return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_check_process_fail')]);
@@ -122,6 +126,7 @@ class ProjectController extends Controller
             $processes = $currentProject->processes()->get();
             view()->share('processes',$processes);
         }
+
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
         $manPowers = getArrayManPower();

@@ -155,9 +155,21 @@
                         } else if ($all_process->employee->role->name == 'ScrumMaster') {
                             $classBtr = 'label label-warning';
                         }
-                        echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
+                        if ($all_process->employee->is_employee == $isEmployee ){
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
+                        }
+                        else{
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
+                        }
+
                     } else {
-                        echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td>-</td></tr>";';
+                        if ($all_process->employee->is_employee == $isEmployee ){
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td>-</td></tr>";';
+                        }
+                        else{
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td>-</td></tr>";';
+                        }
+
                     }
                     /*echo
                         ' var html_' . $all_process->id .

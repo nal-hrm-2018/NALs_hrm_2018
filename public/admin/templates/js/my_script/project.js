@@ -1,11 +1,13 @@
 function formatDate(date,pattern) {
     var dateObj = null;
     var arr = date.split("/", 3);
+    if(arr.length==1){
+        arr = date.split("-", 3);
+    }
     switch (pattern){
         // from standand to d/m/y
         case 'd/m/Y':
-            dateObj = new Date(date);
-            dateObj = dateObj.getDate() + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
+            dateObj = arr[2] +"/"+ arr[1]+"/"+arr[0];
             break;
         // from d/m/y to standand
         case 'Y/m/d':
@@ -83,11 +85,12 @@ function requestAjax(url, token) {
                 var errors = '';
                 console.log(json);
                 $('#list_error').html('');
+                checkDuplicateEmployee(employee_id);
+                checkDuplicateRole(role);
                 $.each(json[0], function (key, value) {
                     if (value && value.length && value[0] !== '') {
-                        errors += "<strong>Error!</strong> " + value + "<br>"
+                        errors += "<strong>Error!</strong> " + value + "<br>";
                     }
-                    ;
                 });
                 if (json['available_processes'] && json['available_processes'].length) {
                     var string_available_processes = '';
@@ -108,7 +111,7 @@ function requestAjax(url, token) {
             if (json.hasOwnProperty('msg_success')) {
                 $('#list_error').html('');
                 $('#list_error').css('display', 'none');
-                alert(json['msg_success'])
+                alert(json['msg_success']);
                 var id_member = $('#employee_id :selected').val();
                 var element =
                     "<tr  id=\"member_" + id_member + " \">" +
@@ -126,6 +129,7 @@ function requestAjax(url, token) {
                     "<input type=\"hidden\" name=\"processes["+id_member+"][end_date_process]\" value=\""+end_date_process+"\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+"][man_power]\" value=\""+man_power+"\"/>"+
                     "</tr>"
+
                 $('#table_add').css('display', 'block');
                 $('#list_add').prepend(element);
                 $('#estimate_cost').val(calculateEstimateCost());
@@ -152,6 +156,47 @@ function requestAjax(url, token) {
     });
 }
 
+
+// function removeAjax(id, target, url, token) {
+//     var object_this = target;
+//     $.ajax({
+//         url: url,
+//         type: 'POST',
+//         data: {
+//             headers: {
+//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//             },
+//             _token: token,
+//             id: id,
+//         },
+//         success: function (json) {
+//             if (json.hasOwnProperty('msg_success')) {
+//                 alert(json['msg_success']);
+//                 object_this.remove();
+//                 $('#estimate_cost').val(calculateEstimateCost());
+//                 $('#member_' + id).prop('disabled', false);
+//                 $('#employee_id').select2();
+//             }
+//             if (json.hasOwnProperty('msg_fail')) {
+//                 alert(json['msg_fail'])
+//             }
+//
+//         },
+//         error: function (json) {
+//             if (json.status === 422) {
+//                 var errors = json.responseJSON;
+//                 $.each(json.responseJSON, function (key, value) {
+//                     $('#list_error').html(value);
+//                 });
+//             } else {
+//                 // Error
+//                 // Incorrect credentials
+//                 // alert('Incorrect credentials. Please try again.')
+//             }
+//         }
+//     });
+// }
+
 function resetFormAddProject() {
     $("#list_error").empty();
     $("#list_error").css('display', 'none');
@@ -173,4 +218,52 @@ function resetFormAddProject() {
     $(document).scrollTop($("#list_error").offset().top);
 }
 
+function removeEmployee(employee_id, target) {
+    var object_this = target;
+    object_this.remove();
+    $('#estimate_cost').val(calculateEstimateCost());
+    $('#member_' + employee_id).prop('disabled', false);
+    $('#employee_id').select2();
+}
+
+function checkDuplicateEmployee(employee_id){
+    var listCurrentEmployee = [];
+    var i = 0;
+    var arr = [];
+    var item = "";
+    $('#list_add tr').each(function() {
+        item = $(this).closest("tr").attr('id');
+        arr = item.split("_", 3);
+        listCurrentEmployee[i++] = arr[1];
+    });
+    if(checkExist(listCurrentEmployee, employee_id)){
+        $("#list_error").append("<strong>Error!</strong> Member in process can't duplicate.<br />");
+        $("#list_error").css('display', 'block');
+    }
+}
+
+function checkExist(listCurrentEmployee, current_id) {
+    for (var i = 0; i < listCurrentEmployee.length; i++){
+        if (current_id == listCurrentEmployee[i]){
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkDuplicateRole(role_id){
+    var listCurrentEmployee = [];
+    var i = 0;
+    var arr = [];
+    var item = "";
+    $('#list_add tr').each(function() {
+        item = $(this).closest("tr").attr('id');
+        arr = item.split("_", 3);
+        listCurrentEmployee[i++] = arr[2];
+    });
+    if(checkExist(listCurrentEmployee, role_id)){
+        $("#list_error").append("<strong>Error!</strong> Project can't has over one PO .<br />");
+        $("#list_error").css('display', 'block');
+    }
+}
 
