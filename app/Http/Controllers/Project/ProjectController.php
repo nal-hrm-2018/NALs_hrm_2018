@@ -53,7 +53,10 @@ class ProjectController extends Controller
         $getAllStatusInStatusTable = Status::all();
 
         $param = (Input::except('page'));
-        return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable'));
+
+        $isEmployee = 1;
+        $isVendor = 0;
+        return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable','isEmployee','isVendor'));
 
     }
 
