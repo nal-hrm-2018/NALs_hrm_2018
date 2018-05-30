@@ -32,13 +32,21 @@ class ProcessAddRequest extends CommonRequest
     )
     {
         return [
+            'employee_id' =>
+                [
+                    'bail',
+                    'required',
+                    new ValidMember(),
+                    new ValidDupeMember(request()->get('processes')),
+                ],
             'start_date_process' =>
                 [
+                    'bail',
                     'required',
-                    'after_or_equal:today',
                 ],
             'end_date_process' =>
                 [
+                    'bail',
                     'required',
                     'after_or_equal:start_date_process',
                     new ValidEndDateProcess(
@@ -51,6 +59,7 @@ class ProcessAddRequest extends CommonRequest
                 ],
             'man_power' =>
                 [
+                    'bail',
                     'required',
                     new ValidManPower(
                         $start_date_process,
@@ -59,6 +68,13 @@ class ProcessAddRequest extends CommonRequest
                         $estimate_end_date
                     )
                 ],
+            'role_id' =>
+                [
+                    'bail',
+                    'required',
+                    'exists:roles,id',
+                    new ValidRoleProject(request()->get('processes')),
+                ]
         ];
     }
 
@@ -76,6 +92,7 @@ class ProcessAddRequest extends CommonRequest
                 [
                     'bail',
                     'nullable',
+                    'before_or_equal:estimate_end_date',
                 ],
             'end_date_project' =>
                 [
@@ -95,7 +112,7 @@ class ProcessAddRequest extends CommonRequest
                 [
                     'bail',
                     'required',
-                    'after_or_equal:estimate_start_date'
+                    'after_or_equal:estimate_start_date',
                 ],
             'start_date_process' =>
                 [
@@ -117,6 +134,7 @@ class ProcessAddRequest extends CommonRequest
                 ],
             'man_power' =>
                 [
+                    'bail',
                     'required',
                     new ValidManPower(
                         request()->get('start_date_process'),
@@ -125,11 +143,12 @@ class ProcessAddRequest extends CommonRequest
                         request()->get('estimate_end_date')
                     )
                 ],
-            'role' =>
+            'role_id' =>
                 [
+                    'bail',
                     'required',
                     'exists:roles,id',
-                    new ValidRoleProject(session()->get('processes')),
+                    new ValidRoleProject(request()->get('processes')),
                 ]
         ];
     }

@@ -9,7 +9,7 @@ return [
         'in_progress'=>'in-progress',
         'releasing'=>'releasing',
         'complete'=>'complete',
-        'planing'=>'planing'
+        'planing'=>'planning'
     ],
 
     'Roles'=>[

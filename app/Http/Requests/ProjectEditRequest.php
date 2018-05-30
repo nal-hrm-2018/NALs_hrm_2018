@@ -11,7 +11,7 @@ namespace App\Http\Requests;
 use App\Http\Rule\Project\ValidEndDateProject;
 use App\Http\Rule\Project\ValidStatusProject;
 
-class ProjectAddRequest extends CommonRequest
+class ProjectEditRequest extends CommonRequest
 {
     public function authorize()
     {
@@ -23,12 +23,6 @@ class ProjectAddRequest extends CommonRequest
         session()->flash('processes', request()->get('processes'));
         return
             [
-                'id' =>
-                    [
-                        'bail',
-                        'required',
-                        'unique:projects,id'
-                    ],
                 'name' => 'required',
                 'start_date_project' =>
                     [
@@ -85,13 +79,6 @@ class ProjectAddRequest extends CommonRequest
     public function messages()
     {
         return [
-            'id.required' => trans('validation.required', [
-                'attribute' => 'Project Id'
-            ]),
-            'id.unique' => trans('validation.unique', [
-                'attribute' => 'Project Id'
-            ]),
-
             'name.required' => trans('validation.required', [
                 'attribute' => 'Project Name'
             ]),
