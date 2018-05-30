@@ -15,4 +15,6 @@ interface ProjectService
     public function getProcessbetweenDate($id, $start_date_process, $end_date_process);
 
     public function addProject($request);
+    public function editProject($request, $id);
+
 }

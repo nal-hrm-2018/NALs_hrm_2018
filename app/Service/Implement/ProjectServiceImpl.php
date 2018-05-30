@@ -82,4 +82,46 @@ class ProjectServiceImpl extends CommonService
             return null;
         }
     }
+
+    public function editProject($request, $id)
+    {
+        $project_data = [
+            'id' => $id,
+            'name' => $request->get('name'),
+            'income' => $request->get('income'),
+            'real_cost' => $request->get('real_cost'),
+            'description' => $request->get('description'),
+            'status_id' => $request->get('status'),
+            'start_date' => $request->get('start_date_project'),
+            'end_date' => $request->get('end_date_project'),
+            'estimate_end_date' => $request->get('estimate_end_date'),
+            'estimate_start_date' => $request->get('estimate_start_date'),
+        ];
+        try {
+            dd($project_data);
+            $project = Project::where('delete_flag', 0)->find($id);
+            $processes = session()->get('processes');
+            DB::beginTransaction();
+            $project->save();
+            foreach ($processes as $process) {
+                $process_data = [
+                    'employee_id' => $process['employee_id'],
+                    'project_id' => $project->id,
+                    'role_id' => $process['role'],
+                    'check_project_exit' => 1,
+                    'man_power' => (float)$process['man_power'],
+                    'start_date' => $process['start_date_process'],
+                    'end_date' => $process['end_date_process'],
+                ];
+                $process_model = new Process($process_data);
+                $process_model->save();
+            }
+            DB::commit();
+            return $project;
+        } catch (Exception $ex) {
+            DB::rollBack();
+            session()->flash(trans('common.msg_error'), trans('project.msg_content.msg_add_error'));
+            return null;
+        }
+    }
 }

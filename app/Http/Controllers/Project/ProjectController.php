@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Project;
 
+
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use App\Http\Requests\ProjectEditRequest;
 
 
 class ProjectController extends Controller
@@ -171,9 +173,10 @@ class ProjectController extends Controller
         return view('projects.edit', compact('roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
     }
 
-    public function update(ProjectAddRequest $request, $id)
+    public function update(ProjectEditRequest $request, $id)
     {
-
+        dd('ac');
+        $this->projectService->editProject($request, $id);
 
 
     }
