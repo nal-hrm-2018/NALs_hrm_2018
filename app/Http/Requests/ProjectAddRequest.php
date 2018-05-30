@@ -33,6 +33,7 @@ class ProjectAddRequest extends CommonRequest
                     [
                         'bail',
                         'nullable',
+                        'before_or_equal:estimate_end_date',
                     ],
                 'end_date_project' =>
                     [
