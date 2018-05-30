@@ -192,27 +192,27 @@
         </thead>
         <tbody id="list_add">
 
-        @if(session()->has('processes'))
-            @foreach(session()->get('processes') as $process)
-                <tr id="member_{{$process['employee_id']}}">
+        @if(isset($currentProject->processes))
+            @foreach($currentProject->processes as $process)
+                <tr id="member_{{$process->employee_id}}_{{$process->role_id}}">
                     <td style="width: 17%;">
                         {{
-                        !is_null(getEmployee($process['employee_id']))?
-                        getEmployee($process['employee_id'])->name:''
+                        !is_null(getEmployee($process->employee_id))?
+                        getEmployee($process->employee_id)->name:''
                         }}
                     </td>
-                    <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
+                    <td class="man_power" style="width: 17%;">{{$process->man_power}}</td>
                     <td style="width: 17%;">
                         {{
-                        !is_null(getRole($process['role']))?
-                        getRole($process['role'])->name:''
+                        !is_null(getRole($process->role_id))?
+                        getRole($process->role_id)->name:''
                         }}
                     </td>
-                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
-                    <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
-                    <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
-                                    getEmployee($process['employee_id'])->name:'' }}"
-                              id="{{$process['employee_id']}}" class="fa fa-remove removeajax"></i>
+                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process->start_date)) }}</td>
+                    <td class="end_date_process">{{ date('d/m/Y',strtotime($process->end_date)) }}</td>
+                    <td><a><i name="{{!is_null(getEmployee($process->employee_id))?
+                                    getEmployee($process->employee_id)->name:'' }}"
+                              id="{{$process->employee_id}}" class="fa fa-remove remove_employee"></i>
                         </a></td>
                 </tr>
             @endforeach
@@ -303,16 +303,15 @@
 
         $('#btn_reset_form_project').on('click', function (event) {
             if (confirm("Do you wan't reset all field ?")) {
-                resetFormAddProject();
+                location.reload();
             }
         });
-        $(document).on('click', ".removeajax", function (event) {
+        $(document).on('click', ".remove_employee", function (event) {
             var target = $(event.target).parent().closest('tr');
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
             if (confirm("Do you want remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
-                removeAjax(employee_id, target, '{{route('removeProcessAjax')}}', '{{csrf_token()}}');
-
+                removeEmployee(employee_id, target);
             }
         });
         $('#btn_add_process').on("click", function () {
@@ -325,17 +324,16 @@
                     requestAjax('{{route('checkProcessAjax')}}', '{{csrf_token()}}');
                 }
             }
-
         });
 
         $(function () {
-            var jsonValue = <?php if(session()->has('processes')) echo json_encode(session()->get('processes')); else echo "[]";?>;
+            var jsonValue = <?php if(isset($currentProject->processes)) echo json_encode($currentProject->processes); else echo "[]";?>;
             Object.keys(jsonValue).forEach(function (key) {
-                // alert(jsonValue[key]['employee_id']);
                 $('#member_' + jsonValue[key]['employee_id']).prop('disabled', true);
                 $('#employee_id').select2();
             });
 
         });
     });
+
 </script>
