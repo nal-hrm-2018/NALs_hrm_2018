@@ -88,7 +88,7 @@ class TeamController extends Controller
             })->get();
         $allEmployeeHasPOs = Employee::query()
             ->with(['team', 'role'])
-            ->where('delete_flag', 0)->get();
+            ->where('delete_flag', 0)->where('is_employee', 1)->get();
         $onlyValue = null;
         $nameEmployee = null;
         try {

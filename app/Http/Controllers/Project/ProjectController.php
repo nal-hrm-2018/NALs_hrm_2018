@@ -119,21 +119,20 @@ class ProjectController extends Controller
 
     public function edit($id)
     {
-//        $currentProject = Project::where('delete_flag', 0)->find($id);
-//        if(is_null($currentProject)){
-//            return abort(404);
-//        }
-//        if(!\session()->get('errors')&&!\session()->get('error_messages')){
-//            $processes = $currentProject->processes()->get();
-//            view()->share('processes',$processes);
-//        }
-//
-//        $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
-//        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
-//        $manPowers = getArrayManPower();
-//        $project_status = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
-//        return view('projects.edit', compact('roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
-//            echo Project::where('id', $id)->first()->processes->pluck('employee_id', 'role_id', 'man_power', 'start_date', 'end_date');
+        $currentProject = Project::where('delete_flag', 0)->find($id);
+        if(is_null($currentProject)){
+            return abort(404);
+        }
+        if(!\session()->get('errors')&&!\session()->get('error_messages')){
+            $processes = $currentProject->processes()->get();
+            view()->share('processes',$processes);
+        }
+
+        $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
+        $manPowers = getArrayManPower();
+        $project_status = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+        return view('projects.edit', compact('roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
     }
 
     public function update(ProjectEditRequest $request, $id)
@@ -145,7 +144,7 @@ class ProjectController extends Controller
             return back()->withInput();
         }
 
-        if (!is_null($this->projectService->editProject($request, $id))) {
+        if (!is_null($this->projectService->editProject($request,$id))) {
             session()->flash(trans('common.msg_success'), trans('project.msg_content.msg_edit_success'));
             return redirect(route('projects.index'));
         }

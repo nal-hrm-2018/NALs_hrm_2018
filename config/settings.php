@@ -14,7 +14,7 @@ return [
 
     'Roles'=>[
         'PO'=>'PO',
-        'TeamDev'=>'TeamDev',
+        'TeamDev'=>'Dev',
         'BA'=>'BA',
         'ScrumMater'=>'ScrumMater'
     ],
