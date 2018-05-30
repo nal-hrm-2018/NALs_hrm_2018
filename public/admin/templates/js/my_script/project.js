@@ -244,7 +244,7 @@ function removeEmployee(employee_id, target) {
 // Member in process can't duplicate. Project can't has over one PO .
 
 // function isDuplicate(id){
-//     var arrayAll = [][];
+//     var arrayAll = new Array();
 //     $('#list_add tr').each(function() {
 //         item = $(this).closest("tr").attr('id');
 //         arr = item.split("_", 3);
