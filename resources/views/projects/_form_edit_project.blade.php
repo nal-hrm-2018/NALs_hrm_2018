@@ -329,8 +329,8 @@
         $(function () {
             var jsonValue = <?php if(isset($currentProject->processes)) echo json_encode($currentProject->processes); else echo "[]";?>;
             Object.keys(jsonValue).forEach(function (key) {
-                $('#member_' + jsonValue[key]['employee_id']).prop('disabled', true);
-                $('#employee_id').select2();
+                // $('#member_' + jsonValue[key]['employee_id']).prop('disabled', true);
+                // $('#employee_id').select2();
             });
 
         });
