@@ -53,7 +53,7 @@
             ['class' => 'form-control',
             'id' => 'name',
             'autofocus' => true,
-            'placeholder'=>"Project ID",
+            'placeholder'=>"Project Name",
             ])
         }}
         {{--<label class="name" id="lb_error_project_name" style="color: red; ">{{$errors->first('name')}}</label>--}}
@@ -126,7 +126,7 @@
 <div class="col-md-2">
     <label>Member</label><br/>
     <select name="employee_id" id="employee_id" class="form-control select2">
-        <option {{ !empty(old('employees'))?'':'selected="selected"' }} value="">
+        <option {{ !empty(old('employee_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
         </option>
         @foreach($employees as $employee)
@@ -151,12 +151,12 @@
 </div>
 <div class="col-md-2">
     <label>Role</label><br/>
-    <select name="role" id="role" class="form-control">
-        <option {{ !empty(old('role'))?'':'selected="selected"' }} value="">
+    <select name="role_id" id="role" class="form-control">
+        <option {{ !empty(old('role_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
         </option>
         @foreach($roles as $key=>$value)
-            <option value="{{ $key }}" {{ (string)$key===old('role')?'selected="selected"':'' }}>
+            <option value="{{ $key }}" {{ (string)$key===old('role_id')?'selected="selected"':'' }}>
                 {{ $value }}
             </option>
         @endforeach
@@ -195,24 +195,30 @@
         @if(session()->has('processes'))
             @foreach(session()->get('processes') as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <td style="width: 17%;">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date_process']}}">
+                    <td class="members" style="width: 17%;">
                         {{
                         !is_null(getEmployee($process['employee_id']))?
                         getEmployee($process['employee_id'])->name:''
                         }}
                     </td>
                     <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
-                    <td style="width: 17%;">
+                    <td class="roles" style="width: 17%;">
                         {{
-                        !is_null(getRole($process['role']))?
-                        getRole($process['role'])->name:''
+                        !is_null(getRole($process['role_id']))?
+                        getRole($process['role_id'])->name:''
                         }}
                     </td>
-                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
+                    <td class="start_date_process"
+                        style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
                     <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
                     <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
                                     getEmployee($process['employee_id'])->name:'' }}"
-                              id="{{$process['employee_id']}}" class="fa fa-remove removeajax"></i>
+                              id="{{$process['employee_id']}}" class="fa fa-remove remove_employee"></i>
                         </a></td>
                 </tr>
             @endforeach
@@ -234,7 +240,7 @@
     </div>
     <div>
         <label>Estimate cost</label>
-        {{ Form::number('estimate_cost', old('estimate_cost'),
+        {{ Form::text('estimate_cost', old('estimate_cost'),
             ['class' => 'form-control',
             'id' => 'estimate_cost',
             'autofocus' => true,
@@ -298,7 +304,13 @@
 
     $(document).ready(function () {
         $('#form_add_project').on('submit', function (event) {
-            return confirm("Do you want add new Project ?");
+            if (confirm("Do you want add new Project ?")) {
+
+                return true;
+
+            } else {
+
+            }
         });
 
         $('#btn_reset_form_project').on('click', function (event) {
@@ -306,13 +318,12 @@
                 resetFormAddProject();
             }
         });
-        $(document).on('click', ".removeajax", function (event) {
+        $(document).on('click', ".remove_employee", function (event) {
             var target = $(event.target).parent().closest('tr');
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
             if (confirm("Do you want remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
-                removeAjax(employee_id, target, '{{route('removeProcessAjax')}}', '{{csrf_token()}}');
-
+                removeEmployee(employee_id, target);
             }
         });
         $('#btn_add_process').on("click", function () {
