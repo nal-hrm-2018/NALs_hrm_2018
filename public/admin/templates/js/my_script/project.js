@@ -51,6 +51,7 @@ function checkDupeMember(employee_id_selected,employee_name_selected,start_date_
 
 function checkPOProcess(employee_role_selected,employee_name_selected,employee_id_selected,start_date_process_selected,end_date_process_selected){
     if ($('#list_add input').hasClass("role_id")) {
+
         var employees = $('.role_id');
         var start_date_processes = $('.start_date_process');
         var end_date_processes = $('.end_date_process');
@@ -59,20 +60,22 @@ function checkPOProcess(employee_role_selected,employee_name_selected,employee_i
         var end_date_process_selected = new Date(end_date_process_selected);
         if (employees && employees.length) {
             for (var i = 0; i < employees.length; i++) {
-                if ($(employees[i]).val() === employee_role_selected) {
-                    var start_date_process = new Date(formatDate($(start_date_processes[i]).text(),'Y/m/d'));
-                    var end_date_process =new Date(formatDate($(end_date_processes[i]).text(),'Y/m/d'));
-                    if(end_date_process_selected<start_date_process || end_date_process<start_date_process_selected){
-                        return false;
+                if('4'===employee_role_selected){
+                    if ($(employees[i]).val() === employee_role_selected) {
+                        var start_date_process = new Date(formatDate($(start_date_processes[i]).text(),'Y/m/d'));
+                        var end_date_process =new Date(formatDate($(end_date_processes[i]).text(),'Y/m/d'));
+                        if(end_date_process_selected<start_date_process || end_date_process<start_date_process_selected){
+                            return false;
+                        }
+                        var string_error = employee_name_selected +" ( id = "+employee_id_selected+" )" +" Can't be PO because "+
+                            " from : "+$(start_date_processes[i]).text() + " to: "
+                            +$(end_date_processes[i]).text()+" has PO is "+$(employee_names[i]).text();
+                        $('#list_error').html('');
+                        $('#list_error').css('display', 'block');
+                        $(document).scrollTop($("#list_error").offset().top);
+                        $('#list_error').prepend(string_error);
+                        return true;
                     }
-                    var string_error = employee_name_selected +" ( id = "+employee_id_selected+" )" +" Can't be PO because "+
-                        " from : "+$(start_date_processes[i]).text() + " to: "
-                        +$(end_date_processes[i]).text()+" has PO is "+$(employee_names[i]).text();
-                    $('#list_error').html('');
-                    $('#list_error').css('display', 'block');
-                    $(document).scrollTop($("#list_error").offset().top);
-                    $('#list_error').prepend(string_error);
-                    return true;
                 }
             }
             return false;
@@ -183,7 +186,7 @@ function requestAjax(url, token) {
                     "<tr id=\"member_" + id_member + "\">" +
                     "<td class=\"employee_name\" style=\"width: 17%;\" >" + employee_name + "</td>" +
                     "<td class=\"man_power\" style=\"width: 17%;\" >" + man_power + "</td>" +
-                    "<td style=\"width: 17%;\" >" + role_name + "</td>" +
+                    "<td class=\"roles\" style=\"width: 17%;\" >" + role_name + "</td>" +
                     "<td class=\"start_date_process\" style=\"width: 27%;\" >" + formatDate(start_date_process,'d/m/Y') + "</td>" +
                     "<td class=\"end_date_process\" >" + formatDate(end_date_process,'d/m/Y') + "</td>" +
                     "<td> <a>" +
@@ -289,8 +292,8 @@ function removeEmployee(employee_id, target) {
     var object_this = target;
     object_this.remove();
     $('#estimate_cost').val(calculateEstimateCost());
-    $('#member_' + employee_id).prop('disabled', false);
-    $('#employee_id').select2();
+    // $('#member_' + employee_id).prop('disabled', false);
+    // $('#employee_id').select2();
 }
 
 // function checkDuplicate(id, index){
