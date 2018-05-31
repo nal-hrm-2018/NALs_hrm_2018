@@ -182,11 +182,23 @@ function requestAjax(url, token) {
                 $('#list_error').css('display', 'none');
                 alert(json['msg_success']);
                 var id_member = $('#employee_id :selected').val();
+                var classRole = "";
+                if(role_name.trim() == "PO"){
+                    classRole = 'label label-primary';
+                } else if(role_name.trim() == "Dev"){
+                    classRole = 'label label-success';
+                } else if(role_name.trim() == "BA"){
+                    classRole = 'label label-info';;
+                } else if(role_name.trim() == "ScrumMaster"){
+                    classRole = 'label label-warning';
+                }
+
                 var element =
                     "<tr id=\"member_" + id_member + "\">" +
+
                     "<td class=\"employee_name\" style=\"width: 17%;\" >" + employee_name + "</td>" +
-                    "<td class=\"man_power\" style=\"width: 17%;\" >" + man_power + "</td>" +
-                    "<td class=\"roles\" style=\"width: 17%;\" >" + role_name + "</td>" +
+                    "<td class=\"man_power\" style=\"width: 17%;\" ><span class=\"badge\">" + man_power + "</span></td>" +
+                    "<td class=\"roles\" style=\"width: 17%;\" ><span class='"+ classRole +"'>" + role_name + "</span></td>" +
                     "<td class=\"start_date_process\" style=\"width: 27%;\" >" + formatDate(start_date_process,'d/m/Y') + "</td>" +
                     "<td class=\"end_date_process\" >" + formatDate(end_date_process,'d/m/Y') + "</td>" +
                     "<td> <a>" +
@@ -198,6 +210,7 @@ function requestAjax(url, token) {
                     "<input type=\"hidden\" name=\"processes["+id_member+end_date_process+"][start_date_process]\" value=\""+start_date_process+"\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+end_date_process+"][end_date_process]\" value=\""+end_date_process+"\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+end_date_process+"][man_power]\" value=\""+man_power+"\"/>"+
+
                     "</tr>"
 
                 $('#table_add').css('display', 'block');

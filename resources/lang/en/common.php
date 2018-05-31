@@ -26,6 +26,7 @@ return [
         'search' => 'SEARCH',
         'add' => 'ADD',
         'save' => 'SAVE',
+        'update' => 'UPDATE'
     ],
 
     'title_form' => [

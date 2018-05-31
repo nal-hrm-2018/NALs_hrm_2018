@@ -124,7 +124,7 @@
                                                             else{
                                                                 echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
                                                             }
-                                                            if ($count < sizeof($allMemberNotPOInProject) - 1) echo ', ';
+                                                            if ($count < sizeof($allMemberNotPOInProject) - 1) echo', ';
                                                             $count++;
                                                         } else if (sizeof($allMemberNotPOInProject) > 3) {
                                                             if ($employeeInProject->employee->is_employee == $isEmployee){
@@ -214,7 +214,7 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">
-                                                <th>{{trans('team.members')}} - Team: <span id="team_name_modal"></span>
+                                                <th>{{trans('team.members')}} <span id="team_name_modal"></span>
                                                 </th>
                                             </h4>
                                         </div>

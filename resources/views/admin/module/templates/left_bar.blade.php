@@ -67,13 +67,23 @@
     var url = window.location.href;
     // var path = window.location.pathname;
     $(document).ready(function () {
+        // alert(url);
+        var path = url.split('/')[3];
         $('.sidebar-menu li').each(function () {
             var href = $(this).find('a').attr('href');
-            if(href == url){
+            if(href == url || href == url.split('?')[0]){
                 $(this).addClass('active');
                 $(this).find('i').attr('class', 'fa fa-bullseye');
                 $(this).parent().css('display', 'block');
                 $(this).parent().parent().addClass('menu-open active');
+                return false;
+            }
+            else if(href.split('/').length > 1){
+                if(path == href.split('/')[3]){
+                    $(this).parent().parent().addClass('active');
+                    $(this).parent().css('display', 'none');
+                    return false;
+                }
             }
         });
     });
