@@ -206,12 +206,23 @@
                         getEmployee($process['employee_id'])->name:''
                         }}
                     </td>
-                    <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
+                    <td class="man_power" style="width: 17%;"><span class="badge">{{$process['man_power']}}</span></td>
                     <td class="roles" style="width: 17%;">
-                        {{
-                        !is_null(getRole($process['role_id']))?
-                        getRole($process['role_id'])->name:''
-                        }}
+                        <?php
+                        if(!is_null(getRole($process['role_id']))){
+                            if(getRole($process['role_id'])->name == "PO"){
+                                echo "<span class='label label-primary'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "Dev"){
+                                echo "<span class='label label-success'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "BA"){
+                                echo "<span class='label label-info'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "ScrumMaster"){
+                                echo "<span class='label label-warning'>". getRole($process['role_id'])->name ."</span>";
+                            }
+                        } else {
+                            echo "-";
+                        }
+                        ?>
                     </td>
                     <td class="start_date_process"
                         style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
