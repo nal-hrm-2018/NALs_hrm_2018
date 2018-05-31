@@ -63,15 +63,15 @@
                     </p>
 
                     <p>Status:
-                        @if($project->status_id == 1)
+                        @if($project->status_name == "Kick Off")
                             <span class="label label-primary">Kick Off</span>
-                        @elseif($project->status_id == 2)
+                        @elseif($project->status_name == "Pending")
                             <span class="label label-danger">Pending</span>
-                        @elseif($project->status_id == 3)
+                        @elseif($project->status_name == "In-Progress")
                             <span class="label label-warning">In-Progress</span>
-                        @elseif($project->status_id == 4)
+                        @elseif($project->status_name == "Releasing")
                             <span class="label label-info">Releasing</span>
-                        @elseif($project->status_id == 5)
+                        @elseif($project->status_name == "Complete")
                             <span class="label label-success">Complete</span>
                         @endif
                     </p>
@@ -83,7 +83,13 @@
 
                     <p>Real Date:
                         <strong>{{date('d/m/Y', strtotime($project->start_date))}}
-                            - {{date('d/m/Y', strtotime($project->end_date))}}</strong>
+                            -
+                            @if($project->end_date){
+                               date('d/m/Y', strtotime($project->end_date))
+                            @else
+                              <span class='label label-default' style="font-size: small"> Undefined</span>
+                            @endif
+                        </strong>
                     </p>
                     <br>
                 </div>
@@ -121,13 +127,13 @@
                                     </td>
                                     <td>
                                         <?php
-                                            if($employee->role_id == 1){
+                                            if($employee->role_name == "Dev"){
                                                 echo "<span class='label label-success'>Dev</span>";
-                                            } if($employee->role_id == 2){
+                                            } if($employee->role_name == "BA"){
                                                 echo "<span class='label label-info'>BA</span>";
-                                            } if($employee->role_id == 3){
+                                            } if($employee->role_name == "ScrumMaster"){
                                                 echo "<span class='label label-warning'>ScrumMaster</span>";
-                                            } if($employee->role_id == 4){
+                                            } if($employee->role_name == "PO"){
                                                 echo "<span class='label label-primary'>PO</span>";
                                             }
                                         ?>
@@ -170,6 +176,7 @@
                                     </td>
 
                                 </tr>
+
                             @endforeach
 
                             </tbody>
@@ -178,7 +185,7 @@
                         <!-- /.box-body -->
                 </div>
                     <!-- /.box -->
-            </div>
+            </div>  
                 <!-- /.col -->
         </section>
         <!-- /.content -->

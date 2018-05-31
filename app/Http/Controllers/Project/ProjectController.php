@@ -140,13 +140,16 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        $project = Project::where('delete_flag', 0)->find($id);
+        $project = Project::select('projects.*', 'statuses.name as status_name')
+                            ->join('statuses', 'projects.status_id', '=', 'statuses.id')
+                            ->where('delete_flag', 0)->find($id);
 
         if (!isset($project)) {
             return abort(404);
         }
-        $member = Employee::select('employees.id', 'employees.name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
+        $member = Employee::select('employees.id', 'employees.name','roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
             ->join('processes', 'processes.employee_id', '=', 'employees.id')
+            ->join('roles', 'processes.role_id', '=', 'roles.id')
             ->where([
                 ['processes.project_id', '=', $id],
                 ['processes.delete_flag', '=', 0]])
