@@ -191,19 +191,27 @@
         <thead>
         </thead>
         <tbody id="list_add">
+
         @if(isset($processes))
             @foreach($processes as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date_process']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]"
+                           value="{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]"
+                           value="{{$process['man_power']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]"
+                           value="{{$process['role_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]"
+                           value="{{$process['start_date']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]"
+                           value="{{$process['end_date']}}">
+
                     <td style="width: 17%;">
-                        {{
-                        !is_null(getEmployee($process['employee_id']))?
-                        getEmployee($process['employee_id'])->name:''
-                        }}
+                        {{getEmployee($process['employee_id'])->name}}
+                        {{--{{
+                         !is_null(getEmployee($process['employee_id']) )?
+                         getEmployee($process['employee_id'])->name:''
+                        }}--}}
                     </td>
                     <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
                     <td style="width: 17%;">
@@ -212,8 +220,9 @@
                         getRole($process['role_id'])->name:''
                         }}
                     </td>
-                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
-                    <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
+                    <td class="start_date_process"
+                        style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date'])) }}</td>
+                    <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date'])) }}</td>
                     <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
                                     getEmployee($process['employee_id'])->name:'' }}"
                               id="{{$process['employee_id']}}" class="fa fa-remove removeajax"></i>
@@ -224,11 +233,16 @@
         @if(session()->has('processes'))
             @foreach(session()->get('processes') as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date_process']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]"
+                           value="{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]"
+                           value="{{$process['man_power']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]"
+                           value="{{$process['role_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]"
+                           value="{{$process['start_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]"
+                           value="{{$process['end_date_process']}}">
                     <td style="width: 17%;">
                         {{
                         !is_null(getEmployee($process['employee_id']))?
@@ -243,7 +257,8 @@
 
                         }}
                     </td>
-                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
+                    <td class="start_date_process"
+                        style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
                     <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
                     <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
                                     getEmployee($process['employee_id'])->name:'' }}"
@@ -362,7 +377,7 @@
         });
 
         $(function () {
-            var jsonValue = <?php if(isset($currentProject->processes)) echo json_encode($currentProject->processes); else echo "[]";?>;
+            var jsonValue = <?php if (isset($currentProject->processes)) echo json_encode($currentProject->processes); else echo "[]";?>;
             Object.keys(jsonValue).forEach(function (key) {
                 $('#member_' + jsonValue[key]['employee_id']).prop('disabled', true);
                 $('#employee_id').select2();

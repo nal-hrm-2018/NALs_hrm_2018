@@ -111,7 +111,7 @@ function checkValidProjectData()
 
 function getEmployee($id)
 {
-    return Employee::where('delete_flag', '=', 0)->find($id);
+    return Employee::find($id);
 }
 
 function getRole($id)
