@@ -16,5 +16,4 @@ interface ProjectService
 
     public function addProject($request);
     public function editProject($request, $id);
-
 }

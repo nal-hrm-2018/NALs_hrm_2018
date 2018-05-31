@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers\Project;
 
-
+use App\Http\Requests\ProjectEditRequest;
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Process;
@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use App\Http\Requests\ProjectEditRequest;
 
 
 class ProjectController extends Controller
@@ -152,8 +151,6 @@ class ProjectController extends Controller
         }
         session()->flash(trans('common.msg_fails'), trans('project.msg_content.msg_edit_fail'));
         return back();
-
-
     }
 
     public function destroy($id, Request $request)

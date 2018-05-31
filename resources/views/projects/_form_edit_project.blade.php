@@ -43,6 +43,7 @@
             'id' => 'id',
             'autofocus' => true,
             'placeholder'=>"Project ID",
+            'disabled'=>'disabled'
             ])
         }}
         {{--<label class="id" id="lb_error_project_id" style="color: red; ">{{$errors->first('id')}}</label>--}}
@@ -195,17 +196,12 @@
         @if(isset($processes))
             @foreach($processes as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]"
-                           value="{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]"
-                           value="{{$process['man_power']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]"
-                           value="{{$process['role_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]"
-                           value="{{$process['start_date']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]"
-                           value="{{$process['end_date']}}">
-
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][is_old_process]" value="0">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date']}}">
                     <td style="width: 17%;">
                         {{getEmployee($process['employee_id'])->name}}
                         {{--{{
@@ -220,12 +216,11 @@
                         getRole($process['role_id'])->name:''
                         }}
                     </td>
-                    <td class="start_date_process"
-                        style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date'])) }}</td>
+                    <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date'])) }}</td>
                     <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date'])) }}</td>
                     <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
                                     getEmployee($process['employee_id'])->name:'' }}"
-                              id="{{$process['employee_id']}}" class="fa fa-remove removeajax"></i>
+                              id="{{$process['employee_id']}}" class="fa fa-remove remove_employee"></i>
                         </a></td>
                 </tr>
             @endforeach
@@ -233,16 +228,12 @@
         @if(session()->has('processes'))
             @foreach(session()->get('processes') as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]"
-                           value="{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]"
-                           value="{{$process['man_power']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]"
-                           value="{{$process['role_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]"
-                           value="{{$process['start_date_process']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]"
-                           value="{{$process['end_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][is_old_process]" value="0">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date_process']}}">
+                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date_process']}}">
                     <td style="width: 17%;">
                         {{
                         !is_null(getEmployee($process['employee_id']))?

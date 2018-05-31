@@ -85,8 +85,9 @@ function requestAjax(url, token) {
                 var errors = '';
                 console.log(json);
                 $('#list_error').html('');
-                checkDuplicateEmployee(employee_id);
-                checkDuplicateRole(role);
+                // if(checkDuplicate(employee_id, 1)){
+                //     fillError();
+                // }
                 $.each(json[0], function (key, value) {
                     if (value && value.length && value[0] !== '') {
                         errors += "<strong>Error!</strong> " + value + "<br>";
@@ -114,15 +115,16 @@ function requestAjax(url, token) {
                 alert(json['msg_success']);
                 var id_member = $('#employee_id :selected').val();
                 var element =
-                    "<tr  id=\"member_" + id_member + " \">" +
+                    "<tr id=\"member_" + id_member + "\">" +
                     "<td style=\"width: 17%;\" >" + employee_name + "</td>" +
                     "<td class=\"man_power\" style=\"width: 17%;\" >" + man_power + "</td>" +
                     "<td style=\"width: 17%;\" >" + role_name + "</td>" +
                     "<td class=\"start_date_process\" style=\"width: 27%;\" >" + formatDate(start_date_process,'d/m/Y') + "</td>" +
                     "<td class=\"end_date_process\" >" + formatDate(end_date_process,'d/m/Y') + "</td>" +
                     "<td> <a>" +
-                    "<i name=\"" + employee_name + "\" id=\"" + id_member + "\" class=\"fa fa-remove removeajax\"></i>" +
+                    "<i name=\"" + employee_name + "\" id=\"" + id_member + "\" class=\"fa fa-remove remove_employee\"></i>" +
                     "</a> </td>" +
+                    "<input type=\"hidden\" name=\"processes["+id_member+"][is_old_process]\" value=\"0\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+"][employee_id]\" value=\""+id_member+"\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+"][role_id]\" value=\""+role+"\"/>"+
                     "<input type=\"hidden\" name=\"processes["+id_member+"][start_date_process]\" value=\""+start_date_process+"\"/>"+
@@ -226,44 +228,35 @@ function removeEmployee(employee_id, target) {
     $('#employee_id').select2();
 }
 
-function checkDuplicateEmployee(employee_id){
-    var listCurrentEmployee = [];
-    var i = 0;
-    var arr = [];
-    var item = "";
-    $('#list_add tr').each(function() {
-        item = $(this).closest("tr").attr('id');
-        arr = item.split("_", 3);
-        listCurrentEmployee[i++] = arr[1];
-    });
-    if(checkExist(listCurrentEmployee, employee_id)){
-        $("#list_error").append("<strong>Error!</strong> Member in process can't duplicate.<br />");
-        $("#list_error").css('display', 'block');
-    }
-}
+// function checkDuplicate(id, index){
+//     var listCurrentEmployee = [];
+//     var i = 0;
+//     var arr = [];
+//     var item = "";
+//     $('#list_add tr').each(function() {
+//         item = $(this).closest("tr").attr('id');
+//         arr = item.split("_", 3);
+//         listCurrentEmployee[i++] = arr[index];
+//     });
+//     for (var i = 0; i < listCurrentEmployee.length; i++){
+//         if (id == listCurrentEmployee[i]){
+//             return true;
+//         }
+//     }
+//     return false;
+// }
 
-function checkExist(listCurrentEmployee, current_id) {
-    for (var i = 0; i < listCurrentEmployee.length; i++){
-        if (current_id == listCurrentEmployee[i]){
-            return true;
-        }
-    }
-    return false;
-}
+// function fillError() {
+//     alert("Member in process can't duplicate.");
+// }
+// Member in process can't duplicate. Project can't has over one PO .
 
-function checkDuplicateRole(role_id){
-    var listCurrentEmployee = [];
-    var i = 0;
-    var arr = [];
-    var item = "";
-    $('#list_add tr').each(function() {
-        item = $(this).closest("tr").attr('id');
-        arr = item.split("_", 3);
-        listCurrentEmployee[i++] = arr[2];
-    });
-    if(checkExist(listCurrentEmployee, role_id)){
-        $("#list_error").append("<strong>Error!</strong> Project can't has over one PO .<br />");
-        $("#list_error").css('display', 'block');
-    }
-}
+// function isDuplicate(id){
+//     var arrayAll = new Array();
+//     $('#list_add tr').each(function() {
+//         item = $(this).closest("tr").attr('id');
+//         arr = item.split("_", 3);
+//         listCurrentEmployee[i++] = arr[index];
+//     });
+// }
 
