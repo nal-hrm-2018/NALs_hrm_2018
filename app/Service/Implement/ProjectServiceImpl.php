@@ -102,8 +102,6 @@ class ProjectServiceImpl extends CommonService
             DB::beginTransaction();
             $queryUpdateProject = Project::where('id', $id)->update($project_data);
 
-            //process lay tu db
-            $processGetFromDB = Project::where('id', $id)->first()->processes;
             $processGetFromDB1 = Process::where('project_id', $id);
 
             try {
@@ -111,34 +109,22 @@ class ProjectServiceImpl extends CommonService
             } catch (Exception $exception) {
                 dd($exception->getMessage());
             }
-            //list nhung thang process cu
-            $processesOld = array();
 
             //list nhung thang nhan dc tu client
             $processes = request()->get('processes');
             if (!empty($processes)) {
-                $i = 0;
                 foreach ($processes as $process) {
-                    if($process['is_old_process'] === '0'){
-                        $processesNew = [
-                            'project_id'=> $id,
-                            'employee_id' => $process['employee_id'],
-                            'role_id' => $process['role_id'],
-                            'man_power' => (float)$process['man_power'],
-                            'start_date' => $process['start_date_process'],
-                            'end_date' => $process['end_date_process'],
-                        ];
-                        $process_model = new Process($processesNew);
-                        $process_model->save();
-                    } else {
-                        $processesOld[$i++] = [
-                            'employee_id' => $process['employee_id'],
-                            'role_id' => $process['role_id'],
-                            'man_power' => (float)$process['man_power'],
-                            'start_date' => $process['start_date_process'],
-                            'end_date' => $process['end_date_process'],
-                        ];
-                    }
+                    $processesNew = [
+                        'project_id'=> $id,
+                        'employee_id' => $process['employee_id'],
+                        'role_id' => $process['role_id'],
+                        'man_power' => (float)$process['man_power'],
+                        'check_project_exit' => 1,
+                        'start_date' => $process['start_date_process'],
+                        'end_date' => $process['end_date_process'],
+                    ];
+                    $process_model = new Process($processesNew);
+                    $process_model->save();
                 }
             }
 

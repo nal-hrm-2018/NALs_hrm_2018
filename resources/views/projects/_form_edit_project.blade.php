@@ -196,7 +196,6 @@
         @if(isset($processes))
             @foreach($processes as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][is_old_process]" value="0">
                     <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
                     <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
                     <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
@@ -209,12 +208,23 @@
                          getEmployee($process['employee_id'])->name:''
                         }}--}}
                     </td>
-                    <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
+                    <td class="man_power" style="width: 17%;"><span class="badge">{{$process['man_power']}}</span></td>
                     <td style="width: 17%;">
-                        {{
-                        !is_null(getRole($process['role_id']))?
-                        getRole($process['role_id'])->name:''
-                        }}
+                        <?php
+                        if(!is_null(getRole($process['role_id']))){
+                            if(getRole($process['role_id'])->name == "PO"){
+                                echo "<span class='label label-primary'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "Dev"){
+                                echo "<span class='label label-success'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "BA"){
+                                echo "<span class='label label-info'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "ScrumMaster"){
+                                echo "<span class='label label-warning'>". getRole($process['role_id'])->name ."</span>";
+                            }
+                        } else {
+                            echo "-";
+                        }
+                        ?>
                     </td>
                     <td class="start_date_process" style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date'])) }}</td>
                     <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date'])) }}</td>
@@ -228,7 +238,6 @@
         @if(session()->has('processes'))
             @foreach(session()->get('processes') as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][is_old_process]" value="0">
                     <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
                     <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
                     <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
@@ -240,13 +249,23 @@
                         getEmployee($process['employee_id'])->name:''
                         }}
                     </td>
-                    <td class="man_power" style="width: 17%;">{{$process['man_power']}}</td>
+                    <td class="man_power" style="width: 17%;"><span class="badge">{{$process['man_power']}}</span></td>
                     <td style="width: 17%;">
-                        {{
-                        !is_null(getRole($process['role_id']))?
-                        getRole($process['role_id'])->name:''
-
-                        }}
+                        <?php
+                        if(!is_null(getRole($process['role_id']))){
+                            if(getRole($process['role_id'])->name == "PO"){
+                                echo "<span class='label label-primary'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "Dev"){
+                                echo "<span class='label label-success'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "BA"){
+                                echo "<span class='label label-info'>". getRole($process['role_id'])->name ."</span>";
+                            } else if(getRole($process['role_id'])->name == "ScrumMaster"){
+                                echo "<span class='label label-warning'>". getRole($process['role_id'])->name ."</span>";
+                            }
+                        } else {
+                            echo "-";
+                        }
+                        ?>
                     </td>
                     <td class="start_date_process"
                         style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date_process'])) }}</td>
