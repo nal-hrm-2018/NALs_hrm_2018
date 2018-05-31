@@ -33,7 +33,7 @@ class ChartServiceImpl extends CommonService implements ChartService
     {
         //value of current employee in this project on month
         $total = 0;
-        if(strtotime($project->start_date) < strtotime(date('Y-m-d'))){
+        if(isset($project->start_date) && strtotime($project->start_date) < strtotime(date('Y-m-d'))){
             //x
             $income = 0;
             if(strtotime($project->start_date) < strtotime(date('Y-m-d'))){

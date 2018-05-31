@@ -13,6 +13,10 @@ return [
     |
     */
 
+    'msg_fails' => 'msg_fail',
+    'msg_success' => 'msg_success',
+    'msg_error' => 'msg_error',
+
     'confirm_message'=>[
         'add_action'=>'Do you want to add?',
     ],
@@ -40,6 +44,8 @@ return [
         'team' => 'Teams',
         'list' => 'List',
         'detail'=>'Detail',
+        'add_project'=>'Add project',
+        'edit_project'=>'Edit project'
     ],
     'action'=>[
         'view'=>'View',
