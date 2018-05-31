@@ -63,16 +63,18 @@
                     </p>
 
                     <p>Status:
-                        @if($project->status_name == "Kick Off")
+                        @if($project->status_name == "kick off")
                             <span class="label label-primary">Kick Off</span>
-                        @elseif($project->status_name == "Pending")
+                        @elseif($project->status_name == "pending")
                             <span class="label label-danger">Pending</span>
-                        @elseif($project->status_name == "In-Progress")
+                        @elseif($project->status_name == "in-progress")
                             <span class="label label-warning">In-Progress</span>
-                        @elseif($project->status_name == "Releasing")
+                        @elseif($project->status_name == "releasing")
                             <span class="label label-info">Releasing</span>
-                        @elseif($project->status_name == "Complete")
+                        @elseif($project->status_name == "complete")
                             <span class="label label-success">Complete</span>
+                        @elseif($project->status_name == "planning")
+                            <span class="label label-success">Planning</span>
                         @endif
                     </p>
 
