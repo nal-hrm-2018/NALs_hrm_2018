@@ -144,15 +144,15 @@
             $allProjects = $projects;
             foreach ($allProjects as $project) {
                 foreach ($project->processes as $all_process) {
-                    if (isset($all_process->employee->role)) {
-                        $classBtr = '';
-                        if ($all_process->employee->role->name == 'PO') {
+                    $classBtr = '';
+                    if (isset($all_process->role)) {
+                        if ($all_process->role->name == 'PO') {
                             $classBtr = 'label label-primary';
-                        } else if ($all_process->employee->role->name == 'Dev') {
+                        } else if ($all_process->role->name == 'Dev') {
                             $classBtr = 'label label-success';
-                        } else if ($all_process->employee->role->name == 'BA') {
+                        } else if ($all_process->role->name  == 'BA') {
                             $classBtr = 'label label-info';
-                        } else if ($all_process->employee->role->name == 'ScrumMaster') {
+                        } else if ($all_process->role->name  == 'ScrumMaster') {
                             $classBtr = 'label label-warning';
                         }
                         if ($all_process->employee->is_employee == $isEmployee ){
@@ -198,7 +198,8 @@
             'info': false,
             'autoWidth': false,
             'borderCollapse': 'collapse',
-            "aaSorting": [[4, 'DESC'], [5, 'DESC']]
+            "aaSorting": [[6, 'DESC']]
+            //, [5, 'DESC']
         });
     });
 </script>
