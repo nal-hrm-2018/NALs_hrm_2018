@@ -95,7 +95,6 @@
                                                         echo '<a href="employee/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
                                                     }
                                                     else if($getPO->employee->is_employee == $isVendor){
-//                                                        dd($employeeInProject->employee->is_employee);
                                                         echo '<a href="vendors/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
                                                     }
                                                 } else {

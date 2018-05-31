@@ -101,7 +101,6 @@ class ProcessAddRequest extends CommonRequest
                     'nullable',
                     'after_or_equal:start_date_project',
                     new ValidEndDateProject(request()->get('start_date_project')),
-                    'before_or_equal:today',
                 ],
 
             'estimate_start_date' =>
