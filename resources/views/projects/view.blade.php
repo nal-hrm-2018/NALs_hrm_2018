@@ -63,27 +63,47 @@
                     </p>
 
                     <p>Status:
-                        @if($project->status_id == 1)
+                        @if($project->status_name == "Kick Off")
                             <span class="label label-primary">Kick Off</span>
-                        @elseif($project->status_id == 2)
+                        @elseif($project->status_name == "Pending")
                             <span class="label label-danger">Pending</span>
-                        @elseif($project->status_id == 3)
+                        @elseif($project->status_name == "In-Progress")
                             <span class="label label-warning">In-Progress</span>
-                        @elseif($project->status_id == 4)
+                        @elseif($project->status_name == "Releasing")
                             <span class="label label-info">Releasing</span>
-                        @elseif($project->status_id == 5)
+                        @elseif($project->status_name == "Complete")
                             <span class="label label-success">Complete</span>
                         @endif
                     </p>
 
                     <p>Estimate Date:
-                        <strong>{{date('d/m/Y', strtotime($project->estimate_start_date))}}
-                            - {{date('d/m/Y', strtotime($project->estimate_end_date))}}</strong>
+                        <strong>
+
+                            <strong>
+                                @if($project->estimate_start_date)
+                                    {{date('d/m/Y', strtotime($project->estimate_start_date))}}
+                                @else
+                                    <span class='label label-default' style="font-size: small">Unknown</span>
+                                @endif
+                                -
+                                @if($project->estimate_end_date)
+                                    {{date('d/m/Y', strtotime($project->estimate_end_date))}}
+                                @else
+                                    <span class='label label-default' style="font-size: small">Unknown</span>
+                                @endif
+                            </strong>
+                        </strong>
                     </p>
 
                     <p>Real Date:
                         <strong>{{date('d/m/Y', strtotime($project->start_date))}}
-                            - {{date('d/m/Y', strtotime($project->end_date))}}</strong>
+                            -
+                            @if($project->end_date)
+                               {{date('d/m/Y', strtotime($project->end_date))}}
+                            @else
+                              <span class='label label-default' style="font-size: small">Unknown</span>
+                            @endif
+                        </strong>
                     </p>
                     <br>
                 </div>
@@ -109,48 +129,63 @@
                                 <tr class="project-menu" id="employee-id-{{$employee->employee_id}}"
                                     data-employee-id="{{$employee->employee_id}}">
                                     <td>
-                                        @if($employee->is_employee==1)
-                                        <a href="{!! asset('employee/'.$employee->employee_id)!!}">
-                                            {{ isset($employee->name)? $employee->name: "-" }}
-                                        </a>
-                                        @else
-                                            <a href="{!! asset('vendors/'.$employee->employee_id)!!}">
+                                        <p class="fix-center-employee">
+                                            @if($employee->is_employee==1)
+                                            <a href="{!! asset('employee/'.$employee->employee_id)!!}">
                                                 {{ isset($employee->name)? $employee->name: "-" }}
                                             </a>
-                                        @endif
+                                            @else
+                                                <a href="{!! asset('vendors/'.$employee->employee_id)!!}">
+                                                    {{ isset($employee->name)? $employee->name: "-" }}
+                                                </a>
+                                            @endif
+                                        </p>
+                                    </td>
+                                    <td >
+                                        <p class="fix-center-employee">
+                                            <?php
+                                                if($employee->role_name == "Dev"){
+                                                    echo "<span class='label label-success'>Dev</span>";
+                                                } if($employee->role_name == "BA"){
+                                                    echo "<span class='label label-info'>BA</span>";
+                                                } if($employee->role_name == "ScrumMaster"){
+                                                    echo "<span class='label label-warning'>ScrumMaster</span>";
+                                                } if($employee->role_name == "PO"){
+                                                    echo "<span class='label label-primary'>PO</span>";
+                                                }
+                                            ?>
+                                        </p>
                                     </td>
                                     <td>
-                                        <?php
-                                            if($employee->role_id == 1){
-                                                echo "<span class='label label-success'>Dev</span>";
-                                            } if($employee->role_id == 2){
-                                                echo "<span class='label label-info'>BA</span>";
-                                            } if($employee->role_id == 3){
-                                                echo "<span class='label label-warning'>ScrumMaster</span>";
-                                            } if($employee->role_id == 4){
-                                                echo "<span class='label label-primary'>PO</span>";
-                                            }
-                                        ?>
-                                    </td>
-                                    <td>
-                                        @if($employee->is_employee==1)
-                                            <a href="{!! asset('employee/'.$employee->employee_id)!!}">
-                                                {{ isset($employee->email)? $employee->email: "-" }}
-                                            </a>
-                                        @else
-                                            <a href="{!! asset('vendors/'.$employee->employee_id)!!}">
-                                                {{ isset($employee->email)? $employee->email: "-" }}
-                                            </a>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">{{ isset($employee->mobile)? $employee->mobile: "-" }}</td>
-
-                                    <td class="text-center">
-                                        {{isset($employee->start_date)? $employee->start_date: "-"}}
+                                        <p class="fix-center-employee">
+                                            @if($employee->is_employee==1)
+                                                <a href="{!! asset('employee/'.$employee->employee_id)!!}">
+                                                    {{ isset($employee->email)? $employee->email: "-" }}
+                                                </a>
+                                            @else
+                                                <a href="{!! asset('vendors/'.$employee->employee_id)!!}">
+                                                    {{ isset($employee->email)? $employee->email: "-" }}
+                                                </a>
+                                            @endif
+                                        </p>
                                     </td>
 
                                     <td class="text-center">
+                                        <p class="fix-center-employee">
+                                            {{ isset($employee->mobile)? $employee->mobile: "-" }}
+                                        </p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <p class="fix-center-employee">
+                                            {{isset($employee->start_date)? $employee->start_date: "-"}}
+                                        </p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <p class="fix-center-employee">
                                             {{isset($employee->end_date)? $employee->end_date: "-"}}
+                                        </p>
                                     </td>
 
                                     <td style="text-align: center;width: 50px;">
@@ -170,6 +205,7 @@
                                     </td>
 
                                 </tr>
+
                             @endforeach
 
                             </tbody>
@@ -178,7 +214,7 @@
                         <!-- /.box-body -->
                 </div>
                     <!-- /.box -->
-            </div>
+            </div>  
                 <!-- /.col -->
         </section>
         <!-- /.content -->

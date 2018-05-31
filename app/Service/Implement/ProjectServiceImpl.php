@@ -104,7 +104,13 @@ class ProjectServiceImpl extends CommonService
 
             //process lay tu db
             $processGetFromDB = Project::where('id', $id)->first()->processes;
+            $processGetFromDB1 = Process::where('project_id', $id);
 
+            try {
+                $processGetFromDB1->forceDelete();
+            } catch (Exception $exception) {
+                dd($exception->getMessage());
+            }
             //list nhung thang process cu
             $processesOld = array();
 
@@ -115,6 +121,7 @@ class ProjectServiceImpl extends CommonService
                 foreach ($processes as $process) {
                     if($process['is_old_process'] === '0'){
                         $processesNew = [
+                            'project_id'=> $id,
                             'employee_id' => $process['employee_id'],
                             'role_id' => $process['role_id'],
                             'man_power' => (float)$process['man_power'],
@@ -135,22 +142,24 @@ class ProjectServiceImpl extends CommonService
                 }
             }
 
+
+
             //so sanh list process cu nhan duoc tu client va process lay tu db
             //kiểu như so sánh 2 cái mảng, thằng process nào của $processGetFromDB ko có trong cái mảng $processesOld thì vào db xóa thằng đó
-            if(sizeof($processesOld) != sizeof($processGetFromDB)){
-                for ($i=0; $i<sizeof($processesOld); $i++){
-                    foreach ($processGetFromDB as $itemDB){
-                        if($itemDB->employee_id === $processesOld[$i]['employee_id'] &&
-                            $itemDB->role_id === $processesOld[$i]['role_id']&&
-                            $itemDB->man_power === $processesOld[$i]['man_power'] &&
-                            $itemDB->start_date === $processesOld[$i]['start_date'] &&
-                            $itemDB->end_date === $processesOld[$i]['end_date']){
-                            continue;
-                            //chưa xong, làm tiếp dùm nhé :v
-                        }
-                    }
-                }
-            }
+//            if(sizeof($processesOld) != sizeof($processGetFromDB)){
+//                for ($i=0; $i<sizeof($processesOld); $i++){
+//                    foreach ($processGetFromDB as $itemDB){
+//                        if($itemDB->employee_id === $processesOld[$i]['employee_id'] &&
+//                            $itemDB->role_id === $processesOld[$i]['role_id']&&
+//                            $itemDB->man_power === $processesOld[$i]['man_power'] &&
+//                            $itemDB->start_date === $processesOld[$i]['start_date'] &&
+//                            $itemDB->end_date === $processesOld[$i]['end_date']){
+//                            continue;
+//                            //chưa xong, làm tiếp dùm nhé :v
+//                        }
+//                    }
+//                }
+//            }
 
 
             DB::commit();

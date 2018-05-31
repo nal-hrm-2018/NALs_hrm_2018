@@ -88,18 +88,19 @@
                                             if (count($allMemberNotPOInProject) > 0) {
                                                 foreach ($allMemberNotPOInProject as $employeeInProject) {
                                                     $getPO = $allMemberNotPOInProject->where('role_id', $poRole->id)->first();
-                                                }
 
+                                                }
                                                 if (!is_null($getPO)) {
-                                                    if ($employeeInProject->employee->is_employee == $isEmployee){
-                                                        echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                    if ($getPO->employee->is_employee == $isEmployee){
+                                                        echo '<a href="employee/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
                                                     }
-                                                    else if($employeeInProject->employee->is_employee == $isVendor){
-                                                        echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                                    else if($getPO->employee->is_employee == $isVendor){
+                                                        echo '<a href="vendors/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
                                                     }
                                                 } else {
                                                     echo "-";
                                                 }
+
                                             } else {
                                                 echo "-";
                                             }

@@ -55,7 +55,7 @@ class ProjectController extends Controller
 
         $isEmployee = 1;
         $isVendor = 0;
-        return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable','isEmployee','isVendor'));
+        return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable', 'isEmployee', 'isVendor'));
 
     }
 
@@ -102,13 +102,16 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        $project = Project::where('delete_flag', 0)->find($id);
+        $project = Project::select('projects.*', 'statuses.name as status_name')
+                            ->join('statuses', 'projects.status_id', '=', 'statuses.id')
+                            ->where('delete_flag', 0)->find($id);
 
         if (!isset($project)) {
             return abort(404);
         }
-        $member = Employee::select('employees.id', 'employees.name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
+        $member = Employee::select('employees.id', 'employees.name','roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
             ->join('processes', 'processes.employee_id', '=', 'employees.id')
+            ->join('roles', 'processes.role_id', '=', 'roles.id')
             ->where([
                 ['processes.project_id', '=', $id],
                 ['processes.delete_flag', '=', 0]])
@@ -120,19 +123,20 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $currentProject = Project::where('delete_flag', 0)->find($id);
-        if(is_null($currentProject)){
+        if (is_null($currentProject)) {
             return abort(404);
         }
-        if(!\session()->get('errors')&&!\session()->get('error_messages')){
+        if (!\session()->get('errors') && !\session()->get('error_messages')) {
             $processes = $currentProject->processes()->get();
-            view()->share('processes',$processes);
+            view()->share('processes', $processes);
         }
 
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
         $manPowers = getArrayManPower();
         $project_status = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
-        return view('projects.edit', compact('roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
+
+        return view('projects.edit', compact('employeeInProcess', 'roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
     }
 
     public function update(ProjectEditRequest $request, $id)
@@ -144,7 +148,7 @@ class ProjectController extends Controller
             return back()->withInput();
         }
 
-        if (!is_null($this->projectService->editProject($request,$id))) {
+        if (!is_null($this->projectService->editProject($request, $id))) {
             session()->flash(trans('common.msg_success'), trans('project.msg_content.msg_edit_success'));
             return redirect(route('projects.index'));
         }
