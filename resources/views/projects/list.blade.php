@@ -95,7 +95,6 @@
                                                         echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
                                                     }
                                                     else if($employeeInProject->employee->is_employee == $isVendor){
-//                                                        dd($employeeInProject->employee->is_employee);
                                                         echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
                                                     }
                                                 } else {
