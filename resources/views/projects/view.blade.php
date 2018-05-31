@@ -84,8 +84,8 @@
                     <p>Real Date:
                         <strong>{{date('d/m/Y', strtotime($project->start_date))}}
                             -
-                            @if($project->end_date){
-                               date('d/m/Y', strtotime($project->end_date))
+                            @if($project->end_date)
+                               {{date('d/m/Y', strtotime($project->end_date))}}
                             @else
                               <span class='label label-default' style="font-size: small"> Undefined</span>
                             @endif
@@ -115,48 +115,63 @@
                                 <tr class="project-menu" id="employee-id-{{$employee->employee_id}}"
                                     data-employee-id="{{$employee->employee_id}}">
                                     <td>
-                                        @if($employee->is_employee==1)
-                                        <a href="{!! asset('employee/'.$employee->employee_id)!!}">
-                                            {{ isset($employee->name)? $employee->name: "-" }}
-                                        </a>
-                                        @else
-                                            <a href="{!! asset('vendors/'.$employee->employee_id)!!}">
+                                        <p class="fix-center-employee">
+                                            @if($employee->is_employee==1)
+                                            <a href="{!! asset('employee/'.$employee->employee_id)!!}">
                                                 {{ isset($employee->name)? $employee->name: "-" }}
                                             </a>
-                                        @endif
+                                            @else
+                                                <a href="{!! asset('vendors/'.$employee->employee_id)!!}">
+                                                    {{ isset($employee->name)? $employee->name: "-" }}
+                                                </a>
+                                            @endif
+                                        </p>
+                                    </td>
+                                    <td >
+                                        <p class="fix-center-employee">
+                                            <?php
+                                                if($employee->role_name == "Dev"){
+                                                    echo "<span class='label label-success'>Dev</span>";
+                                                } if($employee->role_name == "BA"){
+                                                    echo "<span class='label label-info'>BA</span>";
+                                                } if($employee->role_name == "ScrumMaster"){
+                                                    echo "<span class='label label-warning'>ScrumMaster</span>";
+                                                } if($employee->role_name == "PO"){
+                                                    echo "<span class='label label-primary'>PO</span>";
+                                                }
+                                            ?>
+                                        </p>
                                     </td>
                                     <td>
-                                        <?php
-                                            if($employee->role_name == "Dev"){
-                                                echo "<span class='label label-success'>Dev</span>";
-                                            } if($employee->role_name == "BA"){
-                                                echo "<span class='label label-info'>BA</span>";
-                                            } if($employee->role_name == "ScrumMaster"){
-                                                echo "<span class='label label-warning'>ScrumMaster</span>";
-                                            } if($employee->role_name == "PO"){
-                                                echo "<span class='label label-primary'>PO</span>";
-                                            }
-                                        ?>
+                                        <p class="fix-center-employee">
+                                            @if($employee->is_employee==1)
+                                                <a href="{!! asset('employee/'.$employee->employee_id)!!}">
+                                                    {{ isset($employee->email)? $employee->email: "-" }}
+                                                </a>
+                                            @else
+                                                <a href="{!! asset('vendors/'.$employee->employee_id)!!}">
+                                                    {{ isset($employee->email)? $employee->email: "-" }}
+                                                </a>
+                                            @endif
+                                        </p>
                                     </td>
-                                    <td>
-                                        @if($employee->is_employee==1)
-                                            <a href="{!! asset('employee/'.$employee->employee_id)!!}">
-                                                {{ isset($employee->email)? $employee->email: "-" }}
-                                            </a>
-                                        @else
-                                            <a href="{!! asset('vendors/'.$employee->employee_id)!!}">
-                                                {{ isset($employee->email)? $employee->email: "-" }}
-                                            </a>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">{{ isset($employee->mobile)? $employee->mobile: "-" }}</td>
-
+                                    
                                     <td class="text-center">
-                                        {{isset($employee->start_date)? $employee->start_date: "-"}}
+                                        <p class="fix-center-employee">
+                                            {{ isset($employee->mobile)? $employee->mobile: "-" }}
+                                        </p>
                                     </td>
 
                                     <td class="text-center">
+                                        <p class="fix-center-employee">
+                                            {{isset($employee->start_date)? $employee->start_date: "-"}}
+                                        </p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <p class="fix-center-employee">
                                             {{isset($employee->end_date)? $employee->end_date: "-"}}
+                                        </p>
                                     </td>
 
                                     <td style="text-align: center;width: 50px;">
