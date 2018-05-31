@@ -72,12 +72,12 @@ class ProjectAddRequest extends CommonRequest
                 'status' => [
                     'bail',
                     'required',
-                    new ValidStatusProject(
-                        request()->get('start_date_project'),
-                        request()->get('end_date_project'),
-                        request()->get('estimate_start_date'),
-                        request()->get('estimate_end_date')
-                    ),
+//                    new ValidStatusProject(
+//                        request()->get('start_date_project'),
+//                        request()->get('end_date_project'),
+//                        request()->get('estimate_start_date'),
+//                        request()->get('estimate_end_date')
+//                    ),
                 ],
             ];
     }

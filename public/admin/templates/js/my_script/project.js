@@ -17,6 +17,74 @@ function formatDate(date,pattern) {
     return dateObj;
 }
 
+function checkDupeMember(employee_id_selected,employee_name_selected,start_date_process_selected,end_date_process_selected){
+    if ($('#list_add input').hasClass("employee_id")) {
+        var employees = $('.employee_id');
+        var start_date_processes = $('.start_date_process');
+        var end_date_processes = $('.end_date_process');
+
+        var start_date_process_selected = new Date(start_date_process_selected);
+        var end_date_process_selected = new Date(end_date_process_selected);
+        if (employees && employees.length) {
+            for (var i = 0; i < employees.length; i++) {
+                if ($(employees[i]).val() === employee_id_selected) {
+                    var start_date_process = new Date(formatDate($(start_date_processes[i]).text(), 'Y/m/d'));
+                    var end_date_process = new Date(formatDate($(end_date_processes[i]).text(), 'Y/m/d'));
+                    if (end_date_process_selected < start_date_process || end_date_process < start_date_process_selected) {
+                        return false;
+                    }
+                    var string_error = employee_name_selected + " ( id = " + employee_id_selected + " )" + " Can't add because " +
+                        " from : " + $(start_date_processes[i]).text() +
+                        " to: " + $(end_date_processes[i]).text() + " you be added to this project";
+                    $('#list_error').html('');
+                    $('#list_error').css('display', 'block');
+                    $(document).scrollTop($("#list_error").offset().top);
+                    $('#list_error').prepend(string_error);
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+    return false;
+}
+
+function checkPOProcess(employee_role_selected,employee_name_selected,employee_id_selected,start_date_process_selected,end_date_process_selected){
+    if ($('#list_add input').hasClass("role_id")) {
+
+        var employees = $('.role_id');
+        var start_date_processes = $('.start_date_process');
+        var end_date_processes = $('.end_date_process');
+        var employee_names =$('.employee_name');
+        var start_date_process_selected = new Date(start_date_process_selected);
+        var end_date_process_selected = new Date(end_date_process_selected);
+        if (employees && employees.length) {
+            for (var i = 0; i < employees.length; i++) {
+                if('4'===employee_role_selected){
+                    if ($(employees[i]).val() === employee_role_selected) {
+                        var start_date_process = new Date(formatDate($(start_date_processes[i]).text(),'Y/m/d'));
+                        var end_date_process =new Date(formatDate($(end_date_processes[i]).text(),'Y/m/d'));
+                        if(end_date_process_selected<start_date_process || end_date_process<start_date_process_selected){
+                            return false;
+                        }
+                        var string_error = employee_name_selected +" ( id = "+employee_id_selected+" )" +" Can't be PO because "+
+                            " from : "+$(start_date_processes[i]).text() + " to: "
+                            +$(end_date_processes[i]).text()+" has PO is "+$(employee_names[i]).text();
+                        $('#list_error').html('');
+                        $('#list_error').css('display', 'block');
+                        $(document).scrollTop($("#list_error").offset().top);
+                        $('#list_error').prepend(string_error);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+    return false;
+}
+
+
 
 function getEstimateCost(date1, date2, man_power) {
     var salary = 10000000;
@@ -127,26 +195,29 @@ function requestAjax(url, token) {
 
                 var element =
                     "<tr id=\"member_" + id_member + "\">" +
-                    "<td style=\"width: 17%;\" >" + employee_name + "</td>" +
+
+                    "<td class=\"employee_name\" style=\"width: 17%;\" >" + employee_name + "</td>" +
                     "<td class=\"man_power\" style=\"width: 17%;\" ><span class=\"badge\">" + man_power + "</span></td>" +
-                    "<td style=\"width: 17%;\" ><span class='"+ classRole +"'>" + role_name + "</span></td>" +
+                    "<td class=\"roles\" style=\"width: 17%;\" ><span class='"+ classRole +"'>" + role_name + "</span></td>" +
                     "<td class=\"start_date_process\" style=\"width: 27%;\" >" + formatDate(start_date_process,'d/m/Y') + "</td>" +
                     "<td class=\"end_date_process\" >" + formatDate(end_date_process,'d/m/Y') + "</td>" +
                     "<td> <a>" +
                     "<i name=\"" + employee_name + "\" id=\"" + id_member + "\" class=\"fa fa-remove remove_employee\"></i>" +
                     "</a> </td>" +
-                    "<input type=\"hidden\" name=\"processes["+id_member+"][employee_id]\" value=\""+id_member+"\"/>"+
-                    "<input type=\"hidden\" name=\"processes["+id_member+"][role_id]\" value=\""+role+"\"/>"+
-                    "<input type=\"hidden\" name=\"processes["+id_member+"][start_date_process]\" value=\""+start_date_process+"\"/>"+
-                    "<input type=\"hidden\" name=\"processes["+id_member+"][end_date_process]\" value=\""+end_date_process+"\"/>"+
-                    "<input type=\"hidden\" name=\"processes["+id_member+"][man_power]\" value=\""+man_power+"\"/>"+
+
+                    "<input class=\"employee_id\" type=\"hidden\" name=\"processes["+id_member+end_date_process+"][employee_id]\" value=\""+id_member+"\"/>"+
+                    "<input class=\"role_id\" type=\"hidden\" name=\"processes["+id_member+end_date_process+"][role_id]\" value=\""+role+"\"/>"+
+                    "<input type=\"hidden\" name=\"processes["+id_member+end_date_process+"][start_date_process]\" value=\""+start_date_process+"\"/>"+
+                    "<input type=\"hidden\" name=\"processes["+id_member+end_date_process+"][end_date_process]\" value=\""+end_date_process+"\"/>"+
+                    "<input type=\"hidden\" name=\"processes["+id_member+end_date_process+"][man_power]\" value=\""+man_power+"\"/>"+
+
                     "</tr>"
 
                 $('#table_add').css('display', 'block');
                 $('#list_add').prepend(element);
                 $('#estimate_cost').val(calculateEstimateCost());
-                $('#member_' + id_member).prop('disabled', true);
-                $('#employee_id').select2();
+                // $('#member_' + id_member).prop('disabled', true);
+                // $('#employee_id').select2();
             }
             if (json.hasOwnProperty('msg_fail')) {
                 alert(json['msg_fail'])
@@ -234,8 +305,8 @@ function removeEmployee(employee_id, target) {
     var object_this = target;
     object_this.remove();
     $('#estimate_cost').val(calculateEstimateCost());
-    $('#member_' + employee_id).prop('disabled', false);
-    $('#employee_id').select2();
+    // $('#member_' + employee_id).prop('disabled', false);
+    // $('#employee_id').select2();
 }
 
 // function checkDuplicate(id, index){

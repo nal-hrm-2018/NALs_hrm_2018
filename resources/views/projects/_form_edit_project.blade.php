@@ -196,20 +196,32 @@
         @if(isset($processes))
             @foreach($processes as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date']}}">
-                    <td style="width: 17%;">
+                    <input class="employee_id" type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date']}}][employee_id]"
+                           value="{{$process['employee_id']}}">
+                    <input type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date']}}][man_power]"
+                           value="{{$process['man_power']}}">
+                    <input class="role_id" type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date']}}][role_id]"
+                           value="{{$process['role_id']}}">
+                    <input type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date']}}][start_date_process]"
+                           value="{{$process['start_date']}}">
+                    <input type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date']}}][end_date_process]"
+                           value="{{$process['end_date']}}">
+                    <td class="employee_name" style="width: 17%;">
+
                         {{getEmployee($process['employee_id'])->name}}
                         {{--{{
                          !is_null(getEmployee($process['employee_id']) )?
                          getEmployee($process['employee_id'])->name:''
                         }}--}}
                     </td>
+
                     <td class="man_power" style="width: 17%;"><span class="badge">{{$process['man_power']}}</span></td>
-                    <td style="width: 17%;">
+                    <td  class="roles" style="width: 17%;">
                         <?php
                         if(!is_null(getRole($process['role_id']))){
                             if(getRole($process['role_id'])->name == "PO"){
@@ -238,19 +250,30 @@
         @if(session()->has('processes'))
             @foreach(session()->get('processes') as $process)
                 <tr id="member_{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][employee_id]" value="{{$process['employee_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][man_power]" value="{{$process['man_power']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][role_id]" value="{{$process['role_id']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][start_date_process]" value="{{$process['start_date_process']}}">
-                    <input type="hidden" name="processes[{{$process['employee_id']}}][end_date_process]" value="{{$process['end_date_process']}}">
-                    <td style="width: 17%;">
+                    <input class="employee_id" type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date_process']}}][employee_id]"
+                           value="{{$process['employee_id']}}">
+                    <input type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date_process']}}][man_power]"
+                           value="{{$process['man_power']}}">
+                    <input class="role_id" type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date_process']}}][role_id]"
+                           value="{{$process['role_id']}}">
+                    <input type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date_process']}}][start_date_process]"
+                           value="{{$process['start_date_process']}}">
+                    <input type="hidden"
+                           name="processes[{{$process['employee_id']}}{{$process['end_date_process']}}][end_date_process]"
+                           value="{{$process['end_date_process']}}">
+                    <td class="employee_name" style="width: 17%;">
+
                         {{
                         !is_null(getEmployee($process['employee_id']))?
                         getEmployee($process['employee_id'])->name:''
                         }}
                     </td>
                     <td class="man_power" style="width: 17%;"><span class="badge">{{$process['man_power']}}</span></td>
-                    <td style="width: 17%;">
+                    <td  class="roles" style="width: 17%;">
                         <?php
                         if(!is_null(getRole($process['role_id']))){
                             if(getRole($process['role_id'])->name == "PO"){
@@ -376,11 +399,20 @@
         });
         $('#btn_add_process').on("click", function () {
             var employee_id = $('#employee_id :selected').val();
+            var employee_role = $('#role :selected').val();
             var employee_name = $('#employee_id :selected').text();
             if (employee_id === '' || employee_name === '') {
                 return confirm('Please choose employee !')
             } else {
                 if (confirm("Do you want add  " + employee_name + " (id=" + employee_id + ") to project ?")) {
+                    var end_date_process_selected = $('#end_date_process').val();
+                    var start_date_process_selected = $('#start_date_process').val();
+                    if (checkDupeMember(employee_id,employee_name, start_date_process_selected, end_date_process_selected) ) {
+                        return false;
+                    }
+                    if (checkPOProcess(employee_role,employee_name,employee_id, start_date_process_selected, end_date_process_selected)) {
+                        return false;
+                    }
                     requestAjax('{{route('checkProcessAjax')}}', '{{csrf_token()}}');
                 }
             }
@@ -388,9 +420,10 @@
 
         $(function () {
             var jsonValue = <?php if (isset($currentProject->processes)) echo json_encode($currentProject->processes); else echo "[]";?>;
+            $('#estimate_cost').val(calculateEstimateCost());
             Object.keys(jsonValue).forEach(function (key) {
-                $('#member_' + jsonValue[key]['employee_id']).prop('disabled', true);
-                $('#employee_id').select2();
+                // $('#member_' + jsonValue[key]['employee_id']).prop('disabled', true);
+                // $('#employee_id').select2();
             });
 
         });
