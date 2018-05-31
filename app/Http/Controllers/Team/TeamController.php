@@ -47,7 +47,7 @@ class TeamController extends Controller
 
     public function create()
     {
-        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->with('team', 'role')->get();
+        $employees = Employee::orderBy('name', 'asc')->where('is_employee',1)->where('delete_flag', 0)->with('team', 'role')->get();
         return view('teams.add', compact('employees'));
     }
 
@@ -88,7 +88,7 @@ class TeamController extends Controller
             })->get();
         $allEmployeeHasPOs = Employee::query()
             ->with(['team', 'role'])
-            ->where('delete_flag', 0)->get();
+            ->where('delete_flag', 0)->where('is_employee', 1)->get();
         $onlyValue = null;
         $nameEmployee = null;
         try {
