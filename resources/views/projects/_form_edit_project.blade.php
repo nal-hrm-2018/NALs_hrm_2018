@@ -347,7 +347,7 @@
                 class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
     </button>
     <button id="btn_submit_form_add_project" type="submit" class="btn btn-primary"
-            style="width: 150px">{{trans('common.button.save')}}</button>
+            style="width: 150px">{{trans('common.button.update')}}</button>
 </div>
 {{-- nhan hien bang nhap form --}}
 {!! Form::close() !!}
