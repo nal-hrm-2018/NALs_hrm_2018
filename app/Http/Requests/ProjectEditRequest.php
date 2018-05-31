@@ -5,36 +5,25 @@
  * Date: 4/11/2018
  * Time: 7:50 AM
  */
-
 namespace App\Http\Requests;
-
 use App\Http\Rule\Project\ValidEndDateProject;
 use App\Http\Rule\Project\ValidStatusProject;
-
-class ProjectAddRequest extends CommonRequest
+class ProjectEditRequest extends CommonRequest
 {
     public function authorize()
     {
         return true;
     }
-
     public function rules()
     {
-        session()->flash('processes', request()->get('processes'));
+        session()->flash('processes',request()->get('processes'));
         return
             [
-                'id' =>
-                    [
-                        'bail',
-                        'required',
-                        'unique:projects,id'
-                    ],
                 'name' => 'required',
                 'start_date_project' =>
                     [
                         'bail',
                         'nullable',
-                        'before_or_equal:estimate_end_date',
                     ],
                 'end_date_project' =>
                     [
@@ -43,7 +32,6 @@ class ProjectAddRequest extends CommonRequest
                         'after_or_equal:start_date_project',
                         new ValidEndDateProject(request()->get('start_date_project')),
                     ],
-
                 'estimate_start_date' =>
                     [
                         'bail',
@@ -81,21 +69,12 @@ class ProjectAddRequest extends CommonRequest
                 ],
             ];
     }
-
     public function messages()
     {
         return [
-            'id.required' => trans('validation.required', [
-                'attribute' => 'Project Id'
-            ]),
-            'id.unique' => trans('validation.unique', [
-                'attribute' => 'Project Id'
-            ]),
-
             'name.required' => trans('validation.required', [
                 'attribute' => 'Project Name'
             ]),
-
             'income.required' => trans('validation.required', [
                 'attribute' => 'Income'
             ]),
@@ -105,7 +84,6 @@ class ProjectAddRequest extends CommonRequest
             'income.min' => trans('validation.min', [
                 'attribute' => 'Income'
             ]),
-
             'real_cost.min' => trans('validation.min', [
                 'attribute' => 'Real Cost'
             ]),
@@ -115,22 +93,18 @@ class ProjectAddRequest extends CommonRequest
             'status.required' => trans('validation.required', [
                 'attribute' => 'Status'
             ]),
-
             'start_date_project.after_or_equal' => trans('validation.after_or_equal', [
                 'attribute' => 'Start Date Project',
                 'date' => 'to day'
             ]),
-
             'end_date_project.after_or_equal' => trans('validation.after_or_equal', [
                 'attribute' => 'End Date Project',
                 'date' => 'Start Date Project'
             ]),
-
             'end_date_project.before_or_equal' => trans('validation.before_or_equal', [
                 'attribute' => 'End Date Project',
                 'date' => 'to day'
             ]),
-
             'estimate_start_date.required' => trans('validation.required', [
                 'attribute' => 'Estimate Start Date',
             ]),
@@ -138,7 +112,6 @@ class ProjectAddRequest extends CommonRequest
 //                'attribute' => 'Estimate Start Date',
 //                'date' => 'to day'
 //            ]),
-
             'estimate_end_date.required' => trans('validation.required', [
                 'attribute' => 'Estimate End Date'
             ]),

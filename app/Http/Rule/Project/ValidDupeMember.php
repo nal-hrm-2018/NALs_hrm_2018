@@ -7,28 +7,30 @@
  */
 
 namespace App\Http\Rule\Project;
+
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\Team;
+
 class ValidDupeMember implements Rule
 {
     private $message;
     private $processes;
+
     public function __construct($processes)
     {
-        $this->processes=$processes;
+        $this->processes = $processes;
     }
 
     public function passes($attribute, $value)
     {
         // check member duplication
-        $employee_id = $value;
-        $this->processes[]=['employee_id'=>$employee_id];
-        if(hasDupeProject($this->processes,'employee_id')){
+        if (hasDupeProject($this->processes,'employee_id', $value)) {
             $this->message = "Member in process can't duplicate .";
             return false;
         }
         return true;
+
     }
 
     /**

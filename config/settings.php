@@ -9,12 +9,12 @@ return [
         'in_progress'=>'in-progress',
         'releasing'=>'releasing',
         'complete'=>'complete',
-        'planing'=>'planing'
+        'planing'=>'planning'
     ],
 
     'Roles'=>[
         'PO'=>'PO',
-        'TeamDev'=>'TeamDev',
+        'TeamDev'=>'Dev',
         'BA'=>'BA',
         'ScrumMater'=>'ScrumMater'
     ],
