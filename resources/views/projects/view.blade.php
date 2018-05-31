@@ -77,8 +77,22 @@
                     </p>
 
                     <p>Estimate Date:
-                        <strong>{{date('d/m/Y', strtotime($project->estimate_start_date))}}
-                            - {{date('d/m/Y', strtotime($project->estimate_end_date))}}</strong>
+                        <strong>
+
+                            <strong>
+                                @if($project->estimate_start_date)
+                                    {{date('d/m/Y', strtotime($project->estimate_start_date))}}
+                                @else
+                                    <span class='label label-default' style="font-size: small">Unknown</span>
+                                @endif
+                                -
+                                @if($project->estimate_end_date)
+                                    {{date('d/m/Y', strtotime($project->estimate_end_date))}}
+                                @else
+                                    <span class='label label-default' style="font-size: small">Unknown</span>
+                                @endif
+                            </strong>
+                        </strong>
                     </p>
 
                     <p>Real Date:
@@ -87,7 +101,7 @@
                             @if($project->end_date)
                                {{date('d/m/Y', strtotime($project->end_date))}}
                             @else
-                              <span class='label label-default' style="font-size: small"> Undefined</span>
+                              <span class='label label-default' style="font-size: small">Unknown</span>
                             @endif
                         </strong>
                     </p>
@@ -155,7 +169,7 @@
                                             @endif
                                         </p>
                                     </td>
-                                    
+
                                     <td class="text-center">
                                         <p class="fix-center-employee">
                                             {{ isset($employee->mobile)? $employee->mobile: "-" }}
