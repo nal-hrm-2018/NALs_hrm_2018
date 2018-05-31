@@ -87,10 +87,7 @@ class ProjectServiceImpl extends CommonService
 
     public function editProject($request, $id)
     {
-        dd($id);
-        dd($request);
         $project_data = [
-            'id' => $request->get('id'),
             'name' => $request->get('name'),
             'income' => $request->get('income'),
             'real_cost' => $request->get('real_cost'),
@@ -103,9 +100,61 @@ class ProjectServiceImpl extends CommonService
         ];
         try {
             DB::beginTransaction();
+            $queryUpdateProject = Project::where('id', $id)->update($project_data);
+
+            //process lay tu db
+            $processGetFromDB = Project::where('id', $id)->first()->processes;
+
+            //list nhung thang process cu
+            $processesOld = array();
+
+            //list nhung thang nhan dc tu client
+            $processes = request()->get('processes');
+            if (!empty($processes)) {
+                $i = 0;
+                foreach ($processes as $process) {
+                    if($process['is_old_process'] === '0'){
+                        $processesNew = [
+                            'employee_id' => $process['employee_id'],
+                            'role_id' => $process['role_id'],
+                            'man_power' => (float)$process['man_power'],
+                            'start_date' => $process['start_date_process'],
+                            'end_date' => $process['end_date_process'],
+                        ];
+                        $process_model = new Process($processesNew);
+                        $process_model->save();
+                    } else {
+                        $processesOld[$i++] = [
+                            'employee_id' => $process['employee_id'],
+                            'role_id' => $process['role_id'],
+                            'man_power' => (float)$process['man_power'],
+                            'start_date' => $process['start_date_process'],
+                            'end_date' => $process['end_date_process'],
+                        ];
+                    }
+                }
+            }
+
+            //so sanh list process cu nhan duoc tu client va process lay tu db
+            //kiểu như so sánh 2 cái mảng, thằng process nào của $processGetFromDB ko có trong cái mảng $processesOld thì vào db xóa thằng đó
+            if(sizeof($processesOld) != sizeof($processGetFromDB)){
+                for ($i=0; $i<sizeof($processesOld); $i++){
+                    foreach ($processGetFromDB as $itemDB){
+                        if($itemDB->employee_id === $processesOld[$i]['employee_id'] &&
+                            $itemDB->role_id === $processesOld[$i]['role_id']&&
+                            $itemDB->man_power === $processesOld[$i]['man_power'] &&
+                            $itemDB->start_date === $processesOld[$i]['start_date'] &&
+                            $itemDB->end_date === $processesOld[$i]['end_date']){
+                            continue;
+                            //chưa xong, làm tiếp dùm nhé :v
+                        }
+                    }
+                }
+            }
+
 
             DB::commit();
-
+            return $queryUpdateProject;
         } catch (Exception $ex) {
             DB::rollBack();
             session()->flash(trans('common.msg_error'), trans('project.msg_content.msg_edit_error'));

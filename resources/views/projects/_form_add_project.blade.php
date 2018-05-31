@@ -218,7 +218,7 @@
                     <td class="end_date_process">{{ date('d/m/Y',strtotime($process['end_date_process'])) }}</td>
                     <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
                                     getEmployee($process['employee_id'])->name:'' }}"
-                              id="{{$process['employee_id']}}" class="fa fa-remove removeajax"></i>
+                              id="{{$process['employee_id']}}" class="fa fa-remove remove_employee"></i>
                         </a></td>
                 </tr>
             @endforeach
@@ -318,15 +318,12 @@
                 resetFormAddProject();
             }
         });
-        $(document).on('click', ".removeajax", function (event) {
+        $(document).on('click', ".remove_employee", function (event) {
             var target = $(event.target).parent().closest('tr');
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
             if (confirm("Do you want remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
-                target.remove();
-                $('#estimate_cost').val(calculateEstimateCost());
-                $('#member_' + id).prop('disabled', false);
-                $('#employee_id').select2();
+                removeEmployee(employee_id, target);
             }
         });
         $('#btn_add_process').on("click", function () {
