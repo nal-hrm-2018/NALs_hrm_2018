@@ -37,7 +37,7 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     new ValidMember(),
-                    new ValidDupeMember(request()->get('processes')),
+//                    new ValidDupeMember(request()->get('processes')),
                 ],
             'start_date_process' =>
                 [
@@ -73,7 +73,7 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     'exists:roles,id',
-                    new ValidRoleProject(request()->get('processes')),
+//                    new ValidRoleProject(request()->get('processes')),
                 ]
         ];
     }
@@ -86,7 +86,7 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     new ValidMember(),
-                    new ValidDupeMember(request()->get('processes')),
+//                    new ValidDupeMember(request()->get('processes')),
                 ],
             'start_date_project' =>
                 [
@@ -147,7 +147,7 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     'exists:roles,id',
-                    new ValidRoleProject(request()->get('processes')),
+//                    new ValidRoleProject(request()->get('processes')),
                 ]
         ];
     }
