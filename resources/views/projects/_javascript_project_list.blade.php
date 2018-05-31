@@ -198,7 +198,8 @@
             'info': false,
             'autoWidth': false,
             'borderCollapse': 'collapse',
-            "aaSorting": [[4, 'DESC'], [5, 'DESC']]
+            "aaSorting": [[6, 'DESC']]
+            //, [5, 'DESC']
         });
     });
 </script>
