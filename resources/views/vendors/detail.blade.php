@@ -95,10 +95,14 @@
                                                     - {{date('d/m/Y', strtotime($vendor->endwork_date))}}</strong>
                                             </p>
                                             <p>{{trans('vendor.profile_info.policy_status.title')}}:
-                                                @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
-                                                    <span class="label label-primary">{{trans('vendor.profile_info.policy_status.unexpired')}}</span>
+                                                @if($vendor->work_status == 0)
+                                                    @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
+                                                        <span class="label label-primary">Active</span>
+                                                    @else
+                                                        <span class="label label-danger">Expired</span>
+                                                    @endif
                                                 @else
-                                                    <span class="label label-danger">{{trans('vendor.profile_info.policy_status.expired')}}</span>
+                                                    <span class="label label-default">Quited</span>
                                                 @endif
                                             </p>
 

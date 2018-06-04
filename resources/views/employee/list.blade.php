@@ -361,9 +361,13 @@
                                         <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">
                                                 @if($employee->work_status == 0)
-                                                    <span class="label label-primary">Active</span>
+                                                    @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
+                                                        <span class="label label-primary">Active</span>
+                                                    @else
+                                                        <span class="label label-danger">Expired</span>
+                                                    @endif
                                                 @else
-                                                    <span class="label label-danger">Inactive</span>
+                                                    <span class="label label-default">Quited</span>
                                                 @endif
                                             </p>
                                         </td>

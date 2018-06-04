@@ -220,7 +220,7 @@
                         }}--}}
                     </td>
 
-                    <td class="man_power" style="width: 17%;"><span class="badge">{$process['man_power']}}</span></td>
+                    <td class="man_power" style="width: 17%;"><span class="badge">{{$process['man_power']}}</span></td>
                     <td  class="roles" style="width: 17%;">
                         <?php
                         if(!is_null(getRole($process['role_id']))){
