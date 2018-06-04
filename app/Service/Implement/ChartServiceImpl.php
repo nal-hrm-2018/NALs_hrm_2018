@@ -35,15 +35,12 @@ class ChartServiceImpl extends CommonService implements ChartService
         $total = 0;
         if(isset($project->start_date) && strtotime($project->start_date) < strtotime(date('Y-m-d'))){
             //x
-            $income = 0;
-            if(strtotime($project->start_date) < strtotime(date('Y-m-d'))){
-                $income = $project->income;
+            $income = $project->income;
 
-                if (!isset($project->end_date) && strtotime($project->estimate_end_date) > strtotime(date('Y-m-d'))) {
-                    $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
-                    $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
-                    $income = ($income / $estimateTime) * $currentTime;
-                }
+            if (!isset($project->end_date) && strtotime($project->estimate_end_date) > strtotime(date('Y-m-d'))) {
+                $estimateTime = $this->calculateTime($project->estimate_end_date, $project->start_date);
+                $currentTime = $this->calculateTime('Y-m-d', $project->start_date);
+                $income = ($income / $estimateTime) * $currentTime;
             }
 
             //y

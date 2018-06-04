@@ -78,7 +78,7 @@
                                 <tbody class="context-menu">
                                 @foreach($projects as $project)
                                     <?php
-                                    $allMemberNotPOInProject = $project->processes;
+                                    $allMemberNotPOInProject = $project->processes->unique('employee_id');
                                     ?>
                                     <tr class="employee-menu" id="employee-id-{{$project->id}}"
                                         data-employee-id="{{$project->id}}">
