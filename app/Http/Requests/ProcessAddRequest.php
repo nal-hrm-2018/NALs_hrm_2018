@@ -125,8 +125,8 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'nullable',
                     'date_format:Y-m-d',
-                    'after_or_equal:start_date_project',
                     new ValidEndDateProject(request()->get('start_date_project')),
+                    'after_or_equal:start_date_project',
                 ],
 
             'estimate_start_date' =>
