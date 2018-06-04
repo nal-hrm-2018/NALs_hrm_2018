@@ -17,6 +17,7 @@
             <!-- SELECT2 EXAMPLE -->
 
             <div class="box box-default">
+                <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                 <div class="box-body">
                     <div id="msg">
                     </div>
@@ -105,6 +106,7 @@
                     </div>
                 </div>
                 {!! Form::close() !!}
+                <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
                 <style>
                     button.btn.btn-info.pull-left {
                         float:  left;
