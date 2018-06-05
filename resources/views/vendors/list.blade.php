@@ -26,7 +26,7 @@
 
         <section class="content-header">
             <div>
-                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" id="btn-search">
                     {{trans('common.button.search')}}
                 </button>
 
@@ -219,7 +219,11 @@
             });
         });
     </script>
-    
+    <script>
+        $('#btn-search').click(function () {
+            $('#form_search_vendor').trigger("reset");
+        });
+    </script>
     <style>
         #contain-canvas{
             visibility:hidden;

@@ -26,7 +26,7 @@
 
         <section class="content-header">
             <div>
-                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" id="btn-search">
                     SEARCH
                 </button>
 
@@ -163,7 +163,7 @@
                 <button type="button" class="btn btn-default">
                     <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
                     <a><i class="fa fa-users"></i> IMPORT</a>
                 </button>
                 <div id="import" class="modal fade" role="dialog">
@@ -182,12 +182,12 @@
                                             <div class="input-group-btn">
                                                 <button type="button" class="btn width-100">Select file csv</button>
                                             </div>
-                                            <input type="file" id="myfile" name="myFile" class="form-control" >
+                                            <input type="file" id="myfile" name="myFile" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer center">
-                                    <button type="submit" id="searchListEmployee" id="i_submit" class="btn btn-primary"><span
+                                    <button type="submit" id="i_submit" class="btn btn-primary"><span
                                                 class="glyphicon glyphicon-upload"></span>
                                         IMPORT
                                     </button>
@@ -195,11 +195,15 @@
                             </div>
                         </form>
                         <script type="text/javascript">
-                            $('#myfile').bind('change', function() {
+                            $('#myfile').bind('change', function(e) {
                                 if(this.files[0].size > 5242880){
                                     alert("The selected file is too large. Maximum size is 5MB.");
                                     document.getElementById('myfile').value = "";
-                                }    
+                                }
+                                var value = $('#myfile')[0].files[0];
+                                if(value != null){
+                                    $('#i_submit').removeClass('disabled');
+                                }
                             });
                         </script>
                     </div>
@@ -508,6 +512,20 @@
                 $("#status").val('').change();
             });
         });
+    </script>
+    <script>
+        $('#btn-search').click(function (e) {
+            $('#form_search_employee').trigger("reset");
+        });
+    </script>
+    <script>
+        $('#btn-import').click(function (e) {
+            var value = $('#myfile')[0].files[0];
+            if(value == null){
+                $('#i_submit').addClass('disabled');
+            }
+        });
+
     </script>
     {{--<script type="text/javascript">
         $(document).ready(function (){

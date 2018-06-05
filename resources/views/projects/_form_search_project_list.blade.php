@@ -1,6 +1,6 @@
 <section class="content-header">
     <div>
-        <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" id="btn-search">
             SEARCH
         </button>
         <button type="button" class="btn btn-default">
@@ -10,7 +10,7 @@
         <!-- Modal -->
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
-                <form method="get" role="form" id="form_search_employee"onsubmit="return validate();">
+                <form method="get" role="form" id="form_search_employee" onsubmit="return validate();">
                     <!-- Modal content-->
                     <input id="number_record_per_page" type="hidden" name="number_record_per_page"
                            value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
