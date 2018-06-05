@@ -170,9 +170,7 @@
                         <!-- The project -->
 
                         @include('vendors._list_project_vendor')
-                        @if(isset($param))
-                            {{  $processes->appends($param)->render('vendor.pagination.custom') }}
-                        @endif
+
                     </div>
                 </div>
             </div>
