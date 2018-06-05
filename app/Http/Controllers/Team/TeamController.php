@@ -118,12 +118,12 @@ class TeamController extends Controller
                 ->where('team_id', '=', Auth::user()->team_id)
                 ->where('roles.name', '<>', 'PO')
                 ->orderBy('employees.id', 'asc')->get();
-            $values = $poEmployee;
-            foreach ($values as $value) {
-                $onlyValue = $value['email'];
-                $nameEmployee = $value['name'];
-                $idEmployee = $value['id'];
-            }
+//            $values = $poEmployee;
+//            foreach ($values as $value) {
+//                $onlyValue = $value['email'];
+//                $nameEmployee = $value['name'];
+//                $idEmployee = $value['id'];
+//            }
             return view('teams.edit', compact('poEmployee','teamById', 'idUser', 'onlyValue', 'nameTeam', 'allEmployeeHasPOs', 'allEmployees', 'allEmployeeInTeams', 'idEmployee', 'nameEmployee', 'numberPoInRole', 'allRoleInTeam', 'allTeam'));
 
         }

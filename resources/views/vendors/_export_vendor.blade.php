@@ -5,6 +5,7 @@ $company = null;
 $role = null;
 $email = null;
 $status = -1;
+$page = 1;
 $arrays[] = request();
 /*if (!empty($arrays)){
     dd('aaa');
@@ -13,6 +14,9 @@ else{
     dd($arrays);
 }*/
 foreach ($arrays as $key => $value) {
+    if (!empty($value['page'])) {
+        $page = $value['page'];
+    }
     if (!empty($value['id'])) {
         $id = $value['id'];
     }
@@ -86,7 +90,8 @@ foreach ($arrays as $key => $value) {
 
 <button type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('vendor.msg_content.msg_download_vendor_list')}}')">
     <a id="export"
-       href="{{asset('/vendors/export').'?'.'id='.$id.'&name='.$name.'&company='.$company.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
+       href="{{asset('/vendors/export').'?'.'id='.$id.'&name='.$name.'&company='.$company.'&email='.$email.'&role='.$role.
+                '&email='.$email.'&status='.$status.'&page='.$page}}">
         <i class="fa fa-vcard"></i>
         <span id="contain-canvas" style="">
             <canvas id="my_canvas" width="16" height="16" style=""></canvas>
