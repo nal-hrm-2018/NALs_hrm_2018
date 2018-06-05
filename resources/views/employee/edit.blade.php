@@ -33,6 +33,7 @@
                 return confirm("Would you like to edit employee "+name+" (id = "+id+")");
             }
         </SCRIPT>
+        <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
           <div class="row">
             {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','onSubmit' => 'return confirmEmployee("Would you like to edit it?")'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -356,6 +357,7 @@
               @endif
             @endif
           </div>
+        <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
       </div>
       <!-- /.box-body -->
     </div>

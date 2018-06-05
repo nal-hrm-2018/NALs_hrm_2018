@@ -21,7 +21,9 @@
             <div class="box box-default">
                 <div class="box-body">
                     <div id="msg"></div>
+                    <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
                     @include('vendors._form_add_vendor')
+                    <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                     <script type="text/javascript"
                             src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                     <script>
