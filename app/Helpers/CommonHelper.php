@@ -171,3 +171,8 @@ function showListAvailableProcesses($available_processes)
 
     $string_total = "You can view suggest information of this employee : \n" + $string_available_processes;
 }
+
+function getInformationDataTable($pagination){
+    return "Showing ".$pagination->firstItem()." to ".$pagination->lastItem()." of ".$pagination->total()." entries";
+
+}

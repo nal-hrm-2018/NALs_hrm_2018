@@ -51,7 +51,7 @@ class ProjectController extends Controller
 
         $getAllStatusInStatusTable = Status::all();
 
-        $param = (Input::except('page'));
+        $param = (Input::except('page','is_employee'));
 
         $isEmployee = 1;
         $isVendor = 0;

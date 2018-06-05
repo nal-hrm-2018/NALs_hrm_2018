@@ -298,23 +298,22 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div>
-                                <div class="dataTables_length" id="project-list_length" style="float:right">
-                                    <label>{{trans('pagination.show.number_record_per_page')}}
-                                        {!! Form::select(
-                                            'select_length',
-                                            getArraySelectOption() ,
-                                            null ,
-                                            [
-                                            'id'=>'select_length',
-                                            'class' => 'form-control input-sm',
-                                            'aria-controls'=>"project-list"
-                                            ]
-                                            )
-                                         !!}
-                                    </label>
-                                </div>
+                                    <div class="dataTables_length" id="project-list_length" style="float:right">
+                                        <label>{{trans('pagination.show.number_record_per_page')}}
+                                            {!! Form::select(
+                                                'select_length',
+                                                getArraySelectOption() ,
+                                                null ,
+                                                [
+                                                'id'=>'select_length',
+                                                'class' => 'form-control input-sm',
+                                                'aria-controls'=>"project-list"
+                                                ]
+                                                )
+                                             !!}
+                                        </label>
+                                    </div>
                             </div>
-
                             <script>
                                 (function () {
                                     $('#select_length').change(function () {
@@ -392,9 +391,18 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            @if(isset($param))
-                                {{  $employees->appends($param)->render('vendor.pagination.custom') }}
-                            @endif
+                            <div class="row">
+                                @if($employees->hasPages())
+                                    <div class="col-sm-5">
+                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                            {{getInformationDataTable($employees)}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{  $employees->appends($param)->render('vendor.pagination.custom') }}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
