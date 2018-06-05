@@ -44,35 +44,35 @@
                             <div class="col-md-6">
                                 <!-- /.form-group -->
                                 <div class="form-group">
-                                    <label>Email Address</label>
+                                    <label>Email Address<strong style="color: red">(*)</strong></label>
                                     <input type="text" class="form-control" placeholder="Email Address" name="email"
                                            id="email" value="{!! old('email') !!}{{ isset($employee) ? $employee->email : null}}">
                                     <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Password</label>
+                                    <label>Password<strong style="color: red">(*)</strong></label>
                                     <input type="password" class="form-control" placeholder="Password" name="password"
                                            id="password" value="{!! old('password') !!}">
                                     <label id="lb_error_password" style="color: red; ">{{$errors->first('password')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Confirm password</label>
+                                    <label>Confirm password<strong style="color: red">(*)</strong></label>
                                     <input type="password" class="form-control" placeholder="Confirm password"
                                            name="confirm_confirmation" id="cfPass" value="{!! old('password') !!}">
                                     <label id="lb_error_password_confirm" style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label>Name<strong style="color: red">(*)</strong></label>
                                     <input type="text" class="form-control" placeholder="Name" name="name" id="name"
                                            value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
                                     <label id="lb_error_name" style="color: red; ">{{$errors->first('name')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Address</label>
+                                    <label>Address<strong style="color: red">(*)</strong></label>
                                     <input type="text" class="form-control" placeholder="Address" name="address"
                                            id="address"
                                            value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
@@ -80,7 +80,7 @@
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Mobile</label>
+                                    <label>Mobile<strong style="color: red">(*)</strong></label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-phone"></i>
@@ -93,7 +93,7 @@
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Gender</label>
+                                    <label>Gender<strong style="color: red">(*)</strong></label>
                                     <select id="gender" class="form-control select2" style="width: 100%;" name="gender">
                                         <option value="1"
                                         <?php
@@ -129,7 +129,7 @@
                                     <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label>Married</label>
+                                    <label>Married<strong style="color: red">(*)</strong></label>
                                     <select id="married" class="form-control select2" style="width: 100%;" name="marital_status">
                                         <option value="1"
                                         <?php
@@ -175,7 +175,7 @@
                                     <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label>Team</label>
+                                    <label>Team<strong style="color: red">(*)</strong></label>
                                     <select class="form-control select2" style="width: 100%;" name="team_id"
                                             id="team_id">
                                         <option value="">---Team selection---</option>
@@ -197,7 +197,7 @@
                                     <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label>Birthday</label>
+                                    <label>Birthday<strong style="color: red">(*)</strong></label>
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
@@ -211,7 +211,7 @@
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Position</label>
+                                    <label>Position<strong style="color: red">(*)</strong></label>
                                     <select id="position" class="form-control select2" style="width: 100%;" name="employee_type_id">
                                         <option value="">---Position selection---</option>
                                         <?php
@@ -232,7 +232,7 @@
                                     <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label>Role of team</label>
+                                    <label>Role of team<strong style="color: red">(*)</strong></label>
                                     <select id="role_team" class="form-control select2" style="width: 100%;" name="role_id">
                                         <option value="">---Role selection---</option>
                                         <?php
@@ -255,7 +255,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Start work date</label>
+                                            <label>Start work date<strong style="color: red">(*)</strong></label>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
@@ -272,7 +272,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>End work date</label>
+                                            <label>End work date<strong style="color: red">(*)</strong></label>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>

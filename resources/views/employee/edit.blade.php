@@ -51,7 +51,7 @@
             <div class="col-md-5">
               <!-- /.form-group -->
               <div class="form-group">
-                <label>Email Address</label>
+                <label>Email Address<strong style="color: red">(*)</strong></label>
                 <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
                   readonly="readonly"
                 @endif
@@ -61,19 +61,19 @@
               </div>
 
               <div class="form-group">
-                <label>Name</label>
+                <label>Name<strong style="color: red">(*)</strong></label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
                 <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
-                <label>Address</label>
+                <label>Address<strong style="color: red">(*)</strong></label>
                 <input type="text" class="form-control" placeholder="Address"  name="address" id="adress" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
                 <label id="lb_error_address" style="color: red;">{{$errors->first('address')}}</label>
                 <!-- /.input group -->
               </div>
               <div class="form-group">
-                <label>Mobile</label>
+                <label>Mobile<strong style="color: red">(*)</strong></label>
                 <div class="input-group">
                   <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
@@ -84,7 +84,7 @@
                 <!-- /.input group -->
               </div>
               <div class="form-group">
-                <label>Gender</label>
+                <label>Gender<strong style="color: red">(*)</strong></label>
                 <select class="form-control select2" style="width: 100%;" name="gender" id="gender">
                   <option value="1" id="gender_1" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 1) echo'selected'; ?>>Female</option>
                   <option value="2" id="gender_2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>Male</option>
@@ -93,7 +93,7 @@
                 <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
               </div>
               <div class="form-group">
-                <label>Married</label>
+                <label>Married<strong style="color: red">(*)</strong></label>
                 <select class="form-control select2" style="width: 100%;"  name="marital_status" id="marital_status">
                   <option value="1" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 1) echo'selected'; ?>>Single</option>
                   <option value="2" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 2) echo'selected'; ?>>Married</option>
@@ -103,7 +103,7 @@
                 <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
               </div>
               <div class="form-group">
-                <label>Team</label>
+                <label>Team<strong style="color: red">(*)</strong></label>
                 <select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">
                   <option value="" >---Team selection---</option>
                   <?php
@@ -119,7 +119,7 @@
                 <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
               </div>
               <div class="form-group">
-                <label>Birthday</label>
+                <label>Birthday<strong style="color: red">(*)</strong></label>
                 <div class="input-group date">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
@@ -130,7 +130,7 @@
                 <!-- /.input group -->
               </div>
               <div class="form-group">
-                <label>Position</label>
+                <label>Position<strong style="color: red">(*)</strong></label>
                 <select class="form-control select2" style="width: 100%;" name="employee_type_id" id="employee_type_id">
                   <option value="" >---Position selection---</option>
                   <?php
@@ -146,7 +146,7 @@
                 <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
               </div>
               <div class="form-group">
-                <label>Role of team</label>
+                <label>Role of team<strong style="color: red">(*)</strong></label>
                 <select class="form-control select2" style="width: 100%;" name="role_id" id="role_id">
                   <option value="" >---Role selection---</option>
                   <?php
@@ -164,7 +164,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Start work date</label>
+                    <label>Start work date<strong style="color: red">(*)</strong></label>
                     <div class="input-group date">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
@@ -176,7 +176,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>End work date</label>
+                    <label>End work date<strong style="color: red">(*)</strong></label>
                     <div class="input-group date">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
@@ -233,21 +233,21 @@
                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                   <div class="input-group margin">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn width-100">Old password</button>
+                                        <button type="button" class="btn width-130">Old password<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;&ensp;</button>
                                     </div>
                                     <input type="password" name="old_pass" id="old_pass" class="form-control" onchange="oldPass()">
                                   </div>
                                   <label style="color: red; margin-left: 130px;" id="errorOldPass" style="display: inline;"></label>
                                   <div class="input-group margin">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn width-100">New password</button>
+                                        <button type="button" class="btn width-130">New password<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;</button>
                                     </div>
                                     <input type="password" name="new_pass" id="new_pass" class="form-control"  onchange="newPass()">
                                   </div>
                                   <label style="color: red; margin-left: 130px;" id="errorNewPass"></label>
                                   <div class="input-group margin">
                                     <div class="input-group-btn">
-                                      <button type="button" class="btn width-100">Confirm password</button>
+                                      <button type="button" class="btn width-130">Confirm password<strong style="color: red">(*)</strong></button>
                                     </div>
                                     <input type="password" name="cf_pass" id="cf_pass" class="form-control" onchange="cfPass()">
                                   </div>
