@@ -187,9 +187,7 @@
                         <!-- The project -->
 
                         @include('employee._list_project_employee')
-                        @if(isset($param))
-                            {{  $processes->appends($param)->render('vendor.pagination.custom') }}
-                        @endif
+
                     </div>
                 </div>
             </div>
