@@ -52,7 +52,7 @@
                                                 {{ Form::text('id', old('id'),
                                                     ['class' => 'form-control',
                                                     'id' => 'employeeId',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
