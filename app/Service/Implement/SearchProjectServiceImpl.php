@@ -42,18 +42,18 @@ class SearchProjectServiceImpl implements SearchProjectService
             $number_form = $params['number_from'] * 1;
             $number_to = $params['number_to'] * 1;
 
-            $query->whereRaw('(select count(*) from processes where processes.project_id = projects.id) >='.$number_form.'')
-            ->whereRaw('(select count(*) from processes where processes.project_id = projects.id) <='.$number_to.'');
+            $query->whereRaw('(select count(distinct processes.employee_id) from processes where processes.project_id = projects.id and processes.delete_flag = 0) >='.$number_form.'')
+            ->whereRaw('(select count(distinct processes.employee_id) from processes where processes.project_id = projects.id and processes.delete_flag = 0) <='.$number_to.'');
         }
         else if ( !is_null($params['number_from']) ) {
             $number_form = $params['number_from'] * 1;
 
-            $query->whereRaw('(select count(*) from processes where processes.project_id = projects.id) >='.$number_form.'');
+            $query->whereRaw('(select count(distinct processes.employee_id) from processes where processes.project_id = projects.id and processes.delete_flag = 0) >='.$number_form.'');
         }
         else if (!is_null($params['number_to'])) {
             $number_to = $params['number_to'] * 1;
 
-            $query->whereRaw('(select count(*) from processes where processes.project_id = projects.id) <='.$number_to.'');
+            $query->whereRaw('(select count(distinct processes.employee_id) from processes where processes.project_id = projects.id and processes.delete_flag = 0) <='.$number_to.'');
 
         }
         /*
