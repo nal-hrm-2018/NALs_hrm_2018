@@ -49,7 +49,12 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Employee ID</button>
                                                 </div>
-                                                <input type="text" name="id" id="employeeId" class="form-control">
+                                                {{ Form::text('id', old('id'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'employeeId',
+                                                    'autofocus' => true,
+                                                    ])
+                                                }}
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
@@ -105,16 +110,6 @@
                                                     <button type="button" class="btn width-100">Role</button>
                                                 </div>
                                                 <select name="role" id="role_employee" class="form-control">
-                                                    {{--@if(!empty($_GET['role']))
-                                                        <option selected="selected" {{'hidden'}}  value="">
-                                                            {{$_GET['role']}}
-                                                        </option>
-                                                    @else
-                                                        <option selected="selected"
-                                                                value="">
-                                                            {{  trans('employee.drop_box.placeholder-default') }}
-                                                            @endif
-                                                        </option>--}}
                                                     <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                     </option>
@@ -213,7 +208,7 @@
                     <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
                 <?php
-                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
+                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null; $page=1;
                 $arrays[] = $_GET;
                 foreach ($arrays as $key => $value) {
                     if (!empty($value['id'])) {
@@ -233,6 +228,9 @@
                     }
                     if (!empty($value['status'])) {
                         $status = $value['status'];
+                    }
+                    if (!empty($value['page'])) {
+                        $page = $value['page'];
                     }
                 }
                 ?>
@@ -278,7 +276,7 @@
                 </SCRIPT>
                 <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                     <a id="export"
-                       href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
+                       href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status.'&page='.$page}}">
                         <i class="fa fa-vcard"></i>
                         <span id="contain-canvas" style="">
                             <canvas id="my_canvas" width="16" height="16" style=""></canvas>
