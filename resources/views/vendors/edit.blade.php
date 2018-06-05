@@ -32,7 +32,7 @@
                 return confirm("Would you like to edit vendor "+name+" (id = "+id+")");
             }
         </SCRIPT>
-
+        <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
           <div class="row">
             {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmVendor("")'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -341,7 +341,8 @@
                 @endif
               @endif
             <!-- /.col -->
-          </div>        
+          </div>
+        <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
         <!-- /.row -->
       </div>
       <!-- /.box-body -->

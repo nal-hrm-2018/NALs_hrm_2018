@@ -17,22 +17,6 @@
     @include('admin.module.templates.header')
     @include('admin.module.templates.left_bar')
     <script>
-        // jQuery(document).ready(function($) {
-        //
-        //     if (window.history && window.history.pushState) {
-        //
-        //         // window.history.pushState('forward', null, './#forward');
-        //         history.pushState("back", null, null);
-        //
-        //         $(window).on('popstate', function() {
-        //             $('#xxx').val(1);
-        //             alert('Back button was pressed.');
-        //             window.history.back();
-        //
-        //         });
-        //
-        //     }
-        // });
         document.addEventListener('DOMContentLoaded', function () {
             var ibackbutton = document.getElementById("backbuttonstate");
             var html = "";

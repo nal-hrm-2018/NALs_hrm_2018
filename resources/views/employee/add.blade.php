@@ -25,6 +25,7 @@
                             return confirm($msg);
                         }
                     </SCRIPT>
+                    <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                     <form action="{{asset('employee')}}" method="post" class="form-horizontal"
                           onSubmit="return confirmAction('Would you like to add it?')"
                           onreset="return confirmAction('Do you want to reset?')">
@@ -306,6 +307,7 @@
                             </div>
                         </div>
                     </form>
+                    <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
                     <script type="text/javascript"
                             src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                     <script>

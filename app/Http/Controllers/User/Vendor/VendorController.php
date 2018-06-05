@@ -121,7 +121,7 @@ class VendorController extends Controller
 
         $processes->setPath('');
 
-        $param = (Input::except('page'));
+        $param = (Input::except(['page','is_employee']));
 
         if ($request->get('number_record_per_page')) {
             $active = 'project';

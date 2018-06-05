@@ -55,7 +55,7 @@ class EmployeeController extends Controller
         }
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
         $employees->setPath('');
-        $param = (Input::except('page'));
+        $param = (Input::except(['page','is_employee']));
         return view('employee.list', compact('employees','status', 'roles', 'teams', 'param'));
     }
 
@@ -135,7 +135,7 @@ class EmployeeController extends Controller
 
         $processes->setPath('');
 
-        $param = (Input::except('page'));
+        $param = (Input::except(['page','is_employee']));
 
         //set employee info
         $employee = Employee::where('delete_flag', 0)->where('is_employee', '1')->find($id);

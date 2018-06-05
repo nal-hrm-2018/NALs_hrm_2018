@@ -51,12 +51,13 @@ class ProjectController extends Controller
 
         $getAllStatusInStatusTable = Status::all();
 
-        $param = (Input::except('page'));
+        $param = (Input::except('page','is_employee'));
 
         $isEmployee = 1;
         $isVendor = 0;
         return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable', 'isEmployee', 'isVendor'));
-
+//        $project = Project::where('id', '=', 'THB2081')->first();
+//        echo $project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id');
     }
 
     public function checkProcessesAjax(Request $request)

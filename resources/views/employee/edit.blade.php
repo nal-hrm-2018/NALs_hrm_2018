@@ -28,11 +28,12 @@
         </div>
         <SCRIPT LANGUAGE="JavaScript">
             function confirmEmployee($msg) {
-                name = $('#name').val();
-                id = $('#id_employee').val();
+                var name = $('#name').val();
+                 var id = $('#id_employee').val();
                 return confirm("Would you like to edit employee "+name+" (id = "+id+")");
             }
         </SCRIPT>
+        <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
           <div class="row">
             {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','onSubmit' => 'return confirmEmployee("Would you like to edit it?")'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -205,8 +206,7 @@
             {{ Form::close() }}
             @if(isset($objEmployee))
                 @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
-                  <br />                  
-                  <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" style="margin-top: 5px;">
+                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" style="margin-top:1.75em;">
                     EDIT PASSWORD
                   </button>
                   <br />
@@ -356,6 +356,7 @@
               @endif
             @endif
           </div>
+        <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
       </div>
       <!-- /.box-body -->
     </div>

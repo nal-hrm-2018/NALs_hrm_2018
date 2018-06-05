@@ -10,7 +10,7 @@
                 {{ Form::text('project_name', old('project_name'),
                     ['class' => 'form-control',
                     'id' => 'project_name',
-                    'autofocus' => true,
+                    'autofocus' => false,
                     ])
                 }}
             </div>
@@ -55,7 +55,7 @@
                 {{ Form::date('start_date', '',
                    ['class' => 'form-control',
                     'id' => 'start_date',
-                    'autofocus' => true
+                    'autofocus' => false
                     ])
                 }}
             </div>
@@ -66,7 +66,7 @@
                 {{ Form::date('end_date', '',
                     ['class' => 'form-control',
                     'id' => 'end_date',
-                    'autofocus' => true,
+                    'autofocus' => false,
                     ])
                 }}
             </div>
