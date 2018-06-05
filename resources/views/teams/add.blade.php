@@ -33,7 +33,7 @@
                         <!-- /.col -->
                         <div class="col-md-7">
                             <div class="form-group">
-                                <label>Team name</label>
+                                <label>Team name<strong style="color: red">(*)</strong></label>
                             {{ Form::text('team_name', old('team_name'),
                               ['class' => 'form-control width80',
                               'id' => 'team_name_id',
@@ -176,7 +176,7 @@
                                     "<td id=\"teamEdit_" + members[i] + "\">" + $teamEdit + "</td>" +
                                     "<td id=\"roleEdit_" + members[i] + "\">" + $roleEdit + "</td>" +
                                     "<td id=\"nameEdit_" + members[i] + "\">" + $("#member_" + members[i]).text() + "</td>" +
-                                    "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ")\"></i></td></tr>";
+                                    "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + members[i] + ")\"></i></td></tr>";
                             }
                             listChoose = "";
                             for (i = 0; i < members.length; i++) {
@@ -258,7 +258,7 @@
                                             "<td>"+$listEmployeeTeam[$i]+"</td>"+
                                             "<td><span class=\""+ $classBtr +"\">"+$listEmployeeRole[$i]+"</span></td>"+
                                             "<td>" + $listEmployeeName[$i]+ "</td>"+
-                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i]+")\"></i></td></tr>";                              
+                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + $listEmployeeID[$i]+")\"></i></td></tr>";                              
 
                                 }
 
@@ -284,7 +284,7 @@
                     }
                 </script>
                 <script type="text/javascript">
-                    function removeEmployee($id) {
+                    function removeEmployeeTeam($id) {
                         $('tr').remove('#show_' + $id);
                         $('input').remove('.input_' + $id);
                         $listEmployeeName.splice($listEmployeeID.indexOf("" + $id), 1);

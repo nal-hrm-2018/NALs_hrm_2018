@@ -45,10 +45,10 @@ class ValidEndDateProcess implements Rule
         if (empty($this->estimate_start_date_project) || empty($this->estimate_end_date_project)) {
             return false;
         }
-//        if (!empty($this->real_end_date_project) && !empty($this->real_start_date_project)) {
-//            $this->message = 'Cant add process because The end date project has defined at '.date('d/m/Y',strtotime($this->real_end_date_project));
-//            return false;
-//        }
+       if (!empty($this->real_end_date_project) && !empty($this->real_start_date_project)) {
+           $this->message = 'Cant add process because The end date project has defined at '.date('d/m/Y',strtotime($this->real_end_date_project));
+           return false;
+       }
      
         $end_date_process = Carbon::parse($end_date_process);
         $start_date_process = Carbon::parse($this->start_date_process);

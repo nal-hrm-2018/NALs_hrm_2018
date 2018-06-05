@@ -29,8 +29,13 @@ class ProjectEditRequest extends CommonRequest
                     [
                         'bail',
                         'nullable',
+<<<<<<< HEAD
+                       new ValidEndDateProject(request()->get('start_date_project')),
+                       'after_or_equal:start_date_project',
+=======
                         new ValidEndDateProject(request()->get('start_date_project')),
                         'after_or_equal:start_date_project',
+>>>>>>> f788658ee7295912267bca97fdffbd03b55fae60
                     ],
                 'estimate_start_date' =>
                     [
