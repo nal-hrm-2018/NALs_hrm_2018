@@ -28,8 +28,8 @@
         </div>
         <SCRIPT LANGUAGE="JavaScript">
             function confirmEmployee($msg) {
-                name = $('#name').val();
-                id = $('#id_employee').val();
+                var name = $('#name').val();
+                 var id = $('#id_employee').val();
                 return confirm("Would you like to edit employee "+name+" (id = "+id+")");
             }
         </SCRIPT>
@@ -206,8 +206,7 @@
             {{ Form::close() }}
             @if(isset($objEmployee))
                 @if(\Illuminate\Support\Facades\Auth::user()->email == $objEmployee["email"])
-                  <br />                  
-                  <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" style="margin-top: 5px;">
+                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" style="margin-top:1.75em;">
                     EDIT PASSWORD
                   </button>
                   <br />
@@ -234,21 +233,21 @@
                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                   <div class="input-group margin">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn width-100">Old password</button>
+                                        <button type="button" class="btn" style="width: 130px">Old password</button>
                                     </div>
                                     <input type="password" name="old_pass" id="old_pass" class="form-control" onchange="oldPass()">
                                   </div>
                                   <label style="color: red; margin-left: 130px;" id="errorOldPass" style="display: inline;"></label>
                                   <div class="input-group margin">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn width-100">New password</button>
+                                        <button type="button" class="btn" style="width: 130px">New password</button>
                                     </div>
                                     <input type="password" name="new_pass" id="new_pass" class="form-control"  onchange="newPass()">
                                   </div>
                                   <label style="color: red; margin-left: 130px;" id="errorNewPass"></label>
                                   <div class="input-group margin">
                                     <div class="input-group-btn">
-                                      <button type="button" class="btn width-100">Confirm password</button>
+                                      <button type="button" class="btn" style="width: 130px">Confirm password</button>
                                     </div>
                                     <input type="password" name="cf_pass" id="cf_pass" class="form-control" onchange="cfPass()">
                                   </div>

@@ -272,7 +272,8 @@
 
         $('#choose-month').change(function () {
             var month = $('#choose-month').val();
-            var monthFormat = new Date(month);
+            // var monthFormat = new Date(month);
+            var arr = month.split("-", 2);
             $.ajax({
                 type: "POST",
                 url: '{{ url('/teams/chart') }}',
@@ -301,7 +302,7 @@
                     showChart(bar_data);
                 }
             });
-            $('#current-month').html((monthFormat.getMonth() + 1) + '/' + monthFormat.getFullYear());
+            $('#current-month').html(arr[1] + "/" + arr[0]);
 
         });
 

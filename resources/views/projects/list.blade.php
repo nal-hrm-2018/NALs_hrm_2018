@@ -192,7 +192,7 @@
                                             ?>
                                         </td>
                                         <td class="text-center">
-                                            <span class="badge">{{isset($project->processes)?(sizeof($project->processes)!=0?sizeof($project->processes->unique('employee_id')):'-'):'-'}}</span>
+                                            <span class="badge">{{isset($project->processes)?(sizeof($project->processes)!=0?sizeof($project->processes->unique('employee_id')):'0'):'0'}}</span>
                                         </td>
                                         <td>
                                             {{isset($project->estimate_start_date)? $project->estimate_start_date:"-"}}
