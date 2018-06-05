@@ -57,7 +57,6 @@ class TeamController extends Controller
             session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
             return redirect(route('teams.index'));
         }
-        session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
         return back();
     }
 
