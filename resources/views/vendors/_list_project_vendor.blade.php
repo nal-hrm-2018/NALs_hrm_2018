@@ -78,6 +78,8 @@
                             echo "<span class='label label-warning'>". getProjectStatus($process->project) ."</span>";
                         } else if(getProjectStatus($process->project) == "complete"){
                             echo "<span class='label label-success'>". getProjectStatus($process->project) ."</span>";
+                        } else if(getProjectStatus($process->project) == "planning"){
+                            echo "<span class='label label-default'>". getProjectStatus($process->project) ."</span>";
                         }
                     } else {
                         echo "-";
