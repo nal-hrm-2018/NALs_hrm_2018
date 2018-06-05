@@ -160,7 +160,7 @@
                     <div class="tab-pane" id="project">
                         <div>
                             <button type="button" class="btn btn-info btn-default" data-toggle="modal"
-                                    data-target="#myModal">
+                                    data-target="#myModal" id="btn-search">
                                 {{ trans('common.button.search')  }}
                             </button>
 
@@ -309,5 +309,10 @@
                 }
             })
         }
+    </script>
+    <script>
+        $('#btn-search').click(function () {
+            $('#form_search_process').trigger("reset");
+        });
     </script>
 @endsection

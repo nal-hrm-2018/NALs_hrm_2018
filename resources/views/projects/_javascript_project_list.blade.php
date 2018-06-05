@@ -233,6 +233,11 @@
         });
     });
 </script>
+<script>
+    $('#btn-search').click(function () {
+        $('#form_search_employee').trigger("reset");
+    });
+</script>
 <style>
     th.project-date {
         width: 80px;
