@@ -59,32 +59,37 @@ class ChartServiceImpl extends CommonService implements ChartService
             //z
             if($powerAllEmployeeOnProject != 0){
                 $manPowerOnMonth = 0;
-                if(strtotime($currentEmployee->processes->where('project_id', $project->id)->first()->start_date) < strtotime(date('Y-m-d'))){
-                    //man power of current employee in this project
-                    $manPower = $currentEmployee->processes->where('project_id', $project->id)->first()->man_power;
-                    //start date of current employee in this project
-                    $currentEmployeeStartDate = $currentEmployee->processes->where('project_id', $project->id)->first()->start_date;
-                    //start date of current employee in this project
-                    $currentEmployeeEndDate = date('Y-m-d');
+//                $currentProcess = Process::where('employee_id', '=', $currentEmployee->id)->where('project_id', '=', $project->id)->first();
+                $currentProcess = $currentEmployee->processes->where('project_id', $project->id)->first();
+                if(isset($currentProcess)){
+                    if(strtotime($currentProcess->start_date) < strtotime(date('Y-m-d'))){
+                        //man power of current employee in this project
+                        $manPower = $currentProcess->man_power;
+                        //start date of current employee in this project
+                        $currentEmployeeStartDate = $currentProcess->start_date;
+                        //start date of current employee in this project
+                        $currentEmployeeEndDate = date('Y-m-d');
 
-                    if(isset($currentEmployee->processes->where('project_id', $project->id)->first()->end_date)) {
-                        $currentEmployeeEndDate = $currentEmployee->processes->where('project_id', $project->id)->first()->end_date;
-                    }
+                        if(isset($currentProcess->end_date)) {
+                            $currentEmployeeEndDate = $currentProcess->end_date;
+                        }
 
-                    if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&
-                        strtotime($currentMonth) != strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))) {
-                        $manPowerOnMonth = $this->calculateTime(date('Y-m-t', strtotime($currentEmployeeStartDate)), $currentEmployeeStartDate) * $manPower;
-                    } else if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate))) &&
-                        strtotime($currentMonth) != strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))) {
-                        $manPowerOnMonth = $this->calculateTime($currentEmployeeEndDate, $currentMonth) * $manPower;
-                    } else if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&
-                        strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))){
-                        $manPowerOnMonth = $this->calculateTime($currentEmployeeEndDate, $currentEmployeeStartDate) * $manPower;
-                    } else if(strtotime($currentMonth) > strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))
-                        && strtotime($currentMonth) < strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))){
-                        $manPowerOnMonth = 30 * $manPower;
+                        if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&
+                            strtotime($currentMonth) != strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))) {
+                            $manPowerOnMonth = $this->calculateTime(date('Y-m-t', strtotime($currentEmployeeStartDate)), $currentEmployeeStartDate) * $manPower;
+                        } else if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate))) &&
+                            strtotime($currentMonth) != strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))) {
+                            $manPowerOnMonth = $this->calculateTime($currentEmployeeEndDate, $currentMonth) * $manPower;
+                        } else if(strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate))) &&
+                            strtotime($currentMonth) == strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))){
+                            $manPowerOnMonth = $this->calculateTime($currentEmployeeEndDate, $currentEmployeeStartDate) * $manPower;
+                        } else if(strtotime($currentMonth) > strtotime(date('Y-m-01', strtotime($currentEmployeeStartDate)))
+                            && strtotime($currentMonth) < strtotime(date('Y-m-01', strtotime($currentEmployeeEndDate)))){
+                            $manPowerOnMonth = 30 * $manPower;
+                        }
                     }
                 }
+
                 $total = ($income / $powerAllEmployeeOnProject) * $manPowerOnMonth;
             }
         }
