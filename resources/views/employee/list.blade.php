@@ -59,7 +59,7 @@
                                                 {{ Form::text('name', old('name'),
                                                     ['class' => 'form-control',
                                                     'id' => 'nameEmployee',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -96,7 +96,7 @@
                                                 {{ Form::text('email', old('email'),
                                                     ['class' => 'form-control',
                                                     'id' => 'emailEmployee',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>

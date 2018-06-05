@@ -31,7 +31,7 @@
                                         {{ Form::text('name', old('name'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_name',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                     </div>
@@ -45,7 +45,7 @@
                                         {{ Form::text('po_name', old('po_name'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_po_name',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                     </div>
@@ -61,7 +61,7 @@
                                                 {{ Form::number('number_from', old('number_from'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_number_from',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -71,7 +71,7 @@
                                                 {{ Form::number('number_to', old('number_to'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_number_to',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -87,7 +87,7 @@
                                         {{ Form::text('name_member', old('name_member'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_name_member',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                     </div>
@@ -110,7 +110,7 @@
                                                 {{ Form::date('project_date_from', old('project_date_from'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_date_from',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -120,7 +120,7 @@
                                                 {{ Form::date('project_date_to', old('project_date_to'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_date_to',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -138,7 +138,7 @@
                                                 {{ Form::date('project_date_real_from', old('project_date_real_from'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_date_real_from',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -148,7 +148,7 @@
                                                 {{ Form::date('project_date_real_to', old('project_date_real_to'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_date_real_to',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
