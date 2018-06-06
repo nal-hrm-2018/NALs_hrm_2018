@@ -133,13 +133,9 @@ class TeamController extends Controller
         if (!isset($team)) {
             return abort(404);
         }
-
-        $listEmployee = Employee::select('employees.id', 'employees.name', 'teams.name as team', 'roles.name as role')
-            ->join('teams', 'teams.id', '=', 'employees.team_id')
-            ->join('roles', 'roles.id', '=', 'employees.role_id')
-            ->where('employees.delete_flag', '0')
-            ->orderBy('employees.id', 'asc')->get();
-
+        $listEmployee = Employee::query()
+            ->with(['team', 'role'])
+            ->where('delete_flag', 0)->get();
         $listEmployeeOfTeam = Employee::select('employees.id', 'employees.name', 'teams.name as team', 'roles.name as role')
             ->join('teams', 'teams.id', '=', 'employees.team_id')
             ->join('roles', 'roles.id', '=', 'employees.role_id')
