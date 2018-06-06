@@ -35,7 +35,7 @@
                             <div class="form-group">
                                 <label>Team name<strong style="color: red">(*)</strong></label>
                             {{ Form::text('team_name', old('team_name'),
-                              ['class' => 'form-control width80',
+                              ['class' => 'form-control width78',
                               'id' => 'team_name_id',
                               'autofocus' => true,
                               'placeholder'=>'Team name',
@@ -320,10 +320,14 @@
     <!-- /.box -->
     </section>
     <!-- /.content -->
-    </div>
+    {{--</div>--}}
     <style type="text/css">
         .width80 {
             width: 80%;
+        }
+
+        .width78 {
+            width: 78%;
         }
 
         .buttonAdd {
