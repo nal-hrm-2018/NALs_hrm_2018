@@ -163,7 +163,10 @@ class ProjectController extends Controller
             $project = Project::where('id', $id)->where('delete_flag', 0)->first();
             $project->delete_flag = 1;
             $project->save();
-
+            foreach ($project->processes as $process) {
+                $process->delete_flag = 1;
+                $process->save();
+            }
             return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
         }
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
