@@ -3,6 +3,11 @@ return [
 
     'paginate' => 20,
 
+    'work_status'=>[
+        'active'=>0,
+        'inactive'=>1
+    ],
+
     'project_status'=>[
         'kick_off'=> 'kick off',
         'pending'=>'pending',
