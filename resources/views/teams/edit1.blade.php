@@ -186,7 +186,7 @@
                                                 <td>
                                                     <a class="btn-employee-remove" style="margin-left: 25px;">
                                                         <i class="fa fa-remove"
-                                                       onclick='removeEmployeeTeam({{$obj->id}} , "{{$obj->name}}") '></i>
+                                                       onclick='removeEmployeeTeam({{$obj->id}}) '></i>
                                                    </a>
                                                 </td>
                                             </tr>
@@ -228,8 +228,8 @@
                     @foreach($listEmployeeOfTeam as $obj)
                         $listEmployeeID.push({{$obj->id}});
                         $listEmployeeName.push('{{$obj->name}}');
-                        $listEmployeeTeam.push('{{isset($obj->team)?$obj->team:'---'}}');
-                        $listEmployeeRole.push('{{isset($obj->role)?$obj->role:'---'}}');
+                        $listEmployeeTeam.push('{{isset($obj->team)?$obj->team:'-'}}');
+                        $listEmployeeRole.push('{{isset($obj->role)?$obj->role:'-'}}');
                         
                         $('#member_{{$obj->id}}').prop('disabled', true);
                         $('#po_{{$obj->id}}').prop('disabled', true);
@@ -261,8 +261,8 @@
                                 if ({{ $obj -> id }} == $listEmployeeID[$listEmployeeID.length - 1]
                             )
                                 {
-                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($obj->team)?$obj->team:'-'}}';
-                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($obj->role)?$obj->role:'-'}}';
+                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($obj->team)?$obj->team->name:'-'}}';
+                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($obj->role)?$obj->role->name:'-'}}';
                                 }
                                 @endforeach
 
