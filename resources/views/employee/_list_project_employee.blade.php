@@ -78,6 +78,8 @@
                             echo "<span class='label label-warning'>". getProjectStatus($process->project) ."</span>";
                         } else if(getProjectStatus($process->project) == "complete"){
                             echo "<span class='label label-success'>". getProjectStatus($process->project) ."</span>";
+                        } else if(getProjectStatus($process->project) == "planning"){
+                            echo "<span class='label label-default'>". getProjectStatus($process->project) ."</span>";
                         }
                     } else {
                         echo "-";
@@ -89,4 +91,14 @@
         @endforeach
         </tbody>
     </table>
+    @if($processes->hasPages())
+        <div class="col-sm-5">
+            <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                {{getInformationDataTable($processes)}}
+            </div>
+        </div>
+        <div class="col-sm-7">
+            {{  $processes->appends($param)->render('vendor.pagination.custom') }}
+        </div>
+    @endif
 </div>

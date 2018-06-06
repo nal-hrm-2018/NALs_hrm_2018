@@ -26,7 +26,7 @@
 
         <section class="content-header">
             <div>
-                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" id="btn-search">
                     SEARCH
                 </button>
 
@@ -49,7 +49,12 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn width-100">Employee ID</button>
                                                 </div>
-                                                <input type="text" name="id" id="employeeId" class="form-control">
+                                                {{ Form::text('id', old('id'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'employeeId',
+                                                    'autofocus' => false,
+                                                    ])
+                                                }}
                                             </div>
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
@@ -59,7 +64,7 @@
                                                 {{ Form::text('name', old('name'),
                                                     ['class' => 'form-control',
                                                     'id' => 'nameEmployee',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -96,7 +101,7 @@
                                                 {{ Form::text('email', old('email'),
                                                     ['class' => 'form-control',
                                                     'id' => 'emailEmployee',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -105,16 +110,6 @@
                                                     <button type="button" class="btn width-100">Role</button>
                                                 </div>
                                                 <select name="role" id="role_employee" class="form-control">
-                                                    {{--@if(!empty($_GET['role']))
-                                                        <option selected="selected" {{'hidden'}}  value="">
-                                                            {{$_GET['role']}}
-                                                        </option>
-                                                    @else
-                                                        <option selected="selected"
-                                                                value="">
-                                                            {{  trans('employee.drop_box.placeholder-default') }}
-                                                            @endif
-                                                        </option>--}}
                                                     <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                     </option>
@@ -163,7 +158,7 @@
                 <button type="button" class="btn btn-default">
                     <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
                 </button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
                     <a><i class="fa fa-users"></i> IMPORT</a>
                 </button>
                 <div id="import" class="modal fade" role="dialog">
@@ -182,12 +177,12 @@
                                             <div class="input-group-btn">
                                                 <button type="button" class="btn width-100">Select file csv</button>
                                             </div>
-                                            <input type="file" id="myfile" name="myFile" class="form-control" >
+                                            <input type="file" id="myfile" name="myFile" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer center">
-                                    <button type="submit" id="searchListEmployee" id="i_submit" class="btn btn-primary"><span
+                                    <button type="submit" id="i_submit" class="btn btn-primary"><span
                                                 class="glyphicon glyphicon-upload"></span>
                                         IMPORT
                                     </button>
@@ -195,11 +190,15 @@
                             </div>
                         </form>
                         <script type="text/javascript">
-                            $('#myfile').bind('change', function() {
+                            $('#myfile').bind('change', function(e) {
                                 if(this.files[0].size > 5242880){
                                     alert("The selected file is too large. Maximum size is 5MB.");
                                     document.getElementById('myfile').value = "";
-                                }    
+                                }
+                                var value = $('#myfile')[0].files[0];
+                                if(value != null){
+                                    $('#i_submit').removeClass('disabled');
+                                }
                             });
                         </script>
                     </div>
@@ -209,7 +208,7 @@
                     <a href="/download-template"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
                 </button>
                 <?php
-                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null;
+                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null; $page=1;
                 $arrays[] = $_GET;
                 foreach ($arrays as $key => $value) {
                     if (!empty($value['id'])) {
@@ -229,6 +228,9 @@
                     }
                     if (!empty($value['status'])) {
                         $status = $value['status'];
+                    }
+                    if (!empty($value['page'])) {
+                        $page = $value['page'];
                     }
                 }
                 ?>
@@ -274,7 +276,7 @@
                 </SCRIPT>
                 <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                     <a id="export"
-                       href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status}}">
+                       href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status.'&page='.$page}}">
                         <i class="fa fa-vcard"></i>
                         <span id="contain-canvas" style="">
                             <canvas id="my_canvas" width="16" height="16" style=""></canvas>
@@ -296,23 +298,22 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div>
-                                <div class="dataTables_length" id="project-list_length" style="float:right">
-                                    <label>{{trans('pagination.show.number_record_per_page')}}
-                                        {!! Form::select(
-                                            'select_length',
-                                            getArraySelectOption() ,
-                                            null ,
-                                            [
-                                            'id'=>'select_length',
-                                            'class' => 'form-control input-sm',
-                                            'aria-controls'=>"project-list"
-                                            ]
-                                            )
-                                         !!}
-                                    </label>
-                                </div>
+                                    <div class="dataTables_length" id="project-list_length" style="float:right">
+                                        <label>{{trans('pagination.show.number_record_per_page')}}
+                                            {!! Form::select(
+                                                'select_length',
+                                                getArraySelectOption() ,
+                                                null ,
+                                                [
+                                                'id'=>'select_length',
+                                                'class' => 'form-control input-sm',
+                                                'aria-controls'=>"project-list"
+                                                ]
+                                                )
+                                             !!}
+                                        </label>
+                                    </div>
                             </div>
-
                             <script>
                                 (function () {
                                     $('#select_length').change(function () {
@@ -361,9 +362,13 @@
                                         <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">
                                                 @if($employee->work_status == 0)
-                                                    <span class="label label-primary">Active</span>
+                                                    @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
+                                                        <span class="label label-primary">Active</span>
+                                                    @else
+                                                        <span class="label label-danger">Expired</span>
+                                                    @endif
                                                 @else
-                                                    <span class="label label-danger">Inactive</span>
+                                                    <span class="label label-default">Quited</span>
                                                 @endif
                                             </p>
                                         </td>
@@ -386,9 +391,18 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            @if(isset($param))
-                                {{  $employees->appends($param)->render('vendor.pagination.custom') }}
-                            @endif
+                            <div class="row">
+                                @if($employees->hasPages())
+                                    <div class="col-sm-5">
+                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                            {{getInformationDataTable($employees)}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{  $employees->appends($param)->render('vendor.pagination.custom') }}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -504,6 +518,20 @@
                 $("#status").val('').change();
             });
         });
+    </script>
+    <script>
+        $('#btn-search').click(function (e) {
+            $('#form_search_employee').trigger("reset");
+        });
+    </script>
+    <script>
+        $('#btn-import').click(function (e) {
+            var value = $('#myfile')[0].files[0];
+            if(value == null){
+                $('#i_submit').addClass('disabled');
+            }
+        });
+
     </script>
     {{--<script type="text/javascript">
         $(document).ready(function (){

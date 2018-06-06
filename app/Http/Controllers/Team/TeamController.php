@@ -57,7 +57,6 @@ class TeamController extends Controller
             session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
             return redirect(route('teams.index'));
         }
-        session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
         return back();
     }
 
@@ -74,7 +73,7 @@ class TeamController extends Controller
         return view('teams.view', compact('member'));
     }
 
-    public function edit($id)
+    /*public function edit($id)
     {
         $team = Team::where('delete_flag', 0)->find($id);
         if (!isset($team)) {
@@ -118,15 +117,40 @@ class TeamController extends Controller
                 ->where('team_id', '=', Auth::user()->team_id)
                 ->where('roles.name', '<>', 'PO')
                 ->orderBy('employees.id', 'asc')->get();
-            $values = $poEmployee;
-            foreach ($values as $value) {
-                $onlyValue = $value['email'];
-                $nameEmployee = $value['name'];
-                $idEmployee = $value['id'];
-            }
+//            $values = $poEmployee;
+//            foreach ($values as $value) {
+//                $onlyValue = $value['email'];
+//                $nameEmployee = $value['name'];
+//                $idEmployee = $value['id'];
+//            }
             return view('teams.edit', compact('poEmployee','teamById', 'idUser', 'onlyValue', 'nameTeam', 'allEmployeeHasPOs', 'allEmployees', 'allEmployeeInTeams', 'idEmployee', 'nameEmployee', 'numberPoInRole', 'allRoleInTeam', 'allTeam'));
 
         }
+    }*/
+    public function edit($id)
+    {
+        $team = Team::where('delete_flag', 0)->find($id);
+        if (!isset($team)) {
+            return abort(404);
+        }
+        $listEmployee = Employee::query()
+            ->with(['team', 'role'])
+            ->where('delete_flag', 0)->get();
+        $listEmployeeOfTeam = Employee::select('employees.id', 'employees.name', 'teams.name as team', 'roles.name as role')
+            ->join('teams', 'teams.id', '=', 'employees.team_id')
+            ->join('roles', 'roles.id', '=', 'employees.role_id')
+            ->where('employees.team_id', $id)
+            ->where('roles.name','<>', 'PO')
+            ->where('employees.delete_flag', '0')
+            ->orderBy('employees.id', 'asc')->get();
+        $poOfteam = Employee::select('employees.id', 'employees.name')
+            ->join('roles', 'roles.id', '=', 'employees.role_id')
+            ->where('employees.team_id', $id)
+            ->where('roles.name', 'PO')
+            ->where('employees.delete_flag', '0')
+            ->orderBy('employees.id', 'asc')->first();
+        return view('teams.edit1', compact('listEmployee','listEmployeeOfTeam', 'team', 'poOfteam'));
+
     }
 
     /**
@@ -138,10 +162,10 @@ class TeamController extends Controller
     public function update(TeamEditRequest $request, $id)
     {
         if ($this->teamService->updateTeam($request, $id)) {
-            session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
+            session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_edit_success'));
             return redirect('teams');
         } else {
-            session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
+            session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_edit_fail'));
             return back();
         }
     }
