@@ -286,7 +286,7 @@
             $('#member-list').dataTable({
                 'paging': false,
                 'lengthChange': false,
-                'searching': true,
+                'searching': false,
                 'ordering': true,
                 'info': false,
                 'autoWidth': false,

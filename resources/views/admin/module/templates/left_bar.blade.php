@@ -59,9 +59,11 @@
         </li>
                 
       </ul>
+      <a href="javascript:history.back()" class="cd-back cd-is-visible">Back</a>
     </section>
     <!-- /.sidebar -->
   </aside>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     var url = window.location.href;

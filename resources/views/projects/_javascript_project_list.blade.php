@@ -50,6 +50,7 @@
 <script type="text/javascript">
     $(function () {
         $("#btn_reset_edit_password").on("click", function () {
+            $("#project_id").val('');
             $("#project_name").val('');
             $("#project_po_name").val('');
             $('#project_number_from').val('');
@@ -166,34 +167,34 @@
         <?php
             $allProjects = $projects;
             foreach ($allProjects as $project) {
-                foreach ($project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id') as $all_process) {
-//                    $classBtr = '';
-//                    if (isset($all_process->role)) {
-//                        if ($all_process->role->name == 'PO') {
-//                            $classBtr = 'label label-primary';
-//                        } else if ($all_process->role->name == 'Dev') {
-//                            $classBtr = 'label label-success';
-//                        } else if ($all_process->role->name  == 'BA') {
-//                            $classBtr = 'label label-info';
-//                        } else if ($all_process->role->name  == 'ScrumMaster') {
-//                            $classBtr = 'label label-warning';
-//                        }
-//                        if ($all_process->employee->is_employee == $isEmployee ){
-//                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
-//                        }
-//                        else{
-//                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
-//                        }
-//
-//                    } else {
+                foreach ($project->processes->where('role_id', '<>', $poRole->id)->sortByDesc('start_date')->unique('employee_id') as $all_process) {
+                    $classBtr = '';
+                    if (isset($all_process->role)) {
+                        if ($all_process->role->name == 'PO') {
+                            $classBtr = 'label label-primary';
+                        } else if ($all_process->role->name == 'Dev') {
+                            $classBtr = 'label label-success';
+                        } else if ($all_process->role->name  == 'BA') {
+                            $classBtr = 'label label-info';
+                        } else if ($all_process->role->name  == 'ScrumMaster') {
+                            $classBtr = 'label label-warning';
+                        }
                         if ($all_process->employee->is_employee == $isEmployee ){
-                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td></tr>";';
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
                         }
                         else{
-                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td></tr>";';
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
                         }
 
-//                    }
+                    } else {
+                        if ($all_process->employee->is_employee == $isEmployee ){
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td>-</td></tr>";';
+                        }
+                        else{
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td>-</td></tr>";';
+                        }
+
+                    }
                     /*echo
                         ' var html_' . $all_process->id .
                         '= "<tr><td>' . $all_process->employee->name .
@@ -202,7 +203,7 @@
             }
             ?>
                 @foreach($allProjects as $project)
-                @foreach($project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id') as $all_process)
+                @foreach($project->processes->where('role_id', '<>', $poRole->id)->sortByDesc('start_date')->unique('employee_id') as $all_process)
         if (id_team == "{{$project->id}}") {
             console.log({{$all_process->id}});
             $('#table-list-members').append(html_{{$all_process->id}}_{{$all_process->employee->id}});
