@@ -109,6 +109,8 @@ function getEstimateCost(date1, date2, man_power) {
 }
 
 function calculateEstimateCost() {
+    var delete_flag = $('.delete_flag');
+
     var manpowers = $('.man_power').map(function () {
         return $(this).text();
     });
@@ -120,7 +122,9 @@ function calculateEstimateCost() {
     });
     var total_cost = 0;
     for (var i = 0; i < manpowers.length; i++) {
-        total_cost = total_cost + getEstimateCost(end_date_processes[i], start_date_processes[i], manpowers[i]);
+        if($(delete_flag[i]).val()==='0'){
+            total_cost = total_cost + getEstimateCost(end_date_processes[i], start_date_processes[i], manpowers[i]);
+        }
     }
     total_cost = total_cost.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,") + " VND";
     return total_cost;

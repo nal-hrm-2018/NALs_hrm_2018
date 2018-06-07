@@ -51,7 +51,7 @@ class ProjectController extends Controller
 
         $getAllStatusInStatusTable = Status::all();
 
-        $param = (Input::except('page','is_employee'));
+        $param = (Input::except('page', 'is_employee'));
 
         $isEmployee = 1;
         $isVendor = 0;
@@ -84,11 +84,21 @@ class ProjectController extends Controller
         return view('projects.add', compact('roles', 'employees', 'manPowers', 'project_status'));
     }
 
-    public function store(ProjectAddRequest $request)
+    public function store(Request $request)
     {
-        $error_messages = checkValidProjectData();
-        if (!empty($error_messages)) {
-            session()->flash('error_messages', $error_messages);
+        // validate input project
+        $projectAddRequest = new ProjectAddRequest();
+        $validator = Validator::make(
+            $request->all(),
+            $projectAddRequest->rules(),
+            $projectAddRequest->messages()
+        );
+        if ($validator->fails()) {
+            session()->flash('processes', request()->get('processes'));
+            return back()->withInput()->withErrors($validator);
+        }
+        // validate input processes
+        if (!checkValidProjectData()) {
             session()->flash('processes', $request->get('processes'));
             return back()->withInput();
         }
@@ -104,21 +114,27 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::select('projects.*', 'statuses.name as status_name')
-                            ->join('statuses', 'projects.status_id', '=', 'statuses.id')
-                            ->where('delete_flag', 0)->find($id);
+            ->join('statuses', 'projects.status_id', '=', 'statuses.id')
+            ->where('delete_flag', 0)->find($id);
 
         if (!isset($project)) {
             return abort(404);
         }
-        $member = Employee::select('employees.id', 'employees.name','roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
+        $number_record_per_page = request()->get('number_record_per_page');
+        if (empty($number_record_per_page)) {
+            $number_record_per_page = config('settings.paginate');
+        }
+        $param = (Input::except(['page','is_employee']));
+        $member = Employee::select('employees.id', 'employees.name', 'roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
             ->join('processes', 'processes.employee_id', '=', 'employees.id')
             ->join('roles', 'processes.role_id', '=', 'roles.id')
             ->where([
                 ['processes.project_id', '=', $id],
                 ['processes.delete_flag', '=', 0]])
-            ->orderBy('processes.role_id', 'DESC')
-            ->get();
-        return view('projects.view', compact('member', 'project'));
+
+            ->orderByRaw('role_id DESC')
+            ->paginate($number_record_per_page);
+        return view('projects.view', compact('member', 'project','param'));
     }
 
     public function edit($id)
@@ -151,9 +167,7 @@ class ProjectController extends Controller
 
     public function update(ProjectEditRequest $request, $id)
     {
-        $error_messages = checkValidProjectData();
-        if (!empty($error_messages)) {
-            session()->flash('error_messages', $error_messages);
+        if (!checkValidProjectData()) {
             session()->flash('processes', $request->get('processes'));
             return back()->withInput();
         }
