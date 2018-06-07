@@ -19,16 +19,6 @@
         </div>
     </div>
 
-    <script>
-        (function () {
-            $('#select_length').change(function () {
-                $("#number_record_per_page").val($(this).val());
-                $('#form_search_process').submit()
-            });
-        })();
-
-    </script>
-
     <table id="project-list" class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -102,3 +92,45 @@
         </div>
     @endif
 </div>
+
+<script>
+    (function () {
+        $('#select_length').change(function () {
+            $("#number_record_per_page").val($(this).val());
+            $('#form_search_process').submit()
+        });
+    })();
+
+    $(document).ready(function (){
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+            "extract-date-pre": function (value) {
+                var date = $(value).text();
+                date = date.split('/');
+                return Date.parse(date[1] + '/' + date[0] + '/' + date[2])
+            },
+            "extract-date-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+            "extract-date-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+        $('#project-list').dataTable({
+            'paging': false,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': false,
+            'autoWidth': false,
+            'borderCollapse': 'collapse',
+            "aaSorting": [
+                [4, 'desc'],[5, 'desc']
+            ],
+            columnDefs: [{
+                type: 'extract-date',
+                targets: [4,5]
+            }
+            ]
+        });
+    });
+</script>

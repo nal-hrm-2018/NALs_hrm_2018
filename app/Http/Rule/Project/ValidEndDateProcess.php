@@ -22,13 +22,14 @@ class ValidEndDateProcess implements Rule
     private $start_date_process;
     private $message;
     private $projectService;
-
+    private $delete_flag;
     public function __construct(
         $estimate_start_date_project,
         $estimate_end_date_project,
         $real_start_date_project,
         $real_end_date_project,
-        $start_date_process
+        $start_date_process,
+        $delete_flag
     )
     {
         $this->projectService = app(ProjectService::class);
@@ -37,10 +38,15 @@ class ValidEndDateProcess implements Rule
         $this->real_start_date_project = $real_start_date_project;
         $this->real_end_date_project = $real_end_date_project;
         $this->start_date_process = $start_date_process;
+        $this->delete_flag=$delete_flag;
     }
 
     public function passes($attribute, $value)
     {
+        if(!is_null($this->delete_flag)&&$this->delete_flag!=='0')
+        {
+            return true;
+        }
         $end_date_process = $value;
         if (empty($this->estimate_start_date_project) || empty($this->estimate_end_date_project)) {
             return false;
