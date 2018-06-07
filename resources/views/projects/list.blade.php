@@ -195,16 +195,16 @@
                                             <span class="badge">{{isset($project->processes)?(sizeof($project->processes)!=0?sizeof($project->processes->unique('employee_id')):'0'):'0'}}</span>
                                         </td>
                                         <td>
-                                            {{isset($project->estimate_start_date)? $project->estimate_start_date:"-"}}
+                                            {{isset($project->estimate_start_date)? date('d/m/Y',strtotime($project->estimate_start_date)):"-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->estimate_end_date)? $project->estimate_end_date : "-"}}
+                                            {{isset($project->estimate_end_date)? date('d/m/Y',strtotime($project->estimate_end_date)) : "-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->start_date)? $project->start_date :"-"}}
+                                            {{isset($project->start_date)? date('d/m/Y',strtotime($project->start_date)):"-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->end_date)? $project->end_date : "-"}}
+                                            {{isset($project->end_date)? date('d/m/Y',strtotime($project->end_date)): "-"}}
                                         </td>
                                         <td>
                                             @if($project->status->name == 'pending')

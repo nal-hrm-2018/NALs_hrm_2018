@@ -2,12 +2,35 @@
 
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
 <script>
+
     (function () {
         $('#select_length').change(function () {
             $("#number_record_per_page").val($(this).val());
             $('#form_search_process').submit()
         });
     })();
+</script>
+<script>
+    $(document).ready(function (){
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, extract_date);
+        $('#project-list').dataTable({
+            'paging': false,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': false,
+            'autoWidth': false,
+            'borderCollapse': 'collapse',
+            "aaSorting": [
+                [6, 'DESC']
+            ],
+            columnDefs: [{
+                type: 'extract-date',
+                targets: [6,5]
+            }
+            ]
+        });
+    });
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -108,7 +131,7 @@
             var elementRemove = $(this).data('employee-id');
             var nameRemove = $(this).data('employee-name');
             console.log(elementRemove);
-            if (confirm('Do you want to delete employee has id: ' + elementRemove + '. Name: "' + nameRemove + '"?')) {
+            if (confirm('Do you want to delete project : ' + nameRemove + " ( id = "+elementRemove+" )")) {
                 $.ajax({
                     type: "DELETE",
                     url: '{{ url('/projects') }}' + '/' + elementRemove,
@@ -218,21 +241,7 @@
         @endforeach
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $('#project-list').DataTable({
-            'paging': false,
-            'lengthChange': false,
-            'searching': false,
-            'ordering': true,
-            'info': false,
-            'autoWidth': false,
-            'borderCollapse': 'collapse',
-            "aaSorting": [[6, 'DESC']]
-            //, [5, 'DESC']
-        });
-    });
-</script>
+
 <script>
     $('#btn-search').click(function () {
         $('#form_search_employee').trigger("reset");

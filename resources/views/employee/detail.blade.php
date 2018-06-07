@@ -207,16 +207,6 @@
     </script>
     <script>
         $(document).ready(function () {
-            $('#project-list').DataTable({
-                'paging': false,
-                'lengthChange': false,
-                'searching': false,
-                'ordering': true,
-                'info': false,
-                'autoWidth': false
-            });
-
-
             function sendRequestAjax(id, year) {
                 $.ajax({
                     type: "POST",
