@@ -63,16 +63,20 @@
                     </p>
 
                     <p>Status:
-                        @if($project->status_name == "Kick Off")
-                            <span class="label label-primary">Kick Off</span>
-                        @elseif($project->status_name == "Pending")
-                            <span class="label label-danger">Pending</span>
-                        @elseif($project->status_name == "In-Progress")
-                            <span class="label label-warning">In-Progress</span>
-                        @elseif($project->status_name == "Releasing")
-                            <span class="label label-info">Releasing</span>
-                        @elseif($project->status_name == "Complete")
-                            <span class="label label-success">Complete</span>
+                        @if($project->status->name == 'pending')
+                            <span class='label label-danger'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'complete')
+                            <span class='label label-success'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'in-progress')
+                            <span class='label label-warning'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'releasing')
+                            <span class='label label-info'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'kick off')
+                            <span class='label label-primary'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'planning')
+                            <span class='label label-default'>{{$project->status->name}}</span>
+                        @else
+                            -
                         @endif
                     </p>
 
@@ -145,13 +149,13 @@
                                         <p class="fix-center-employee">
                                             <?php
                                                 if($employee->role_name == "Dev"){
-                                                    echo "<span class='label label-success'>Dev</span>";
+                                                    echo "<span class='label label-success' title='c'>Dev</span>";
                                                 } if($employee->role_name == "BA"){
-                                                    echo "<span class='label label-info'>BA</span>";
+                                                    echo "<span class='label label-info' title='a'>BA</span>";
                                                 } if($employee->role_name == "ScrumMaster"){
-                                                    echo "<span class='label label-warning'>ScrumMaster</span>";
+                                                    echo "<span class='label label-warning' title='c'>ScrumMaster</span>";
                                                 } if($employee->role_name == "PO"){
-                                                    echo "<span class='label label-primary'>PO</span>";
+                                                    echo "<span class='label label-primary' title='d'>PO</span>";
                                                 }
                                             ?>
                                         </p>
@@ -194,7 +198,7 @@
                                         </button>
                                     </td>
 
-                                    <td style="text-align: center;width: 160px;">
+                                    <td style="text-align: center;width: 180px;">
                                         <button type="button" class="btn btn-default input-button">
                                             <a href="javascript:void(0)"><i class="	fa fa-plus-square"></i> Input</a>
                                         </button>
@@ -221,10 +225,28 @@
     </div>
 
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-
+    <script src="{!! asset('https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js') !!}"></script>
 
     <script>
+
+
+
         $(document).ready(function () {
+
+            jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                "title-string-pre": function ( a ) {
+                    return a.match(/title="(.*?)"/)[1].toLowerCase();
+                },
+
+                "title-string-asc": function ( a, b ) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+
+                "title-string-desc": function ( a, b ) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            } );
+
             $('#project-list').DataTable({
                 'paging': false,
                 'lengthChange': false,
@@ -232,7 +254,14 @@
                 'ordering': true,
                 'info': false,
                 'autoWidth': false,
+
+                "order": [1, "desc"],
+                "columnDefs": [
+                    {type: 'title-string', targets: 1 },
+                ]
             });
         });
+
+
     </script>
 @endsection

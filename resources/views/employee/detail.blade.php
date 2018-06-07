@@ -110,10 +110,14 @@
                                                 <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}}
                                                     - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
                                             <p>{{trans('employee.profile_info.policy_status.title')}}:
-                                                @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
-                                                    <span class="label label-primary">{{trans('employee.profile_info.policy_status.unexpired')}}</span>
+                                                @if($employee->work_status == 0)
+                                                    @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
+                                                        <span class="label label-primary">Active</span>
+                                                    @else
+                                                        <span class="label label-danger">Expired</span>
+                                                    @endif
                                                 @else
-                                                    <span class="label label-danger">{{trans('employee.profile_info.policy_status.expired')}}</span>
+                                                    <span class="label label-default">Quited</span>
                                                 @endif
                                             </p>
 
@@ -173,7 +177,7 @@
                     <div class="tab-pane" id="project">
                         <div>
                             <button type="button" class="btn btn-info btn-default" data-toggle="modal"
-                                    data-target="#myModal">
+                                    data-target="#myModal" id="btn-search">
                                 {{ trans('common.button.search')  }}
                             </button>
 
@@ -183,9 +187,7 @@
                         <!-- The project -->
 
                         @include('employee._list_project_employee')
-                        @if(isset($param))
-                            {{  $processes->appends($param)->render('vendor.pagination.custom') }}
-                        @endif
+
                     </div>
                 </div>
             </div>
@@ -322,5 +324,10 @@
                 }
             })
         }
+    </script>
+    <script>
+        $('#btn-search').click(function () {
+            $('#form_search_process').trigger("reset");
+        });
     </script>
 @endsection

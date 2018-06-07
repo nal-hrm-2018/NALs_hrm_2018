@@ -12,6 +12,12 @@ return [
     | you want to customize your views to better match your application.
     |
     */
+	'pagination'=>[
+		'first'=>'← First',
+		'previous'=>'← Previous',
+		'next'=>'Next →',
+		'last'=>'Last →',
+	],
 
     'msg_fails' => 'msg_fail',
     'msg_success' => 'msg_success',
@@ -26,6 +32,7 @@ return [
         'search' => 'SEARCH',
         'add' => 'ADD',
         'save' => 'SAVE',
+        'update' => 'UPDATE'
     ],
 
     'title_form' => [

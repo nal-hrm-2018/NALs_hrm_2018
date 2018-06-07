@@ -4,6 +4,7 @@ use App\Http\Requests\ProcessAddRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
 use App\Models\Role;
+use Carbon\Carbon;
 
 function test()
 {
@@ -62,16 +63,44 @@ function getArrayManPower()
     return [0.125, 0.25, 0.5, 0.75, 1];
 }
 
-function hasDupeProject($processes, $key, $value)
+function hasDupeProject($processes, $start_date_process, $end_date_process, $key, $value, $employee_name_selected)
 {
+    $start_date_process_selected = Carbon::parse($start_date_process);
+    $end_date_process_selected = Carbon::parse($end_date_process);
     $count = 0;
     if (!empty($processes)) {
         foreach ($processes as $process) {
-            if ($process[$key] === $value) {
-                $count++;
+            if (!is_null($process['delete_flag'])&&$process['delete_flag'] !== '0') {
+                continue;
             }
-            if ($count > 1) {
-                return true;
+
+            if ($process[$key] === $value) {
+                $start_date_process = Carbon::parse($process['start_date_process']);
+                $end_date_process = Carbon::parse($process['end_date_process']);
+                if ($start_date_process->gte($end_date_process_selected) || $start_date_process_selected->gte($end_date_process)) {
+                    continue;
+                }
+                $count++;
+                if ($count > 1) {
+                    if ($key === 'employee_id') {
+                        $string_error = $employee_name_selected . " ( id = " . $value . " )" . " Can't add because " .
+                            " from : " . date('d/m/Y', strtotime($process['start_date_process'])) . " to: "
+                            . date('d/m/Y', strtotime($process['end_date_process'])) . " you be added to this project";
+                        return $string_error;
+                    }
+                    if ($key === 'role_id') {
+                        $employee_name = Employee::select('name')->where('id',$process['employee_id'])->first();
+                        if(!is_null($employee_name)){
+                            $employee_name=$employee_name->name;
+                        }else{
+                            $employee_name='';
+                        }
+                        $string_error = $employee_name_selected . " Can't add because " .
+                            " from : " . date('d/m/Y', strtotime($process['start_date_process'])) . " to: "
+                            . date('d/m/Y', strtotime($process['end_date_process'])) . " has PO is " . $employee_name;
+                        return $string_error;
+                    }
+                }
             }
         }
         return false;
@@ -86,7 +115,7 @@ function checkValidProjectData()
     $processAddRequest = new ProcessAddRequest();
     $error_messages = array();
     if (!empty($processes)) {
-        foreach ($processes as $process) {
+        foreach ($processes as $key => $process) {
             $validator = Validator::make(
                 $process,
                 $processAddRequest->ruleReValidate(
@@ -94,14 +123,15 @@ function checkValidProjectData()
                     \request()->get('estimate_end_date'),
                     \request()->get('start_date_project'),
                     \request()->get('end_date_project'),
-                    $process['start_date_process'],
-                    $process['end_date_process']
+                    request()->get('project_id'),
+                    $process,
+                    $processes
                 ),
                 $processAddRequest->messages()
             );
             if ($validator->fails()) {
-                // key = id member process , value = messagebag of validate
-                $error_messages[$process['employee_id']] = $validator->messages();
+                // key = id  process , value = messagebag of validate
+                $error_messages[$key] = $validator->messages();
             }
         }
 
@@ -117,4 +147,32 @@ function getEmployee($id)
 function getRole($id)
 {
     return Role::where('delete_flag', '=', 0)->find($id);
+}
+
+function getIdEmployeefromProcessError($data)
+{
+    if (!empty($data)) {
+        $rs = explode('_', $data, 2);
+        return $rs[0];
+    }
+    return '';
+}
+
+function showListAvailableProcesses($available_processes)
+{
+    $string_available_processes = '';
+    foreach ($available_processes as $process) {
+        $string_available_processes = $string_available_processes .
+            " project_id : " . $process['project_id'] .
+            " man_power : " . $process['man_power'] .
+            " start_date : " . date('d/m/Y', strtotime($process['start_date'])) .
+            " end_date : " . date('d/m/Y', strtotime($process['start_date'])) . "\n";
+    }
+
+    $string_total = "You can view suggest information of this employee : \n" + $string_available_processes;
+}
+
+function getInformationDataTable($pagination){
+    return "Showing ".$pagination->firstItem()." to ".$pagination->lastItem()." of ".$pagination->total()." entries";
+
 }

@@ -16,6 +16,7 @@ class ProcessSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
+        $manpowers = getArrayManPower();
         $employees = \App\Models\Employee::pluck('id');
         $projects = \App\Models\Project::pluck('id');
         $roles = Role::pluck('id');
@@ -28,7 +29,7 @@ class ProcessSeeder extends Seeder
                 'project_id' => $project_id,
                 'role_id' => $roles[rand(0, count($roles) - 1)],
                 'check_project_exit' => 1,
-                'man_power' => $this->frand(0.1,1,1),
+                'man_power' => $manpowers[$this->frand(0,4)],
                 'start_date' => $start_dt->addDays(rand(1, 5)),
                 'end_date' => $end_dt->subDays(rand(6, 15)),
             ]);

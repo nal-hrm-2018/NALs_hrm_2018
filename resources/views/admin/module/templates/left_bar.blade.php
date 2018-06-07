@@ -5,7 +5,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li>
-          <a href="">
+          <a href="{{route('dashboard-user')}}">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
@@ -67,13 +67,23 @@
     var url = window.location.href;
     // var path = window.location.pathname;
     $(document).ready(function () {
+        // alert(url);
+        var path = url.split('/')[3];
         $('.sidebar-menu li').each(function () {
             var href = $(this).find('a').attr('href');
-            if(href == url){
+
+            if(url == href || url.split('?')[0] == href){
                 $(this).addClass('active');
                 $(this).find('i').attr('class', 'fa fa-bullseye');
                 $(this).parent().css('display', 'block');
                 $(this).parent().parent().addClass('menu-open active');
+                return false;
+            }
+            else if(href.split('/').length > 1){
+                if(path == href.split('/')[3]){
+                    $(this).parent().parent().addClass('active');
+                    $(this).parent().css('display', 'none');
+                }
             }
         });
     });

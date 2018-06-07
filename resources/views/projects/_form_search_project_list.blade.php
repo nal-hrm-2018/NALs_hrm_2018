@@ -1,6 +1,6 @@
 <section class="content-header">
     <div>
-        <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" id="btn-search">
             SEARCH
         </button>
         <button type="button" class="btn btn-default">
@@ -10,7 +10,7 @@
         <!-- Modal -->
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
-                <form method="get" role="form" id="form_search_employee"onsubmit="return validate();">
+                <form method="get" role="form" id="form_search_employee" onsubmit="return validate();">
                     <!-- Modal content-->
                     <input id="number_record_per_page" type="hidden" name="number_record_per_page"
                            value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
@@ -31,7 +31,7 @@
                                         {{ Form::text('name', old('name'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_name',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                     </div>
@@ -45,14 +45,14 @@
                                         {{ Form::text('po_name', old('po_name'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_po_name',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                     </div>
                                     <label style="color: red; margin-left: 130px;" id="error_po_name"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Member</button>
+                                            <button type="button" class="btn width-100">Member's</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -61,7 +61,7 @@
                                                 {{ Form::number('number_from', old('number_from'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_number_from',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -71,7 +71,7 @@
                                                 {{ Form::number('number_to', old('number_to'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_number_to',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -87,7 +87,7 @@
                                         {{ Form::text('name_member', old('name_member'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_name_member',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                     </div>
@@ -101,7 +101,7 @@
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Project Date</button>
+                                            <button type="button" class="btn width-100">Est. Date</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -110,7 +110,7 @@
                                                 {{ Form::date('project_date_from', old('project_date_from'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_date_from',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -120,7 +120,7 @@
                                                 {{ Form::date('project_date_to', old('project_date_to'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_date_to',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -129,7 +129,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_project_date"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Date Real</button>
+                                            <button type="button" class="btn width-100">Real Date</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -138,7 +138,7 @@
                                                 {{ Form::date('project_date_real_from', old('project_date_real_from'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_date_real_from',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>
@@ -148,7 +148,7 @@
                                                 {{ Form::date('project_date_real_to', old('project_date_real_to'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_date_real_to',
-                                                    'autofocus' => true,
+                                                    'autofocus' => false,
                                                     ])
                                                 }}
                                             </div>

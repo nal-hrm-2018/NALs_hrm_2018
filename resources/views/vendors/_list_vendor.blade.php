@@ -64,9 +64,13 @@
                     </td>
                     <td>
                         @if($vendor->work_status == 0)
-                            <span class="label label-primary">Active</span>
+                            @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
+                                <span class="label label-primary">Active</span>
+                            @else
+                                <span class="label label-danger">Expired</span>
+                            @endif
                         @else
-                            <span class="label label-danger">Inactive</span>
+                            <span class="label label-default">Quited</span>
                         @endif
                     </td>
 
@@ -86,8 +90,15 @@
             @endforeach
             </tbody>
         </table>
-        @if(isset($param))
+        @if($vendors->hasPages())
+            <div class="col-sm-5">
+                <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                    {{getInformationDataTable($vendors)}}
+                </div>
+            </div>
+        <div class="col-sm-7">
             {{  $vendors->appends($param)->render('vendor.pagination.custom') }}
+        </div>
         @endif
     </div>
     <!-- /.box-body -->

@@ -64,6 +64,7 @@ class LoginController extends Controller
             [
                 'email' => $data['email'],
                 'password' => $data['password'],
+                'work_status'=> config('settings.work_status.active')
             ], $remember)
         ) {
 

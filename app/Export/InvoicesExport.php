@@ -54,6 +54,9 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
     {
         $query = Employee::query();
 
+        if (!isset($this->request['number_record_per_page'])) {
+            $this->request['number_record_per_page'] = config('settings.paginate');
+        }
 
         $params['search'] = [
             'id' => !empty($this->request->id) ? $this->request->id : '',
@@ -114,7 +117,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
 
         $employeesSearch = $query
             ->where('delete_flag', '=', 0)
-            ->where('is_employee',1)->get();
+            ->where('is_employee',1)->paginate($this->request['number_record_per_page']);
 
         return $employeesSearch->map(function(Employee $item) {
 

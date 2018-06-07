@@ -58,12 +58,16 @@
                                         $('#form_search_employee').submit()
                                     });
                                 })();
-
                             </script>
 
                             <table id="project-list" class="table table-bordered table-striped">
                                 <thead>
-                                <tr>
+                                <style type="text/css">
+                                    .list-project tr td{
+                                        vertical-align: middle !important;
+                                    }
+                                </style>
+                                <tr class="list-project">
                                     <th>{{trans('project.name')}}</th>
                                     <th class="project-td-po-name">{{trans('project.po')}}</th>
                                     <th class="project-th-members">{{trans('project.members')}}</th>
@@ -75,84 +79,125 @@
                                     <th>{{trans('project.status')}}</th>
                                 </tr>
                                 </thead>
-                                <tbody class="context-menu">
+
+                                <tbody class="context-menu list-project" >
                                 @foreach($projects as $project)
                                     <?php
-                                    $allMemberNotPOInProject = $project->processes;
+                                    $allMembers = $project->processes->unique('employee_id');
+                                    $allMembersNotPO = $project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id');
+                                    $allPO = $project->processes->where('role_id', '=', $poRole->id)->unique('employee_id');
                                     ?>
                                     <tr class="employee-menu" id="employee-id-{{$project->id}}"
                                         data-employee-id="{{$project->id}}">
                                         <td>{{$project->name}}</td>
                                         <td>
-                                            <?php
-                                            if (count($allMemberNotPOInProject) > 0) {
-                                                foreach ($allMemberNotPOInProject as $employeeInProject) {
-                                                    $getPO = $allMemberNotPOInProject->where('role_id', $poRole->id)->first();
-
-                                                }
-                                                if (!is_null($getPO)) {
-                                                    if ($getPO->employee->is_employee == $isEmployee){
-                                                        echo '<a href="employee/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
-                                                    }
-                                                    else if($getPO->employee->is_employee == $isVendor){
-                                                        echo '<a href="vendors/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
-                                                    }
-                                                } else {
-                                                    echo "-";
-                                                }
-
-                                            } else {
-                                                echo "-";
-                                            }
-                                            ?>
+                                            <!--                                            --><?php
+                                            //                                            if (count($allMembers) > 0) {
+                                            //                                                foreach ($allMembers as $employeeInProject) {
+                                            //                                                    $getPO = $allMembers->where('role_id', $poRole->id)->first();
+                                            //
+                                            //                                                }
+                                            //                                                if (!is_null($getPO)) {
+                                            //                                                    if ($getPO->employee->is_employee == $isEmployee){
+                                            //                                                        echo '<a href="employee/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
+                                            //                                                    }
+                                            //                                                    else if($getPO->employee->is_employee == $isVendor){
+                                            //                                                        echo '<a href="vendors/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
+                                            //                                                    }
+                                            //                                                } else {
+                                            //                                                    echo "-";
+                                            //                                                }
+                                            //
+                                            //                                            } else {
+                                            //                                                echo "-";
+                                            //                                            }
+                                            //                                            ?>
                                             {{--@if(isset($po))
                                                 <a href="employee/{{$po->id}}">{{$po->name}}</a>
                                             @else
                                                 -
                                             @endif--}}
+                                            <?php
+                                            $count = 0;
+                                            if (count($allPO) > 0) {
+                                            foreach ($allPO as $employeeInProject) {
+                                            if ($employeeInProject->role_id == $poRole->id) {
+                                            if (sizeof($allPO) > 0 && sizeof($allPO) <= 3) {
+                                            if ($employeeInProject->employee->is_employee == $isEmployee){
+                                            echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                            }
+                                            else{
+                                            echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                            }
+                                            if ($count < sizeof($allPO) - 1) echo', ';
+                                            $count++;
+                                            } else if (sizeof($allPO) > 3) {
+                                            if ($employeeInProject->employee->is_employee == $isEmployee){
+                                            echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                            }
+                                            else{
+                                            echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                            }
+                                            if ($count <= 2) echo ', ';
+                                            if ($count == 1) {
+                                            echo '<a href="#" class="show-list-po"
+                                                            id="show-list-po-' . $project->id . '" data-toggle="modal"
+                                                            data-target="#show-list-po">[...]</a>';
+                                            break;
+                                            }
+                                            $count++;
+                                            } else {
+                                            echo '-';
+                                            }
+                                            }
+                                            }
+                                            } else {
+                                            echo "-";
+                                            }
+                                            ?>
                                         </td>
                                         <td>
                                             <?php
                                             $count = 0;
-                                            if (count($allMemberNotPOInProject) > 0) {
-                                                foreach ($allMemberNotPOInProject as $employeeInProject) {
-                                                    if ($employeeInProject->role_id <> $poRole->id) {
-                                                        if (sizeof($allMemberNotPOInProject) > 0 && sizeof($allMemberNotPOInProject) <= 3) {
-                                                            if ($employeeInProject->employee->is_employee == $isEmployee){
-                                                                echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
-                                                            }
-                                                            else{
-                                                                echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
-                                                            }
-                                                            if ($count < sizeof($allMemberNotPOInProject) - 1) echo ', ';
-                                                            $count++;
-                                                        } else if (sizeof($allMemberNotPOInProject) > 3) {
-                                                            if ($employeeInProject->employee->is_employee == $isEmployee){
-                                                                echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
-                                                            }
-                                                            else{
-                                                                echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
-                                                            }
-                                                            if ($count <= 2) echo ', ';
-                                                            if ($count == 1) {
-                                                                echo '<a href="#" class="show-list-employee"
+                                            if (count($allMembersNotPO) > 0) {
+                                            foreach ($allMembersNotPO as $employeeInProject) {
+                                            if ($employeeInProject->role_id <> $poRole->id) {
+                                            if (sizeof($allMembersNotPO) > 0 && sizeof($allMembersNotPO) <= 3) {
+                                            if ($employeeInProject->employee->is_employee == $isEmployee){
+                                            echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                            }
+                                            else{
+                                            echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                            }
+                                            if ($count < sizeof($allMembersNotPO) - 1) echo', ';
+                                            $count++;
+                                            } else if (sizeof($allMembersNotPO) > 3) {
+                                            if ($employeeInProject->employee->is_employee == $isEmployee){
+                                            echo '<a href="employee/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                            }
+                                            else{
+                                            echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
+                                            }
+                                            if ($count <= 2) echo ', ';
+                                            if ($count == 1) {
+                                            echo '<a href="#" class="show-list-employee"
                                                             id="show-list-employee-' . $project->id . '" data-toggle="modal"
                                                             data-target="#show-list-members">[...]</a>';
-                                                                break;
-                                                            }
-                                                            $count++;
-                                                        } else {
-                                                            echo '-';
-                                                        }
-                                                    }
-                                                }
+                                            break;
+                                            }
+                                            $count++;
                                             } else {
-                                                echo "-";
+                                            echo '-';
+                                            }
+                                            }
+                                            }
+                                            } else {
+                                            echo "-";
                                             }
                                             ?>
                                         </td>
                                         <td class="text-center">
-                                            <span class="badge">{{isset($project->processes)?(sizeof($project->processes)!=0?sizeof($project->processes):'-'):'-'}}</span>
+                                            <span class="badge">{{isset($project->processes)?(sizeof($project->processes)!=0?sizeof($project->processes->unique('employee_id')):'0'):'0'}}</span>
                                         </td>
                                         <td>
                                             {{isset($project->estimate_start_date)? $project->estimate_start_date:"-"}}
@@ -168,24 +213,22 @@
                                         </td>
                                         <td>
                                             @if($project->status->name == 'pending')
-                                                <span class='label label-primary'>{{$project->status->name}}</span>
+                                                <span class='label label-danger'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'complete')
                                                 <span class='label label-success'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'in-progress')
-                                                <span class='label label-info'>{{$project->status->name}}</span>
-                                            @elseif($project->status->name == 'releasing')
                                                 <span class='label label-warning'>{{$project->status->name}}</span>
+                                            @elseif($project->status->name == 'releasing')
+                                                <span class='label label-info'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'kick off')
-                                                <span class='label label-danger'>{{$project->status->name}}</span>
+                                                <span class='label label-primary'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'planning')
                                                 <span class='label label-default'>{{$project->status->name}}</span>
                                             @else
                                                 -
                                             @endif
                                             {{--{{isset($project->status_id)?
-
                                              $project->status->name
-
                                              : "-"}}--}}
                                         </td>
 
@@ -204,8 +247,15 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            @if(isset($param))
-                                {{  $projects->appends($param)->render('vendor.pagination.custom') }}
+                            @if($projects->hasPages())
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                        {{getInformationDataTable($projects)}}
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    {{  $projects->appends($param)->render('vendor.pagination.custom') }}
+                                </div>
                             @endif
                             <div id="show-list-members" class="modal fade" role="dialog">
                                 <div class="modal-dialog" style="width: 400px">
@@ -214,7 +264,7 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">
-                                                <th>{{trans('team.members')}} - Team: <span id="team_name_modal"></span>
+                                                <th>{{trans('team.members')}} <span id="team_name_modal"></span>
                                                 </th>
                                             </h4>
                                         </div>
@@ -224,10 +274,43 @@
                                                 <tr>
                                                     <th>{{trans('employee.profile_info.id')}}</th>
                                                     <th>{{trans('employee.profile_info.name')}}</th>
-                                                    <th>{{trans('employee.profile_info.role')}}</th>
+                                                    {{--<th>{{trans('employee.profile_info.role')}}</th>--}}
                                                 </tr>
                                                 </thead>
                                                 <tbody class="context-menu" id="table-list-members">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="show-list-po" class="modal fade" role="dialog">
+                                <div class="modal-dialog" style="width: 400px">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">
+                                                <th>{{trans('project.po')}} <span id="po_name_modal"></span>
+                                                </th>
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table id="po-list" class="table table-bordered table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{trans('employee.profile_info.id')}}</th>
+                                                    <th>{{trans('employee.profile_info.name')}}</th>
+                                                    {{--<th>{{trans('employee.profile_info.role')}}</th>--}}
+                                                </tr>
+                                                </thead>
+                                                <tbody class="context-menu" id="table-list-po">
 
                                                 </tbody>
                                             </table>
