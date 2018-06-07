@@ -18,17 +18,6 @@
             </label>
         </div>
     </div>
-
-    <script>
-        (function () {
-            $('#select_length').change(function () {
-                $("#number_record_per_page").val($(this).val());
-                $('#form_search_process').submit()
-            });
-        })();
-
-    </script>
-
     <table id="project-list" class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -89,7 +78,6 @@
 
             </tr>
         @endforeach
-        </tbody>
     </table>
     @if($processes->hasPages())
         <div class="col-sm-5">
@@ -102,3 +90,44 @@
         </div>
     @endif
 </div>
+<script>
+    (function () {
+        $('#select_length').change(function () {
+            $("#number_record_per_page").val($(this).val());
+            $('#form_search_process').submit()
+        });
+    })();
+
+    $(document).ready(function (){
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+            "extract-date-pre": function (value) {
+                var date = value;
+                date = date.split('/');
+                return Date.parse(date[1] + '/' + date[0] + '/' + date[2])
+            },
+            "extract-date-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+            "extract-date-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+        $('#project-list').dataTable({
+            'paging': false,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': false,
+            'autoWidth': false,
+            'borderCollapse': 'collapse',
+            "aaSorting": [
+                [3, 'desc'],[4, 'desc']
+            ],
+            columnDefs: [{
+                type: 'extract-date',
+                targets: [3,4]
+            }
+            ]
+        });
+    });
+</script>

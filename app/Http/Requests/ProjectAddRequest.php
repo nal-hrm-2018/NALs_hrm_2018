@@ -20,7 +20,6 @@ class ProjectAddRequest extends CommonRequest
 
     public function rules()
     {
-        session()->flash('processes', request()->get('processes'));
         return
             [
                 'id' =>

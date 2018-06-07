@@ -59,6 +59,7 @@ class ValidRoleProject implements Rule
             $this->message= "Role PO not exist in database";
             return false;
         }
+
         if ($id_po === $value) {
             $error = hasDupeProject(
                 $this->processes,
