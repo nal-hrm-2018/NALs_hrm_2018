@@ -60,7 +60,7 @@
                                 })();
 
                             </script>
-
+                            
                             <table id="project-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
@@ -75,7 +75,12 @@
                                     <th>{{trans('project.status')}}</th>
                                 </tr>
                                 </thead>
-                                <tbody class="context-menu">
+                                <style type="text/css">
+                                    .list-project tr td{
+                                        vertical-align: middle !important;
+                                    }
+                                </style>
+                                <tbody class="context-menu list-project">
                                 @foreach($projects as $project)
                                     <?php
                                     $allMembers = $project->processes->unique('employee_id');
@@ -207,7 +212,7 @@
                                             {{isset($project->end_date)? $project->end_date : "-"}}
                                         </td>
                                         <td>
-                                            @if($project->status->name == 'pending')
+                                            @if($project->status->name == 'kick off')
                                                 <span class='label label-primary'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'complete')
                                                 <span class='label label-success'>{{$project->status->name}}</span>
@@ -215,7 +220,7 @@
                                                 <span class='label label-info'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'releasing')
                                                 <span class='label label-warning'>{{$project->status->name}}</span>
-                                            @elseif($project->status->name == 'kick off')
+                                            @elseif($project->status->name == 'pending')
                                                 <span class='label label-danger'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'planning')
                                                 <span class='label label-default'>{{$project->status->name}}</span>
@@ -331,7 +336,6 @@
         </section>
 
     </div>
-
     @include("projects._javascript_project_list")
 
 @endsection
