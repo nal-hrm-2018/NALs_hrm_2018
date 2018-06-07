@@ -24,6 +24,10 @@ class SearchProjectServiceImpl implements SearchProjectService
         $poRole = Role::select('id')
             ->where('name', 'PO')->first();
 
+        if (!empty($params['project_id'])) {
+            $query
+                ->where("id", 'like', '%' . $params['project_id'] . '%');
+        }
         if (!empty($params['name'])) {
             $query
                 ->where("name", 'like', '%' . $params['name'] . '%');

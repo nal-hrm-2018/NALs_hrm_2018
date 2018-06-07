@@ -60,10 +60,11 @@
                                 })();
 
                             </script>
-
+                            
                             <table id="project-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
+                                    <th>{{trans('project.short_id')}}</th>
                                     <th>{{trans('project.name')}}</th>
                                     <th class="project-td-po-name">{{trans('project.po')}}</th>
                                     <th class="project-th-members">{{trans('project.members')}}</th>
@@ -75,43 +76,23 @@
                                     <th>{{trans('project.status')}}</th>
                                 </tr>
                                 </thead>
-                                <tbody class="context-menu">
+                                <style type="text/css">
+                                    .list-project tr td{
+                                        vertical-align: middle !important;
+                                    }
+                                </style>
+                                <tbody class="context-menu list-project">
                                 @foreach($projects as $project)
                                     <?php
-                                    $allMembers = $project->processes->unique('employee_id');
-                                    $allMembersNotPO = $project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id');
-                                    $allPO = $project->processes->where('role_id', '=', $poRole->id)->unique('employee_id');
+                                    $allMembers = $project->processes->sortByDesc('start_date')->unique('employee_id');
+                                    $allMembersNotPO = $project->processes->where('role_id', '<>', $poRole->id)->sortByDesc('start_date')->unique('employee_id');
+                                    $allPO = $project->processes->where('role_id', '=', $poRole->id)->sortByDesc('start_date')->unique('employee_id');
                                     ?>
                                     <tr class="employee-menu" id="employee-id-{{$project->id}}"
                                         data-employee-id="{{$project->id}}">
+                                        <td>{{$project->id}}</td>
                                         <td>{{$project->name}}</td>
                                         <td>
-<!--                                            --><?php
-//                                            if (count($allMembers) > 0) {
-//                                                foreach ($allMembers as $employeeInProject) {
-//                                                    $getPO = $allMembers->where('role_id', $poRole->id)->first();
-//
-//                                                }
-//                                                if (!is_null($getPO)) {
-//                                                    if ($getPO->employee->is_employee == $isEmployee){
-//                                                        echo '<a href="employee/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
-//                                                    }
-//                                                    else if($getPO->employee->is_employee == $isVendor){
-//                                                        echo '<a href="vendors/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
-//                                                    }
-//                                                } else {
-//                                                    echo "-";
-//                                                }
-//
-//                                            } else {
-//                                                echo "-";
-//                                            }
-//                                            ?>
-                                            {{--@if(isset($po))
-                                                <a href="employee/{{$po->id}}">{{$po->name}}</a>
-                                            @else
-                                                -
-                                            @endif--}}
                                                 <?php
                                                 $count = 0;
                                                 if (count($allPO) > 0) {
@@ -195,19 +176,19 @@
                                             <span class="badge">{{isset($project->processes)?(sizeof($project->processes)!=0?sizeof($project->processes->unique('employee_id')):'0'):'0'}}</span>
                                         </td>
                                         <td>
-                                            {{isset($project->estimate_start_date)? $project->estimate_start_date:"-"}}
+                                            {{isset($project->estimate_start_date)? date('d/m/Y',strtotime($project->estimate_start_date)):"-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->estimate_end_date)? $project->estimate_end_date : "-"}}
+                                            {{isset($project->estimate_end_date)? date('d/m/Y',strtotime($project->estimate_end_date)) : "-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->start_date)? $project->start_date :"-"}}
+                                            {{isset($project->start_date)? date('d/m/Y',strtotime($project->start_date)):"-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->end_date)? $project->end_date : "-"}}
+                                            {{isset($project->end_date)? date('d/m/Y',strtotime($project->end_date)): "-"}}
                                         </td>
                                         <td>
-                                            @if($project->status->name == 'pending')
+                                            @if($project->status->name == 'kick off')
                                                 <span class='label label-primary'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'complete')
                                                 <span class='label label-success'>{{$project->status->name}}</span>
@@ -215,7 +196,7 @@
                                                 <span class='label label-info'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'releasing')
                                                 <span class='label label-warning'>{{$project->status->name}}</span>
-                                            @elseif($project->status->name == 'kick off')
+                                            @elseif($project->status->name == 'pending')
                                                 <span class='label label-danger'>{{$project->status->name}}</span>
                                             @elseif($project->status->name == 'planning')
                                                 <span class='label label-default'>{{$project->status->name}}</span>
@@ -271,7 +252,7 @@
                                                 <tr>
                                                     <th>{{trans('employee.profile_info.id')}}</th>
                                                     <th>{{trans('employee.profile_info.name')}}</th>
-                                                    {{--<th>{{trans('employee.profile_info.role')}}</th>--}}
+                                                    <th>{{trans('employee.profile_info.role')}}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="context-menu" id="table-list-members">
@@ -331,7 +312,6 @@
         </section>
 
     </div>
-
     @include("projects._javascript_project_list")
 
 @endsection

@@ -111,7 +111,42 @@
                 </div>
 
                     <div class="box-body">
-                        <table id="project-list" class="table table-bordered table-striped">
+                        {!! Form::open(
+                        ['url' =>route('projects.show',$project->id),
+                        'method'=>'GET',
+                        'id'=>'form_view_project',
+                         ]) !!}
+                        <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                               value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
+                        {!! Form::close() !!}
+                        <div>
+                            <div class="dataTables_length" id="project-list_length" style="float:right">
+                                <label>{{trans('pagination.show.number_record_per_page')}}
+                                    {!! Form::select(
+                                        'select_length',
+                                        getArraySelectOption() ,
+                                        null ,
+                                        [
+                                        'id'=>'select_length',
+                                        'class' => 'form-control input-sm',
+                                        'aria-controls'=>"project-list"
+                                        ]
+                                        )
+                                     !!}
+                                </label>
+                            </div>
+                        </div>
+
+                        <script>
+                            (function () {
+                                $('#select_length').change(function () {
+                                    $("#number_record_per_page").val($(this).val());
+                                    $('#form_view_project').submit()
+                                });
+                            })();
+
+                        </script>
+                        <table id="member-list" class="table table-bordered table-striped">
                             <thead>
                             <tr>
                                 <th>Employee Name</th>
@@ -180,13 +215,13 @@
 
                                     <td class="text-center">
                                         <p class="fix-center-employee">
-                                            {{isset($employee->start_date)? $employee->start_date: "-"}}
+                                            {{isset($employee->start_date)? date('d/m/Y',strtotime($employee->start_date)): "-"}}
                                         </p>
                                     </td>
 
                                     <td class="text-center">
                                         <p class="fix-center-employee">
-                                            {{isset($employee->end_date)? $employee->end_date: "-"}}
+                                            {{isset($employee->end_date)? date('d/m/Y',strtotime($employee->end_date)): "-"}}
                                         </p>
                                     </td>
 
@@ -212,6 +247,16 @@
 
                             </tbody>
                         </table>
+                        @if($member->hasPages())
+                            <div class="col-sm-5">
+                                <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                    {{getInformationDataTable($member)}}
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                {{  $member->appends($param)->render('vendor.pagination.custom') }}
+                            </div>
+                        @endif
                     </div>
                         <!-- /.box-body -->
                 </div>
@@ -223,18 +268,48 @@
     </div>
 
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-
-
     <script>
-        $(document).ready(function () {
-            $('#project-list').DataTable({
+        $(document).ready(function (){
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                "extract-date-pre": function (value) {
+                    var date = $(value).text();
+                    date = date.split('/');
+                    return Date.parse(date[1] + '/' + date[0] + '/' + date[2])
+                },
+                "extract-date-asc": function (a, b) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+                "extract-date-desc": function (a, b) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            });
+            $('#member-list').dataTable({
                 'paging': false,
                 'lengthChange': false,
                 'searching': false,
                 'ordering': true,
                 'info': false,
                 'autoWidth': false,
+                'borderCollapse': 'collapse',
+                "aaSorting": [
+                    [4, 'desc'],[5, 'desc']
+                ],
+                columnDefs: [{
+                    type: 'extract-date',
+                    targets: [4,5]
+                }
+                ]
             });
+        });
+        $(document).ready(function () {
+            var old = '{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:'' }}';
+            var options = $("#select_length option");
+            var select = $('#select_length');
+            for(var i = 0 ; i< options.length ; i++){
+                if(options[i].value=== old){
+                    select.val(old).change();
+                }
+            }
         });
     </script>
 @endsection
