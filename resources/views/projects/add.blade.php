@@ -23,8 +23,11 @@
                     <div id="msg">
                     </div>
                     <div class="box-body">
-                        @include('projects._form_add_project');
+                        <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
+                        @include('projects._form_add_project')
+                        <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
                     </div>
+
                 </div>
             </div>
             <!-- /.box-body -->

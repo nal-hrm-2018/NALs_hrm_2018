@@ -26,7 +26,7 @@
 <script type="text/javascript">
     $(function () {
         $("#btn_reset").bind("click", function () {
-            $("#role").val('').change()
+            $("#role").val('').change();
             $("#project_status").val('').change();
             $("#start_date").val('value', '');
             $("#end_date").val('value', '');

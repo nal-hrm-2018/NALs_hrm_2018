@@ -75,10 +75,6 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/vendors/export', 'User\Vendor\VendorController@export')->name('vendor-export');
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors', 'User\Vendor\VendorController');
-    Route::post('projects/removeProcessAjax',[
-        'as'=>'removeProcessAjax',
-        'uses'=>'Project\ProjectController@removeProcessAjax'
-    ]);
     Route::resource('projects', 'Project\ProjectController');
     Route::post('projects/checkProcessAjax',[
         'as'=>'checkProcessAjax',

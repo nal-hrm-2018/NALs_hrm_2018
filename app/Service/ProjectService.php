@@ -12,7 +12,7 @@ use App\Http\Requests\TeamEditRequest;
 
 interface ProjectService
 {
-    public function getProcessbetweenDate($id, $start_date_process, $end_date_process);
+    public function getProcessbetweenDate($id, $start_date_process, $end_date_process,$except_project_id);
 
     public function addProject($request);
     public function editProject($request, $id);

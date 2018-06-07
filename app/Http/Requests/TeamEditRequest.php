@@ -28,7 +28,7 @@ class TeamEditRequest extends FormRequest
                 'required',
                 'max:50',
                 'regex:/(^[a-zA-Z0-9 ]+$)+/',
-                new ValidTeamNameEdit()],
+                new ValidTeamNameEdit(request()->route()->parameters())],
             'po_name' => new ValidPoName(request()->get('members')),
             'employees' => new ValidDupeMember()
         ];

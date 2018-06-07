@@ -27,8 +27,9 @@ class ProcessAddRequest extends CommonRequest
         $estimate_end_date,
         $start_date_project,
         $end_date_project,
-        $start_date_process,
-        $end_date_process
+        $project_id,
+        $process,
+        $processes
     )
     {
 
@@ -38,24 +39,31 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     new ValidMember(),
-                    new ValidDupeMember(request()->get('processes')),
+                    new ValidDupeMember(
+                        $processes,
+                        $process['start_date_process'],
+                        $process['end_date_process'],
+                        $process['delete_flag']
+                    ),
                 ],
             'start_date_process' =>
                 [
                     'bail',
                     'required',
+                    'date_format:Y-m-d',
                 ],
             'end_date_process' =>
                 [
                     'bail',
                     'required',
+                    'date_format:Y-m-d',
                     'after_or_equal:start_date_process',
                     new ValidEndDateProcess(
                         $estimate_start_date,
                         $estimate_end_date,
                         $start_date_project,
                         $end_date_project,
-                        $start_date_process
+                        $process['start_date_process']
                     ),
                 ],
             'man_power' =>
@@ -63,10 +71,14 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     new ValidManPower(
-                        $start_date_process,
-                        $end_date_process,
+                        $process['start_date_process'],
+                        $process['end_date_process'],
                         $estimate_start_date,
-                        $estimate_end_date
+                        $estimate_end_date,
+                        $project_id,
+                        $process['employee_id'],
+                        getArrayManPower(),
+                        $process['delete_flag']
                     )
                 ],
             'role_id' =>
@@ -74,8 +86,20 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     'exists:roles,id',
-                    new ValidRoleProject(request()->get('processes')),
-                ]
+                    new ValidRoleProject(
+                        $processes,
+                        $process['start_date_process'],
+                        $process['end_date_process'],
+                        $process['delete_flag'],
+                        $process['employee_id']
+                    ),
+                ],
+            'delete_flag'=>[
+                'bail',
+                'nullable',
+                'integer',
+                'digits_between:0,1',
+            ]
         ];
     }
 
@@ -87,42 +111,48 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     new ValidMember(),
-                    new ValidDupeMember(request()->get('processes')),
+//                    new ValidDupeMember(request()->get('processes')),
                 ],
             'start_date_project' =>
                 [
                     'bail',
                     'nullable',
+                    'date_format:Y-m-d',
                     'before_or_equal:estimate_end_date',
                 ],
             'end_date_project' =>
                 [
                     'bail',
                     'nullable',
-                    'after_or_equal:start_date_project',
+                    'date_format:Y-m-d',
                     new ValidEndDateProject(request()->get('start_date_project')),
+                    'after_or_equal:start_date_project',
                 ],
 
             'estimate_start_date' =>
                 [
                     'bail',
                     'required',
+                    'date_format:Y-m-d',
                 ],
             'estimate_end_date' =>
                 [
                     'bail',
                     'required',
+                    'date_format:Y-m-d',
                     'after_or_equal:estimate_start_date',
                 ],
             'start_date_process' =>
                 [
                     'bail',
                     'required',
+                    'date_format:Y-m-d',
                 ],
             'end_date_process' =>
                 [
                     'bail',
                     'required',
+                    'date_format:Y-m-d',
                     'after_or_equal:start_date_process',
                     new ValidEndDateProcess(
                         request()->get('estimate_start_date'),
@@ -140,7 +170,11 @@ class ProcessAddRequest extends CommonRequest
                         request()->get('start_date_process'),
                         request()->get('end_date_process'),
                         request()->get('estimate_start_date'),
-                        request()->get('estimate_end_date')
+                        request()->get('estimate_end_date'),
+                        request()->get('project_id'),
+                        request()->get('employee_id'),
+                        getArrayManPower(),
+                        request()->get('delete_flag')
                     )
                 ],
             'role_id' =>
@@ -148,8 +182,8 @@ class ProcessAddRequest extends CommonRequest
                     'bail',
                     'required',
                     'exists:roles,id',
-                    new ValidRoleProject(request()->get('processes')),
-                ]
+//                    new ValidRoleProject(request()->get('processes')),
+                ],
         ];
     }
 

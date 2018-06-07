@@ -25,12 +25,11 @@ use App\Models\Process;
 class ProjectServiceImpl extends CommonService
     implements ProjectService
 {
-
-
-    public function getProcessbetweenDate($id, $start_date_process, $end_date_process)
+    public function getProcessbetweenDate($id, $start_date_process, $end_date_process , $except_project_id)
     {
         $query = Process::query();
         $query->where('employee_id', $id)->where('delete_flag', '=', 0);
+        $query->where('project_id','!=',$except_project_id);
         $query->whereNotExists(function ($query) use ($end_date_process) {
             $query->where('start_date', '>=', $end_date_process);
         });
@@ -102,43 +101,30 @@ class ProjectServiceImpl extends CommonService
             DB::beginTransaction();
             $queryUpdateProject = Project::where('id', $id)->update($project_data);
 
-            //process lay tu db
-            $processGetFromDB = Project::where('id', $id)->first()->processes;
-            $processGetFromDB1 = Process::where('project_id', $id);
-
-            try {
-                $processGetFromDB1->forceDelete();
-            } catch (Exception $exception) {
-                dd($exception->getMessage());
-            }
-            //list nhung thang process cu
-            $processesOld = array();
+//            $processGetFromDB1 = Process::where('project_id', $id);
+//
+//            try {
+//                $processGetFromDB1->forceDelete();
+//            } catch (Exception $exception) {
+//                dd($exception->getMessage());
+//            }
 
             //list nhung thang nhan dc tu client
             $processes = request()->get('processes');
             if (!empty($processes)) {
-                $i = 0;
                 foreach ($processes as $process) {
-                    if($process['is_old_process'] === '0'){
-                        $processesNew = [
-                            'project_id'=> $id,
-                            'employee_id' => $process['employee_id'],
-                            'role_id' => $process['role_id'],
-                            'man_power' => (float)$process['man_power'],
-                            'start_date' => $process['start_date_process'],
-                            'end_date' => $process['end_date_process'],
-                        ];
-                        $process_model = new Process($processesNew);
-                        $process_model->save();
-                    } else {
-                        $processesOld[$i++] = [
-                            'employee_id' => $process['employee_id'],
-                            'role_id' => $process['role_id'],
-                            'man_power' => (float)$process['man_power'],
-                            'start_date' => $process['start_date_process'],
-                            'end_date' => $process['end_date_process'],
-                        ];
-                    }
+                    $processesNew = [
+                        'id' => $process['id'],
+                        'project_id'=> $id,
+                        'employee_id' => $process['employee_id'],
+                        'role_id' => $process['role_id'],
+                        'man_power' => (float)$process['man_power'],
+                        'check_project_exit' => 1,
+                        'start_date' => $process['start_date_process'],
+                        'end_date' => $process['end_date_process'],
+                        'delete_flag' => (int)$process['delete_flag'],
+                    ];
+                    $process_model=Process::updateOrCreate(['id' => $process['id']],$processesNew);
                 }
             }
 
@@ -167,7 +153,7 @@ class ProjectServiceImpl extends CommonService
         } catch (Exception $ex) {
             DB::rollBack();
             session()->flash(trans('common.msg_error'), trans('project.msg_content.msg_edit_error'));
-            return false;
+            return null;
         }
     }
 }
