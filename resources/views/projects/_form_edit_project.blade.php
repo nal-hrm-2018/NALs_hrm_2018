@@ -335,7 +335,7 @@
 <div class="col-md-6 col-md-offset-1">
     <div>
         <label>Income</label>
-        {{ Form::number('income', old('income', $currentProject->income),
+        {{ Form::number('income', old('income', number_format($currentProject->income). ' VNĐ'),
             ['class' => 'form-control',
             'id' => 'income',
             'autofocus' => true,
@@ -358,7 +358,7 @@
     </div>
     <div>
         <label>Real cost</label>
-        {{ Form::number('real_cost', old('real_cost', $currentProject->real_cost),
+        {{ Form::number('real_cost', old('real_cost', number_format($currentProject->real_cost). ' VNĐ'),
             ['class' => 'form-control',
             'id' => 'real_cost',
             'autofocus' => true,
