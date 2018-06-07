@@ -24,6 +24,20 @@
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
+                                            <button type="button" class="btn width-100">{{trans('project.id')}}</button>
+                                        </div>
+                                        {{--<input type="text" name="name_member" id="project_name_member" class="form-control"--}}
+                                        {{--value="{{!empty(request('name_member'))?request('name_member'):null}}"/>--}}
+                                        {{ Form::text('project_id', old('project_id'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_id',
+                                                    'autofocus' => false,
+                                                    ])
+                                                }}
+                                    </div>
+                                    <label style="color: red; margin-left: 130px;" id="error_project_id"></label>
+                                    <div class="input-group margin">
+                                        <div class="input-group-btn">
                                             <button type="button" class="btn width-100">Project Name</button>
                                         </div>
                                         {{--<input type="text" name="name" id="project_name" class="form-control"
@@ -52,12 +66,35 @@
                                     <label style="color: red; margin-left: 130px;" id="error_po_name"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
+                                            <button type="button" class="btn width-100">Employee Name</button>
+                                        </div>
+                                        {{--<input type="text" name="name_member" id="project_name_member" class="form-control"--}}
+                                        {{--value="{{!empty(request('name_member'))?request('name_member'):null}}"/>--}}
+                                        {{ Form::text('name_member', old('name_member'),
+                                                    ['class' => 'form-control',
+                                                    'id' => 'project_name_member',
+                                                    'autofocus' => false,
+                                                    ])
+                                                }}
+                                    </div>
+                                    <label style="color: red; margin-left: 130px;" id="error_project_name_member"></label>
+
+
+                                </div>
+
+                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                <span class="glyphicon glyphicon-arrow-right number-2"></span>
+                                <span class="glyphicon glyphicon-arrow-right number-3"></span>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+                                    <div class="input-group margin">
+                                        <div class="input-group-btn">
                                             <button type="button" class="btn width-100">Member</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="number" name="number_from" id="project_number_from" class="form-control"--}}
-                                                       {{--value="{{!empty(request('number_from'))?request('number_from'):null}}"/>--}}
+                                                {{--value="{{!empty(request('number_from'))?request('number_from'):null}}"/>--}}
                                                 {{ Form::number('number_from', old('number_from'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_number_from',
@@ -67,7 +104,7 @@
                                             </div>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="number" name="number_to" id="project_number_to" class="form-control"--}}
-                                                       {{--value="{{!empty(request('number_to'))?request('number_to'):null}}"/>--}}
+                                                {{--value="{{!empty(request('number_to'))?request('number_to'):null}}"/>--}}
                                                 {{ Form::number('number_to', old('number_to'),
                                                     ['class' => 'form-control',
                                                     'id' => 'project_number_to',
@@ -78,27 +115,6 @@
                                         </div>
                                     </div>
                                     <label style="color: red; margin-left: 130px;" id="error_number"></label>
-                                    <div class="input-group margin">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Employee Name</button>
-                                        </div>
-                                        {{--<input type="text" name="name_member" id="project_name_member" class="form-control"--}}
-                                               {{--value="{{!empty(request('name_member'))?request('name_member'):null}}"/>--}}
-                                        {{ Form::text('name_member', old('name_member'),
-                                                    ['class' => 'form-control',
-                                                    'id' => 'project_name_member',
-                                                    'autofocus' => false,
-                                                    ])
-                                                }}
-                                    </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_project_name_member"></label>
-
-                                </div>
-
-                                <span class="glyphicon glyphicon-arrow-right"></span>
-                                <span class="glyphicon glyphicon-arrow-right number-2"></span>
-                                <span class="glyphicon glyphicon-arrow-right number-3"></span>
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">Project Date</button>

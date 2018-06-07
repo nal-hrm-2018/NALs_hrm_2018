@@ -64,6 +64,7 @@
                             <table id="project-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
+                                    <th>{{trans('project.short_id')}}</th>
                                     <th>{{trans('project.name')}}</th>
                                     <th class="project-td-po-name">{{trans('project.po')}}</th>
                                     <th class="project-th-members">{{trans('project.members')}}</th>
@@ -78,40 +79,15 @@
                                 <tbody class="context-menu">
                                 @foreach($projects as $project)
                                     <?php
-                                    $allMembers = $project->processes->unique('employee_id');
-                                    $allMembersNotPO = $project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id');
-                                    $allPO = $project->processes->where('role_id', '=', $poRole->id)->unique('employee_id');
+                                    $allMembers = $project->processes->sortByDesc('start_date')->unique('employee_id');
+                                    $allMembersNotPO = $project->processes->where('role_id', '<>', $poRole->id)->sortByDesc('start_date')->unique('employee_id');
+                                    $allPO = $project->processes->where('role_id', '=', $poRole->id)->sortByDesc('start_date')->unique('employee_id');
                                     ?>
                                     <tr class="employee-menu" id="employee-id-{{$project->id}}"
                                         data-employee-id="{{$project->id}}">
+                                        <td>{{$project->id}}</td>
                                         <td>{{$project->name}}</td>
                                         <td>
-<!--                                            --><?php
-//                                            if (count($allMembers) > 0) {
-//                                                foreach ($allMembers as $employeeInProject) {
-//                                                    $getPO = $allMembers->where('role_id', $poRole->id)->first();
-//
-//                                                }
-//                                                if (!is_null($getPO)) {
-//                                                    if ($getPO->employee->is_employee == $isEmployee){
-//                                                        echo '<a href="employee/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
-//                                                    }
-//                                                    else if($getPO->employee->is_employee == $isVendor){
-//                                                        echo '<a href="vendors/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
-//                                                    }
-//                                                } else {
-//                                                    echo "-";
-//                                                }
-//
-//                                            } else {
-//                                                echo "-";
-//                                            }
-//                                            ?>
-                                            {{--@if(isset($po))
-                                                <a href="employee/{{$po->id}}">{{$po->name}}</a>
-                                            @else
-                                                -
-                                            @endif--}}
                                                 <?php
                                                 $count = 0;
                                                 if (count($allPO) > 0) {
@@ -271,7 +247,7 @@
                                                 <tr>
                                                     <th>{{trans('employee.profile_info.id')}}</th>
                                                     <th>{{trans('employee.profile_info.name')}}</th>
-                                                    {{--<th>{{trans('employee.profile_info.role')}}</th>--}}
+                                                    <th>{{trans('employee.profile_info.role')}}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="context-menu" id="table-list-members">
