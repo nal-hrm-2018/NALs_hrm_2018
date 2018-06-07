@@ -71,7 +71,8 @@
         var path = url.split('/')[3];
         $('.sidebar-menu li').each(function () {
             var href = $(this).find('a').attr('href');
-            if(href == url || href == url.split('?')[0]){
+
+            if(url == href || url.split('?')[0] == href){
                 $(this).addClass('active');
                 $(this).find('i').attr('class', 'fa fa-bullseye');
                 $(this).parent().css('display', 'block');
@@ -82,7 +83,6 @@
                 if(path == href.split('/')[3]){
                     $(this).parent().parent().addClass('active');
                     $(this).parent().css('display', 'none');
-                    return false;
                 }
             }
         });

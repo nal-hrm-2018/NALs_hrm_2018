@@ -28,7 +28,9 @@ return [
         'msg_team_name_already' => 'Team name has already use !!',
         'msg_add_success'=>'Team successfully added!!!',
         'msg_add_fail'=>'Add team fail!!!',
-        'msg_error_add_team'=> 'Has error in process'
+        'msg_error_add_team'=> 'Has error in process',
+        'msg_edit_success'=>'Team successfully edited!!!',
+        'msg_edit_fail'=>'Edit team fail!!!'
     ],
 
 ];
