@@ -12,7 +12,20 @@
 </script>
 <script>
     $(document).ready(function (){
-        jQuery.extend(jQuery.fn.dataTableExt.oSort, extract_date);
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+            "extract-date-pre": function (value) {
+                var date = value;
+                date = date.split('/');
+                return Date.parse(date[1] + '/' + date[0] + '/' + date[2])
+            },
+            "extract-date-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+            "extract-date-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+
         $('#project-list').dataTable({
             'paging': false,
             'lengthChange': false,
@@ -24,11 +37,8 @@
             "aaSorting": [
                 [6, 'DESC']
             ],
-            columnDefs: [{
-                type: 'extract-date',
-                targets: [6,5]
-            }
-            ]
+            "columnDefs": [
+                {type: 'extract-date', targets: [5,6,7,8]}]
         });
     });
 </script>
