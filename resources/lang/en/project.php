@@ -8,6 +8,7 @@
 return [
     'title'=>'Project',
     'id'=>'Project ID',
+    'short_id'=>'ID',
     'name'=>'Name',
     'project_name'=>'Project Name',
     'estimate_start_date'=>'Estimate start date',

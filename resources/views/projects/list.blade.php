@@ -59,7 +59,7 @@
                                     });
                                 })();
                             </script>
-
+                            
                             <table id="project-list" class="table table-bordered table-striped">
                                 <thead>
                                 <style type="text/css">
@@ -68,6 +68,8 @@
                                     }
                                 </style>
                                 <tr class="list-project">
+                                <tr>
+                                    <th>{{trans('project.short_id')}}</th>
                                     <th>{{trans('project.name')}}</th>
                                     <th class="project-td-po-name">{{trans('project.po')}}</th>
                                     <th class="project-th-members">{{trans('project.members')}}</th>
@@ -80,15 +82,21 @@
                                 </tr>
                                 </thead>
 
-                                <tbody class="context-menu list-project" >
+                                <style type="text/css">
+                                    .list-project tr td{
+                                        vertical-align: middle !important;
+                                    }
+                                </style>
+                                <tbody class="context-menu list-project">
                                 @foreach($projects as $project)
                                     <?php
-                                    $allMembers = $project->processes->unique('employee_id');
-                                    $allMembersNotPO = $project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id');
-                                    $allPO = $project->processes->where('role_id', '=', $poRole->id)->unique('employee_id');
+                                    $allMembers = $project->processes->sortByDesc('start_date')->unique('employee_id');
+                                    $allMembersNotPO = $project->processes->where('role_id', '<>', $poRole->id)->sortByDesc('start_date')->unique('employee_id');
+                                    $allPO = $project->processes->where('role_id', '=', $poRole->id)->sortByDesc('start_date')->unique('employee_id');
                                     ?>
                                     <tr class="employee-menu" id="employee-id-{{$project->id}}"
                                         data-employee-id="{{$project->id}}">
+                                        <td>{{$project->id}}</td>
                                         <td>{{$project->name}}</td>
                                         <td>
                                             <!--                                            --><?php
@@ -200,16 +208,16 @@
                                             <span class="badge">{{isset($project->processes)?(sizeof($project->processes)!=0?sizeof($project->processes->unique('employee_id')):'0'):'0'}}</span>
                                         </td>
                                         <td>
-                                            {{isset($project->estimate_start_date)? $project->estimate_start_date:"-"}}
+                                            {{isset($project->estimate_start_date)? date('d/m/Y',strtotime($project->estimate_start_date)):"-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->estimate_end_date)? $project->estimate_end_date : "-"}}
+                                            {{isset($project->estimate_end_date)? date('d/m/Y',strtotime($project->estimate_end_date)) : "-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->start_date)? $project->start_date :"-"}}
+                                            {{isset($project->start_date)? date('d/m/Y',strtotime($project->start_date)):"-"}}
                                         </td>
                                         <td>
-                                            {{isset($project->end_date)? $project->end_date : "-"}}
+                                            {{isset($project->end_date)? date('d/m/Y',strtotime($project->end_date)): "-"}}
                                         </td>
                                         <td>
                                             @if($project->status->name == 'pending')
@@ -227,9 +235,6 @@
                                             @else
                                                 -
                                             @endif
-                                            {{--{{isset($project->status_id)?
-                                             $project->status->name
-                                             : "-"}}--}}
                                         </td>
 
                                         <ul class="contextMenu" data-employee-id="{{$project->id}}" hidden>
@@ -274,7 +279,7 @@
                                                 <tr>
                                                     <th>{{trans('employee.profile_info.id')}}</th>
                                                     <th>{{trans('employee.profile_info.name')}}</th>
-                                                    {{--<th>{{trans('employee.profile_info.role')}}</th>--}}
+                                                    <th>{{trans('employee.profile_info.role')}}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="context-menu" id="table-list-members">
@@ -334,7 +339,6 @@
         </section>
 
     </div>
-
     @include("projects._javascript_project_list")
 
 @endsection

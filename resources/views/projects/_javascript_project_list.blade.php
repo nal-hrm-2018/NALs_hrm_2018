@@ -2,12 +2,45 @@
 
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
 <script>
+
     (function () {
         $('#select_length').change(function () {
             $("#number_record_per_page").val($(this).val());
             $('#form_search_process').submit()
         });
     })();
+</script>
+<script>
+    $(document).ready(function (){
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+            "extract-date-pre": function (value) {
+                var date = value;
+                date = date.split('/');
+                return Date.parse(date[1] + '/' + date[0] + '/' + date[2])
+            },
+            "extract-date-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+            "extract-date-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+
+        $('#project-list').dataTable({
+            'paging': false,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': false,
+            'autoWidth': false,
+            'borderCollapse': 'collapse',
+            "aaSorting": [
+                [6, 'DESC']
+            ],
+            "columnDefs": [
+                {type: 'extract-date', targets: [5,6,7,8]}]
+        });
+    });
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -27,6 +60,7 @@
 <script type="text/javascript">
     $(function () {
         $("#btn_reset_edit_password").on("click", function () {
+            $("#project_id").val('');
             $("#project_name").val('');
             $("#project_po_name").val('');
             $('#project_number_from').val('');
@@ -108,7 +142,7 @@
             var elementRemove = $(this).data('employee-id');
             var nameRemove = $(this).data('employee-name');
             console.log(elementRemove);
-            if (confirm('Do you want to delete employee has id: ' + elementRemove + '. Name: "' + nameRemove + '"?')) {
+            if (confirm('Do you want to delete project : ' + nameRemove + " ( id = "+elementRemove+" )")) {
                 $.ajax({
                     type: "DELETE",
                     url: '{{ url('/projects') }}' + '/' + elementRemove,
@@ -143,34 +177,34 @@
         <?php
             $allProjects = $projects;
             foreach ($allProjects as $project) {
-                foreach ($project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id') as $all_process) {
-//                    $classBtr = '';
-//                    if (isset($all_process->role)) {
-//                        if ($all_process->role->name == 'PO') {
-//                            $classBtr = 'label label-primary';
-//                        } else if ($all_process->role->name == 'Dev') {
-//                            $classBtr = 'label label-success';
-//                        } else if ($all_process->role->name  == 'BA') {
-//                            $classBtr = 'label label-info';
-//                        } else if ($all_process->role->name  == 'ScrumMaster') {
-//                            $classBtr = 'label label-warning';
-//                        }
-//                        if ($all_process->employee->is_employee == $isEmployee ){
-//                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
-//                        }
-//                        else{
-//                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
-//                        }
-//
-//                    } else {
+                foreach ($project->processes->where('role_id', '<>', $poRole->id)->sortByDesc('start_date')->unique('employee_id') as $all_process) {
+                    $classBtr = '';
+                    if (isset($all_process->role)) {
+                        if ($all_process->role->name == 'PO') {
+                            $classBtr = 'label label-primary';
+                        } else if ($all_process->role->name == 'Dev') {
+                            $classBtr = 'label label-success';
+                        } else if ($all_process->role->name  == 'BA') {
+                            $classBtr = 'label label-info';
+                        } else if ($all_process->role->name  == 'ScrumMaster') {
+                            $classBtr = 'label label-warning';
+                        }
                         if ($all_process->employee->is_employee == $isEmployee ){
-                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td></tr>";';
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
                         }
                         else{
-                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td></tr>";';
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td><span class=\"' . $classBtr . '\">' . $all_process->role->name . '</span></td></tr>";';
                         }
 
-//                    }
+                    } else {
+                        if ($all_process->employee->is_employee == $isEmployee ){
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"employee/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td>-</td></tr>";';
+                        }
+                        else{
+                            echo ' var html_' . $all_process->id . '_' . $all_process->employee->id . ' = "<tr><td>' . $all_process->employee->id . '</td><td><a href=\"vendors/' . $all_process->employee->id . '\">' . $all_process->employee->name . '</a></td><td>-</td></tr>";';
+                        }
+
+                    }
                     /*echo
                         ' var html_' . $all_process->id .
                         '= "<tr><td>' . $all_process->employee->name .
@@ -179,7 +213,7 @@
             }
             ?>
                 @foreach($allProjects as $project)
-                @foreach($project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id') as $all_process)
+                @foreach($project->processes->where('role_id', '<>', $poRole->id)->sortByDesc('start_date')->unique('employee_id') as $all_process)
         if (id_team == "{{$project->id}}") {
             console.log({{$all_process->id}});
             $('#table-list-members').append(html_{{$all_process->id}}_{{$all_process->employee->id}});
@@ -218,21 +252,7 @@
         @endforeach
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $('#project-list').DataTable({
-            'paging': false,
-            'lengthChange': false,
-            'searching': false,
-            'ordering': true,
-            'info': false,
-            'autoWidth': false,
-            'borderCollapse': 'collapse',
-            "aaSorting": [[6, 'DESC']]
-            //, [5, 'DESC']
-        });
-    });
-</script>
+
 <script>
     $('#btn-search').click(function () {
         $('#form_search_employee').trigger("reset");
