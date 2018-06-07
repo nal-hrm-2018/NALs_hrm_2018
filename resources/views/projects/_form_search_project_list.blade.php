@@ -52,7 +52,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_po_name"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Member</button>
+                                            <button type="button" class="btn width-100">Member's</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -101,7 +101,7 @@
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Project Date</button>
+                                            <button type="button" class="btn width-100">Est. Date</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -129,7 +129,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_project_date"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Date Real</button>
+                                            <button type="button" class="btn width-100">Real Date</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

@@ -264,7 +264,7 @@
 <div class="col-md-6 col-md-offset-1">
     <div>
         <label>Income</label>
-        {{ Form::number('income', old('income', $currentProject->income),
+        {{ Form::number('income', old('income', number_format($currentProject->income). ' VNĐ'),
             ['class' => 'form-control',
             'id' => 'income',
             'autofocus' => true,
@@ -275,7 +275,22 @@
     </div>
     <div>
         <label>Estimate cost</label>
-        {{ Form::number('estimate_cost', old('estimate_cost'),
+
+        <?php
+        $estimate_cost=0;
+        foreach ($employeeInProcess as $process){
+            $salary = 10000000;
+            $first_date = strtotime($process->start_date);
+            $second_date = strtotime($process->end_date);
+            $datediff = abs($first_date - $second_date);
+            $time = floor($datediff / (60*60*24));
+            $cs =$process->man_power;
+            $estimate_cost_mem = $salary*$cs*$time;
+            $estimate_cost += $estimate_cost_mem;
+        }
+        ?>
+
+        {{ Form::text('estimate_cost', old('estimate_cost', number_format($estimate_cost). ' VNĐ'),
             ['class' => 'form-control',
             'id' => 'estimate_cost',
             'autofocus' => true,
@@ -287,7 +302,7 @@
     </div>
     <div>
         <label>Real cost</label>
-        {{ Form::number('real_cost', old('real_cost', $currentProject->real_cost),
+        {{ Form::number('real_cost', old('real_cost', number_format($currentProject->real_cost). ' VNĐ'),
             ['class' => 'form-control',
             'id' => 'real_cost',
             'autofocus' => true,

@@ -115,7 +115,7 @@ class ProjectController extends Controller
             ->where([
                 ['processes.project_id', '=', $id],
                 ['processes.delete_flag', '=', 0]])
-            ->orderByRaw('role_id DESC')
+            ->orderBy('processes.role_id', 'DESC')
             ->get();
         return view('projects.view', compact('member', 'project'));
     }
@@ -135,6 +135,15 @@ class ProjectController extends Controller
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
         $manPowers = getArrayManPower();
         $project_status = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+
+        $employeeInProcess = Employee::select('employees.id', 'employees.name','roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
+            ->join('processes', 'processes.employee_id', '=', 'employees.id')
+            ->join('roles', 'processes.role_id', '=', 'roles.id')
+            ->where([
+                ['processes.project_id', '=', $id],
+                ['processes.delete_flag', '=', 0]])
+            ->orderByRaw('role_id DESC')
+            ->get();
 
         return view('projects.edit', compact('employeeInProcess', 'roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
     }
