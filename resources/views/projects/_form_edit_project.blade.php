@@ -335,7 +335,7 @@
 <div class="col-md-6 col-md-offset-1">
     <div>
         <label>Income</label>
-        {{ Form::number('income', old('income', number_format($currentProject->income). ' VNĐ'),
+        {{ Form::number('income', old('income', $currentProject->income),
             ['class' => 'form-control',
             'id' => 'income',
             'autofocus' => true,
@@ -358,7 +358,7 @@
     </div>
     <div>
         <label>Real cost</label>
-        {{ Form::number('real_cost', old('real_cost', number_format($currentProject->real_cost). ' VNĐ'),
+        {{ Form::number('real_cost', old('real_cost', $currentProject->real_cost),
             ['class' => 'form-control',
             'id' => 'real_cost',
             'autofocus' => true,
@@ -410,11 +410,11 @@
 
     $(document).ready(function () {
         $('#form_add_project').on('submit', function (event) {
-            return confirm("Do you want add new Project ?");
+            return confirm("Do you want to add new Project ?");
         });
 
         $('#btn_reset_form_project').on('click', function (event) {
-            if (confirm("Do you wan't reset all field ?")) {
+            if (confirm("Do you want to reset all field ?")) {
                 location.reload();
             }
         });
@@ -423,7 +423,7 @@
             var target_input = $(this).parent().closest('tr').find("input.process_id");
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
-            if (confirm("Do you want remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
+            if (confirm("Do you want to remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
                 removeEmployee(employee_id, target_tr ,target_input);
             }
         });
@@ -434,7 +434,7 @@
             if (employee_id === '' || employee_name === '') {
                 return confirm('Please choose employee !')
             } else {
-                if (confirm("Do you want add  " + employee_name + " (id=" + employee_id + ") to project ?")) {
+                if (confirm("Do you want to add  " + employee_name + " (id=" + employee_id + ") to project ?")) {
                     var end_date_process_selected = $('#end_date_process').val();
                     var start_date_process_selected = $('#start_date_process').val();
                     if (checkDupeMember(employee_id,employee_name, start_date_process_selected, end_date_process_selected) ) {
@@ -459,4 +459,39 @@
         });
     });
 
+</script>
+<script>
+    // /* Without prefix */
+    // var input = document.getElementById('income');
+    // input.addEventListener('keyup', function(e)
+    // {
+    //     input.value = format_number(this.value);
+    // });
+    //
+    // /* With Prefix */
+    // var input2 = document.getElementById('real_cost');
+    // input2.addEventListener('keyup', function(e)
+    // {
+    //     input2.value = format_number(this.value, '$ ');
+    // });
+    //
+    // /* Function */
+    // function format_number(number, prefix, thousand_separator, decimal_separator)
+    // {
+    //     var thousand_separator = thousand_separator || ',',
+    //         decimal_separator = decimal_separator || '.',
+    //         regex		= new RegExp('[^' + decimal_separator + '\\d]', 'g'),
+    //         number_string = number.replace(regex, '').toString(),
+    //         split	  = number_string.split(decimal_separator),
+    //         rest 	  = split[0].length % 3,
+    //         result 	  = split[0].substr(0, rest),
+    //         thousands = split[0].substr(rest).match(/\d{3}/g);
+    //
+    //     if (thousands) {
+    //         separator = rest ? thousand_separator : '';
+    //         result += separator + thousands.join(thousand_separator);
+    //     }
+    //     result = split[1] != undefined ? result + decimal_separator + split[1] : result;
+    //     return prefix == undefined ? result : (result ? prefix + result : '');
+    // };
 </script>

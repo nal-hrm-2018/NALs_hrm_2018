@@ -15,7 +15,7 @@ return [
     'estimate_end_date'=>'Estimate end date',
     'po'=> 'PO Name',
     'members'=> 'Members Name',
-    'number_of_member'=>"Member's",
+    'number_of_member'=>"Members",
     'msg_fails' => 'msg_fail',
     'msg_success' => 'msg_success',
     'msg_error' => 'msg_error',
