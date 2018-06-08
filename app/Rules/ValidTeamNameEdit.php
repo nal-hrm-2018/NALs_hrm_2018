@@ -13,9 +13,9 @@ class ValidTeamNameEdit implements Rule
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
-        //
+        $this->id=$id;
     }
 
     /**
@@ -27,7 +27,7 @@ class ValidTeamNameEdit implements Rule
      */
     public function passes($attribute, $value)
     {
-        $rolePoInRole = Team::select('teams.name')
+        /*$rolePoInRole = Team::select('teams.name')
             ->join('employees','teams.id','=','employees.team_id')
             ->where('employees.email',Auth::user()->email)->first();
         $userTest = $rolePoInRole->name;
@@ -35,6 +35,14 @@ class ValidTeamNameEdit implements Rule
         $queryGetNameTeamTable = Team::where('name', $value)->first();
 
         if (isset($queryGetNameTeamTable->name) && !($value==$userTest)) {
+            return false;
+        }
+        return true;*/
+
+        $obj = Team::select('name')
+            ->where('name', $value)
+            ->where('id','<>', $this->id)->first();
+        if ($obj != null) {
             return false;
         }
         return true;
