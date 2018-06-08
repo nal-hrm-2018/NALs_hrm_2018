@@ -30,12 +30,18 @@ class ProjectServiceImpl extends CommonService
         $query = Process::query();
         $query->where('employee_id', $id)->where('delete_flag', '=', 0);
         $query->where('project_id','!=',$except_project_id);
-        $query->whereNotExists(function ($query) use ($end_date_process) {
-            $query->where('start_date', '>=', $end_date_process);
-        });
-        $query->whereNotExists(function ($query) use ($start_date_process) {
-            $query->where('end_date', '<=', $start_date_process);
-        });
+//        $query->whereNotExists(function ($query) use ($end_date_process) {
+//            $query->where('start_date', '>=', $end_date_process);
+//        });
+        $query->whereRaw("NOT EXISTS (select * from processes where processes.start_date >= ".$end_date_process.")");
+//        $query->whereNotExists(function ($query) use ($start_date_process) {
+//            $query
+//                ->where('end_date', '<=', $start_date_process);
+//        });
+        $query->whereRaw("NOT EXISTS (select * from processes where processes.end_date <= ".$start_date_process.")");
+//        select * from `processes` where `employee_id` = ? and `delete_flag` = ? and `project_id` != ? and not exists (select * where `start_date` >= ?) and not exists (select * where `end_date` <= ?)
+//        dd($query->toSql());
+
         return $query;
     }
 
