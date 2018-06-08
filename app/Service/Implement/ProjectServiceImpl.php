@@ -34,8 +34,7 @@ class ProjectServiceImpl extends CommonService
             $query->where('start_date', '>=', $end_date_process);
         });
         $query->whereNotExists(function ($query) use ($start_date_process) {
-            $query
-                ->where('end_date', '<=', $start_date_process);
+            $query->where('end_date', '<=', $start_date_process);
         });
         return $query;
     }
@@ -101,13 +100,6 @@ class ProjectServiceImpl extends CommonService
             DB::beginTransaction();
             $queryUpdateProject = Project::where('id', $id)->update($project_data);
 
-//            $processGetFromDB1 = Process::where('project_id', $id);
-//
-//            try {
-//                $processGetFromDB1->forceDelete();
-//            } catch (Exception $exception) {
-//                dd($exception->getMessage());
-//            }
 
             //list nhung thang nhan dc tu client
             $processes = request()->get('processes');
@@ -128,24 +120,6 @@ class ProjectServiceImpl extends CommonService
                 }
             }
 
-
-
-            //so sanh list process cu nhan duoc tu client va process lay tu db
-            //kiểu như so sánh 2 cái mảng, thằng process nào của $processGetFromDB ko có trong cái mảng $processesOld thì vào db xóa thằng đó
-//            if(sizeof($processesOld) != sizeof($processGetFromDB)){
-//                for ($i=0; $i<sizeof($processesOld); $i++){
-//                    foreach ($processGetFromDB as $itemDB){
-//                        if($itemDB->employee_id === $processesOld[$i]['employee_id'] &&
-//                            $itemDB->role_id === $processesOld[$i]['role_id']&&
-//                            $itemDB->man_power === $processesOld[$i]['man_power'] &&
-//                            $itemDB->start_date === $processesOld[$i]['start_date'] &&
-//                            $itemDB->end_date === $processesOld[$i]['end_date']){
-//                            continue;
-//                            //chưa xong, làm tiếp dùm nhé :v
-//                        }
-//                    }
-//                }
-//            }
 
 
             DB::commit();
