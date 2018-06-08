@@ -75,6 +75,21 @@ class ProjectController extends Controller
         return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_check_process_fail')]);
     }
 
+    public function reopenProjectAjax(Request $request)
+    {
+        if ($request->ajax()) {
+           $project = Project::find($request['project_id']);
+           if(!empty($project)){
+               $project->end_date = null;
+               $project->save();
+               return response()->json([trans('project.msg_success') => trans('project.msg_content.msg_reopen_project_success')]);
+           }else{
+               return response()->json([trans('project.msg_fails') => " Incorrect project id , ".trans('project.msg_content.msg_reopen_project_fail')]);
+           }
+        }
+        return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_reopen_project_fail')]);
+    }
+
     public function create()
     {
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
@@ -131,6 +146,7 @@ class ProjectController extends Controller
             ->where([
                 ['processes.project_id', '=', $id],
                 ['processes.delete_flag', '=', 0]])
+
             ->orderByRaw('role_id DESC')
             ->paginate($number_record_per_page);
         return view('projects.view', compact('member', 'project','param'));
@@ -151,6 +167,15 @@ class ProjectController extends Controller
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
         $manPowers = getArrayManPower();
         $project_status = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+
+        $employeeInProcess = Employee::select('employees.id', 'employees.name','roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
+            ->join('processes', 'processes.employee_id', '=', 'employees.id')
+            ->join('roles', 'processes.role_id', '=', 'roles.id')
+            ->where([
+                ['processes.project_id', '=', $id],
+                ['processes.delete_flag', '=', 0]])
+            ->orderByRaw('role_id DESC')
+            ->get();
 
         return view('projects.edit', compact('employeeInProcess', 'roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
     }
@@ -176,7 +201,10 @@ class ProjectController extends Controller
             $project = Project::where('id', $id)->where('delete_flag', 0)->first();
             $project->delete_flag = 1;
             $project->save();
-
+            foreach ($project->processes as $process) {
+                $process->delete_flag = 1;
+                $process->save();
+            }
             return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
         }
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
