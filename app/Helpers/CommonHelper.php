@@ -206,6 +206,9 @@ function checkPOinProject($processes)
         return false;
     }
     foreach ($processes as $key => $process) {
+        if($process['delete_flag']==='1'){
+            continue;
+        }
         if ($process['role_id'] === $id_po) {
             return true;
         }

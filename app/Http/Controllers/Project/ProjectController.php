@@ -75,6 +75,21 @@ class ProjectController extends Controller
         return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_check_process_fail')]);
     }
 
+    public function reopenProjectAjax(Request $request)
+    {
+        if ($request->ajax()) {
+           $project = Project::find($request['project_id']);
+           if(!empty($project)){
+               $project->end_date = null;
+               $project->save();
+               return response()->json([trans('project.msg_success') => trans('project.msg_content.msg_reopen_project_success')]);
+           }else{
+               return response()->json([trans('project.msg_fails') => " Incorrect project id , ".trans('project.msg_content.msg_reopen_project_fail')]);
+           }
+        }
+        return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_reopen_project_fail')]);
+    }
+
     public function create()
     {
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
