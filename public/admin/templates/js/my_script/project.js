@@ -367,3 +367,22 @@ function removeEmployee(employee_id, target_tr, target_input) {
 //     });
 // }
 
+function disableProcess(){
+    $('#btn_add_process').addClass('disabled');
+    $('#employee_id').attr('disabled', 'disabled');
+    $('#man_power').attr('disabled', 'disabled');
+    $('#role').attr('disabled', 'disabled');
+    $('#start_date_process').attr('disabled', 'disabled');
+    $('#end_date_process').attr('disabled', 'disabled');
+    $('.remove_employee').off('click');
+}
+
+function enableProcess() {
+    $('#btn_add_process').removeClass('disabled');
+    $('#employee_id').removeAttr('disabled');
+    $('#man_power').removeAttr('disabled');
+    $('#role').removeAttr('disabled');
+    $('#start_date_process').removeAttr('disabled');
+    $('#end_date_process').removeAttr('disabled');
+    $('.remove_employee').on('click');
+}

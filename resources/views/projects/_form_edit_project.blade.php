@@ -418,7 +418,7 @@
                 location.reload();
             }
         });
-        $(document).on('click', ".remove_employee", function (event) {
+        $(".remove_employee").on('click', function (event) {
             var target_tr = $(event.target).parent().closest('tr');
             var target_input = $(this).parent().closest('tr').find("input.process_id");
             var employee_id = $(event.target).attr('id');
@@ -456,6 +456,17 @@
                 // $('#employee_id').select2();
             });
 
+        });
+
+        if($('#end_date_project').val() != "") {
+            disableProcess();
+        }
+        $('#end_date_project').change(function () {
+            if($('#end_date_project').val() != "") {
+                disableProcess();
+            } else {
+                enableProcess();
+            }
         });
     });
 
