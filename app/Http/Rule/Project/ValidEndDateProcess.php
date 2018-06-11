@@ -9,6 +9,7 @@
 namespace App\Http\Rule\Project;
 
 use App\Models\Process;
+use App\Models\Project;
 use App\Service\ProjectService;
 use Illuminate\Contracts\Validation\Rule;
 use Carbon\Carbon;
@@ -23,15 +24,18 @@ class ValidEndDateProcess implements Rule
     private $message;
     private $projectService;
     private $delete_flag;
+    private $project_id;
     public function __construct(
         $estimate_start_date_project,
         $estimate_end_date_project,
         $real_start_date_project,
         $real_end_date_project,
         $start_date_process,
-        $delete_flag
+        $delete_flag,
+        $project_id
     )
     {
+        $array_param = func_get_args();
         $this->projectService = app(ProjectService::class);
         $this->estimate_start_date_project = $estimate_start_date_project;
         $this->estimate_end_date_project = $estimate_end_date_project;
@@ -39,6 +43,8 @@ class ValidEndDateProcess implements Rule
         $this->real_end_date_project = $real_end_date_project;
         $this->start_date_process = $start_date_process;
         $this->delete_flag=$delete_flag;
+        $this->project_id=$project_id;
+
     }
 
     public function passes($attribute, $value)
@@ -51,11 +57,20 @@ class ValidEndDateProcess implements Rule
         if (empty($this->estimate_start_date_project) || empty($this->estimate_end_date_project)) {
             return false;
         }
-//       if (!empty($this->real_end_date_project) && !empty($this->real_start_date_project)) {
-//           $this->message = 'Cant add process because The end date project has defined at '.date('d/m/Y',strtotime($this->real_end_date_project));
-//           return false;
-//       }
-     
+
+        $project = Project::where('delete_flag',0)->find($this->project_id);
+        if(!empty($this->project_id)){
+            if (!is_null($project)) {
+                $end_date_project = $project->end_date;
+                if (!empty($end_date_project)) {
+                    $this->message = 'Cant add process because The end date project has defined at ' . date('d/m/Y', strtotime($end_date_project));
+                    return false;
+                }
+            } else {
+                $this->message = "Project Id not correct ";
+                return false;
+            }
+        }
         $end_date_process = Carbon::parse($end_date_process);
         $start_date_process = Carbon::parse($this->start_date_process);
         if (!empty($this->real_start_date_project)) {

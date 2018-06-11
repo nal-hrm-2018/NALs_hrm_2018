@@ -21,7 +21,8 @@
                 <div class="box box-primary">
                     <div id="msg">
                     </div>
-                    <div class="box-body">
+                    <div id="box-form-project" class="box-body">
+
                         <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                         @include('projects._form_edit_project')
                         <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>

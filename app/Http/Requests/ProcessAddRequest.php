@@ -63,7 +63,8 @@ class ProcessAddRequest extends CommonRequest
                         $start_date_project,
                         $end_date_project,
                         $process['start_date_process'],
-                        $process['delete_flag']
+                        $process['delete_flag'],
+                        $project_id
                     ),
                 ],
             'man_power' =>
@@ -159,7 +160,8 @@ class ProcessAddRequest extends CommonRequest
                         request()->get('start_date_project'),
                         request()->get('end_date_project'),
                         request()->get('start_date_process'),
-                        request()->get('delete_flag')
+                        request()->get('delete_flag'),
+                        null
                     ),
                 ],
             'man_power' =>

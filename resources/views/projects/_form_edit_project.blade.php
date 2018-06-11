@@ -41,6 +41,23 @@
         @endforeach
     @endif
 </div>
+@if(!empty($currentProject->end_date))
+    <script>
+        $(document).ready(function () {
+            disableAll();
+        });
+    </script>
+    <div id="warning-message" class="col-md-12 alert alert-warning alert-dismissible fade in" style="display: block">
+        <a href="#" style="text-decoration:none" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Warning!</strong> This Project finished !! if you want edit it ,please click button reopen .
+    </div>
+    <div class="col-md-6 col-md-offset-1">
+        <button type="button" id="btn_reopen_project" class=" btn btn-primary ">
+            <i class="fa fa-refresh"></i> Reopen
+        </button>
+    </div>
+@endif
+
 <div class="col-md-6 col-md-offset-1">
     <div>
         <input type="hidden" id="project_id" name="project_id" value="{{old('id', $currentProject->id)}}">
@@ -96,7 +113,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>Start work date</label>
+        <label>Real start date</label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -110,7 +127,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>End work date</label>
+        <label>Real end date</label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -401,6 +418,7 @@
     <button id="btn_submit_form_add_project" type="submit" class="btn btn-primary"
             style="width: 150px">{{trans('common.button.update')}}</button>
 </div>
+
 {{-- nhan hien bang nhap form --}}
 {!! Form::close() !!}
 
@@ -409,9 +427,13 @@
 
 
     $(document).ready(function () {
-        $('#form_add_project').on('submit', function (event) {
-            return confirm("Do you want to add new Project ?");
-        });
+        $('#btn_reopen_project').on('click',function () {
+            var id_project = $('#id').val();
+            var name_project = $('#name').val();
+            if (confirm("Do you want reopen Project : "+name_project+" ( id = "+id_project+" ) ?")) {
+                reopenAjax('{{route('reopenProjectAjax')}}', '{{csrf_token()}}');
+            }
+        })
 
         $('#btn_reset_form_project').on('click', function (event) {
             if (confirm("Do you want to reset all field ?")) {
@@ -458,16 +480,7 @@
 
         });
 
-        if($('#end_date_project').val() != "") {
-            disableProcess();
-        }
-        $('#end_date_project').change(function () {
-            if($('#end_date_project').val() != "") {
-                disableProcess();
-            } else {
-                enableProcess();
-            }
-        });
+
     });
 
 </script>

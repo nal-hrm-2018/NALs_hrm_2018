@@ -38,5 +38,7 @@ return [
         'msg_add_error'=>'Add Project error !!',
         'msg_remove_process_fail'=>'Remove process fail !!!',
         'msg_remove_process_success'=>'Remove process success !!!',
+        'msg_reopen_project_success'=>'Reopen project success !!!',
+        'msg_reopen_project_fail'=>'Reopen project fail !!!',
     ]
 ];

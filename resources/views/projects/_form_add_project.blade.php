@@ -392,12 +392,6 @@
 
         });
 
-        $('#end_date_project').change(function () {
-            if($('#end_date_project').val() != "") {
-                disableProcess();
-            } else {
-                enableProcess();
-            }
-        });
+
     });
 </script>
