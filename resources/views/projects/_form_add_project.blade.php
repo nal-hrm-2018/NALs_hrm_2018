@@ -354,6 +354,7 @@
             if (confirm("Do you want to add new Project : "+name_project+" ( id = "+id_project+" ) ?")) {
                 return true;
             }
+            return false;
         });
 
         $('#btn_reset_form_project').on('click', function (event) {
