@@ -349,6 +349,7 @@ function requestAjax(url, token) {
 // }
 
 function resetFormAddProject() {
+    $('#list_add').empty();
     $("#list_error").empty();
     $("#list_error").css('display', 'none');
     $("#id").val('');
