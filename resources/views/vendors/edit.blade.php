@@ -29,7 +29,7 @@
             function confirmVendor($msg) {
                 name = $('#name').val();
                 id = $('#id_vendor').val();
-                return confirm("Would you like to edit vendor "+name+" (id = "+id+")");
+                return confirm("Would you like to edit vendor "+name+" (id: "+id+")");
             }
         </SCRIPT>
         <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>

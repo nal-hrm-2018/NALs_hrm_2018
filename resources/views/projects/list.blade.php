@@ -59,31 +59,30 @@
                                     });
                                 })();
                             </script>
-                            
+
                             <table id="project-list" class="table table-bordered table-striped">
                                 <thead>
                                 <style type="text/css">
-                                    .list-project tr td{
+                                    .list-project tr td {
                                         vertical-align: middle !important;
                                     }
                                 </style>
                                 <tr class="list-project">
-                                <tr>
-                                    <th>{{trans('project.short_id')}}</th>
-                                    <th>{{trans('project.name')}}</th>
-                                    <th class="project-td-po-name">{{trans('project.po')}}</th>
-                                    <th class="project-th-members">{{trans('project.members')}}</th>
-                                    <th class="text-center">{{trans('project.number_of_member')}}</th>
+                                    <th class="project-center">{{trans('project.short_id')}}</th>
+                                    <th class="project-center">{{trans('project.name')}}</th>
+                                    <th class="project-td-po-name project-center">{{trans('project.po')}}</th>
+                                    <th class="project-th-members project-center">{{trans('project.members')}}</th>
+                                    <th class="text-center project-center">{{trans('project.number_of_member')}}</th>
                                     <th class="project-date">{{trans('project.start_date')}}</th>
                                     <th class="project-date">{{trans('project.end_date')}}</th>
                                     <th class="project-date">{{trans('project.start_date_real')}}</th>
                                     <th class="project-date">{{trans('project.end_date_real')}}</th>
-                                    <th>{{trans('project.status')}}</th>
+                                    <th class="project-center">{{trans('project.status')}}</th>
                                 </tr>
                                 </thead>
 
                                 <style type="text/css">
-                                    .list-project tr td{
+                                    .list-project tr td {
                                         vertical-align: middle !important;
                                     }
                                 </style>
@@ -121,9 +120,9 @@
                                             //                                            }
                                             //                                            ?>
                                             {{--@if(isset($po))
-                                                <a href="employee/{{$po->id}}">{{$po->name}}</a>
+                                            <a href="employee/{{$po->id}}">{{$po->name}}</a>
                                             @else
-                                                -
+                                            -
                                             @endif--}}
                                             <?php
                                             $count = 0;
@@ -257,7 +256,8 @@
                             </table>
                             @if($projects->hasPages())
                                 <div class="col-sm-5">
-                                    <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                    <div class="dataTables_info" style="float:left" id="example2_info" role="status"
+                                         aria-live="polite">
                                         {{getInformationDataTable($projects)}}
                                     </div>
                                 </div>
