@@ -6,29 +6,32 @@
  * Time: 3:01 PM
  */
 
-namespace App\Http\Rule;
+namespace App\Http\Rule\Team;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\Team;
-class ValidDupeMember implements Rule
+use App\Models\Role;
+class ValidRoleInTeam implements Rule
 {
+    private $msg;
     public function __construct()
     {
+
     }
 
     public function passes($attribute, $value)
     {
-        // check member duplication
-        $listIdMember = array();
+        // check dup id po vs member
+        $this->msg = "";
+        $id_po = Role::select('id')->where('name','=','PO')->first();
         if($value != null){
-            $i = 0;
             foreach ($value as $objMember){
-                $listIdMember[$i] = $objMember['id'];
-                $i++;
+                if( (int)$objMember['role'] == $id_po->id){
+                    $this->msg .= "Member id = ".$objMember['id']." role other PO";
+                }
             }
-            
         }
-        if (array_has_dupes($listIdMember)){
+        if($this->msg != ""){
             return false;
         }
         return true;
@@ -41,6 +44,6 @@ class ValidDupeMember implements Rule
      */
     public function message()
     {
-        return trans('Member not duplicate !!!');
+        return $this->msg;
     }
 }

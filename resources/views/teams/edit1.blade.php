@@ -86,9 +86,28 @@
 
             <!-- SELECT2 EXAMPLE -->
             <div class="box box-default">
+
                 <div class="box-body">
-                    <div id="msg">
+                    <!-- @if($errors->any())
+                    <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
+                         @foreach($errors->all() as $key=>$error)
+                            @if(!is_null($error))
+                                {{" Error : ".$error }}<br>
+                            @endif
+                        @endforeach
                     </div>
+                   @endif -->
+                    @if(session()->has('listErrorPO'))
+                       <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
+                            @foreach(session()->get('listErrorPO') as $err)
+                                <p>{{$err}}</p>
+                            @endforeach
+                        </div>
+                    @endif
+                    @if(!session()->has('listErrorPO'))
+                        <div id="msg">
+                        </div>
+                    @endif
                     {{Form::model($team, array('url' => ['/teams', $team->id], 'method' => 'PUT', 'id' => 'form_edit_team'))}}
                     <div class="row">
                         <div class="col-md-3">
@@ -99,7 +118,7 @@
                                 <label>Team name<strong style="color: red">(*)</strong></label>
                                 <input type="text" class="form-control width80" id="team_name" placeholder="Team name"
                                        name="team_name"
-                                       value="{!! old('name', isset($team) ? $team->name : null) !!}">
+                                       value="{!! old('team_name', isset($team) ? $team->name : null) !!}">
                                 <!-- /.input group -->
                             </div>
                             <div class="" id="name_error" style="color: red;">
@@ -143,16 +162,30 @@
                                 <label id="lb_error_employees" style="color: red;">{{$errors->first('employees')}}</label>
                             </div>
                             <div class="form-group" id="listChoose" style="display: none;">
-                                @foreach($listEmployeeOfTeam as $obj)
-                                    <div>
-                                        <div>
-                                            <input type="text" class="input_{{$obj->id}}" name="employee[member_{{$obj->id}}][id]" value="{{$obj->id}}">
+                                @if(!(session()->has('listEmployeeOfTeamEdit')))
+                                    @foreach($listEmployeeOfTeam as $obj)
+                                        <div class="input_{{$obj->id}}">
+                                            <div>
+                                                <input type="text" name="employee[member_{{$obj->id}}][id]" value="{{$obj->id}}">
+                                            </div>
+                                            <div id="input_role_{{$obj->id}}">
+                                                <input type="text" name="employee[member_{{$obj->id}}][role]" value="{{$obj->role_id}}">
+                                            </div>
                                         </div>
-                                        <div id="input_role_{{$obj->id}}">
-                                            <input type="text" class="input_{{$obj->id}}" name="employee[member_{{$obj->id}}][role]" value="{{$obj->role_id}}">
+                                    @endforeach 
+                                @endif
+                                @if(session()->has('listEmployeeOfTeamEdit'))
+                                    @foreach(session()->get('listEmployeeOfTeamEdit') as $objEm1)
+                                        <div class="input_{{$objEm1['id']}}">
+                                            <div>
+                                                <input type="text" name="employee[member_{{$objEm1['id']}}][id]" value="{{$objEm1['id']}}">
+                                            </div>
+                                            <div id="input_role_{{$obj->id}}">
+                                                <input type="text" name="employee[member_{{$objEm1['id']}}][role]" value="{{$objEm1['role']}}">
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach 
+                                    @endforeach
+                                @endif
                             </div>
                             <div class="form-group" id="contextMenuTeam">
                                 <div class="box-body">
@@ -169,47 +202,96 @@
                                         </tr>
                                       </thead>
                                       <tbody class="context-menu">
-                                        @foreach($listEmployeeOfTeam as $obj)
-                                            <tr id="show_{{$obj->id}}">                                                
-                                                <td>{{$obj->id}}</td>
-                                                <td>{{isset($obj->team)?$obj->team:'-'}}</td>
-                                                <td>
-                                                    <?php
-                                                    if(isset($obj->role)){
-                                                        if($obj->role == "PO"){
-                                                            echo "<span class='label label-primary'>". $obj->role ."</span>";
-                                                        } else if($obj->role == "Dev"){
-                                                            echo "<span class='label label-success'>". $obj->role ."</span>";
-                                                        } else if($obj->role == "BA"){
-                                                            echo "<span class='label label-info'>". $obj->role ."</span>";
-                                                        } else if($obj->role == "ScrumMaster"){
-                                                            echo "<span class='label label-warning'>". $obj->role ."</span>";
+                                        @if(!(session()->has('listEmployeeOfTeamEdit')))
+                                            @foreach($listEmployeeOfTeam as $obj)
+                                                <tr id="show_{{$obj->id}}">                                                
+                                                    <td>{{$obj->id}}</td>
+                                                    <td>{{isset($obj->team)?$obj->team:'-'}}</td>
+                                                    <td>
+                                                        <?php
+                                                        if(isset($obj->role)){
+                                                            if($obj->role == "PO"){
+                                                                echo "<span class='label label-primary'>". $obj->role ."</span>";
+                                                            } else if($obj->role == "Dev"){
+                                                                echo "<span class='label label-success'>". $obj->role ."</span>";
+                                                            } else if($obj->role == "BA"){
+                                                                echo "<span class='label label-info'>". $obj->role ."</span>";
+                                                            } else if($obj->role == "ScrumMaster"){
+                                                                echo "<span class='label label-warning'>". $obj->role ."</span>";
+                                                            }
+                                                        } else {
+                                                            echo "-";
                                                         }
-                                                    } else {
-                                                        echo "-";
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <td>{{$obj->name}}</td>
-                                                <td>
-                                                    <select onchange="select_role({{$obj->id}})" id="id_select_role_{{$obj->id}}">
-                                                        @foreach($listRole as $objRole)
-                                                            <option @if($obj->role_id == $objRole->id)
-                                                                {{$selected = "selected"}}
-                                                            @endif @if($objRole->name == "PO")
-                                                                {{$disabled = "disabled"}}
-                                                            @endif value="{{$objRole->id}}">{{$objRole->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <a class="btn-employee-remove" style="margin-left: 25px;">
-                                                        <i class="fa fa-remove"
-                                                       onclick='removeEmployeeTeam({{$obj->id}}) '></i>
-                                                   </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                        ?>
+                                                    </td>
+                                                    <td>{{$obj->name}}</td>
+                                                    <td>
+                                                        <select onchange="select_role({{$obj->id}})" id="id_select_role_{{$obj->id}}">
+                                                            @foreach($listRole as $objRole)
+                                                                <option @if($obj->role_id == $objRole->id)
+                                                                    {{$selected = "selected"}}
+                                                                @endif @if($objRole->name == "PO")
+                                                                    {{$disabled = "disabled"}}
+                                                                @endif value="{{$objRole->id}}">{{$objRole->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn-employee-remove" style="margin-left: 25px;">
+                                                            <i class="fa fa-remove"
+                                                           onclick='removeEmployeeTeam({{$obj->id}}) '></i>
+                                                       </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                        @if(session()->has('listEmployeeOfTeamEdit'))
+                                            @foreach(session()->get('listEmployeeOfTeamEdit') as $objEm1)
+                                                @foreach($listEmployee as $objEm2)
+                                                    @if($objEm1['id'] == $objEm2->id)
+                                                        <tr id="show_{{$objEm2->id}}">                    
+                                                            <td>{{$objEm2->id}}</td>
+                                                            <td>{{isset($objEm2->team)?$objEm2->team->name:'-'}}</td>
+                                                            <td>
+                                                                <?php
+                                                                if(isset($objEm2->role)){
+                                                                    if($objEm2->role->name == "PO"){
+                                                                        echo "<span class='label label-primary'>". $objEm2->role->name ."</span>";
+                                                                    } else if($objEm2->role->name == "Dev"){
+                                                                        echo "<span class='label label-success'>". $objEm2->role->name ."</span>";
+                                                                    } else if($objEm2->role->name == "BA"){
+                                                                        echo "<span class='label label-info'>". $objEm2->role->name ."</span>";
+                                                                    } else if($objEm2->role->name == "ScrumMaster"){
+                                                                        echo "<span class='label label-warning'>". $objEm2->role->name ."</span>";
+                                                                    }
+                                                                } else {
+                                                                    echo "-";
+                                                                }
+                                                                ?>
+                                                            </td>
+                                                            <td>{{$objEm2->name}}</td>
+                                                            <td>
+                                                                <select onchange="select_role({{$objEm2->id}})" id="id_select_role_{{$objEm2->id}}">
+                                                                    @foreach($listRole as $objRole)
+                                                                        <option @if($objEm1['role'] == $objRole->id)
+                                                                            {{$selected = "selected"}}
+                                                                        @endif @if($objRole->name == "PO")
+                                                                            {{$disabled = "disabled"}}
+                                                                        @endif value="{{$objRole->id}}">{{$objRole->name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn-employee-remove" style="margin-left: 25px;">
+                                                                    <i class="fa fa-remove"
+                                                                   onclick='removeEmployeeTeam({{$objEm2->id}}) '></i>
+                                                               </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
+                                        @endif
                                       </tbody>
                                   </table>
                                   @endif
@@ -240,25 +322,49 @@
                     });
                 </script>
                 <script type="text/javascript">
-                    $listEmployeeID = new Array();
-                    $listEmployeeName = new Array();
-                    $listEmployeeTeam = new Array();
-                    $listEmployeeRole = new Array();
-                    $listEmployeeRole_id = new Array();
-                    @foreach($listEmployeeOfTeam as $obj)
-                        $listEmployeeID.push({{$obj->id}});
-                        $listEmployeeName.push('{{$obj->name}}');
-                        $listEmployeeTeam.push('{{isset($obj->team)?$obj->team:'-'}}');
-                        $listEmployeeRole.push('{{isset($obj->role)?$obj->role:'-'}}');
-                        $listEmployeeRole_id.push('{{isset($obj->role)?$obj->role_id:'-'}}');
+                    $(document).ready(function (){
+                        $listEmployeeID = new Array();
+                        $listEmployeeName = new Array();
+                        $listEmployeeTeam = new Array();
+                        $listEmployeeRole = new Array();
+                        $listEmployeeRole_id = new Array();
+                        @if(!session()->has('listEmployeeOfTeamEdit'))
+                            @foreach($listEmployeeOfTeam as $obj)
+                                $listEmployeeID.push('{{$obj->id}}');
+                                $listEmployeeName.push('{{$obj->name}}');
+                                $listEmployeeTeam.push('{{isset($obj->team)?$obj->team:'-'}}');
+                                $listEmployeeRole.push('{{isset($obj->role)?$obj->role:'-'}}');
+                                $listEmployeeRole_id.push('{{isset($obj->role)?$obj->role_id:'-'}}');
 
-                        $('#member_{{$obj->id}}').prop('disabled', true);
-                        $('#po_{{$obj->id}}').prop('disabled', true);
-                    @endforeach
-                    $idPO = document.getElementById("select_po_name").value;
-                    $('#member_'+$idPO).prop('disabled', true);
-                    
-                    $dem = 0;
+                                $('#member_{{$obj->id}}').prop('disabled', true);
+                                $('#member').select2();
+                                $('#po_{{$obj->id}}').prop('disabled', true);
+                                $('#select_po_name').select2();
+                            @endforeach
+                        @endif
+                        @if(session()->has('listEmployeeOfTeamEdit'))
+                            @foreach(session()->get('listEmployeeOfTeamEdit') as $objEm1)
+                                @foreach($listEmployee as $objEm2)
+                                    @if($objEm1['id'] == $objEm2->id)
+                                        $listEmployeeID.push('{{$objEm2->id}}');
+                                        $listEmployeeName.push('{{$objEm2->name}}');
+                                        $listEmployeeTeam.push('{{isset($objEm2->team)?$objEm2->team->name:'-'}}');
+                                        $listEmployeeRole.push('{{isset($objEm2->role)?$objEm2->role->name:'-'}}');
+                                        $listEmployeeRole_id.push('{{isset($objEm2->role)?$objEm2->role_id:'-'}}');
+
+                                        $('#member_{{$objEm2->id}}').prop('disabled', true);
+                                        $('#member').select2();
+                                        $('#po_{{$objEm2->id}}').prop('disabled', true);
+                                        $('#select_po_name').select2();
+                                    @endif
+                                @endforeach
+                            @endforeach
+                        @endif
+                        $idPO = document.getElementById("select_po_name").value;
+                        $('#member_'+$idPO).prop('disabled', true);
+                        $('#member').select2();
+                        $dem = 0;
+                    })
                 </script>
                 <script type="text/javascript">
                     function addFunction() {
@@ -271,6 +377,7 @@
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
                               if($id == $listEmployeeID[$i]){
                                 $check = false;
+                                alert("Error!!! Member already exist !!!");
                                 break;
                               }
                             }
@@ -317,7 +424,7 @@
                                         "<td>" + $listEmployeeTeam[$i] + "</td>" +
                                         "<td><span class=\""+ $classBtr +"\">" + $listEmployeeRole[$i] + "</span></td>" +
                                         "<td>" + $listEmployeeName[$i] + "</td>" +
-                                        "<td><select onchange=\"select_role("+$listEmployeeID[$i]+")\">"+ $listRoleNew +"</select></td>"+
+                                        "<td><select onchange=\"select_role("+$listEmployeeID[$i]+")\" id=\"id_select_role_"+$listEmployeeID[$i]+"\">"+ $listRoleNew +"</select></td>"+
                                         "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
                                 }
 
@@ -326,8 +433,8 @@
                                     "</tbody></table></div>";
                                 $listChoose = "";
                                 for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                    $listChoose += "<div><div><input type=\"text\" name=\"employee[member_"+$listEmployeeID[$i]+"][id]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\"></div>"+
-                                        "<div id=\"input_role_"+$listEmployeeID[$i]+"\"><input type=\"text\" class=\"input_"+$listEmployeeID[$i]+"\" name=\"employee[member_"+$listEmployeeID[$i]+"][role]\" value=\""+$listEmployeeRole_id[$i]+"\"></div></div>";
+                                    $listChoose += "<div class=\"input_"+$listEmployeeID[$i]+"\"><div><input type=\"text\" name=\"employee[member_"+$listEmployeeID[$i]+"][id]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80\"></div>"+
+                                        "<div id=\"input_role_"+$listEmployeeID[$i]+"\"><input type=\"text\" name=\"employee[member_"+$listEmployeeID[$i]+"][role]\" value=\""+$listEmployeeRole_id[$i]+"\"></div></div>";
                                     if ($listEmployeeID[$i] == $idPo) {
                                         $('#po_'+$idPo).prop('disabled', true);
                                         $('#select_po_name').select2();
@@ -358,7 +465,7 @@
                 <script type="text/javascript">
                     function removeEmployeeTeam($id) {
                         $('tr').remove('#show_' + $id);
-                        $('input').remove('.input_' + $id);
+                        $('div').remove('.input_' + $id);
                         $listEmployeeName.splice($listEmployeeID.indexOf($id), 1);
                         $listEmployeeID.splice($listEmployeeID.indexOf($id), 1);
                         
