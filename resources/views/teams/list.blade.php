@@ -76,6 +76,10 @@
                                                         if(sizeof($employees)>0 && sizeof($employees)<=3){
                                                             echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
                                                             if($count < sizeof($employees)-1) echo ', ';
+                                                            if($count == sizeof($employees)-1)
+                                                                echo ' <a href="#" class="show-list-employee"
+                                                            id="show-list-employee-'. $team->id .'" data-toggle="modal"
+                                                            data-target="#show-list-members" style="color: black">[?]</a>';
                                                             $count++;
                                                         } else if(sizeof($employees)>3){
                                                             echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
@@ -83,7 +87,7 @@
                                                             if($count == 2){
                                                                 echo '<a href="#" class="show-list-employee"
                                                             id="show-list-employee-'. $team->id .'" data-toggle="modal"
-                                                            data-target="#show-list-members">[...]</a>';
+                                                            data-target="#show-list-members" style="color: red">[...]</a>';
                                                                 break;
                                                             }
                                                             $count++;
@@ -126,7 +130,7 @@
                                                 <thead>
                                                 <tr>
                                                     <th>{{trans('employee.profile_info.id')}}</th>
-                                                    <th>{{trans('employee.profile_info.name')}}</th>
+                                                    <th>{{trans('employee.profile_info.long_name')}}</th>
                                                     <th>{{trans('employee.profile_info.role')}}</th>
                                                 </tr>
                                                 </thead>
