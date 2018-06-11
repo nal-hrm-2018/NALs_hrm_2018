@@ -21,11 +21,16 @@
                 })
             </script>
             <br>
-            @foreach($values->all() as $value)
+            @foreach($values['errors']->all() as $value)
                 @if(!is_null($value))
                     {{" Error : ".$value }}<br>
                 @endif
             @endforeach
+            @if(!empty($values['available_processes']))
+                @php
+                    echo showListAvailableProcesses($values['available_processes']);
+                @endphp
+            @endif
         @endforeach
     @endif
     @if($errors->any())

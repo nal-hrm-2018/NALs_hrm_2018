@@ -133,7 +133,9 @@ function checkValidProjectData()
             );
             if ($validator->fails()) {
                 // key = id  process , value = messagebag of validate
-                $error_messages[$key] = $validator->messages();
+                $error_messages[$key] = [];
+                $error_messages[$key]['errors']  = $validator->messages();
+                $error_messages[$key]['available_processes']=request()->get('available_processes');
             }
         }
         if (!empty($error_messages)) {
@@ -174,7 +176,7 @@ function showListAvailableProcesses($available_processes)
             " end_date : " . date('d/m/Y', strtotime($process['start_date'])) . "\n";
     }
 
-    $string_total = "You can view suggest information of this employee : \n" + $string_available_processes;
+    return nl2br ("You can view suggest information of this employee : \n" . $string_available_processes);
 }
 
 function getInformationDataTable($pagination)
