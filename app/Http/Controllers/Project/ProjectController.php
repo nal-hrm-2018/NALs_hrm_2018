@@ -56,8 +56,6 @@ class ProjectController extends Controller
         $isEmployee = 1;
         $isVendor = 0;
         return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable', 'isEmployee', 'isVendor'));
-//        $project = Project::where('id', '=', 'THB2081')->first();
-//        echo $project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id');
     }
 
     public function checkProcessesAjax(Request $request)
@@ -79,8 +77,10 @@ class ProjectController extends Controller
     {
         if ($request->ajax()) {
            $project = Project::find($request['project_id']);
+           $newStatus = Status::where('name', '=', 'kick off')->first()->id;
            if(!empty($project)){
                $project->end_date = null;
+               $project->status_id = $newStatus;
                $project->save();
                return response()->json([trans('project.msg_success') => trans('project.msg_content.msg_reopen_project_success')]);
            }else{
