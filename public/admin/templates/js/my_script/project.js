@@ -429,6 +429,11 @@ function disableAll() {
     $("#status").attr("disabled","disabled");
     $("#btn_reset_form_project").attr("disabled","disabled");
     $("#btn_submit_form_add_project").attr("disabled","disabled");
+    $("#employee_id").attr("disabled","disabled");
+    $("#man_power").attr("disabled","disabled");
+    $("#role").attr("disabled","disabled");
+    $("#start_date_process").attr("disabled","disabled");
+    $("#end_date_process").attr("disabled","disabled");
 }
 
 function enableAll() {
@@ -449,4 +454,9 @@ function enableAll() {
     $("#btn_submit_form_add_project").removeAttr("disabled");
     $('#warning-message').css('display','none');
     $('#btn_reopen_project').parent().closest('div').remove();
+    $("#employee_id").removeAttr("disabled");
+    $("#man_power").removeAttr("disabled");
+    $("#role").removeAttr("disabled");
+    $("#start_date_process").removeAttr("disabled");
+    $("#end_date_process").removeAttr("disabled");
 }

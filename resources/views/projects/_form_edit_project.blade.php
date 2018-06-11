@@ -440,7 +440,7 @@
                 location.reload();
             }
         });
-        $(document).on('click', ".remove_employee", function (event) {
+        $(".remove_employee").on('click', function (event) {
             var target_tr = $(event.target).parent().closest('tr');
             var target_input = $(this).parent().closest('tr').find("input.process_id");
             var employee_id = $(event.target).attr('id');
@@ -479,6 +479,8 @@
             });
 
         });
+
+
     });
 
 </script>

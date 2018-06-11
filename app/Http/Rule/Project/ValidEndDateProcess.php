@@ -71,7 +71,6 @@ class ValidEndDateProcess implements Rule
                 return false;
             }
         }
-
         $end_date_process = Carbon::parse($end_date_process);
         $start_date_process = Carbon::parse($this->start_date_process);
         if (!empty($this->real_start_date_project)) {
