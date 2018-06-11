@@ -73,7 +73,7 @@ class ValidManPower implements Rule
             $employee = !is_null(Employee::find($this->employee_id)) ?
                 Employee::find($this->employee_id)->name : '';
             $this->message = "Total man power of member " . $employee .
-                "(id = " . $this->employee_id . ') = ' . $totalManPower . ' is over 1';
+                "( id : " . $this->employee_id . ') = ' . $totalManPower . ' is over 1';
             request()->request->add(['available_processes' => $available_processes->toArray()]);
             return false;
         } else {
