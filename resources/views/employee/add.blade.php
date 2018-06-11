@@ -22,7 +22,11 @@
                 </div>
                     <SCRIPT LANGUAGE="JavaScript">
                         function confirmAction($msg) {
-                            return confirm($msg);
+                            var name = "-";
+                            if ($('#name').length){
+                                name = $('#name').val();
+                            }
+                            return confirm("Would you like to add new employee "+name+"?");
                         }
                     </SCRIPT>
                     <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>

@@ -13,7 +13,7 @@
             })
         </script>
         @foreach(session()->get('error_messages') as $key=>$values)
-            {{" Employee(id=".getIdEmployeefromProcessError($key).") : ".
+            {{" Employee( id : ".getIdEmployeefromProcessError($key)." ) : ".
             (!is_null(getEmployee((int)getIdEmployeefromProcessError($key)))?getEmployee((int)getIdEmployeefromProcessError($key))->name:'id wrong')}}
             <script>
                 $(document).ready(function () {
@@ -434,21 +434,22 @@
                 alert('Please fill in input Project Id');
                 return false;
             }
+
             if(name_project.length===0){
                 alert('Please fill in input Project Name');
                 return false;
             }
-            if (confirm("Do you want to edit Project : "+name_project+" ( id : "+id_project+" ) ?")) {
-                return true;
-            }else{
-                return false;
-            }
 
+            if (confirm("Do you want to update Project : "+name_project+" ( id : "+id_project+" ) ?")) {
+                return true;
+            }
+            return false;
         });
 
         $('#btn_reopen_project').on('click',function () {
             var id_project = $('#id').val();
             var name_project = $('#name').val();
+
             if (confirm("Do you want reopen Project : "+name_project+" ( id : "+id_project+" ) ?")) {
                 reopenAjax('{{route('reopenProjectAjax')}}', '{{csrf_token()}}');
             }
@@ -464,7 +465,8 @@
             var target_input = $(this).parent().closest('tr').find("input.process_id");
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
-            if (confirm("Do you want to remove " + employee_name + " ( id : " + employee_id + ") from project ?")) {
+
+            if (confirm("Do you want to remove " + employee_name + " ( id : " + employee_id + " ) from project ?")) {
                 removeEmployee(employee_id, target_tr ,target_input);
             }
         });
@@ -475,7 +477,8 @@
             if (employee_id === '' || employee_name === '') {
                 return confirm('Please choose employee !')
             } else {
-                if (confirm("Do you want to add  " + employee_name + " ( id : " + employee_id + ") to project ?")) {
+
+                if (confirm("Do you want to add  " + employee_name + " ( id : " + employee_id + " ) to project ?")) {
                     var end_date_process_selected = $('#end_date_process').val();
                     var start_date_process_selected = $('#start_date_process').val();
                     if (checkDupeMember(employee_id,employee_name, start_date_process_selected, end_date_process_selected) ) {

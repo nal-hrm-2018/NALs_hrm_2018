@@ -72,6 +72,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             $role = $value['role'];
             $email = $value['email'];
         }
+        $status = !is_null($this->request->status) ? $this->request->status : '';
         if (!empty($role)) {
             $query
                 ->whereHas('role', function ($query) use ($role) {
@@ -110,6 +111,20 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
         if (!empty($email)) {
             $query->Where('email', 'like', '%' . $email . '%');
         }
+        if ($status != "") {
+            $dateNow = date('Y-m-d');
+            if($status == 0){
+                $query->Where('work_status', $status)
+                    ->where('endwork_date','>=',$dateNow);
+            }
+            if ($status == 1){
+                $query->Where('work_status', $status);
+            }
+            if ($status == 2){
+                $query->Where('work_status', '0')
+                    ->where('endwork_date','<',$dateNow);
+            }
+        }
 
        /* if (!is_null($request['status'])) {
             $query->Where('work_status', $request['status']);
@@ -135,8 +150,20 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
                 $roleFindId = Role::where('id',$item->role_id)->first();
                 $item->role_id = $roleFindId->name;
             }
+//
+//            $item->work_status = $item->work_status?'Inactive':'Active';
+            $dateNow = date('Y-m-d');
+            $dateEndWork = Employee::find($item->id);
 
-            $item->work_status = $item->work_status?'Inactive':'Active';
+            if (($item->work_status == 0) && ($dateEndWork->endwork_date < $dateNow)){
+                $item->work_status = 'Expired';
+            }
+            if(($item->work_status == 0) && ($dateEndWork->endwork_date >= $dateNow)){
+                $item->work_status = 'Active';
+            }
+            if ($item->work_status == 1){
+                $item->work_status = 'Quited';
+            }
             unset($item->password); unset($item->remember_token);
             unset($item->birthday);unset($item->gender);
             unset($item->mobile);

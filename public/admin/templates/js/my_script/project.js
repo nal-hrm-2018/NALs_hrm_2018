@@ -37,7 +37,7 @@ function checkDupeMember(employee_id_selected, employee_name_selected, start_dat
                     if (end_date_process_selected < start_date_process || end_date_process < start_date_process_selected) {
                         continue;
                     }
-                    var string_error = employee_name_selected + " ( id = " + employee_id_selected + " )" + " Can't add because " +
+                    var string_error = employee_name_selected + " ( id : " + employee_id_selected + " )" + " Can't add because " +
                         " from : " + formatDate($(start_date_processes[i]).val(),'d/m/Y') +
                         " to: " + formatDate($(end_date_processes[i]).val(),'d/m/Y') + " you be added to this project";
                     $('#list_error').html('');
@@ -81,7 +81,7 @@ function checkPOProcess(employee_role_selected, employee_name_selected, employee
                         if (end_date_process_selected < start_date_process || end_date_process < start_date_process_selected) {
                             continue;
                         }
-                        var string_error = employee_name_selected + " ( id = " + employee_id_selected + " )" + " Can't be PO because " +
+                        var string_error = employee_name_selected + " ( id : " + employee_id_selected + " )" + " Can't be PO because " +
                             " from : " + formatDate($(start_date_processes[i]).val(),'d/m/Y') + " to: "
                             + formatDate($(end_date_processes[i]).val(),'d/m/Y') + " has PO is " + $(employee_names[i]).text();
                         $('#list_error').html('');

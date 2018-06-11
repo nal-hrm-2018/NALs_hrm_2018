@@ -28,7 +28,11 @@
                             src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                     <script>
                         function confirmAction($msg) {
-                            return confirm($msg);
+                            var name = "-";
+                            if ($('#name').length){
+                                name = $('#name').val();
+                            }
+                            return confirm("Would you like to add new vendor "+name+"?");
                         }
                         $(function () {
                             $("#btn_reset_form_vendor").on("click", function () {
