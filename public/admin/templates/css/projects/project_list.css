@@ -13,3 +13,22 @@ span.glyphicon.glyphicon-arrow-right.number-3 {
     left: 78.8%;
     position:  absolute;
 }
+
+th.text-center.project-center.sorting {
+    padding-bottom: 15px;
+}
+th.project-th-members.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.project-td-po-name.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.project-center.sorting{
+    padding-bottom: 15px;
+}
