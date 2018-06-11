@@ -116,10 +116,6 @@ function checkValidProjectData()
     $processAddRequest = new ProcessAddRequest();
     $error_messages = array();
     if (!empty($processes)) {
-        //kiem tra processes phai co it nhat 1 po
-        if (!checkPOinProject($processes)) {
-            return false;
-        }
         //validate cac process
         foreach ($processes as $key => $process) {
             $validator = Validator::make(
@@ -143,16 +139,9 @@ function checkValidProjectData()
         if (!empty($error_messages)) {
             session()->flash('error_messages', $error_messages);
             return false;
-        } else {
-            return true;
         }
-
-    } else {
-        $bag = new MessageBag();
-        $bag->add('PO_process', 'Project must have at least 1 PO ');
-        session()->flash('errors', $bag);
-        return false;
     }
+    return true;
 }
 
 function getEmployee($id)
@@ -213,8 +202,5 @@ function checkPOinProject($processes)
             return true;
         }
     }
-    $bag = new MessageBag();
-    $bag->add('PO_process', 'Project must have at least 1 PO ');
-    session()->flash('errors', $bag);
     return false;
 }

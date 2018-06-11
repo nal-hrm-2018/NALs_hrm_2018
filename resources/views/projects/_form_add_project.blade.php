@@ -13,7 +13,7 @@
             })
         </script>
         @foreach(session()->get('error_messages') as $key=>$values)
-            {{" Employee(id=".getIdEmployeefromProcessError($key).") : ".
+            {{" Employee ( id : ".getIdEmployeefromProcessError($key)." ) : ".
             (!is_null(getEmployee((int)getIdEmployeefromProcessError($key)))?getEmployee((int)getIdEmployeefromProcessError($key))->name:'id wrong')}}
             <script>
                 $(document).ready(function () {
@@ -43,7 +43,7 @@
 </div>
 <div class="col-md-6 col-md-offset-1">
     <div>
-        <label>{{trans('project.id')}}</label>
+        <label>{{trans('project.id')}}<strong style="color: red">(*)</strong> </label>
         {{ Form::text('id', old('id'),
             ['class' => 'form-control',
             'id' => 'id',
@@ -54,7 +54,7 @@
         {{--<label class="id" id="lb_error_project_id" style="color: red; ">{{$errors->first('id')}}</label>--}}
     </div>
     <div>
-        <label>{{trans('project.project_name')}}</label>
+        <label>{{trans('project.project_name')}}<strong style="color: red">(*)</strong> </label>
         {{ Form::text('name', old('name'),
             ['class' => 'form-control',
             'id' => 'name',
@@ -65,7 +65,7 @@
         {{--<label class="name" id="lb_error_project_name" style="color: red; ">{{$errors->first('name')}}</label>--}}
     </div>
     <div>
-        <label>{{trans('project.estimate_start_date')}}</label>
+        <label>{{trans('project.estimate_start_date')}}<strong style="color: red">(*)</strong> </label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -80,7 +80,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>{{trans('project.estimate_end_date')}}</label>
+        <label>{{trans('project.estimate_end_date')}}<strong style="color: red">(*)</strong> </label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -94,7 +94,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>Start work date</label>
+        <label>Real start date</label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -108,7 +108,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>End work date</label>
+        <label>Real end date</label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -130,7 +130,7 @@
 </div>
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
 <div class="col-md-2">
-    <label>Member</label><br/>
+    <label>Member <strong style="color: red">(*)</strong> </label><br/>
     <select name="employee_id" id="employee_id" class="form-control select2">
         <option {{ !empty(old('employee_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -143,7 +143,7 @@
     </select>
 </div>
 <div class="col-md-2">
-    <label>Man power</label><br/>
+    <label>Man power <strong style="color: red">(*)</strong> </label><br/>
     <select name="man_power" id="man_power" class="form-control">
         <option {{ !empty(old('man_power'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -156,7 +156,7 @@
     </select>
 </div>
 <div class="col-md-2">
-    <label>Role</label><br/>
+    <label>Role <strong style="color: red">(*)</strong> </label><br/>
     <select name="role_id" id="role" class="form-control">
         <option {{ !empty(old('role_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -169,7 +169,7 @@
     </select>
 </div>
 <div class="col-md-3">
-    <label>Start date</label>
+    <label>Start date <strong style="color: red">(*)</strong> </label>
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -180,7 +180,7 @@
     <!-- /.input group -->
 </div>
 <div class="col-md-3">
-    <label>End date</label>
+    <label>End date <strong style="color: red">(*)</strong> </label>
     <div class="input-group date ">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -265,7 +265,7 @@
 </div>
 <div class="col-md-6 col-md-offset-1">
     <div>
-        <label>Income</label>
+        <label>Income<strong style="color: red">(*)</strong> </label>
         {{ Form::number('income', old('income'),
             ['class' => 'form-control',
             'id' => 'income',
@@ -310,7 +310,7 @@
         {{--<label id="lb_error_description" style="color: red;"></label>--}}
     </div>
     <div>
-        <label>Status</label><br/>
+        <label>Status<strong style="color: red">(*)</strong> </label><br/>
         <select name="status" id="status" class="form-control">
             <option {{ !empty(old('status'))?'':'selected="selected"' }} value="">
                 {{  trans('vendor.drop_box.placeholder-default') }}
@@ -351,7 +351,7 @@
                 alert('Please fill in input Project Name');
                 return false;
             }
-            if (confirm("Do you want to add new Project : "+name_project+" ( id: "+id_project+" ) ?")) {
+            if (confirm("Do you want to add new Project : "+name_project+" ( id : "+id_project+" ) ?")) {
                 return true;
             }
             return false;
@@ -366,7 +366,7 @@
             var target = $(event.target).parent().closest('tr');
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
-            if (confirm("Do you want to remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
+            if (confirm("Do you want to remove " + employee_name + " ( id : " + employee_id + " ) from project ?")) {
                 removeEmployee(employee_id, target);
             }
         });
@@ -377,7 +377,7 @@
             if (employee_id === '' || employee_name === '') {
                 return confirm('Please choose employee !')
             } else {
-                if (confirm("Do you want to add  " + employee_name + " (id=" + employee_id + ") to project ?")) {
+                if (confirm("Do you want to add  " + employee_name + " ( id : " + employee_id + " ) to project ?")) {
                     var end_date_process_selected = $('#end_date_process').val();
                     var start_date_process_selected = $('#start_date_process').val();
                     if (checkDupeMember(employee_id,employee_name, start_date_process_selected, end_date_process_selected) ) {
