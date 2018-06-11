@@ -47,7 +47,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $status = [0=> "Active", 1=>"Inactive"];
+        $status = [0=> "Active", 1=>"Quited",2=> "Expired"];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         if (!isset($request['number_record_per_page'])) {
