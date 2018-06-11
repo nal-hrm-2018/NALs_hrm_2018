@@ -130,6 +130,53 @@ function calculateEstimateCost() {
     return total_cost;
 }
 
+function reopenAjax(url, token) {
+    var project_id = $('#project_id');
+    if(project_id.length>0){
+        project_id=project_id.val();
+    }else{
+        project_id=null;
+    }
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            project_id: project_id,
+            _token: token,
+
+        },
+        success: function (json) {
+            if (json.hasOwnProperty('msg_success')) {
+                // $(document).ready(function (event) {
+                //     enableAll();
+                // }
+                enableAll();
+                $('#end_date_project').val('');
+                alert(json['msg_success']);
+            }
+            if (json.hasOwnProperty('msg_fail')) {
+                alert(json['msg_fail']);
+            }
+        },
+        error: function (json) {
+            if (json.status === 422) {
+                var errors = json.responseJSON;
+                $.each(json.responseJSON, function (key, value) {
+                    $('#list_error').html(value);
+
+                });
+            } else {
+                // Error
+                // Incorrect credentials
+                // alert('Incorrect credentials. Please try again.')
+            }
+        }
+    });
+}
 
 function requestAjax(url, token) {
     var project_id = $('#project_id');
@@ -367,3 +414,49 @@ function removeEmployee(employee_id, target_tr, target_input) {
 //     });
 // }
 
+function disableAll() {
+    $("#id").attr("disabled","disabled");
+    $("#name").attr("disabled","disabled");
+    $("#estimate_start_date").attr("disabled","disabled");
+    $("#estimate_end_date").attr("disabled","disabled");
+    $("#start_date_project").attr("disabled","disabled");
+    $("#end_date_project").attr("disabled","disabled");
+    $("#btn_add_process").attr("disabled","disabled");
+    $(".remove_employee").css("display","none");
+    $("#income").attr("disabled","disabled");
+    $("#real_cost").attr("disabled","disabled");
+    $("#description").attr("disabled","disabled");
+    $("#status").attr("disabled","disabled");
+    $("#btn_reset_form_project").attr("disabled","disabled");
+    $("#btn_submit_form_add_project").attr("disabled","disabled");
+    $("#employee_id").attr("disabled","disabled");
+    $("#man_power").attr("disabled","disabled");
+    $("#role").attr("disabled","disabled");
+    $("#start_date_process").attr("disabled","disabled");
+    $("#end_date_process").attr("disabled","disabled");
+}
+
+function enableAll() {
+    $("#id").removeAttr("disabled");
+    $("#name").removeAttr("disabled");
+    $("#estimate_start_date").removeAttr("disabled");
+    $("#estimate_end_date").removeAttr("disabled");
+    $("#start_date_project").removeAttr("disabled");
+    $("#end_date_project").removeAttr("disabled");
+    $("#btn_add_process").removeAttr("disabled");
+    $(".remove_employee").css("display","block");
+    $("#income").removeAttr("disabled");
+    $("#real_cost").removeAttr("disabled");
+    $("#description").removeAttr("disabled");
+    $("#status").removeAttr("disabled");
+    $("#status").val('');
+    $("#btn_reset_form_project").removeAttr("disabled");
+    $("#btn_submit_form_add_project").removeAttr("disabled");
+    $('#warning-message').css('display','none');
+    $('#btn_reopen_project').parent().closest('div').remove();
+    $("#employee_id").removeAttr("disabled");
+    $("#man_power").removeAttr("disabled");
+    $("#role").removeAttr("disabled");
+    $("#start_date_process").removeAttr("disabled");
+    $("#end_date_process").removeAttr("disabled");
+}

@@ -84,7 +84,7 @@ class ProjectServiceImpl extends CommonService
             return $project;
         } catch (Exception $ex) {
             DB::rollBack();
-            session()->flash(trans('common.msg_error'), trans('project.msg_content.msg_add_error'));
+            session()->flash(trans('common.msg_fails'), $ex->getMessage());
             return null;
         }
     }
