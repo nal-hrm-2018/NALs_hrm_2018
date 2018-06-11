@@ -30,7 +30,7 @@
             function confirmEmployee($msg) {
                 var name = $('#name').val();
                  var id = $('#id_employee').val();
-                return confirm("Would you like to edit employee "+name+" (id = "+id+")");
+                return confirm("Would you like to edit employee "+name+" (id: "+id+")");
             }
         </SCRIPT>
         <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>

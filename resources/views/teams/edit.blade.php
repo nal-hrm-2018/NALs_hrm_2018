@@ -73,13 +73,17 @@
                 <li class="active">Edit team</li>
             </ol>
         </section>
-        <SCRIPT LANGUAGE="JavaScript">
-            function confirmTeam($msg) {
-                name = $('#team_name').val();
-                id = $('#id_team').val();
-                return confirm("Would you like to edit team "+name+" (id = "+id+")");
-            }
-        </SCRIPT>
+            <SCRIPT LANGUAGE="JavaScript">
+                function confirmTeam($msg) {
+    //                var name = $('#team_name').val();
+                    var name = "-";
+                    if ($('#team_name').length){
+                        name = $('#team_name').val();
+                    }
+                    var id = $('#id_team').val();
+                    return confirm("Would you like to edit team "+name+" (id: "+id+")");
+                }
+            </SCRIPT>
 
         <!-- Main content -->
         <section class="content">
