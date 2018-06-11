@@ -76,7 +76,8 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if (!is_null($request['status'])) {
             $dateNow = date('Y-m-d');
             if($request['status'] == 0){
-                $query->Where('work_status', $request['status']);
+                $query->Where('work_status', $request['status'])
+                    ->where('endwork_date','>=',$dateNow);
             }
             if ($request['status'] == 1){
                 $query->Where('work_status', $request['status']);

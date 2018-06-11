@@ -37,7 +37,7 @@ class VendorController extends Controller
 
     public function index(Request $request)
     {
-        $status = [0 => "Active", 1 => "Inactive"];
+        $status = [0=> "Active", 1=>"Quited",2=> "Expired"];
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $request['is_employee'] = config('settings.Employees.not_employee');
         if (!isset($request['number_record_per_page'])) {
