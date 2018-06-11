@@ -136,7 +136,7 @@ class TeamController extends Controller
         $listEmployee = Employee::query()
             ->with(['team', 'role'])
             ->where('delete_flag', 0)->get();
-        $listEmployeeOfTeam = Employee::select('employees.id', 'employees.name', 'teams.name as team', 'roles.name as role')
+        $listEmployeeOfTeam = Employee::select('employees.id', 'employees.name', 'employees.role_id','teams.name as team', 'roles.name as role')
             ->join('teams', 'teams.id', '=', 'employees.team_id')
             ->join('roles', 'roles.id', '=', 'employees.role_id')
             ->where('employees.team_id', $id)
@@ -149,7 +149,8 @@ class TeamController extends Controller
             ->where('roles.name', 'PO')
             ->where('employees.delete_flag', '0')
             ->orderBy('employees.id', 'asc')->first();
-        return view('teams.edit1', compact('listEmployee','listEmployeeOfTeam', 'team', 'poOfteam'));
+        $listRole = Role::where('delete_flag','0')->get();
+        return view('teams.edit1', compact('listEmployee','listEmployeeOfTeam', 'team', 'poOfteam','listRole'));
 
     }
 

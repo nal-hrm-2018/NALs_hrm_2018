@@ -159,15 +159,25 @@ class TeamServiceImpl extends CommonService
             $objTeam ->save();
 
             //update table employee
-            //update PO
             $getPORole = Role::where('name', '=', 'PO')->first();
+            $getDevRole = Role::where('name', '=', 'DEV')->first();
+
+            //delete PO old
+            $objPoOld = Employee::where('role_id',$getPORole->id)
+            ->where('team_id',$id)->first();
+            if($objPoOld != null){
+                $objPoOld -> team_id = null;
+                $objPoOld -> save();
+            }
+            
+            //update PO            
             $poId = $request->po_name;
             if($poId > 0){
-                $objPoOfTeam = Employee::find($poId);
-                if($objPoOfTeam != null){
-                    $objPoOfTeam -> team_id = $id;
-                    $objPoOfTeam -> role_id = $getPORole -> id;
-                    $objPoOfTeam -> save();
+                $objPoNew = Employee::find($poId);
+                if($objPoNew != null){
+                    $objPoNew -> team_id = $id;
+                    $objPoNew -> role_id = $getPORole -> id;
+                    $objPoNew -> save();
                 }else{
                     \Session::flash('msg_fail', 'Edit failed!!! PO is not exit!!!');
                     return back();
@@ -183,32 +193,38 @@ class TeamServiceImpl extends CommonService
                 ->where('roles.name', '<>', 'PO')
                 ->where('team_id', $id)->get();
                 //update member in team remove
-                foreach ($listMemberInTeams as $objMemberInTeams){
-                    $check = true;
-                    foreach ($listMember as $objMember){
-                        if($objMemberInTeams->id == $objMember){
-                            $check = false;
+                if($listMemberInTeams != null){
+                    foreach ($listMemberInTeams as $objMemberInTeams){
+                        $check = true;
+                        foreach ($listMember as $objMember){
+                            if($objMemberInTeams->id == $objMember['id']){
+                                $check = false;
+                            }
                         }
-                    }
-                    if($check){
-                        $objMemberById = Employee::find($objMemberInTeams->id);
-                        if ($objMemberById == null) {
-                            \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
-                            return back();
-                        } else {
-                            $objMemberById->team_id = null;
-                            $objMemberById->save();
+                        if($check){
+                            $objMemberById = Employee::find($objMemberInTeams->id);
+                            if ($objMemberById == null) {
+                                \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
+                                return back();
+                            } else {
+                                $objMemberById->team_id = null;
+                                $objMemberById->save();
+                            }
                         }
                     }
                 }
                 //update list member
                 foreach ($listMember as $objMember){
-                    $objMemberById = Employee::find($objMember);
+                    $objMemberById = Employee::find($objMember['id']);
                     if ($objMemberById == null) {
                         \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
                         return back();
                     } else {
+                        if($objMemberById->role_id == $getPORole -> id){
+                            $objMemberById->role_id = $getDevRole -> id;
+                        }
                         $objMemberById->team_id = (int)$id;
+                        $objMemberById->role_id = (int)$objMember['role'];
                         $objMemberById->save();
                     }
                 }

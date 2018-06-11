@@ -96,7 +96,7 @@
                         <!-- /.col -->
                         <div class="col-md-7">
                             <div class="form-group">
-                                <label>Team name</label>
+                                <label>Team name<strong style="color: red">(*)</strong></label>
                                 <input type="text" class="form-control width80" id="team_name" placeholder="Team name"
                                        name="team_name"
                                        value="{!! old('name', isset($team) ? $team->name : null) !!}">
@@ -144,7 +144,14 @@
                             </div>
                             <div class="form-group" id="listChoose" style="display: none;">
                                 @foreach($listEmployeeOfTeam as $obj)
-                                    <input type="text" hidden="hidden" class="input_{{$obj->id}}" name="employee[]" id="" value="{{$obj->id}}">
+                                    <div>
+                                        <div>
+                                            <input type="text" class="input_{{$obj->id}}" name="employee[member_{{$obj->id}}][id]" value="{{$obj->id}}">
+                                        </div>
+                                        <div id="input_role_{{$obj->id}}">
+                                            <input type="text" class="input_{{$obj->id}}" name="employee[member_{{$obj->id}}][role]" value="{{$obj->role_id}}">
+                                        </div>
+                                    </div>
                                 @endforeach 
                             </div>
                             <div class="form-group" id="contextMenuTeam">
@@ -157,6 +164,7 @@
                                             <th>Team</th>
                                             <th>Role</th>
                                             <th>Name</th>
+                                            <th>New role</th>
                                             <th>Remove</th>
                                         </tr>
                                       </thead>
@@ -183,6 +191,17 @@
                                                     ?>
                                                 </td>
                                                 <td>{{$obj->name}}</td>
+                                                <td>
+                                                    <select onchange="select_role({{$obj->id}})" id="id_select_role_{{$obj->id}}">
+                                                        @foreach($listRole as $objRole)
+                                                            <option @if($obj->role_id == $objRole->id)
+                                                                {{$selected = "selected"}}
+                                                            @endif @if($objRole->name == "PO")
+                                                                {{$disabled = "disabled"}}
+                                                            @endif value="{{$objRole->id}}">{{$objRole->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
                                                 <td>
                                                     <a class="btn-employee-remove" style="margin-left: 25px;">
                                                         <i class="fa fa-remove"
@@ -225,12 +244,14 @@
                     $listEmployeeName = new Array();
                     $listEmployeeTeam = new Array();
                     $listEmployeeRole = new Array();
+                    $listEmployeeRole_id = new Array();
                     @foreach($listEmployeeOfTeam as $obj)
                         $listEmployeeID.push({{$obj->id}});
                         $listEmployeeName.push('{{$obj->name}}');
                         $listEmployeeTeam.push('{{isset($obj->team)?$obj->team:'-'}}');
                         $listEmployeeRole.push('{{isset($obj->role)?$obj->role:'-'}}');
-                        
+                        $listEmployeeRole_id.push('{{isset($obj->role)?$obj->role_id:'-'}}');
+
                         $('#member_{{$obj->id}}').prop('disabled', true);
                         $('#po_{{$obj->id}}').prop('disabled', true);
                     @endforeach
@@ -263,6 +284,7 @@
                                 {
                                     $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($obj->team)?$obj->team->name:'-'}}';
                                     $listEmployeeRole[$listEmployeeRole.length] = '{{isset($obj->role)?$obj->role->name:'-'}}';
+                                    $listEmployeeRole_id[$listEmployeeRole_id.length] = '{{isset($obj->role)?$obj->role_id:'-'}}';
                                 }
                                 @endforeach
 
@@ -278,20 +300,34 @@
                                     } else if($listEmployeeRole[$i] == 'ScrumMaster'){
                                         $classBtr = 'label label-warning';
                                     }
+                                    $listRoleNew = "";
+                                    @foreach($listRole as $objRole)
+                                        $selected = "";
+                                        $disabled = "";
+                                        if( {{$objRole->id}} == $listEmployeeRole_id[$i]){
+                                            $selected = "selected";
+                                        }
+                                        if("{{$objRole->name}}" == "PO"){
+                                            $disabled = "disabled";
+                                        }
+                                        $listRoleNew += "<option "+$selected+" "+$disabled+" value=\"{{$objRole->id}}\">{{$objRole->name}}</option>";
+                                    @endforeach
                                     $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +
                                         "<td>" + $listEmployeeID[$i] + "</td>" +
                                         "<td>" + $listEmployeeTeam[$i] + "</td>" +
                                         "<td><span class=\""+ $classBtr +"\">" + $listEmployeeRole[$i] + "</span></td>" +
                                         "<td>" + $listEmployeeName[$i] + "</td>" +
+                                        "<td><select onchange=\"select_role("+$listEmployeeID[$i]+")\">"+ $listRoleNew +"</select></td>"+
                                         "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
-                                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
+                                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>New role</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
                                     "</tbody></table></div>";
                                 $listChoose = "";
                                 for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                    $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
+                                    $listChoose += "<div><div><input type=\"text\" name=\"employee[member_"+$listEmployeeID[$i]+"][id]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\"></div>"+
+                                        "<div id=\"input_role_"+$listEmployeeID[$i]+"\"><input type=\"text\" class=\"input_"+$listEmployeeID[$i]+"\" name=\"employee[member_"+$listEmployeeID[$i]+"][role]\" value=\""+$listEmployeeRole_id[$i]+"\"></div></div>";
                                     if ($listEmployeeID[$i] == $idPo) {
                                         $('#po_'+$idPo).prop('disabled', true);
                                         $('#select_po_name').select2();
@@ -308,6 +344,15 @@
                                 $('#select_po_name').select2();
                             }
                         }
+                    }
+                </script>
+                <!-- <script type="text/javascript"
+                        src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+                <script type="text/javascript">
+                    function select_role($id) {
+                        $id_select_role = document.getElementById("id_select_role_"+$id).value;
+                        $input_role = "<input type=\"text\" class=\"input_"+$id +"\" name=\"employee[member_"+$id+"][role]\" value=\""+$id_select_role+"\">";
+                        document.getElementById("input_role_"+$id).innerHTML = $input_role;
                     }
                 </script>
                 <script type="text/javascript">
