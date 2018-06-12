@@ -146,7 +146,7 @@
                                             echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
                                             }
                                             if ($count <= 2) echo ', ';
-                                            if ($count == 1) {
+                                            if ($count == 2) {
                                             echo '<a href="#" class="show-list-po"
                                                             id="show-list-po-' . $project->id . '" data-toggle="modal"
                                                             data-target="#show-list-po">[...]</a>';
@@ -177,6 +177,9 @@
                                             echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
                                             }
                                             if ($count < sizeof($allMembersNotPO) - 1) echo', ';
+                                            if($count == sizeof($allMembersNotPO) - 1) echo ' <a href="#" class="show-list-employee"
+                                                            id="show-list-employee-' . $project->id . '" data-toggle="modal"
+                                                            data-target="#show-list-members" style="color: black">[?]</a>';
                                             $count++;
                                             } else if (sizeof($allMembersNotPO) > 3) {
                                             if ($employeeInProject->employee->is_employee == $isEmployee){
@@ -186,10 +189,10 @@
                                             echo '<a href="vendors/' . $employeeInProject->employee->id . '">' . $employeeInProject->employee->name . '</a>';
                                             }
                                             if ($count <= 2) echo ', ';
-                                            if ($count == 1) {
+                                            if ($count == 2) {
                                             echo '<a href="#" class="show-list-employee"
                                                             id="show-list-employee-' . $project->id . '" data-toggle="modal"
-                                                            data-target="#show-list-members">[...]</a>';
+                                                            data-target="#show-list-members" style="color: red">[...]</a>';
                                             break;
                                             }
                                             $count++;
