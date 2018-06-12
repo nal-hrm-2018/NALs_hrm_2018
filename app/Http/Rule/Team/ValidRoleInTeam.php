@@ -11,6 +11,7 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\Team;
 use App\Models\Role;
+use App\Models\Employee;
 class ValidRoleInTeam implements Rule
 {
     private $msg;
@@ -26,8 +27,19 @@ class ValidRoleInTeam implements Rule
         $id_po = Role::select('id')->where('name','=','PO')->first();
         if($value != null){
             foreach ($value as $objMember){
-                if( (int)$objMember['role'] == $id_po->id){
-                    $this->msg .= "Member id = ".$objMember['id']." role other PO";
+                $objMemberById = Employee::find($objMember['id']);
+                $objRoleById = Role::find($objMember['id']);
+                if($objRoleById == null){
+                    $this->msg .="Error: Role is not exit!!!";
+                    return false;
+                }
+                if ($objMemberById == null) {
+                    $this->msg .="Error!!! Employee is not exit!!!";
+                    return false;
+                }else{
+                    if( (int)$objMember['role'] == $id_po->id){
+                        $this->msg .= "Member id: ".$objMember['id']." name: ".$objMemberById->name." role other PO \n";
+                    }
                 }
             }
         }
@@ -44,6 +56,6 @@ class ValidRoleInTeam implements Rule
      */
     public function message()
     {
-        return $this->msg;
+        return "";
     }
 }

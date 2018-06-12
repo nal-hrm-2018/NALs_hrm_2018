@@ -92,23 +92,25 @@
             <div class="box box-default">
 
                 <div class="box-body">
-                    <!-- @if($errors->any())
-                    <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
-                         @foreach($errors->all() as $key=>$error)
-                            @if(!is_null($error))
-                                {{" Error : ".$error }}<br>
+                    @if(session()->has('listEmployeeOfTeamEdit') || $errors->any())
+                        <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
+                            @if($errors->any())
+                                @foreach($errors->all() as $key=>$error)
+                                    @if(!is_null($error) && $error != "")
+                                        {{" Error : ".$error }}<br />
+                                    @endif
+                                @endforeach
                             @endif
-                        @endforeach
-                    </div>
-                   @endif -->
-                    @if(session()->has('listErrorPO'))
-                       <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
-                            @foreach(session()->get('listErrorPO') as $err)
-                                <p>{{$err}}</p>
-                            @endforeach
+                            @if(session()->has('listEmployeeOfTeamEdit'))
+                                @if(checkPoInLishMember(session()->get('listEmployeeOfTeamEdit')) != "")
+                                    @php 
+                                        echo checkPoInLishMember(session()->get('listEmployeeOfTeamEdit'))
+                                    @endphp
+                                @endif
+                            @endif
                         </div>
                     @endif
-                    @if(!session()->has('listErrorPO'))
+                    @if(!session()->has('listEmployeeOfTeamEdit') && !$errors->any())
                         <div id="msg">
                         </div>
                     @endif
