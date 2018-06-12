@@ -170,10 +170,10 @@ function showListAvailableProcesses($available_processes)
     $string_available_processes = '';
     foreach ($available_processes as $process) {
         $string_available_processes = $string_available_processes .
-            " project_id : " . $process['project_id'] .
-            " man_power : " . $process['man_power'] .
-            " start_date : " . date('d/m/Y', strtotime($process['start_date'])) .
-            " end_date : " . date('d/m/Y', strtotime($process['start_date'])) . "\n";
+            " Project id: " . $process['project_id'] . ", ".
+            " Man power: " . $process['man_power'] .", ".
+            " Start date: " . date('d/m/Y', strtotime($process['start_date'])) .", ".
+            " End date: " . date('d/m/Y', strtotime($process['start_date'])) . "\n";
     }
 
     return nl2br ("You can view suggest information of this employee : \n" . $string_available_processes);
