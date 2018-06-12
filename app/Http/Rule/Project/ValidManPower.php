@@ -22,7 +22,7 @@ class ValidManPower implements Rule
     private $employee_id;
     private $array_value;
     private $delete_flag;
-
+    private $man_power;
     public function __construct(
         $start_date_process,
         $end_date_process,
@@ -31,7 +31,8 @@ class ValidManPower implements Rule
         $except_project_id,
         $employee_id,
         $array_value,
-        $delete_flag
+        $delete_flag,
+        $man_power
     )
     {
         $this->projectService = app(ProjectService::class);
@@ -43,11 +44,16 @@ class ValidManPower implements Rule
         $this->employee_id=$employee_id;
         $this->array_value=$array_value;
         $this->delete_flag=$delete_flag;
+        $this->man_power = $man_power;
     }
 
     public function passes($attribute, $value)
     {
-        if(!in_array($value,$this->array_value)){
+        $manPower = $this->man_power;
+        if(empty($manPower)){
+            return false;
+        }
+        if(!in_array($manPower,$this->array_value)){
             $this->message = "Value of manpower not correct !";
             return false;
         }
@@ -59,7 +65,6 @@ class ValidManPower implements Rule
             || empty($this->start_date_process) || empty($this->end_date_process)) {
             return false;
         }
-        $manPower = $value;
 
         $available_processes = $this->projectService->getProcessbetweenDate(
             $this->employee_id,

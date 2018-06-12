@@ -32,3 +32,11 @@ th.project-center.sorting{
 th.project-center.sorting{
     padding-bottom: 15px;
 }
+th.text-center.project-center.sorting_asc{padding-bottom: 15px;}
+th.project-td-po-name.project-center.sorting_asc{padding-bottom: 15px;}
+th.project-td-po-name.project-center.sorting{padding-bottom: 15px;}
+th.project-center.sorting_asc{padding-bottom: 15px;}
+th.project-th-members.project-center.sorting_desc{padding-bottom: 15px;}
+th.project-center.sorting_desc{padding-bottom: 15px;}
+th.project-td-po-name.project-center.sorting_desc{padding-bottom: 15px;}
+th.text-center.project-center.sorting_desc{padding-bottom: 15px;}

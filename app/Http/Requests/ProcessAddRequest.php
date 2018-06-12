@@ -45,6 +45,24 @@ class ProcessAddRequest extends CommonRequest
                         $process['delete_flag']
                     ),
                 ],
+            'man_power' =>
+                [
+                    'bail',
+                    'required',
+                ],
+            'role_id' =>
+                [
+                    'bail',
+                    'required',
+                    'exists:roles,id',
+                    new ValidRoleProject(
+                        $processes,
+                        $process['start_date_process'],
+                        $process['end_date_process'],
+                        $process['delete_flag'],
+                        $process['employee_id']
+                    ),
+                ],
             'start_date_process' =>
                 [
                     'bail',
@@ -66,11 +84,6 @@ class ProcessAddRequest extends CommonRequest
                         $process['delete_flag'],
                         $project_id
                     ),
-                ],
-            'man_power' =>
-                [
-                    'bail',
-                    'required',
                     new ValidManPower(
                         $process['start_date_process'],
                         $process['end_date_process'],
@@ -79,22 +92,11 @@ class ProcessAddRequest extends CommonRequest
                         $project_id,
                         $process['employee_id'],
                         getArrayManPower(),
-                        $process['delete_flag']
+                        $process['delete_flag'],
+                        $process['man_power']
                     )
                 ],
-            'role_id' =>
-                [
-                    'bail',
-                    'required',
-                    'exists:roles,id',
-                    new ValidRoleProject(
-                        $processes,
-                        $process['start_date_process'],
-                        $process['end_date_process'],
-                        $process['delete_flag'],
-                        $process['employee_id']
-                    ),
-                ],
+
             'delete_flag'=>[
                 'bail',
                 'nullable',
@@ -107,12 +109,6 @@ class ProcessAddRequest extends CommonRequest
     public function rules()
     {
         return [
-            'employee_id' =>
-                [
-                    'bail',
-                    'required',
-                    new ValidMember(),
-                ],
             'estimate_start_date' =>
                 [
                     'bail',
@@ -141,6 +137,23 @@ class ProcessAddRequest extends CommonRequest
                     new ValidEndDateProject(request()->get('start_date_project')),
                     'after_or_equal:start_date_project',
                 ],
+            'employee_id' =>
+                [
+                    'bail',
+                    'required',
+                    new ValidMember(),
+                ],
+            'man_power' =>
+                [
+                    'bail',
+                    'required',
+                ],
+            'role_id' =>
+                [
+                    'bail',
+                    'required',
+                    'exists:roles,id',
+                ],
 
             'start_date_process' =>
                 [
@@ -163,11 +176,6 @@ class ProcessAddRequest extends CommonRequest
                         request()->get('delete_flag'),
                         null
                     ),
-                ],
-            'man_power' =>
-                [
-                    'bail',
-                    'required',
                     new ValidManPower(
                         request()->get('start_date_process'),
                         request()->get('end_date_process'),
@@ -176,15 +184,10 @@ class ProcessAddRequest extends CommonRequest
                         request()->get('project_id'),
                         request()->get('employee_id'),
                         getArrayManPower(),
-                        request()->get('delete_flag')
+                        request()->get('delete_flag'),
+                        request()->get('man_power')
                     )
-                ],
-            'role_id' =>
-                [
-                    'bail',
-                    'required',
-                    'exists:roles,id',
-                ],
+                ]
         ];
     }
 
