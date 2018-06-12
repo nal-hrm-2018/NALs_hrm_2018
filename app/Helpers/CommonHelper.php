@@ -116,10 +116,6 @@ function checkValidProjectData()
     $processAddRequest = new ProcessAddRequest();
     $error_messages = array();
     if (!empty($processes)) {
-        //kiem tra processes phai co it nhat 1 po
-        if (!checkPOinProject($processes)) {
-            return false;
-        }
         //validate cac process
         foreach ($processes as $key => $process) {
             $validator = Validator::make(
@@ -137,22 +133,17 @@ function checkValidProjectData()
             );
             if ($validator->fails()) {
                 // key = id  process , value = messagebag of validate
-                $error_messages[$key] = $validator->messages();
+                $error_messages[$key] = [];
+                $error_messages[$key]['errors']  = $validator->messages();
+                $error_messages[$key]['available_processes']=request()->get('available_processes');
             }
         }
         if (!empty($error_messages)) {
             session()->flash('error_messages', $error_messages);
             return false;
-        } else {
-            return true;
         }
-
-    } else {
-        $bag = new MessageBag();
-        $bag->add('PO_process', 'Project must have at least 1 PO ');
-        session()->flash('errors', $bag);
-        return false;
     }
+    return true;
 }
 
 function getEmployee($id)
@@ -185,7 +176,7 @@ function showListAvailableProcesses($available_processes)
             " end_date : " . date('d/m/Y', strtotime($process['start_date'])) . "\n";
     }
 
-    $string_total = "You can view suggest information of this employee : \n" + $string_available_processes;
+    return nl2br ("You can view suggest information of this employee : \n" . $string_available_processes);
 }
 
 function getInformationDataTable($pagination)
@@ -213,8 +204,5 @@ function checkPOinProject($processes)
             return true;
         }
     }
-    $bag = new MessageBag();
-    $bag->add('PO_process', 'Project must have at least 1 PO ');
-    session()->flash('errors', $bag);
     return false;
 }
