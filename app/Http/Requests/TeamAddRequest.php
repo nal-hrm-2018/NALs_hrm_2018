@@ -28,7 +28,7 @@ class TeamAddRequest extends FormRequest
                 'regex:/(^[a-zA-Z0-9 ]+$)+/',
                 new ValidTeamName()],
             'id_po' => new ValidPoName(request()->get('members')),
-            'employee' =>[new ValidDupeMember(), new ValidRoleInTeam()]
+            'employee' =>new ValidDupeMember()
         ];
     }
     public  function messages()
