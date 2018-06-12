@@ -19,15 +19,6 @@
             <div class="box box-default">
                 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                 <div class="box-body">
-                    <!-- @if($errors->any())
-                    <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
-                         @foreach($errors->all() as $key=>$error)
-                            @if(!is_null($error))
-                                {{" Error : ".$error }}<br>
-                            @endif
-                        @endforeach
-                    </div>
-                   @endif -->
                      @if(session()->has('listErrorPO'))
                        <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
                             @foreach(session()->get('listErrorPO') as $err)
@@ -346,6 +337,7 @@
                         $id_select_role = document.getElementById("id_select_role_"+$id).value;
                         $input_role = "<input type=\"text\" class=\"input_"+$id +"\" name=\"employee[member_"+$id+"][role]\" value=\""+$id_select_role+"\">";
                         document.getElementById("input_role_"+$id).innerHTML = $input_role;
+                        $listEmployeeRole_id[$listEmployeeID.indexOf(""+$id)]=$id_select_role;
                     }
                 </script>
                 <script type="text/javascript">
