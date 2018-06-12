@@ -82,6 +82,10 @@
                                                     if (sizeof($employee->projects) > 0 && sizeof($employee->projects) <= 3) {
                                                         echo $project->name;
                                                         if ($count < sizeof($employee->projects) - 1) echo ', ';
+                                                        if($count == sizeof($employee->projects) - 1)
+                                                            echo ' <a href="#" class="show-list-employee"
+                                                            id="show-list-employee-' . $employee->id . '" data-toggle="modal"
+                                                            data-target="#show-list-members" style="color: black">[?]</a>';
                                                         $count++;
                                                     } else if (sizeof($employee->projects) > 3) {
                                                         echo $project->name;
@@ -94,7 +98,7 @@
                                                             break;*/
                                                             echo '<a href="#" class="show-list-employee"
                                                             id="show-list-employee-' . $employee->id . '" data-toggle="modal"
-                                                            data-target="#show-list-members">[...]</a>';
+                                                            data-target="#show-list-members" style="color: red">[...]</a>';
                                                             break;
                                                         }
                                                         $count++;
@@ -133,7 +137,9 @@
                                             <table id="member-list" class="table table-bordered table-striped">
                                                 <thead>
                                                 <tr>
-                                                    <th>Name:</th>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Status</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="context-menu"  id="table-list-members">
@@ -240,10 +246,31 @@
             $employeesModal = $member;
             foreach ($employeesModal as $employee) {
                 foreach ($employee->projects as $project) {
-                    echo
-                        ' var html_' . $project->id .
-                        '= "<tr><td>' . $project->name .
-                        '</td></tr>";';
+                    if (isset($project->status)) {
+                        if ($project->status->name === 'kick off') {
+                            $classBtr = 'label label-primary';
+                        } else if ($project->status->name === 'pending') {
+                            $classBtr = 'label label-danger';
+                        } else if ($project->status->name  === 'in-progress') {
+                            $classBtr = 'label label-warning';
+                        } else if ($project->status->name  == 'releasing') {
+                            $classBtr = 'label label-info';
+                        } else if ($project->status->name  == 'complete') {
+                            $classBtr = 'label label-success';
+                        } else if ($project->status->name  == 'planning') {
+                            $classBtr = 'label label-default';
+                        }
+                        echo
+                            ' var html_' . $project->id .
+                            '= "<tr><td>'. $project->id .'</td><td>' . $project->name .
+                            '</td><td><span class=\"'. $classBtr .'\">'. $project->status->name .'</span></td></tr>";';
+                    } else {
+                        echo
+                            ' var html_' . $project->id .
+                            '= "<tr><td>'. $project->id .'</td><td>' . $project->name .
+                            '</td><td>-</td></tr>";';
+                    }
+
                 }
             }
             ?>

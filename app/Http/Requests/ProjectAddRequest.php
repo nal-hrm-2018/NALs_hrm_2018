@@ -10,7 +10,7 @@ namespace App\Http\Requests;
 
 use App\Http\Rule\Project\ValidEndDateProject;
 use App\Http\Rule\Project\ValidStatusProject;
-
+use App\Http\Rule\Project\ValidAtLeastOnePo;
 class ProjectAddRequest extends CommonRequest
 {
     public function authorize()
@@ -20,7 +20,6 @@ class ProjectAddRequest extends CommonRequest
 
     public function rules()
     {
-        session()->flash('processes', request()->get('processes'));
         return
             [
                 'id' =>
@@ -55,6 +54,11 @@ class ProjectAddRequest extends CommonRequest
                         'required',
                         'after_or_equal:estimate_start_date'
                     ],
+                'processes'=>[
+                    'required',
+                    new ValidAtLeastOnePo(request()->get('processes'))
+                ]
+                ,
                 'income' =>
                     [
                         'bail',
@@ -85,6 +89,8 @@ class ProjectAddRequest extends CommonRequest
     public function messages()
     {
         return [
+            'processes.required' => 'Project must have at least 1 PO ',
+
             'id.required' => trans('validation.required', [
                 'attribute' => 'Project Id'
             ]),

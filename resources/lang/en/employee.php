@@ -8,6 +8,7 @@ return[
     'profile_info'=>[
         'id'=>'Employee ID',
         'title'=>'Profile Information',
+        'long_name'=>'Employee Name',
         'name'=>'Name',
         'email'=>'Email',
         'status'=>'Status',

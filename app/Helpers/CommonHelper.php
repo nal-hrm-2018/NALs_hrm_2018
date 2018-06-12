@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
 use App\Models\Role;
 use Carbon\Carbon;
+use Illuminate\Support\MessageBag;
 
 function test()
 {
@@ -70,7 +71,7 @@ function hasDupeProject($processes, $start_date_process, $end_date_process, $key
     $count = 0;
     if (!empty($processes)) {
         foreach ($processes as $process) {
-            if (!is_null($process['delete_flag'])&&$process['delete_flag'] !== '0') {
+            if (!is_null($process['delete_flag']) && $process['delete_flag'] !== '0') {
                 continue;
             }
 
@@ -89,11 +90,11 @@ function hasDupeProject($processes, $start_date_process, $end_date_process, $key
                         return $string_error;
                     }
                     if ($key === 'role_id') {
-                        $employee_name = Employee::select('name')->where('id',$process['employee_id'])->first();
-                        if(!is_null($employee_name)){
-                            $employee_name=$employee_name->name;
-                        }else{
-                            $employee_name='';
+                        $employee_name = Employee::select('name')->where('id', $process['employee_id'])->first();
+                        if (!is_null($employee_name)) {
+                            $employee_name = $employee_name->name;
+                        } else {
+                            $employee_name = '';
                         }
                         $string_error = $employee_name_selected . " Can't add because " .
                             " from : " . date('d/m/Y', strtotime($process['start_date_process'])) . " to: "
@@ -115,6 +116,7 @@ function checkValidProjectData()
     $processAddRequest = new ProcessAddRequest();
     $error_messages = array();
     if (!empty($processes)) {
+        //validate cac process
         foreach ($processes as $key => $process) {
             $validator = Validator::make(
                 $process,
@@ -131,12 +133,17 @@ function checkValidProjectData()
             );
             if ($validator->fails()) {
                 // key = id  process , value = messagebag of validate
-                $error_messages[$key] = $validator->messages();
+                $error_messages[$key] = [];
+                $error_messages[$key]['errors']  = $validator->messages();
+                $error_messages[$key]['available_processes']=request()->get('available_processes');
             }
         }
-
+        if (!empty($error_messages)) {
+            session()->flash('error_messages', $error_messages);
+            return false;
+        }
     }
-    return $error_messages;
+    return true;
 }
 
 function getEmployee($id)
@@ -169,10 +176,56 @@ function showListAvailableProcesses($available_processes)
             " end_date : " . date('d/m/Y', strtotime($process['start_date'])) . "\n";
     }
 
-    $string_total = "You can view suggest information of this employee : \n" + $string_available_processes;
+    return nl2br ("You can view suggest information of this employee : \n" . $string_available_processes);
 }
 
-function getInformationDataTable($pagination){
-    return "Showing ".$pagination->firstItem()." to ".$pagination->lastItem()." of ".$pagination->total()." entries";
+function getInformationDataTable($pagination)
+{
+    return "Showing " . $pagination->firstItem() . " to " . $pagination->lastItem() . " of " . $pagination->total() . " entries";
 
 }
+
+function checkPOinProject($processes)
+{
+    $id_po = Role::select('id')->where('delete_flag', 0)->where('name', '=', config('settings.Roles.PO'))->first();
+    if (!is_null($id_po)) {
+        $id_po = (string)Role::select('id')->where('delete_flag', 0)->where('name', '=', config('settings.Roles.PO'))->first()->id;
+    } else {
+        $bag = new MessageBag();
+        $bag->add('error_role', "Role PO not exist in database");
+        session()->flash('errors', $bag);
+        return false;
+    }
+    foreach ($processes as $key => $process) {
+        if($process['delete_flag']==='1'){
+            continue;
+        }
+        if ($process['role_id'] === $id_po) {
+            return true;
+        }
+    }
+    return false;
+}
+function checkPoInLishMember($value)
+    {
+        // check dup id po vs member
+        $msg = "";
+        $id_po = Role::select('id')->where('name','=','PO')->first();
+        if($value != null){
+            foreach ($value as $objMember){
+                $objMemberById = Employee::find($objMember['id']);
+                $objRoleById = Role::find($objMember['role']);
+                if($objRoleById == null){
+                    return "Error: Role is not exit!!!";
+                }
+                if ($objMemberById == null) {
+                    return "Error: Employee is not exit!!!";
+                }else{
+                    if( (int)$objMember['role'] == $id_po->id){
+                        $msg .= "Error: Member id: ".$objMember['id']." name: ".$objMemberById->name." role other PO "."\n";
+                    }
+                }
+            }
+        }
+        return nl2br($msg);
+    }

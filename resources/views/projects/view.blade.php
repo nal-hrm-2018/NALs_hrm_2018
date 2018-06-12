@@ -63,18 +63,20 @@
                     </p>
 
                     <p>Status:
-                        @if($project->status_name == "kick off")
-                            <span class="label label-primary">Kick Off</span>
-                        @elseif($project->status_name == "pending")
-                            <span class="label label-danger">Pending</span>
-                        @elseif($project->status_name == "in-progress")
-                            <span class="label label-warning">In-Progress</span>
-                        @elseif($project->status_name == "releasing")
-                            <span class="label label-info">Releasing</span>
-                        @elseif($project->status_name == "complete")
-                            <span class="label label-success">Complete</span>
-                        @elseif($project->status_name == "planning")
-                            <span class="label label-success">Planning</span>
+                        @if($project->status->name == 'pending')
+                            <span class='label label-danger'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'complete')
+                            <span class='label label-success'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'in-progress')
+                            <span class='label label-warning'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'releasing')
+                            <span class='label label-info'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'kick off')
+                            <span class='label label-primary'>{{$project->status->name}}</span>
+                        @elseif($project->status->name == 'planning')
+                            <span class='label label-default'>{{$project->status->name}}</span>
+                        @else
+                            -
                         @endif
                     </p>
 
@@ -111,6 +113,41 @@
                 </div>
 
                     <div class="box-body">
+                        {!! Form::open(
+                        ['url' =>route('projects.show',$project->id),
+                        'method'=>'GET',
+                        'id'=>'form_view_project',
+                         ]) !!}
+                        <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                               value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
+                        {!! Form::close() !!}
+                        <div>
+                            <div class="dataTables_length" id="project-list_length" style="float:right">
+                                <label>{{trans('pagination.show.number_record_per_page')}}
+                                    {!! Form::select(
+                                        'select_length',
+                                        getArraySelectOption() ,
+                                        null ,
+                                        [
+                                        'id'=>'select_length',
+                                        'class' => 'form-control input-sm',
+                                        'aria-controls'=>"project-list"
+                                        ]
+                                        )
+                                     !!}
+                                </label>
+                            </div>
+                        </div>
+
+                        <script>
+                            (function () {
+                                $('#select_length').change(function () {
+                                    $("#number_record_per_page").val($(this).val());
+                                    $('#form_view_project').submit()
+                                });
+                            })();
+
+                        </script>
                         <table id="project-list" class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -147,13 +184,13 @@
                                         <p class="fix-center-employee">
                                             <?php
                                                 if($employee->role_name == "Dev"){
-                                                    echo "<span class='label label-success'>Dev</span>";
+                                                    echo "<span class='label label-success' title='c'>Dev</span>";
                                                 } if($employee->role_name == "BA"){
-                                                    echo "<span class='label label-info'>BA</span>";
+                                                    echo "<span class='label label-info' title='a'>BA</span>";
                                                 } if($employee->role_name == "ScrumMaster"){
-                                                    echo "<span class='label label-warning'>ScrumMaster</span>";
+                                                    echo "<span class='label label-warning' title='c'>ScrumMaster</span>";
                                                 } if($employee->role_name == "PO"){
-                                                    echo "<span class='label label-primary'>PO</span>";
+                                                    echo "<span class='label label-primary' title='d'>PO</span>";
                                                 }
                                             ?>
                                         </p>
@@ -180,13 +217,13 @@
 
                                     <td class="text-center">
                                         <p class="fix-center-employee">
-                                            {{isset($employee->start_date)? $employee->start_date: "-"}}
+                                            {{isset($employee->start_date)? date('d/m/Y',strtotime($employee->start_date)): "-"}}
                                         </p>
                                     </td>
 
                                     <td class="text-center">
                                         <p class="fix-center-employee">
-                                            {{isset($employee->end_date)? $employee->end_date: "-"}}
+                                            {{isset($employee->end_date)? date('d/m/Y',strtotime($employee->end_date)): "-"}}
                                         </p>
                                     </td>
 
@@ -196,7 +233,7 @@
                                         </button>
                                     </td>
 
-                                    <td style="text-align: center;width: 160px;">
+                                    <td style="text-align: center;width: 180px;">
                                         <button type="button" class="btn btn-default input-button">
                                             <a href="javascript:void(0)"><i class="	fa fa-plus-square"></i> Input</a>
                                         </button>
@@ -212,6 +249,16 @@
 
                             </tbody>
                         </table>
+                        @if($member->hasPages())
+                            <div class="col-sm-5">
+                                <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                    {{getInformationDataTable($member)}}
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                {{  $member->appends($param)->render('vendor.pagination.custom') }}
+                            </div>
+                        @endif
                     </div>
                         <!-- /.box-body -->
                 </div>
@@ -223,18 +270,62 @@
     </div>
 
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-
+    <script src="{!! asset('https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js') !!}"></script>
 
     <script>
         $(document).ready(function () {
-            $('#project-list').DataTable({
+
+            var old = '{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:'' }}';
+            var options = $("#select_length option");
+            var select = $('#select_length');
+            for(var i = 0 ; i< options.length ; i++){
+                if(options[i].value=== old){
+                    select.val(old).change();
+                }
+            }
+
+            jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                "title-string-pre": function ( a ) {
+                    return a.match(/title="(.*?)"/)[1].toLowerCase();
+                },
+
+                "title-string-asc": function ( a, b ) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+
+                "title-string-desc": function ( a, b ) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            });
+
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                "extract-date-pre": function (value) {
+                    var date = $(value).text();
+                    date = date.split('/');
+                    return Date.parse(date[1] + '/' + date[0] + '/' + date[2])
+                },
+                "extract-date-asc": function (a, b) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+                "extract-date-desc": function (a, b) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            });
+
+            $('#project-list').dataTable({
                 'paging': false,
                 'lengthChange': false,
                 'searching': false,
                 'ordering': true,
                 'info': false,
                 'autoWidth': false,
-            });
+                "order": [1, "desc"],
+                "columnDefs": [
+                    {type: 'title-string', targets: 1},
+                    {type: 'extract-date',targets:4},
+                    {type: 'extract-date',targets:5}
+                ],
+        });
         });
     </script>
 @endsection

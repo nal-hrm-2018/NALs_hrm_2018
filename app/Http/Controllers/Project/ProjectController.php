@@ -51,13 +51,11 @@ class ProjectController extends Controller
 
         $getAllStatusInStatusTable = Status::all();
 
-        $param = (Input::except('page','is_employee'));
+        $param = (Input::except('page', 'is_employee'));
 
         $isEmployee = 1;
         $isVendor = 0;
         return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable', 'isEmployee', 'isVendor'));
-//        $project = Project::where('id', '=', 'THB2081')->first();
-//        echo $project->processes->where('role_id', '<>', $poRole->id)->unique('employee_id');
     }
 
     public function checkProcessesAjax(Request $request)
@@ -75,6 +73,23 @@ class ProjectController extends Controller
         return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_check_process_fail')]);
     }
 
+    public function reopenProjectAjax(Request $request)
+    {
+        if ($request->ajax()) {
+           $project = Project::find($request['project_id']);
+           $newStatus = Status::where('name', '=', 'kick off')->first()->id;
+           if(!empty($project)){
+               $project->end_date = null;
+               $project->status_id = $newStatus;
+               $project->save();
+               return response()->json([trans('project.msg_success') => trans('project.msg_content.msg_reopen_project_success')]);
+           }else{
+               return response()->json([trans('project.msg_fails') => " Incorrect project id , ".trans('project.msg_content.msg_reopen_project_fail')]);
+           }
+        }
+        return response()->json([trans('project.msg_fails') => trans('project.msg_content.msg_reopen_project_fail')]);
+    }
+
     public function create()
     {
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
@@ -84,11 +99,21 @@ class ProjectController extends Controller
         return view('projects.add', compact('roles', 'employees', 'manPowers', 'project_status'));
     }
 
-    public function store(ProjectAddRequest $request)
+    public function store(Request $request)
     {
-        $error_messages = checkValidProjectData();
-        if (!empty($error_messages)) {
-            session()->flash('error_messages', $error_messages);
+        // validate input project
+        $projectAddRequest = new ProjectAddRequest();
+        $validator = Validator::make(
+            $request->all(),
+            $projectAddRequest->rules(),
+            $projectAddRequest->messages()
+        );
+        if ($validator->fails()) {
+            session()->flash('processes', request()->get('processes'));
+            return back()->withInput()->withErrors($validator);
+        }
+        // validate input processes
+        if (!checkValidProjectData()) {
             session()->flash('processes', $request->get('processes'));
             return back()->withInput();
         }
@@ -104,21 +129,27 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::select('projects.*', 'statuses.name as status_name')
-                            ->join('statuses', 'projects.status_id', '=', 'statuses.id')
-                            ->where('delete_flag', 0)->find($id);
+            ->join('statuses', 'projects.status_id', '=', 'statuses.id')
+            ->where('delete_flag', 0)->find($id);
 
         if (!isset($project)) {
             return abort(404);
         }
-        $member = Employee::select('employees.id', 'employees.name','roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
+        $number_record_per_page = request()->get('number_record_per_page');
+        if (empty($number_record_per_page)) {
+            $number_record_per_page = config('settings.paginate');
+        }
+        $param = (Input::except(['page','is_employee']));
+        $member = Employee::select('employees.id', 'employees.name', 'roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
             ->join('processes', 'processes.employee_id', '=', 'employees.id')
             ->join('roles', 'processes.role_id', '=', 'roles.id')
             ->where([
                 ['processes.project_id', '=', $id],
                 ['processes.delete_flag', '=', 0]])
+
             ->orderByRaw('role_id DESC')
-            ->get();
-        return view('projects.view', compact('member', 'project'));
+            ->paginate($number_record_per_page);
+        return view('projects.view', compact('member', 'project','param'));
     }
 
     public function edit($id)
@@ -137,14 +168,21 @@ class ProjectController extends Controller
         $manPowers = getArrayManPower();
         $project_status = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
 
+        $employeeInProcess = Employee::select('employees.id', 'employees.name','roles.name AS role_name', 'employees.email', 'employees.mobile', 'employees.is_employee', 'processes.*')
+            ->join('processes', 'processes.employee_id', '=', 'employees.id')
+            ->join('roles', 'processes.role_id', '=', 'roles.id')
+            ->where([
+                ['processes.project_id', '=', $id],
+                ['processes.delete_flag', '=', 0]])
+            ->orderByRaw('role_id DESC')
+            ->get();
+
         return view('projects.edit', compact('employeeInProcess', 'roles', 'employees', 'manPowers', 'project_status', 'currentProject'));
     }
 
     public function update(ProjectEditRequest $request, $id)
     {
-        $error_messages = checkValidProjectData();
-        if (!empty($error_messages)) {
-            session()->flash('error_messages', $error_messages);
+        if (!checkValidProjectData()) {
             session()->flash('processes', $request->get('processes'));
             return back()->withInput();
         }
