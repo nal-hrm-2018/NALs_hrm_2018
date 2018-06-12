@@ -14,5 +14,4 @@ interface TeamService
 {
     public function addNewTeam( $Request);
     public function updateTeam( TeamEditRequest $request, $id);
-
 }
