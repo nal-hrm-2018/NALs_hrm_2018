@@ -5,6 +5,7 @@
  * Date: 4/16/2018
  * Time: 11:00 AM
  */ ?>
+
 @extends('admin.template')
 @section('content')
 
@@ -280,7 +281,7 @@
                                             <table id="member-list" class="table table-bordered table-striped">
                                                 <thead>
                                                 <tr>
-                                                    <th>{{trans('employee.profile_info.id')}}</th>
+                                                    <th>{{trans('employee.profile_info.short_id')}}</th>
                                                     <th>{{trans('employee.profile_info.name')}}</th>
                                                     <th>{{trans('employee.profile_info.role')}}</th>
                                                 </tr>
@@ -343,5 +344,13 @@
 
     </div>
     @include("projects._javascript_project_list")
-
+    <style>
+        table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+            bottom: 14px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+    </style>
 @endsection

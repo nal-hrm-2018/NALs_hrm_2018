@@ -24,8 +24,8 @@
             <th>{{trans('project.id')}}</th>
             <th>{{trans('project.name')}}</th>
             <th>{{trans('project.role')}}</th>
-            <th class="text-center">{{trans('project.start_date')}}</th>
-            <th class="text-center">{{trans('project.end_date')}}</th>
+            <th class="text-center">{{trans('project.process_start_date')}}</th>
+            <th class="text-center">{{trans('project.process_end_date')}}</th>
             <th>{{trans('project.status')}}</th>
         </tr>
         </thead>

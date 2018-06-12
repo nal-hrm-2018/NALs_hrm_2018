@@ -31,10 +31,12 @@ class SearchServiceImpl extends CommonService implements SearchService
                     $query->where("id", '=', $request['id']);
                 });
         }
-
-        if (!empty($request['project_name']) or !empty($request['project_status'])) {
+        if (!empty($request['project_name']) or !empty($request['project_status']) or !empty($request['project_id'])) {
             $query
                 ->whereHas('project', function ($query) use ($request) {
+                    if (!empty($request['project_id'])) {
+                        $query->where("id", 'like', '%' . $request['project_id'] . '%');
+                    }
                     if (!empty($request['project_name'])) {
                         $query->where("name", 'like', '%' . $request['project_name'] . '%');
                     }

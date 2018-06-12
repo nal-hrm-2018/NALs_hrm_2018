@@ -35,7 +35,8 @@
             'autoWidth': false,
             'borderCollapse': 'collapse',
             "aaSorting": [
-                [6, 'DESC']
+                [7, 'DESC'],
+                [8, 'DESC']
             ],
             "columnDefs": [
                 {type: 'extract-date', targets: [5,6,7,8]}]
