@@ -356,7 +356,7 @@
                 alert('Please fill in input Project Name');
                 return false;
             }
-            if (confirm("Do you want to add new Project : "+name_project+" ( id : "+id_project+" ) ?")) {
+            if (confirm("Do you want to add new Project : "+name_project+" ( id: "+id_project+" ) ?")) {
                 return true;
             }
             return false;
@@ -371,7 +371,7 @@
             var target = $(event.target).parent().closest('tr');
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
-            if (confirm("Do you want to remove " + employee_name + " ( id : " + employee_id + " ) from project ?")) {
+            if (confirm("Do you want to remove " + employee_name + " ( id: " + employee_id + " ) from project ?")) {
                 removeEmployee(employee_id, target);
             }
         });
@@ -382,7 +382,7 @@
             if (employee_id === '' || employee_name === '') {
                 return confirm('Please choose employee !')
             } else {
-                if (confirm("Do you want to add  " + employee_name + " ( id : " + employee_id + " ) to project ?")) {
+                if (confirm("Do you want to add  " + employee_name + " ( id: " + employee_id + " ) to project ?")) {
                     var end_date_process_selected = $('#end_date_process').val();
                     var start_date_process_selected = $('#start_date_process').val();
                     if (checkDupeMember(employee_id,employee_name, start_date_process_selected, end_date_process_selected) ) {
