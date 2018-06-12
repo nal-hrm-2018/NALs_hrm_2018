@@ -122,7 +122,7 @@
               </div>
 
               <div class="form-group">
-                <label>Role of team<strong style="color: red">(*)</strong></label>
+                <label>Role<strong style="color: red">(*)</strong></label>
                 <select id="role_id" class="form-control select2" style="width: 100%;" name="role_id">
                   <option value="" >---Role selection---</option>
                   <?php

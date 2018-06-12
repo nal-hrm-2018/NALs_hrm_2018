@@ -147,7 +147,7 @@
                 <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
               </div>
               <div class="form-group">
-                <label>Role of team<strong style="color: red">(*)</strong></label>
+                <label>Role<strong style="color: red">(*)</strong></label>
                 <select class="form-control select2" style="width: 100%;" name="role_id" id="role_id">
                   <option value="" >---Role selection---</option>
                   <?php
