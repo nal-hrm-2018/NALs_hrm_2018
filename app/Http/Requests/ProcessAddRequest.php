@@ -113,6 +113,19 @@ class ProcessAddRequest extends CommonRequest
                     'required',
                     new ValidMember(),
                 ],
+            'estimate_start_date' =>
+                [
+                    'bail',
+                    'required',
+                    'date_format:Y-m-d',
+                ],
+            'estimate_end_date' =>
+                [
+                    'bail',
+                    'required',
+                    'date_format:Y-m-d',
+                    'after_or_equal:estimate_start_date',
+                ],
             'start_date_project' =>
                 [
                     'bail',
@@ -129,19 +142,6 @@ class ProcessAddRequest extends CommonRequest
                     'after_or_equal:start_date_project',
                 ],
 
-            'estimate_start_date' =>
-                [
-                    'bail',
-                    'required',
-                    'date_format:Y-m-d',
-                ],
-            'estimate_end_date' =>
-                [
-                    'bail',
-                    'required',
-                    'date_format:Y-m-d',
-                    'after_or_equal:estimate_start_date',
-                ],
             'start_date_process' =>
                 [
                     'bail',
