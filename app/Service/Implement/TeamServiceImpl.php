@@ -243,12 +243,12 @@ class TeamServiceImpl extends CommonService
 
             //list member
             $listMember = $request->employee;
-            $objTeamServiceImpl = new TeamServiceImpl;
+            /*$objTeamServiceImpl = new TeamServiceImpl;
 
             if($objTeamServiceImpl->checkRoleOfMember($listMember) != null){
                 session()->flash('listErrorPO', $objTeamServiceImpl->checkRoleOfMember($listMember));
                 return false;
-            }
+            }*/
 
             if($listMember != null){
                 //list member in team

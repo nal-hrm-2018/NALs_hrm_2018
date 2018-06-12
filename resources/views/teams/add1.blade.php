@@ -20,17 +20,27 @@
             <div class="box box-default">
                 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                 <div class="box-body">
-                     @if(session()->has('listErrorPO'))
-                       <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
-                            @foreach(session()->get('listErrorPO') as $err)
-                                <p>{{$err}}</p>
-                            @endforeach
+                    @if(session()->has('listEmployeeOfTeamAdd') || $errors->any())
+                        <div id="list_error" class="col-md-12 alert alert-danger" style="display: block">
+                            @if($errors->any())
+                                @foreach($errors->all() as $key=>$error)
+                                    @if(!is_null($error) && $error != "")
+                                        {{" Error : ".$error }}<br />
+                                    @endif
+                                @endforeach
+                            @endif
+                            @if(session()->has('listEmployeeOfTeamAdd'))
+                                @if(checkPoInLishMember(session()->get('listEmployeeOfTeamAdd')) != "")
+                                    @php 
+                                        echo checkPoInLishMember(session()->get('listEmployeeOfTeamAdd'))
+                                    @endphp
+                                @endif
+                            @endif
                         </div>
                     @endif
-                    @if(!session()->has('listErrorPO'))
-                        <div id="msg">
-                        </div>
-                    @endif
+                    <div id="msg">
+                    </div>
+
                     {!! Form::open(
                         ['url' =>route('teams.store'),
                         'method'=>'Post',
