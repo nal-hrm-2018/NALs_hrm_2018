@@ -280,7 +280,7 @@
                                             <table id="member-list" class="table table-bordered table-striped">
                                                 <thead>
                                                 <tr>
-                                                    <th>{{trans('employee.profile_info.id')}}</th>
+                                                    <th>{{trans('employee.profile_info.short_id')}}</th>
                                                     <th>{{trans('employee.profile_info.name')}}</th>
                                                     <th>{{trans('employee.profile_info.role')}}</th>
                                                 </tr>

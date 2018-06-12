@@ -39,7 +39,7 @@
                                 <thead>
                                 <tr>
                                     <th>Employee ID</th>
-                                    <th>Name PO</th>
+                                    <th>PO Name</th>
                                     <th>Role</th>
                                     <th>Doing Projects</th>
                                     <th>Email</th>
@@ -130,7 +130,7 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">
-                                                <th>Name Project Of Employee</th>
+                                                <th>Project Name Of: <span id="employee-name"></span></th>
                                             </h4>
                                         </div>
                                         <div class="modal-body">
@@ -241,7 +241,6 @@
             var id = $(this).attr('id');
             var id_team = id.slice(19);
             {{--            $('#table-list-members').append(html_{{$project->name}});--}}
-
             <?php
             $employeesModal = $member;
             foreach ($employeesModal as $employee) {
@@ -277,7 +276,7 @@
             @foreach($employeesModal as $employee)
             @foreach($employee->projects as $project)
             if(id_team == "{{$employee->id}}") {
-
+                $('#employee-name').html('{{$employee->name}}');
             $('#table-list-members').append(html_{{$project->id}});
             }
             @endforeach

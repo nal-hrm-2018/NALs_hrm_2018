@@ -1,0 +1,15 @@
+.fix-label-project-status{
+    display: inline-table;
+    width: 72px;
+    font-size: 90%;
+}
+.fix-label-role{
+    display: inline-table;
+    width: 70px;
+    font-size: 90%;
+}
+.fix-label-employee_status{
+    display: inline-table;
+    width: 70px;
+    font-size: 90%;
+}
