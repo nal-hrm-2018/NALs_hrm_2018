@@ -13,13 +13,14 @@ use App\Http\Rule\ValidTeamName;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Rule\ValidDupeMember;
 use App\Http\Rule\ValidPoName;
-
+use App\Http\Rule\Team\ValidRoleInTeam;
 class TeamAddRequest extends FormRequest
 {
     public function authorize(){
         return true;
     }
     public function rules(){
+        session()->flash('listEmployeeOfTeamAdd',request()->get('employee'));
         return[
             'team_name' => [
                 'required',
@@ -27,7 +28,7 @@ class TeamAddRequest extends FormRequest
                 'regex:/(^[a-zA-Z0-9 ]+$)+/',
                 new ValidTeamName()],
             'id_po' => new ValidPoName(request()->get('members')),
-            'members' => new ValidDupeMember()
+            'employee' =>new ValidDupeMember()
         ];
     }
     public  function messages()
