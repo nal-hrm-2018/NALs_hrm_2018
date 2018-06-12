@@ -24,6 +24,8 @@ return [
     'end_date'=>'Est. End Date',
     'start_date_real'=> 'Real Start Date',
     'end_date_real'=> 'Real End Date',
+    'process_start_date'=>'Start Date',
+    'process_end_date'=>'End Date',
     'status'=>'Status',
     'msg_content'=>[
         'msg_check_process_success'=>'Process successfully added!!!',

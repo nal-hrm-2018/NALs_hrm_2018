@@ -7,6 +7,7 @@ return[
     'basic'=>'Basic',
     'profile_info'=>[
         'id'=>'Employee ID',
+        'short_id'=>'ID',
         'title'=>'Profile Information',
         'long_name'=>'Employee Name',
         'name'=>'Name',

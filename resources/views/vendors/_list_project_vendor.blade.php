@@ -25,8 +25,8 @@
             <th>{{trans('project.id')}}</th>
             <th>{{trans('project.name')}}</th>
             <th>{{trans('project.role')}}</th>
-            <th class="text-center">{{trans('project.start_date')}}</th>
-            <th class="text-center">{{trans('project.end_date')}}</th>
+            <th class="text-center">{{trans('project.process_start_date')}}</th>
+            <th class="text-center">{{trans('project.process_end_date')}}</th>
             <th>{{trans('project.status')}}</th>
         </tr>
         </thead>
@@ -53,8 +53,8 @@
                     }
                     ?>
                 </td>
-                <td>{{isset($process->start_date)?date('d/m/Y', strtotime($process->start_date)):'-'}}</td>
-                <td>{{isset($process->end_date)?date('d/m/Y', strtotime($process->end_date)):'-'}}</td>
+                <td class="text-center">{{isset($process->start_date)?date('d/m/Y', strtotime($process->start_date)):'-'}}</td>
+                <td class="text-center">{{isset($process->end_date)?date('d/m/Y', strtotime($process->end_date)):'-'}}</td>
                 <td>
                     <?php
                     if(isset($process->project)){
