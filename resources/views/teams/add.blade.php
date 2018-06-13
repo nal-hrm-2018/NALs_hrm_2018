@@ -169,19 +169,28 @@
                             $listAdd = "";
                             for (i = 0; i < members.length; i++) {
                                 @foreach($employees as $employee)
-                                if ({{$employee->id}} == members[i]
-                            )
+                                if ({{$employee->id}} == members[i])
                                 {
                                     $teamEdit = '{{isset($employee->team)?$employee->team->name:'-' }}';
                                     $roleEdit = '{{isset($employee->role)?$employee->role->name:'-' }}';
                                 }
                                 @endforeach
-                                    $listAdd += "<tr id=\"show_" + members[i] + "\">" +
-                                    "<td>" + members[i] + "</td>" +
-                                    "<td id=\"teamEdit_" + members[i] + "\">" + $teamEdit + "</td>" +
-                                    "<td id=\"roleEdit_" + members[i] + "\">" + $roleEdit + "</td>" +
-                                    "<td id=\"nameEdit_" + members[i] + "\">" + $("#member_" + members[i]).text() + "</td>" +
-                                    "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + members[i] + ")\"></i></td></tr>";
+                                $classBtr = '';
+                                if($roleEdit == 'PO'){
+                                    $classBtr = 'label label-primary';
+                                } else if($roleEdit == 'Dev'){
+                                    $classBtr = 'label label-success';
+                                } else if($roleEdit == 'BA'){
+                                    $classBtr = 'label label-info';
+                                } else if($roleEdit == 'ScrumMaster'){
+                                    $classBtr = 'label label-warning';
+                                }
+                                $listAdd += "<tr id=\"show_" + members[i] + "\">" +
+                                "<td>" + members[i] + "</td>" +
+                                "<td id=\"teamEdit_" + members[i] + "\">" + $teamEdit + "</td>" +
+                                "<td id=\"roleEdit_" + members[i] + "\"><span class=\""+ $classBtr +"\">" + $roleEdit + "</span></td>" +
+                                "<td id=\"nameEdit_" + members[i] + "\">" + $("#member_" + members[i]).text() + "</td>" +
+                                "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + members[i] + ")\"></i></td></tr>";
                             }
                             listChoose = "";
                             for (i = 0; i < members.length; i++) {

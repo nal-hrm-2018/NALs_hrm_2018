@@ -19,16 +19,7 @@ class ValidDupeMember implements Rule
     public function passes($attribute, $value)
     {
         // check member duplication
-        $listIdMember = array();
-        if($value != null){
-            $i = 0;
-            foreach ($value as $objMember){
-                $listIdMember[$i] = $objMember['id'];
-                $i++;
-            }
-            
-        }
-        if (array_has_dupes($listIdMember)){
+        if (array_has_dupes($value)){
             return false;
         }
         return true;
