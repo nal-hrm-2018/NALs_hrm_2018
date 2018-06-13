@@ -17,7 +17,7 @@ Route::post('logout', [
 
 
 //cong list route cam pha'
-
+Route::get('/languages', 'LanguageController@index');
 
 Route::get('/login', [
     'as' => 'login',
