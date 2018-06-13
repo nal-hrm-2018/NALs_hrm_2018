@@ -13816,7 +13816,7 @@ hooks.defineLocale('uz', {
 });
 
 //! moment.js locale configuration
-//! locale : Vietnamese [vi]
+//! locale : Vietnamese [vn]
 //! author : Bang Nguyen : https://github.com/bangnk
 
 hooks.defineLocale('vi', {

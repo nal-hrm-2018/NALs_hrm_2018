@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthorizationRequest;
 use App\Models\Employee;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -49,9 +50,8 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $this->validateLogin($request);
 
         $remember = $request->get('remember');
 
@@ -64,6 +64,7 @@ class LoginController extends Controller
             [
                 'email' => $data['email'],
                 'password' => $data['password'],
+                'work_status'=> config('settings.work_status.active')
             ], $remember)
         ) {
 
@@ -71,15 +72,6 @@ class LoginController extends Controller
         }
         return redirect()
             ->action('Auth\LoginController@getLogin')
-            ->with('message', trans('auth.failed'));
-    }
-
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-        $request->session()->flush();
-        $request->session()->regenerate();
-
-        return redirect()->action('Auth\LoginController@getLogin');
+            ->with('msg_fail', trans('auth.failed'));
     }
 }

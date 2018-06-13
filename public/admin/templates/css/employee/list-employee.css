@@ -1,0 +1,81 @@
+.modal-dialog{
+    width: 100%;
+}
+.width-100{
+    width: 120px;
+}
+.modal-footer.center {text-align:  center;}
+.modal-content{
+    background-color: #ecf0f5;
+}
+
+/* -----------*/
+
+ul.contextMenu{
+    list-style:none;
+    margin:0;padding:0;
+    font: 300 15px 'Roboto', sans-serif;
+    position: absolute;
+    color: #333;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.2);
+}
+
+ul.contextMenu *{
+    transition:color .4s, background .4s;
+}
+
+ul.contextMenu li{
+    min-width:150px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 12px 15px;
+    background-color: #fff;
+    border-bottom:1px solid #ecf0f1;
+}
+
+ul.contextMenu li a{
+    color:#333;
+    text-decoration:none;
+}
+
+ul.contextMenu li:hover{
+    background-color: #ecf0f1;
+}
+
+ul.contextMenu li:first-child{
+    border-radius: 5px 5px 0 0;
+}
+
+ul.contextMenu li:last-child{
+    background:#ecf0f1;
+    border-bottom:0;
+    border-radius: 0 0 5px 5px
+}
+
+ul.contextMenu li:last-child a{width:26%;}
+ul.contextMenu li:last-child:hover a{color:#2c3e50}
+ul.contextMenu li:last-child:hover a:hover{color:#2980b9}
+
+p.fix-center-employee {
+    padding-top: 10px;
+}
+th.small-row-id {
+    width: 73px;
+}
+
+/*
+table.dataTable{
+    border-collapse:  collapse;
+}
+
+table#employee-list tbody tr td {
+    position:  relative;
+    top: 10px;
+}
+table#employee-list {
+    border-collapse:  collapse;
+}
+button.btn.btn-default.cv-button{
+    position: relative;
+    top: -11px;
+}*/
