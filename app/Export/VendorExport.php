@@ -81,14 +81,24 @@ class VendorExport implements FromCollection, WithEvents, WithHeadings
             $query->Where('company', 'like', '%' . $company . '%');
         }
         if ($status != "") {
-            $query->Where('work_status', $status);
+            $dateNow = date('Y-m-d');
+            if($status == 0){
+                $query->Where('work_status', $status)
+                    ->where('endwork_date','>=',$dateNow);
+            }
+            if ($status == 1){
+                $query->Where('work_status', $status);
+            }
+            if ($status == 2){
+                $query->Where('work_status', '0')
+                    ->where('endwork_date','<',$dateNow);
+            }
         }
 
         $employeesSearch = $query
             ->where('employees.delete_flag', '=', 0)
             ->where('employees.is_employee', '=', 0);
         $returnCollectionEmployee = $employeesSearch->paginate($this->request['number_record_per_page']);;
-
          return $returnCollectionEmployee->map(function (Employee $item) {
              if ($item->role_id == null){
                  $item->role_id = "-";
@@ -97,7 +107,19 @@ class VendorExport implements FromCollection, WithEvents, WithHeadings
                  $roleFindId = Role::where('id',$item->role_id)->first();
                  $item->role_id = $roleFindId->name;
              }
-             $item->work_status = $item->work_status ? 'Inactive' : 'Active';
+             $dateNow = date('Y-m-d');
+             $dateEndWork = Employee::find($item->id);
+
+             if (($item->work_status == 0) && ($dateEndWork->endwork_date < $dateNow)){
+                 $item->work_status = 'Expired';
+             }
+             if(($item->work_status == 0) && ($dateEndWork->endwork_date >= $dateNow)){
+                 $item->work_status = 'Active';
+             }
+             if ($item->work_status == 1){
+                 $item->work_status = 'Quited';
+             }
+
              return $item;
          });
     }

@@ -15,7 +15,7 @@ return [
     'estimate_end_date'=>'Estimate end date',
     'po'=> 'PO Name',
     'members'=> 'Members Name',
-    'number_of_member'=>"Member's",
+    'number_of_member'=>"Members",
     'msg_fails' => 'msg_fail',
     'msg_success' => 'msg_success',
     'msg_error' => 'msg_error',
@@ -24,6 +24,8 @@ return [
     'end_date'=>'Est. End Date',
     'start_date_real'=> 'Real Start Date',
     'end_date_real'=> 'Real End Date',
+    'process_start_date'=>'Start Date',
+    'process_end_date'=>'End Date',
     'status'=>'Status',
     'msg_content'=>[
         'msg_check_process_success'=>'Process successfully added!!!',
@@ -38,5 +40,7 @@ return [
         'msg_add_error'=>'Add Project error !!',
         'msg_remove_process_fail'=>'Remove process fail !!!',
         'msg_remove_process_success'=>'Remove process success !!!',
+        'msg_reopen_project_success'=>'Reopen project success !!!',
+        'msg_reopen_project_fail'=>'Reopen project fail !!!',
     ]
 ];

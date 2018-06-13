@@ -13,7 +13,7 @@
             })
         </script>
         @foreach(session()->get('error_messages') as $key=>$values)
-            {{" Employee(id=".getIdEmployeefromProcessError($key).") : ".
+            {{" Employee ( id : ".getIdEmployeefromProcessError($key)." ) : ".
             (!is_null(getEmployee((int)getIdEmployeefromProcessError($key)))?getEmployee((int)getIdEmployeefromProcessError($key))->name:'id wrong')}}
             <script>
                 $(document).ready(function () {
@@ -21,11 +21,16 @@
                 })
             </script>
             <br>
-            @foreach($values->all() as $value)
+            @foreach($values['errors']->all() as $value)
                 @if(!is_null($value))
                     {{" Error : ".$value }}<br>
                 @endif
             @endforeach
+            @if(!empty($values['available_processes']))
+                @php
+                   echo showListAvailableProcesses($values['available_processes']);
+                @endphp
+            @endif
         @endforeach
     @endif
     @if($errors->any())
@@ -41,10 +46,27 @@
         @endforeach
     @endif
 </div>
+@if(!empty($currentProject->end_date))
+    <script>
+        $(document).ready(function () {
+            disableAll();
+        });
+    </script>
+    <div id="warning-message" class="col-md-12 alert alert-warning alert-dismissible fade in" style="display: block">
+        <a href="#" style="text-decoration:none" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Warning!</strong> This Project finished !! if you want edit it ,please click button reopen .
+    </div>
+    <div class="col-md-6 col-md-offset-1">
+        <button type="button" id="btn_reopen_project" class=" btn btn-primary ">
+            <i class="fa fa-refresh"></i> Reopen
+        </button>
+    </div>
+@endif
+
 <div class="col-md-6 col-md-offset-1">
     <div>
         <input type="hidden" id="project_id" name="project_id" value="{{old('id', $currentProject->id)}}">
-        <label>{{trans('project.id')}}</label>
+        <label>{{trans('project.id')}}<strong style="color: red">(*)</strong> </label>
         {{ Form::text('id', old('id', $currentProject->id),
             ['class' => 'form-control',
             'id' => 'id',
@@ -56,7 +78,7 @@
         {{--<label class="id" id="lb_error_project_id" style="color: red; ">{{$errors->first('id')}}</label>--}}
     </div>
     <div>
-        <label>{{trans('project.project_name')}}</label>
+        <label>{{trans('project.project_name')}}<strong style="color: red">(*)</strong> </label>
         {{ Form::text('name', old('name', $currentProject->name),
             ['class' => 'form-control',
             'id' => 'name',
@@ -67,7 +89,7 @@
         {{--<label class="name" id="lb_error_project_name" style="color: red; ">{{$errors->first('name')}}</label>--}}
     </div>
     <div>
-        <label>{{trans('project.estimate_start_date')}}</label>
+        <label>{{trans('project.estimate_start_date')}}<strong style="color: red">(*)</strong> </label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -82,7 +104,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>{{trans('project.estimate_end_date')}}</label>
+        <label>{{trans('project.estimate_end_date')}}<strong style="color: red">(*)</strong> </label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -96,7 +118,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>Start work date</label>
+        <label>Real start date</label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -110,7 +132,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>End work date</label>
+        <label>Real end date</label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -132,7 +154,7 @@
 </div>
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
 <div class="col-md-2">
-    <label>Member</label><br/>
+    <label>Member<strong style="color: red">(*)</strong> </label><br/>
     <select name="employee_id" id="employee_id" class="form-control select2">
         <option {{ !empty(old('employees'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -145,7 +167,7 @@
     </select>
 </div>
 <div class="col-md-2">
-    <label>Man power</label><br/>
+    <label>Man power<strong style="color: red">(*)</strong> </label><br/>
     <select name="man_power" id="man_power" class="form-control">
         <option {{ !empty(old('man_power'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -158,7 +180,7 @@
     </select>
 </div>
 <div class="col-md-2">
-    <label>Role</label><br/>
+    <label>Role<strong style="color: red">(*)</strong> </label><br/>
     <select name="role_id" id="role" class="form-control">
         <option {{ !empty(old('role_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -171,7 +193,7 @@
     </select>
 </div>
 <div class="col-md-3">
-    <label>Start date</label>
+    <label>Start date<strong style="color: red">(*)</strong> </label>
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -182,7 +204,7 @@
     <!-- /.input group -->
 </div>
 <div class="col-md-3">
-    <label>End date</label>
+    <label>End date<strong style="color: red">(*)</strong> </label>
     <div class="input-group date ">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -334,8 +356,8 @@
 </div>
 <div class="col-md-6 col-md-offset-1">
     <div>
-        <label>Income</label>
-        {{ Form::number('income', old('income', number_format($currentProject->income). ' VNĐ'),
+        <label>Income<strong style="color: red">(*)</strong> </label>
+        {{ Form::number('income', old('income', $currentProject->income),
             ['class' => 'form-control',
             'id' => 'income',
             'autofocus' => true,
@@ -358,7 +380,7 @@
     </div>
     <div>
         <label>Real cost</label>
-        {{ Form::number('real_cost', old('real_cost', number_format($currentProject->real_cost). ' VNĐ'),
+        {{ Form::number('real_cost', old('real_cost', $currentProject->real_cost),
             ['class' => 'form-control',
             'id' => 'real_cost',
             'autofocus' => true,
@@ -379,7 +401,7 @@
         {{--<label id="lb_error_description" style="color: red;"></label>--}}
     </div>
     <div>
-        <label>Status</label><br/>
+        <label>Status<strong style="color: red">(*)</strong> </label><br/>
         <select name="status" id="status" class="form-control">
             <option {{ (!empty(old('status')) || !empty($currentProject->status_id))?'':'selected="selected"' }} value="">
                 {{  trans('vendor.drop_box.placeholder-default') }}
@@ -398,9 +420,10 @@
     <button id="btn_reset_form_project" type="button" class="btn btn-default" style="width: 150px"><span
                 class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
     </button>
-    <button id="btn_submit_form_add_project" type="submit" class="btn btn-primary"
+    <button id="btn_submit_form_edit_project" type="submit" class="btn btn-primary"
             style="width: 150px">{{trans('common.button.update')}}</button>
 </div>
+
 {{-- nhan hien bang nhap form --}}
 {!! Form::close() !!}
 
@@ -409,12 +432,26 @@
 
 
     $(document).ready(function () {
-        $('#form_add_project').on('submit', function (event) {
-            return confirm("Do you want add new Project ?");
+        $('#form_edit_project').on('submit', function (event) {
+            var id_project = $('#id').val();
+            var name_project = $('#name').val();
+            if (confirm(message_confirm('edit', 'project', id_project, name_project))) {
+                return true;
+            }
+            return false;
         });
 
+        $('#btn_reopen_project').on('click',function () {
+            var id_project = $('#id').val();
+            var name_project = $('#name').val();
+
+            if (confirm(message_confirm('reopen', 'project', id_project, name_project))) {
+                reopenAjax('{{route('reopenProjectAjax')}}', '{{csrf_token()}}');
+            }
+        })
+
         $('#btn_reset_form_project').on('click', function (event) {
-            if (confirm("Do you wan't reset all field ?")) {
+            if (confirm("Do you want to reset all field ?")) {
                 location.reload();
             }
         });
@@ -423,7 +460,8 @@
             var target_input = $(this).parent().closest('tr').find("input.process_id");
             var employee_id = $(event.target).attr('id');
             var employee_name = $(event.target).attr('name');
-            if (confirm("Do you want remove " + employee_name + " (id=" + employee_id + ") from project ?")) {
+
+            if (confirm("Do you want to remove " + employee_name + " ( id: " + employee_id + " ) from project ?")) {
                 removeEmployee(employee_id, target_tr ,target_input);
             }
         });
@@ -434,7 +472,8 @@
             if (employee_id === '' || employee_name === '') {
                 return confirm('Please choose employee !')
             } else {
-                if (confirm("Do you want add  " + employee_name + " (id=" + employee_id + ") to project ?")) {
+
+                if (confirm("Do you want to add  " + employee_name + " ( id: " + employee_id + " ) to project ?")) {
                     var end_date_process_selected = $('#end_date_process').val();
                     var start_date_process_selected = $('#start_date_process').val();
                     if (checkDupeMember(employee_id,employee_name, start_date_process_selected, end_date_process_selected) ) {
@@ -457,6 +496,43 @@
             });
 
         });
+
+
     });
 
+</script>
+<script>
+    // /* Without prefix */
+    // var input = document.getElementById('income');
+    // input.addEventListener('keyup', function(e)
+    // {
+    //     input.value = format_number(this.value);
+    // });
+    //
+    // /* With Prefix */
+    // var input2 = document.getElementById('real_cost');
+    // input2.addEventListener('keyup', function(e)
+    // {
+    //     input2.value = format_number(this.value, '$ ');
+    // });
+    //
+    // /* Function */
+    // function format_number(number, prefix, thousand_separator, decimal_separator)
+    // {
+    //     var thousand_separator = thousand_separator || ',',
+    //         decimal_separator = decimal_separator || '.',
+    //         regex		= new RegExp('[^' + decimal_separator + '\\d]', 'g'),
+    //         number_string = number.replace(regex, '').toString(),
+    //         split	  = number_string.split(decimal_separator),
+    //         rest 	  = split[0].length % 3,
+    //         result 	  = split[0].substr(0, rest),
+    //         thousands = split[0].substr(rest).match(/\d{3}/g);
+    //
+    //     if (thousands) {
+    //         separator = rest ? thousand_separator : '';
+    //         result += separator + thousands.join(thousand_separator);
+    //     }
+    //     result = split[1] != undefined ? result + decimal_separator + split[1] : result;
+    //     return prefix == undefined ? result : (result ? prefix + result : '');
+    // };
 </script>

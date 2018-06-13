@@ -15,7 +15,12 @@
         <!-- Main content -->
         <section class="content">
             <!-- SELECT2 EXAMPLE -->
-
+            <SCRIPT LANGUAGE="JavaScript">
+                function confirmAddTeam() {
+                    var name = $('#team_name_id').val();
+                    return confirm(message_confirm_add('add', 'team', name));
+                }
+            </SCRIPT>
             <div class="box box-default">
                 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                 <div class="box-body">
@@ -75,8 +80,6 @@
 
                                     @endforeach
                                 </select>
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
                                 <button type="button" class="btn btn-default buttonAdd">
                                     <a onclick="addFunction()"><i
                                                 class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
@@ -126,34 +129,36 @@
                 <script>
                     $(document).ready(function () {
                         $("#form_add_team").submit(function () {
-                            return confirm('{{trans('team.confirm_add_team')}}');
+                            return confirmAddTeam();
                         });
                     });
                     $(function () {
                         $("#btn_reset_form_team").bind("click", function () {
-                            $("#lb_error_team_name").empty();
-                            $("#lb_error_id_po").empty();
-                            $("#lb_error_members").empty();
-                            var select_po = $('#id_po');
-                            select_po.val('').change();
-                            var select_members = $("#member");
-                            select_members.val('').change();
-                            $("#team_name_id").val('');
+                            if(confirm("Do you want to reset?")){
+                                $("#lb_error_team_name").empty();
+                                $("#lb_error_id_po").empty();
+                                $("#lb_error_members").empty();
+                                var select_po = $('#id_po');
+                                select_po.val('').change();
+                                var select_members = $("#member");
+                                select_members.val('').change();
+                                $("#team_name_id").val('');
 
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $('#member_' + $listEmployeeID[$i]).prop('disabled', false);
-                                $('#member').select2();
+                                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                                    $('#member_' + $listEmployeeID[$i]).prop('disabled', false);
+                                    $('#member').select2();
 
-                                $('#po_' + $listEmployeeID[$i]).prop('disabled', false);
-                                $('#id_po').select2();
+                                    $('#po_' + $listEmployeeID[$i]).prop('disabled', false);
+                                    $('#id_po').select2();
+                                }
+
+                                $listEmployeeID = new Array();
+                                $listEmployeeName = new Array();
+                                $listEmployeeTeam = new Array();
+                                $listEmployeeRole = new Array();
+                                document.getElementById("contextMenuTeam").innerHTML = "";
+                                document.getElementById("listChoose").innerHTML = "";
                             }
-
-                            $listEmployeeID = new Array();
-                            $listEmployeeName = new Array();
-                            $listEmployeeTeam = new Array();
-                            $listEmployeeRole = new Array();
-                            document.getElementById("contextMenuTeam").innerHTML = "";
-                            document.getElementById("listChoose").innerHTML = "";
                         });
                     });
                 </script>
@@ -164,19 +169,28 @@
                             $listAdd = "";
                             for (i = 0; i < members.length; i++) {
                                 @foreach($employees as $employee)
-                                if ({{$employee->id}} == members[i]
-                            )
+                                if ({{$employee->id}} == members[i])
                                 {
                                     $teamEdit = '{{isset($employee->team)?$employee->team->name:'-' }}';
                                     $roleEdit = '{{isset($employee->role)?$employee->role->name:'-' }}';
                                 }
                                 @endforeach
-                                    $listAdd += "<tr id=\"show_" + members[i] + "\">" +
-                                    "<td>" + members[i] + "</td>" +
-                                    "<td id=\"teamEdit_" + members[i] + "\">" + $teamEdit + "</td>" +
-                                    "<td id=\"roleEdit_" + members[i] + "\">" + $roleEdit + "</td>" +
-                                    "<td id=\"nameEdit_" + members[i] + "\">" + $("#member_" + members[i]).text() + "</td>" +
-                                    "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + members[i] + ")\"></i></td></tr>";
+                                $classBtr = '';
+                                if($roleEdit == 'PO'){
+                                    $classBtr = 'label label-primary';
+                                } else if($roleEdit == 'Dev'){
+                                    $classBtr = 'label label-success';
+                                } else if($roleEdit == 'BA'){
+                                    $classBtr = 'label label-info';
+                                } else if($roleEdit == 'ScrumMaster'){
+                                    $classBtr = 'label label-warning';
+                                }
+                                $listAdd += "<tr id=\"show_" + members[i] + "\">" +
+                                "<td>" + members[i] + "</td>" +
+                                "<td id=\"teamEdit_" + members[i] + "\">" + $teamEdit + "</td>" +
+                                "<td id=\"roleEdit_" + members[i] + "\"><span class=\""+ $classBtr +"\">" + $roleEdit + "</span></td>" +
+                                "<td id=\"nameEdit_" + members[i] + "\">" + $("#member_" + members[i]).text() + "</td>" +
+                                "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + members[i] + ")\"></i></td></tr>";
                             }
                             listChoose = "";
                             for (i = 0; i < members.length; i++) {
@@ -225,6 +239,7 @@
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                 if ($id == $listEmployeeID[$i]) {
                                     $check = false;
+                                    alert("Error!!! Member already exist !!!");
                                     break;
                                 }
                             }

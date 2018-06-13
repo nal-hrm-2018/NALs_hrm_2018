@@ -6,20 +6,24 @@
  * Time: 3:01 PM
  */
 
-namespace App\Http\Rule;
+namespace App\Http\Rule\Project;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\Team;
-class ValidDupeMember implements Rule
+class ValidAtLeastOnePo implements Rule
 {
-    public function __construct()
+    private $message;
+    private $processes;
+    public function __construct($processes)
     {
+        $this->processes=$processes;
     }
 
     public function passes($attribute, $value)
     {
-        // check member duplication
-        if (array_has_dupes($value)){
+        //kiem tra processes phai co it nhat 1 po
+        if (!checkPOinProject($this->processes)) {
+            $this->message = 'Project must have at least 1 PO ';
             return false;
         }
         return true;
@@ -32,6 +36,6 @@ class ValidDupeMember implements Rule
      */
     public function message()
     {
-        return trans('Member not duplicate !!!');
+        return $this->message;
     }
 }

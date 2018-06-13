@@ -80,6 +80,10 @@ Route::group(['middleware' => 'user'], function () {
         'as'=>'checkProcessAjax',
         'uses'=>'Project\ProjectController@checkProcessesAjax'
     ]);
+    Route::post('projects/reopenProjectAjax',[
+        'as'=>'reopenProjectAjax',
+        'uses'=>'Project\ProjectController@reopenProjectAjax'
+    ]);
 
 
 

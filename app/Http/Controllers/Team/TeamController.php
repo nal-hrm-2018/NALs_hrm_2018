@@ -48,7 +48,8 @@ class TeamController extends Controller
     public function create()
     {
         $employees = Employee::orderBy('name', 'asc')->where('is_employee',1)->where('delete_flag', 0)->with('team', 'role')->get();
-        return view('teams.add', compact('employees'));
+        $listRole = Role::where('delete_flag','0')->get();
+        return view('teams.add', compact('employees','listRole'));
     }
 
     public function store(TeamAddRequest $request)
@@ -73,60 +74,6 @@ class TeamController extends Controller
         return view('teams.view', compact('member'));
     }
 
-    /*public function edit($id)
-    {
-        $team = Team::where('delete_flag', 0)->find($id);
-        if (!isset($team)) {
-            return abort(404);
-        }
-        $allEmployees = Employee::query()
-            ->with(['team', 'role'])
-            ->where('employees.team_id', null)
-            ->orwhereNotIn('employees.team_id', function ($q) {
-                $q->select('id')->from('teams')->where('id', Auth::user()->team_id);
-            })->get();
-        $allEmployeeHasPOs = Employee::query()
-            ->with(['team', 'role'])
-            ->where('delete_flag', 0)->where('is_employee', 1)->get();
-        $onlyValue = null;
-        $nameEmployee = null;
-        try {
-            $teamById = Team::findOrFail($id)->toArray();
-        } catch (\Exception $exception) {
-            return $exception->getMessage();
-        }
-        $nameTeam = $teamById['name'];
-        $idUser = Auth::user()->id;
-        $teamOfEmployee = "" . Auth::user()->team_id;
-        $rolePoInRole = Role::select('id')
-            ->where('name', 'PO')->first();
-        $numberPoInRole = $rolePoInRole->id;
-        $allRoleInTeam = Role::all();
-        $allTeam = Team::all();
-        if ($teamOfEmployee != $id) {
-            session()->flash('msg_fail','You dont access denied. Call Us, please!...');
-            return redirect(route('teams.index'));
-        } else {
-            $poEmployee = Employee::select('id', 'email', 'name')
-                ->Where('team_id', '=', $teamById['id'])
-                ->Where('role_id', '=', $numberPoInRole)
-                ->get()->first();
-            $allEmployeeInTeams = Employee::select('employees.id', 'employees.name','teams.name as team', 'roles.name as role')
-                ->join('teams', 'teams.id', '=', 'employees.team_id')
-                ->join('roles', 'roles.id', '=', 'employees.role_id')
-                ->where('team_id', '=', Auth::user()->team_id)
-                ->where('roles.name', '<>', 'PO')
-                ->orderBy('employees.id', 'asc')->get();
-//            $values = $poEmployee;
-//            foreach ($values as $value) {
-//                $onlyValue = $value['email'];
-//                $nameEmployee = $value['name'];
-//                $idEmployee = $value['id'];
-//            }
-            return view('teams.edit', compact('poEmployee','teamById', 'idUser', 'onlyValue', 'nameTeam', 'allEmployeeHasPOs', 'allEmployees', 'allEmployeeInTeams', 'idEmployee', 'nameEmployee', 'numberPoInRole', 'allRoleInTeam', 'allTeam'));
-
-        }
-    }*/
     public function edit($id)
     {
         $team = Team::where('delete_flag', 0)->find($id);
@@ -136,7 +83,7 @@ class TeamController extends Controller
         $listEmployee = Employee::query()
             ->with(['team', 'role'])
             ->where('delete_flag', 0)->get();
-        $listEmployeeOfTeam = Employee::select('employees.id', 'employees.name', 'teams.name as team', 'roles.name as role')
+        $listEmployeeOfTeam = Employee::select('employees.id', 'employees.name', 'employees.role_id','teams.name as team', 'roles.name as role')
             ->join('teams', 'teams.id', '=', 'employees.team_id')
             ->join('roles', 'roles.id', '=', 'employees.role_id')
             ->where('employees.team_id', $id)
@@ -149,7 +96,8 @@ class TeamController extends Controller
             ->where('roles.name', 'PO')
             ->where('employees.delete_flag', '0')
             ->orderBy('employees.id', 'asc')->first();
-        return view('teams.edit1', compact('listEmployee','listEmployeeOfTeam', 'team', 'poOfteam'));
+        $listRole = Role::where('delete_flag','0')->get();
+        return view('teams.edit', compact('listEmployee','listEmployeeOfTeam', 'team', 'poOfteam','listRole'));
 
     }
 

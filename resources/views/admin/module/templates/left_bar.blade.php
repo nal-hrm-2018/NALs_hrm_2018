@@ -59,7 +59,7 @@
         </li>
                 
       </ul>
-      <a href="javascript:history.back()" class="cd-back cd-is-visible">Back</a>
+
     </section>
     <!-- /.sidebar -->
   </aside>

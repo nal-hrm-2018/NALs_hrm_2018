@@ -451,7 +451,7 @@
                 var elementRemove = $(this).data('employee-id');
                 var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm('Do you want to delete employee has id: '+elementRemove+'. Name: "'+ nameRemove +'"?')) {
+                if (confirm(message_confirm('delete', 'employee', elementRemove, nameRemove))) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/employee') }}' + '/' + elementRemove,

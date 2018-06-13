@@ -3,38 +3,28 @@ display: inline-block;
 height: 60px;
 width: 60px;
 position: fixed;
-bottom: 30px;
-left: 20px;
+bottom: 26px;
+left: 55%;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 /* image replacement properties */
 overflow: hidden;
 text-indent: 100%;
 white-space: nowrap;
-background: #3097D1 url("https://upload.wikimedia.org/wikipedia/commons/3/33/Left_curve_arrow_back_-_black.svg") no-repeat center 50%;
+background: #CCCCCC url("https://upload.wikimedia.org/wikipedia/commons/3/33/Left_curve_arrow_back_-_black.svg") no-repeat center 50%;
 background-size: 40px 40px;
-visibility: hidden;
-opacity: 0;
+visibility: visible;
+opacity: 1;
 -webkit-transition: opacity .3s 0s, visibility 0s .3s;
 -moz-transition: opacity .3s 0s, visibility 0s .3s;
 transition: opacity .3s 0s, visibility 0s .3s;
+border-radius: 10px;
 }
-a.cd-back.cd-is-visible, a.cd-back.cd-fade-out, .no-touch a.cd-back:hover {
--webkit-transition: opacity .3s 0s, visibility 0s 0s;
--moz-transition: opacity .3s 0s, visibility 0s 0s;
-transition: opacity .3s 0s, visibility 0s 0s;
-}
- 
+
+
 a.cd-back, a.cd-back:visited, a.cd-back:hover {
 color: #CCCCCC;
 text-decoration: none;
 }
- 
-a.cd-back.cd-is-visible {
-/* the button becomes visible */
-visibility: visible;
-opacity: 1;
-}
-a.cd-back.cd-fade-out {
-/* if the user keeps scrolling down, the button is out of focus and becomes less visible */
-opacity: 1;
+.input-group{
+    position: sticky;
 }

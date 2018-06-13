@@ -3,7 +3,7 @@ display: inline-block;
 height: 60px;
 width: 60px;
 position: fixed;
-bottom: 30px;
+bottom: 26px;
 right: 20px;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 /* image replacement properties */
@@ -16,6 +16,7 @@ opacity: 0;
 -webkit-transition: opacity .3s 0s, visibility 0s .3s;
 -moz-transition: opacity .3s 0s, visibility 0s .3s;
 transition: opacity .3s 0s, visibility 0s .3s;
+border-radius: 10px;
 }
 a.cd-top.cd-is-visible, a.cd-top.cd-fade-out, .no-touch a.cd-top:hover {
 -webkit-transition: opacity .3s 0s, visibility 0s 0s;

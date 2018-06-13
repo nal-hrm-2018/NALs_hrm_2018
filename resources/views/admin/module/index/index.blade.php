@@ -160,7 +160,6 @@
     </div>
     <!-- /.content-wrapper -->
 
-    </div>
     <!-- ./wrapper -->
 
     <!-- jQuery 3 -->
