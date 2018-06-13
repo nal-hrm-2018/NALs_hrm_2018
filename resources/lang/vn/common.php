@@ -13,17 +13,30 @@ return [
     |
     */
 
+    'pagination'=>[
+        'first'=>'← Trang đầu',
+        'previous'=>'← Trước',
+        'next'=>'Sau →',
+        'last'=>'Trang cuối →',
+    ],
+    'confirm_message'=>[
+        'add_action'=>'Bạn có muốn thêm không?',
+    ],
     'button' => [
         'reset' => 'LÀM MỚI',
         'search' => 'TÌM KIẾM',
-        'add' => "THÊM"
+        'add' => "THÊM",
+        'save' => 'LƯU',
+        'update' => 'CẬP NHẬT'
     ],
 
     'title_form' => [
         'form_search' => 'Form Tìm Kiếm'
     ],
     'title_header'=>[
-        'employee_detail'=>'Thông Tin Nhân Viên'
+        'employee_detail'=>'Thông Tin Nhân Viên',
+        'vendor_list'=>'Danh Sách Nhân Viên Ngoài',
+        'nal_solution' =>'Nal solution'
     ],
     'path'=>[
         'home'=>'Trang Chủ',
@@ -32,6 +45,8 @@ return [
         'team' => 'Nhóm',
         'list' => 'Danh sách',
         'detail'=>'Chi Tiết',
+        'add_project'=>'Thêm Dự Án',
+        'edit_project'=>'Chỉnh Sửa Dự Án'
     ],
     'action'=>[
         'view'=>'Chi tiết',
