@@ -81,7 +81,7 @@
                         name = $('#team_name').val();
                     }
                     var id = $('#id_team').val();
-                    return confirm("Would you like to edit team "+name+" (id: "+id+")");
+                    return confirm("Would you like to edit team: "+name+" (id: "+id+")?");
                 }
             </SCRIPT>
 

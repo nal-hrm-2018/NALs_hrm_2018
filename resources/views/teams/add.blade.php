@@ -21,7 +21,7 @@
                     if ($('#team_name_id').length){
                         name = $('#team_name_id').val();
                     }
-                    return confirm("Would you like to add new employee "+name+"?");
+                    return confirm("Would you like to add new team: "+name+"?");
                 }
             </SCRIPT>
             <div class="box box-default">
