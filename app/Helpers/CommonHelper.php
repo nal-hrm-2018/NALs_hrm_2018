@@ -206,26 +206,3 @@ function checkPOinProject($processes)
     }
     return false;
 }
-function checkPoInLishMember($value)
-{
-    // check dup id po vs member
-    $msg = "";
-    $id_po = Role::select('id')->where('name','=','PO')->first();
-    if($value != null){
-        foreach ($value as $objMember){
-            $objMemberById = Employee::find($objMember['id']);
-            $objRoleById = Role::find($objMember['role']);
-            if($objRoleById == null){
-                return "Error: Role is not exit!!!";
-            }
-            if ($objMemberById == null) {
-                return "Error: Employee is not exit!!!";
-            }else{
-                if( (int)$objMember['role'] == $id_po->id){
-                    $msg .= "Error: Member id: ".$objMember['id']." name: ".$objMemberById->name." role other PO "."\n";
-                }
-            }
-        }
-    }
-    return nl2br($msg);
-}

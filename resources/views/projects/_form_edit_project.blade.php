@@ -435,17 +435,7 @@
         $('#form_edit_project').on('submit', function (event) {
             var id_project = $('#id').val();
             var name_project = $('#name').val();
-            if(id_project.length===0){
-                alert('Please fill in input Project Id');
-                return false;
-            }
-
-            if(name_project.length===0){
-                alert('Please fill in input Project Name');
-                return false;
-            }
-
-            if (confirm("Do you want to update Project : "+name_project+" ( id: "+id_project+" ) ?")) {
+            if (confirm(message_confirm('edit', 'project', id_project, name_project))) {
                 return true;
             }
             return false;
@@ -455,7 +445,7 @@
             var id_project = $('#id').val();
             var name_project = $('#name').val();
 
-            if (confirm("Do you want reopen Project : "+name_project+" ( id: "+id_project+" ) ?")) {
+            if (confirm(message_confirm('reopen', 'project', id_project, name_project))) {
                 reopenAjax('{{route('reopenProjectAjax')}}', '{{csrf_token()}}');
             }
         })

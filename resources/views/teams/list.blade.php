@@ -249,7 +249,7 @@
                 var elementRemove = $(this).data('team-id');
                 var nameRemove = $(this).data('team-name');
                 console.log("element: " + elementRemove);
-                if (confirm('Do you want to delete team "'+ nameRemove +'"?')) {
+                if (confirm(message_confirm('delete', 'team', elementRemove, nameRemove))) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/teams') }}' + '/' + elementRemove,

@@ -21,18 +21,14 @@
                 <div id="msg">
                 </div>
                     <SCRIPT LANGUAGE="JavaScript">
-                        function confirmAction($msg) {
-                            var name = "-";
-                            if ($('#name').length){
-                                name = $('#name').val();
-                            }
-                            return confirm("Would you like to add new employee "+name+"?");
+                        function confirmAction() {
+                             var name = $('#name').val();
+                            return confirm(message_confirm_add('add', 'employee', name));
                         }
                     </SCRIPT>
                     <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                     <form action="{{asset('employee')}}" method="post" class="form-horizontal"
-                          onSubmit="return confirmAction('Would you like to add it?')"
-                          onreset="return confirmAction('Do you want to reset?')">
+                          onSubmit="return confirmAction()">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row">
                             <div class="col-md-3">
@@ -317,34 +313,36 @@
                     <script>
                         $(function () {
                             $("#btn_reset_form_employee").bind("click", function () {
-                                $("#lb_error_email").empty();
-                                $("#lb_error_password").empty();
-                                $("#lb_error_address").empty();
-                                $("#lb_error_birthday").empty();
-                                $("#lb_error_employee_type_id").empty();
-                                $("#lb_error_endwork_date").empty();
-                                $("#lb_error_startwork_date").empty();
-                                $("#lb_error_gender").empty();
-                                $("#lb_error_marital_status").empty();
-                                $("#lb_error_mobile").empty();
-                                $("#lb_error_name").empty();
-                                $("#lb_error_role_id").empty();
-                                $("#lb_error_team_id").empty();
-                                $("#lb_error_password_confirm").empty();
-                                $("#email").val('');
-                                $("#password").val('');
-                                $("#cfPass").val('');
-                                $("#name").val('');
-                                $("#address").val('');
-                                $("#mobile").val('');
-                                $("#gender").val('1').change();
-                                $("#married").val('1').change();
-                                $("#team_id").val('').change();
-                                $("#role_team").val('').change();
-                                $("#position").val('').change();
-                                $("#birthday").val('value', '');
-                                $("#startwork_date").val('value', '');
-                                $("#endwork_date").val('value', '');
+                                if(confirm("Do you want to reset?")){
+                                    $("#lb_error_email").empty();
+                                    $("#lb_error_password").empty();
+                                    $("#lb_error_address").empty();
+                                    $("#lb_error_birthday").empty();
+                                    $("#lb_error_employee_type_id").empty();
+                                    $("#lb_error_endwork_date").empty();
+                                    $("#lb_error_startwork_date").empty();
+                                    $("#lb_error_gender").empty();
+                                    $("#lb_error_marital_status").empty();
+                                    $("#lb_error_mobile").empty();
+                                    $("#lb_error_name").empty();
+                                    $("#lb_error_role_id").empty();
+                                    $("#lb_error_team_id").empty();
+                                    $("#lb_error_password_confirm").empty();
+                                    $("#email").val('');
+                                    $("#password").val('');
+                                    $("#cfPass").val('');
+                                    $("#name").val('');
+                                    $("#address").val('');
+                                    $("#mobile").val('');
+                                    $("#gender").val('1').change();
+                                    $("#married").val('1').change();
+                                    $("#team_id").val('').change();
+                                    $("#role_team").val('').change();
+                                    $("#position").val('').change();
+                                    $("#birthday").val('value', '');
+                                    $("#startwork_date").val('value', '');
+                                    $("#endwork_date").val('value', '');
+                                }
                             });
                         });
                     </script>
