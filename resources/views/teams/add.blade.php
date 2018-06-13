@@ -80,8 +80,6 @@
 
                                     @endforeach
                                 </select>
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
                                 <button type="button" class="btn btn-default buttonAdd">
                                     <a onclick="addFunction()"><i
                                                 class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
@@ -136,29 +134,31 @@
                     });
                     $(function () {
                         $("#btn_reset_form_team").bind("click", function () {
-                            $("#lb_error_team_name").empty();
-                            $("#lb_error_id_po").empty();
-                            $("#lb_error_members").empty();
-                            var select_po = $('#id_po');
-                            select_po.val('').change();
-                            var select_members = $("#member");
-                            select_members.val('').change();
-                            $("#team_name_id").val('');
+                            if(confirm("Do you want to reset?")){
+                                $("#lb_error_team_name").empty();
+                                $("#lb_error_id_po").empty();
+                                $("#lb_error_members").empty();
+                                var select_po = $('#id_po');
+                                select_po.val('').change();
+                                var select_members = $("#member");
+                                select_members.val('').change();
+                                $("#team_name_id").val('');
 
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $('#member_' + $listEmployeeID[$i]).prop('disabled', false);
-                                $('#member').select2();
+                                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                                    $('#member_' + $listEmployeeID[$i]).prop('disabled', false);
+                                    $('#member').select2();
 
-                                $('#po_' + $listEmployeeID[$i]).prop('disabled', false);
-                                $('#id_po').select2();
+                                    $('#po_' + $listEmployeeID[$i]).prop('disabled', false);
+                                    $('#id_po').select2();
+                                }
+
+                                $listEmployeeID = new Array();
+                                $listEmployeeName = new Array();
+                                $listEmployeeTeam = new Array();
+                                $listEmployeeRole = new Array();
+                                document.getElementById("contextMenuTeam").innerHTML = "";
+                                document.getElementById("listChoose").innerHTML = "";
                             }
-
-                            $listEmployeeID = new Array();
-                            $listEmployeeName = new Array();
-                            $listEmployeeTeam = new Array();
-                            $listEmployeeRole = new Array();
-                            document.getElementById("contextMenuTeam").innerHTML = "";
-                            document.getElementById("listChoose").innerHTML = "";
                         });
                     });
                 </script>
@@ -239,6 +239,7 @@
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                 if ($id == $listEmployeeID[$i]) {
                                     $check = false;
+                                    alert("Error!!! Member already exist !!!");
                                     break;
                                 }
                             }
