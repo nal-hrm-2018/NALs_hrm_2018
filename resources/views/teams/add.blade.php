@@ -16,12 +16,9 @@
         <section class="content">
             <!-- SELECT2 EXAMPLE -->
             <SCRIPT LANGUAGE="JavaScript">
-                function confirmAddTeam($msg) {
-                    var name = "-";
-                    if ($('#team_name_id').length){
-                        name = $('#team_name_id').val();
-                    }
-                    return confirm("Would you like to add new employee "+name+"?");
+                function confirmAddTeam() {
+                    var name = $('#team_name_id').val();
+                    return confirm(message_confirm_add('add', 'team', name));
                 }
             </SCRIPT>
             <div class="box box-default">
@@ -134,7 +131,7 @@
                 <script>
                     $(document).ready(function () {
                         $("#form_add_team").submit(function () {
-                            return confirmAddTeam('{{trans('team.confirm_add_team')}}');
+                            return confirmAddTeam();
                         });
                     });
                     $(function () {

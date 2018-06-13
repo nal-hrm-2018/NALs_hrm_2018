@@ -26,15 +26,15 @@
 
         <div id="msg"></div>
         <SCRIPT LANGUAGE="JavaScript">
-            function confirmVendor($msg) {
-                name = $('#name').val();
-                id = $('#id_vendor').val();
-                return confirm("Would you like to edit vendor "+name+" (id: "+id+")");
+            function confirmVendor() {
+                var name = $('#name').val();
+                var id = $('#id_vendor').val();
+                return confirm(message_confirm('edit', 'vendor', id, name));
             }
         </SCRIPT>
         <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
           <div class="row">
-            {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmVendor("")'])}}
+            {{ Form::model($objEmployee, ['url' => ['/vendors', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST', 'onreset' => 'return confirmAction("Do you want to reset?")', 'onSubmit' => 'return confirmVendor()'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" id="id_vendor" value="{{$objEmployee["id"]}}"/>
             <div class="col-md-3">

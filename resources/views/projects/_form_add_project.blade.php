@@ -348,15 +348,8 @@
         $('#form_add_project').on('submit', function (event) {
             var id_project = $('#id').val();
             var name_project = $('#name').val();
-            if(id_project.length===0){
-                alert('Please fill in input Project Id');
-                return false;
-            }
-            if(name_project.length===0){
-                alert('Please fill in input Project Name');
-                return false;
-            }
-            if (confirm("Do you want to add new Project : "+name_project+" ( id: "+id_project+" ) ?")) {
+
+            if (confirm(message_confirm('add', 'project', id_project, name_project))) {
                 return true;
             }
             return false;

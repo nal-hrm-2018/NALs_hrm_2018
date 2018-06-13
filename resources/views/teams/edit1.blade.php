@@ -74,14 +74,10 @@
             </ol>
         </section>
         <SCRIPT LANGUAGE="JavaScript">
-            function confirmTeam($msg) {
-//                var name = $('#team_name').val();
-                var name = "-";
-                if ($('#team_name').length){
-                    name = $('#team_name').val();
-                }
+            function confirmTeam() {
+                var name = $('#team_name').val();
                 var id = $('#id_team').val();
-                return confirm("Would you like to edit team "+name+"?");
+                return confirm(message_confirm('edit', 'team', id, name));
             }
         </SCRIPT>
 
@@ -121,6 +117,8 @@
                         <!-- /.col -->
                         <div class="col-md-7">
                             <div class="form-group">
+                                <input type="hidden" class="form-control width80" id="id_team" name="id_team"
+                                       value="{!! old('id_team', isset($team) ? $team->id : null) !!}">
                                 <label>Team name<strong style="color: red">(*)</strong></label>
                                 <input type="text" class="form-control width80" id="team_name" placeholder="Team name"
                                        name="team_name"
@@ -323,7 +321,7 @@
                 <script type="text/javascript">
                     $(document).ready(function (){
                         $("#form_edit_team").submit( function(){
-                            return confirmTeam('');
+                            return confirmTeam();
                         });
                     });
                 </script>

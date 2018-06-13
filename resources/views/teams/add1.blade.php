@@ -147,7 +147,8 @@
                 <script>
                     $(document).ready(function () {
                         $("#form_add_team").submit(function () {
-                            return confirm('{{trans('team.confirm_add_team')}}');
+                            var name = $('#team_name_id').val();
+                            return confirm(message_confirm_add('add', 'team', name));
                         });
                     });
                     $(function () {
