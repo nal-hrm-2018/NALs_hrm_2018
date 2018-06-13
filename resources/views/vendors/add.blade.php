@@ -27,12 +27,9 @@
                     <script type="text/javascript"
                             src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                     <script>
-                        function confirmAction($msg) {
-                            var name = "-";
-                            if ($('#name').length){
-                                name = $('#name').val();
-                            }
-                            return confirm("Would you like to add new vendor "+name+"?");
+                        function confirmAction() {
+                            var name = $('#name').val();
+                            return confirm(message_confirm_add('add', 'vendor', name));
                         }
                         $(function () {
                             $("#btn_reset_form_vendor").on("click", function () {
@@ -69,7 +66,7 @@
 
                         $(function () {
                             $('#form_create_vendor').submit(function () {
-                                return confirmAction('{{trans('common.confirm_message.add_action')}}');
+                                return confirmAction();
                             });
                         });
                     </script>

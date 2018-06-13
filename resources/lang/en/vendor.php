@@ -55,7 +55,7 @@ return [
         ],
         'team'=>'Team',
         'role'=>'Role',
-        'role_in_team'=>'Role in team',
+        'role_in_team'=>'Role',
         'policy_date'=>'Policy Date',
         'policy_status'=>[
             'title'=>'Policy Status',
