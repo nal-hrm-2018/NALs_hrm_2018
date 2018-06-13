@@ -21,17 +21,14 @@
                 <div id="msg">
                 </div>
                     <SCRIPT LANGUAGE="JavaScript">
-                        function confirmSubmit() {
-                            var name = "-";
-                            if ($('#name').length){
-                                name = $('#name').val();
-                            }
-                            return confirm("Would you like to add new employee "+name+"?");
+                        function confirmAction() {
+                             var name = $('#name').val();
+                            return confirm(message_confirm_add('add', 'employee', name));
                         }
                     </SCRIPT>
                     <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                     <form action="{{asset('employee')}}" method="post" class="form-horizontal"
-                          onSubmit="return confirmSubmit()">
+                          onSubmit="return confirmAction()">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row">
                             <div class="col-md-3">
