@@ -58,7 +58,9 @@ class VendorController extends Controller
     {
         $genders = [1 => config('settings.Gender.female'), 2 => config('settings.Gender.male'),
             3=>config('settings.Gender.n_a')];
-
+//        $genders = [1 => config('settings.Gender.female'), 2 => config('settings.Gender.male'),
+//            3=>config('settings.Gender.n_a')];
+//dd(config('settings.Married.single').'');
         $marries = [1=>config('settings.Married.single'),2=>config('settings.Married.married'),
             3=>config('settings.Married.separated'),4=>config('settings.Married.devorce')];
 

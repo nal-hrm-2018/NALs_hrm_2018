@@ -6,6 +6,7 @@ return [
         'add_vendor' => 'THÊM'
     ],
     'title_header'=>[
+        'title_vendor'=>'Nhân Viên Ngoài',
         'add_vendor'=>'Thêm Nhân Viên Ngoài',
     ],
 
@@ -14,7 +15,17 @@ return [
     ],
 
     'drop_box'=>[
-        'placeholder-default' => 'Chọn'
+        'placeholder-default' => 'Chọn',
+        'gender-'.config('settings.Gender.male').'' => 'Nam',
+        'gender-'.config('settings.Gender.female').'' => 'Nữ',
+        'gender-N/A'.config('settings.Gender.n_a').'' => 'Khác'
+    ],
+    'marital_status'=>[
+        'title'=>'Tình Trạng Hôn Nhân',
+        config('settings.Married.single')=>'Độc Thân',
+        config('settings.Married.married')=>'Đã Kết Hôn',
+        config('settings.Married.separated')=>'Ly Thân',
+        config('settings.Married.devorce')=>'Đã Ly Hôn'
     ],
     'basic'=>'Thông Tin Cơ Bản',
     'profile_info'=>[
@@ -46,12 +57,11 @@ return [
         'birthday'=>'Ngày Sinh',
         'phone'=>'Số Điện Thoại',
         'address'=>'Địa Chỉ',
-        'marital_status'=>[
-            'title'=>'Tình Trạng Hôn Nhân',
-            'single'=>'Độc Thân',
-            'married'=>'Đã Kết Hôn',
-            'separated'=>'Ly Thân',
-            'divorced'=>'Đã Ly Hôn'
+        'employee_type'=>[
+            config('settings.EmployeeType.FullTime')=>'Làm đủ giờ',
+            config('settings.EmployeeType.PartTime')=>'Làm bán thời gian',
+            config('settings.EmployeeType.InterShip')=>'Thực tập',
+            config('settings.EmployeeType.Contractual Employee')=>'Làm theo hợp đồng'
         ],
         'team'=>'Team',
         'role'=>'Chức vụ',

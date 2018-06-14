@@ -6,15 +6,25 @@ return [
         'add_vendor' => 'ADD'
     ],
     'title_header'=>[
+        'title_vendor'=>'Vendor',
         'add_vendor'=>'Add Vendor',
     ],
 
     'label'=>[
         'avatar'=>'Avatar'
     ],
-
     'drop_box'=>[
-        'placeholder-default' => 'Please Select'
+        'placeholder-default' => 'Please Select',
+        'gender-'.config('settings.Gender.male').'' => 'Male',
+        'gender-'.config('settings.Gender.female').'' => 'Female',
+        'gender-'.config('settings.Gender.n_a').'' => 'N/A'
+    ],
+    'marital_status'=>[
+        'title'=>'Marital Status',
+        config('settings.Married.single')=>'Single',
+        config('settings.Married.married')=>'Married',
+        config('settings.Married.separated')=>'Separated',
+        config('settings.Married.devorce')=>'Divorced'
     ],
     'basic'=>'Basic',
     'profile_info'=>[
@@ -46,12 +56,11 @@ return [
         'birthday'=>'Birthday',
         'phone'=>'Phone',
         'address'=>'Address',
-        'marital_status'=>[
-            'title'=>'Marital Status',
-            'single'=>'Single',
-            'married'=>'Married',
-            'separated'=>'Separated',
-            'divorced'=>'Divorced'
+        'employee_type'=>[
+            config('settings.EmployeeType.FullTime')=>'FullTime',
+            config('settings.EmployeeType.PartTime')=>'PartTime',
+            config('settings.EmployeeType.InterShip')=>'InterShip',
+            config('settings.EmployeeType.Contractual Employee')=>'Contractual Employee'
         ],
         'team'=>'Team',
         'role'=>'Role',

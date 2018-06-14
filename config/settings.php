@@ -50,6 +50,12 @@ return [
         'separated'=>'Separated',
         'devorce'=>'Devorce',
     ],
+    'EmployeeType'=>[
+        'FullTime'=>'FullTime',
+        'PartTime'=>'PartTime',
+        'InterShip'=>'InterShip',
+        'Contractual Employee'=>'Contractual Employee',
+    ],
     'delete_flag'=>[
         'deleted'=>1,
         'not_deleted'=>0
