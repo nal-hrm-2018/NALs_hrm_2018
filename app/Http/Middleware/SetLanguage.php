@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\App;
 class SetLanguage
 {
     /**
@@ -20,14 +21,12 @@ class SetLanguage
             $locale = Session::get('locale', Config::get('app.locale'));
         } else {
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
-
             if (!in_array($locale, config('settings.locale'))) {
                 $locale = config('settings.locale.vn');
             }
         }
 
-        app()->setLocale($locale);
-
+        App::setLocale($locale);
         return $next($request);
     }
 }

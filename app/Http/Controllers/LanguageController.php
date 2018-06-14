@@ -9,15 +9,15 @@ class LanguageController extends Controller
 {
     public function index(Request $request)
     {
-        Session::put('locale', $request->get('locale'));
+        Session::put('locale', $request->route()->parameter('locale'));
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
                 'urlBack' => url()->previous(),
             ]);
         }else{
-            dd();
-            return view(route('dashboard-user'));
+//            return redirect(route('dashboard-user'));
+            return redirect(url()->previous());
         }
     }
 }

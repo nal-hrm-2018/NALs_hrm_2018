@@ -15,7 +15,30 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          <li>
+            <div class="languages" style="margin-bottom:5px;">
+              <a href="{{route('setlanguaes','en')}}" lang="en" title="English">
+                {{ Html::image('admin/templates/images/Localization/en.png', 'a picture', [
+              'class' => 'thumb',
+              'title'=>'English',
+              'lang'=>'en',
+              'style'=>app()->getLocale()===config('settings.locale.en')?'padding:0px 2px;border:1px solid white':'',
+              'height'=>'25'
+              ]) }}
+              </a>
+              <a href="{{route('setlanguaes','vn')}}" lang="vn" title="Vietnamese">
+                {{ Html::image('admin/templates/images/Localization/vi.png', 'a picture', [
+              'class' => 'thumb',
+              'title'=>'Vietnamese',
+              'style'=>app()->getLocale()===config('settings.locale.vn')?'padding:0px 2px;border:1px solid white':'',
+              'lang'=>'vn',
+              'height'=>'25'
+              ]) }}
+              </a>
+            </div>
+          </li>
           <!-- Notifications: style can be found in dropdown.less -->
+
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
