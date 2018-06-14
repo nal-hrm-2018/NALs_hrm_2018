@@ -1,6 +1,17 @@
 <?php
 return [
 
+    'locale' => [
+        'en'=>'en',
+        'vn'=>'vn',
+        'jp'=>'jp',
+    ],
+    'language' => [
+        'en' => 'English',
+        'vn' => 'Việt Nam',
+        'jp' => '日本語',
+    ],
+
     'paginate' => 20,
 
     'work_status'=>[
