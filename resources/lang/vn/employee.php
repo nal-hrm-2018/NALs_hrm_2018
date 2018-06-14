@@ -6,9 +6,13 @@ return[
     ],
     'basic'=>'Thông Tin Cơ Bản',
     'profile_info'=>[
+        'id'=>'Mã Nhân Viên',
+        'short_id'=>'ID',
         'title'=>'Thông Tin Nhân Thân',
+        'long_name'=>'Tên Nhân Viên',
         'name'=>'Họ tên',
         'email'=>'Email',
+        'status'=>'Tình Trạng',
         'gender'=>[
             'title'=>'Giới tính',
             'male'=>'Nam',
@@ -19,7 +23,7 @@ return[
         'phone'=>'Số điện thoại',
         'address'=>'Địa chỉ',
         'marital_status'=>[
-            'title'=>'TÌnh trạng hôn nhân',
+            'title'=>'Tình trạng hôn nhân',
             'single'=>'Độc thân',
             'married'=>'Đã kết hôn',
             'separated'=>'Ly thân',
@@ -33,6 +37,10 @@ return[
             'unexpired'=>'Chưa hết hạn',
             'expired'=>'Đã hết hạn'
         ],
+        'msg_content'=>[
+            'msg_download_employee_template'=>'Bạn có muốn tải về mẫu danh sách nhân viên không?',
+            'msg_download_employee_list'=>'Bạn có muốn tải về danh sách nhân viên không?'
+        ]
     ],
 
 
