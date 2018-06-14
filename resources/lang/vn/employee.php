@@ -13,6 +13,9 @@ return[
         'name'=>'Họ tên',
         'email'=>'Email',
         'status'=>'Tình Trạng',
+        'status_active'=>'Đang làm việc',
+        'status_expired'=>'Đã hết hạn',
+        'status_quited'=>'Đã nghỉ việc',
         'gender'=>[
             'title'=>'Giới tính',
             'male'=>'Nam',
@@ -37,11 +40,12 @@ return[
             'unexpired'=>'Chưa hết hạn',
             'expired'=>'Đã hết hạn'
         ],
-        'msg_content'=>[
-            'msg_download_employee_template'=>'Bạn có muốn tải về mẫu danh sách nhân viên không?',
-            'msg_download_employee_list'=>'Bạn có muốn tải về danh sách nhân viên không?'
-        ]
     ],
-
+    'msg_content'=>[
+        'msg_download_employee_template'=>'Bạn có muốn tải về mẫu danh sách nhân viên không?',
+        'msg_download_employee_list'=>'Bạn có muốn tải về danh sách nhân viên không?'
+    ],
+    'import_employee'=>'NHẬP DANH SÁCH NHÂN VIÊN',
+    'valid5mb'=>'File đã chọn có dung lượng quá lớn (Tối đa 5Mb)',
 
 ];

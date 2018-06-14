@@ -13,6 +13,9 @@ return[
         'name'=>'Name',
         'email'=>'Email',
         'status'=>'Status',
+        'status_active'=>'Active',
+        'status_expired'=>'Expired',
+        'status_quited'=>'Quited',
         'gender'=>[
             'title'=>'Gender',
             'male'=>'Male',
@@ -41,7 +44,8 @@ return[
     'msg_content'=>[
         'msg_download_employee_template'=>'Are you want to download the Employee Template?',
         'msg_download_employee_list'=>'Are you want to download the Employee List?'
-    ]
-
-
+    ],
+    'import_employee'=>'IMPORT EMPLOYEE',
+    'Select_file_csv'=>'Select file csv',
+    'valid5mb'=>'The selected file is too large. Maximum size is 5MB.',
 ];

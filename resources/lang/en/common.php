@@ -32,7 +32,10 @@ return [
         'search' => 'SEARCH',
         'add' => 'ADD',
         'save' => 'SAVE',
-        'update' => 'UPDATE'
+        'update' => 'UPDATE',
+        'import' => 'IMPORT',
+        'export' => 'EXPORT',
+        'template' => 'TEMPLATE',
     ],
 
     'title_form' => [
@@ -52,12 +55,15 @@ return [
         'list' => 'List',
         'detail'=>'Detail',
         'add_project'=>'Add project',
-        'edit_project'=>'Edit project'
+        'edit_project'=>'Edit project',
+        'list_employee'=>'Employee List',
     ],
     'action'=>[
         'view'=>'View',
         'edit'=>'Edit',
         'remove'=>'Remove'
     ],
-
+    'message_confirm_null' => 'Do you want to :action this :attr ?',
+    'message_confirm' => 'Do you want to :action this :attr has ID: :id, Name: :name?',
+    'message_confirm_add' => 'Do you want to :action this :attr has Name: :name?',
 ];

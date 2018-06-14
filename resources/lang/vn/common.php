@@ -27,7 +27,10 @@ return [
         'search' => 'TÌM KIẾM',
         'add' => "THÊM",
         'save' => 'LƯU',
-        'update' => 'CẬP NHẬT'
+        'update' => 'CẬP NHẬT',
+        'import' => 'NHẬP',
+        'export' => 'XUẤT',
+        'template' => 'FILE MẪU',
     ],
 
     'title_form' => [
@@ -46,12 +49,15 @@ return [
         'list' => 'Danh sách',
         'detail'=>'Chi Tiết',
         'add_project'=>'Thêm Dự Án',
-        'edit_project'=>'Chỉnh Sửa Dự Án'
+        'edit_project'=>'Chỉnh Sửa Dự Án',
+        'list_employee'=>'Danh Sách Nhân Viên',
     ],
     'action'=>[
         'view'=>'Chi tiết',
         'edit'=>'Sửa',
         'remove'=>'Xóa'
     ],
-
+    'message_confirm_null' => 'Bạn có muốn :action :attr này không?',
+    'message_confirm' => 'Bạn có muốn :action :attr có ID: id, Tên: :name không?',
+    'message_confirm_add' => 'Bạn có muốn :action :attr có Tên: name không?',
 ];
