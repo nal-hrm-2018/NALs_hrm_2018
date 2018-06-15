@@ -23,8 +23,13 @@
                 <li><a href="#">List</a></li>
             </ol>
         </section>
-
-        @include("projects._form_search_project_list")
+        <section class="content-header">
+            <div>
+                <button type="button" class="btn btn-default">
+                    <a href="{{ asset('projects/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
+                </button>
+            </div>
+        </section>
         {{--table data project--}}
         <div id="msg"></div>
         <section class="content">
@@ -34,8 +39,13 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
+                        <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
                         <div class="box-body">
                             <div>
+                                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
+                                    <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
+                                </button>
+                                @include("projects._form_search_project_list")
                                 <div class="dataTables_length" id="project-list_length" style="float:right">
                                     <label>{{trans('pagination.show.number_record_per_page')}}
                                         {!! Form::select(
@@ -99,32 +109,6 @@
                                         <td>{{$project->id}}</td>
                                         <td>{{$project->name}}</td>
                                         <td>
-                                            <!--                                            --><?php
-                                            //                                            if (count($allMembers) > 0) {
-                                            //                                                foreach ($allMembers as $employeeInProject) {
-                                            //                                                    $getPO = $allMembers->where('role_id', $poRole->id)->first();
-                                            //
-                                            //                                                }
-                                            //                                                if (!is_null($getPO)) {
-                                            //                                                    if ($getPO->employee->is_employee == $isEmployee){
-                                            //                                                        echo '<a href="employee/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
-                                            //                                                    }
-                                            //                                                    else if($getPO->employee->is_employee == $isVendor){
-                                            //                                                        echo '<a href="vendors/' . $getPO->employee->id . '">' . $getPO->employee->name . '</a>';
-                                            //                                                    }
-                                            //                                                } else {
-                                            //                                                    echo "-";
-                                            //                                                }
-                                            //
-                                            //                                            } else {
-                                            //                                                echo "-";
-                                            //                                            }
-                                            //                                            ?>
-                                            {{--@if(isset($po))
-                                            <a href="employee/{{$po->id}}">{{$po->name}}</a>
-                                            @else
-                                            -
-                                            @endif--}}
                                             <?php
                                             $count = 0;
                                             if (count($allPO) > 0) {

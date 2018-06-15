@@ -1,14 +1,4 @@
-<section class="content-header">
-    <div>
-        <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" id="btn-search">
-            SEARCH
-        </button>
-        <button type="button" class="btn btn-default">
-            <a href="{{ asset('projects/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
-        </button>
-
-        <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
+<div id="demo" class="collapse" role="dialog">
             <div class="modal-dialog">
                 <form method="get" role="form" id="form_search_employee" onsubmit="return validate();">
                     <!-- Modal content-->
@@ -205,5 +195,3 @@
                 </form>
             </div>
         </div>
-    </div>
-</section>

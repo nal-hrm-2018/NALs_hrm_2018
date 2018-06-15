@@ -15,7 +15,6 @@
                 <li class="active">{{trans('common.path.detail')}}</li>
             </ol>
 
-
         </section>
         <section class="content">
             <div class="nav-tabs-custom">
@@ -175,15 +174,7 @@
                         <!-- /.post -->
                     </div>
                     <div class="tab-pane" id="project">
-                        <div>
-                            <button type="button" class="btn btn-info btn-default" data-toggle="modal"
-                                    data-target="#myModal" id="btn-search">
-                                {{ trans('common.button.search')  }}
-                            </button>
-
-                            <!-- Modal -->
-                            @include('employee._model_search_process')
-                        </div>
+                        
                         <!-- The project -->
 
                         @include('employee._list_project_employee')
