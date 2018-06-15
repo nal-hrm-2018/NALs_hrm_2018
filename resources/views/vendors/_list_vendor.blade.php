@@ -65,12 +65,12 @@
                     <td>
                         @if($vendor->work_status == 0)
                             @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
-                                <span class="label label-primary">Active</span>
+                                <span class="label label-primary">{{trans('vendor.profile_info.status_children.'.config('settings.employee_status.Active'))}}</span>
                             @else
-                                <span class="label label-danger">Expired</span>
+                                <span class="label label-danger">{{trans('vendor.profile_info.status_children.'.config('settings.employee_status.Expired'))}}</span>
                             @endif
                         @else
-                            <span class="label label-default">Quited</span>
+                            <span class="label label-default">{{trans('vendor.profile_info.status_children.'.config('settings.employee_status.Quited'))}}</span>
                         @endif
                     </td>
 

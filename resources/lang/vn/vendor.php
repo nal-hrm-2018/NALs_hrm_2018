@@ -10,6 +10,20 @@ return [
         'add_vendor'=>'Thêm Nhân Viên Ngoài',
     ],
 
+    'import'=>[
+        'import'=>'THÊM NHIỀU',
+        'import-vendor'=>'THÊM NHÂN VIÊN NGOÀI ',
+        'select-file' => 'chọn tập tin csv',
+        'error'=>[
+            'upload_again'=>'Xin lỗi. Tập tin CSV của bạn bị lỗi. Vui lòng kiểm tra và tải lên lại',
+            'note'=>'GHI CHÚ',
+            'follow-role'=>'Bạn cần phải theo các chức vụ sau:',
+            'follow-type'=>'Bạn cần phải theo các loại sau:',
+
+        ]
+    ],
+    'export'=>"XUẤT",
+    'template'=>"BẢN MẪU",
     'label'=>[
         'avatar'=>'Ảnh đại diện'
     ],
@@ -65,6 +79,11 @@ return [
         ],
         'team'=>'Team',
         'role'=>'Chức vụ',
+        'status_children'=>[
+            config('settings.employee_status.Active')=>'Đang hợp đồng',
+            config('settings.employee_status.Quited')=>'Hết làm',
+            config('settings.employee_status.Expired')=>'Chưa gia hạn',
+        ],
         'role_in_team'=>'Chức vụ',
         'policy_date'=>'Hạn Hợp Đồng',
         'policy_status'=>[
@@ -79,10 +98,28 @@ return [
     'msg_error' => 'msg_error',
 
     'msg_content' => [
-        'msg_add_success'=>'Thêm nhân viên ngoài thành công!!',
-        'msg_add_fail'=>'Thêm nhân viên ngoài không thành công!!!',
+        'msg_add_success'=>'Thêm nhân viên ngoài thành công',
+        'msg_add_fail'=>'Thêm nhân viên ngoài không thành công',
         'msg_error_add_team'=> 'Có lỗi',
         'msg_download_template'=>'Bạn có muốn tải về mẫu danh sách nhân viên ngoài không?',
         'msg_download_vendor_list'=>'Bạn có muốn tải về danh sách nhân viên ngoài không?'
     ],
+    'msg_controller'=>[
+        'update'=>[
+            'success'=>'Bạn đã chỉnh sửa thành công',
+            'false'=>'Chỉnh sửa sai'
+        ],
+        'edit_pass' =>[
+            'old_pass'=>'Mật khẩu cũ không đúng',
+            'conf_pass'=>'Mật khẩu xác nhận chưa chích xác',
+            'least_character'=>'Mật khẩu phải nhiều hơn 6 ký tự',
+            'success_pass'=>'Mật khẩu đã được chỉnh sửa thành công'
+        ],
+        'destroy_success'=>'Xóa thành công.',
+        'post_file' =>[
+            'max_size'=>'Tập tin của bạn quá lớn. Dung lượng tối đa là 5MB.',
+            'format_error'=>'Tập tin của bạn định không đúng chuẩn.',
+            'not_select'=>'Tập tin không được xác định.'
+        ],
+    ]
 ];

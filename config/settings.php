@@ -18,6 +18,11 @@ return [
         'active'=>0,
         'inactive'=>1
     ],
+    'employee_status'=>[
+        'Active'=>'Active',
+        'Quited'=>'Quited',
+        'Expired'=>'Expired'
+    ],
 
     'project_status'=>[
         'kick_off'=> 'kick off',

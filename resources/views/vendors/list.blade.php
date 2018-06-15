@@ -19,7 +19,7 @@
             <ol class="breadcrumb">
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
                     </a></li>
-                <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendors')}}</a></li>
+                <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendor')}}</a></li>
                 <li class="active"><a href="javascript:void(0)">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
@@ -67,7 +67,7 @@
                                 class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
                 </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
-                    <a><i class="fa fa-users"></i> IMPORT</a>
+                    <a><i class="fa fa-users"></i>{{trans('vendor.import.import')}}</a>
                 </button>
                 <div id="import" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -77,13 +77,13 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">IMPORT VENDOR</h4>
+                                    <h4 class="modal-title">{{trans('vendor.import.import-vendor')}}</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="input-group margin">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">Select file csv</button>
+                                                <button type="button" class="btn width-100">{{trans('vendor.import.select-file')}}</button>
                                             </div>
                                             <input type="file" id="myfile" name="myFile" class="form-control">
                                         </div>
@@ -92,7 +92,7 @@
                                 <div class="modal-footer center">
                                     <button type="submit" id="i_submit" class="btn btn-primary"><span
                                                 class="glyphicon glyphicon-upload"></span>
-                                        IMPORT
+                                        {{trans('vendor.import.import')}}
                                     </button>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                         <script type="text/javascript">
                             $('#myfile').bind('change', function() {
                                 if(this.files[0].size > 5242880){
-                                    alert("The selected file is too large. Maximum size is 5MB.");
+                                    alert("{{trans('vendor.msg_controller.post_file.max_size')}}");
                                     document.getElementById('myfile').value = "";
                                 }
                                 var value = $('#myfile')[0].files[0];
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('vendor.msg_content.msg_download_template')}}')">
-                    <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
+                    <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i>{{trans('vendor.template')}}</a>
                 </button>
 
                 @include("vendors._export_vendor")
@@ -177,7 +177,7 @@
                             _token: '{{csrf_token()}}',
                         },
                         success: function (msg) {
-                            alert("Remove " + msg.status);
+                            alert(msg.status);
                             var fade = "employee-id-" + msg.id;
                             $('ul.contextMenu[data-employee-id="' + msg.id + '"').hide()
                             var fadeElement = $('#' + fade);
