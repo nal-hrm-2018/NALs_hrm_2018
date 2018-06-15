@@ -25,66 +25,6 @@
         </section>
 
         <section class="content-header">
-            <div>
-                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" id="btn-search">
-                    {{trans('common.button.search')}}
-                </button>
-
-                <!-- Modal -->
-                <div id="myModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                    {!! Form::open(
-                        ['url' =>route('vendors.index'),
-                        'method'=>'GET',
-                        'id'=>'form_search_vendor',
-                        'role'=>'form',
-                    ]) !!}
-                    <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
-                            </div>
-                            @include('vendors._form_search_vendor')
-                            <div class="modal-footer center">
-                                <button id="btn_reset_vendor" type="button" class="btn btn-default"><span
-                                            class="fa fa-refresh"></span>
-                                    {{trans('common.button.reset')}}
-                                </button>
-                                <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
-                                            class="fa fa-search"></span>
-                                    {{trans('common.button.search')}}
-                                </button>
-                            </div>
-                        </div>
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div>
-            <ol class="breadcrumb">
-                <button type="button" class="btn btn-default">
-                    <a href="{{ route('vendors.create')}}"><i
-                                class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
-                </button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
-                    <a><i class="fa fa-users"></i>{{trans('vendor.import.import')}}</a>
-                </button>
-                <div id="import" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <form method="post" action="{{ asset('vendors/postFile')}}" enctype="multipart/form-data">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">{{trans('vendor.import.import-vendor')}}</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="input-group margin">
-                                            <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">{{trans('vendor.import.select-file')}}</button>
-{{--=======
             <div style="float:right; background-color: #ECF0F5; height: 50px;">
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
                     <button type="button" class="btn btn-default">
@@ -111,7 +51,6 @@
                                                     <button type="button" class="btn width-100">Select file csv</button>
                                                 </div>
                                                 <input type="file" id="myfile" name="myFile" class="form-control">
->>>>>>> 0b5aec4ca6f78726a82d4e7c081f7e4c8b99421e--}}
                                             </div>
                                         </div>
                                     </div>
@@ -122,31 +61,24 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="modal-footer center">
-                                    <button type="submit" id="i_submit" class="btn btn-primary"><span
-                                                class="glyphicon glyphicon-upload"></span>
-                                        {{trans('vendor.import.import')}}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <script type="text/javascript">
-                            $('#myfile').bind('change', function() {
-                                if(this.files[0].size > 5242880){
-                                    alert("{{trans('vendor.msg_controller.post_file.max_size')}}");
-                                    document.getElementById('myfile').value = "";
-                                }
-                                var value = $('#myfile')[0].files[0];
-                                if(value != null){
-                                    $('#i_submit').removeClass('disabled');
-                                }
-                            });
-                        </script>
+                            </form>
+                            <script type="text/javascript">
+                                $('#myfile').bind('change', function() {
+                                    if(this.files[0].size > 5242880){
+                                        alert("The selected file is too large. Maximum size is 5MB.");
+                                        document.getElementById('myfile').value = "";
+                                    }
+                                    var value = $('#myfile')[0].files[0];
+                                    if(value != null){
+                                        $('#i_submit').removeClass('disabled');
+                                    }
+                                });
+                            </script>
+                        </div>
                     </div>
-                </div>
-                <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('vendor.msg_content.msg_download_template')}}')">
-                    <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i>{{trans('vendor.template')}}</a>
-                </button>
+                    <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('vendor.msg_content.msg_download_template')}}')">
+                        <a href="{{ asset('/download-template-vendor')}}"><i class="fa fa-cloud-download"></i> TEMPLATE</a>
+                    </button>
 
                     @include("vendors._export_vendor")
                 </ol>

@@ -27,7 +27,8 @@ return [
             'follow-type'=>'There are the following employee type:',
 
         ]
-        ],
+    ],
+
     'export'=>"EXPORT",
     'template'=>"TEMPLATE",
     'label'=>[
