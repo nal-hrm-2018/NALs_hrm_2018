@@ -31,6 +31,7 @@ return [
         'import' => 'NHẬP',
         'export' => 'XUẤT',
         'template' => 'FILE MẪU',
+        'edit_password'=>'ĐỔI MẬT KHẨU'
     ],
 
     'title_form' => [
@@ -42,22 +43,59 @@ return [
         'nal_solution' =>'Nal solution'
     ],
     'path'=>[
+        'dashboard'=>'Trang Chủ',
+        'project'=>'Dự Án',
         'home'=>'Trang Chủ',
         'employee'=>'Nhân Viên',
         'vendor'=>'Nhân Viên Ngoài',
-        'team' => 'Nhóm',
+        'team' => 'Team',
         'list' => 'Danh sách',
         'detail'=>'Chi Tiết',
+        'add'=>'Thêm',
+        'edit'=>'Chỉnh Sửa',
+        'list_project'=>'Danh Sách Dự Án',
         'add_project'=>'Thêm Dự Án',
         'edit_project'=>'Chỉnh Sửa Dự Án',
         'list_employee'=>'Danh Sách Nhân Viên',
+        'add_employee'=>'Thêm Nhân Viên',
+        'edit_employee'=>'Chỉnh Sửa Nhân Viên',
+        'list_vendor'=>'Danh Sách Nhân Viên Ngoài',
+        'add_vendor'=>'Thêm Nhân Viên Ngoài',
+        'edit_vendor'=>'Chỉnh Sửa Nhân Viên Ngoài',
+        'list_team'=>'Danh Sách Team',
+        'add_team'=>'Thêm Team',
+        'edit_team'=>'Chỉnh Sửa Team'
     ],
     'action'=>[
         'view'=>'Chi tiết',
         'edit'=>'Sửa',
         'remove'=>'Xóa'
     ],
-    'message_confirm_null' => 'Bạn có muốn :action :attr này không?',
-    'message_confirm' => 'Bạn có muốn :action :attr có ID: id, Tên: :name không?',
-    'message_confirm_add' => 'Bạn có muốn :action :attr có Tên: name không?',
+    'action_confirm'=>[
+        'add'=>'thêm',
+        'edit'=>'chỉnh sửa',
+        'delete'=>'xóa'
+    ],
+    'name_confirm'=>[
+        'employee'=>'nhân viên',
+        'vendor'=>'nhân viên ngoài',
+        'team'=>'team',
+        'project'=>'dự án',
+        'process'=>'công việc',
+    ],
+    'delete'=>[
+        'success'=>'Xóa thành công!',
+        'fail'=>'Xóa không thành công!'
+    ],
+    'confirm_reset'=>'Bạn có muốn làm mới không?',
+    'language'=>[
+        'vn'=>'Tiếng Việt',
+        'en'=>'Tiếng Anh',
+    ],
+    'header'=>[
+        'welcome'=>'Chào',
+        'member_since'=>'Ngày Bắt Đầu',
+        'update_profile'=>'Trang Cá Nhân',
+        'logout'=>'Đăng Xuất'
+    ],
 ];

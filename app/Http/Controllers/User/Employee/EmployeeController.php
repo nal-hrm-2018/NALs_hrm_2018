@@ -95,10 +95,10 @@ class EmployeeController extends Controller
         $employee->delete_flag = 0;
         
         if($employee->save()){
-            \Session::flash('msg_success', 'Account successfully created!!!');
+            \Session::flash('msg_success', trans('employee.msg_add.success'));
             return redirect('employee');
         }else{
-            \Session::flash('msg_fail', 'Account failed created!!!');
+            \Session::flash('msg_fail', trans('employee.msg_add.fail'));
             return back()->with(['employee' => $employee]);
         }
         
@@ -207,10 +207,10 @@ class EmployeeController extends Controller
         $employee->role_id = $request->role_id;
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
-            \Session::flash('msg_success', 'Account successfully edited!!!');
+            \Session::flash('msg_success', trans('employee.msg_edit.success'));
             return redirect('employee');
         } else {
-            \Session::flash('msg_fail', 'Account failed edited!!!');
+            \Session::flash('msg_fail', trans('employee.msg_edit.fail'));
             return back()->with(['employee' => $employee]);
         }
     }
@@ -221,17 +221,17 @@ class EmployeeController extends Controller
         $newPass = $request -> new_pass;
         $cfPass = $request -> cf_pass;
         if(!Hash::check($oldPass, $employee -> password)){
-            return back()->with(['error' => 'Old password is incorrect!!!', 'employee' => $employee]);
+            return back()->with(['error' => trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $employee]);
         }else{
             if($newPass != $cfPass){
-                return back()->with(['error' => 'The confirm password and password must match!!!', 'employee' => $employee]);
+                return back()->with(['error' => trans('employee.valid_reset_password.match_confirm_pass'), 'employee' => $employee]);
             }else{
                 if (strlen($newPass) < 6) {
-                    return back()->with(['error' => 'The Password must be at least 6 characters!!!', 'employee' => $employee]);
+                    return back()->with(['error' => trans('employee.valid_reset_password.min_new_pass'), 'employee' => $employee]);
                 }else {
                     $employee->password = bcrypt($newPass);
                     $employee->save();
-                    \Session::flash('msg_success', 'Password successfully edited!!!');
+                    \Session::flash('msg_success', trans('employee.valid_reset_password.reset_success'));
                     return redirect('employee/'.$employee->id.'/edit');
                 }
             }
@@ -246,9 +246,9 @@ class EmployeeController extends Controller
             $employees->delete_flag = 1;
             $employees->save();
 
-            return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
+            return response(['msg' => 'Product deleted', 'status' => trans('common.delete.success'), 'id' => $id]);
         }
-        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
+        return response(['msg' => 'Failed deleting the product', 'status' => trans('common.delete.fail')]);
     }
 
 
@@ -267,7 +267,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
             if(5242880 < $file->getSize()){ 
-                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
+                \Session::flash('msg_fail', trans('employee.valid5mb'));
                 return redirect('employee');
             }           
             if ($file->getClientOriginalExtension('myFile') == "csv") {
@@ -303,12 +303,12 @@ class EmployeeController extends Controller
                 $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
                 return view('employee.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row, 'urlFile' => public_path('files/' . $nameFile), 'listError' => $listError, 'colError' => $colError, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
             } else {
-                \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
+                \Session::flash('msg_fail', trans('employee.valid_not_csv'));
                 return redirect('employee');
             }
 
         } else {
-            \Session::flash('msg_fail', 'File not selected!!!');
+            \Session::flash('msg_fail', trans('employee.valid_required_file'));
             return redirect('employee');
         }
     }
@@ -361,11 +361,11 @@ class EmployeeController extends Controller
                 if($data[$c] == "-"){
                     $employee->marital_status = 1;
                 }else{
-                    if (strnatcasecmp($data[$c], "single") == 0) {
+                    if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.single')) == 0) {
                         $employee->marital_status = 1;
-                    } else if (strnatcasecmp($data[$c], "married") == 0) {
+                    } else if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.married')) == 0) {
                         $employee->marital_status = 2;
-                    } else if (strnatcasecmp($data[$c], "separated") == 0) {
+                    } else if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.separated')) == 0) {
                         $employee->marital_status = 3;
                     } else {
                         $employee->marital_status = 4;
@@ -410,7 +410,7 @@ class EmployeeController extends Controller
         if (file_exists($urlFile)) {
             unlink($urlFile);
         }
-        \Session::flash('msg_success', 'Import Employees successfully!!!');
+        \Session::flash('msg_success', trans('employee.msg_import.success'));
         return redirect('employee');
     }
 

@@ -6,55 +6,55 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li>
           <a href="{{route('dashboard-user')}}">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard"></i> <span>{{trans('common.path.dashboard')}}</span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Employee</span>
+            <i class="fa fa-users"></i> <span>{{trans('common.path.employee')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i> List Employee</a></li>
-            <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i> Add Employee</a></li>
+            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.list')}}</a></li>
+            <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.add')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-handshake-o"></i> <span>Vendor</span>
+            <i class="fa fa-handshake-o"></i> <span>{{trans('common.path.vendor')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i> List Vendor</a></li>
-            <li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i> Add Vendor</a></li>
+            <li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.list')}}</a></li>
+            <li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.add')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>Team</span>
+            <i class="fa fa-heartbeat"></i> <span>{{trans('common.path.team')}}</span>
               <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i> List Team</a></li>
-            <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i> Add Team</a></li>
+            <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.list')}}</a></li>
+            <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.add')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-diamond"></i> <span>Project</span>
+            <i class="fa fa-diamond"></i> <span>{{trans('common.path.project')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i> List Project</a></li>
-            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i> Add Project</a></li>
+            <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.list')}}</a></li>
+            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.add')}}</a></li>
           </ul>
         </li>
                 

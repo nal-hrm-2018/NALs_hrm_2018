@@ -175,7 +175,7 @@
                                     <div class="row">
                                         <div class="input-group margin">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">{{trans('employee.select_file_csv')}}</button>
+                                                <button type="button" class="btn width-100">{{trans('employee.select_csv_file')}}</button>
                                             </div>
                                             <input type="file" id="myfile" name="myFile" class="form-control">
                                         </div>
@@ -192,7 +192,7 @@
                         <script type="text/javascript">
                             $('#myfile').bind('change', function(e) {
                                 if(this.files[0].size > 5242880){
-                                    alert({{trans('employee.valid5mb')}});
+                                    alert("{{trans('employee.valid5mb')}}");
                                     document.getElementById('myfile').value = "";
                                 }
                                 var value = $('#myfile')[0].files[0];
@@ -451,7 +451,7 @@
                 var elementRemove = $(this).data('employee-id');
                 var nameRemove = $(this).data('employee-name');
                 console.log(elementRemove);
-                if (confirm(message_confirm('delete', 'employee', elementRemove, nameRemove))) {
+                if (confirm(message_confirm('{{trans("common.action_confirm.delete")}}', '{{trans("common.name_confirm.employee")}}', elementRemove, nameRemove))) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/employee') }}' + '/' + elementRemove,
@@ -464,9 +464,9 @@
                             _token: '{{csrf_token()}}',
                         },
                         success: function (msg) {
-                            alert("Remove " + msg.status);
+                            alert(msg.status);
                             var fade = "employee-id-" + msg.id;
-                            $('ul.contextMenu[data-employee-id="' + msg.id + '"').hide()
+                            $('ul.contextMenu[data-employee-id="' + msg.id + '"').hide();
                             var fadeElement = $('#' + fade);
                             console.log(fade);
                             fadeElement.fadeOut("fast");
