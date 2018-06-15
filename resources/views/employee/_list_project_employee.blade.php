@@ -1,7 +1,12 @@
+<script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
 <div class="box-body">
-    <div class="col-sm-6">
-    </div>
+    <!-- <div class="col-sm-6">
+    </div> -->
     <div>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
+            <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
+        </button>
+        @include('employee._model_search_process')
         <div class="dataTables_length" id="project-list_length" style="float:right">
             <label>{{trans('pagination.show.number_record_per_page')}}
                 {!! Form::select(
