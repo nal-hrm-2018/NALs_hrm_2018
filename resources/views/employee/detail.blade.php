@@ -15,7 +15,6 @@
                 <li class="active">{{trans('common.path.detail')}}</li>
             </ol>
 
-
         </section>
         <section class="content">
             <div class="nav-tabs-custom">
