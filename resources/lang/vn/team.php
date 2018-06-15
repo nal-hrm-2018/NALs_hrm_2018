@@ -24,6 +24,7 @@ return [
     'confirm_add_team' => 'Bạn có muốn thêm một Team mới không?',
     'msg_content' => [
         'msg_dupe_po_member' => 'PO này đã tồn tại trong Team !!',
+        
         'msg_dupe_member' => 'Nhân viên này đã tồn tại trong Team !!',
         'msg_team_name_already' => 'Tên Team đã tồn tại !!',
         'msg_add_success'=>'Thêm Team thành công!!',
