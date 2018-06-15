@@ -173,6 +173,23 @@ class EmployeeController extends Controller
             return abort(404);
         }
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
+        /*$objEmployee = Employee::select('employees.*', 'teams.name as team_name')
+            ->join('teams', 'employees.team_id', '=', 'teams.id')
+            ->where('employees.delete_flag', 0)->findOrFail($id)->toArray();
+        $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
+            ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
+            ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
+            ->whereIn('processes.project_id', function($query) use($id)
+            {
+                $query->select('project_id')
+                    ->from('processes')
+                    ->where('employee_id','=',$id);
+            })
+            ->WHERE([
+                ['employees.delete_flag', '=', 0],
+                ['processes.role_id', '=', '4'],
+            ])
+            ->findOrFail($id)->toArray();  ko xoá cái ni( để bữa sau bỏ vô controller của form vắng nghỉ) */
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
