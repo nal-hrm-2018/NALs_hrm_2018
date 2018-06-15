@@ -32,7 +32,8 @@ return [
         'search' => 'SEARCH',
         'add' => 'ADD',
         'save' => 'SAVE',
-        'update' => 'UPDATE'
+        'update' => 'UPDATE',
+        'back' => 'BACK',
     ],
 
     'title_form' => [
@@ -41,7 +42,7 @@ return [
     'title_header'=>[
         'employee_detail'=>'Employee Detail',
         'vendor_list'=>'Vendor List',
-        'nal_solution' =>'Nal solution'
+        'nal_solution' =>'Nal solutions'
     ],
     'path'=>[
         'home'=>'Home',
