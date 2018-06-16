@@ -21,10 +21,24 @@ class ProjectEditRequest extends CommonRequest
         return
             [
                 'name' => 'required',
+                'estimate_start_date' =>
+                    [
+                        'bail',
+                        'required',
+                        'date_format:Y-m-d',
+                    ],
+                'estimate_end_date' =>
+                    [
+                        'bail',
+                        'required',
+                        'date_format:Y-m-d',
+                        'after_or_equal:estimate_start_date'
+                    ],
                 'start_date_project' =>
                     [
                         'bail',
                         'nullable',
+                        'before_or_equal:estimate_end_date',
                     ],
                 'end_date_project' =>
                     [
@@ -33,17 +47,7 @@ class ProjectEditRequest extends CommonRequest
                        new ValidEndDateProject(request()->get('start_date_project')),
                        'after_or_equal:start_date_project',
                     ],
-                'estimate_start_date' =>
-                    [
-                        'bail',
-                        'required',
-                    ],
-                'estimate_end_date' =>
-                    [
-                        'bail',
-                        'required',
-                        'after_or_equal:estimate_start_date'
-                    ],
+
                 'processes'=>[
                     'required',
                     new ValidAtLeastOnePo(request()->get('processes'))
@@ -78,54 +82,52 @@ class ProjectEditRequest extends CommonRequest
     public function messages()
     {
         return [
-            'processes.required' => 'Project must have at least 1 PO ',
+            'processes.required' => trans('validation.custom.role.at_least_one_po'),
 
             'name.required' => trans('validation.required', [
-                'attribute' => 'Project Name'
+                'attribute' => trans('project.project_name')
             ]),
+
             'income.required' => trans('validation.required', [
-                'attribute' => 'Income'
+                'attribute' => trans('project.income')
             ]),
             'income.numeric' => trans('validation.numeric', [
-                'attribute' => 'Income'
+                'attribute' => trans('project.income')
             ]),
             'income.min' => trans('validation.min', [
-                'attribute' => 'Income'
+                'attribute' => trans('project.income')
             ]),
+
             'real_cost.min' => trans('validation.min', [
-                'attribute' => 'Real Cost'
+                'attribute' => trans('project.real_cost')
             ]),
             'real_cost.numeric' => trans('validation.numeric', [
-                'attribute' => 'Real Cost'
+                'attribute' => trans('project.real_cost')
             ]),
             'status.required' => trans('validation.required', [
-                'attribute' => 'Status'
+                'attribute' => trans('project.status')
             ]),
-            'start_date_project.after_or_equal' => trans('validation.after_or_equal', [
-                'attribute' => 'Start Date Project',
-                'date' => 'to day'
+
+            'start_date_project.before_or_equal'=>trans('validation.before_or_equal',[
+                'attribute' => trans('project.start_date_real'),
+                'date' => trans('project.estimate_end_date'),
             ]),
+
             'end_date_project.after_or_equal' => trans('validation.after_or_equal', [
-                'attribute' => 'End Date Project',
-                'date' => 'Start Date Project'
+                'attribute' => trans('project.end_date_real'),
+                'date' => trans('project.start_date_real'),
             ]),
-            'end_date_project.before_or_equal' => trans('validation.before_or_equal', [
-                'attribute' => 'End Date Project',
-                'date' => 'to day'
-            ]),
+
             'estimate_start_date.required' => trans('validation.required', [
-                'attribute' => 'Estimate Start Date',
+                'attribute' => trans('project.estimate_start_date'),
             ]),
-//            'estimate_start_date.after_or_equal' => trans('validation.after_or_equal', [
-//                'attribute' => 'Estimate Start Date',
-//                'date' => 'to day'
-//            ]),
+
             'estimate_end_date.required' => trans('validation.required', [
-                'attribute' => 'Estimate End Date'
+                'attribute' => trans('project.estimate_end_date'),
             ]),
             'estimate_end_date.after_or_equal' => trans('validation.after_or_equal', [
-                'attribute' => 'Estimate End Date',
-                'date' => 'Estimate Start Date'
+                'attribute' => trans('project.estimate_end_date'),
+                'date' => trans('project.estimate_start_date'),
             ]),
         ];
     }
