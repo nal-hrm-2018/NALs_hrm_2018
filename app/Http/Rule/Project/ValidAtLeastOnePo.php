@@ -23,7 +23,7 @@ class ValidAtLeastOnePo implements Rule
     {
         //kiem tra processes phai co it nhat 1 po
         if (!checkPOinProject($this->processes)) {
-            $this->message = 'Project must have at least 1 PO ';
+            $this->message = trans('validation.custom.role.at_least_one_po');
             return false;
         }
         return true;
