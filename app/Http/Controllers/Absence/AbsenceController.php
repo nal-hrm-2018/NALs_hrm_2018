@@ -35,4 +35,9 @@ class AbsenceController extends Controller
     public function destroy($id, Request $request){
 
     }
+
+    // function create by Quy.
+    public function showListAbsence(){
+        return view('absences.poteam');
+    }
 }
