@@ -97,6 +97,17 @@
                 <!-- /.input group -->
               </div>
 
+                <div class="form-group">
+                    <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>
+                    <select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">
+                        <option value="" >---Chọn---</option>
+                        <option value="" >Nghỉ phép</option>
+                        <option value="" >Nghỉ không lương</option>
+                        <option value="" >Nghỉ chế độ bảo hiểm</option>
+                        <option value="" >Other</option>
+                    </select>
+                    <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
+                </div>
 
               <div class="form-group">
                 <label>Lý do<strong style="color: red">(*)</strong></label>

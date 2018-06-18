@@ -18,6 +18,11 @@ return [
         'active'=>0,
         'inactive'=>1
     ],
+    'employee_status'=>[
+        'Active'=>'Active',
+        'Quited'=>'Quited',
+        'Expired'=>'Expired'
+    ],
 
     'project_status'=>[
         'kick_off'=> 'kick off',
@@ -49,6 +54,12 @@ return [
         'married'=>'Married',
         'separated'=>'Separated',
         'devorce'=>'Devorce',
+    ],
+    'EmployeeType'=>[
+        'FullTime'=>'FullTime',
+        'PartTime'=>'PartTime',
+        'InterShip'=>'InterShip',
+        'Contractual Employee'=>'Contractual Employee',
     ],
     'delete_flag'=>[
         'deleted'=>1,

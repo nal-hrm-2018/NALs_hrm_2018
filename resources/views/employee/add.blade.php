@@ -43,7 +43,7 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-md-6">
-                                <!-- /.form-group -->
+                                <!-- /.form-group -->  
                                 <div class="form-group">
                                     <label>Email Address<strong style="color: red">(*)</strong></label>
                                     <input type="text" class="form-control" placeholder="Email Address" name="email"

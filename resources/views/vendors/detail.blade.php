@@ -158,15 +158,6 @@
                         <!-- /.post -->
                     </div>
                     <div class="tab-pane" id="project">
-                        <div>
-                            <button type="button" class="btn btn-info btn-default" data-toggle="modal"
-                                    data-target="#myModal" id="btn-search">
-                                {{ trans('common.button.search')  }}
-                            </button>
-
-                            <!-- Modal -->
-                            @include('vendors._model_search_process')
-                        </div>
                         <!-- The project -->
 
                         @include('vendors._list_project_vendor')

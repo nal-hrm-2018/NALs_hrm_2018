@@ -27,7 +27,8 @@ return [
         'search' => 'TÌM KIẾM',
         'add' => "THÊM",
         'save' => 'LƯU',
-        'update' => 'CẬP NHẬT'
+        'update' => 'CẬP NHẬT',
+        'back' => 'QUAY LẠI',
     ],
 
     'title_form' => [
@@ -36,7 +37,7 @@ return [
     'title_header'=>[
         'employee_detail'=>'Thông Tin Nhân Viên',
         'vendor_list'=>'Danh Sách Nhân Viên Ngoài',
-        'nal_solution' =>'Nal solution'
+        'nal_solution' =>'Nal solutions'
     ],
     'path'=>[
         'home'=>'Trang Chủ',
