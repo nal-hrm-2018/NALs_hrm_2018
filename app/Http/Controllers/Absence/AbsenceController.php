@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Absence;
 
 use App\Http\Controllers\Controller;
+use App\Models\AbsenceStatus;
+use App\Models\AbsenceType;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class AbsenceController extends Controller
@@ -38,6 +42,16 @@ class AbsenceController extends Controller
 
     // function create by Quy.
     public function showListAbsence(){
-        return view('absences.poteam');
+        $getIdUserLogged = Auth::id();
+        $getTeamOfUserLogged = Employee::find($getIdUserLogged);
+        $getAllAbsenceType = AbsenceType::all();
+        $getAllAbsenceStatus = AbsenceStatus::all();
+        $getAllEmployeeByTeamUserLogged = Employee::where('team_id',$getTeamOfUserLogged->team_id)
+        ->where('delete_flag',0)->where('is_employee',1);
+        foreach ($getAllEmployeeByTeamUserLogged->get() as $test){
+            dd($test->absences);
+        }
+
+        return view('absences.poteam', compact('getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
     }
 }

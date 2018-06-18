@@ -64,7 +64,9 @@
             </tr>
             </thead>
             <tbody class="context-menu">
-
+                <tr>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
     </div>
