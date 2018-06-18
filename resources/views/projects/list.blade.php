@@ -14,19 +14,19 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Project List
+                {{trans('common.title_header.project_list')}}
                 <small>Nal solution</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{asset('/projects')}}"> Project</a></li>
-                <li><a href="#">List</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
+                <li><a href="{{asset('/projects')}}"> {{trans('common.path.projects')}}</a></li>
+                <li><a href="#">{{trans('common.title_header.project_list')}}</a></li>
             </ol>
         </section>
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-default">
-                    <a href="{{ asset('projects/create')}}"><i class="fa fa-user-plus"></i> ADD</a>
+                    <a href="{{ asset('projects/create')}}"><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
                 </button>
             </div>
         </section>

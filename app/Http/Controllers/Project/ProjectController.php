@@ -43,7 +43,9 @@ class ProjectController extends Controller
         $allStatusValue = Status::all();
         $poRole = Role::select('id')
             ->where('name', 'PO')->first();
-
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
         $projects = $this->searchProjectService->searchProject($request)
             ->orderBy('start_date', 'DESC')->orderBy('end_date', 'DESC')
             ->paginate($request['number_record_per_page']);
@@ -92,6 +94,7 @@ class ProjectController extends Controller
 
     public function create()
     {
+        $x = \session()->get('errors');
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
         $manPowers = getArrayManPower();
@@ -205,9 +208,9 @@ class ProjectController extends Controller
                 $process->delete_flag = 1;
                 $process->save();
             }
-            return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
+            return response(['msg' => trans('project.msg_content.msg_remove_project_success'), 'status' => 'success', 'id' => $id]);
         }
-        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
+        return response(['msg' => trans('project.msg_content.msg_remove_project_fail'), 'status' => 'failed']);
     }
 
 

@@ -13,7 +13,10 @@ return [
     'project_name'=>'Project Name',
     'estimate_start_date'=>'Estimate start date',
     'estimate_end_date'=>'Estimate end date',
+    'estimate_date'=>'Estimate date',
+    'real_date'=>'Real date',
     'po'=> 'PO Name',
+    'man_power'=>'Allocate',
     'members'=> 'Members Name',
     'number_of_member'=>"Members",
     'msg_fails' => 'msg_fail',
@@ -24,9 +27,20 @@ return [
     'end_date'=>'Est. End Date',
     'start_date_real'=> 'Real Start Date',
     'end_date_real'=> 'Real End Date',
+    'to_day'=>'To day',
     'process_start_date'=>'Start Date',
     'process_end_date'=>'End Date',
     'status'=>'Status',
+    'income'=>'Income',
+    'estimate_cost'=>'Estimate cost',
+    'real_cost'=>'Real cost',
+    'description'=>'Description',
+	'title_box' => [
+        'add_project' => 'Add Project',
+		'edit_project'=> 'Edit Project'
+    ],
+    'error_content'=>[
+    ],
     'msg_content'=>[
         'msg_check_process_success'=>'Process successfully added!!!',
         'msg_check_process_fail'=>'Process successfully added!!!',
@@ -42,5 +56,10 @@ return [
         'msg_remove_process_success'=>'Remove process success !!!',
         'msg_reopen_project_success'=>'Reopen project success !!!',
         'msg_reopen_project_fail'=>'Reopen project fail !!!',
+        'msg_remove_project_success'=>'Project successfully deleted!!',
+        'msg_remove_project_fail'=>'Delete Project fail!!',
+    ],
+    'data_table'=>[
+        'information'=> "Showing :first_item to :last_item of :total entries"
     ]
 ];

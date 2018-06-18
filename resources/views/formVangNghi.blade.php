@@ -30,12 +30,12 @@
               function confirmEmployee() {
                   var name = $('#name').val();
                   var id = $('#id_employee').val();
-                  return confirm(message_confirm('edit', 'employee', id, name));
+                  return confirm(message_confirm('edit', 'absences', id, name));
               }
           </SCRIPT>
           <div class="col-md-10" style="width: 100% ; margin-bottom: 2em"></div>
           <div class="row">
-            {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','onSubmit' => 'return confirmEmployee()'])}}
+            {{ Form::model($objEmployee, ['url' => ['/absences', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','onSubmit' => 'return confirmEmployee()'])}}
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
             <div class="col-md-3"></div>
@@ -68,7 +68,7 @@
 
               <div class="form-group">
                 <label>PO Project<strong style="color: red">(*)</strong></label>
-                <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="{{isset($objPO["PO_name"]) ? $objPO["PO_name"] : null}}  -  PROJECT: {{isset($objPO["project_name"]) ? $objPO["project_name"] : null}} ">
+                <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="{{isset($objPO["PO_name"]) ? $objPO["PO_name"] : null}}{{isset($objPO["project_name"])  ? '  -  PROJECT: '.$objPO["project_name"] : null}} ">
                 <label id="lb_error_name" style="color: red;" readonly="readonly"></label>
               </div>
 

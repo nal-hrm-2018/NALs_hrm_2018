@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>NALs</title>
+    <meta content="{!! asset('admin/templates/js/multi-language/')!!}" name="link_origin_multi_language">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -100,6 +101,9 @@
 <script src="{!! asset('admin/templates/js/go_to_top/go_to_top.js') !!}"></script>
 <script src="{!! asset('admin/templates/js/back_button/back_button.js') !!}"></script>
 <script src="{!! asset('admin/templates/js/my_script/message_confirm.js') !!}"></script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/lang.js') !!}"> </script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/project.js') !!}"> </script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/project.js') !!}"> </script>
 <script>
     $(function () {
         $('#example1').DataTable()

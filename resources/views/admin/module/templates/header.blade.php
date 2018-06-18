@@ -20,6 +20,7 @@
               <a href="{{route('setlanguaes','en')}}" lang="en" title="English">
                 {{ Html::image('admin/templates/images/Localization/en.png', 'a picture', [
               'class' => 'thumb',
+              'id'=>app()->getLocale()===config('settings.locale.en')?'language_active':'inactive',
               'title'=>'English',
               'lang'=>'en',
               'style'=>app()->getLocale()===config('settings.locale.en')?'padding:0px 2px;border:1px solid white':'',
@@ -29,6 +30,7 @@
               <a href="{{route('setlanguaes','vn')}}" lang="vn" title="Vietnamese">
                 {{ Html::image('admin/templates/images/Localization/vi.png', 'a picture', [
               'class' => 'thumb',
+              'id'=>app()->getLocale()===config('settings.locale.vn')?'language_active':'inactive',
               'title'=>'Vietnamese',
               'style'=>app()->getLocale()===config('settings.locale.vn')?'padding:0px 2px;border:1px solid white':'',
               'lang'=>'vn',
