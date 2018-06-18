@@ -83,6 +83,7 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors', 'User\Vendor\VendorController');
     Route::resource('projects', 'Project\ProjectController');
+    Route::resource('absences', 'Absence\AbsenceController');
     Route::post('projects/checkProcessAjax',[
         'as'=>'checkProcessAjax',
         'uses'=>'Project\ProjectController@checkProcessesAjax'
@@ -98,6 +99,7 @@ Route::group(['middleware' => 'user'], function () {
         'as' => 'vendor_show_chart',
         'uses' => 'User\Vendor\VendorController@showChart',
     ]);
+
 
 
 });
