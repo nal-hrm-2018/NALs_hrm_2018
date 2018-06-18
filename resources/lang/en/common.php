@@ -25,6 +25,7 @@ return [
 
     'confirm_message'=>[
         'add_action'=>'Do you want to add?',
+        'reset_form'=>'Do you want reset all field in form ?'
     ],
 
     'button' => [
@@ -37,16 +38,21 @@ return [
         'export' => 'EXPORT',
         'template' => 'TEMPLATE',
         'edit_password'=>'EDIT PASSWORD',
+        'reopen'=> 'Reopen',
         'back' => 'BACK',
+        'input'=>'Input',
+        'view'=>'View'
     ],
 
     'title_form' => [
         'form_search' => 'Search Form'
     ],
     'title_header'=>[
+        'project_list'=> 'Project List',
         'employee_detail'=>'Employee Detail',
         'vendor_list'=>'Vendor List',
-        'nal_solution' =>'Nal solutions'
+        'nal_solution' =>'Nal solutions',
+        'project_detail'=>'Project Detail'
     ],
     'path'=>[
         'dashboard'=>'Dashboard',
@@ -56,6 +62,7 @@ return [
         'vendor'=>'Vendor',
         'vendors'=>'Vendors',
         'team' => 'Team',
+        'projects'=>'Projects',
         'list' => 'List',
         'detail'=>'Detail',
         'add'=>'Add',
@@ -71,7 +78,11 @@ return [
         'edit_vendor'=>'Edit Vendor',
         'list_team'=>'List Team',
         'add_team'=>'Add Team',
-        'edit_team'=>'Edit Team'
+        'edit_team'=>'Edit Team',
+        'absence'=>'Absence',
+        'po_project'=>'PO Project',
+        'confirmation'=>'Confirmation',
+        'statistic'=>'Statistic',
     ],
     'action'=>[
         'view'=>'View',
@@ -105,4 +116,15 @@ return [
         'update_profile'=>'Update Profile',
         'logout'=>'Logout'
     ],
+    'error'=>'Error',
+    'warning' => 'Warning',
+    'warning_content' => [
+        'warning_reopen' => ' This Project finished !! if you want edit it ,please click button Reopen .'
+    ],
+    'id'=>[
+        'employee_id'=>'Employee Id',
+        'role_id'=>'Role Id'
+    ],
+    'cv'=>'CV',
+    'performance'=>'Performance',
 ];

@@ -13,8 +13,9 @@
             })
         </script>
         @foreach(session()->get('error_messages') as $key=>$values)
-            {{" Employee ( id : ".getIdEmployeefromProcessError($key)." ) : ".
-            (!is_null(getEmployee((int)getIdEmployeefromProcessError($key)))?getEmployee((int)getIdEmployeefromProcessError($key))->name:'id wrong')}}
+            {{trans('common.path.employee')." ( id : ".getIdEmployeefromProcessError($key)." ) : ".
+            (!is_null(getEmployee((int)getIdEmployeefromProcessError($key)))?getEmployee((int)getIdEmployeefromProcessError($key))->name:'id wrong')
+            }}
             <script>
                 $(document).ready(function () {
                     $('#tr_member_'+'{{$key}}').css('background','#DD0000');
@@ -22,8 +23,8 @@
             </script>
             <br>
             @foreach($values['errors']->all() as $value)
-                @if(!is_null($value))
-                    {{" Error : ".$value }}<br>
+                @if(!empty($value))
+                    {{trans('common.error').": ".$value }}<br>
                 @endif
             @endforeach
             @if(!empty($values['available_processes']))
@@ -40,8 +41,8 @@
             })
         </script>
         @foreach($errors->all() as $key=>$error)
-            @if(!is_null($error))
-                {{" Error : ".$error }}<br>
+            @if(!empty($error))
+                {{trans('common.error').": ".$error }}<br>
             @endif
         @endforeach
     @endif
@@ -53,7 +54,7 @@
             ['class' => 'form-control',
             'id' => 'id',
             'autofocus' => true,
-            'placeholder'=>"Project ID",
+            'placeholder'=>trans('project.id'),
             ])
         }}
         {{--<label class="id" id="lb_error_project_id" style="color: red; ">{{$errors->first('id')}}</label>--}}
@@ -64,7 +65,7 @@
             ['class' => 'form-control',
             'id' => 'name',
             'autofocus' => true,
-            'placeholder'=>"Project Name",
+            'placeholder'=>trans('project.project_name'),
             ])
         }}
         {{--<label class="name" id="lb_error_project_name" style="color: red; ">{{$errors->first('name')}}</label>--}}
@@ -99,7 +100,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>Real start date</label>
+        <label>{{trans('project.start_date_real')}}</label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -113,7 +114,7 @@
     <!-- /.input group -->
     </div>
     <div>
-        <label>Real end date</label>
+        <label>{{trans('project.end_date_real')}}</label>
         <div class="input-group date">
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -130,12 +131,12 @@
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
 <div class="col-md-2">
     <button type="button" id="btn_add_process" class="btn btn-primary ">
-        <i class="fa fa-user-plus"></i> Add
+        <i class="fa fa-user-plus"></i> {{trans('common.button.add')}}
     </button>
 </div>
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
 <div class="col-md-2">
-    <label>Member <strong style="color: red">(*)</strong> </label><br/>
+    <label>{{trans('project.members')}} <strong style="color: red">(*)</strong> </label><br/>
     <select name="employee_id" id="employee_id" class="form-control select2">
         <option {{ !empty(old('employee_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -148,7 +149,7 @@
     </select>
 </div>
 <div class="col-md-2">
-    <label>Man power <strong style="color: red">(*)</strong> </label><br/>
+    <label>{{trans('project.man_power')}} <strong style="color: red">(*)</strong> </label><br/>
     <select name="man_power" id="man_power" class="form-control">
         <option {{ !empty(old('man_power'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -161,7 +162,7 @@
     </select>
 </div>
 <div class="col-md-2">
-    <label>Role <strong style="color: red">(*)</strong> </label><br/>
+    <label>{{trans('project.role')}} <strong style="color: red">(*)</strong> </label><br/>
     <select name="role_id" id="role" class="form-control">
         <option {{ !empty(old('role_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
@@ -174,7 +175,7 @@
     </select>
 </div>
 <div class="col-md-3">
-    <label>Start date <strong style="color: red">(*)</strong> </label>
+    <label>{{trans('project.process_start_date')}} <strong style="color: red">(*)</strong> </label>
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -185,7 +186,7 @@
     <!-- /.input group -->
 </div>
 <div class="col-md-3">
-    <label>End date <strong style="color: red">(*)</strong> </label>
+    <label>{{trans('project.process_end_date')}}<strong style="color: red">(*)</strong> </label>
     <div class="input-group date ">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -270,52 +271,52 @@
 </div>
 <div class="col-md-6 col-md-offset-1">
     <div>
-        <label>Income<strong style="color: red">(*)</strong> </label>
+        <label>{{trans('project.income')}}<strong style="color: red">(*)</strong> </label>
         {{ Form::number('income', old('income'),
             ['class' => 'form-control',
             'id' => 'income',
             'autofocus' => true,
-            'placeholder'=>"Income",
+            'placeholder'=>trans('project.income'),
             ])
         }}
         {{--<label id="lb_error_income" style="color: red;">{{$errors->first('income')}}</label>--}}
     </div>
     <div>
-        <label>Estimate cost</label>
+        <label>{{trans('project.estimate_cost')}}</label>
         {{ Form::text('estimate_cost', old('estimate_cost'),
             ['class' => 'form-control',
             'id' => 'estimate_cost',
             'autofocus' => true,
-            'placeholder'=>"Estimate cost",
+            'placeholder'=>trans('project.estimate_cost'),
             'readonly'=>'readonly',
             ])
         }}
         {{--<label id="lb_error_estimate_cost" style="color: red;"></label>--}}
     </div>
     <div>
-        <label>Real cost</label>
+        <label>{{trans('project.real_cost')}}</label>
         {{ Form::number('real_cost', old('real_cost'),
             ['class' => 'form-control',
             'id' => 'real_cost',
             'autofocus' => true,
-            'placeholder'=>"Real cost",
+            'placeholder'=>trans('project.real_cost'),
             ])
         }}
         {{--<label id="lb_error_real_cost" style="color: red;">{{$errors->first('real_cost')}}</label>--}}
     </div>
     <div>
-        <label>Description</label>
+        <label>{{trans('project.description')}}</label>
         {{ Form::textarea('description', old('description'),
             ['class' => 'form-control',
             'id' => 'description',
             'autofocus' => true,
-            'placeholder'=>"Description",
+            'placeholder'=>trans('project.description'),
             ])
         }}
         {{--<label id="lb_error_description" style="color: red;"></label>--}}
     </div>
     <div>
-        <label>Status<strong style="color: red">(*)</strong> </label><br/>
+        <label>{{trans('project.status')}}<strong style="color: red">(*)</strong> </label><br/>
         <select name="status" id="status" class="form-control">
             <option {{ !empty(old('status'))?'':'selected="selected"' }} value="">
                 {{  trans('vendor.drop_box.placeholder-default') }}
@@ -345,52 +346,50 @@
 
 
     $(document).ready(function () {
-        $('#form_add_project').on('submit', function (event) {
-            var id_project = $('#id').val();
-            var name_project = $('#name').val();
-
-            if (confirm(message_confirm('add', 'project', id_project, name_project))) {
-                return true;
-            }
-            return false;
-        });
-
-        $('#btn_reset_form_project').on('click', function (event) {
-            if (confirm("Do you wan't reset all field ?")) {
-                resetFormAddProject();
-            }
-        });
-        $(document).on('click', ".remove_employee", function (event) {
-            var target = $(event.target).parent().closest('tr');
-            var employee_id = $(event.target).attr('id');
-            var employee_name = $(event.target).attr('name');
-            if (confirm("Do you want to remove " + employee_name + " ( id: " + employee_id + " ) from project ?")) {
-                removeEmployee(employee_id, target);
-            }
-        });
-        $('#btn_add_process').on("click", function () {
-            var employee_id = $('#employee_id :selected').val();
-            var employee_role = $('#role :selected').val();
-            var employee_name = $('#employee_id :selected').text();
-            if (employee_id === '' || employee_name === '') {
-                return confirm('Please choose employee !')
-            } else {
-                if (confirm("Do you want to add  " + employee_name + " ( id: " + employee_id + " ) to project ?")) {
-                    var end_date_process_selected = $('#end_date_process').val();
-                    var start_date_process_selected = $('#start_date_process').val();
-                    if (checkDupeMember(employee_id,employee_name, start_date_process_selected, end_date_process_selected) ) {
-                        return false;
-                    }
-                    if (checkPOProcess(employee_role,employee_name,employee_id, start_date_process_selected, end_date_process_selected,'PO')) {
-                        return false;
-                    }
-                    requestAjax('{{route('checkProcessAjax')}}', '{{csrf_token()}}');
+        var language = $('#language_active').attr('lang');
+        lang.init("project", language, function () {
+            $('#form_add_project').on('submit', function (event) {
+                var id_project = $('#id').val();
+                var name_project = $('#name').val();
+                if (confirm(message_confirm('add', 'project', id_project, name_project))) {
+                    return true;
                 }
+                return false;
+            });
 
-            }
-
+            $('#btn_reset_form_project').on('click', function (event) {
+                if (confirm(lang.getString('reset_form_add'))) {
+                    resetFormAddProject();
+                }
+            });
+            $(document).on('click', ".remove_employee", function (event) {
+                var target = $(event.target).parent().closest('tr');
+                var employee_id = $(event.target).attr('id');
+                var employee_name = $(event.target).attr('name');
+                if (confirm(message_confirm('remove', 'employee', employee_id, employee_name))) {
+                    removeEmployee(employee_id, target);
+                }
+            });
+            $('#btn_add_process').on("click", function () {
+                var employee_id = $('#employee_id :selected').val();
+                var employee_role = $('#role :selected').val();
+                var employee_name = $('#employee_id :selected').text();
+                if (employee_id === '' || employee_name === '') {
+                    return confirm(lang.getString('alert_choose_employee'));
+                } else {
+                    if (confirm(message_confirm('add', 'employee', employee_id, employee_name))) {
+                        var end_date_process_selected = $('#end_date_process').val();
+                        var start_date_process_selected = $('#start_date_process').val();
+                        if (checkDupeMember(employee_id, employee_name, start_date_process_selected, end_date_process_selected)) {
+                            return false;
+                        }
+                        if (checkPOProcess(employee_role, employee_name, employee_id, start_date_process_selected, end_date_process_selected, 'PO')) {
+                            return false;
+                        }
+                        requestAjax('{{route('checkProcessAjax')}}', '{{csrf_token()}}');
+                    }
+                }
+            });
         });
-
-
     });
 </script>

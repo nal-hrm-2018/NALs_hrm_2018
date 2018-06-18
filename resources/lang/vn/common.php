@@ -21,6 +21,7 @@ return [
     ],
     'confirm_message'=>[
         'add_action'=>'Bạn có muốn thêm không?',
+        'reset_action'=>'Bạn có muốn làm mới tất cả trường trên form không ?'
     ],
     'button' => [
         'reset' => 'LÀM MỚI',
@@ -32,21 +33,27 @@ return [
         'export' => 'XUẤT',
         'template' => 'FILE MẪU',
         'edit_password'=>'ĐỔI MẬT KHẨU',
+        'reopen'=> 'Mở khóa',
         'back' => 'QUAY LẠI',
+        'input'=>'Nhập',
+        'view'=>'Xem'
     ],
 
     'title_form' => [
         'form_search' => 'Form Tìm Kiếm'
     ],
     'title_header'=>[
+        'project_list'=>'Danh sách dự án',
         'employee_detail'=>'Thông Tin Nhân Viên',
         'vendor_list'=>'Danh Sách Nhân Viên Ngoài',
-        'nal_solution' =>'Nal solutions'
+        'nal_solution' =>'Nal solutions',
+        'project_detail'=>'Chi tiết dự án'
     ],
     'path'=>[
         'dashboard'=>'Trang Chủ',
         'project'=>'Dự Án',
         'home'=>'Trang Chủ',
+        'projects'=>'Danh sách Dự án',
         'employee'=>'Nhân Viên',
         'vendor'=>'Nhân Viên Ngoài',
         'team' => 'Team',
@@ -65,7 +72,11 @@ return [
         'edit_vendor'=>'Chỉnh Sửa Nhân Viên Ngoài',
         'list_team'=>'Danh Sách Team',
         'add_team'=>'Thêm Team',
-        'edit_team'=>'Chỉnh Sửa Team'
+        'edit_team'=>'Chỉnh Sửa Team',
+        'absence'=>'Vắng Nghỉ',
+        'po_project'=>'PO Dự Án',
+        'confirmation'=>'Xác Nhận',
+        'statistic'=>'Thống Kê',
     ],
     'action'=>[
         'view'=>'Chi tiết',
@@ -99,4 +110,17 @@ return [
         'update_profile'=>'Trang Cá Nhân',
         'logout'=>'Đăng Xuất'
     ],
+    'error'=>'Lỗi',
+    'warning'=>'Cảnh báo',
+    'warning_content'=>[
+        'warning_reopen' => 'Dự án này đã kết thúc !! nếu bạn muốn chỉnh sửa nó thì ấn vào nút Mở khóa .'
+    ],
+    'id'=>[
+        'employee_id'=>'Mã nhân viên',
+        'role_id'=>'Chức vụ'
+    ],
+    'name'=>[
+    'employee_name'=>'Tên nhân viên',
+    ],
+    'cv'=>'CV'
 ];

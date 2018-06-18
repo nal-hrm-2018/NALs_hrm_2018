@@ -120,6 +120,36 @@ return [
     |
     */
     'custom' => [
+        'man_power'=>[
+            'total_man_power' => 'Tổng công số của nhân viên :employee ( id : :employee_id ) = :totalManPower lớn hơn 1',
+            'available_processes' => 'Bạn có thể xem thông tin đề xuất cho nhân viên này',
+        ],
+        'employee'=>[
+            'invalid_id'=>'Nhân viên được chọn có mã nhân viên không đúng .',
+            'error_duplicate_member' => 'Nhân viên :employee_name_selected ( id: :value ) không thể được thêm vào bởi vì ' .
+                ' từ: :start_date_process đến: :end_date_process nhân viên này đã được thêm vào project',
+
+        ],
+        'role'=>[
+            "at_least_one_po"=>'Dự án phải có ít nhất 1 PO ',
+            'error_P0_process' => 'Nhân viên :employee_name_selected không thể làm PO bởi vì ' .
+                ' từ: :start_date_process đến: :end_date_process đã có người đảm nhận vị trí PO là :employee_name',
+        ],
+        'end_date_project'=>[
+            'real_start_null_end_not_null'=>'Ngày thực tế Bắt đầu  chưa được chọn ,Bạn không thể chọn ngày thực tế Kết thúc  .',
+            'start_date_end_date_process_must_between_real_start_end'
+            =>"Ngày bắt đầu và Ngày kết thúc phải nằm giữa Ngày thực tế bắt đầu và Ngày thực tế kết thúc Dự án .",
+            'start_date_end_date_process_must_between_real_start_estimate_end'
+            =>"Ngày bắt đầu và Ngày kết thúc phải nằm giữa Ngày Thực tế bắt đầu và Ngày dự kiến kết thúc Dự án .",
+            'start_date_end_date_process_must_between_estimate_start_estimate_end'
+            =>"Ngày bắt đầu và Ngày kết thúc phải nằm giữa Ngày dự kiến bắt đầu và Ngày dự kiến kết thúc Dự án ."
+        ],
+        'status'=>[
+            'must_be_planning'=>'Ngày thực tế Bắt đầu chưa được chọn , Tình trạng của dự án bắt buộc là planning',
+            'cant_be_planning'=>"Ngày thực tế Bắt đầu đã được chọn ,Tình trạng của dự án không thể là planning",
+            'cant_be_complete'=>"Ngày thực tế Kết thúc chưa được chọn ,Tình trạng của dự án không thể là complete",
+            'must_be_complete'=>"Ngày thực tế Kết thúc đã được chọn ,Tình trạng của dự án bắt buộc là complete",
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

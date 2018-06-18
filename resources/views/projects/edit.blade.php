@@ -5,11 +5,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Edit project
+                {{trans('common.path.edit_project')}}
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{route('projects.index')}}">{{trans('project.title')}}</a></li>
+                <li><a href="{{route('projects.index')}}">{{trans('common.title_header.project_list')}}</a></li>
                 <li class="active">{{trans('common.path.edit_project')}}</li>
             </ol>
         </section>
