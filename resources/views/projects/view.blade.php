@@ -13,14 +13,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Project Detail
-                <small>Nal solution</small>
+                {{trans('common.title_header.project_detail')}}
+                <small>{{trans('common.title_header.nal_solution')}}</small>
             </h1>
 
             <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{asset('/projects')}}"> Projects</a></li>
-                <li><a href="#">Detail</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
+                <li><a href="{{asset('/projects')}}"> {{trans('common.path.projects')}}</a></li>
+                <li><a href="#">{{trans('common.title_header.project_detail')}}</a></li>
             </ol>
         </section>
 
@@ -31,15 +31,15 @@
               <div class="box">
                  <!-- /.box-header -->
                 <div class="col-xs-12">
-                    <h2>Project ID: <strong>{{$project->id}}</strong></h2>
-                    <p>Project Name:
+                    <h2>{{trans('project.id')}}: <strong>{{$project->id}}</strong></h2>
+                    <p>{{trans('project.project_name')}}:
                         <strong>{{$project->name}}</strong>
                     </p>
-                    <p>Income:
+                    <p>{{trans('project.income')}}:
                         <strong>{{number_format($project->income). ' VNĐ'}}</strong>
                     </p>
 
-                    <p>Estimate Cost:
+                    <p>{{trans('project.estimate_cost')}}:
                         <strong>
                             <?php
                                 $estimate_cost=0;
@@ -58,11 +58,11 @@
                         </strong>
                     </p>
 
-                    <p>Real Cost:
+                    <p>{{trans('project.real_cost')}}:
                         <strong>{{number_format($project->real_cost). ' VNĐ'}}</strong>
                     </p>
 
-                    <p>Status:
+                    <p>{{trans('project.status')}}:
                         @if($project->status->name == 'pending')
                             <span class='label label-danger'>{{$project->status->name}}</span>
                         @elseif($project->status->name == 'complete')
@@ -80,7 +80,7 @@
                         @endif
                     </p>
 
-                    <p>Estimate Date:
+                    <p>{{trans('project.estimate_date')}}:
                         <strong>
 
                             <strong>
@@ -99,7 +99,7 @@
                         </strong>
                     </p>
 
-                    <p>Real Date:
+                    <p>{{trans('project.real_date')}}:
                         <strong>{{date('d/m/Y', strtotime($project->start_date))}}
                             -
                             @if($project->end_date)
@@ -151,14 +151,14 @@
                         <table id="project-list" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Employee Name</th>
-                                <th>Role</th>
-                                <th>Email</th>
-                                <th class="text-center">Phone</th>
-                                <th class="text-center">Start Date</th>
-                                <th class="text-center">End Date</th>
-                                <th class="text-center">CV</th>
-                                <th class="text-center">Performance</th>
+                                <th>{{trans('employee.profile_info.id')}}</th>
+                                <th>{{trans('project.role')}}</th>
+                                <th>{{trans('employee.profile_info.email')}}</th>
+                                <th class="text-center">{{trans('employee.profile_info.phone')}}</th>
+                                <th class="text-center">{{trans('project.process_start_date')}}</th>
+                                <th class="text-center">{{trans('project.process_end_date')}}</th>
+                                <th class="text-center">{{trans('common.cv')}}</th>
+                                <th class="text-center">{{trans('common.performance')}}</th>
                             </tr>
                             </thead>
                             <tbody class="context-menu">
@@ -229,17 +229,17 @@
 
                                     <td style="text-align: center;width: 50px;">
                                         <button type="button" class="btn btn-default cv-button">
-                                            <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>
+                                            <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> {{trans('common.cv')}}</a>
                                         </button>
                                     </td>
 
                                     <td style="text-align: center;width: 180px;">
                                         <button type="button" class="btn btn-default input-button">
-                                            <a href="javascript:void(0)"><i class="	fa fa-plus-square"></i> Input</a>
+                                            <a href="javascript:void(0)"><i class="	fa fa-plus-square"></i> {{trans('common.button.input')}}</a>
                                         </button>
 
                                         <button type="button" class="btn btn-default view-button">
-                                            <a href="javascript:void(0)"><i class="fa fa-search-plus"></i> View</a>
+                                            <a href="javascript:void(0)"><i class="fa fa-search-plus"></i> {{trans('common.button.view')}}</a>
                                         </button>
                                     </td>
 

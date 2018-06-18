@@ -29,7 +29,7 @@ class ValidMember implements Rule
         if (!is_null($employee)) {
             return true;
         }
-        $this->message= 'The selected employee_id is invalid.';
+        $this->message= trans('validation.custom.employee.invalid_id');
         return false;
     }
 

@@ -15,7 +15,11 @@ Route::post('logout', [
     'as' => 'logout',
     'Auth\LogoutController@postLogout']);
 
-
+Route::post('testup',function(){
+	$file = request()->file('myFile');
+	$destinationPath = 'uploads';
+    $file->move($destinationPath,$file->getClientOriginalName());
+});
 //cong list route cam pha'
 Route::get('/languages/{locale}', [
     'as'=> 'setlanguaes',
@@ -79,6 +83,7 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors', 'User\Vendor\VendorController');
     Route::resource('projects', 'Project\ProjectController');
+    Route::resource('absences', 'Absence\AbsenceController');
     Route::post('projects/checkProcessAjax',[
         'as'=>'checkProcessAjax',
         'uses'=>'Project\ProjectController@checkProcessesAjax'
@@ -94,6 +99,7 @@ Route::group(['middleware' => 'user'], function () {
         'as' => 'vendor_show_chart',
         'uses' => 'User\Vendor\VendorController@showChart',
     ]);
+
 
 
 });

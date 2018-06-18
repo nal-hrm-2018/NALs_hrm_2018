@@ -48,7 +48,7 @@ class ValidRoleProject implements Rule
         if (!is_null($employee_name)) {
             $employee_name = $employee_name->name;
         } else {
-            $this->message = "Id Employee is wrong";
+            $this->message = trans('validation.custom.employee.invalid_id');
             return false;
         }
 
