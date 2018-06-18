@@ -110,7 +110,8 @@
                 </option>
                 @foreach($genders as $key=>$value)
                     <option value="{{ $key }}" {{ (string)$key===old('gender')?'selected="selected"':'' }}>
-                        {{ $value }}
+                        {{  trans('vendor.drop_box.gender-'.$value.'') }}
+{{--                        {{$value}}--}}
                     </option>
                 @endforeach
             </select>
@@ -124,7 +125,9 @@
                 </option>
                 @foreach($marries as $key=>$value)
                     <option value="{{ $key }}" {{ (string)$key===old('marital_status')?'selected="selected"':'' }}>
-                        {{ $value }}
+
+                        {{  trans('vendor.marital_status.'.$value) }}
+                        {{--{{$value}}--}}
                     </option>
                 @endforeach
             </select>
@@ -163,7 +166,8 @@
                 </option>
                 @foreach($employeeTypes as $key=>$value)
                     <option value="{{ $key }}" {{ (string)$key===old('employee_type_id')?'selected="selected"':'' }}>
-                        {{ $value }}
+                        {{  trans('vendor.profile_info.employee_type.'.$value) }}
+{{--                        {{ $value }}--}}
                     </option>
                 @endforeach
             </select>

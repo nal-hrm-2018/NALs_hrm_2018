@@ -63,7 +63,7 @@
                     </option>
                     @foreach($status as $key=>$value)
                         <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
-                            {{ $value }}
+                            {{trans('vendor.profile_info.status_children.'.$value)}}
                         </option>
                     @endforeach
                 </select>

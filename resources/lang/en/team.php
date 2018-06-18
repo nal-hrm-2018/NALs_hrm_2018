@@ -30,7 +30,43 @@ return [
         'msg_add_fail'=>'Add team fail!!!',
         'msg_error_add_team'=> 'Has error in process',
         'msg_edit_success'=>'Team successfully edited!!!',
-        'msg_edit_fail'=>'Edit team fail!!!'
+        'msg_edit_fail'=>'Edit team fail!!!',
+        'msg_add_member1'=>'Member matches with PO, Please select another member !!!',
+        'msg_add_member2'=>'Error!!! Member already exist !!!'
     ],
-
+    'title_header'=>[
+        'add_team'=>'Add team',
+        'edit_team'=>'Edit team',
+        'detail'=>'Team detail',
+    ],
+    'path'=>[
+        'team'=>'Teams',
+    ],
+    'team'=>[
+        'team_name'=>'Team name',
+        'po_name'=>'PO',
+        'member'=>'Member',
+        'employee_id'=>'Employee ID',
+        'role'=>'Role',
+        'doing_project'=>'Doing projects',
+        'email'=>'Email',
+        'phone'=>'phone',
+    ],
+    'add_team'=>[
+        'id'=>'ID',
+        'team_name'=>'Team',
+        'role'=>'Role',
+        'name'=>'Name',
+        'remove'=>'Remove'
+    ],
+    'view_team_list_project'=>[
+        'title'=>'Project Name Of:',
+        'id'=>'ID',
+        'name'=>'Name',
+        'status'=>'Status',
+        'close'=>'Close'
+    ],
+    'submit'=>[
+        'reset'=>'Do you want to reset?',
+    ],
 ];

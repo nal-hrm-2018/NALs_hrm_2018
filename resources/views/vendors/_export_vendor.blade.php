@@ -96,5 +96,5 @@ foreach ($arrays as $key => $value) {
         <span id="contain-canvas" style="">
             <canvas id="my_canvas" width="16" height="16" style=""></canvas>
         </span>
-        EXPORT</a>
+        {{trans('vendor.export')}}</a>
 </button>

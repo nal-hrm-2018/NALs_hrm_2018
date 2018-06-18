@@ -65,12 +65,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Edit team
+                {{trans('team.title_header.edit_team')}}
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/"><i class="fa fa-dashboard"></i> {{trans("common.path.home")}}</a></li>
-                <li><a href="{{route('teams.index')}}">{{trans("common.path.team")}}</a></li>
-                <li class="active">Edit team</li>
+                <li><a href="{{route('teams.index')}}">{{trans("team.path.team")}}</a></li>
+                <li class="active">{{trans('team.title_header.edit_team')}}</li>
             </ol>
         </section>
             <SCRIPT LANGUAGE="JavaScript">
@@ -99,7 +99,7 @@
                         <!-- /.col -->
                         <div class="col-md-7">
                             <div class="form-group">
-                                <label>Team name<strong style="color: red">(*)</strong></label>
+                                <label>{{trans('team.team.team_name')}}<strong style="color: red">(*)</strong></label>
                                 <input type="text" class="form-control width80" id="team_name" placeholder="Team name"
                                        name="team_name"
                                        value="{!! old('team_name', isset($team->name) ? $team->name : null) !!}"
@@ -110,7 +110,7 @@
                                 <label id="lb_error_team_name" style="color: red; ">{{$errors->first('team_name')}}</label>
                             </div>
                             <div class="form-group">
-                                <label>PO name</label><br/>
+                                <label>{{trans('team.team.po_name')}}</label><br/>
                                 <select class="form-control select2 width80" id="select_po_name" name="po_name"
                                         onchange="choosePO()">
                                     <option value="0" id="po_0">{{ trans('employee.drop_box.placeholder-default') }}
@@ -131,7 +131,7 @@
                                 <label id="lb_error_po_name" style="color: red;">{{$errors->first('po_name')}}</label>
                             </div>
                             <div class="form-group">
-                                <label>Member</label><br/>
+                                <label>{{trans('team.team.member')}}</label><br/>
                                 <select class="form-control select2 width80" name="employees" id="member">
                                     <option value="0" id="member_0">{{ trans('employee.drop_box.placeholder-default') }}</option>
                                     @foreach($listEmployee as $obj)
@@ -157,11 +157,11 @@
                                   <table id="employee-list" class="table table-bordered table-striped">
                                       <thead>
                                         <tr>                                            
-                                            <th>ID</th>
-                                            <th>Team</th>
-                                            <th>Role</th>
-                                            <th>Name</th>
-                                            <th>Remove</th>
+                                            <th>{{trans('team.add_team.id')}}</th>
+                                            <th>{{trans('team.add_team.team_name')}}</th>
+                                            <th>{{trans('team.add_team.role')}}</th>
+                                            <th>{{trans('team.add_team.name')}}</th>
+                                            <th>{{trans('team.add_team.remove')}}</th>
                                         </tr>
                                       </thead>
                                       <tbody class="context-menu">
@@ -252,13 +252,13 @@
                         $id = document.getElementById("member").value;
                         $idPo = document.getElementById("select_po_name").value;
                         if($id == document.getElementById("select_po_name").value){
-                            alert("Member matches with PO, Please select another member !!!");
+                            alert("{{trans('team.msg_content.msg_add_member1')}}");
                         }else{
                             $check = true;
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
                               if($id == $listEmployeeID[$i]){
                                 $check = false;
-                                alert("Error!!! Member already exist !!!");
+                                alert("{{trans('team.msg_content.msg_add_member2')}}");
                                 break;
                               }
                             }
@@ -295,7 +295,7 @@
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
-                                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
+                                    "<thead><tr><th>{{trans('team.add_team.id')}}</th><th>{{trans('team.add_team.team_name')}}</th><th>{{trans('team.add_team.role')}}</th><th>{{trans('team.add_team.name')}}</th><th>{{trans('team.add_team.remove')}}</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
                                     "</tbody></table></div>";
                                 $listChoose = "";
                                 for ($i = 0; $i < $listEmployeeID.length; $i++) {
@@ -360,7 +360,7 @@
     <script>
         $(function () {
             $("#btn_reset_form_team").bind("click", function () {
-				if(confirmAction('Do you want to reset?'))
+				if(confirmAction("{{trans('team.submit.reset')}}"))
                 location.reload();
             });
         });

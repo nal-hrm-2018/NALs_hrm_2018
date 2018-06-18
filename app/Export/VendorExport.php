@@ -111,13 +111,13 @@ class VendorExport implements FromCollection, WithEvents, WithHeadings
              $dateEndWork = Employee::find($item->id);
 
              if (($item->work_status == 0) && ($dateEndWork->endwork_date < $dateNow)){
-                 $item->work_status = 'Expired';
+                 $item->work_status = trans('vendor.profile_info.status_children.Expired');
              }
              if(($item->work_status == 0) && ($dateEndWork->endwork_date >= $dateNow)){
-                 $item->work_status = 'Active';
+                 $item->work_status = trans('vendor.profile_info.status_children.Active');
              }
              if ($item->work_status == 1){
-                 $item->work_status = 'Quited';
+                 $item->work_status = trans('vendor.profile_info.status_children.Quited');
              }
 
              return $item;
