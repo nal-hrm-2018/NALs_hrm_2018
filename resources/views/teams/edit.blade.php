@@ -117,7 +117,7 @@
                                     @foreach($listEmployee as $obj)
                                         {{$selected = ""}}
                                         @if(isset($poOfteam))
-                                            @if( $obj->id == $poOfteam->id)
+                                            @if( $obj->is_manager == '1')
                                                 {{$selected = "selected"}}
                                             @endif
                                         @endif

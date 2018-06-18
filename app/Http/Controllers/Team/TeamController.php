@@ -36,13 +36,11 @@ class TeamController extends Controller
     public function index()
     {
         $teams = Team::all()->where('delete_flag', 0);
-        $po_id = Role::all()->where('delete_flag', 0)->where('name', 'PO')->pluck('id')[0];
-
         $currentMonth = date('Y-m-01');
         $teamsValue = $this->chartService->getValueOfListTeam($currentMonth);
         $listMonth = $this->chartService->getListMonth();
 
-        return view('teams.list', compact('teams', 'po_id', 'teamsValue', 'listMonth'));
+        return view('teams.list', compact('teams', 'teamsValue', 'listMonth'));
     }
 
     public function create()
@@ -87,17 +85,11 @@ class TeamController extends Controller
             ->join('teams', 'teams.id', '=', 'employees.team_id')
             ->join('roles', 'roles.id', '=', 'employees.role_id')
             ->where('employees.team_id', $id)
-            ->where('roles.name','<>', 'PO')
+            ->where('employees.is_manager','<>', '1')
             ->where('employees.delete_flag', '0')
             ->orderBy('employees.id', 'asc')->get();
-        $poOfteam = Employee::select('employees.id', 'employees.name')
-            ->join('roles', 'roles.id', '=', 'employees.role_id')
-            ->where('employees.team_id', $id)
-            ->where('roles.name', 'PO')
-            ->where('employees.delete_flag', '0')
-            ->orderBy('employees.id', 'asc')->first();
         $listRole = Role::where('delete_flag','0')->get();
-        return view('teams.edit', compact('listEmployee','listEmployeeOfTeam', 'team', 'poOfteam','listRole'));
+        return view('teams.edit', compact('listEmployee','listEmployeeOfTeam', 'team','listRole'));
 
     }
 
