@@ -25,265 +25,138 @@
         </section>
 
         <section class="content-header">
-            <div>
-                <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" id="btn-search">
-                    {{trans('common.button.search')}}
-                </button>
-
-                <!-- Modal -->
-                <div id="myModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <form method="get" role="form" id="form_search_employee">
-                            <!-- Modal content-->
-                            <input id="number_record_per_page" type="hidden" name="number_record_per_page"
-                                   value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div style="float:right; background-color: #ECF0F5; height: 50px;">
+                <ol class="breadcrumb" style="background-color: #ECF0F5">
+                    <button type="button" class="btn btn-default">
+                        <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
+                    </button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
+                        <a><i class="fa fa-users"></i> {{trans('common.button.import')}}</a>
+                    </button>
+                    <div id="import" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">{{trans('employee.import_employee')}}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('employee.profile_info.id')}}</button>
+                                                    <button type="button" class="btn width-100">{{trans('employee.select_csv_file')}}</button>
                                                 </div>
-                                                {{ Form::text('id', old('id'),
-                                                    ['class' => 'form-control',
-                                                    'id' => 'employeeId',
-                                                    'autofocus' => false,
-                                                    ])
-                                                }}
-                                            </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
-                                                </div>
-                                                {{--<input type="text" name="name" id="nameEmployee" class="form-control">--}}
-                                                {{ Form::text('name', old('name'),
-                                                    ['class' => 'form-control',
-                                                    'id' => 'nameEmployee',
-                                                    'autofocus' => false,
-                                                    ])
-                                                }}
-                                            </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
-                                                </div>
-                                                <select name="team" id="team_employee" class="form-control">
-                                                    {{--@if(!empty($_GET['team']))
-                                                        <option selected="selected" {{'hidden'}}  value="">
-                                                            {{$_GET['team']}}
-                                                        </option>
-                                                    @else
-                                                        <option selected="selected" value="">
-                                                        {{  trans('employee.drop_box.placeholder-default') }}
-                                                    @endif--}}
-                                                        <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
-                                                            {{  trans('vendor.drop_box.placeholder-default') }}
-                                                        </option>
-                                                    @foreach($teams as $team)
-                                                        <option value="{{ $team->name}}" {{ (string)$team->name===request('team')?'selected="selected"':'' }}>
-                                                            {{ $team->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('employee.profile_info.email')}}</button>
-                                                </div>
-                                                {{--<input type="text" name="email" id="emailEmployee" class="form-control">--}}
-                                                {{ Form::text('email', old('email'),
-                                                    ['class' => 'form-control',
-                                                    'id' => 'emailEmployee',
-                                                    'autofocus' => false,
-                                                    ])
-                                                }}
-                                            </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('employee.profile_info.role')}}</button>
-                                                </div>
-                                                <select name="role" id="role_employee" class="form-control">
-                                                    <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
-                                                        {{  trans('vendor.drop_box.placeholder-default') }}
-                                                    </option>
-                                                        @foreach($roles as $role)
-                                                            <option value="{{ $role->name}}"{{ (string)$role->name===request('role')?'selected="selected"':'' }}>
-                                                                {{ $role ->name}}
-                                                            </option>
-                                                        @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button"
-                                                            class="btn width-100">{{trans('employee.profile_info.status')}}</button>
-                                                </div>
-                                                <select name="status" id="status" class="form-control">
-                                                    <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
-                                                        {{  trans('employee.drop_box.placeholder-default') }}
-                                                    </option>
-                                                    @foreach($status as $key=>$value)
-                                                        <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
-                                                            {{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                                <input type="file" id="myfile" name="myFile" class="form-control">
                                             </div>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="modal-footer center">
-                                    <button id="btn_reset_employee"  type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
-                                        {{trans('common.button.reset')}}
-                                    </button>
-                                    <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
-                                                class="fa fa-search"></span>
-                                        {{trans('common.button.search')}}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <ol class="breadcrumb">
-                <button type="button" class="btn btn-default">
-                    <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
-                </button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
-                    <a><i class="fa fa-users"></i> {{trans('common.button.import')}}</a>
-                </button>
-                <div id="import" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">{{trans('employee.import_employee')}}</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="input-group margin">
-                                            <div class="input-group-btn">
-                                                <button type="button" class="btn width-100">{{trans('employee.select_csv_file')}}</button>
-                                            </div>
-                                            <input type="file" id="myfile" name="myFile" class="form-control">
-                                        </div>
+                                    <div class="modal-footer center">
+                                        <button type="submit" id="i_submit" class="btn btn-primary"><span
+                                                    class="glyphicon glyphicon-upload"></span>
+                                            {{trans('common.button.import')}}
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="modal-footer center">
-                                    <button type="submit" id="i_submit" class="btn btn-primary"><span
-                                                class="glyphicon glyphicon-upload"></span>
-                                        {{trans('common.button.import')}}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <script type="text/javascript">
-                            $('#myfile').bind('change', function(e) {
-                                if(this.files[0].size > 5242880){
-                                    alert("{{trans('employee.valid5mb')}}");
-                                    document.getElementById('myfile').value = "";
-                                }
-                                var value = $('#myfile')[0].files[0];
-                                if(value != null){
-                                    $('#i_submit').removeClass('disabled');
-                                }
-                            });
-                        </script>
-                    </div>
-                </div>
-
-                <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
-                    <a href="/download-template"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
-                </button>
-                <?php
-                $id = null; $name = null; $team = null; $role = null; $email = null; $status = null; $page=1;
-                $arrays[] = $_GET;
-                foreach ($arrays as $key => $value) {
-                    if (!empty($value['id'])) {
-                        $id = $value['id'];
-                    }
-                    if (!empty($value['name'])) {
-                        $name = $value['name'];
-                    }
-                    if (!empty($value['team'])) {
-                        $team = $value['team'];
-                    }
-                    if (!empty($value['role'])) {
-                        $role = $value['role'];
-                    }
-                    if (!empty($value['email'])) {
-                        $email = $value['email'];
-                    }
-                    if (!empty($value['status'])) {
-                        $status = $value['status'];
-                    }
-                    if (!empty($value['page'])) {
-                        $page = $value['page'];
-                    }
-                }
-                ?>
-                <SCRIPT LANGUAGE="JavaScript">
-                    function confirmExport(msg) {
-                        $check = confirm(msg);
-                        if($check == true){
-                            $(document).ready(function (){
-                                var ctx = document.getElementById('my_canvas').getContext('2d');
-                                var al = 0;
-                                var start = 4.72;
-                                var cw = ctx.canvas.width;
-                                var ch = ctx.canvas.height;
-                                var diff;
-                                function runTime() {
-                                    diff = ((al / 100) * Math.PI*0.2*10).toFixed(2);
-                                    ctx.clearRect(0, 0, cw, ch);
-                                    ctx.lineWidth = 3;
-                                    ctx.fillStyle = '#09F';
-                                    ctx.strokeStyle = "#09F";
-                                    ctx.textAlign = 'center';
-                                    ctx.beginPath();
-                                    ctx.arc(10, 10, 5, start, diff/1+start, false);
-                                    ctx.stroke();
-                                    if (al >= 100) {
-                                        clearTimeout(sim);
-                                        sim = null;
-                                        al=0;
-                                        $("#contain-canvas").css("visibility","hidden")
-                                        // Add scripting here that will run when progress completes
+                            </form>
+                            <script type="text/javascript">
+                                $('#myfile').bind('change', function(e) {
+                                    if(this.files[0].size > 5242880){
+                                        alert("{{trans('employee.valid5mb')}}");
+                                        document.getElementById('myfile').value = "";
                                     }
-                                    al++;
-                                }
-                                var sim = null;
-                                    $("i.fa fa-vcard").css("visibility","hidden")
-                                    $("#contain-canvas").css("visibility","visible")
-                                    sim = setInterval(runTime, 15 );
+                                    var value = $('#myfile')[0].files[0];
+                                    if(value != null){
+                                        $('#i_submit').removeClass('disabled');
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
 
-                            });
+                    <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
+                        <a href="/download-template"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
+                    </button>
+                    <?php
+                    $id = null; $name = null; $team = null; $role = null; $email = null; $statusExport = null; $page=1;
+                    $arrays[] = $_GET;
+                    foreach ($arrays as $key => $value) {
+                        if (!empty($value['id'])) {
+                            $id = $value['id'];
                         }
-                        return $check;
+                        if (!empty($value['name'])) {
+                            $name = $value['name'];
+                        }
+                        if (!empty($value['team'])) {
+                            $team = $value['team'];
+                        }
+                        if (!empty($value['role'])) {
+                            $role = $value['role'];
+                        }
+                        if (!empty($value['email'])) {
+                            $email = $value['email'];
+                        }
+                        if (!empty($value['status'])) {
+                            $statusExport = $value['status'];
+                        }
+                        if (!empty($value['page'])) {
+                            $page = $value['page'];
+                        }
                     }
-                </SCRIPT>
-                <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
-                    <a id="export"
-                       href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$status.'&page='.$page}}">
-                        <i class="fa fa-vcard"></i>
-                        <span id="contain-canvas" style="">
-                            <canvas id="my_canvas" width="16" height="16" style=""></canvas>
-                        </span>
-                        {{trans('common.button.export')}}</a>
-                </button>
-            </ol>
+                    ?>
+                    <SCRIPT LANGUAGE="JavaScript">
+                        function confirmExport(msg) {
+                            $check = confirm(msg);
+                            if($check == true){
+                                $(document).ready(function (){
+                                    var ctx = document.getElementById('my_canvas').getContext('2d');
+                                    var al = 0;
+                                    var start = 4.72;
+                                    var cw = ctx.canvas.width;
+                                    var ch = ctx.canvas.height;
+                                    var diff;
+                                    function runTime() {
+                                        diff = ((al / 100) * Math.PI*0.2*10).toFixed(2);
+                                        ctx.clearRect(0, 0, cw, ch);
+                                        ctx.lineWidth = 3;
+                                        ctx.fillStyle = '#09F';
+                                        ctx.strokeStyle = "#09F";
+                                        ctx.textAlign = 'center';
+                                        ctx.beginPath();
+                                        ctx.arc(10, 10, 5, start, diff/1+start, false);
+                                        ctx.stroke();
+                                        if (al >= 100) {
+                                            clearTimeout(sim);
+                                            sim = null;
+                                            al=0;
+                                            $("#contain-canvas").css("visibility","hidden")
+                                            // Add scripting here that will run when progress completes
+                                        }
+                                        al++;
+                                    }
+                                    var sim = null;
+                                        $("i.fa fa-vcard").css("visibility","hidden")
+                                        $("#contain-canvas").css("visibility","visible")
+                                        sim = setInterval(runTime, 15 );
+
+                                });
+                            }
+                            return $check;
+                        }
+                    </SCRIPT>
+                    <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
+                        <a id="export"
+                           href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">
+                            <i class="fa fa-vcard"></i>
+                            <span id="contain-canvas" style="">
+                                <canvas id="my_canvas" width="16" height="16" style=""></canvas>
+                            </span>
+                            {{trans('common.button.export')}}</a>
+                    </button>
+                </ol>
+            </div>
         </section>
 
             <div id="msg">
@@ -296,23 +169,147 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
+                        <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
                         <div class="box-body">
                             <div>
-                                    <div class="dataTables_length" id="project-list_length" style="float:right">
-                                        <label>{{trans('pagination.show.number_record_per_page')}}
-                                            {!! Form::select(
-                                                'select_length',
-                                                getArraySelectOption() ,
-                                                null ,
-                                                [
-                                                'id'=>'select_length',
-                                                'class' => 'form-control input-sm',
-                                                'aria-controls'=>"project-list"
-                                                ]
-                                                )
-                                             !!}
-                                        </label>
-                                    </div>
+                                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
+                                    <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
+                                </button>
+                                <div id="demo" class="collapse">
+                                    <form method="get" role="form" id="form_search_employee">
+                                        <!-- Modal content-->
+                                        <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                                               value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                        <div class="input-group margin">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.id')}}</button>
+                                                            </div>
+                                                            {{ Form::text('id', old('id'),
+                                                                ['class' => 'form-control',
+                                                                'id' => 'employeeId',
+                                                                'autofocus' => false,
+                                                                ])
+                                                            }}
+                                                        </div>
+                                                        <div class="input-group margin">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
+                                                            </div>
+                                                            {{--<input type="text" name="name" id="nameEmployee" class="form-control">--}}
+                                                            {{ Form::text('name', old('name'),
+                                                                ['class' => 'form-control',
+                                                                'id' => 'nameEmployee',
+                                                                'autofocus' => false,
+                                                                ])
+                                                            }}
+                                                        </div>
+                                                        <div class="input-group margin">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
+                                                            </div>
+                                                            <select name="team" id="team_employee" class="form-control">
+                                                                {{--@if(!empty($_GET['team']))
+                                                                    <option selected="selected" {{'hidden'}}  value="">
+                                                                        {{$_GET['team']}}
+                                                                    </option>
+                                                                @else
+                                                                    <option selected="selected" value="">
+                                                                    {{  trans('employee.drop_box.placeholder-default') }}
+                                                                @endif--}}
+                                                                    <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                    </option>
+                                                                @foreach($teams as $team)
+                                                                    <option value="{{ $team->name}}" {{ (string)$team->name===request('team')?'selected="selected"':'' }}>
+                                                                        {{ $team->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                        <div class="input-group margin">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.email')}}</button>
+                                                            </div>
+                                                            {{--<input type="text" name="email" id="emailEmployee" class="form-control">--}}
+                                                            {{ Form::text('email', old('email'),
+                                                                ['class' => 'form-control',
+                                                                'id' => 'emailEmployee',
+                                                                'autofocus' => false,
+                                                                ])
+                                                            }}
+                                                        </div>
+                                                        <div class="input-group margin">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.role')}}</button>
+                                                            </div>
+                                                            <select name="role" id="role_employee" class="form-control">
+                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                </option>
+                                                                @foreach($roles as $role)
+                                                                    <option value="{{ $role->name}}"{{ (string)$role->name===request('role')?'selected="selected"':'' }}>
+                                                                        {{ $role ->name}}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="input-group margin">
+                                                            <div class="input-group-btn">
+                                                                <button type="button"
+                                                                        class="btn width-100">{{trans('employee.profile_info.status')}}</button>
+                                                            </div>
+                                                            <select name="status" id="status" class="form-control">
+                                                                <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
+                                                                    {{  trans('employee.drop_box.placeholder-default') }}
+                                                                </option>
+
+                                                                @foreach($status as $key => $value)
+                                                                    <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
+                                                                        {{ $value }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer center">
+                                                <button id="btn_reset_employee" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                                    {{trans('common.button.reset')}}
+                                                </button>
+                                                <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
+                                                            class="fa fa-search"></span>
+                                                    {{trans('common.button.search')}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="dataTables_length" id="project-list_length" style="float:right">
+                                    <span>{{trans('pagination.show.number_record_per_page')}}</span>
+                                    {!! Form::select(
+                                        'select_length',
+                                        getArraySelectOption() ,
+                                        null ,
+                                        [
+                                        'id'=>'select_length',
+                                        'class' => 'form-control input-sm',
+                                        'aria-controls'=>"project-list"
+                                        ]
+                                        )
+                                     !!}
+                                    
+                                </div>
                             </div>
                             <script>
                                 (function () {

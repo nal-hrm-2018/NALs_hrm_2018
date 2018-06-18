@@ -6,55 +6,55 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li>
           <a href="{{route('dashboard-user')}}">
-            <i class="fa fa-dashboard"></i> <span>{{trans('common.path.dashboard')}}</span>
+            <i class="fa fa-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>{{trans('common.path.employee')}}</span>
+            <i class="fa fa-users"></i> <span>{{trans('leftbar.nav.employee')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.list')}}</a></li>
-            <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.add')}}</a></li>
+            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.employee')}}</a></li>
+            <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.employee')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-handshake-o"></i> <span>{{trans('common.path.vendor')}}</span>
+            <i class="fa fa-handshake-o"></i> <span>{{trans('leftbar.nav.vendor')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.list')}}</a></li>
-            <li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.add')}}</a></li>
+            <li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.vendor')}}</a></li>
+            <li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.vendor')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>{{trans('common.path.team')}}</span>
+            <i class="fa fa-heartbeat"></i> <span>{{trans('leftbar.nav.team')}}</span>
               <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.list')}}</a></li>
-            <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.add')}}</a></li>
+            <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.team')}}</a></li>
+            <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.team')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-diamond"></i> <span>{{trans('common.path.project')}}</span>
+            <i class="fa fa-diamond"></i> <span>{{trans('leftbar.nav.project')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.list')}}</a></li>
-            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i> {{trans('common.path.add')}}</a></li>
+            <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.project')}}</a></li>
+            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.project')}}</a></li>
           </ul>
         </li>
                 

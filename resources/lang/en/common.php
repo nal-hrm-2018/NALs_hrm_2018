@@ -36,7 +36,8 @@ return [
         'import' => 'IMPORT',
         'export' => 'EXPORT',
         'template' => 'TEMPLATE',
-        'edit_password'=>'EDIT PASSWORD'
+        'edit_password'=>'EDIT PASSWORD',
+        'back' => 'BACK',
     ],
 
     'title_form' => [
@@ -45,7 +46,7 @@ return [
     'title_header'=>[
         'employee_detail'=>'Employee Detail',
         'vendor_list'=>'Vendor List',
-        'nal_solution' =>'Nal solution'
+        'nal_solution' =>'Nal solutions'
     ],
     'path'=>[
         'dashboard'=>'Dashboard',

@@ -31,7 +31,8 @@ return [
         'import' => 'NHẬP',
         'export' => 'XUẤT',
         'template' => 'FILE MẪU',
-        'edit_password'=>'ĐỔI MẬT KHẨU'
+        'edit_password'=>'ĐỔI MẬT KHẨU',
+        'back' => 'QUAY LẠI',
     ],
 
     'title_form' => [
@@ -40,7 +41,7 @@ return [
     'title_header'=>[
         'employee_detail'=>'Thông Tin Nhân Viên',
         'vendor_list'=>'Danh Sách Nhân Viên Ngoài',
-        'nal_solution' =>'Nal solution'
+        'nal_solution' =>'Nal solutions'
     ],
     'path'=>[
         'dashboard'=>'Trang Chủ',

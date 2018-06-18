@@ -1,4 +1,4 @@
-<div id="myModal" class="modal fade">
+<div id="demo" class="collapse">
     <div class="modal-dialog">
     {!! Form::open(
     ['url' =>route('vendors.show',$vendor->id),
@@ -8,7 +8,6 @@
     <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
             </div>
             @include('employee._form_search_process')

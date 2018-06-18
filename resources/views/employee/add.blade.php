@@ -43,7 +43,7 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-md-6">
-                                <!-- /.form-group -->
+                                <!-- /.form-group -->  
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.email')}}<strong style="color: red">(*)</strong></label>
                                     <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.email')}}" name="email"
