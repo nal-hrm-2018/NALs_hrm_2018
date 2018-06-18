@@ -24,8 +24,8 @@ function checkDupeMember(employee_id_selected, employee_name_selected, start_dat
         var start_date_processes = $('.start_date_process');
         var end_date_processes = $('.end_date_process');
 
-        var start_date_process_selected = new Date(start_date_process_selected);
-        var end_date_process_selected = new Date(end_date_process_selected);
+         start_date_process_selected = new Date(start_date_process_selected);
+         end_date_process_selected = new Date(end_date_process_selected);
         if (employees && employees.length) {
             for (var i = 0; i < employees.length; i++) {
                 if($(delete_flags[i]).val()!=='0'){
@@ -37,9 +37,12 @@ function checkDupeMember(employee_id_selected, employee_name_selected, start_dat
                     if (end_date_process_selected < start_date_process || end_date_process < start_date_process_selected) {
                         continue;
                     }
-                    var string_error = employee_name_selected + " ( id: " + employee_id_selected + " )" + " Can't add because " +
-                        " from : " + formatDate($(start_date_processes[i]).val(),'d/m/Y') +
-                        " to: " + formatDate($(end_date_processes[i]).val(),'d/m/Y') + " you be added to this project";
+                    var string_error =
+                        lang.getString('error_duplicate_member', [
+                            employee_name_selected, employee_id_selected,
+                            formatDate($(start_date_processes[i]).val(), 'd/m/Y'),
+                            formatDate($(end_date_processes[i]).val(), 'd/m/Y'),
+                        ]);
                     $('#list_error').html('');
                     $('#list_error').css('display', 'block');
                     $(document).scrollTop($("#list_error").offset().top);
@@ -81,9 +84,13 @@ function checkPOProcess(employee_role_selected, employee_name_selected, employee
                         if (end_date_process_selected < start_date_process || end_date_process < start_date_process_selected) {
                             continue;
                         }
-                        var string_error = employee_name_selected + " ( id: " + employee_id_selected + " )" + " Can't be PO because " +
-                            " from : " + formatDate($(start_date_processes[i]).val(),'d/m/Y') + " to: "
-                            + formatDate($(end_date_processes[i]).val(),'d/m/Y') + " has PO is " + $(employee_names[i]).text();
+                        var string_error =
+                            lang.getString('error_P0_process', [
+                                employee_name_selected, employee_id_selected,
+                                formatDate($(start_date_processes[i]).val(), 'd/m/Y'),
+                                formatDate($(end_date_processes[i]).val(), 'd/m/Y'),
+                                $(employee_names[i]).text()
+                            ]);
                         $('#list_error').html('');
                         $('#list_error').css('display', 'block');
                         $(document).scrollTop($("#list_error").offset().top);
@@ -95,8 +102,13 @@ function checkPOProcess(employee_role_selected, employee_name_selected, employee
             return false;
         }
     }
-    return false;
+    else{
+        return false;
+    }
+
 }
+
+
 
 
 function getEstimateCost(date1, date2, man_power) {
@@ -151,9 +163,6 @@ function reopenAjax(url, token) {
         },
         success: function (json) {
             if (json.hasOwnProperty('msg_success')) {
-                // $(document).ready(function (event) {
-                //     enableAll();
-                // }
                 enableAll();
                 $('#end_date_project').val('');
                 alert(json['msg_success']);
@@ -218,32 +227,34 @@ function requestAjax(url, token) {
 
         },
         success: function (json) {
-            $('#table_add tr').css('background', 'none');
-            if (json.hasOwnProperty('available_processes')) {
-                $(document).scrollTop($("#list_error").offset().top);
-                var errors = '';
-                console.log(json);
-                $('#list_error').html('');
-                $.each(json[0], function (key, value) {
-                    if (value && value.length && value[0] !== '') {
-                        errors += "<strong>Error!</strong> " + value + "<br>";
-                    }
-                });
-                if (json['available_processes'] && json['available_processes'].length) {
-                    var string_available_processes = '';
-                    $.each(json['available_processes'], function (key, value) {
-                        string_available_processes +=
-                            " Project id: " + value['project_id'] + ", " +
-                            " Man power: " + value['man_power'] + ", " +
-                            " Start date: " + formatDate(value['start_date'], 'd/m/Y') + ", " +
-                            " End date: " + formatDate(value['end_date'], 'd/m/Y') + "<br>";
+                $('#table_add tr').css('background', 'none');
+                if (json.hasOwnProperty('available_processes')) {
+                    $(document).scrollTop($("#list_error").offset().top);
+                    var errors = '';
+                    console.log(json);
+                    $('#list_error').html('');
+                    $.each(json[0], function (key, value) {
+                            $.each(value,function (key1,value1) {
+                                if (value1 && value1.length) {
+                                    errors = errors + "<strong>"+lang.getString('error')+"!</strong> " + value1 + "<br>";
+                                }
+                            })
                     });
-                    var string_total = "You can view suggest information of this employee : <br>" + string_available_processes;
-                    $('#list_error').prepend(string_total);
+                    if (json['available_processes'] && json['available_processes'].length) {
+                        var string_available_processes = '';
+                        $.each(json['available_processes'], function (key, value) {
+                            string_available_processes +=
+                                lang.getString("id")+": " + value['project_id'] + ", " +
+                                lang.getString("man_power")+": " + value['man_power'] + ", " +
+                                lang.getString("process_start_date")+": " + formatDate(value['start_date'], 'd/m/Y') + ", " +
+                                lang.getString("process_end_date")+": " + formatDate(value['end_date'], 'd/m/Y') + "<br>";
+                        });
+                        var string_total = lang.getString("error_available_processes")+" : <br>" + string_available_processes;
+                        $('#list_error').prepend(string_total);
+                    }
+                    $('#list_error').css('display', 'block');
+                    $('#list_error').prepend(errors);
                 }
-                $('#list_error').css('display', 'block');
-                $('#list_error').prepend(errors);
-            }
 
             if (json.hasOwnProperty('msg_success')) {
                 $('#list_error').html('');
@@ -429,7 +440,7 @@ function disableAll() {
     $("#description").attr("disabled","disabled");
     $("#status").attr("disabled","disabled");
     $("#btn_reset_form_project").attr("disabled","disabled");
-    $("#btn_submit_form_add_project").attr("disabled","disabled");
+    $("#btn_submit_form_edit_project").attr("disabled","disabled");
     $("#employee_id").attr("disabled","disabled");
     $("#man_power").attr("disabled","disabled");
     $("#role").attr("disabled","disabled");
@@ -452,7 +463,7 @@ function enableAll() {
     $("#status").removeAttr("disabled");
     $("#status").val('');
     $("#btn_reset_form_project").removeAttr("disabled");
-    $("#btn_submit_form_add_project").removeAttr("disabled");
+    $("#btn_submit_form_edit_project").removeAttr("disabled");
     $('#warning-message').css('display','none');
     $('#btn_reopen_project').parent().closest('div').remove();
     $("#employee_id").removeAttr("disabled");

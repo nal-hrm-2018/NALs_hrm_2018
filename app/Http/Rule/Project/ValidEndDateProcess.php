@@ -81,7 +81,7 @@ class ValidEndDateProcess implements Rule
                 if ($start_date_process->gte($real_start_date_project) && $end_date_process->lte($real_end_date_project)) {
                     return true;
                 } else {
-                    $this->message = "The start date process and end date process must be between real start date project and real end date project.";
+                    $this->message = trans('validation.custom.end_date_project.start_date_end_date_process_must_between_real_start_end');
                     return false;
                 }
             } else {
@@ -90,7 +90,7 @@ class ValidEndDateProcess implements Rule
                 if ($start_date_process->gte($real_start_date_project) && $end_date_process->lte($estimate_end_date_project)) {
                     return true;
                 } else {
-                    $this->message = "The start date process and end date process must be between real start date project and estimate end date project.";
+                    $this->message = trans('validation.custom.end_date_project.start_date_end_date_process_must_between_real_start_estimate_end');
                     return false;
                 }
             }
@@ -105,7 +105,7 @@ class ValidEndDateProcess implements Rule
                 if ($start_date_process->gte($estimate_start_date_project) && $end_date_process->lte($estimate_end_date_project)) {
                     return true;
                 } else {
-                    $this->message = "The start date process and end date process must be between estimate start date project and estimate end date project.";
+                    $this->message = trans('validation.custom.end_date_project.start_date_end_date_process_must_between_estimate_start_estimate_end');
                     return false;
                 }
             }

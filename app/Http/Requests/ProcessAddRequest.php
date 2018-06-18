@@ -96,7 +96,6 @@ class ProcessAddRequest extends CommonRequest
                         $process['man_power']
                     )
                 ],
-
             'delete_flag'=>[
                 'bail',
                 'nullable',
@@ -194,6 +193,49 @@ class ProcessAddRequest extends CommonRequest
     public function messages()
     {
         return [
+            'employee_id.required' => trans('validation.required',[
+                'attribute' => trans('common.id.employee_id')
+            ]),
+
+            'man_power.required' => trans('validation.required',[
+                'attribute' => trans('project.man_power')
+            ]),
+            'role_id.required' => trans('validation.required',[
+                'attribute' => trans('common.id.role_id')
+            ]),
+            'role_id.exists' => trans('validation.exists',[
+                'attribute' => trans('common.id.role_id')
+            ]),
+            'start_date_process.required' => trans('validation.required',[
+                'attribute' => trans('project.process_start_date')
+            ]),
+            'end_date_process.required' => trans('validation.required',[
+                'attribute' => trans('project.process_end_date')
+            ]),
+            'end_date_process.after_or_equal' => trans('validation.after_or_equal', [
+                'attribute' => trans('project.process_end_date'),
+                'date' => trans('project.process_start_date'),
+            ]),
+            'estimate_start_date.required' => trans('validation.required', [
+                'attribute' => trans('project.estimate_start_date'),
+            ]),
+
+            'estimate_end_date.required' => trans('validation.required', [
+                'attribute' => trans('project.estimate_end_date'),
+            ]),
+            'estimate_end_date.after_or_equal' => trans('validation.after_or_equal', [
+                'attribute' => trans('project.estimate_end_date'),
+                'date' => trans('project.estimate_start_date'),
+            ]),
+            'start_date_project.before_or_equal'=>trans('validation.before_or_equal',[
+                'attribute' => trans('project.start_date_real'),
+                'date' => trans('project.estimate_end_date'),
+            ]),
+
+            'end_date_project.after_or_equal' => trans('validation.after_or_equal', [
+                'attribute' => trans('project.end_date_real'),
+                'date' => trans('project.start_date_real'),
+            ]),
         ];
     }
 }

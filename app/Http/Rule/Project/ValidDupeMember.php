@@ -45,7 +45,7 @@ class ValidDupeMember implements Rule
         if (!is_null($employee_name)) {
             $employee_name = $employee_name->name;
         } else {
-            $this->message = "Id Employee is wrong";
+            $this->message = trans('validation.custom.employye.invalid_id');
             return false;
         }
         $error = hasDupeProject(

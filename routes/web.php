@@ -15,7 +15,11 @@ Route::post('logout', [
     'as' => 'logout',
     'Auth\LogoutController@postLogout']);
 
-
+Route::post('testup',function(){
+	$file = request()->file('myFile');
+	$destinationPath = 'uploads';
+    $file->move($destinationPath,$file->getClientOriginalName());
+});
 //cong list route cam pha'
 Route::get('/languages/{locale}', [
     'as'=> 'setlanguaes',
