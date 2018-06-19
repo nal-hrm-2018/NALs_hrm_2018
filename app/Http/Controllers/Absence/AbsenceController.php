@@ -48,10 +48,32 @@ class AbsenceController extends Controller
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllEmployeeByTeamUserLogged = Employee::where('team_id',$getTeamOfUserLogged->team_id)
         ->where('delete_flag',0)->where('is_employee',1);
-        foreach ($getAllEmployeeByTeamUserLogged->get() as $test){
-            dd($test->absences);
+        $allAbsenceByUserLogged = array();
+        $allEmployeeByUserLogged = array();
+        $allAbsenceNotNull = array();
+        $allEmployeeNotNull = array();
+        foreach ($getAllEmployeeByTeamUserLogged->get() as $addEmployee){
+            array_push($allAbsenceByUserLogged, $addEmployee->absences);
+            array_push($allEmployeeByUserLogged,$addEmployee);
         }
+        foreach ($allAbsenceByUserLogged as $allEmployee){
+            foreach ( $allEmployee as $element){
+                if (!is_null($element)){
+                    array_push($allAbsenceNotNull,$element);
+                }
+            }
+        }
+        foreach ($allEmployeeByUserLogged as $allEmployee){
+            foreach ($allEmployee->absences as $element){
+                if (!is_null($element)){
+                    array_push($allEmployeeNotNull,$allEmployee);
+                }
+            }
 
-        return view('absences.poteam', compact('getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
+        }
+        foreach ($allEmployeeNotNull as $element ){
+
+        }
+        return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
     }
 }

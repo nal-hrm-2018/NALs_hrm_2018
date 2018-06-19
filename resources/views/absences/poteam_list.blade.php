@@ -64,9 +64,29 @@
             </tr>
             </thead>
             <tbody class="context-menu">
-                <tr>
-                    <td></td>
-                </tr>
+            <?php
+            foreach ($allEmployeeNotNull as $element) {
+                echo "<tr>";
+                echo "<td>" . $element['name'] . "</td>";
+                echo "<td>" . $element['email'] . "</td>";
+                echo "<td>" .date('d/m/Y h:i:s',strtotime($element->absences[0]->from_date)) . "</td>";
+                echo "<td>" .date('d/m/Y h:i:s',strtotime($element->absences[0]->to_date)) . "</td>";
+//                echo "<td>" . $element->absences[0]->from_date . "</td>";
+//                echo "<td>" . $element->absences[0]->to_date . "</td>";
+                echo "<td>" . $element->absences[0]->absence_type_id . "</td>";
+                echo "<td>" . $element->absences[0]->reason . "</td>";
+                echo "<td>" . $element->absences[0]->description . "</td>";
+                echo "<td>
+<button class='btn btn-success'>Đồng ý</button>
+<button class='btn btn-default'>Từ chối</button>
+</td>";
+                echo "<td></td>";
+                echo "</tr>";
+            }
+            ?>
+            <?php
+
+            ?>
             </tbody>
         </table>
     </div>
