@@ -111,5 +111,15 @@ class Employee extends Model implements
     public function roles(){
         return $this->belongsToMany('App\Models\Role', 'processes', 'employee_id', 'role_id');
     }
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function absences()
+    {
+        return $this->hasMany('App\Models\Absence')->where('delete_flag', '=', 0);
+    }
+    public function confirms()
+    {
+        return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);
+    }
 }
