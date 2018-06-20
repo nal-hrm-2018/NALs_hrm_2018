@@ -1,20 +1,21 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature\Absences;
 
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ExampleTest extends TestCase
+class GetData extends TestCase
 {
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testExample()
     {
-        $response = $this->get('/ádfasfasfas');
+        $response = $this->get('/');
 
         $response->assertStatus(200);
     }

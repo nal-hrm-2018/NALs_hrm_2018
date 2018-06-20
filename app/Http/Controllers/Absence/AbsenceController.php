@@ -68,15 +68,16 @@ class AbsenceController extends Controller
         }
         foreach ($allEmployeeByUserLogged as $allEmployee){
             foreach ($allEmployee->absences as $element){
-                if (!is_null($element)){
+                if (!is_null($element) ){
                     array_push($allEmployeeNotNull,$allEmployee);
                 }
             }
-
         }
-        foreach ($allEmployeeNotNull as $element ){
 
-        }
         return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
+    }
+    public function denyPOTeam(Request $request){
+        dd($request->reason);
+        return redirect()->route('absence-po');
     }
 }
