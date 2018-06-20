@@ -4,12 +4,24 @@ namespace App\Http\Controllers\Absence;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\AbsenceStatus;
+use App\Models\AbsenceType;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class AbsenceController extends Controller
 {
-    public function edit($id)
+    public function __construct(){
+
+    }
+    public function index(Request $request){
+
+    }
+
+    public function create($id)
     {
-        $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
+        $employee = Employee::where('delete_flag', 0)->where('is_employee', 1)->find($id);
         if ($employee == null) {
             return abort(404);
         }
@@ -21,16 +33,68 @@ class AbsenceController extends Controller
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
             ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
-            ->whereIn('processes.project_id', function($query) use($id)
-            {
+            ->whereIn('processes.project_id', function ($query) use ($id) {
                 $query->select('project_id')
                     ->from('processes')
-                    ->where('employee_id','=',$id);
+                    ->where('employee_id', '=', $id);
             })
             ->WHERE('employees.delete_flag', '=', 0)
             ->WHERE('roles.name', 'like', 'po')
             ->get()->toArray();
 
-        return view('formVangNghi', ['objPO' => $objPO,'objEmployee' => $objEmployee]);
+        return view('formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee]);
+    }
+
+    public function store(Request $request){
+
+    }
+    public function show($id, Request $request){
+
+    }
+    public function edit($id){
+
+    }
+    public function update(Request $request, $id){
+
+    }
+    public function destroy($id, Request $request){
+
+    }
+
+    // function create by Quy.
+    public function showListAbsence(){
+        $getIdUserLogged = Auth::id();
+        $getTeamOfUserLogged = Employee::find($getIdUserLogged);
+        $getAllAbsenceType = AbsenceType::all();
+        $getAllAbsenceStatus = AbsenceStatus::all();
+        $getAllEmployeeByTeamUserLogged = Employee::where('team_id',$getTeamOfUserLogged->team_id)
+        ->where('delete_flag',0)->where('is_employee',1);
+        $allAbsenceByUserLogged = array();
+        $allEmployeeByUserLogged = array();
+        $allAbsenceNotNull = array();
+        $allEmployeeNotNull = array();
+        foreach ($getAllEmployeeByTeamUserLogged->get() as $addEmployee){
+            array_push($allAbsenceByUserLogged, $addEmployee->absences);
+            array_push($allEmployeeByUserLogged,$addEmployee);
+        }
+        foreach ($allAbsenceByUserLogged as $allEmployee){
+            foreach ( $allEmployee as $element){
+                if (!is_null($element)){
+                    array_push($allAbsenceNotNull,$element);
+                }
+            }
+        }
+        foreach ($allEmployeeByUserLogged as $allEmployee){
+            foreach ($allEmployee->absences as $element){
+                if (!is_null($element)){
+                    array_push($allEmployeeNotNull,$allEmployee);
+                }
+            }
+
+        }
+        foreach ($allEmployeeNotNull as $element ){
+
+        }
+        return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
     }
 }
