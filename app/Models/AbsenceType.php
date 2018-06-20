@@ -23,6 +23,7 @@ class AbsenceType extends Model
 
     public $table = 'absence_types';
     protected $fillable = [
+        'id',
         'name',
         'description',
         'updated_at', 'updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
