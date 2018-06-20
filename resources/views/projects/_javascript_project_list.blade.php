@@ -60,6 +60,44 @@
 {{--javascript validation form search--}}
 <script type="text/javascript">
     $(function () {
+        var language = $('#language_active').attr('lang');
+        lang.init("project", language, function () {
+            $('#form_search_project').on('submit', function () {
+                $('#error_number').empty('');
+                $('#error_project_date').empty();
+                $('#error_project_date_real').empty();
+                var project_name = document.getElementById("project_name").value;
+                var project_po_name = document.getElementById("project_po_name").value;
+                var project_name_member = document.getElementById("project_name_member").value;
+
+                var project_date_from = document.getElementById("project_date_from").value;
+                var project_date_to = document.getElementById("project_date_to").value;
+                var project_date_real_from = document.getElementById("project_date_real_from").value;
+                var project_date_real_to = document.getElementById("project_date_real_to").value;
+
+                var project_number_to = document.getElementById("project_number_to").value;
+                var project_number_from = document.getElementById("project_number_from").value;
+
+                var check = true;
+                if ((project_number_from > project_number_to) && (project_number_to != "")) {
+                    document.getElementById("error_number").innerHTML = lang.getString('error_number_form_ascending_order');
+                    check = false;
+                }
+                if (project_number_from < 0 || project_number_to < 0) {
+                    document.getElementById("error_number").innerHTML = lang.getString('error_number_form_larger_zero');
+                    check = false;
+                }
+                if ((project_date_from > project_date_to) && (project_date_to != "")) {
+                    document.getElementById("error_project_date").innerHTML = lang.getString('error_project_date_end_after_start_est_date');
+                    check = false;
+                }
+                if ((project_date_real_from > project_date_real_to) && (project_date_to != "")) {
+                    document.getElementById("error_project_date_real").innerHTML = lang.getString('error_project_date_end_after_start_real_date');
+                    check = false;
+                }
+                return check;
+            });
+        });
         $("#btn_reset_edit_password").on("click", function () {
             $("#project_id").val('');
             $("#project_name").val('');
@@ -78,41 +116,7 @@
             $("#error_project_date_real").empty();
         });
     });
-    function validate(){
-        $('#error_number').empty('');
-        $('#error_project_date').empty();
-        $('#error_project_date_real').empty();
-        var project_name = document.getElementById("project_name").value;
-        var project_po_name = document.getElementById("project_po_name").value;
-        var project_name_member = document.getElementById("project_name_member").value;
 
-        var project_date_from = document.getElementById("project_date_from").value;
-        var project_date_to = document.getElementById("project_date_to").value;
-        var project_date_real_from = document.getElementById("project_date_real_from").value;
-        var project_date_real_to = document.getElementById("project_date_real_to").value;
-
-        var project_number_to = document.getElementById("project_number_to").value;
-        var project_number_from = document.getElementById("project_number_from").value;
-
-        var check = true;
-        if ((project_number_from > project_number_to) && ( project_number_to != "")){
-            document.getElementById("error_number").innerHTML = "Error. Number in member must be in ascending order.";
-            check = false;
-        }
-        if (project_number_from < 0 || project_number_to < 0){
-            document.getElementById("error_number").innerHTML = "Error. Number in member must be larger than 0.";
-            check = false;
-        }
-        if ((project_date_from > project_date_to) && ( project_date_to != "")){
-            document.getElementById("error_project_date").innerHTML = "Error. The End date project must be a date after Start date project.";
-            check = false;
-        }
-        if ( (project_date_real_from > project_date_real_to)  && ( project_date_to != "")){
-            document.getElementById("error_project_date_real").innerHTML = "Error. The End date real project must be a date after Start date real project.";
-            check = false;
-        }
-        return check;
-    }
 </script>
 
 

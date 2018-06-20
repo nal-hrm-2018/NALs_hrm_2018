@@ -19,7 +19,7 @@
             <ol class="breadcrumb">
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
                     </a></li>
-                <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendors')}}</a></li>
+                <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendor')}}</a></li>
                 <li class="active"><a href="javascript:void(0)">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
@@ -143,7 +143,7 @@
                             _token: '{{csrf_token()}}',
                         },
                         success: function (msg) {
-                            alert("Remove " + msg.status);
+                            alert(msg.status);
                             var fade = "employee-id-" + msg.id;
                             $('ul.contextMenu[data-employee-id="' + msg.id + '"').hide()
                             var fadeElement = $('#' + fade);

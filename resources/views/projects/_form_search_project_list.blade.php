@@ -1,6 +1,6 @@
 <div id="demo" class="collapse" role="dialog">
             <div class="modal-dialog">
-                <form method="get" role="form" id="form_search_employee" onsubmit="return validate();">
+                <form method="get" role="form" id="form_search_project" >
                     <!-- Modal content-->
                     <input id="number_record_per_page" type="hidden" name="number_record_per_page"
                            value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
@@ -28,7 +28,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_project_id"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Project Name</button>
+                                            <button type="button" class="btn width-100">{{trans('project.project_name')}}</button>
                                         </div>
                                         {{--<input type="text" name="name" id="project_name" class="form-control"
                                                value="{{!empty(request('name'))?request('name'):null}}"/>--}}
@@ -42,7 +42,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_project_name"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">PO Name</button>
+                                            <button type="button" class="btn width-100">{{trans('project.po')}}</button>
                                         </div>
                                         {{--<input type="text" name="po_name" id="project_po_name" class="form-control"--}}
                                                {{--value="{{!empty(request('po_name'))?request('po_name'):null}}"/>--}}
@@ -56,7 +56,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_po_name"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                          <button type="button" class="btn width-100">Employee Name</button>
+                                          <button type="button" class="btn width-100">{{trans('project.members')}}</button>
                                         </div>
                                         {{--<input type="text" name="name_member" id="project_name_member" class="form-control"--}}
                                         {{--value="{{!empty(request('name_member'))?request('name_member'):null}}"/>--}}
@@ -79,7 +79,7 @@
 
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Members</button>
+                                            <button type="button" class="btn width-100">{{trans('project.number_of_member')}}</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -107,7 +107,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_number"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Estimate Date</button>
+                                            <button type="button" class="btn width-100">{{trans('project.estimate_date')}}</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -135,7 +135,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_project_date"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Real Date</button>
+                                            <button type="button" class="btn width-100">{{trans('project.real_date')}}</button>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -163,7 +163,7 @@
                                     <label style="color: red; margin-left: 130px;" id="error_project_date_real"></label>
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn width-100">Status</button>
+                                            <button type="button" class="btn width-100">{{trans('project.status')}}</button>
                                         </div>
                                         <select name="status" id="project_status" class="form-control">
                                             <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
@@ -184,11 +184,11 @@
                         <div class="modal-footer center">
                             <button id="btn_reset_edit_password" type="button" class="btn btn-default"><span
                                         class="fa fa-refresh"></span>
-                                RESET
+                                {{trans('common.button.reset')}}
                             </button>
                             <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
                                         class="fa fa-search"></span>
-                                SEARCH
+                                {{trans('common.button.search')}}
                             </button>
                         </div>
                     </div>

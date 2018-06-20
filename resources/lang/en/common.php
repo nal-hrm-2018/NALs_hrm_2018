@@ -25,6 +25,7 @@ return [
 
     'confirm_message'=>[
         'add_action'=>'Do you want to add?',
+        'reset_form'=>'Do you want reset all field in form ?'
     ],
 
     'button' => [
@@ -32,16 +33,23 @@ return [
         'search' => 'SEARCH',
         'add' => 'ADD',
         'save' => 'SAVE',
-        'update' => 'UPDATE'
+        'update' => 'UPDATE',
+        'reopen'=> 'Reopen',
+        'back' => 'BACK',
+        'input'=>'Input',
+        'view'=>'View'
     ],
 
     'title_form' => [
         'form_search' => 'Search Form'
     ],
     'title_header'=>[
+        'project_list'=> 'Project List',
         'employee_detail'=>'Employee Detail',
         'vendor_list'=>'Vendor List',
-        'nal_solution' =>'Nal solution'
+        'nal_solution' =>'Nal solutions',
+        'project_detail'=>'Project Detail',
+        'absence_detail'=>'Absence List'
     ],
     'path'=>[
         'home'=>'Home',
@@ -49,6 +57,8 @@ return [
         'vendor'=>'Vendor',
         'vendors'=>'Vendors',
         'team' => 'Teams',
+        'projects'=>'Projects',
+        'absence'=>'Absence',
         'list' => 'List',
         'detail'=>'Detail',
         'add_project'=>'Add project',
@@ -59,5 +69,15 @@ return [
         'edit'=>'Edit',
         'remove'=>'Remove'
     ],
-
+    'error'=>'Error',
+    'warning' => 'Warning',
+    'warning_content' => [
+        'warning_reopen' => ' This Project finished !! if you want edit it ,please click button Reopen .'
+    ],
+    'id'=>[
+        'employee_id'=>'Employee Id',
+        'role_id'=>'Role Id'
+    ],
+    'cv'=>'CV',
+    'performance'=>'Performance',
 ];

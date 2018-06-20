@@ -13,12 +13,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Vendor List
-                <small>Nal solution</small>
+                {{trans('common.title_header.vendor_list')}}
+                <small>{{trans('common.title_header.nal_solution')}}</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Vendor</a></li>
-                <li><a href="#">List</a></li>
+                <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
+                    </a></li>
+                <li><a href="{{route('vendors.index')}}">{{trans('common.path.vendor')}}</a></li>
+                <li class="active"><a href="javascript:void(0)">{{trans('common.path.list')}}</a></li>
             </ol>
         </section>
 
@@ -27,10 +29,10 @@
             <div>
                 <button type="button" class="btn btn-default">
                     @if($listError == null && $colError == null)
-                        <a href="{{ asset('vendors/importVendor?urlFile='.$urlFile)}}"><i class="fa fa-user-plus"></i> IMPORT</a>
+                        <a href="{{ asset('vendors/importVendor?urlFile='.$urlFile)}}"><i class="fa fa-user-plus"></i>{{trans('vendor.import.import')}}</a>
                     @endif
                     @if($listError != null || $colError != null)
-                        <a href="{{ asset('vendors')}}"><i class="fa fa-user-plus"></i> BACK</a>
+                        <a href="{{ asset('vendors')}}"><i class="fa fa-arrow-circle-left"></i> {{trans('common.button.back')}}</a>
                     @endif
                 </button>
             </div>
@@ -42,7 +44,7 @@
                 <?php
                     echo '<div>
                         <ul class=\'error_msg1\'>
-                            <li><h4>Sorry. CSV file you are error. Please correct the errors below in the CSV file. Then upload the file again.</h4></li>
+                            <li><h4>'.trans('vendor.import.error.upload_again').'</h4></li>
                         '
                         .$listError.'</ul>
                     </div>';
@@ -50,7 +52,7 @@
                 <div class="row note" style="margin-left: 1px; margin-right: 1px;">
                     <h4>NOTE:</h4>
                     <div class="col-xs-4">
-                        <h5>There are the following roles:</h5>
+                        <h5>{{trans('vendor.import.error.follow-role')}}</h5>
                         <ul>
                             @foreach($dataRoles as $dataRoles)
                                 <li>
@@ -60,7 +62,7 @@
                         </ul>
                     </div>
                     <div class="col-xs-4">
-                        <h5>There are the following employee type:</h5>
+                        <h5>{{trans('vendor.import.error.follow-type')}}</h5>
                         <ul>
                             @foreach($dataEmployeeTypes as $dataEmployeeTypes)
                                 <li>
@@ -77,7 +79,7 @@
             if (strlen($colError) > 0) {
                 echo '<div class="content" style="height:500px; overflow: auto;">
                     <ul class=\'error_msg1\'>
-                        <li><h4>Sorry. CSV file you are error. Please correct the errors below in the CSV file. Then upload the file again.</h4></li>
+                        <li><h4>'.trans('vendor.import.error.upload_again').'</h4></li>
                     '
                     .$colError.'</ul>
                 </div>';

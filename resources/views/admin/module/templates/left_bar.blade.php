@@ -6,55 +6,67 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li>
           <a href="{{route('dashboard-user')}}">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Employee</span>
+            <i class="fa fa-users"></i> <span>{{trans('leftbar.nav.employee')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i> List Employee</a></li>
-            <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i> Add Employee</a></li>
+            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.employee')}}</a></li>
+            <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.employee')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-handshake-o"></i> <span>Vendor</span>
+            <i class="fa fa-handshake-o"></i> <span>{{trans('leftbar.nav.vendor')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i> List Vendor</a></li>
-            <li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i> Add Vendor</a></li>
+            <li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.vendor')}}</a></li>
+            <li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.vendor')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>Team</span>
+            <i class="fa fa-heartbeat"></i> <span>{{trans('leftbar.nav.team')}}</span>
               <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i> List Team</a></li>
-            <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i> Add Team</a></li>
+            <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.team')}}</a></li>
+            <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.team')}}</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-diamond"></i> <span>Project</span>
+            <i class="fa fa-diamond"></i> <span>{{trans('leftbar.nav.project')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i> List Project</a></li>
-            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i> Add Project</a></li>
+            <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.project')}}</a></li>
+            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.project')}}</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-diamond"></i> <span>{{trans('leftbar.nav.absence')}}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ asset('absences')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence')}}</a></li>
+            <li><a href="{{ asset('absences/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.absence')}}</a></li>
           </ul>
         </li>
                 

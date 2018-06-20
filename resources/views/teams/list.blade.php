@@ -54,8 +54,8 @@
                                 <tbody class="context-menu">
                                 @foreach($teams as $team)
                                     <?php
-                                        $po = $team->employees->where('role_id', $po_id)->first();
-                                        $employees = $team->employees->where('role_id', '<>',  $po_id);
+                                        $po = $team->employees->where('is_manager', '1')->first();
+                                        $employees = $team->employees->where('is_manager', '<>',  '1');
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
@@ -63,7 +63,7 @@
                                         <td>{{$team->name}}</td>
                                         <td>
                                             @if(isset($po))
-                                                <a href="employee/{{$po->id}}">{{$po->name}}</a>
+                                                <a href="employee/{{$po->id}}">{{$po->name}} </a>
                                                 @else
                                                 -
                                             @endif
@@ -387,7 +387,7 @@
             var id_team = id.slice(19);
             <?php
                 foreach($teams as $team){
-                    $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
+                    $employeesModal = $team->employees->where('is_manager', '<>',  '1');
                     foreach($employeesModal as $employee){
                         if(isset($employee->role)){
                             $classBtr = '';
@@ -411,7 +411,7 @@
                 if(id_team == "{{$team->id}}"){
                     $('#team_name_modal').html('{{$team->name}}');
                     <?php
-                        $employeesAppend = $team->employees->where('role_id', '<>',  $po_id);
+                        $employeesAppend = $team->employees->where('is_manager', '<>',  '1');
                     ?>
                     @foreach($employeesAppend as $employee)
                         $('#table-list-members').append(html_{{$team->id}}_{{$employee->id}});

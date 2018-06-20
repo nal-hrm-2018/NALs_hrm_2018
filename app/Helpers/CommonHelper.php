@@ -84,9 +84,12 @@ function hasDupeProject($processes, $start_date_process, $end_date_process, $key
                 $count++;
                 if ($count > 1) {
                     if ($key === 'employee_id') {
-                        $string_error = $employee_name_selected . " ( id = " . $value . " )" . " Can't add because " .
-                            " from : " . date('d/m/Y', strtotime($process['start_date_process'])) . " to: "
-                            . date('d/m/Y', strtotime($process['end_date_process'])) . " you be added to this project";
+                        $string_error = trans('validation.custom.employee.error_duplicate_member',[
+                            'employee_name_selected'=>$employee_name_selected,
+                            'value'=>$value,
+                            'start_date_process'=>date('d/m/Y', strtotime($process['start_date_process'])),
+                            'end_date_process'=>date('d/m/Y', strtotime($process['end_date_process']))
+                        ]);
                         return $string_error;
                     }
                     if ($key === 'role_id') {
@@ -96,9 +99,12 @@ function hasDupeProject($processes, $start_date_process, $end_date_process, $key
                         } else {
                             $employee_name = '';
                         }
-                        $string_error = $employee_name_selected . " Can't add because " .
-                            " from : " . date('d/m/Y', strtotime($process['start_date_process'])) . " to: "
-                            . date('d/m/Y', strtotime($process['end_date_process'])) . " has PO is " . $employee_name;
+                        $string_error = trans('validation.custom.role.error_P0_process',[
+                            'employee_name_selected'=>$employee_name_selected,
+                            'start_date_process'=>date('d/m/Y', strtotime($process['start_date_process'])),
+                            'end_date_process'=>date('d/m/Y', strtotime($process['end_date_process'])),
+                            'employee_name'=>$employee_name
+                        ]);
                         return $string_error;
                     }
                 }
@@ -170,18 +176,22 @@ function showListAvailableProcesses($available_processes)
     $string_available_processes = '';
     foreach ($available_processes as $process) {
         $string_available_processes = $string_available_processes .
-            " Project id: " . $process['project_id'] . ", ".
-            " Man power: " . $process['man_power'] .", ".
-            " Start date: " . date('d/m/Y', strtotime($process['start_date'])) .", ".
-            " End date: " . date('d/m/Y', strtotime($process['start_date'])) . "\n";
+            " ".trans('project.id').": " . $process['project_id'] . ", ".
+            " ".trans('project.man_power').": " . $process['man_power'] .", ".
+            " ".trans('project.process_start_date').": " . date('d/m/Y', strtotime($process['start_date'])) .", ".
+            " ".trans('project.process_end_date').": " . date('d/m/Y', strtotime($process['start_date'])) . "\n";
     }
 
-    return nl2br ("You can view suggest information of this employee : \n" . $string_available_processes);
+    return nl2br (trans('validation.custom.man_power.available_processes')." : \n" . $string_available_processes);
 }
 
 function getInformationDataTable($pagination)
 {
-    return "Showing " . $pagination->firstItem() . " to " . $pagination->lastItem() . " of " . $pagination->total() . " entries";
+    return trans('project.data_table.information',[
+        'first_item'=>$pagination->firstItem(),
+        'last_item'=>$pagination->lastItem(),
+        'total'=>$pagination->total()
+    ]);
 
 }
 
