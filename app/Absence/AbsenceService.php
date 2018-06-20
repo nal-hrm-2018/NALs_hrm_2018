@@ -2,6 +2,7 @@
 namespace App\Absence;
 
 use App\Models\Employee;
+use App\Models\Holiday;
 use App\Models\Absence;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
@@ -10,25 +11,25 @@ use Carbon\Carbon;
 class AbsenceService{
 
 
-    function soNgayNghiPhep($id, $year, $month, $absence_type){
+    function numberOfDaysOff($id, $year, $month, $absence_type){
         // $year = (int)$year;
         $objAS = new AbsenceService;
         if($month == 0){
             $listAbsence = Absence::select()
-                ->join('absence_types', 'absences.absence_types_id', '=', 'absence_types.id')
-                ->join('absence_status', 'absences.absence_status_id', '=', 'absence_status.id')
+                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
-                ->where('absence_status.id', 5)
+                ->where('absence_statuses.id', 2)
                 ->where('absence_types.id', $absence_type)
                 ->whereYear('absences.from_date', $year)
                 ->orWhereYear('absences.to_date', $year)
                 ->get();
         }else{
             $listAbsence = Absence::select()
-                ->join('absence_types', 'absences.absence_types_id', '=', 'absence_types.id')
-                ->join('absence_status', 'absences.absence_status_id', '=', 'absence_status.id')
+                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
-                ->where('absence_status.id', 5)
+                ->where('absence_statuses.id', 2)
                 ->where('absence_types.id', $absence_type)
                 ->whereMonth('absences.from_date', $month)
                 ->orWhereMonth('absences.to_date', $month)
@@ -58,7 +59,8 @@ class AbsenceService{
                     $startDate = Carbon::parse($objAbsence->from_date);
                     $endDate = Carbon::parse($objAbsence->to_date);
                 }
-                $sumDate += $objAS->sumDate($startDate,$endDate);                
+                $sumDate += $objAS->sumDate($startDate,$endDate);
+
             }
         }else{
             foreach ($listAbsence as $objAbsence) {
@@ -120,7 +122,7 @@ class AbsenceService{
         }
         return $count;
     }
-    function doiGio($date){
+    function formatTime($date){
         $hours = $date->hour;
         $minute = $date->minute;
         if($minute <= 30){
@@ -147,34 +149,62 @@ class AbsenceService{
                 $sumDate += $countDate;
             }else if(!($startDate->isWeekend()) || !($endDate->isWeekend())){
                 if($countDate == 1 && $startDate->day == $endDate->day){
-                    $countHours = $objAS->countHours($objAS->doiGio($startDate),$objAS->doiGio($endDate));
-                    $sumDate += $objAS->countDay($countHours);
-                }
-                if($countDate == 2 && $startDate->day == ($endDate->day-1)){
-                    $countHours = $objAS->countHours($objAS->doiGio($startDate),17.5);
-                    $sumDate += $objAS->countDay($countHours);
-                    $countHours = $objAS->countHours(8,$objAS->doiGio($endDate));
-                    $sumDate += $objAS->countDay($countHours);
-                }
-                if($countDate > 2){
-                    if(!($startDate->isWeekend())){
-                        $countHours = $objAS->countHours($objAS->doiGio($startDate),17.5);
+                    if(!($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours($objAS->formatTime($startDate),$objAS->formatTime($endDate));
                         $sumDate += $objAS->countDay($countHours);
-                        $countDate --;
                     }
-                    if(!($endDate->isWeekend())){
-                        $countHours = $objAS->countHours(8,$objAS->doiGio($endDate));
-                        $sumDate += $objAS->countDay($countHours);
-                        $countDate --;
-                    }
-                    $sumDate += $countDate;
+                    
                 }
-                
+                if($countDate > 1){
+                    if(!($startDate->isWeekend()) && !($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                    $countDate --;
+                    if(!($endDate->isWeekend()) && !($objAS->checkHoliday($endDate))){
+                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                    $countDate --;
+                    if($countDate > 0){
+                        $countHoliday = $objAS->countHoliday($startDate->addDay(), $endDate->subDay());
+                        $sumDate += $countDate - $countHoliday;
+                    }                    
+                }
             }
         }  
         return $sumDate;  
     }
-	function soNgayDuocNghiPhep($id, $year){
+    function countHoliday($startDate, $endDate){
+        $countHoliday = $startDate->diffInDaysFiltered(function(Carbon $date) {
+                        $objHoliday = Holiday::select()
+                                    ->where('delete_flag', 0)
+                                    ->whereMonth('date', $date->day)
+                                    ->whereMonth('date', $date->month)
+                                    ->whereYear('date', $date->year)
+                                    ->first();
+                        if($objHoliday != null && !($date->isWeekend())){
+                            return true;
+                        } else{
+                            return false;
+                        }               
+                    }, $endDate);
+        return $countHoliday;
+    }
+    function checkHoliday($date){
+        $objHoliday = Holiday::select()
+                    ->where('delete_flag', 0)
+                    ->whereMonth('date', $date->day)
+                    ->whereMonth('date', $date->month)
+                    ->whereYear('date', $date->year)
+                    ->first();
+        if($objHoliday != null){
+            return true;
+        } else{
+            return false;
+        }               
+    }
+	function absenceDateOnYear($id, $year){
         $sumDate = 0;
         $year = (int)$year;
         $currentDate = new DateTime;
@@ -217,9 +247,8 @@ class AbsenceService{
         if($year > $startYear && $year < $endYear){
             return 12;
         }
-
     }
-    function soNgayDuocNghiPhepHienTai($id, $year){
+    function totalDateAbsences($id, $year){
 
     }
 }
