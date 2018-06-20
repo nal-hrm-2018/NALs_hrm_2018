@@ -59,36 +59,90 @@
                 <th>{{trans('absence_po.list_po.profile_info.type')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.reason')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.note')}}</th>
-                <th>{{trans('absence_po.list_po.profile_info.status')}}</th>
+                <th class="center">{{trans('absence_po.list_po.profile_info.status')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.note_po')}}</th>
             </tr>
             </thead>
             <tbody class="context-menu">
-            <?php
-            foreach ($allEmployeeNotNull as $element) {
-                echo "<tr>";
-                echo "<td>" . $element['name'] . "</td>";
-                echo "<td>" . $element['email'] . "</td>";
-                echo "<td>" .date('d/m/Y h:i:s',strtotime($element->absences[0]->from_date)) . "</td>";
-                echo "<td>" .date('d/m/Y h:i:s',strtotime($element->absences[0]->to_date)) . "</td>";
-//                echo "<td>" . $element->absences[0]->from_date . "</td>";
-//                echo "<td>" . $element->absences[0]->to_date . "</td>";
-                echo "<td>" . $element->absences[0]->absence_type_id . "</td>";
-                echo "<td>" . $element->absences[0]->reason . "</td>";
-                echo "<td>" . $element->absences[0]->description . "</td>";
-                echo "<td>
-<button class='btn btn-success'>Đồng ý</button>
-<button class='btn btn-default'>Từ chối</button>
-</td>";
-                echo "<td></td>";
-                echo "</tr>";
-            }
-            ?>
-            <?php
+            @foreach($getAllAbsenceInConfirm as $element)
+                <tr>
+                    <td>{{$element->employee['name']}}</td>
+                    <td>{{$element->employee['email']}}</td>
+                </tr>
+            @endforeach
+            {{--@foreach($allEmployeeNotNull as $element)
+                <tr>
+                    <td>{{$element['name']}}</td>
+                    <td>{{$element['email']}}</td>
+                    <td>{{date('h:i:s d/m/Y ',strtotime($element->absences[0]->from_date))}}</td>
+                    <td>{{date('h:i:s d/m/Y ',strtotime($element->absences[0]->to_date))}}</td>
+                    <td>{{trans('absence_po.list_po.status.'.$element->absences[0]->absencestatus['name'])}}</td>
+                    <td>{{$element->absences[0]->reason}}</td>
+                    <td>{{trans('absence_po.list_po.type.'.$element->absences[0]->absencestypes['name'])}}</td>
+                    <td class="center">
+                        <a class="btn btn-danger status-absence">{{trans('absence_po.list_po.modal.done')}}</a><br>
+                        <a class="btn btn-primary status-absence" data-toggle="modal" data-target="#modal-default">
+                            {{trans('absence_po.list_po.modal.cancel')}}</a>
+                    </td>
+                    <td>{{$element->absences[0]->description}}</td>
+                    <div class="modal fade" id="modal-default">
+                        <div class="modal-dialog" style="width: 400px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">{{trans('absence_po.list_po.modal.reason')}}</h4>
+                                </div>
+                                {!! Form::open(
+                                    ['url' =>route('deny-po-team'),
+                                    'method'=>'GET',
+                                    'id'=>'form_deny_absence',
+                                    'role'=>'form',
+                                ]) !!}
+                                <div class="modal-body">
+                                    {{ Form::textarea('reason', old('reason'),
+                                        ['class' => 'form-control',
+                                        'id'=>'exampleFormControlTextarea1',
+                                        'row'=>3])
+                                    }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left"
+                                            data-dismiss="modal">{{trans('absence_po.list_po.modal.close')}}</button>
+                                    <button type="submit"
+                                            class="btn btn-primary">{{trans('absence_po.list_po.modal.send')}}</button>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                </tr>
+            @endforeach--}}
 
-            ?>
             </tbody>
         </table>
+
     </div>
     <!-- /.box-body -->
 </div>
+
+<style>
+    .btn.btn-danger.status-absence {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 1px 6px;
+        margin-bottom: 2px;
+    }
+
+    .btn.btn-primary.status-absence {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 1px 5px;
+    }
+
+    .center {
+        text-align: center;
+    }
+</style>

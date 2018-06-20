@@ -27,6 +27,7 @@ class Confirm extends Model
         'absence_status_id',
         'absence_id',
         'reason',
+        'is_process',
         'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'
         ];
 

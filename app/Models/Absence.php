@@ -45,4 +45,12 @@ class Absence extends Model
     {
         return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);
     }
+    public function absencestatus()
+    {
+        return $this->belongsTo('App\Models\AbsenceStatus', 'absence_status_id');
+    }
+    public function absencestypes()
+    {
+        return $this->belongsTo('App\Models\AbsenceType', 'absence_type_id');
+    }
 }

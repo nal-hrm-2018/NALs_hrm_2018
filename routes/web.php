@@ -124,7 +124,8 @@ Route::get('/phu-test', function (){
 });
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
-Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence');
+Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
+Route::get('/deny-po-team', 'Absence\AbsenceController@denyPOTeam')->name('deny-po-team');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');

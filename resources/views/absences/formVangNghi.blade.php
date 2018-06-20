@@ -30,7 +30,7 @@
               function confirmEmployee() {
                   var name = $('#name').val();
                   var id = $('#id_employee').val();
-                  return confirm(message_confirm('add', 'absences', id, name));
+                  return confirm(message_confirm('create', 'absences', id, name));
               }
           </SCRIPT>
           <div class="col-md-10" style="width: 100% ; margin-bottom: 2em"></div>

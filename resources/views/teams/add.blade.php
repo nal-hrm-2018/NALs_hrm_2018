@@ -4,12 +4,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Add team
+                {{trans('team.title_header.add_team')}}
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{route('teams.index')}}">Teams</a></li>
-                <li class="active">Add team</li>
+                <li><a href="/"><i class="fa fa-dashboard"></i>{{trans('common.path.home')}}</a></li>
+                <li><a href="{{route('teams.index')}}">{{trans('team.path.team')}}</a></li>
+                <li class="active">{{trans('team.title_header.add_team')}}</li>
             </ol>
         </section>
         <!-- Main content -->
@@ -18,7 +18,11 @@
             <SCRIPT LANGUAGE="JavaScript">
                 function confirmAddTeam() {
                     var name = $('#team_name_id').val();
-                    return confirm(message_confirm_add('add', 'team', name));
+                    if(name = ""){
+                        return confirm(message_confirm_add('add', 'team', name));
+                    }else{
+                        return confirm(message_confirm_add('add', 'team', name));
+                    }  
                 }
             </SCRIPT>
             <div class="box box-default">
@@ -38,12 +42,12 @@
                         <!-- /.col -->
                         <div class="col-md-7">
                             <div class="form-group">
-                                <label>Team name<strong style="color: red">(*)</strong></label>
+                                <label>{{trans('team.team.team_name')}}<strong style="color: red">(*)</strong></label>
                             {{ Form::text('team_name', old('team_name'),
                               ['class' => 'form-control width78',
                               'id' => 'team_name_id',
                               'autofocus' => true,
-                              'placeholder'=>'Team name',
+                              'placeholder'=>trans('team.team.team_name'),
                               ])
                             }}
                             <!-- /.input group -->
@@ -51,7 +55,7 @@
                                        style="color: red; ">{{$errors->first('team_name')}}</label>
                             </div>
                             <div class="form-group">
-                                <label>PO name</label><br/>
+                                <label>{{trans('team.team.po_name')}}</label><br/>
                                 <select class="form-control select2 width80" name="id_po" onchange="choosePO()"
                                         id="id_po">
                                     <option {{ !empty(old('id_po'))?'':'selected="selected"' }} value="" id="po_0">
@@ -68,7 +72,7 @@
                                 <label id="lb_error_id_po" style="color: red; ">{{$errors->first('id_po')}}</label>
                             </div>
                             <div class="form-group">
-                                <label>Member</label><br/>
+                                <label>{{trans('team.team.member')}}</label><br/>
                                 <select class="form-control select2 width80" name="" id="member">
                                     <option {{ !empty(old('members'))?'':'selected="selected"' }} value=""
                                             id="member_0">
@@ -134,7 +138,7 @@
                     });
                     $(function () {
                         $("#btn_reset_form_team").bind("click", function () {
-                            if(confirm("Do you want to reset?")){
+                            if(confirm("{{trans('team.submit.reset')}}")){
                                 $("#lb_error_team_name").empty();
                                 $("#lb_error_id_po").empty();
                                 $("#lb_error_members").empty();
@@ -197,7 +201,7 @@
                                 listChoose += "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + members[i] + "\" class=\"form-control width80 input_" + members[i] + "\">";
                             }
                             $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
-                                "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
+                                "<thead><tr><th>{{trans('team.add_team.id')}}</th><th>{{trans('team.add_team.team_name')}}</th><th>Role</th><th>{{trans('team.add_team.name')}}</th><th>{{trans('team.add_team.remove')}}</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
                                 "</tbody></table></div>";
                             document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                             document.getElementById("listChoose").innerHTML = listChoose;
@@ -233,13 +237,13 @@
                         $id = document.getElementById("member").value;
                         $idPO = document.getElementById("id_po").value;
                         if ($id == $idPO) {
-                            alert("Member matches with PO, Please select another member !!!");
+                            alert("{{trans('team.msg_content.msg_add_member1')}}");
                         } else {
                             $check = true;
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                 if ($id == $listEmployeeID[$i]) {
                                     $check = false;
-                                    alert("Error!!! Member already exist !!!");
+                                    alert("{{trans('team.msg_content.msg_add_member2')}}");
                                     break;
                                 }
                             }
@@ -278,7 +282,7 @@
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
-                                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
+                                    "<thead><tr><th>{{trans('team.add_team.id')}}</th><th>{{trans('team.add_team.team_name')}}</th><th>{{trans('team.add_team.role')}}</th><th>{{trans('team.add_team.name')}}</th><th>{{trans('team.add_team.remove')}}</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
                                     "</tbody></table></div>";
 
                                 $listChoose = "";

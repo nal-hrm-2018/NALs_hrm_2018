@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Absence;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
-use App\Models\AbsenceStatus;
-use App\Models\AbsenceType;
 use Carbon\Carbon;
+use App\Models\Confirm;
+use App\Absence\AbsenceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 
 class AbsenceController extends Controller
 {
@@ -17,7 +16,10 @@ class AbsenceController extends Controller
 
     }
     public function index(Request $request){
-
+    	$abc = new AbsenceService();
+    	/*dd($abc->soNgayNghiPhep(1,2017,0));
+    	dd($abc->soNgayDuocNghiPhep(1,2017));*/
+        return view('vangnghi.list');
     }
 
     public function create(Request $request)
@@ -37,6 +39,9 @@ class AbsenceController extends Controller
             return abort(404);
         }
 
+        $curDate= date_create(Carbon::now()->format('Y-m-d'));
+        $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
+        $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
 
         $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
             ->join('teams', 'employees.team_id', '=', 'teams.id')
@@ -46,24 +51,17 @@ class AbsenceController extends Controller
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
             ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
-            ->whereIn('processes.project_id', function ($query) use ($id)  {
+            ->whereIn('processes.project_id', function ($query) use ($id,$dayBefore)  {
                 $query->select('project_id')
                     ->from('processes')
                     ->where('employee_id', '=', $id)
-                    ->where(function($query1)  {
-                        $curDate= date_create(Carbon::now()->format('Y-m-d'));
-                        $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
-                        $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
-                        return $query1 ->where('processes.start_date', '>', $dayBefore)
-                            ->orWhere('processes.end_date', '<', $dayAfter);
-                    })
-                ;
+                    ->whereDate('processes.start_date', '>', $dayBefore);
             })
             ->WHERE('employees.delete_flag', '=', 0)
             ->WHERE('roles.name', 'like', 'po')
             ->get()->toArray();
 
-        return view('formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee]);
+        return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee]);
     }
     public function update(Request $request, $id){
 
@@ -75,7 +73,8 @@ class AbsenceController extends Controller
     // function create by Quy.
     public function showListAbsence(){
         $getIdUserLogged = Auth::id();
-        $getTeamOfUserLogged = Employee::find($getIdUserLogged);
+        $getAllAbsenceInConfirm = Confirm::where('employee_id',$getIdUserLogged)->get();
+        /*$getTeamOfUserLogged = Employee::find($getIdUserLogged);
         $getAllAbsenceType = AbsenceType::all();
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllEmployeeByTeamUserLogged = Employee::where('team_id',$getTeamOfUserLogged->team_id)
@@ -97,15 +96,17 @@ class AbsenceController extends Controller
         }
         foreach ($allEmployeeByUserLogged as $allEmployee){
             foreach ($allEmployee->absences as $element){
-                if (!is_null($element)){
+                if (!is_null($element) ){
                     array_push($allEmployeeNotNull,$allEmployee);
                 }
             }
+        }*/
 
-        }
-        foreach ($allEmployeeNotNull as $element ){
+//        return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
+        return view('absences.poteam', compact('getAllAbsenceInConfirm'));
+    }
+    public function denyPOTeam(Request $request){
 
-        }
-        return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
+        return redirect()->route('absence-po');
     }
 }
