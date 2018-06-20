@@ -64,7 +64,13 @@
             </tr>
             </thead>
             <tbody class="context-menu">
-            @foreach($allEmployeeNotNull as $element)
+            @foreach($getAllAbsenceInConfirm as $element)
+                <tr>
+                    <td>{{$element->employee['name']}}</td>
+                    <td>{{$element->employee['email']}}</td>
+                </tr>
+            @endforeach
+            {{--@foreach($allEmployeeNotNull as $element)
                 <tr>
                     <td>{{$element['name']}}</td>
                     <td>{{$element['email']}}</td>
@@ -113,31 +119,8 @@
                         <!-- /.modal-dialog -->
                     </div>
                 </tr>
-            @endforeach
-            <?php
-            foreach ($allEmployeeNotNull as $element) {
-                echo "<tr>";
-                echo "<td>" . $element['name'] . "</td>";
-                echo "<td>" . $element['email'] . "</td>";
-                echo "<td>" . date('h:i:s d/m/Y ', strtotime($element->absences[0]->from_date)) . "</td>";
-                echo "<td>" . date('h:i:s d/m/Y ', strtotime($element->absences[0]->to_date)) . "</td>";
-                echo "<td>" . trans('absence_po.list_po.status.' . $element->absences[0]->absencestatus['name']) . "</td>";
-                echo "<td>" . $element->absences[0]->reason . "</td>";
-                echo "<td>" . trans('absence_po.list_po.type.' . $element->absences[0]->absencestypes['name']) . "</td>";
-                echo "<td class='center'>
-                        <a class='btn btn-danger status-absence'>" . trans('absence_po.list_po.modal.done') . "</a><br>
-                        <a class='btn btn-primary status-absence'  data-toggle='modal' data-target='#modal-default'>
-                        " . trans('absence_po.list_po.modal.cancel') . "
-</a>
-                      </td>";
-                echo "<td>" . $element->absences[0]->description . "</td>";
-                echo "</tr>";
-                echo "";
-            }
-            ?>
-            <?php
+            @endforeach--}}
 
-            ?>
             </tbody>
         </table>
 
