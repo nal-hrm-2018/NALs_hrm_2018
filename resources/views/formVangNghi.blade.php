@@ -68,7 +68,9 @@
 
               <div class="form-group">
                 <label>PO Project<strong style="color: red">(*)</strong></label>
-                <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="{{isset($objPO["PO_name"]) ? $objPO["PO_name"] : null}}{{isset($objPO["project_name"])  ? '  -  PROJECT: '.$objPO["project_name"] : null}} ">
+                @foreach($objPO as $PO)
+                <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="{{isset($PO["PO_name"]) ? $PO["PO_name"] : null}}{{isset($PO["project_name"])  ? '  -  PROJECT: '.$PO["project_name"] : null}} ">
+                @endforeach
                 <label id="lb_error_name" style="color: red;" readonly="readonly"></label>
               </div>
 

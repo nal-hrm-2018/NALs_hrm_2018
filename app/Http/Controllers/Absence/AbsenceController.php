@@ -20,17 +20,16 @@ class AbsenceController extends Controller
         $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
+            ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
             ->whereIn('processes.project_id', function($query) use($id)
             {
                 $query->select('project_id')
                     ->from('processes')
                     ->where('employee_id','=',$id);
             })
-            ->WHERE([
-                ['employees.delete_flag', '=', 0],
-                ['processes.role_id', '=', '4'],
-            ])
-            ->find($id);
+            ->WHERE('employees.delete_flag', '=', 0)
+            ->WHERE('roles.name', 'like', 'po')
+            ->get()->toArray();
 
         return view('formVangNghi', ['objPO' => $objPO,'objEmployee' => $objEmployee]);
     }
