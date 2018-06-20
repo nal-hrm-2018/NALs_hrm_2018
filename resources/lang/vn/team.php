@@ -70,4 +70,8 @@ return [
     'submit'=>[
         'reset'=>'Bạn có muốn đặt lại không?',
     ],
+    'team_service'=>[
+        'msg_fail1'=>'Sữa không thành công!!! PO không tồn tại!!!',
+        'msg_fail2'=>'Sữa không thành công!!! Thành viên không tồn tại!!!'
+    ],
 ];

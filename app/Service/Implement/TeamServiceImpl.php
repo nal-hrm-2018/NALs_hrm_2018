@@ -93,7 +93,7 @@ class TeamServiceImpl extends CommonService
                     $objPoNew -> is_manager  = 1;
                     $objPoNew -> save();
                 }else{
-                    \Session::flash('msg_fail', 'Edit failed!!! PO is not exit!!!');
+                    \Session::flash('msg_fail', trans('team.team_service.msg_fail1'));
                     return false;
                 }
                 
@@ -121,7 +121,7 @@ class TeamServiceImpl extends CommonService
                         if($check){
                             $objMemberById = Employee::where('delete_flag',0)->find($objMemberInTeams->id);
                             if ($objMemberById == null) {
-                                \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
+                                \Session::flash('msg_fail', trans('team.team_service.msg_fail2'));
                                 return false;
                             } else {
                                 $objMemberById->team_id = null;
@@ -134,7 +134,7 @@ class TeamServiceImpl extends CommonService
                 foreach ($listMember as $objMember){
                     $objMemberById = Employee::where('delete_flag',0)->find($objMember);
                     if ($objMemberById == null) {
-                        \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
+                        \Session::flash('msg_fail', trans('team.team_service.msg_fail2'));
                         return false;
                     } else {
                         if($objMemberById->is_manager == 1){

@@ -126,8 +126,7 @@ class TeamController extends Controller
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
 
-    public
-    function checkNameTeam(Request $request)
+    /*public function checkNameTeam(Request $request)
     {
         $name = $_GET["name"];
         $regexNameTeam = "/(^[a-zA-Z0-9 ]{1,50}+$)+/";
@@ -155,7 +154,7 @@ class TeamController extends Controller
             }
         }
     }
-
+*/
     public function showChart(Request $request)
     {
         $month = date('Y-m-01', strtotime($request->month));

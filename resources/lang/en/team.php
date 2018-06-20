@@ -69,4 +69,8 @@ return [
     'submit'=>[
         'reset'=>'Do you want to reset?',
     ],
+    'team_service'=>[
+        'msg_fail1'=>'Edit failed!!! PO is not exit!!!',
+        'msg_fail2'=>'Edit failed!!! Employee is not exit!!!'
+    ],
 ];
