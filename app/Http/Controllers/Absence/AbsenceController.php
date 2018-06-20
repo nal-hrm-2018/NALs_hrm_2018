@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Absence;
 use App\Http\Controllers\Controller;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
+use App\Models\Confirm;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,15 +66,16 @@ class AbsenceController extends Controller
         }
         foreach ($allEmployeeByUserLogged as $allEmployee){
             foreach ($allEmployee->absences as $element){
-                if (!is_null($element)){
+                if (!is_null($element) ){
                     array_push($allEmployeeNotNull,$allEmployee);
                 }
             }
-
         }
-        foreach ($allEmployeeNotNull as $element ){
 
-        }
         return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
+    }
+    public function denyPOTeam(Request $request){
+        dd($request->reason);
+        return redirect()->route('absence-po');
     }
 }
