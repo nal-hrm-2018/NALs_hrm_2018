@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Absence;
 
 use App\Http\Controllers\Controller;
+use App\Models\Confirm;
 use App\Models\Employee;
 use App\Absence\AbsenceService;
 use App\Models\AbsenceStatus;
@@ -46,7 +47,8 @@ class AbsenceController extends Controller
     // function create by Quy.
     public function showListAbsence(){
         $getIdUserLogged = Auth::id();
-        $getTeamOfUserLogged = Employee::find($getIdUserLogged);
+        $getAllAbsenceInConfirm = Confirm::where('employee_id',$getIdUserLogged)->get();
+        /*$getTeamOfUserLogged = Employee::find($getIdUserLogged);
         $getAllAbsenceType = AbsenceType::all();
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllEmployeeByTeamUserLogged = Employee::where('team_id',$getTeamOfUserLogged->team_id)
@@ -72,12 +74,13 @@ class AbsenceController extends Controller
                     array_push($allEmployeeNotNull,$allEmployee);
                 }
             }
-        }
+        }*/
 
-        return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
+//        return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
+        return view('absences.poteam', compact('getAllAbsenceInConfirm'));
     }
     public function denyPOTeam(Request $request){
-        dd($request->reason);
+
         return redirect()->route('absence-po');
     }
 }
