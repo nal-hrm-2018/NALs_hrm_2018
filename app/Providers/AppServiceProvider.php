@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Service\AbsenceService;
 use App\Service\ChartService;
 use App\Service\Implement\ChartServiceImpl;
 
-use App\Service\Implement\SearchProjectServiceServiceImpl;
+use App\Service\Implement\SearchProjectServiceImpl;
 use App\Service\SearchProjectService;
+use App\Service\Implement\AbsenceServiceImpl;
 use App\Service\Implement\ProjectServiceImpl;
 use App\Service\Implement\SearchServiceImpl;
 use App\Service\Implement\TeamServiceImpl;
@@ -38,5 +40,6 @@ class AppServiceProvider extends ServiceProvider
         App::bind(ChartService::class, ChartServiceImpl::class);
         App::bind(TeamService::class, TeamServiceImpl::class);
         App::bind(ProjectService::class, ProjectServiceImpl::class);
+        App::bind(AbsenceService::class, AbsenceServiceImpl::class);
     }
 }

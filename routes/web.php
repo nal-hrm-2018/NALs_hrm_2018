@@ -83,7 +83,12 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors', 'User\Vendor\VendorController');
     Route::resource('projects', 'Project\ProjectController');
+    Route::get('absences/hr',[
+        'uses'=>'Absence\AbsenceController@indexHR',
+        'as'=>'absences-hr'
+    ]);
     Route::resource('absences', 'Absence\AbsenceController');
+
     Route::post('projects/checkProcessAjax',[
         'as'=>'checkProcessAjax',
         'uses'=>'Project\ProjectController@checkProcessesAjax'
