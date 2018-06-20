@@ -8,7 +8,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="/employee">Vắng nghỉ</a></li>
+        <li><a href="/absences">Vắng nghỉ</a></li>
         <li class="active">Phiếu vắng nghỉ</li>
       </ol>
     </section>
@@ -30,7 +30,7 @@
               function confirmEmployee() {
                   var name = $('#name').val();
                   var id = $('#id_employee').val();
-                  return confirm(message_confirm('edit', 'absences', id, name));
+                  return confirm(message_confirm('add', 'absences', id, name));
               }
           </SCRIPT>
           <div class="col-md-10" style="width: 100% ; margin-bottom: 2em"></div>
@@ -68,9 +68,13 @@
 
               <div class="form-group">
                 <label>PO Project<strong style="color: red">(*)</strong></label>
-                @foreach($objPO as $PO)
-                <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="{{isset($PO["PO_name"]) ? $PO["PO_name"] : null}}{{isset($PO["project_name"])  ? '  -  PROJECT: '.$PO["project_name"] : null}} ">
-                @endforeach
+                @if($objPO!=null)
+                  @foreach($objPO as $PO)
+                    <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="{{isset($PO["PO_name"]) ? $PO["PO_name"] : null}}{{isset($PO["project_name"])  ? '  -  PROJECT: '.$PO["project_name"] : null}} ">
+                  @endforeach
+                @else
+                  <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="">
+                @endif
                 <label id="lb_error_name" style="color: red;" readonly="readonly"></label>
               </div>
 
@@ -94,8 +98,7 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
                 </div>
-                <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
-
+                <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
                 <!-- /.input group -->
               </div>
 
@@ -106,7 +109,6 @@
                         <option value="" >Nghỉ phép</option>
                         <option value="" >Nghỉ không lương</option>
                         <option value="" >Nghỉ chế độ bảo hiểm</option>
-                        <option value="" >Other</option>
                     </select>
                     <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
                 </div>
@@ -147,6 +149,7 @@
             </div>
             <!-- /.form-group -->
             {{ Form::close() }}
+
           </div>
           <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
         </div>
