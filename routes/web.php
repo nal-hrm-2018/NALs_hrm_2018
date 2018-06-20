@@ -7,6 +7,7 @@ Auth::routes();
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ProcessAddRequest;
 
+
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
@@ -87,6 +88,14 @@ Route::group(['middleware' => 'user'], function () {
         'uses'=>'Absence\AbsenceController@indexHR',
         'as'=>'absences-hr'
     ]);
+    Route::get('absences/hr/export',[
+        'uses'=>'Absence\AbsenceController@exportAbsenceHR',
+        'as'=>'export-absences-hr'
+    ]);
+    Route::get('absences/hr/export',[
+        'uses'=>'Absence\AbsenceController@exportAbsenceHR',
+        'as'=>'export-absences-hr'
+    ]);
     Route::resource('absences', 'Absence\AbsenceController');
 
     Route::post('projects/checkProcessAjax',[
@@ -129,6 +138,7 @@ Route::get('/phu-test', function (){
 });
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
+Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');

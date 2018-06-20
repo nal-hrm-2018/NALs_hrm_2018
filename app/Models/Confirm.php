@@ -30,8 +30,13 @@ class Confirm extends Model
         'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'
         ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
 
+    public function absence()
+    {
+        return $this->belongsTo('App\Models\Confirm','absence_id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo('App\Models\Employee','employee_id');
+    }
 }

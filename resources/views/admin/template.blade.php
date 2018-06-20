@@ -102,6 +102,8 @@
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/lang.js') !!}"> </script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/project.js') !!}"> </script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/project.js') !!}"> </script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/absence.js') !!}"> </script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/absence.js') !!}"> </script>
 <script>
     $(function () {
         $('#example1').DataTable()

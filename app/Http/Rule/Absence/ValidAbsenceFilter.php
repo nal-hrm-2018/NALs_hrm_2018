@@ -6,7 +6,7 @@
  * Time: 3:01 PM
  */
 
-namespace App\Http\Rule;
+namespace App\Http\Rule\Absence;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\Team;

@@ -14,18 +14,21 @@ return[
         'vendor' => 'Vendor',
         'team' => 'Team',
         'project' => 'Project',
+        'absence' => 'Absence',
         'list'=>[
             'employee' => 'List Employee',
             'vendor' => 'List Vendor',
             'team' => 'List Team',
-            'project' => 'List Project'
+            'project' => 'List Project',
+            'absence' => 'List Absence'
 
         ],
         'add'=>[
             'employee' => 'Add Employee',
             'vendor' => 'Add Vendor',
             'team' => 'Add Team',
-            'project' => 'Add Project'
+            'project' => 'Add Project',
+            'absence' => 'Add Absence',
 
         ]
     ]

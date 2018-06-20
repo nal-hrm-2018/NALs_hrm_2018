@@ -33,7 +33,8 @@ return [
         'back' => 'QUAY LẠI',
         'input'=>'Nhập',
         'view'=>'Xem',
-        'filter'=>'Lọc'
+        'filter'=>'Lọc',
+        'export'=>"Xuất",
     ],
 
     'title_form' => [
@@ -45,7 +46,8 @@ return [
         'vendor_list'=>'Danh Sách Nhân Viên Ngoài',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Chi tiết dự án',
-        'absence_list'=>'Danh sách vắng nghỉ dành cho HR'
+        'absence_list'=>'Danh sách vắng nghỉ dành cho HR',
+        'absence_detail'=>'Danh sách xin vắng làm'
     ],
     'path'=>[
         'home'=>'Trang Chủ',
@@ -54,6 +56,7 @@ return [
         'vendor'=>'Nhân Viên Ngoài',
         'team' => 'Nhóm',
         'list' => 'Danh sách',
+        'absence'=>'Xin vắng làm',
         'detail'=>'Chi Tiết',
         'add_project'=>'Thêm Dự Án',
         'edit_project'=>'Chỉnh Sửa Dự Án',

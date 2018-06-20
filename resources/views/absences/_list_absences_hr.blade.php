@@ -59,6 +59,22 @@
     </style>
     <tbody class="context-menu list-project">
     @foreach($employees as $employee)
+        <tr class="employee-menu" id="employee-id-{{$employee->id}}" data-employee-id="{{$employee->id}}">
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
+                <li><a href={{route('vendors.show',$employee->id)}}><i
+                                class="fa fa-id-card"></i> {{trans('common.action.view')}}
+                    </a></li>
+            </ul>
+        </tr>
 
     @endforeach
     </tbody>

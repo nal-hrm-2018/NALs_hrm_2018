@@ -38,7 +38,8 @@ return [
         'back' => 'BACK',
         'input'=>'Input',
         'view'=>'View',
-        'filter'=>'Filter'
+        'filter'=>'Filter',
+        'export'=>"EXPORT",
     ],
 
     'title_form' => [
@@ -50,7 +51,8 @@ return [
         'vendor_list'=>'Vendor List',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Project Detail',
-        'absence_list'=>'Absence list for HR view'
+        'absence_list'=>'Absence list for HR view',
+        'absence_detail'=>'Absence List'
     ],
     'path'=>[
         'home'=>'Home',
@@ -59,6 +61,7 @@ return [
         'vendors'=>'Vendors',
         'team' => 'Teams',
         'projects'=>'Projects',
+        'absence'=>'Absence',
         'list' => 'List',
         'detail'=>'Detail',
         'add_project'=>'Add project',
