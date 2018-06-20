@@ -3,24 +3,12 @@
 namespace App\Http\Controllers\Absence;
 
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
 use App\Models\Employee;
 use App\Absence\AbsenceService;
-class AbsenceController extends Controller
-{
-    public function index()
-    {
-    	$abc = new AbsenceService();
-    	/*dd($abc->soNgayNghiPhep(1,2017,0));
-    	dd($abc->soNgayDuocNghiPhep(1,2017));*/
-        return view('vangnghi.list');
-=======
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
-use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 
 class AbsenceController extends Controller
 {
@@ -28,7 +16,10 @@ class AbsenceController extends Controller
 
     }
     public function index(Request $request){
-
+    	$abc = new AbsenceService();
+    	/*dd($abc->soNgayNghiPhep(1,2017,0));
+    	dd($abc->soNgayDuocNghiPhep(1,2017));*/
+        return view('vangnghi.list');
     }
 
     public function create()
@@ -87,6 +78,5 @@ class AbsenceController extends Controller
 
         }
         return view('absences.poteam', compact('allEmployeeNotNull','allAbsenceNotNull','getIdUserLogged','getAllAbsenceType','getAllAbsenceStatus'));
->>>>>>> dfb0a0eea2cb6caf184af733ccac38f2acefb4f2
     }
 }

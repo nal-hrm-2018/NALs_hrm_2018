@@ -55,7 +55,7 @@ class AbsenceService{
                 $startDate = Carbon::parse($objAbsence->from_date);
                 $endDate = Carbon::parse($objAbsence->to_date);
             }
-            $sumDate -= $startDate->diffInDaysFiltered(function(Carbon $date) {
+            $sumDate += $startDate->diffInDaysFiltered(function(Carbon $date) {
                             return !($date->isWeekend());
                         }, $endDate);
             
@@ -63,12 +63,12 @@ class AbsenceService{
         }
     }
 
-    function countDate($startDate, $endDate){
+    /*function countDate($startDate, $endDate){
         $objAS = new AbsenceService;
         $start = $objAS->formatDate(date_create($startDate));
         $end = $objAS->formatDate(date_create($endDate));
 
-    }
+    }*/
 	function soNgayDuocNghiPhep($id, $year){
         $sumDate = 0;
         $year = (int)$year;
