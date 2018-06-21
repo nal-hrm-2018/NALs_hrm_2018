@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Service\AbsencePoTeamService;
+use App\Service\Implement\AbsencePoTeamServiceImpl;
 use App\Service\Implement\SearchProjectServiceImpl;
 use App\Service\SearchEmployeeService;
 use App\Service\SearchEmployeeServiceImpl;
@@ -29,5 +31,6 @@ class SearchEmployeeServiceProvider extends ServiceProvider
     {
         $this->app->singleton(SearchEmployeeService::class, SearchEmployeeServiceImpl::class);
         $this->app->singleton(SearchProjectService::class, SearchProjectServiceImpl::class);
+        $this->app->singleton(AbsencePoTeamService::class, AbsencePoTeamServiceImpl::class);
     }
 }
