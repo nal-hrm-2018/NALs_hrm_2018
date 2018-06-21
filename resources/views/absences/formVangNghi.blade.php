@@ -81,7 +81,7 @@
               <div class="form-group">
                 <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input type='text' class="form-control" />
+                  <input type='text' class="form-control" placeholder="yyyy-MM-dd"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -93,7 +93,7 @@
               <div class="form-group">
                 <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input type='text' class="form-control" />
+                  <input type='text' class="form-control" placeholder="yyyy-MM-dd"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -104,11 +104,22 @@
 
                 <div class="form-group">
                     <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>
-                    <select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">
+                    <select class="form-control select2" style="width: 100%;"  name="absence_type_id" id="absence_type_id">
                         <option value="" >---Chọn---</option>
-                        <option value="" >Nghỉ phép</option>
-                        <option value="" >Nghỉ không lương</option>
-                        <option value="" >Nghỉ chế độ bảo hiểm</option>
+                        <?php
+                          foreach ($Absence_type as $val) {
+                            $selected = "";
+                            if ($val["id"] == old('absence_type_id')) {
+                                $selected = "selected";
+                            }
+                            if (isset($Absence_employee)) {
+                                if ($Absence_employee['absence_type_id'] == $val["id"]) {
+                                    $selected = "selected";
+                                }
+                            }
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . $val["name"] . '</option>';
+                        }
+                        ?>
                     </select>
                     <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
                 </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Absence;
 
 use App\Http\Controllers\Controller;
+use App\Models\Absence;
+use App\Models\AbsenceType;
 use App\Models\Employee;
 use Carbon\Carbon;
 use App\Models\Confirm;
@@ -61,7 +63,10 @@ class AbsenceController extends Controller
             ->WHERE('roles.name', 'like', 'po')
             ->get()->toArray();
 
-        return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee]);
+        $Absence_employee=Absence::select('*')->where('employee_id', '=', $id)->first();
+        $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
+
+        return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee,'Absence_type' => $Absence_type,'Absence_employee' => $Absence_employee]);
     }
     public function update(Request $request, $id){
 
