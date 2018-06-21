@@ -41,6 +41,7 @@ return [
         ],
         'type'=>[
             config('settings.status_common.absence_type.non_salary_date')=>'Nghỉ không lương',
+            config('settings.status_common.absence_type.salary_date')=>'Nghỉ có lương',
             config('settings.status_common.absence_type.subtract_salary_date')=>'Nghỉ trừ lương',
             config('settings.status_common.absence_type.insurance_date')=>'Nghỉ theo bảo hiểm',
         ]
