@@ -47,7 +47,8 @@ return [
         'employee_detail'=>'Thông Tin Nhân Viên',
         'vendor_list'=>'Danh Sách Nhân Viên Ngoài',
         'nal_solution' =>'Nal solutions',
-        'project_detail'=>'Chi tiết dự án'
+        'project_detail'=>'Chi tiết dự án',
+        'absence_detail'=>'Danh sách xin vắng làm'
     ],
     'path'=>[
         'dashboard'=>'Trang Chủ',
@@ -58,6 +59,7 @@ return [
         'vendor'=>'Nhân Viên Ngoài',
         'team' => 'Team',
         'list' => 'Danh sách',
+        'absence'=>'Xin vắng làm',
         'detail'=>'Chi Tiết',
         'add'=>'Thêm',
         'edit'=>'Chỉnh Sửa',

@@ -22,6 +22,7 @@ class Absence extends Model
 
     public $table = 'absences';
     protected $fillable = [
+        'id',
         'employee_id',
         'absence_type_id',
         'absence_status_id',
@@ -34,22 +35,22 @@ class Absence extends Model
         'is_summary',
         'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
+
     public function employee()
     {
         return $this->belongsTo('App\Models\Employee','employees_id');
     }
 
-    public function absenceType()
+    public function confirms()
     {
-        return $this->belongsTo('App\Models\AbsenceType', 'absence_types_id');
+        return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);
     }
-
-    public function absenceStatus()
+    public function absencestatus()
     {
         return $this->belongsTo('App\Models\AbsenceStatus', 'absence_status_id');
     }
-
+    public function absencestypes()
+    {
+        return $this->belongsTo('App\Models\AbsenceType', 'absence_type_id');
+    }
 }
