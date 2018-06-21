@@ -40,6 +40,7 @@ return [
         ],
         'absence_type'=>[
             'non_salary_date'=>'non_salary_date',
+            'salary_date'=>'salary_date',
             'subtract_salary_date'=>'subtract_salary_date',
             'insurance_date'=>'insurance_date',
             'absented_date'=>'absented_date',
