@@ -174,9 +174,10 @@
                             </thead>
                             <tbody>
                             <?php
-                                $idWaiting = $absenceStatus->where('name', '=', 'Waiting')->first()->id;
-                                $idAccepted = $absenceStatus->where('name', '=', 'Accepted')->first()->id;
-                                $idRejected = $absenceStatus->where('name', '=', 'Rejected')->first()->id;
+                                $idWaiting = $absenceStatus->where('name', '=', 'waiting')->first()->id;
+//                                dd(config('settings.status_common.absence.waiting'));
+                                $idAccepted = $absenceStatus->where('name', '=', 'accepted')->first()->id;
+                                $idRejected = $absenceStatus->where('name', '=', 'rejected')->first()->id;
                             ?>
                             @foreach($listConfirm as $confirm)
                                 <tr>
@@ -194,7 +195,7 @@
                                     </td>
                                     <td>{{$confirm->absence->from_date}}</td>
                                     <td>{{$confirm->absence->to_date}}</td>
-                                    <td>{{$confirm->absence->absenceType->name}}</td>
+                                    <td>{{$confirm->absence->absencestypes->name}}</td>
                                     <td>{{$confirm->absence->reason}}</td>
                                     <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)

@@ -38,8 +38,8 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $from_date = $value['from_date'];
             $to_date = $value['to_date'];
         }
-        $query->join('absences', 'absences.id', '=', 'confirms.absences_id')
-            ->join('employees', 'employees.id', '=', 'absences.employees_id')
+        $query->join('absences', 'absences.id', '=', 'confirms.absence_id')
+            ->join('employees', 'employees.id', '=', 'absences.employee_id')
             ->join('processes', 'processes.employee_id', '=', 'employees.id')
             ->join('projects', 'projects.id', '=', 'processes.project_id');
         if (!empty($employee_name)) {
@@ -54,7 +54,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
 
         }
         if (!empty($absence_type)) {
-            $query->where('absences.absence_types_id', '=', $absence_type);
+            $query->where('absences.absence_type_id', '=', $absence_type);
 
         }
 //                dd($query->toSql());

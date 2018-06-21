@@ -38,7 +38,7 @@ class Absence extends Model
 
     public function employee()
     {
-        return $this->belongsTo('App\Models\Employee','employees_id');
+        return $this->belongsTo('App\Models\Employee','employee_id');
     }
 
     public function confirms()

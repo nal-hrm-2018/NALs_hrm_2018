@@ -128,7 +128,6 @@ Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTe
 Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
 Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');
 Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
-Route::post('/done-confirm-deny', 'Absence\AbsenceController@doneDenyConfirm');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
