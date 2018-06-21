@@ -96,7 +96,7 @@
                                 <div class="div confirm-status" data-confirm-id="{{$element->id}}">
                                     <input id="value-confirm" value="{{$element['id']}}" hidden="hidden"/>
                                     <a class="btn btn-danger status-absence" id="done-absence"
-                                       data-confirm-id="{{$element->id}}">
+                                       data-confirm-id="{{$element->id}}" data-is-deny="{{$element->absence['is_deny']}}">
                                         {{trans('absence_po.list_po.modal.done')}}
                                     </a><br>
                                     <a class="btn btn-primary status-absence" data-toggle="modal"

@@ -7,6 +7,7 @@ use App\Http\Requests\AbsencesAddRequest;
 use App\Models\Absence;
 use App\Models\AbsenceType;
 use App\Models\Employee;
+use App\Service\AbsencePoTeamService;
 use Carbon\Carbon;
 use App\Models\Confirm;
 use App\Absence\AbsenceService;
@@ -17,8 +18,9 @@ use Illuminate\Support\Facades\DB;
 class AbsenceController extends Controller
 {
     public $id_employee;
-
-    public function __construct(){
+    public $absencePoTeamService;
+    public function __construct(AbsencePoTeamService $absencePoTeamService){
+        $this->absencePoTeamService = $absencePoTeamService;
     }
     public function index(Request $request){
     	$abc = new AbsenceService();
@@ -105,7 +107,8 @@ class AbsenceController extends Controller
         return view('absences.poteam', compact('getAllAbsenceInConfirm'));
     }
     public function denyPOTeam(Request $request){
-        $idReturn = $request['id'];
+        return $this->absencePoTeamService->poTeamAcceptOrDenyAbsence($request);
+        /*$idReturn = $request['id'];
         if ($request->ajax()){
             try{
                 DB::beginTransaction();
@@ -114,26 +117,28 @@ class AbsenceController extends Controller
                 $confirmChoose['absence_status_id'] = 3;
                 $confirmChoose->save();
                 DB::commit();
-                if ($request['is_deny'] == 0){
-                    $msgDoneAbsence = trans('absence_po.list_po.status.no_accepted_done');
-                    return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'html'=>$msgDoneAbsence]);
-                }
-                if ($request['is_deny'] == 1){
-                    $msgDoneDeny = trans('absence_po.list_po.status.no_accepted_deny');
-                    return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn, 'html'=>$msgDoneDeny]);
-                }
             }
             catch (Exception $ex){
                 DB::rollBack();
                 session()->flash(trans('team.msg_fails'), trans('project.msg_content.msg_add_error'));
             }
-            return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'html'=>'-']);
+            if ($request['is_deny'] == 0){
+                $msgDoneAbsence = trans('absence_po.list_po.status.no_accepted_done');
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'deny'=>$request['is_deny'],'html'=>$msgDoneAbsence]);
+            }
+            elseif ($request['is_deny'] == 1){
+                $msgDoneDeny = trans('absence_po.list_po.status.no_accepted_deny');
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'deny'=>$request['is_deny'], 'html'=>$msgDoneDeny]);
+            }
+            else{
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'deny'=>$request['is_deny'],'html'=>'-']);
+            }
         }
-        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);*/
     }
     public function doneConfirm(Request $request){
-        //absence_status_id: 1=waiting, 2=accepted , 3: rejected
-        $idReturn = $request['id'];
+        return $this->absencePoTeamService->poTeamAcceptAbsenceForm($request);
+        /*$idReturn = $request['id'];
         if ($request->ajax()){
             try{
                 DB::beginTransaction();
@@ -146,27 +151,18 @@ class AbsenceController extends Controller
                 DB::rollBack();
                 session()->flash(trans('team.msg_fails'), trans('project.msg_content.msg_add_error'));
             }
-            return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'html'=>'-']);
-        }
-        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
-    }
-    public function doneDenyConfirm(Request $request){
-        //absence_status_id: 1=waiting, 2=accepted , 3: rejected
-        $idReturn = $request['id'];
-        if ($request->ajax()){
-            try{
-                DB::beginTransaction();
-                $confirmChoose = Confirm::where('id',$request['id'])->first();
-                $confirmChoose['absence_status_id'] = 2;
-                $confirmChoose->save();
-                DB::commit();
+            if ($request['is_deny'] == 0){
+                $msgDoneAbsence = trans('absence_po.list_po.status.accepted_done');
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'confirm_status'=>$msgDoneAbsence,'html'=>'-']);
             }
-            catch (Exception $ex){
-                DB::rollBack();
-                session()->flash(trans('team.msg_fails'), trans('project.msg_content.msg_add_error'));
+            elseif ($request['is_deny'] == 1){
+                $msgDoneDeny = trans('absence_po.list_po.status.accepted_deny');
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'confirm_status'=>$msgDoneDeny, 'html'=>'-']);
             }
-            return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'html'=>'-']);
+            else{
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'confirm_status'=>'-','html'=>'-']);
+            }
         }
-        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);*/
     }
 }
