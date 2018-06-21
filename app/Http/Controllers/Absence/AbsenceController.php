@@ -12,12 +12,8 @@ use App\Models\Confirm;
 use App\Absence\AbsenceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
 use DateTime;
-=======
 use Illuminate\Support\Facades\DB;
-
->>>>>>> 7bf81a10b34dba36fd4acbb321affa8c8a7d6f70
 class AbsenceController extends Controller
 {
     public $id_employee;
