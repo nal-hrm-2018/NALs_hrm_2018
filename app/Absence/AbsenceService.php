@@ -316,15 +316,58 @@ class AbsenceService{
     function numberAbsenceRedundancyOfYearOld($id, $year){
         return 1;
     }
+
+    function subRedundancy($id, $year){
+        $dateNow = new DateTime;
+        $objAS = new AbsenceService;
+        $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
+
+        if($dateNow->year == $year && $dateNow->month < 6){
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 2);
+            if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
+                return $num;
+            }else{
+                $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+            }
+        }else{
+            return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+        }
+        
+    }
+    function subDateAbsences($id, $year){
+        $dateNow = new DateTime;
+        $objAS = new AbsenceService;
+        $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
+        if($dateNow->year == $year && $dateNow->month < 7){
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 2);
+            if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
+                return $objAS->absenceDateOnYear($id, $dateNow->year);
+            }else{
+                return $num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+            }
+        }else{
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, 2);
+            $num1 = $objAS->numberOfDaysOff($id, $year, $dateNow->month, 2);
+            $num2 = $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+            if($num2 - $num >= 0){
+                return $num1 - $num;
+            }else{
+                return $num1 - ($num - $num2);
+            }
+        }
+
+    }
+
     function totalDateAbsences($id, $year){
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
-        if($dateNow->month > 6){
-            return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id,$year);
+        if($dateNow->year == $year && $dateNow->month < 7){
+            return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) + $objAS->numberAbsenceAddPerennial($id,$year);
         }else{
-            return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year) + $objAS->numberAbsenceAddPerennial($id,$year);
+            return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id,$year);
         }
-
     }
+
+
 }

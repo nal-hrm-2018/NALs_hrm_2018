@@ -10,15 +10,35 @@ use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use DateTime;
 class AbsenceController extends Controller
 {
     public function __construct(){
 
     }
     public function index(Request $request){
+        $id = \Illuminate\Support\Facades\Auth::user()->id;
+        $dateNow = new DateTime;
+        $year = $dateNow->format('Y');
     	$abc = new AbsenceService();
-        return view('vangnghi.list');
+
+        $tongSoNgayDuocNghi = $abc->totalDateAbsences($id,$year);
+        $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id,$year-1);
+        $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id,$year);
+
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,2);
+        $soNgayTruPhepDu = $abc->subRedundancy($id, $year);
+        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year);
+
+        $absences = [
+                        "1"=>$tongSoNgayDuocNghi, 
+                        "2"=>$soNgayPhepCoDinh,
+                        "3"=>$soNgayPhepDu,
+                        "4"=>$tongSoNgayDaNghi,
+                        "5"=>$soNgayTruPhepCoDinh,
+                        "6"=>$soNgayTruPhepDu,
+                    ];
+        return view('vangnghi.list', compact('absences'));
     }
 
     public function create()
