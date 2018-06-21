@@ -25,10 +25,19 @@ return [
             'status'=>'Status',
             'note_po'=>'Note PO'
         ],
+        'note'=>[
+            'absence_new'=>'Absence',
+            'absence_deny'=>'Deny'
+        ],
         'status'=>[
             config('settings.status_common.absence.waiting')=>'Waiting',
             config('settings.status_common.absence.accepted')=>'Accepted',
             config('settings.status_common.absence.rejected')=>'Rejected',
+            'accepted_done'=>'Done accepted',
+            'accepted_deny'=>'Done deny',
+            'no_accepted_done'=>'Not accepted',
+            'no_accepted_deny'=>'Not deny',
+            'just_watching'=>'Just Watching'
         ],
         'type'=>[
             config('settings.status_common.absence_type.non_salary_date')=>'Non salary date',
