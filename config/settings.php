@@ -12,7 +12,7 @@ return [
         'jp' => '日本語',
     ],
 
-    'paginate' => 20,
+    'paginate' => 2,
 
     'work_status'=>[
         'active'=>0,

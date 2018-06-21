@@ -17,5 +17,7 @@ return [
         'description'=>'Ghi Chú',
         'status'=>'Tình Trạng',
         'reject_cause'=>'Lý Do Từ Chối',
+        'absence_request'=>'Xin Nghỉ',
+        'cancel_request'=>'Xin Hủy',
     ],
 ];

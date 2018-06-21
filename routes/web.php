@@ -101,6 +101,7 @@ Route::group(['middleware' => 'user'], function () {
     ]);
 
     Route::get('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
+    Route::post('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
 
 });
 

@@ -17,5 +17,7 @@ return [
         'description'=>'Description',
         'status'=>'Status',
         'reject_cause'=>'Reject Cause',
+        'absence_request'=>'Absence Request',
+        'cancel_request'=>'Cancel Request',
     ],
 ];

@@ -20,7 +20,6 @@ class Confirm extends Model
     /**
      * @var array
      */
-
     public $table = 'confirms';
     protected $fillable = [
         'employee_id',
@@ -34,4 +33,17 @@ class Confirm extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
 
+    public function absence()
+    {
+        return $this->belongsTo('App\Models\Absence', 'absences_id');
+    }
+
+    public function absenceStatus()
+    {
+        return $this->belongsTo('App\Models\AbsenceStatus', 'absence_status_id');
+    }
+    public function employee()
+    {
+        return $this->absence->belongsTo('App\Models\Employee','employees_id');
+    }
 }

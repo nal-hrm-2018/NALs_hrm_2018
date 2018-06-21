@@ -39,6 +39,17 @@ class Absence extends Model
      */
     public function employee()
     {
-        return $this->belongsTo('App\Models\Employee','employee_id');
+        return $this->belongsTo('App\Models\Employee','employees_id');
     }
+
+    public function absenceType()
+    {
+        return $this->belongsTo('App\Models\AbsenceType', 'absence_types_id');
+    }
+
+    public function absenceStatus()
+    {
+        return $this->belongsTo('App\Models\AbsenceStatus', 'absence_status_id');
+    }
+
 }
