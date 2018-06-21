@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 
 class AbsencePoTeamServiceImpl implements AbsencePoTeamService
 {
-
     public function poTeamAcceptOrDenyAbsence(Request $request)
     {
         $idReturn = $request['id'];
@@ -55,7 +54,6 @@ class AbsencePoTeamServiceImpl implements AbsencePoTeamService
     {
         //absence_status_id: 1=waiting, 2=accepted , 3: rejected
         $idReturn = $request['id'];
-        dd($idReturn);
         if ($request->ajax()){
             try{
                 DB::beginTransaction();
@@ -83,5 +81,10 @@ class AbsencePoTeamServiceImpl implements AbsencePoTeamService
             }
         }
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
+    }
+
+    public function searchAbsence(Request $request)
+    {
+
     }
 }
