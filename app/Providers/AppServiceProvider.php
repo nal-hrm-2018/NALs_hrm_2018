@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Service\AbsencePoTeamService;
 use App\Service\ChartService;
+use App\Service\Implement\AbsencePoTeamServiceImpl;
 use App\Service\Implement\ChartServiceImpl;
 
 use App\Service\Implement\SearchProjectServiceServiceImpl;
