@@ -59,12 +59,19 @@
                                         
                                     </div>
                                     <div>
-                                        <p>- Số ngày còn lại: 4</p>
+                                        <p>- Số ngày còn lại: {{$absences['9']}}</p>
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép cố định: {{$absences['7']}}</span>
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép dư: {{$absences['8']}}</span>
+                                        @if($checkMonth == 1 && $absences['8'] > 0)
+                                            <strong class="label label-danger">
+                                                Đã hết hạn
+                                            </strong>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <p>- Số ngày nghỉ trừ lương: 2</p>
+                                        <p>- Số ngày nghỉ trừ lương: {{$absences['10']}}</p>
                                     </div>
                                     <div class="row">
                                         <p>- Số ngày nghỉ chế độ bảo hiểm: 3</p>
