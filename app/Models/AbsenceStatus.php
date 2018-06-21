@@ -32,5 +32,9 @@ class AbsenceStatus extends Model
     {
         return $this->hasMany('App\Models\Absence', 'absence_status_id')->where('delete_flag', '=', 0);
     }
+    public function confirms()
+    {
+        return $this->hasMany('App\Models\Confirm','absence_status_id')->where('delete_flag', '=', 0);
+    }
 
 }

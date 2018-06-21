@@ -34,10 +34,14 @@ class Confirm extends Model
 
     public function absence()
     {
-        return $this->belongsTo('App\Models\Confirm','absence_id');
+        return $this->belongsTo('App\Models\Absence','absence_id');
     }
     public function employee()
     {
         return $this->belongsTo('App\Models\Employee','employee_id');
+    }
+    public function absenceStatus()
+    {
+        return $this->belongsTo('App\Models\AbsenceStatus','absence_status_id');
     }
 }
