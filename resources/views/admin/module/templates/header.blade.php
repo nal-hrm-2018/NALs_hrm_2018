@@ -17,21 +17,21 @@
         <ul class="nav navbar-nav">
           <li>
             <div class="languages" style="margin-bottom:5px;">
-              <a href="{{route('setlanguaes','en')}}" lang="en" title="English">
+              <a href="{{route('setlanguaes','en')}}" lang="en" title="{{trans('common.language.en')}}">
                 {{ Html::image('admin/templates/images/Localization/en.png', 'a picture', [
               'class' => 'thumb',
               'id'=>app()->getLocale()===config('settings.locale.en')?'language_active':'inactive',
-              'title'=>'English',
+              'title'=>trans('common.language.en'),
               'lang'=>'en',
               'style'=>app()->getLocale()===config('settings.locale.en')?'padding:0px 2px;border:1px solid white':'',
               'height'=>'25'
               ]) }}
               </a>
-              <a href="{{route('setlanguaes','vn')}}" lang="vn" title="Vietnamese">
+              <a href="{{route('setlanguaes','vn')}}" lang="vn" title="{{trans('common.language.vn')}}">
                 {{ Html::image('admin/templates/images/Localization/vi.png', 'a picture', [
               'class' => 'thumb',
               'id'=>app()->getLocale()===config('settings.locale.vn')?'language_active':'inactive',
-              'title'=>'Vietnamese',
+              'title'=>trans('common.language.vn'),
               'style'=>app()->getLocale()===config('settings.locale.vn')?'padding:0px 2px;border:1px solid white':'',
               'lang'=>'vn',
               'height'=>'25'
@@ -90,7 +90,7 @@
 
 
               <img class="user-image" alt="User Image" src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" />
-              <span class="hidden-xs">welcome {{Auth::user()->name}}</span>
+              <span class="hidden-xs">{{trans('common.header.welcome')}} {{Auth::user()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -100,7 +100,7 @@
 
                 <p>
                   {{Auth::user()->name}} - {{isset(App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name)?App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name:"  "  }}
-                  <small>Member since {{Auth::user()->startwork_date}}</small>
+                  <small>{{trans('common.header.member_since')}} {{Auth::user()->startwork_date}}</small>
 {{--                  {{Auth::user()->name}}--}}
                   {{--<small>Member since {{Auth::user()->startwork_date}}</small>--}}
                 </p>
@@ -114,7 +114,7 @@
                   @else
                     <form action="{{asset('vendors/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
                   @endif                  
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Update Profile') }}</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __(trans('common.header.update_profile')) }}</button>
                   </form>
                 </div>
 
@@ -122,12 +122,12 @@
 
                   <SCRIPT LANGUAGE="JavaScript">
                       function confirmAction(msg) {
-                          return confirm(msg)
+                          return confirm(msg);
                       }
                   </SCRIPT>
 
                   <form action="{{route('logout')}}" id="logout-employee" onSubmit="return confirmAction('Are you sure logout?')">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Logout') }}</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __(trans('common.header.logout')) }}</button>
                   </form>
 
                 </div>
