@@ -44,25 +44,19 @@
               <!-- /.form-group -->
               <div class="form-group">
                 <label>Địa chỉ email<strong style="color: red">(*)</strong></label>
-                <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
-                readonly="readonly"
-                        @endif
-                >
-                <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
+                <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" readonly="readonly" />
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Họ Tên<strong style="color: red">(*)</strong></label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" id="name" readonly="readonly" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
-                <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Team<strong style="color: red">(*)</strong></label>
                 <input type="text" readonly="readonly" class="form-control" placeholder="Team Name"  name="team_name" id="team_name" value="{{isset($objEmployee["team_name"]) ? $objEmployee["team_name"] : null}}">
-                <label id="lb_error_name" style="color: red;" readonly="readonly"></label>
                 <!-- /.input group -->
               </div>
 
@@ -75,30 +69,29 @@
                 @else
                   <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="">
                 @endif
-                <label id="lb_error_name" style="color: red;" readonly="readonly"></label>
               </div>
 
               <div class="form-group">
                 <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input type='text' class="form-control" placeholder="yyyy-MM-dd"/>
+                  <input type='text' class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
                 </div>
-                <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
+                <label id="lb_error_start_date" style="color: red;">{{$errors->first('start_date')}}</label>
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input type='text' class="form-control" placeholder="yyyy-MM-dd"/>
+                  <input type='text' class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
                 </div>
-                <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
+                <label id="lb_error_end_date" style="color: red;">{{$errors->first('end_date')}}</label>
                 <!-- /.input group -->
               </div>
 
@@ -113,7 +106,7 @@
                                 $selected = "selected";
                             }
                             if (isset($Absence_employee)) {
-                                if ($Absence_employee['absence_type_id'] == $val["id"]) {
+                                if ($absences->absence_type_id == $val["id"]) {
                                     $selected = "selected";
                                 }
                             }
@@ -121,20 +114,19 @@
                         }
                         ?>
                     </select>
-                    <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
+                    <label id="lb_error_absence_type_id" style="color: red; ">{{$errors->first('absence_type_id')}}</label>
                 </div>
 
               <div class="form-group">
                 <label>Lý do<strong style="color: red">(*)</strong></label>
                 <input type="text" class="form-control" placeholder="Câu trả lời của bạn"  name="ly_do" id="ly_do">
-                <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
+                <label id="lb_error_reason" style="color: red;">{{$errors->first('reason')}}</label>
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Ghi chú</label>
                 <input type="text" class="form-control" placeholder="Câu trả lời của bạn"  name="ghi_chu" id="ghi_chu">
-                <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
                 <!-- /.input group -->
               </div>
 
