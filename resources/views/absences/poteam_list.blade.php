@@ -33,7 +33,7 @@
                     {!! Form::close() !!}
                 </div>
             </div>
-            {{--<div class="dataTables_length" id="project-list_length" style="float:right">
+            <div class="dataTables_length" id="project-list_length" style="float:right">
                 <label>{{trans('pagination.show.number_record_per_page')}}
                     {!! Form::select(
                         'select_length',
@@ -47,7 +47,7 @@
                         )
                      !!}
                 </label>
-            </div>--}}
+            </div>
         </div>
         <table id="employee-list" class="table table-bordered table-striped">
             <thead>
@@ -59,36 +59,146 @@
                 <th>{{trans('absence_po.list_po.profile_info.type')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.reason')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.note')}}</th>
-                <th>{{trans('absence_po.list_po.profile_info.status')}}</th>
+                <th class="center">{{trans('absence_po.list_po.profile_info.status')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.note_po')}}</th>
             </tr>
             </thead>
             <tbody class="context-menu">
-            <?php
-            foreach ($allEmployeeNotNull as $element) {
-                echo "<tr>";
-                echo "<td>" . $element['name'] . "</td>";
-                echo "<td>" . $element['email'] . "</td>";
-                echo "<td>" .date('d/m/Y h:i:s',strtotime($element->absences[0]->from_date)) . "</td>";
-                echo "<td>" .date('d/m/Y h:i:s',strtotime($element->absences[0]->to_date)) . "</td>";
-//                echo "<td>" . $element->absences[0]->from_date . "</td>";
-//                echo "<td>" . $element->absences[0]->to_date . "</td>";
-                echo "<td>" . $element->absences[0]->absence_type_id . "</td>";
-                echo "<td>" . $element->absences[0]->reason . "</td>";
-                echo "<td>" . $element->absences[0]->description . "</td>";
-                echo "<td>
-<button class='btn btn-success'>Đồng ý</button>
-<button class='btn btn-default'>Từ chối</button>
-</td>";
-                echo "<td></td>";
-                echo "</tr>";
-            }
-            ?>
-            <?php
+            @foreach($getAllAbsenceInConfirm as $element)
+                <tr>
+                    <td hidden="hidden">{{$element->absence['id']}}</td>
+                    <td>{{$element->absence->employee['name']}}</td>
+                    <td>{{$element->absence->employee['email']}}</td>
 
-            ?>
+                    <td>{{date('H:i:s d/m/Y ',strtotime($element->absence['from_date']))}}</td>
+                    <td>{{date('H:i:s d/m/Y ',strtotime($element->absence['to_date']))}}</td>
+                    <td>{{trans('absence_po.list_po.type.'.$element->absence->absencestypes['name'])}}</td>
+                    <td>{{$element->absence->reason}}</td>
+                    @if($element->absence->absencestatus['name'] == config('settings.status_common.absence.waiting') && ($element->absenceStatus['name'] == config('settings.status_common.absence.waiting')))
+                        @if($element->absence['is_deny'] == 0 )
+                            <td class="notecss-confirm"
+                                data-confirm-id="{{$element->id}}">{{trans('absence_po.list_po.note.absence_new')}}</td>
+                        @elseif($element->absence['is_deny'] == 1 )
+                            <td class="notecss-confirm"
+                                data-confirm-id="{{$element->id}}">{{trans('absence_po.list_po.note.absence_deny')}}</td>
+                        @else
+                            <td class="notecss-confirm" data-confirm-id="{{$element->id}}">-</td>
+                        @endif
+                    @else
+                        <td class="notecss-confirm" data-confirm-id="{{$element->id}}">-</td>
+                    @endif
+
+                    @if($element['is_process'] != 0 )
+                        <td>{{trans('absence_po.list_po.status.just_watching')}}</td>
+                    @else
+                        @if($element->absenceStatus['name'] == config('settings.status_common.absence.waiting'))
+                            <td class="center confirm-status" data-confirm-id="{{$element->id}}">
+                                <div class="div confirm-status" data-confirm-id="{{$element->id}}">
+                                    <input id="value-confirm" value="{{$element['id']}}" hidden="hidden"/>
+                                    <a class="btn btn-danger status-absence" id="done-absence"
+                                       data-confirm-id="{{$element->id}}">
+                                        {{trans('absence_po.list_po.modal.done')}}
+                                    </a><br>
+                                    <a class="btn btn-primary status-absence" data-toggle="modal"
+                                       data-target="#modal-default-{{$element->id}}">
+                                        {{trans('absence_po.list_po.modal.cancel')}}</a>
+                                </div>
+                            </td>
+                        @elseif($element->absenceStatus['name'] == config('settings.status_common.absence.accepted'))
+                            @if($element->absence['is_deny'] == 0)
+                                <td class="center">
+                                    {{trans('absence_po.list_po.status.accepted_done')}}
+                                </td>
+                            @elseif($element->absence['is_deny'] == 1)
+                                <td class="center">
+                                    {{trans('absence_po.list_po.status.accepted_deny')}}
+                                </td>
+                            @else
+                                <td class="center">
+                                    -
+                                </td>
+                            @endif
+                        @elseif($element->absenceStatus['name'] == config('settings.status_common.absence.rejected'))
+                            @if($element->absence['is_deny'] == 0)
+                                <td class="center">
+                                    {{trans('absence_po.list_po.status.no_accepted_done')}}
+                                </td>
+                            @elseif($element->absence['is_deny'] == 1)
+                                <td class="center">
+                                    {{trans('absence_po.list_po.status.no_accepted_deny')}}
+                                </td>
+                            @else
+                                <td class="center">
+                                    -
+                                </td>
+                            @endif
+                        @else
+                            <td>-</td>
+                        @endif
+                    @endif
+                    <td class="reason-view" data-reason-view="{{$element->id}}">{{isset($element->reason)?$element->reason:'-'}}</td>
+                </tr>
+                <div class="modal fade" id="modal-default-{{$element->id}}">
+                    <div class="modal-dialog" style="width: 400px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">{{trans('absence_po.list_po.modal.reason')}}</h4>
+                            </div>
+                            <input class="hidden is_deny id-{{$element->id}}" value="{{$element->absence['is_deny']}}" name="is_deny" hidden="hidden"/>
+                            <input hidden="hidden" name="id_confirm" value="{{$element->id}}"/>
+                            <div class="modal-body">
+                                <textarea class="form-control id-{{$element->id}}" name="reason" rows="3"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left"
+                                        data-dismiss="modal">{{trans('absence_po.list_po.modal.close')}}</button>
+                                <button type="button"
+                                        class="btn btn-primary deny" data-confirm-id="{{$element->id}}" data-is-deny="{{$element->absence['is_deny']}}">{{trans('absence_po.list_po.modal.send')}}</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            @endforeach
             </tbody>
         </table>
     </div>
     <!-- /.box-body -->
 </div>
+<div class="abc"></div>
+<style>
+    .btn.btn-danger.status-absence {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 1px 6px;
+        margin-bottom: 2px;
+    }
+
+    .btn.btn-primary.status-absence {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 1px 5px;
+    }
+
+    .btn.btn-danger.status-absence-deny {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 1px 6px;
+        margin-bottom: 2px;
+    }
+
+    .btn.btn-primary.status-absence-deny {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 1px 5px;
+    }
+
+    .center {
+        text-align: center;
+    }
+</style>
+@include('absences._javascript_poteam_list')
+
