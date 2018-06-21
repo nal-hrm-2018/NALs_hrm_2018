@@ -59,13 +59,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <p>Số ngày được nghỉ phép: 2</p>
+                                        <p>Số ngày nghỉ trừ lương: 2</p>
                                     </div>
                                     <div class="row">
-                                        <p>Số ngày đã nghỉ: 3</p>
+                                        <p>Số ngày nghỉ chế độ bảo hiểm: 3</p>
                                     </div>
                                     <div class="row">
-                                        <p>Số ngày còn lại: 4</p>
+                                        <p>Số ngày nghỉ khác: 4</p>
                                     </div>
                                 </div>
                             </div>

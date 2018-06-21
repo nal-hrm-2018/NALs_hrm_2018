@@ -18,8 +18,6 @@ class AbsenceController extends Controller
     }
     public function index(Request $request){
     	$abc = new AbsenceService();
-    	dd($abc->soNgayNghiPhep(1,2018,0, 2));
-    	dd($abc->soNgayDuocNghiPhep(1,2017));
         return view('vangnghi.list');
     }
 
