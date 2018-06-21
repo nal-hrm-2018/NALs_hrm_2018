@@ -48,24 +48,29 @@
                             <div class="row absence_head">
                                 <div class="col-md-6">
                                     <div>
-                                        <p>Số ngày được nghỉ phép: 2</p>
+                                        <p>- Số ngày được nghỉ phép: {{$absences['1']}}</p>
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép cố định: {{$absences['2']}}</span>
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép dư: {{$absences['3']}}</span>
                                     </div>
                                     <div>
-                                        <p><p>Số ngày đã nghỉ: 3</p>
+                                        <p>- Số ngày đã nghỉ: {{$absences['4']}}</p>
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép cố định: {{$absences['5']}}</span>
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép dư: {{$absences['6']}}</span>
+                                        
                                     </div>
                                     <div>
-                                        <p>Số ngày còn lại: 4</p>
+                                        <p>- Số ngày còn lại: 4</p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <p>Số ngày được nghỉ phép: 2</p>
+                                        <p>- Số ngày nghỉ trừ lương: 2</p>
                                     </div>
                                     <div class="row">
-                                        <p>Số ngày đã nghỉ: 3</p>
+                                        <p>- Số ngày nghỉ chế độ bảo hiểm: 3</p>
                                     </div>
                                     <div class="row">
-                                        <p>Số ngày còn lại: 4</p>
+                                        <p>- Số ngày nghỉ khác: 4</p>
                                     </div>
                                 </div>
                             </div>

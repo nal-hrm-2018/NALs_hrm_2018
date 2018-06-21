@@ -23,11 +23,14 @@ class AbsenceType extends Model
 
     public $table = 'absence_types';
     protected $fillable = [
+        'id',
         'name',
-        'description',];
+        'description',
+        'updated_at', 'updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
+    public function absences()
+    {
+        return $this->hasMany('App\Models\Absence', 'absence_type_id')->where('delete_flag', '=', 0);
+    }
 
 }

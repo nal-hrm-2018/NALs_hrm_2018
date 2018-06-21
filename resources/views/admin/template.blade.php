@@ -90,6 +90,9 @@
 <script src="{!! asset('admin/templates/js/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') !!}"></script>
 <!-- bootstrap time picker -->
 <script src="{!! asset('admin/templates/js/plugins/timepicker/bootstrap-timepicker.min.js') !!}"></script>
+<!-- bootstrap datetimepicker -->
+<script src="{!! asset('admin/templates/js/bower_components/bootstrap-datetimepicker/dist/js/bootstrap-datetimepicker.min.js') !!}"></script>
+<script src="{!! asset('admin/templates/js/bower_components/bootstrap-datetimepicker/dist/js/bootstrap-datetimepicker.js') !!}"></script>
 <!-- SlimScroll -->
 <script src="{!! asset('admin/templates/js/plugins/iCheck/icheck.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/my_script/myscript.js') !!}"></script>

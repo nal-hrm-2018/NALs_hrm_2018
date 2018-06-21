@@ -12,18 +12,29 @@ use App\Service\SearchEmployeeService;
 use App\Http\Rule\Absence\ValidAbsenceFilter;
 use App\Models\Employee;
 use App\Models\AbsenceStatus;
+use Illuminate\Support\Facades\Session;
 use App\Models\AbsenceType;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\AbsenceAddRequest;
+use App\Models\Absence;
+use App\Service\AbsencePoTeamService;
+use Carbon\Carbon;
+use App\Models\Confirm;
+use DateTime;
+use Illuminate\Support\Facades\DB;
 class AbsenceController extends Controller
 {
     protected $absenceService;
     private $searchEmployeeService;
+    public $id_employee;
+    public $absencePoTeamService;
 
-    public function __construct(AbsenceService $absenceService, SearchEmployeeService $searchEmployeeService)
+    public function __construct(AbsenceService $absenceService, SearchEmployeeService $searchEmployeeService, AbsencePoTeamService $absencePoTeamService)
     {
         $this->searchEmployeeService = $searchEmployeeService;
         $this->absenceService = $absenceService;
+        $this->absencePoTeamService = $absencePoTeamService;
     }
 
     public function indexHR(Request $request)
@@ -37,39 +48,112 @@ class AbsenceController extends Controller
             ]
         );
         if ($validator->fails()) {
-            view()->share('errors',$validator->errors());
+            view()->share('errors', $validator->errors());
         }
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
+        $absenceService = new \App\Absence\AbsenceService();
+        $absenceService1 = $this->absenceService;
         $month_absences = getArrayMonth();
         $year_absences = $this->absenceService->getArrayYearAbsence();
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $param = (Input::except(['page', 'is_employee']));
         session()->flashInput($request->input());
-        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences'));
+        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences','absenceService','absenceService1'));
     }
-    public function exportAbsenceHR(Request $request){
-        $time =(new \DateTime())->format('Y-m-d H:i:s');
-        return Excel::download(new HRAbsenceExport(null, $request), 'absence-list-'.$time.'.csv');
+
+    public function exportAbsenceHR(Request $request)
+    {
+        $time = (new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new HRAbsenceExport(null, $request), 'absence-list-' . $time . '.csv');
     }
 
     public function index(Request $request)
     {
-        /*dd($abc->soNgayNghiPhep(1,2017,0));
-        dd($abc->soNgayDuocNghiPhep(1,2017));*/
-        return view('vangnghi.list');
+        $id = \Illuminate\Support\Facades\Auth::user()->id;
+        $dateNow = new DateTime;
+        $year = $dateNow->format('Y');
+        $abc = new \App\Absence\AbsenceService();
+
+        $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
+        $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
+        $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
+
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id, $year, 0, 2);
+        $soNgayTruPhepDu = $abc->subRedundancy($id, $year);
+        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year);
+
+        $absences = [
+            "1" => $tongSoNgayDuocNghi,
+            "2" => $soNgayPhepCoDinh,
+            "3" => $soNgayPhepDu,
+            "4" => $tongSoNgayDaNghi,
+            "5" => $soNgayTruPhepCoDinh,
+            "6" => $soNgayTruPhepDu,
+        ];
+        return view('vangnghi.list', compact('absences'));
     }
 
     public function create()
     {
+        $id_employee = Auth::user()->id;
 
+        $curDate = date_create(Carbon::now()->format('Y-m-d'));
+        $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
+        $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
+
+        $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
+            ->join('teams', 'employees.team_id', '=', 'teams.id')
+            ->where('employees.delete_flag', 0)->findOrFail($id_employee)->toArray();
+
+        $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
+            ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
+            ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
+            ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
+            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore) {
+                $query->select('project_id')
+                    ->from('processes')
+                    ->where('employee_id', '=', $id_employee)
+                    ->whereDate('processes.start_date', '>', $dayBefore);
+            })
+            ->WHERE('employees.delete_flag', '=', 0)
+            ->WHERE('roles.name', 'like', 'po')
+            ->get()->toArray();
+        $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
+
+        return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee, 'Absence_type' => $Absence_type]);
     }
 
-    public function store(Request $request)
-    {
 
+    public function store(AbsenceAddRequest $request)
+    {
+        $absence_form = new Absence;
+        $absence_form->employee_id = Auth::user()->id;
+        $absence_form->absence_type_id = $request->absence_type_id;
+
+        $absence_form->name = $request->name;
+        $absence_form->startwork_date = $request->startwork_date;
+        $absence_form->endwork_date = $request->endwork_date;
+        $date = new DateTime;
+        $date = $date->format('Y-m-d H:i:s');
+        if (strtotime($absence_form->to_date) < strtotime($date)) {
+            $absence_form->is_late = 0;
+        } else {
+            $absence_form->is_late = 1;
+        }
+
+        $absence_form->created_at = new DateTime();
+        $absence_form->delete_flag = 0;
+
+        if ($absence_form->save()) {
+            Session::flash('msg_success', 'Account successfully created!!!');
+            return redirect('absences');
+        } else {
+            Session::flash('msg_fail', 'Account failed created!!!');
+            return back()->with(['absences' => $absence_form]);
+        }
     }
 
     public function show($id, Request $request)
@@ -96,37 +180,72 @@ class AbsenceController extends Controller
     public function showListAbsence()
     {
         $getIdUserLogged = Auth::id();
-        $getTeamOfUserLogged = Employee::find($getIdUserLogged);
-        $getAllAbsenceType = AbsenceType::all();
-        $getAllAbsenceStatus = AbsenceStatus::all();
-        $getAllEmployeeByTeamUserLogged = Employee::where('team_id', $getTeamOfUserLogged->team_id)
-            ->where('delete_flag', 0)->where('is_employee', 1);
-        $allAbsenceByUserLogged = array();
-        $allEmployeeByUserLogged = array();
-        $allAbsenceNotNull = array();
-        $allEmployeeNotNull = array();
-        foreach ($getAllEmployeeByTeamUserLogged->get() as $addEmployee) {
-            array_push($allAbsenceByUserLogged, $addEmployee->absences);
-            array_push($allEmployeeByUserLogged, $addEmployee);
-        }
-        foreach ($allAbsenceByUserLogged as $allEmployee) {
-            foreach ($allEmployee as $element) {
-                if (!is_null($element)) {
-                    array_push($allAbsenceNotNull, $element);
-                }
+        $getAllAbsenceInConfirm = Confirm::where('employee_id', $getIdUserLogged)
+            ->orderBy('id', 'DESC')->get();
+        return view('absences.poteam', compact('getAllAbsenceInConfirm'));
+    }
+
+    public function denyPOTeam(Request $request)
+    {
+        return $this->absencePoTeamService->poTeamAcceptOrDenyAbsence($request);
+        /*$idReturn = $request['id'];
+        if ($request->ajax()){
+            try{
+                DB::beginTransaction();
+                $confirmChoose = Confirm::where('id',$request['id'])->first();
+                $confirmChoose['reason'] = $request['reason'];
+                $confirmChoose['absence_status_id'] = 3;
+                $confirmChoose->save();
+                DB::commit();
+            }
+            catch (Exception $ex){
+                DB::rollBack();
+                session()->flash(trans('team.msg_fails'), trans('project.msg_content.msg_add_error'));
+            }
+            if ($request['is_deny'] == 0){
+                $msgDoneAbsence = trans('absence_po.list_po.status.no_accepted_done');
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'deny'=>$request['is_deny'],'html'=>$msgDoneAbsence]);
+            }
+            elseif ($request['is_deny'] == 1){
+                $msgDoneDeny = trans('absence_po.list_po.status.no_accepted_deny');
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'deny'=>$request['is_deny'], 'html'=>$msgDoneDeny]);
+            }
+            else{
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'deny'=>$request['is_deny'],'html'=>'-']);
+
             }
         }
-        foreach ($allEmployeeByUserLogged as $allEmployee) {
-            foreach ($allEmployee->absences as $element) {
-                if (!is_null($element)) {
-                    array_push($allEmployeeNotNull, $allEmployee);
-                }
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);*/
+    }
+
+    public function doneConfirm(Request $request)
+    {
+        return $this->absencePoTeamService->poTeamAcceptAbsenceForm($request);
+        /*$idReturn = $request['id'];
+        if ($request->ajax()){
+            try{
+                DB::beginTransaction();
+                $confirmChoose = Confirm::where('id',$request['id'])->first();
+                $confirmChoose['absence_status_id'] = 2;
+                $confirmChoose->save();
+                DB::commit();
             }
-
+            catch (Exception $ex){
+                DB::rollBack();
+                session()->flash(trans('team.msg_fails'), trans('project.msg_content.msg_add_error'));
+            }
+            if ($request['is_deny'] == 0){
+                $msgDoneAbsence = trans('absence_po.list_po.status.accepted_done');
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'confirm_status'=>$msgDoneAbsence,'html'=>'-']);
+            }
+            elseif ($request['is_deny'] == 1){
+                $msgDoneDeny = trans('absence_po.list_po.status.accepted_deny');
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'confirm_status'=>$msgDoneDeny, 'html'=>'-']);
+            }
+            else{
+                return response(['msg' => 'Product deleted', 'status' => 'success', 'id'=>$idReturn,'confirm_status'=>'-','html'=>'-']);
+            }
         }
-        foreach ($allEmployeeNotNull as $element) {
-
-        }
-        return view('absences.poteam', compact('allEmployeeNotNull', 'allAbsenceNotNull', 'getIdUserLogged', 'getAllAbsenceType', 'getAllAbsenceStatus'));
+        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);*/
     }
 }

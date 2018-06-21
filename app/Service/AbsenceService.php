@@ -13,4 +13,5 @@ use App\Http\Requests\TeamEditRequest;
 interface AbsenceService
 {
     function getArrayYearAbsence();
+    function getnumberAbsenceRedundancyByYear($employee_id,$year);
 }

@@ -61,14 +61,80 @@
     @foreach($employees as $employee)
         <tr class="employee-menu" id="employee-id-{{$employee->id}}" data-employee-id="{{$employee->id}}">
             <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
-            <td>{{ isset($employee->name)? $employee->name: "-" }}</td>
+            <td>{{ isset($employee->name)? $employee->email: "-" }}</td>
+            <td>{{
+            $absenceService->totalDateAbsences(
+            $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence')
+            )
+            }}</td>
+            <td>{{
+                $absenceService1->getnumberAbsenceRedundancyByYear(
+                $employee->id,empty(old('year_absence'))?((int)date('Y')-1):((int)old('year_absence')-1)
+                )
+            }}
+            </td>
+            <td>
+                @php
+                    $total=$absenceService->totalDateAbsences(
+                        $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'));
+
+                    $dayoff= $absenceService->numberOfDaysOff(
+                            $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
+                            empty(old('month_absence'))?null:old('month_absence'),4);
+
+                    if(($total-$dayoff)<0){
+                        echo $total;
+                    }else{
+                        echo $dayoff;
+                    }
+                @endphp
+            </td>
+            <td>{{
+                 $absenceService->numberOfDaysOff(
+                $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
+                empty(old('month_absence'))?null:old('month_absence'),1)
+             }}
+            </td>
+            <td>
+                {{
+                 $absenceService->numberOfDaysOff(
+                $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
+                empty(old('month_absence'))?null:old('month_absence'),3)
+             }}
+            </td>
+            <td>
+                @php
+                    $total=$absenceService->totalDateAbsences(
+                        $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'));
+
+                    $dayoff= $absenceService->numberOfDaysOff(
+                            $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
+                            empty(old('month_absence'))?null:old('month_absence'),4);
+
+                    if(($total-$dayoff)<0){
+                        echo $dayoff-$total;
+                    }else{
+                        echo 0;
+                    }
+                @endphp
+            </td>
+            <td>
+                @php
+                    $total=$absenceService->totalDateAbsences(
+                        $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'));
+
+                    $dayoff= $absenceService->numberOfDaysOff(
+                            $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
+                            empty(old('month_absence'))?null:old('month_absence'),4);
+
+                    if(($total-$dayoff)<0){
+                        echo 0;
+                    }else{
+                        echo $total-$dayoff;
+                    }
+                @endphp
+
+            </td>
             <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                 <li><a href={{route('vendors.show',$employee->id)}}><i
                                 class="fa fa-id-card"></i> {{trans('common.action.view')}}

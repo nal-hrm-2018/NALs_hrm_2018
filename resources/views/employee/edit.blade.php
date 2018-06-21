@@ -211,11 +211,11 @@
                   </button>
                   <br />
                   <label style="color: red;">
-                    <?php 
+                    <?php
                       if (Session::has('error')){
                         echo''.Session::get("error");
-                      } 
-                    ?>                                          
+                      }
+                    ?>
                   </label>
                   <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -288,7 +288,7 @@
                             document.getElementById("errorOldPass").innerHTML = "Old password maximum 32 characters";
                             check = false;
                           }
-                          
+
                           if(new_pass == ""){
                             document.getElementById("errorNewPass").innerHTML = "New password field is required.";
                             check =false;
