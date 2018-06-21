@@ -314,7 +314,7 @@ class AbsenceService{
         }
     }
     function numberAbsenceRedundancyOfYearOld($id, $year){
-        return 1;
+        return 5;
     }
 
     function subRedundancy($id, $year){
@@ -322,15 +322,21 @@ class AbsenceService{
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
 
-        if($dateNow->year == $year && $dateNow->month < 6){
+        if($dateNow->year == $year && $dateNow->month < 7){
             $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 2);
             if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
                 return $num;
             }else{
-                $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+                return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
             }
         }else{
-            return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, 2);
+            if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
+                return $num;
+            }else{
+                return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+            }
         }
         
     }
@@ -341,32 +347,62 @@ class AbsenceService{
         if($dateNow->year == $year && $dateNow->month < 7){
             $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 2);
             if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
-                return $objAS->absenceDateOnYear($id, $dateNow->year);
+                return 0;
             }else{
-                return $num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+                /*return $num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);*/
+                if($num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) > $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1)+$objAS->absenceDateOnYear($id,$year)){
+                    return $objAS->numberAbsenceAddPerennial($id, $year) + $objAS->absenceDateOnYear($id,$year);
+                }else{
+                    return $num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+                }
             }
         }else{
             $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, 2);
-            $num1 = $objAS->numberOfDaysOff($id, $year, $dateNow->month, 2);
+            if($year < $dateNow->year){
+                $num1 = $objAS->numberOfDaysOff($id, $year, 0, 2);
+            }else{
+                $num1 = $objAS->numberOfDaysOff($id, $year, $dateNow->month, 2);
+            }
+
             $num2 = $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
-            if($num2 - $num >= 0){
+            if($num2 - $num >= 0 && $year == $dateNow->year){
                 return $num1 - $num;
             }else{
-                return $num1 - ($num - $num2);
+                if($num1 - $num2 > $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1)+$objAS->absenceDateOnYear($id,$year)){
+                    return $objAS->numberAbsenceAddPerennial($id, $year) + $objAS->absenceDateOnYear($id,$year);
+                }else{
+                    return $num1 - $num2;
+                }
             }
         }
 
     }
 
+    function sumDateExistence($id, $year){
+        $objAS = new AbsenceService;
+        return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id,$year) - $objAS->subDateAbsences($id, $year);
+    }
+    function sumDateRedundancyExistence($id, $year){
+        $dateNow = new DateTime;
+        $objAS = new AbsenceService;
+        $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
+        return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $objAS->subRedundancy($id, $year);
+        /*if($dateNow->year == $year && $dateNow->month < 7){
+            return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $objAS->subRedundancy($id, $year);
+        }else{
+            return 0;
+        }*/
+    }
     function totalDateAbsences($id, $year){
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
-        if($dateNow->year == $year && $dateNow->month < 7){
+        return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) + $objAS->numberAbsenceAddPerennial($id,$year);
+        /*if($dateNow->year == $year && $dateNow->month < 7){
             return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) + $objAS->numberAbsenceAddPerennial($id,$year);
         }else{
             return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id,$year);
-        }
+        }*/
     }
 
 

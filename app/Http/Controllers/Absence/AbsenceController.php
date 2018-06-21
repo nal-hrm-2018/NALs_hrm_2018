@@ -23,7 +23,7 @@ class AbsenceController extends Controller
     public function index(Request $request){
         $id = \Illuminate\Support\Facades\Auth::user()->id;
         $dateNow = new DateTime;
-        $year = $dateNow->format('Y');
+        $year = 2017;
     	$abc = new AbsenceService();
 
         $tongSoNgayDuocNghi = $abc->totalDateAbsences($id,$year);
@@ -34,6 +34,17 @@ class AbsenceController extends Controller
         $soNgayTruPhepDu = $abc->subRedundancy($id, $year);
         $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year);
 
+        if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
+            $checkMonth = 1;
+        }else{
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
+            $checkMonth = 0;
+        }
+        $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
+        $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
+
+        $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh;
         $absences = [
                         "1"=>$tongSoNgayDuocNghi, 
                         "2"=>$soNgayPhepCoDinh,
@@ -41,8 +52,12 @@ class AbsenceController extends Controller
                         "4"=>$tongSoNgayDaNghi,
                         "5"=>$soNgayTruPhepCoDinh,
                         "6"=>$soNgayTruPhepDu,
+                        "7"=>$soNgayPhepCoDinhConLai,
+                        "8"=>$soNgayTruPhepDuConLai,
+                        "9"=>$soNgayPhepConLai,
+                        "10"=>$soNgayNghiTruLuong
                     ];
-        return view('vangnghi.list', compact('absences'));
+        return view('vangnghi.list', compact('absences','checkMonth'));
     }
 
     public function create()
