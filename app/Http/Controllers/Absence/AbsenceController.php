@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Absence;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
-
 use App\Models\Employee;
 use App\Service\AbsencePoTeamService;
 use Carbon\Carbon;
@@ -15,8 +14,8 @@ use App\Models\Process;
 use App\Models\Role;
 use App\Service\SearchConfirmService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-
 
 class AbsenceController extends Controller
 {
@@ -107,8 +106,8 @@ class AbsenceController extends Controller
 
 
     public function index(Request $request){
-        $id = \Illuminate\Support\Facades\Auth::user()->id;
-        $dateNow = new DateTime;
+        $id = Auth::user()->id;
+        $dateNow = new \DateTime;
         $year = $dateNow->format('Y');
     	$abc = new AbsenceService();
 
