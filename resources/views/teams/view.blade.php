@@ -13,14 +13,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Team Detail
+                {{trans('team.title_header.detail')}}
                 <small>Nal solution</small>
             </h1>
 
             <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{asset('/teams')}}"> Teams</a></li>
-                <li><a href="#">Detail</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
+                <li><a href="{{asset('/teams')}}"> {{trans('team.path.team')}}</a></li>
+                <li><a href="#">{{trans('team.title_header.detail')}}</a></li>
             </ol>
         </section>
 
@@ -38,12 +38,12 @@
                             <table id="employee-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Employee ID</th>
-                                    <th>PO Name</th>
-                                    <th>Role</th>
-                                    <th>Doing Projects</th>
-                                    <th>Email</th>
-                                    <th class="text-center">Phone</th>
+                                    <th>{{trans('team.team.employee_id')}}</th>
+                                    <th>{{trans('team.team.po_name')}}</th>
+                                    <th>{{trans('team.team.role')}}</th>
+                                    <th>{{trans('team.team.doing_project')}}</th>
+                                    <th>{{trans('team.team.email')}}</th>
+                                    <th class="text-center">{{trans('team.team.phone')}}</th>
                                 </tr>
                                 </thead>
                                 {{-- {{var_dump($member[3]->projects->toArray())}}--}}
@@ -113,10 +113,9 @@
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
 
                                             <li><a href="{!! asset('employee/'.$employee->id)!!}"><i
-                                                            class="fa fa-id-card"></i> View</a></li>
+                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
                                             <li><a href="{!! asset('employee/'.$employee->id.'/edit')!!}"><i
-                                                            class="fa fa-edit"></i>
-                                                    Edit</a></li>
+                                                            class="fa fa-edit"></i> {{trans('common.action.edit')}}</a></li>
                                         </ul>
                                     </tr>
                                 @endforeach
@@ -130,16 +129,16 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">
-                                                <th>Project Name Of: <span id="employee-name"></span></th>
+                                                <th>{{trans('team.view_team_list_project.title')}} <span id="employee-name"></span></th>
                                             </h4>
                                         </div>
                                         <div class="modal-body">
                                             <table id="member-list" class="table table-bordered table-striped">
                                                 <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>Name</th>
-                                                    <th>Status</th>
+                                                    <th>{{trans('team.view_team_list_project.id')}}</th>
+                                                    <th>{{trans('team.view_team_list_project.name')}}</th>
+                                                    <th>{{trans('team.view_team_list_project.status')}}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="context-menu"  id="table-list-members">
@@ -150,7 +149,7 @@
                                             </table>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('team.view_team_list_project.close')}}
                                             </button>
                                         </div>
                                     </div>
