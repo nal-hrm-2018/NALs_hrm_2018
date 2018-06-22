@@ -75,7 +75,6 @@ return [
         'list_team'=>'Danh Sách Team',
         'add_team'=>'Thêm Team',
         'edit_team'=>'Chỉnh Sửa Team',
-        'absence'=>'Vắng Nghỉ',
         'po_project'=>'PO Dự Án',
         'confirmation'=>'Xác Nhận',
         'statistic'=>'Thống Kê',

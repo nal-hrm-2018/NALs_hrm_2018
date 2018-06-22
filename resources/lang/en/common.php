@@ -81,7 +81,6 @@ return [
         'list_team'=>'List Team',
         'add_team'=>'Add Team',
         'edit_team'=>'Edit Team',
-        'absence'=>'Absence',
         'po_project'=>'PO Project',
         'confirmation'=>'Confirmation',
         'statistic'=>'Statistic',
