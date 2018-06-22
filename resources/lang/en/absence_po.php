@@ -41,6 +41,7 @@ return [
         ],
         'type'=>[
             config('settings.status_common.absence_type.non_salary_date')=>'Non salary date',
+            config('settings.status_common.absence_type.salary_date')=>'Salary date',
             config('settings.status_common.absence_type.subtract_salary_date')=>'Subtract salary date',
             config('settings.status_common.absence_type.insurance_date')=>'Insurance date',
         ]

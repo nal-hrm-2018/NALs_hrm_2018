@@ -15,4 +15,5 @@ interface AbsencePoTeamService
 {
     public function poTeamAcceptOrDenyAbsence(Request $request);
     public function poTeamAcceptAbsenceForm(Request $request);
+    public function searchAbsence(Request $request);
 }

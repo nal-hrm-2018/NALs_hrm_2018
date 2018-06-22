@@ -36,8 +36,8 @@ class AbsenceService{
                 ->where('absence_statuses.id', 2)
                 ->where('employee_id',$id)
                 ->where('absence_types.id', $absence_type)
-                ->where('absences.from_date','<=',$input)
-                ->where('absences.to_date','>=',$input)
+                ->whereRaw("(date_format(absences.from_date,'%Y-%m')<=".$input.")")
+                ->whereRaw("(date_format(absences.to_date,'%Y-%m')>=".$input.")")
 
                 ->get();
         }
@@ -419,25 +419,16 @@ class AbsenceService{
 
     }
     // tong so ngay duoc nghi phep trong nam nay (tong so ngay co dinh + tong ngay du nam cu~ + lam lau nam)
-    function totalDateAbsences($id, $year,$month)
+    function totalDateAbsences($id, $year)
     {
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'), $dateNow->format('m'), $dateNow->format('d'));
-        if(empty($month)){
             if ($dateNow->year == $year && $dateNow->month < 7) {
                 return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year - 1) + $objAS->numberAbsenceAddPerennial($id, $year);
             } else {
                 return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id, $year);
             }
-        }else{
-            if ($month < 7) {
-                return $objAS->absenceDateOnMonthYear($id, $year,$month) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year - 1) + $objAS->numberAbsenceAddPerennial($id, $year);
-            } else {
-                return $objAS->absenceDateOnMonthYear($id, $year,$month) + $objAS->numberAbsenceAddPerennial($id, $year);
-            }
-        }
-
     }
 
 }

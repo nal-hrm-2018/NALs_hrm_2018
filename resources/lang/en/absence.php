@@ -11,5 +11,20 @@ return [
     'last_year_absences_date'=> 'Last year absences date',
     'msg_content'=>[
         'msg_filter_invalid' => 'Please choose year !!'
-    ]
+    ],
+    'confirmation'=>[
+        'employee_name'=>'Name',
+        'email'=>'Email',
+        'project_name'=>'Project',
+        'from'=>'From',
+        'to'=>'To',
+        'type'=>'Type',
+        'cause'=>'Cause',
+        'description'=>'Description',
+        'status'=>'Status',
+        'reject_cause'=>'Reject Cause',
+        'absence_request'=>'Absence Request',
+        'cancel_request'=>'Cancel Request',
+    ],
 ];
+

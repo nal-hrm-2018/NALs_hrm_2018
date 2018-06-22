@@ -62,7 +62,7 @@
             </div>
             <div class="input-group margin">
                 <div class="input-group-btn">
-                    <button type="button" class="btn width-100">{{ trans('project.start_date')  }}</button>
+                    <button type="button" class="btn width-100">{{ trans('project.process_start_date')  }}</button>
                 </div>
                 {{ Form::date('start_date', '',
                    ['class' => 'form-control',
@@ -73,7 +73,7 @@
             </div>
             <div class="input-group margin">
                 <div class="input-group-btn">
-                    <button type="button" class="btn width-100">{{ trans('project.end_date')  }}</button>
+                    <button type="button" class="btn width-100">{{ trans('project.process_end_date')  }}</button>
                 </div>
                 {{ Form::date('end_date', '',
                     ['class' => 'form-control',
