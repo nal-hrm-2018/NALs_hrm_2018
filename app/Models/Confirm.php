@@ -20,7 +20,6 @@ class Confirm extends Model
     /**
      * @var array
      */
-
     public $table = 'confirms';
     protected $fillable = [
         'employee_id',
