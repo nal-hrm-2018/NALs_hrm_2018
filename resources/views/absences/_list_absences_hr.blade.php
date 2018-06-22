@@ -75,12 +75,16 @@
             </td>
             <td>
                 @php
+
                     $total=$absenceService->totalDateAbsences(
                         $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'));
 
                     $dayoff= $absenceService->numberOfDaysOff(
                             $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
-                            empty(old('month_absence'))?null:old('month_absence'),4);
+                            empty(old('month_absence'))?null:old('month_absence'),
+                            getAbsenceType(config('settings.status_common.absence_type.salary_date')),
+                            getAbsenceStatuses(config('settings.status_common.absence.accepted'))
+                            );
 
                     if(($total-$dayoff)<0){
                         echo $total;
@@ -92,14 +96,20 @@
             <td>{{
                  $absenceService->numberOfDaysOff(
                 $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
-                empty(old('month_absence'))?null:old('month_absence'),1)
+                empty(old('month_absence'))?null:old('month_absence'),
+                getAbsenceType(config('settings.status_common.absence_type.non_salary_date')),
+                getAbsenceStatuses(config('settings.status_common.absence.accepted'))
+                )
              }}
             </td>
             <td>
                 {{
                  $absenceService->numberOfDaysOff(
                 $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
-                empty(old('month_absence'))?null:old('month_absence'),3)
+                empty(old('month_absence'))?null:old('month_absence'),
+                getAbsenceType(config('settings.status_common.absence_type.insurance_date')),
+                getAbsenceStatuses(config('settings.status_common.absence.accepted'))
+                )
              }}
             </td>
             <td>
@@ -109,7 +119,10 @@
 
                     $dayoff= $absenceService->numberOfDaysOff(
                             $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
-                            empty(old('month_absence'))?null:old('month_absence'),4);
+                            empty(old('month_absence'))?null:old('month_absence'),
+                            getAbsenceType(config('settings.status_common.absence_type.salary_date')),
+                            getAbsenceStatuses(config('settings.status_common.absence.accepted'))
+                            );
 
                     if(($total-$dayoff)<0){
                         echo $dayoff-$total;
@@ -125,7 +138,10 @@
 
                     $dayoff= $absenceService->numberOfDaysOff(
                             $employee->id,empty(old('year_absence'))?date('Y'):old('year_absence'),
-                            empty(old('month_absence'))?null:old('month_absence'),4);
+                            empty(old('month_absence'))?null:old('month_absence'),
+                            getAbsenceType(config('settings.status_common.absence_type.salary_date')),
+                            getAbsenceStatuses(config('settings.status_common.absence.accepted'))
+                            );
 
                     if(($total-$dayoff)<0){
                         echo 0;
