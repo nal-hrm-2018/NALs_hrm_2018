@@ -4,8 +4,11 @@ use App\Http\Requests\ProcessAddRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
 use App\Models\Role;
+use App\Models\Confirm;
 use Carbon\Carbon;
 use Illuminate\Support\MessageBag;
+use App\Models\AbsenceType;
+use App\Models\AbsenceStatus;
 
 function test()
 {
@@ -35,6 +38,26 @@ function getArrayMonth(){
         11=>trans('common.month.november'),
         12=>trans('common.month.december'),
     ];
+}
+
+function getAbsenceStatuses($status)
+{
+   $status =  AbsenceStatus::select()->where('name',$status)->first();
+   if(empty($status)){
+    return '';
+   }else{
+    return $status->id;
+   }
+}
+
+function getAbsenceType($type)
+{
+  $type = AbsenceType::select()->where('name',$type)->first();
+   if(empty($type)){
+    return '';
+   }else{
+    return $type->id;
+   }
 }
 
 function getArraySelectOption()
@@ -232,4 +255,9 @@ function checkPOinProject($processes)
         }
     }
     return false;
+}
+function selectConfirm($id_absence){
+    $objConfirm = Confirm::select()
+            ->where('absence_id',$id_absence)->first();
+    return $objConfirm;
 }
