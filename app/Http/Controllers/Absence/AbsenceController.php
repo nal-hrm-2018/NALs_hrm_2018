@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Absence;
 
 use App\Export\HRAbsenceExport;
+use App\Absence\AbsenceService;
 use App\Http\Controllers\Controller;
-use App\Service\AbsenceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
@@ -265,12 +265,16 @@ class AbsenceController extends Controller
     }
 
     // function create by Quy.
-    public function showListAbsence()
-    {
+
+    public function showListAbsence(Request $request){
         $getIdUserLogged = Auth::id();
-        $getAllAbsenceInConfirm = Confirm::where('employee_id', $getIdUserLogged)
-            ->orderBy('id', 'DESC')->get();
-        return view('absences.poteam', compact('getAllAbsenceInConfirm'));
+        $getAllAbsenceStatus = AbsenceStatus::all();
+        $getAllAbsenceTypes = AbsenceType::all();
+
+//        $getAllAbsenceInConfirm = Confirm::where('employee_id',$getIdUserLogged)
+//            ->orderBy('id', 'DESC')->get();
+        $getAllAbsenceInConfirm = $this->absencePoTeamService->searchAbsence($request, $getIdUserLogged)->orderBy('id', 'DESC')->get();
+        return view('absences.poteam', compact('getAllAbsenceInConfirm','getAllAbsenceStatus','getAllAbsenceTypes'));
     }
 
     public function denyPOTeam(Request $request)

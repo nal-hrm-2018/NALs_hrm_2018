@@ -117,6 +117,10 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
     Route::post('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
 
+
+    Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
+    Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');
+    Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
 });
 
 //cong list route cam pha'
@@ -139,9 +143,6 @@ Route::get('/phu-test', function (){
 });
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
-Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
-Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');
-Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
