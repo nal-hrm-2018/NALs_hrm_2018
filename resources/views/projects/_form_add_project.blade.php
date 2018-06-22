@@ -351,7 +351,7 @@
             $('#form_add_project').on('submit', function (event) {
                 var id_project = $('#id').val();
                 var name_project = $('#name').val();
-                if (confirm(message_confirm('add', 'project', id_project, name_project))) {
+                if (confirm(message_confirm_project(lang.getString('add'), lang.getString('project'), id_project, name_project))) {
                     return true;
                 }
                 return false;
@@ -366,7 +366,7 @@
                 var target = $(event.target).parent().closest('tr');
                 var employee_id = $(event.target).attr('id');
                 var employee_name = $(event.target).attr('name');
-                if (confirm(message_confirm('remove', 'employee', employee_id, employee_name))) {
+                if (confirm(message_confirm_project(lang.getString('remove'),lang.getString('employee'), employee_id, employee_name))) {
                     removeEmployee(employee_id, target);
                 }
             });
@@ -377,7 +377,7 @@
                 if (employee_id === '' || employee_name === '') {
                     return confirm(lang.getString('alert_choose_employee'));
                 } else {
-                    if (confirm(message_confirm('add', 'employee', employee_id, employee_name))) {
+                    if (confirm(message_confirm_project(lang.getString('add'), lang.getString('employee'), employee_id, employee_name))) {
                         var end_date_process_selected = $('#end_date_process').val();
                         var start_date_process_selected = $('#start_date_process').val();
                         if (checkDupeMember(employee_id, employee_name, start_date_process_selected, end_date_process_selected)) {

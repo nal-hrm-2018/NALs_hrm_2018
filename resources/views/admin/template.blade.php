@@ -90,10 +90,14 @@
 <script src="{!! asset('admin/templates/js/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') !!}"></script>
 <!-- bootstrap time picker -->
 <script src="{!! asset('admin/templates/js/plugins/timepicker/bootstrap-timepicker.min.js') !!}"></script>
+<!-- bootstrap datetimepicker -->
+<script src="{!! asset('admin/templates/js/bower_components/bootstrap-datetimepicker/dist/js/bootstrap-datetimepicker.min.js') !!}"></script>
+<script src="{!! asset('admin/templates/js/bower_components/bootstrap-datetimepicker/dist/js/bootstrap-datetimepicker.js') !!}"></script>
 <!-- SlimScroll -->
 <script src="{!! asset('admin/templates/js/plugins/iCheck/icheck.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/my_script/myscript.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/my_script/project.js') !!}"></script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/my_script/absence.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/common/commonJs.js') !!}"></script>
 <script src="{!! asset('admin/templates/js/go_to_top/go_to_top.js') !!}"></script>
 <script src="{!! asset('admin/templates/js/back_button/back_button.js') !!}"></script>
@@ -101,6 +105,8 @@
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/lang.js') !!}"> </script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/project.js') !!}"> </script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/project.js') !!}"> </script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/absence.js') !!}"> </script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/absence.js') !!}"> </script>
 <script>
     $(function () {
         $('#example1').DataTable()
