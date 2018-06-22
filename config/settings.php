@@ -12,7 +12,7 @@ return [
         'jp' => '日本語',
     ],
 
-    'paginate' => 20,
+    'paginate' => 2,
 
     'work_status'=>[
         'active'=>0,
@@ -32,7 +32,20 @@ return [
         'complete'=>'complete',
         'planing'=>'planning'
     ],
-
+    'status_common'=>[
+        'absence'=>[
+            'waiting'=>'waiting',
+            'accepted'=>'accepted',
+            'rejected'=>'rejected'
+        ],
+        'absence_type'=>[
+            'non_salary_date'=>'non_salary_date',
+            'salary_date'=>'salary_date',
+            'subtract_salary_date'=>'subtract_salary_date',
+            'insurance_date'=>'insurance_date',
+            'absented_date'=>'absented_date',
+        ]
+    ],
     'Roles'=>[
         'PO'=>'PO',
         'TeamDev'=>'Dev',

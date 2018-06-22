@@ -21,14 +21,20 @@ class AbsenceStatus extends Model
      * @var array
      */
 
-    public $table = 'absence_status';
+    public $table = 'absence_statuses';
     protected $fillable = [
+        'id',
         'name',
-        'description',];
+        'description',
+        'updated_at', 'updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-
+    public function absences()
+    {
+        return $this->hasMany('App\Models\Absence', 'absence_status_id')->where('delete_flag', '=', 0);
+    }
+    public function confirms()
+    {
+        return $this->hasMany('App\Models\Confirm','absence_status_id')->where('delete_flag', '=', 0);
+    }
 
 }
