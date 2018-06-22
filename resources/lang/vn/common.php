@@ -29,6 +29,10 @@ return [
         'add' => "THÊM",
         'save' => 'LƯU',
         'update' => 'CẬP NHẬT',
+        'import' => 'NHẬP',
+        'export' => 'XUẤT',
+        'template' => 'FILE MẪU',
+        'edit_password'=>'ĐỔI MẬT KHẨU',
         'reopen'=> 'Mở khóa',
         'back' => 'QUAY LẠI',
         'input'=>'Nhập',
@@ -50,22 +54,67 @@ return [
         'absence_detail'=>'Danh sách xin vắng làm'
     ],
     'path'=>[
+        'dashboard'=>'Trang Chủ',
+        'project'=>'Dự Án',
         'home'=>'Trang Chủ',
         'projects'=>'Danh sách Dự án',
         'employee'=>'Nhân Viên',
         'vendor'=>'Nhân Viên Ngoài',
-        'team' => 'Nhóm',
+        'team' => 'Team',
         'list' => 'Danh sách',
         'absence'=>'Xin vắng làm',
         'detail'=>'Chi Tiết',
+        'add'=>'Thêm',
+        'edit'=>'Chỉnh Sửa',
+        'list_project'=>'Danh Sách Dự Án',
         'add_project'=>'Thêm Dự Án',
         'edit_project'=>'Chỉnh Sửa Dự Án',
-        'absences'=>'Danh sách vắng nghỉ'
+        'absences'=>'Danh sách vắng nghỉ',
+        'list_employee'=>'Danh Sách Nhân Viên',
+        'add_employee'=>'Thêm Nhân Viên',
+        'edit_employee'=>'Chỉnh Sửa Nhân Viên',
+        'list_vendor'=>'Danh Sách Nhân Viên Ngoài',
+        'add_vendor'=>'Thêm Nhân Viên Ngoài',
+        'edit_vendor'=>'Chỉnh Sửa Nhân Viên Ngoài',
+        'list_team'=>'Danh Sách Team',
+        'add_team'=>'Thêm Team',
+        'edit_team'=>'Chỉnh Sửa Team',
+        'absence'=>'Vắng Nghỉ',
+        'po_project'=>'PO Dự Án',
+        'confirmation'=>'Xác Nhận',
+        'statistic'=>'Thống Kê',
     ],
     'action'=>[
         'view'=>'Chi tiết',
         'edit'=>'Sửa',
         'remove'=>'Xóa'
+    ],
+    'action_confirm'=>[
+        'add'=>'thêm',
+        'edit'=>'chỉnh sửa',
+        'delete'=>'xóa'
+    ],
+    'name_confirm'=>[
+        'employee'=>'nhân viên',
+        'vendor'=>'nhân viên ngoài',
+        'team'=>'team',
+        'project'=>'dự án',
+        'process'=>'công việc',
+    ],
+    'delete'=>[
+        'success'=>'Xóa thành công!',
+        'fail'=>'Xóa không thành công!'
+    ],
+    'confirm_reset'=>'Bạn có muốn làm mới không?',
+    'language'=>[
+        'vn'=>'Tiếng Việt',
+        'en'=>'Tiếng Anh',
+    ],
+    'header'=>[
+        'welcome'=>'Chào',
+        'member_since'=>'Ngày Bắt Đầu',
+        'update_profile'=>'Trang Cá Nhân',
+        'logout'=>'Đăng Xuất'
     ],
     'error'=>'Lỗi',
     'warning'=>'Cảnh báo',
@@ -99,4 +148,5 @@ return [
         'november'=>'Tháng 11',
         'december'=>'Tháng 12'
     ]
+
 ];

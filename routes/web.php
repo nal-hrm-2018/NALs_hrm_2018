@@ -114,7 +114,8 @@ Route::group(['middleware' => 'user'], function () {
         'uses' => 'User\Vendor\VendorController@showChart',
     ]);
 
-
+    Route::get('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
+    Route::post('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
 
 });
 

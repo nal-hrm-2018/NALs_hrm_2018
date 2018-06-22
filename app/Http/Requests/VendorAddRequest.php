@@ -66,105 +66,105 @@ class VendorAddRequest extends CommonRequest
     {
         return [
             'company.required' => trans('validation.required', [
-                'attribute' => 'Company'
+                'attribute' => trans('vendor.profile_info.company')
             ]),
             'email.required' => trans('validation.required', [
-                'attribute' => 'Email'
+                'attribute' => trans('employee.profile_info.email')
             ]),
             'email.email' => trans('validation.email', [
-                'attribute' => 'Email'
+                'attribute' => trans('employee.profile_info.email')
             ]),
             'email.unique' => trans('validation.unique', [
-                'attribute' => 'Email'
+                'attribute' => trans('employee.profile_info.email')
             ]),
             'password.required' => trans('validation.required', [
-                'attribute' => 'Password'
+                'attribute' => trans('employee.profile_info.password')
             ]),
             'password.min' => trans('validation.min.string', [
-                'attribute' => 'Password',
+                'attribute' => trans('employee.profile_info.password'),
                 'min' => '6'
             ]),
             'confirm_confirmation.required' => trans('validation.required', [
-                'attribute' => 'confirm password'
+                'attribute' => trans('employee.profile_info.password_confirm')
             ]),
             'confirm_confirmation.same' => trans('validation.same', [
-                'attribute' => 'confirm password'
+                'attribute' => trans('employee.profile_info.password_confirm')
             ]),
             'name.required' => trans('validation.required', [
-                'attribute' => 'Name'
+                'attribute' => trans('employee.profile_info.name')
             ]),
             'address.required' => trans('validation.required', [
-                'attribute' => 'Address'
+                'attribute' => trans('employee.profile_info.address')
             ]),
             'gender.required' => trans('validation.required', [
-                'attribute' => 'Gender'
+                'attribute' => trans('employee.profile_info.gender.title')
             ]),
             'gender.integer' => trans('validation.not_in', [
-                'attribute' => 'Gender'
+                'attribute' => trans('employee.profile_info.gender.title')
             ]),
             'gender.digits_between' => trans('validation.not_in', [
-                'attribute' => 'Gender'
+                'attribute' => trans('employee.profile_info.gender.title')
             ]),
             'mobile.required' => trans('validation.required', [
-                'attribute' => 'Mobile'
+                'attribute' => trans('employee.profile_info.phone')
             ]),
             'mobile.numeric' => trans('validation.numeric', [
-                'attribute' => 'Mobile'
+                'attribute' => trans('employee.profile_info.phone')
             ]),
             'mobile.digits_between' => trans('validation.digits_between', [
-                'attribute' => 'Mobile',
+                'attribute' => trans('employee.profile_info.phone'),
                 'min' => '10',
                 'max' => '11'
             ]),
             'marital_status.required' => trans('validation.required', [
-                'attribute' => 'Married'
+                'attribute' => trans('employee.profile_info.marital_status.title')
             ]),
             'marital_status.integer' => trans('validation.not_in', [
-                'attribute' => 'Married'
+                'attribute' => trans('employee.profile_info.marital_status.title')
             ]),
             'marital_status.digits_between' => trans('validation.not_in', [
-                'attribute' => 'Married'
+                'attribute' => trans('employee.profile_info.marital_status.title')
             ]),
             /*'curriculum_vitae.required' => trans('validation.required', [
                 'attribute' => 'CV'
             ]),*/
             'employee_type_id.required' => trans('validation.required', [
-                'attribute' => 'Position'
+                'attribute' => trans('employee.profile_info.position')
             ]),
             'role_id.required' => trans('validation.required', [
-                'attribute' => 'Role'
+                'attribute' => trans('employee.profile_info.role')
             ]),
             /*'avatar.required' => trans('validation.required', [
                 'attribute' => 'Avatar'
             ]),*/
             'birthday.required' => trans('validation.required', [
-                'attribute' => 'Birthday'
+                'attribute' => trans('employee.profile_info.birthday')
             ]),
             'birthday.date_format' => trans('validation.date_format', [
-                'attribute' => 'Birthday',
+                'attribute' => trans('employee.profile_info.birthday'),
                 'format' => 'dd-mm-YYYY'
             ]),
             'birthday.before' => trans('validation.before', [
-                'attribute' => 'Birthday',
-                'date' => 'Today'
+                'attribute' => trans('employee.profile_info.birthday'),
+                'date' => trans('employee.profile_info.today')
             ]),
             'startwork_date.required' => trans('validation.required', [
-                'attribute' => 'Start Work Date'
+                'attribute' => trans('employee.profile_info.start_work')
             ]),
             'startwork_date.date_format' => trans('validation.date_format', [
-                'attribute' => 'Start Work Date',
+                'attribute' => trans('employee.profile_info.start_work'),
                 'format' => 'dd-mm-YYYY'
             ]),
             'endwork_date.required' => trans('validation.required', [
-                'attribute' => 'End Work Date'
+                'attribute' => trans('employee.profile_info.end_work')
             ]),
             'endwork_date.date_format' => trans('validation.date_format', [
-                'attribute' => 'End Work Date',
+                'attribute' => trans('employee.profile_info.end_work'),
                 'format' => 'dd-mm-YYYY'
             ]),
             'endwork_date.after' => trans('validation.after', [
-                'attribute' => 'End Work Date',
-                'date'=>'Start Work Date'
+                'attribute' => trans('employee.profile_info.end_work'),
+                'date'=>trans('employee.profile_info.start_work')
             ]),
         ];
     }
