@@ -2,7 +2,6 @@
 
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
 <script>
-
     (function () {
         $('#select_length').change(function () {
             $("#number_record_per_page").val($(this).val());

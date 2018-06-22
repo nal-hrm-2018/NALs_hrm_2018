@@ -20,23 +20,27 @@ class Confirm extends Model
     /**
      * @var array
      */
-
     public $table = 'confirms';
     protected $fillable = [
         'employee_id',
         'absence_status_id',
         'absence_id',
         'reason',
+        'is_process',
         'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'
         ];
 
 
     public function absence()
     {
-        return $this->belongsTo('App\Models\Confirm','absence_id');
+        return $this->belongsTo('App\Models\Absence','absence_id');
     }
     public function employee()
     {
         return $this->belongsTo('App\Models\Employee','employee_id');
+    }
+    public function absenceStatus()
+    {
+        return $this->belongsTo('App\Models\AbsenceStatus','absence_status_id');
     }
 }
