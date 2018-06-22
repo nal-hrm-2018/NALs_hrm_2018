@@ -76,25 +76,48 @@
             @foreach($getAllAbsenceInConfirm as $element)
                 <tr>
                     <td hidden="hidden">{{$element->absence['id']}}</td>
-                    <td>{{$element->absence->employee['name']}}</td>
-                    <td>{{$element->absence->employee['email']}}</td>
+                    <td>
+                        <div class="absence-center">
+                            {{$element->absence->employee['name']}}
+                        </div></td>
+                    <td>
+                        <div class="absence-center-email">
+                            {{$element->absence->employee['email']}}
+                        </div>
+                    </td>
 
-                    <td>{{date('H:i:s d/m/Y ',strtotime($element->absence['from_date']))}}</td>
-                    <td>{{date('H:i:s d/m/Y ',strtotime($element->absence['to_date']))}}</td>
-                    <td>{{trans('absence_po.list_po.type.'.$element->absence->absenceType['name'])}}</td>
-                    <td>{{$element->absence->reason}}</td>
+                    <td>
+                        <div class="absence-center">
+                            {{date('H:i:s d/m/Y ',strtotime($element->absence['from_date']))}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="absence-center">
+                            {{date('H:i:s d/m/Y ',strtotime($element->absence['to_date']))}}
+                        </div>
+                    </td>
+                    <td><div class="absence-center">
+                            {{trans('absence_po.list_po.type.'.$element->absence->absenceType['name'])}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="absence-center-reason">{{$element->absence->reason}}</div>
+                    </td>
                     @if($element->absence->absenceStatus['name'] == config('settings.status_common.absence.waiting') && ($element->absenceStatus['name'] == config('settings.status_common.absence.waiting')))
                         @if($element->absence['is_deny'] == 0 )
                             <td class="notecss-confirm"
-                                data-confirm-id="{{$element->id}}">{{trans('absence_po.list_po.note.absence_new')}}</td>
+                                data-confirm-id="{{$element->id}}">
+                                <div class="absence-center-reason">{{trans('absence_po.list_po.note.absence_new')}}</div></td>
                         @elseif($element->absence['is_deny'] == 1 )
                             <td class="notecss-confirm"
-                                data-confirm-id="{{$element->id}}">{{trans('absence_po.list_po.note.absence_deny')}}</td>
+                                data-confirm-id="{{$element->id}}">
+                                <div class="absence-center-reason">{{trans('absence_po.list_po.note.absence_deny')}}</div>
+                            </td>
                         @else
-                            <td class="notecss-confirm" data-confirm-id="{{$element->id}}">-</td>
+                            <td class="notecss-confirm" data-confirm-id="{{$element->id}}"><div class="absence-center-reason">-</div></td>
                         @endif
                     @else
-                        <td class="notecss-confirm" data-confirm-id="{{$element->id}}">-</td>
+                        <td class="notecss-confirm" data-confirm-id="{{$element->id}}"><div class="absence-center-reason">-</div></td>
                     @endif
 
                     @if($element['is_process'] != 0 )
@@ -116,36 +139,39 @@
                         @elseif($element->absenceStatus['name'] == config('settings.status_common.absence.accepted'))
                             @if($element->absence['is_deny'] == 0)
                                 <td class="center">
-                                    {{trans('absence_po.list_po.status.accepted_done')}}
+                                    <div class="absence-center-status">{{trans('absence_po.list_po.status.accepted_done')}}</div>
                                 </td>
                             @elseif($element->absence['is_deny'] == 1)
                                 <td class="center">
-                                    {{trans('absence_po.list_po.status.no_accepted_done')}}
+                                    <div class="absence-center-status">{{trans('absence_po.list_po.status.no_accepted_done')}}</div>
                                 </td>
                             @else
                                 <td class="center">
-                                    -
+                                    <div class="absence-center-reason">-</div>
                                 </td>
                             @endif
                         @elseif($element->absenceStatus['name'] == config('settings.status_common.absence.rejected'))
                             @if($element->absence['is_deny'] == 0)
                                 <td class="center">
-                                    {{trans('absence_po.list_po.status.no_accepted_done')}}
+                                    <div class="absence-center-status">{{trans('absence_po.list_po.status.no_accepted_done')}}</div>
                                 </td>
                             @elseif($element->absence['is_deny'] == 1)
                                 <td class="center">
-                                    {{trans('absence_po.list_po.status.accepted_done')}}
+                                    <div class="absence-center-status">{{trans('absence_po.list_po.status.accepted_done')}}</div>
                                 </td>
                             @else
                                 <td class="center">
-                                    -
+                                    <div class="absence-center-status">-</div>
                                 </td>
                             @endif
                         @else
-                            <td>-</td>
+                            <td><div class="absence-center-status">-</div></td>
                         @endif
                     @endif
-                    <td class="reason-view" data-reason-view="{{$element->id}}">{{isset($element->reason)?$element->reason:'-'}}</td>
+                    <td class="reason-view" data-reason-view="{{$element->id}}">
+                        <div class="absence-center">{{isset($element->reason)?$element->reason:'-'}}
+                        </div>
+                    </td>
                 </tr>
                 <div class="modal fade" id="modal-default-{{$element->id}}">
                     <div class="modal-dialog" style="width: 400px;">
@@ -208,6 +234,20 @@
     .center {
         text-align: center;
     }
+    .absence-center {
+        margin-top: 13%;
+        padding-bottom: 10%;
+    }
+    .absence-center-email{
+        margin-top: 17%;
+        padding-bottom: 10%;
+    }
+    .absence-center-reason {
+        margin-top: 25%;
+    }
+    .absence-center-status {
+         margin-top: 16%;
+     }
 </style>
 @include('absences._javascript_poteam_list')
 

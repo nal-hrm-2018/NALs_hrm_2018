@@ -24,9 +24,9 @@
                     console.log(msg.html);
                     $('.close').click();
                     $('.div.confirm-status[data-confirm-id="' + msg.id + '"').remove();
-                    $('.center.confirm-status[data-confirm-id="' + idConfirm + '"]').html(msg.html);
-                    $('.notecss-confirm[data-confirm-id="' + idConfirm + '"]').html('-');
-                    $('.reason-view[data-reason-view="'+idConfirm+'"]').html(textArea);
+                    $('.center.confirm-status[data-confirm-id="' + idConfirm + '"]').html('<div class="absence-center-status">'+msg.html+'</div>');
+                    $('.notecss-confirm[data-confirm-id="' + idConfirm + '"]').html('<div class="absence-center">-</div>');
+                    $('.reason-view[data-reason-view="'+idConfirm+'"]').html('<div class="absence-center">'+textArea+'</div>');
                 }
             });
         });
@@ -50,8 +50,8 @@
                     console.log(msg.absenceStatus);
                     console.log(msg.id);
                     $('.div.confirm-status[data-confirm-id="' + idConfirm + '"').remove();
-                    $('.center.confirm-status[data-confirm-id="' + idConfirm + '"]').html(msg.absenceStatus);
-                    $('.notecss-confirm[data-confirm-id="' + idConfirm + '"]').html(msg.html);
+                    $('.center.confirm-status[data-confirm-id="' + idConfirm + '"]').html('<div class="absence-center-status">'+msg.absenceStatus+'</div>');
+                    $('.notecss-confirm[data-confirm-id="' + idConfirm + '"]').html('<div class="absence-center-reason">'+msg.html+'</div>');
                 }
             });
         });
