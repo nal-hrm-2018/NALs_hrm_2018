@@ -36,7 +36,9 @@ return [
         'reopen'=> 'Mở khóa',
         'back' => 'QUAY LẠI',
         'input'=>'Nhập',
-        'view'=>'Xem'
+        'view'=>'Xem',
+        'filter'=>'Lọc',
+        'export'=>"Xuất",
     ],
 
     'title_form' => [
@@ -48,6 +50,7 @@ return [
         'vendor_list'=>'Danh Sách Nhân Viên Ngoài',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Chi tiết dự án',
+        'absence_list'=>'Danh sách vắng nghỉ dành cho HR',
         'absence_detail'=>'Danh sách xin vắng làm'
     ],
     'path'=>[
@@ -66,6 +69,7 @@ return [
         'list_project'=>'Danh Sách Dự Án',
         'add_project'=>'Thêm Dự Án',
         'edit_project'=>'Chỉnh Sửa Dự Án',
+        'absences'=>'Danh sách vắng nghỉ',
         'list_employee'=>'Danh Sách Nhân Viên',
         'add_employee'=>'Thêm Nhân Viên',
         'edit_employee'=>'Chỉnh Sửa Nhân Viên',
@@ -117,12 +121,32 @@ return [
     'warning_content'=>[
         'warning_reopen' => 'Dự án này đã kết thúc !! nếu bạn muốn chỉnh sửa nó thì ấn vào nút Mở khóa .'
     ],
-    'id'=>[
-        'employee_id'=>'Mã nhân viên',
-        'role_id'=>'Chức vụ'
+    'id' => [
+        'employee_id' => 'Mã nhân viên',
+        'role_id' => 'Chức vụ'
     ],
-    'name'=>[
-    'employee_name'=>'Tên nhân viên',
+    'name' => [
+        'employee_name' => 'Tên nhân viên',
     ],
-    'cv'=>'CV'
+    'cv'=>'CV',
+    'performance'=>'Đánh giá',
+    'year'=>[
+        'year'=>"Năm"
+    ],
+    'month'=>[
+        'month'=>'Tháng',
+        'january'=>'Tháng 1',
+        'february'=>'Tháng 2',
+        'march'=>'Tháng 3',
+        'april'=>'Tháng 4',
+        'may'=>'Tháng 5',
+        'june'=>'Tháng 6',
+        'july'=>'Tháng 7',
+        'august'=>'Tháng 8',
+        'september'=>'Tháng 9',
+        'october'=>'Tháng 10',
+        'november'=>'Tháng 11',
+        'december'=>'Tháng 12'
+    ]
+
 ];

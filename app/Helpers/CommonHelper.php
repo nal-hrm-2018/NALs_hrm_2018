@@ -20,6 +20,23 @@ function getProjectStatus($project)
     return '';
 }
 
+function getArrayMonth(){
+   return $array=[
+        1=>trans('common.month.january'),
+        2=>trans('common.month.february'),
+        3=>trans('common.month.march'),
+        4=>trans('common.month.april'),
+        5=>trans('common.month.may'),
+        6=>trans('common.month.june'),
+        7=>trans('common.month.july'),
+        8=>trans('common.month.august'),
+        9=>trans('common.month.september'),
+        10=>trans('common.month.october'),
+        11=>trans('common.month.november'),
+        12=>trans('common.month.december'),
+    ];
+}
+
 function getArraySelectOption()
 {
     $array = ['20' => '20', '50' => '50', '100' => '100'];

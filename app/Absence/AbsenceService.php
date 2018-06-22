@@ -10,7 +10,7 @@ use DateTime;
 use Carbon\Carbon;
 class AbsenceService{
 
-
+    //so ngay da nghi theo thang , nam
     function numberOfDaysOff($id, $year, $month, $absence_type){
         // $year = (int)$year;
         $objAS = new AbsenceService;
@@ -20,29 +20,28 @@ class AbsenceService{
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
                 ->where('absence_statuses.id', 2)
+                ->where('employee_id',$id)
                 ->where('absence_types.id', $absence_type)
-                ->whereYear('absences.from_date', $year)
-                ->orWhereYear('absences.to_date', $year)
+                ->where(function ($query) use($year) {
+                    $query->whereYear('absences.from_date', $year)
+                        ->orWhereYear('absences.to_date', $year);
+                })
                 ->get();
         }else{
+            $input =Carbon::create($year,$month);
             $listAbsence = Absence::select()
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
                 ->where('absence_statuses.id', 2)
+                ->where('employee_id',$id)
                 ->where('absence_types.id', $absence_type)
-                ->whereMonth('absences.from_date', $month)
-                ->orWhereMonth('absences.to_date', $month)
-                ->where(function ($query) use($year) {
-                    $query->whereYear('absences.from_date', $year)
-                          ->orWhereYear('absences.to_date', $year);
-                })
-                ->where(function ($query) use($year) {
-                    $query->whereYear('absences.to_date', $year)
-                          ->orWhereYear('absences.from_date', $year);
-                })
+                ->where('absences.from_date','<=',$input)
+                ->where('absences.to_date','>=',$input)
+
                 ->get();
         }
+
         $sumDate = 0;
         if($month == 0){
             foreach ($listAbsence as $objAbsence) {
@@ -83,6 +82,7 @@ class AbsenceService{
         }
         return $sumDate;
     }
+    // ngay da nghi truoc thang 7
     function numberOfDaysOffBeforeJuly($id,$year,$month,$absence_type){
         if($month != 0){
             $objAS = new AbsenceService;
@@ -121,6 +121,7 @@ class AbsenceService{
             return 0;
         }
     }
+    //quy doi
     function countHours($startHours,$endHours){
         $count = 0;
         if($startHours < 11.5 && $endHours < 11.5){
@@ -153,6 +154,7 @@ class AbsenceService{
         }
         return $count;
     }
+    //quy doi
     function formatTime($date){
         $hours = $date->hour;
         $minute = $date->minute;
@@ -162,6 +164,7 @@ class AbsenceService{
             return ($hours + 1);
         }
     }
+    // quy doi
     function countDay($hours){
         if($hours <= 4){
             return 0.5;
@@ -169,6 +172,7 @@ class AbsenceService{
             return 1;
         }
     }
+    // dem tong so ngay trong khoang start > end ,tru gio ngoai hanh chinh, tru di ngay thu 7,8 va ngay le
     function sumDate($startDate, $endDate){
         $objAS = new AbsenceService;
         $sumDate = 0;
@@ -206,7 +210,7 @@ class AbsenceService{
         }  
         return $sumDate;  
     }
-
+    // kiem tra tu start -> end co bao nhieu ngay le~
     function countHoliday($startDate, $endDate){
 
         $countHoliday = $startDate->diffInDaysFiltered(function(Carbon $date) {
@@ -230,7 +234,7 @@ class AbsenceService{
 
         return $countHoliday;
     }
-
+    // kiem tra date co phai ngay le
     function checkHoliday($date){
         $objHoliday = Holiday::select()
                     ->where('delete_flag', 0)
@@ -244,28 +248,32 @@ class AbsenceService{
             return false;
         }               
     }
-
+    // so ngay duoc nghi phep trong nam
 	function absenceDateOnYear($id, $year){
         $sumDate = 0;
         $year = (int)$year;
         $currentDate = new DateTime;
 
+        // ngay bat dau hop dong
         $objEmployee = Employee::find($id);
         $dateStart =  date_create($objEmployee->startwork_date);
         $startDate = (int)$dateStart->format('d');
         $startMonth = (int)$dateStart->format('m');
         $startYear = (int)$dateStart->format('Y');
-
+        // ngay ket thuc hop dong
         $dateEnd = date_create($objEmployee->endwork_date);
         $endDate = (int)(int)$dateEnd->format('d');
         $endMonth = (int)$dateEnd->format('m');
         $endYear = (int)$dateEnd->format('Y');
 
         if($year == $startYear && $year == $endYear){
+            // nam bat dau , ket thuc hop dong cung nam voi input nam
             if($startMonth == $endMonth){
+                // ngay bat dau , ket thuc nam trong cung 1 thang
                 if($endDate - $startDate > 15){
                     $sumDate ++;
                 }
+                // so ngay duoc nghi
                 return $sumDate;
             }else{
                 if($startDate <= 15){
@@ -274,6 +282,7 @@ class AbsenceService{
                 if($endDate >= 15){
                     $sumDate++;
                 }
+
                 $sumDate += ($endMonth - 1) - ($startMonth+1)+1;
                 return $sumDate;
             }
@@ -290,7 +299,57 @@ class AbsenceService{
         }
         return 12;
     }
+    function absenceDateOnMonthYear($id, $year , $month){
+        $sumDate = 0;
+        $year = (int)$year;
+        $currentDate = new DateTime;
 
+        // ngay bat dau hop dong
+        $objEmployee = Employee::find($id);
+        $dateStart =  date_create($objEmployee->startwork_date);
+        $startDate = (int)$dateStart->format('d');
+        $startMonth = (int)$dateStart->format('m');
+        $startYear = (int)$dateStart->format('Y');
+        // ngay ket thuc hop dong
+        $dateEnd = date_create($objEmployee->endwork_date);
+        $endDate = (int)(int)$dateEnd->format('d');
+        $endMonth = (int)$dateEnd->format('m');
+        $endYear = (int)$dateEnd->format('Y');
+
+        if($year == $startYear && $year == $endYear){
+            // nam bat dau , ket thuc hop dong cung nam voi input nam
+            if($startMonth == $endMonth){
+                // ngay bat dau , ket thuc nam trong cung 1 thang
+                if($endDate - $startDate > 15){
+                    $sumDate ++;
+                }
+                // so ngay duoc nghi
+                return $sumDate;
+            }else{
+                if($startDate <= 15){
+                    $sumDate++;
+                }
+                if($endDate >= 15){
+                    $sumDate++;
+                }
+
+                $sumDate += ($endMonth - 1) - ($startMonth+1)+1;
+                return $sumDate;
+            }
+        }
+        if($year == $startYear && $year < $endYear){
+            if($startDate <= 15){
+                $sumDate++;
+            }
+            $sumDate += 12 - ($startMonth+1)+1;
+            return $sumDate;
+        }
+        if($year > $startYear && $year < $endYear){
+            return 12;
+        }
+        return 12;
+    }
+    // nam cong them lam lau nam
     function numberAbsenceAddPerennial($id,$year){
         $objEmployee = Employee::find($id);
         $dateNow = new DateTime;
@@ -313,17 +372,18 @@ class AbsenceService{
             return 0;
         }
     }
+    //so ngay nghi du nam cu
     function numberAbsenceRedundancyOfYearOld($id, $year){
-        return 1;
+        return app(\App\Service\AbsenceService::class)->getnumberAbsenceRedundancyByYear($id, $year);
     }
-
+    // so ngay phep du bi tru
     function subRedundancy($id, $year){
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
 
         if($dateNow->year == $year && $dateNow->month < 6){
-            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 2);
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 4);
             if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
                 return $num;
             }else{
@@ -332,22 +392,23 @@ class AbsenceService{
         }else{
             return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
         }
-        
+
     }
+    //so ngay nghi  phep bi tru
     function subDateAbsences($id, $year){
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
         if($dateNow->year == $year && $dateNow->month < 7){
-            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 2);
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 4);
             if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
                 return $objAS->absenceDateOnYear($id, $dateNow->year);
             }else{
                 return $num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
             }
         }else{
-            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, 2);
-            $num1 = $objAS->numberOfDaysOff($id, $year, $dateNow->month, 2);
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, 4);
+            $num1 = $objAS->numberOfDaysOff($id, $year, $dateNow->month, 4);
             $num2 = $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
             if($num2 - $num >= 0){
                 return $num1 - $num;
@@ -357,17 +418,26 @@ class AbsenceService{
         }
 
     }
-
-    function totalDateAbsences($id, $year){
+    // tong so ngay duoc nghi phep trong nam nay (tong so ngay co dinh + tong ngay du nam cu~ + lam lau nam)
+    function totalDateAbsences($id, $year,$month)
+    {
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
-        $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
-        if($dateNow->year == $year && $dateNow->month < 7){
-            return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) + $objAS->numberAbsenceAddPerennial($id,$year);
+        $dateNow = Carbon::create($dateNow->format('Y'), $dateNow->format('m'), $dateNow->format('d'));
+        if(empty($month)){
+            if ($dateNow->year == $year && $dateNow->month < 7) {
+                return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year - 1) + $objAS->numberAbsenceAddPerennial($id, $year);
+            } else {
+                return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id, $year);
+            }
         }else{
-            return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id,$year);
+            if ($month < 7) {
+                return $objAS->absenceDateOnMonthYear($id, $year,$month) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year - 1) + $objAS->numberAbsenceAddPerennial($id, $year);
+            } else {
+                return $objAS->absenceDateOnMonthYear($id, $year,$month) + $objAS->numberAbsenceAddPerennial($id, $year);
+            }
         }
-    }
 
+    }
 
 }

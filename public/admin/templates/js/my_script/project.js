@@ -386,6 +386,7 @@ function removeEmployee(employee_id, target_tr, target_input) {
     if (target_input && (target_input.val())) {
         target_tr.find("input.delete_flag").attr('value','1');
         target_tr.css('display', 'none');
+
     } else {
         target_tr.remove();
     }

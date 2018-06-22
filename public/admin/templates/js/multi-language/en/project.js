@@ -8,6 +8,9 @@ var project = {
     'process_start_date':'Start Date',
     'process_end_date':'End Date',
     'man_power':'Allocate',
+    'add':'add',
+    'remove':'remove',
+    'project':'project',
     'reset_form_add':'Do you want reset all field in form ?',
     'error_available_processes' :'You can view suggest information of this employee',
     'error_P0_process': 'Error: Employee {employee_name_selected} ( id: {employee_id_selected} ) Can\'t be PO because ' +
@@ -18,6 +21,10 @@ var project = {
     'confirm_remove_employee_from_project':'Do you want to remove this employee has ID: {dvalue1} , Name: {dvalue2} from this Project ?',
 
     'confirm_add_employee_to_project':'Do you want to add this employee has ID: {dvalue1} , Name: {dvalue2} to this Project ?',
+
+    'confirm_add_project_4_param':'Do you want to {dvalue1} this {dvalue2} has ID: {dvalue3} , Name: {dvalue4} ?',
+
+    'confirm_add_project_2_param':'Do you want to {dvalue1} this {dvalue2}  ?',
 
     'error_number_form_ascending_order':'Error. Number in member must be in ascending order.',
 

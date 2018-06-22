@@ -97,6 +97,7 @@
 <script src="{!! asset('admin/templates/js/plugins/iCheck/icheck.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/my_script/myscript.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/my_script/project.js') !!}"></script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/my_script/absence.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/common/commonJs.js') !!}"></script>
 <script src="{!! asset('admin/templates/js/go_to_top/go_to_top.js') !!}"></script>
 <script src="{!! asset('admin/templates/js/back_button/back_button.js') !!}"></script>
@@ -104,6 +105,8 @@
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/lang.js') !!}"> </script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/project.js') !!}"> </script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/project.js') !!}"> </script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/absence.js') !!}"> </script>
+<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/absence.js') !!}"> </script>
 <script>
     $(function () {
         $('#example1').DataTable()
