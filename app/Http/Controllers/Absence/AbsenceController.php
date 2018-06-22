@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Absence;
 
 use App\Export\HRAbsenceExport;
-use App\Absence\AbsenceService;
+use App\Service\AbsenceService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
