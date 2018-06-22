@@ -111,7 +111,7 @@ class AbsenceController extends Controller
         $id = \Illuminate\Support\Facades\Auth::user()->id;
         $dateNow = new DateTime;
         $year = 2018;
-    	$abc = new AbsenceService();
+    	$abc = new \App\Absence\AbsenceService();
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
         $type = AbsenceType::select()->where('name','salary_date')->first();
@@ -137,7 +137,7 @@ class AbsenceController extends Controller
         $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh;
 
         $type = AbsenceType::select()->where('name','insurance_date')->first();
-        
+
         $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $absences = [
