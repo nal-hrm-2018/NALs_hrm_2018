@@ -101,7 +101,7 @@
                                                         @foreach($absenceType as $item)
                                                         <option value="{{$item->id}}"
                                                                 {{ (string)$item->id===request('absence_type')?'selected="selected"':'' }}>
-                                                            {{$item->name}}
+                                                            {{trans('absence_po.list_po.type.'.$item->name)}}
                                                         </option>
                                                         @endforeach
                                                     </select>
@@ -195,7 +195,7 @@
                                     </td>
                                     <td>{{$confirm->absence->from_date}}</td>
                                     <td>{{$confirm->absence->to_date}}</td>
-                                    <td>{{$confirm->absence->absencestypes->name}}</td>
+                                    <td>{{trans('absence_po.list_po.type.'.$confirm->absence->absenceType->name)}}</td>
                                     <td>{{$confirm->absence->reason}}</td>
                                     <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)

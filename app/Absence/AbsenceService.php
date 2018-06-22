@@ -236,7 +236,7 @@ class AbsenceService{
         }               
     }
 
-	function absenceDateOnYear($id, $year){
+    function absenceDateOnYear($id, $year){
         $sumDate = 0;
         $year = (int)$year;
         $currentDate = new DateTime;
@@ -305,14 +305,13 @@ class AbsenceService{
         }
     }
     function numberAbsenceRedundancyOfYearOld($id, $year){
-        /*$employee = Employee::find($id);
+        $employee = Employee::find($id);
         $days=$employee->extraAbsenceDates()->where('year', '=', (int)$year)->first();
         if(empty($days)){
             return 0;
         }else{
             return $days->date;
-        }*/
-        return 1;
+        }
     }
 
     function subRedundancy($id, $year){

@@ -7,6 +7,8 @@ use App\Models\Role;
 use App\Models\Confirm;
 use Carbon\Carbon;
 use Illuminate\Support\MessageBag;
+use App\Models\AbsenceType;
+use App\Models\AbsenceStatus;
 
 function test()
 {
@@ -19,6 +21,43 @@ function getProjectStatus($project)
         return $project->status->name;
     }
     return '';
+}
+
+function getArrayMonth(){
+   return $array=[
+        1=>trans('common.month.january'),
+        2=>trans('common.month.february'),
+        3=>trans('common.month.march'),
+        4=>trans('common.month.april'),
+        5=>trans('common.month.may'),
+        6=>trans('common.month.june'),
+        7=>trans('common.month.july'),
+        8=>trans('common.month.august'),
+        9=>trans('common.month.september'),
+        10=>trans('common.month.october'),
+        11=>trans('common.month.november'),
+        12=>trans('common.month.december'),
+    ];
+}
+
+function getAbsenceStatuses($status)
+{
+   $status =  AbsenceStatus::select()->where('name',$status)->first();
+   if(empty($status)){
+    return '';
+   }else{
+    return $status->id;
+   }
+}
+
+function getAbsenceType($type)
+{
+  $type = AbsenceType::select()->where('name',$type)->first();
+   if(empty($type)){
+    return '';
+   }else{
+    return $type->id;
+   }
 }
 
 function getArraySelectOption()
