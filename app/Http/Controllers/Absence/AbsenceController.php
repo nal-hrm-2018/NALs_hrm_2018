@@ -274,7 +274,14 @@ class AbsenceController extends Controller
 //        $getAllAbsenceInConfirm = Confirm::where('employee_id',$getIdUserLogged)
 //            ->orderBy('id', 'DESC')->get();
         $getAllAbsenceInConfirm = $this->absencePoTeamService->searchAbsence($request, $getIdUserLogged)->orderBy('id', 'DESC')->get();
-        return view('absences.poteam', compact('getAllAbsenceInConfirm','getAllAbsenceStatus','getAllAbsenceTypes'));
+        $requestSearch = [
+            'name'=>$request['name'],
+            'email'=>$request['email'],
+            'start_date'=>$request['start_date'],
+            'end_date'=>$request['end_date']
+        ];
+        dd($requestSearch['start_date']);
+        return view('absences.poteam', compact('getAllAbsenceInConfirm','getAllAbsenceStatus','getAllAbsenceTypes','requestSearch'));
     }
 
     public function denyPOTeam(Request $request)

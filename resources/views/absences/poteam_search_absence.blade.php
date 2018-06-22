@@ -7,7 +7,7 @@
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{trans('vendor.profile_info.name')}}</button>
                 </div>
-                {{ Form::text('name', old('name'),
+                {{ Form::text('name', $requestSearch['name'],
                     ['class' => 'form-control',
                     'id' => 'name_absence',
                     'autofocus' => false,
@@ -18,7 +18,7 @@
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{trans('vendor.profile_info.email')}}</button>
                 </div>
-                {{ Form::text('email', old('email'),
+                {{ Form::text('email', $requestSearch['email'],
                     ['class' => 'form-control',
                     'id' => 'email_absence',
                     'autofocus' => false,
