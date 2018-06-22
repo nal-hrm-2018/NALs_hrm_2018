@@ -4,6 +4,7 @@ use App\Http\Requests\ProcessAddRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
 use App\Models\Role;
+use App\Models\Confirm;
 use Carbon\Carbon;
 use Illuminate\Support\MessageBag;
 
@@ -215,4 +216,9 @@ function checkPOinProject($processes)
         }
     }
     return false;
+}
+function selectConfirm($id_absence){
+    $objConfirm = Confirm::select()
+            ->where('absence_id',$id_absence)->first();
+    return $objConfirm;
 }

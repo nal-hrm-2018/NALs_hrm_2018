@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Absence;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
-
+use DateTime;
+use App\Absence\AbsenceService;
 use App\Models\Employee;
 use App\Service\AbsencePoTeamService;
 use Carbon\Carbon;
@@ -109,14 +110,17 @@ class AbsenceController extends Controller
     public function index(Request $request){
         $id = \Illuminate\Support\Facades\Auth::user()->id;
         $dateNow = new DateTime;
-        $year = 2017;
+        $year = 2018;
     	$abc = new AbsenceService();
+
+        $status = AbsenceStatus::select()->where('name','accepted')->first();
+        $type = AbsenceType::select()->where('name','salary_date')->first();
 
         $tongSoNgayDuocNghi = $abc->totalDateAbsences($id,$year);
         $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id,$year-1);
         $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id,$year);
 
-        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,2);
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
         $soNgayTruPhepDu = $abc->subRedundancy($id, $year);
         $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year);
 
@@ -131,6 +135,11 @@ class AbsenceController extends Controller
         $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
 
         $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh;
+
+        $type = AbsenceType::select()->where('name','insurance_date')->first();
+        
+        $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
         $absences = [
                         "1"=>$tongSoNgayDuocNghi, 
                         "2"=>$soNgayPhepCoDinh,
@@ -141,9 +150,17 @@ class AbsenceController extends Controller
                         "7"=>$soNgayPhepCoDinhConLai,
                         "8"=>$soNgayTruPhepDuConLai,
                         "9"=>$soNgayPhepConLai,
-                        "10"=>$soNgayNghiTruLuong
+                        "10"=>$soNgayNghiTruLuong,
+                        "11"=>$soNgayNghiBaoHiem
                     ];
-        return view('vangnghi.list', compact('absences','checkMonth'));
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id')
+                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+                ->where('absences.delete_flag', 0)
+                ->whereYear('absences.from_date', $year)
+                ->orWhereYear('absences.to_date', $year)
+                ->get();
+        return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence'));
     }
 
     public function create()

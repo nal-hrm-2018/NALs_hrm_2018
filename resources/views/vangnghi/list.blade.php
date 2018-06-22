@@ -74,10 +74,7 @@
                                         <p>- Số ngày nghỉ trừ lương: {{$absences['10']}}</p>
                                     </div>
                                     <div class="row">
-                                        <p>- Số ngày nghỉ chế độ bảo hiểm: 3</p>
-                                    </div>
-                                    <div class="row">
-                                        <p>- Số ngày nghỉ khác: 4</p>
+                                        <p>- Số ngày nghỉ chế độ bảo hiểm: {{$absences['11']}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -93,17 +90,35 @@
                             <table id="employee-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th class="small-row-id text-center">From</th>
-                                    <th>To</th>
-                                    <th>type absence</th>
-                                    <th>Reason</th>
-                                    <th>Note</th>
-                                    <th>Status</th>
-                                    <th>reason do reject</th>
+                                    <th>Nghỉ từ ngày</th>
+                                    <th>Nghỉ đến ngày</th>
+                                    <th>Loại nghỉ</th>
+                                    <th>Lý do</th>
+                                    <th>Ghi chú</th>
+                                    <th>Trạng thái</th>
+                                    <th>Lý do từ chối</th>
                                 </tr>
                                 </thead>
                                 <tbody class="context-menu">
-                                
+                                    @foreach($listAbsence AS $obj)
+                                        <tr>
+                                            <td>{{$obj->from_date}}</td>
+                                            <td>{{$obj->to_date}}</td>
+                                            <td>{{trans('absence_po.list_po.type.'.$obj->name_type)}}</td>
+                                            <td>{{$obj->reason}}</td>
+                                            <td>{{$obj->description}}</td>
+                                            <td>{{trans('absence_po.list_po.status.'.$obj->name_status)}}</td>
+                                            <td>
+
+                                                <?php 
+                                                    if($obj->name_status == "rejected"){
+                                                        echo selectConfirm($obj->id)->reason;
+                                                    }
+                                                    
+                                                ?>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <div class="row">
