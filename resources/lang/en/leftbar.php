@@ -20,6 +20,7 @@ return[
             'vendor' => 'List Vendor',
             'team' => 'List Team',
             'project' => 'List Project',
+            'absence_po'=>'List Absence with PO Team',
             'absence' => 'List Absence'
 
         ],

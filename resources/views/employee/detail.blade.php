@@ -111,12 +111,12 @@
                                             <p>{{trans('employee.profile_info.policy_status.title')}}:
                                                 @if($employee->work_status == 0)
                                                     @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
-                                                        <span class="label label-primary">Active</span>
+                                                        <span class="label label-primary">{{trans('employee.profile_info.status_active')}}</span>
                                                     @else
-                                                        <span class="label label-danger">Expired</span>
+                                                        <span class="label label-danger">{{trans('employee.profile_info.status_expired')}}</span>
                                                     @endif
                                                 @else
-                                                    <span class="label label-default">Quited</span>
+                                                    <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
                                                 @endif
                                             </p>
 
@@ -132,7 +132,7 @@
                                                             <select class="form-control" id="sel1" name="year">
                                                                 @foreach($listYears as $year)
                                                                     <option @if($year == $listValue[0]) selected
-                                                                            @endif value="{{$year}}">Year: {{$year}}</option>
+                                                                            @endif value="{{$year}}">{{trans('employee.profile_info.year')}}: {{$year}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>

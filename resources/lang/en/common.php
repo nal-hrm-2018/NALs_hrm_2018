@@ -34,10 +34,16 @@ return [
         'add' => 'ADD',
         'save' => 'SAVE',
         'update' => 'UPDATE',
+        'import' => 'IMPORT',
+        'export' => 'EXPORT',
+        'template' => 'TEMPLATE',
+        'edit_password'=>'EDIT PASSWORD',
         'reopen'=> 'Reopen',
         'back' => 'BACK',
         'input'=>'Input',
-        'view'=>'View'
+        'view'=>'View',
+        'filter'=>'Filter',
+        'export'=>"EXPORT",
     ],
 
     'title_form' => [
@@ -49,25 +55,73 @@ return [
         'vendor_list'=>'Vendor List',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Project Detail',
+        'absence_list'=>'Absence list for HR view',
         'absence_detail'=>'Absence List'
     ],
     'path'=>[
+        'dashboard'=>'Dashboard',
+        'project'=>'Project',
         'home'=>'Home',
         'employee'=>'Employee',
         'vendor'=>'Vendor',
         'vendors'=>'Vendors',
-        'team' => 'Teams',
+        'team' => 'Team',
         'projects'=>'Projects',
         'absence'=>'Absence',
         'list' => 'List',
         'detail'=>'Detail',
         'add_project'=>'Add project',
-        'edit_project'=>'Edit project'
+        'edit_project'=>'Edit project',
+        'absences'=>'Absences',
+        'add'=>'Add',
+        'edit'=>'Edit',
+        'list_project'=>'List Project',
+        'add_project'=>'Add Project',
+        'edit_project'=>'Edit Project',
+        'list_employee'=>'List Employee',
+        'add_employee'=>'Add Employee',
+        'edit_employee'=>'Edit Employee',
+        'list_vendor'=>'List Vendor',
+        'add_vendor'=>'Add Vendor',
+        'edit_vendor'=>'Edit Vendor',
+        'list_team'=>'List Team',
+        'add_team'=>'Add Team',
+        'edit_team'=>'Edit Team',
+        'po_project'=>'PO Project',
+        'confirmation'=>'Confirmation',
+        'statistic'=>'Statistic',
     ],
     'action'=>[
         'view'=>'View',
         'edit'=>'Edit',
-        'remove'=>'Remove'
+        'remove'=>'Remove',
+    ],
+    'action_confirm'=>[
+        'add'=>'add',
+        'edit'=>'edit',
+        'delete'=>'delete'
+    ],
+    'name_confirm'=>[
+        'employee'=>'employee',
+        'vendor'=>'vendor',
+        'team'=>'team',
+        'project'=>'project',
+        'process'=>'process',
+    ],
+    'delete'=>[
+        'success'=>'Delete success',
+        'fail'=>'Delete fail'
+    ],
+    'confirm_reset'=>'Do you want to reset?',
+    'language'=>[
+        'vn'=>'Vietnamese',
+        'en'=>'English',
+    ],
+    'header'=>[
+        'welcome'=>'Welcome',
+        'member_since'=>'Member since',
+        'update_profile'=>'Update Profile',
+        'logout'=>'Logout'
     ],
     'error'=>'Error',
     'warning' => 'Warning',
@@ -78,6 +132,28 @@ return [
         'employee_id'=>'Employee Id',
         'role_id'=>'Role Id'
     ],
+    'name' => [
+        'employee_name' => 'Employee name',
+    ],
     'cv'=>'CV',
     'performance'=>'Performance',
+
+    'year'=>[
+        'year'=>"Year"
+    ],
+    'month'=>[
+        'month'=>'Month',
+        'january'=>'January',
+        'february'=>'February',
+        'march'=>'March',
+        'april'=>'April',
+        'may'=>'May',
+        'june'=>'June',
+        'july'=>'July',
+        'august'=>'August',
+        'september'=>'September',
+        'october'=>'October',
+        'november'=>'November',
+        'december'=>'December'
+    ]
 ];
