@@ -58,3 +58,40 @@
 
     });
 </script>
+{{--DataTable--}}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#absence-po-list').DataTable({
+            'paging': false,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': false,
+            'autoWidth': false,
+            'borderCollapse':'collapse',
+            "aaSorting": [
+                [0, 'DESC']
+            ]
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('.form_datetime').datetimepicker({
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1});
+    });
+    $("#btn_reset_absence_po_team").on("click", function () {
+        $("#name_absence").val('');
+        $("#email_absence").val('');
+        $("#start_date_absence").val('');
+        $('#end_date_absence').val('');
+        $('#type').val('').change();
+        $('#absence_status').val('').change();
+    });
+</script>

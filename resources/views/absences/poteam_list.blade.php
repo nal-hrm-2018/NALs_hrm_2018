@@ -9,9 +9,9 @@
             <div id="demo" class="collapse" role="dialog">
                 <div class="modal-dialog">
                     {!! Form::open(
-                        ['url' =>route('vendors.index'),
+                        [
                         'method'=>'GET',
-                        'id'=>'form_search_vendor'
+                        'id'=>'form_search_absence_po'
                     ]) !!}
                     <div class="modal-content">
                         <div class="modal-header">
@@ -20,7 +20,7 @@
                         </div>
                         @include('absences.poteam_search_absence')
                         <div class="modal-footer center">
-                            <button id="btn_reset_vendor" type="button" class="btn btn-default"><span
+                            <button id="btn_reset_absence_po_team" type="button" class="btn btn-default"><span
                                         class="fa fa-refresh"></span>
                                 {{trans('common.button.reset')}}
                             </button>
@@ -49,19 +49,28 @@
                 </label>
             </div>
         </div>
-        <table id="employee-list" class="table table-bordered table-striped">
+        <script>
+            (function () {
+                $('#select_length').change(function () {
+                    $("#number_record_per_page").val($(this).val());
+                    $('#form_search_absence_po').submit()
+                });
+            })();
+        </script>
+        <table id="absence-po-list" class="table table-bordered table-striped">
             <thead>
-            <tr>
-                <th>{{trans('vendor.profile_info.name')}}</th>
-                <th>{{trans('vendor.profile_info.email')}}</th>
-                <th>{{trans('absence_po.list_po.profile_info.start_date')}}</th>
-                <th>{{trans('absence_po.list_po.profile_info.end_date')}}</th>
-                <th>{{trans('absence_po.list_po.profile_info.type')}}</th>
-                <th>{{trans('absence_po.list_po.profile_info.reason')}}</th>
-                <th>{{trans('absence_po.list_po.profile_info.note')}}</th>
-                <th class="center">{{trans('absence_po.list_po.profile_info.status')}}</th>
-                <th>{{trans('absence_po.list_po.profile_info.note_po')}}</th>
-            </tr>
+                <tr>
+                    <th hidden="hidden"></th>
+                    <th>{{trans('vendor.profile_info.name')}}</th>
+                    <th>{{trans('vendor.profile_info.email')}}</th>
+                    <th>{{trans('absence_po.list_po.profile_info.start_date')}}</th>
+                    <th>{{trans('absence_po.list_po.profile_info.end_date')}}</th>
+                    <th>{{trans('absence_po.list_po.profile_info.type')}}</th>
+                    <th>{{trans('absence_po.list_po.profile_info.reason')}}</th>
+                    <th>{{trans('absence_po.list_po.profile_info.note')}}</th>
+                    <th class="center">{{trans('absence_po.list_po.profile_info.status')}}</th>
+                    <th>{{trans('absence_po.list_po.profile_info.note_po')}}</th>
+                </tr>
             </thead>
             <tbody class="context-menu">
             @foreach($getAllAbsenceInConfirm as $element)
@@ -72,9 +81,9 @@
 
                     <td>{{date('H:i:s d/m/Y ',strtotime($element->absence['from_date']))}}</td>
                     <td>{{date('H:i:s d/m/Y ',strtotime($element->absence['to_date']))}}</td>
-                    <td>{{trans('absence_po.list_po.type.'.$element->absence->absencestypes['name'])}}</td>
+                    <td>{{trans('absence_po.list_po.type.'.$element->absence->absenceType['name'])}}</td>
                     <td>{{$element->absence->reason}}</td>
-                    @if($element->absence->absencestatus['name'] == config('settings.status_common.absence.waiting') && ($element->absenceStatus['name'] == config('settings.status_common.absence.waiting')))
+                    @if($element->absence->absenceStatus['name'] == config('settings.status_common.absence.waiting') && ($element->absenceStatus['name'] == config('settings.status_common.absence.waiting')))
                         @if($element->absence['is_deny'] == 0 )
                             <td class="notecss-confirm"
                                 data-confirm-id="{{$element->id}}">{{trans('absence_po.list_po.note.absence_new')}}</td>
@@ -111,7 +120,7 @@
                                 </td>
                             @elseif($element->absence['is_deny'] == 1)
                                 <td class="center">
-                                    {{trans('absence_po.list_po.status.accepted_deny')}}
+                                    {{trans('absence_po.list_po.status.no_accepted_done')}}
                                 </td>
                             @else
                                 <td class="center">
@@ -125,7 +134,7 @@
                                 </td>
                             @elseif($element->absence['is_deny'] == 1)
                                 <td class="center">
-                                    {{trans('absence_po.list_po.status.no_accepted_deny')}}
+                                    {{trans('absence_po.list_po.status.accepted_done')}}
                                 </td>
                             @else
                                 <td class="center">
