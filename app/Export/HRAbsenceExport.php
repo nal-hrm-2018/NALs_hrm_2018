@@ -20,18 +20,11 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 
-/**
- * Created by PhpStorm.
- * User: Ngoc Quy
- * Date: 4/23/2018
- * Time: 4:47 PM
- */
 
 class HRAbsenceExport implements FromCollection, WithEvents, WithHeadings,WithStrictNullComparison
 {
     use Exportable, RegistersEventListeners;
-    private $searchEmployeeService;
-    protected $returnCollectionEmployee;
+
     /**
      * @var Request
      */

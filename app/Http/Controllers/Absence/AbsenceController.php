@@ -246,7 +246,7 @@ class AbsenceController extends Controller
                 $query->select('project_id')
                     ->from('processes')
                     ->where('employee_id', '=', $id_employee)
-                    ->whereDate('processes.start_date', '>', $dayBefore);
+                    ->whereDate('processes.end_date', '>', $dayBefore);
             })
             ->WHERE('employees.delete_flag', '=', 0)
             ->WHERE('roles.name', 'like', 'po')
