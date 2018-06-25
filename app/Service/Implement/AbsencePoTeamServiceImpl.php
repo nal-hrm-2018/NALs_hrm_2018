@@ -148,6 +148,6 @@ class AbsencePoTeamServiceImpl implements AbsencePoTeamService
                     $query->where("name", 'like', '%' . $absence_status . '%');
                 });
         }
-        return $query;
+        return $query->where('delete_flag','0');
     }
 }

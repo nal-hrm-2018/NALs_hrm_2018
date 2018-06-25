@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Absence;
 
+use App\Export\AbsencePOTeam;
 use App\Export\HRAbsenceExport;
 use App\Service\AbsenceService;
 use App\Http\Controllers\Controller;
@@ -312,10 +313,12 @@ class AbsenceController extends Controller
         $getIdUserLogged = Auth::id();
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllAbsenceTypes = AbsenceType::all();
-
+        if (!isset($this->request['number_record_per_page'])) {
+            $this->$request['number_record_per_page'] = config('settings.paginate');
+        }
 //        $getAllAbsenceInConfirm = Confirm::where('employee_id',$getIdUserLogged)
 //            ->orderBy('id', 'DESC')->get();
-        $getAllAbsenceInConfirm = $this->absencePoTeamService->searchAbsence($request, $getIdUserLogged)->orderBy('id', 'DESC')->get();
+        $getAllAbsenceInConfirm = $this->absencePoTeamService->searchAbsence($request, $getIdUserLogged)->orderBy('id', 'DESC')->paginate($request['number_record_per_page'])->setPath('');
         $requestSearch = [
             'name'=>$request['name'],
             'email'=>$request['email'],
@@ -334,5 +337,10 @@ class AbsenceController extends Controller
     public function doneConfirm(Request $request)
     {
         return $this->absencePoTeamService->poTeamAcceptAbsenceForm($request);
+    }
+    public function exportAbsencePoTeam(Request $request)
+    {
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new AbsencePOTeam($request), 'absence-list-'.$time.'.csv');
     }
 }
