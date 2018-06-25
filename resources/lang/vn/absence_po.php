@@ -48,6 +48,10 @@ return [
             config('settings.status_common.absence_type.salary_date')=>'Nghỉ có lương',
             config('settings.status_common.absence_type.subtract_salary_date')=>'Nghỉ trừ lương',
             config('settings.status_common.absence_type.insurance_date')=>'Nghỉ theo bảo hiểm',
-        ]
+            config('settings.status_common.absence_type.absented_date')=>'Nghỉ phép',
+        ],
+        'msg'=>[
+            'confirm_export'=>'Bạn có muốn tải về danh sách xác nhận vắng nghỉ không?'
+        ],
     ]
 ];

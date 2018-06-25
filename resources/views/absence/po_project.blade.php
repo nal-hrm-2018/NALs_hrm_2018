@@ -19,14 +19,14 @@
 
         <section class="content">
             <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li>
-                        <a id="tab-confirmation" href="#confirmation" data-toggle="tab">{{trans('common.path.confirmation')}}</a>
-                    </li>
-                    <li>
-                        <a id="tab-statistic" href="#statistic" data-toggle="tab">{{trans('common.path.statistic')}}</a>
-                    </li>
-                </ul>
+                {{--<ul class="nav nav-tabs">--}}
+                    {{--<li>--}}
+                        {{--<a id="tab-confirmation" href="#confirmation" data-toggle="tab">{{trans('common.path.confirmation')}}</a>--}}
+                    {{--</li>--}}
+                    {{--<li>--}}
+                        {{--<a id="tab-statistic" href="#statistic" data-toggle="tab">{{trans('common.path.statistic')}}</a>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
                 <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
                 <?php
                 $number_record_per_page = null; $employee_name = null; $email = null; $project_id = null; $absence_type = null;
@@ -62,13 +62,15 @@
                     }
                 }
                 ?>
+                {{--<div class="tab-content">--}}
+                    {{--<div class="tab-pane" id="confirmation">--}}
                 <div class="tab-content">
-                    <div class="tab-pane" id="confirmation">
+                    <div>
                         <div class="box-body">
                         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                             <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                             <button  type="button" class="btn btn-default export-confirm-list" id="click-here" style="float: right"
-                                     onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
+                                     onclick="return confirmExport('{{trans('absence_po.list_po.msg.confirm_export')}}')">
                                 <a id="export"
                                    href="{{asset('export-confirm-list').'?'.'po_id='.$id.'&number_record_per_page='.$number_record_per_page
                                    .'&employee_name='.$employee_name.'&email='.$email.'&project_id='.$project_id.'&absence_type='.$absence_type
@@ -146,7 +148,7 @@
                                                         @foreach($absenceType as $item)
                                                             <option value="{{$item->id}}"
                                                                     {{ (string)$item->id===request('absence_type')?'selected="selected"':'' }}>
-                                                                {{$item->name}}
+                                                                {{trans('absence_po.list_po.type.'.$item->name)}}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -205,7 +207,7 @@
                                                         @foreach($confirmStatus as $item)
                                                             <option value="{{$item->id}}"
                                                                     {{ (string)$item->id===request('confirm_status')?'selected="selected"':'' }}>
-                                                                {{$item->name}}
+                                                                {{trans('absence_po.list_po.status.'.$item->name )}}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -240,9 +242,13 @@
 
                             </div>
 
-
+                            <style type="text/css">
+                                .list-confirm tr td {
+                                    vertical-align: middle !important;
+                                }
+                            </style>
                             <table id="confirm-po-list" class="table table-bordered table-striped">
-                            <thead>
+                            <thead class="list-confirm">
                             <tr>
                                 <th hidden>ID</th>
                                 <th>{{trans('absence.confirmation.employee_name')}}</th>
@@ -257,7 +263,7 @@
                                 <th>{{trans('absence.confirmation.reject_cause')}}</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="list-confirm">
                             <?php
                                 $idWaiting = $absenceStatus->where('name', '=', 'waiting')->first()->id;
                                 $idAccepted = $absenceStatus->where('name', '=', 'accepted')->first()->id;
@@ -279,14 +285,22 @@
                                     </td>
                                     <td>{{$confirm->absence->from_date}}</td>
                                     <td>{{$confirm->absence->to_date}}</td>
-                                    <td>{{$confirm->absence->absenceType->name}}</td>
+                                    <td><span
+                                        @if($confirm->absence->absenceType->name === config('settings.status_common.absence_type.absented_date'))
+                                            class="label label-success"
+                                        @elseif($confirm->absence->absenceType->name === config('settings.status_common.absence_type.insurance_date'))
+                                            class="label label-primary"
+                                        @elseif($confirm->absence->absenceType->name === config('settings.status_common.absence_type.non_salary_date'))
+                                            class="label label-warning"
+                                        @endif
+                                        >{{trans('absence_po.list_po.type.'.$confirm->absence->absenceType->name )}}</span></td>
                                     <td>{{$confirm->absence->reason}}</td>
                                     <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)
                                             @if($confirm->absence->is_deny === 0)
-                                                {{trans('absence.confirmation.absence_request')}}
+                                                <span class="label label-primary">{{trans('absence.confirmation.absence_request')}}</span>
                                             @elseif($confirm->absence->is_deny === 1)
-                                                {{trans('absence.confirmation.cancel_request')}}
+                                                <span class="label label-warning">{{trans('absence.confirmation.cancel_request')}}</span>
                                             @endif
                                         @else
                                             -
@@ -309,9 +323,9 @@
                                             @endif
                                         @else
                                             @if($confirm->absence_status_id === $idAccepted)
-                                                {{trans('absence_po.list_po.status.absence_accepted')}}
+                                                <span class="label label-success">{{trans('absence_po.list_po.status.absence_accepted')}}</span>
                                             @elseif($confirm->absence_status_id === $idRejected)
-                                                {{trans('absence_po.list_po.status.absence_rejected')}}
+                                                <span class="label label-default">{{trans('absence_po.list_po.status.absence_rejected')}}</span>
                                             @endif
                                         @endif
                                     </td>
@@ -418,7 +432,7 @@
         function ajaxConfirm(type_confirm, action_confirm, id_confirm, reason, id_td_button, id_td_description, id_td_reason) {
             $.ajax({
                 type: "POST",
-                url: '{{ url('/absence/po-project/'.$id) }}',
+                url: '{{ url('/absences/po-project/'.$id) }}',
                 data: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -485,4 +499,44 @@
                 showMeridian: 1});
         });
     </script>
+    <SCRIPT LANGUAGE="JavaScript">
+        function confirmExport(msg) {
+            $check = confirm(msg);
+            if($check == true){
+                $(document).ready(function (){
+                    var ctx = document.getElementById('my_canvas').getContext('2d');
+                    var al = 0;
+                    var start = 4.72;
+                    var cw = ctx.canvas.width;
+                    var ch = ctx.canvas.height;
+                    var diff;
+                    function runTime() {
+                        diff = ((al / 100) * Math.PI*0.2*10).toFixed(2);
+                        ctx.clearRect(0, 0, cw, ch);
+                        ctx.lineWidth = 3;
+                        ctx.fillStyle = '#09F';
+                        ctx.strokeStyle = "#09F";
+                        ctx.textAlign = 'center';
+                        ctx.beginPath();
+                        ctx.arc(10, 10, 5, start, diff/1+start, false);
+                        ctx.stroke();
+                        if (al >= 100) {
+                            clearTimeout(sim);
+                            sim = null;
+                            al=0;
+                            $("#contain-canvas").css("visibility","hidden")
+                            // Add scripting here that will run when progress completes
+                        }
+                        al++;
+                    }
+                    var sim = null;
+                    $("i.fa fa-vcard").css("visibility","hidden")
+                    $("#contain-canvas").css("visibility","visible")
+                    sim = setInterval(runTime, 15 );
+
+                });
+            }
+            return $check;
+        }
+    </SCRIPT>
 @endsection

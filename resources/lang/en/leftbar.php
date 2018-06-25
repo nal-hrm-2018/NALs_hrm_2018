@@ -21,7 +21,9 @@ return[
             'team' => 'List Team',
             'project' => 'List Project',
             'absence_po'=>'List Absence with PO Team',
-            'absence' => 'List Absence'
+            'absence' => 'List Absence',
+            'absences_hr'=>'List Absence with HR',
+            'absences_po_project'=>'List Absence with PO Project',
 
         ],
         'add'=>[

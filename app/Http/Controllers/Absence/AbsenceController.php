@@ -84,6 +84,7 @@ class AbsenceController extends Controller
     public function exportAbsenceHR(Request $request)
     {
             $absences = $request->get('absences');
+            dd($absences);
             if(!is_null($absences)){
                 $time = (new \DateTime())->format('Y-m-d H:i:s');
                 return Excel::download(new HRAbsenceExport($absences), 'absence-list-' . $time . '.csv');
@@ -138,18 +139,18 @@ class AbsenceController extends Controller
             if($typeConfirm === 'absence'){
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idAccept, "");
-                    return response(['msg' => trans('absence_po.list_po.status.absence_accepted')]);
+                    return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idReject, $rejectReason);
-                    return response(['msg' => trans('absence_po.list_po.status.absence_rejected')]);
+                    return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 }
             } else {
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idReject, "");
-                    return response(['msg' => trans('absence_po.list_po.status.absence_rejected')]);
+                    return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idAccept, $rejectReason);
-                    return response(['msg' => trans('absence_po.list_po.status.absence_accepted')]);
+                    return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 }
             }
         }
@@ -172,7 +173,7 @@ class AbsenceController extends Controller
 
     public function exportConfirmList(Request $request){
         $time =(new \DateTime())->format('Y-m-d H:i:s');
-        return Excel::download(new ConfirmExport($this->searchConfirmService, $request), 'confirm-list-'.$time.'.csv');
+        return Excel::download(new ConfirmExport($request), 'confirm-list-'.$time.'.csv');
 //        echo 'hello';
     }
 

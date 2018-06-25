@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Export;
+use App\Models\AbsenceStatus;
 use App\Models\Confirm;
 use App\Models\Role;
 use App\Models\Team;
@@ -32,7 +33,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 class ConfirmExport implements FromCollection,WithEvents, WithHeadings
 {
     use Exportable, RegistersEventListeners;
-    private $searchConfirmService;
     protected $returnCollectionConfirm;
     /**
      * @var Request
@@ -44,10 +44,9 @@ class ConfirmExport implements FromCollection,WithEvents, WithHeadings
      * @var Request
      */
 
-    public function __construct(SearchConfirmService $searchConfirmService, Request $request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->$searchConfirmService = $searchConfirmService;
     }
     /**
      * @return \Illuminate\Support\Collection
@@ -134,54 +133,40 @@ class ConfirmExport implements FromCollection,WithEvents, WithHeadings
                 ->orderBy('confirms.id', 'desc')
                 ->paginate($this->request['number_record_per_page'], ['confirms.*']);
 
-        return $confirmSearch->map(function(Confirm $item) {
-//            $item->
-            
-
-            if ($item->team_id == null){
-                $item->team_id = "-";
+        $arrayList = array();
+        $i = 0;
+        $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
+        $absenceStatus = AbsenceStatus::all();
+        $idWaiting = $absenceStatus->where('name', '=', 'waiting')->first()->id;
+        $idAccepted = $absenceStatus->where('name', '=', 'accepted')->first()->id;
+        $idRejected = $absenceStatus->where('name', '=', 'rejected')->first()->id;
+        foreach ($confirmSearch as $item){
+            $arrayList[$i] = array();
+            $arrayList[$i]['employee_name'] = $item->absence->employee->name;
+            $arrayList[$i]['email'] = $item->absence->employee->email;
+            $projects = $item->absence->employee->projects;
+            foreach ($projects as $project){
+                $process = $project->processes->where('employee_id', '=', $po_id)->where('role_id', '=', $idPO);
+                if($process->isNotEmpty()) $arrayList[$i]['project'] = $project->name;
             }
-            else{
-                $teamFindId = Team::where('id',$item->team_id)->first();
-                $item->team_id = $teamFindId->name;
+            $arrayList[$i]['from_date'] = $item->absence->from_date;
+            $arrayList[$i]['to_date'] = $item->absence->to_date;
+            $arrayList[$i]['absence_type'] = trans('absence_po.list_po.type.'.$item->absence->absenceType->name );
+            $arrayList[$i]['reason'] = $item->absence->reason;
+            if($item->absence_status_id === $idWaiting){
+                if($item->absence->is_deny === 0) {
+                    $arrayList[$i]['description'] = trans('absence.confirmation.absence_request');
+                } else if($item->absence->is_deny === 1) {
+                    $arrayList[$i]['description'] = trans('absence.confirmation.cancel_request');
+                }
+            } else {
+                $arrayList[$i]['description'] = '-';
             }
-            if ($item->role_id == null){
-                $item->role_id = "-";
-            }
-            else{
-                $roleFindId = Role::where('id',$item->role_id)->first();
-                $item->role_id = $roleFindId->name;
-            }
-//
-//            $item->work_status = $item->work_status?'Inactive':'Active';
-            $dateNow = date('Y-m-d');
-            $dateEndWork = Employee::find($item->id);
-
-            if (($item->work_status == 0) && ($dateEndWork->endwork_date < $dateNow)){
-                $item->work_status = 'Expired';
-            }
-            if(($item->work_status == 0) && ($dateEndWork->endwork_date >= $dateNow)){
-                $item->work_status = 'Active';
-            }
-            if ($item->work_status == 1){
-                $item->work_status = 'Quited';
-            }
-            unset($item->password); unset($item->remember_token);
-            unset($item->birthday);unset($item->gender);
-            unset($item->mobile);
-            unset($item->address);
-            unset($item->marital_status);
-//            unset($item->work_status);
-            unset($item->startwork_date);
-            unset($item->endwork_date);unset($item->curriculum_vitae);
-            unset($item->is_employee);unset($item->company);
-            unset($item->avatar);unset($item->employee_type_id);unset($item->salary_id);
-            unset($item->updated_at);unset($item->last_updated_by_employee);
-            unset($item->created_at);unset($item->created_by_employee);
-            unset($item->delete_flag);
-
-            return $item;
-        });
+            $arrayList[$i]['status'] = $item->absenceStatus->name;
+            $arrayList[$i]['reject_reason'] = $item->reason;
+            $i++;
+        }
+        return collect($arrayList);
     }
     public static function beforeExport(BeforeExport $event)
     {

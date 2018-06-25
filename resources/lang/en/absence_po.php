@@ -46,6 +46,10 @@ return [
             config('settings.status_common.absence_type.salary_date')=>'Salary date',
             config('settings.status_common.absence_type.subtract_salary_date')=>'Subtract salary date',
             config('settings.status_common.absence_type.insurance_date')=>'Insurance date',
-        ]
+            config('settings.status_common.absence_type.absented_date')=>'Absented date',
+        ],
+        'msg'=>[
+            'confirm_export'=>'Do you want to export this confirmation list?'
+        ],
     ]
 ];
