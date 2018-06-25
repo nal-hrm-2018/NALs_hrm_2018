@@ -23,7 +23,7 @@ class AbsenceAddRequest extends FormRequest
         return [
             'absence_type_id' => 'required',
             'from_date' => 'required',
-            'to_date' => 'required|after:startwork_date',
+            'to_date' => 'required|after:from_date',
             'reason' => 'required'
         ];
     }
@@ -32,21 +32,29 @@ class AbsenceAddRequest extends FormRequest
     {
         return [
             'absence_type_id.required' => trans('validation.required', [
-                'attribute' => 'Absence Type'
+                'attribute' => 'loại nghỉ phép'
             ]),
 
             'reason.required' => trans('validation.required', [
-                'attribute' => 'Reason'
+                'attribute' => 'lý do'
             ]),
             'from_date.required' => trans('validation.required', [
-                'attribute' => 'From Date'
+                'attribute' => 'nghỉ từ ngày'
             ]),
             'to_date.required' => trans('validation.required', [
-                'attribute' => 'To Date'
+                'attribute' => 'đến ngày'
             ]),
             'to_date.date_format' => trans('validation.date_format', [
-                'attribute' => 'To Date',
+                'attribute' => 'nghỉ từ ngày',
                 'format' => 'yyyy-MM-dd HH:mm'
+            ]),
+            'from_date.date_format' => trans('validation.date_format', [
+                'attribute' => 'dến ngày',
+                'format' => 'yyyy-MM-dd HH:mm'
+            ]),
+            'to_date.after' => trans('validation.after', [
+                'attribute' => 'ngày kết thúc',
+                'date'=>'bắt đầu nghỉ'
             ]),
         ];
     }
