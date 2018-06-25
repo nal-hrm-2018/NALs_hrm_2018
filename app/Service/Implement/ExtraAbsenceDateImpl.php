@@ -23,16 +23,41 @@ use App\Service\ExtraAbsenceDateService;
 class ExtraAbsenceDateImpl extends CommonService implements ExtraAbsenceDateService
 {
 
+    public function __construct()
+    {
+    }
+
     public function add($year,$employee_id){
             $employee = Employee::find($employee_id);
             if (!empty($employee) && !$this->isDuplicateExtraAbsenceDate($year,$employee_id)) {
                 $absence = new \App\Absence\AbsenceService();
-                $totalDateAbsences = $absence->absenceDateOnYear($employee_id, $year)
-                    + $absence->numberAbsenceAddPerennial($employee_id, $year);
+                $numberAbsenceRedundancyOfYearOld = ExtraAbsenceDate::where('employee_id',$employee_id)
+                                                                ->where('year',$year)->where('delete_flag',0)->first();
+                if(empty($numberAbsenceRedundancyOfYearOld)){
+                    $numberAbsenceRedundancyOfYearOld=0;
+                }else{
+                    $numberAbsenceRedundancyOfYearOld=$numberAbsenceRedundancyOfYearOld->date;
+                }
                 $numberOfDaysOff = $absence->numberOfDaysOff(
                     $employee_id, $year, 0,
                     getAbsenceType(config('settings.status_common.absence_type.salary_date')),
                     getAbsenceStatuses(config('settings.status_common.absence.accepted')));
+
+                if($numberOfDaysOff<=$numberAbsenceRedundancyOfYearOld){
+                    return $this->absenceDateOnYear($employee->id, $year)
+                        + $absence->numberAbsenceAddPerennial($employee->id, $year);
+                }else{
+                    $total_date = $this->absenceDateOnYear($employee->id, $year) + $absence->numberAbsenceRedundancyOfYearOld($employee->id, $year - 1)
+                        + $absence->numberAbsenceAddPerennial($employee->id, $year) - $dayoff;
+                    if($total_date<=0){
+                        return 0;
+                    }
+                    return $total_date;
+                }
+
+                $totalDateAbsences = $absence->absenceDateOnYear($employee_id, $year)
+                    + $absence->numberAbsenceAddPerennial($employee_id, $year);
+
                 $days = max(0,($totalDateAbsences - $numberOfDaysOff));
                 $extraAbsenceDate_data = [
                     'year' => $year,
