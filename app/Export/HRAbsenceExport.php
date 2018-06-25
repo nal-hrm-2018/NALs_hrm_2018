@@ -18,33 +18,27 @@ use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Events\BeforeWriting;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 
-/**
- * Created by PhpStorm.
- * User: Ngoc Quy
- * Date: 4/23/2018
- * Time: 4:47 PM
- */
 
-class HRAbsenceExport implements FromCollection, WithEvents, WithHeadings
+class HRAbsenceExport implements FromCollection, WithEvents, WithHeadings,WithStrictNullComparison
 {
     use Exportable, RegistersEventListeners;
-    private $searchEmployeeService;
-    protected $returnCollectionEmployee;
-    /**
-     * @var Request
-     */
-    private $request;
-
 
     /**
      * @var Request
      */
+    private $data;
 
-    public function __construct( $searchEmployeeService, $request)
+
+    /**
+     * @var Request
+     */
+
+    public function __construct( $data)
     {
-        $this->request = $request;
-        $this->searchEmployeeService = $searchEmployeeService;
+        $this->data = $data;
+
     }
 
     /**
@@ -52,7 +46,7 @@ class HRAbsenceExport implements FromCollection, WithEvents, WithHeadings
      */
     public function collection()
     {
-
+        return collect($this->data);
     }
 
     public static function beforeExport(BeforeExport $event)
