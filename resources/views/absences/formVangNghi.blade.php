@@ -102,15 +102,18 @@
                         <?php
                           foreach ($Absence_type as $val) {
                             $selected = "";
-                            if ($val["id"] == old('absence_type_id')) {
-                                $selected = "selected";
-                            }
-                            if (isset($Absence_employee)) {
-                                if ($absences->absence_type_id == $val["id"]) {
+                            if($val["name"]!="subtract_salary_date"){
+                                if ($val["id"] == old('absence_type_id')) {
                                     $selected = "selected";
                                 }
+                                if (isset($Absence_employee)) {
+                                    if ($absences->absence_type_id == $val["id"]) {
+                                        $selected = "selected";
+                                    }
+                                }
+                                echo '<option value="' . $val["id"] . '" ' . $selected . '>' . $val["name"] . '</option>';
                             }
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . $val["name"] . '</option>';
+
                         }
                         ?>
                     </select>
