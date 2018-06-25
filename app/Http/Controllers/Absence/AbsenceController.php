@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Absence;
 
-use App\Absence\AbsenceService;
+use App\Service\AbsenceService;
 use App\Export\ConfirmExport;
 use App\Export\AbsencePOTeam;
 use App\Export\HRAbsenceExport;
