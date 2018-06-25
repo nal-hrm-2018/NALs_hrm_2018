@@ -22,8 +22,8 @@ class AbsenceAddRequest extends FormRequest
     {
         return [
             'absence_type_id' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required|after:startwork_date',
+            'from_date' => 'required',
+            'to_date' => 'required|after:startwork_date',
             'reason' => 'required'
         ];
     }
@@ -38,14 +38,14 @@ class AbsenceAddRequest extends FormRequest
             'reason.required' => trans('validation.required', [
                 'attribute' => 'Reason'
             ]),
-            'start_date.required' => trans('validation.required', [
-                'attribute' => 'Start Date'
+            'from_date.required' => trans('validation.required', [
+                'attribute' => 'From Date'
             ]),
-            'end_date.required' => trans('validation.required', [
-                'attribute' => 'End Date'
+            'to_date.required' => trans('validation.required', [
+                'attribute' => 'To Date'
             ]),
-            'end_date.date_format' => trans('validation.date_format', [
-                'attribute' => 'End Date',
+            'to_date.date_format' => trans('validation.date_format', [
+                'attribute' => 'To Date',
                 'format' => 'yyyy-MM-dd HH:mm'
             ]),
         ];

@@ -74,24 +74,24 @@
               <div class="form-group">
                 <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input type='text' class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
+                  <input name="from_date" type='text' class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
                 </div>
-                <label id="lb_error_start_date" style="color: red;">{{$errors->first('start_date')}}</label>
+                <label id="lb_error_from_date" style="color: red;">{{$errors->first('from_date')}}</label>
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input type='text' class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
+                  <input name="to_date" type='text' class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
                 </div>
-                <label id="lb_error_end_date" style="color: red;">{{$errors->first('end_date')}}</label>
+                <label id="lb_error_to_date" style="color: red;">{{$errors->first('to_date')}}</label>
                 <!-- /.input group -->
               </div>
 

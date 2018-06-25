@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Absence;
 
+use App\Absence\AbsenceService;
 use App\Http\Controllers\Controller;
-use App\Models\Absence;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
 use App\Models\Employee;
+use App\Service\AbsenceFormService;
 use App\Service\AbsencePoTeamService;
 use Carbon\Carbon;
 use App\Models\Confirm;
@@ -21,12 +22,14 @@ class AbsenceController extends Controller
 {
     public $id_employee;
     public $absencePoTeamService;
+    public $absenceFormService;
     private $searchConfirmService;
 
-    public function __construct(SearchConfirmService $searchConfirmService, AbsencePoTeamService $absencePoTeamService)
+    public function __construct(SearchConfirmService $searchConfirmService, AbsencePoTeamService $absencePoTeamService,AbsenceFormService $absenceFormService)
     {
         $this->searchConfirmService = $searchConfirmService;
         $this->absencePoTeamService = $absencePoTeamService;
+        $this->absenceFormService = $absenceFormService;
     }
 
     public function confirmRequest($id, Request $request)
@@ -161,31 +164,7 @@ class AbsenceController extends Controller
     }
 
     public function store(AbsenceAddRequest $request){
-        $absence_form = new Absence;
-        $absence_form->employee_id = Auth::user()->id;
-        $absence_form->absence_type_id = $request->absence_type_id;
-
-        $absence_form->name = $request->name;
-        $absence_form->startwork_date = $request->startwork_date;
-        $absence_form->endwork_date = $request->endwork_date;
-        $date = new DateTime;
-        $date = $date->format('Y-m-d H:i:s');
-        if(strtotime($absence_form->to_date) < strtotime($date)){
-            $absence_form->is_late = 0;
-        }else{
-            $absence_form->is_late = 1;
-        }
-
-        $absence_form->created_at = new DateTime();
-        $absence_form->delete_flag = 0;
-
-        if($absence_form->save()){
-            \Session::flash('msg_success', 'Account successfully created!!!');
-            return redirect('absences');
-        }else{
-            \Session::flash('msg_fail', 'Account failed created!!!');
-            return back()->with(['absences' => $absence_form]);
-        }
+        return $this->absenceFormService->addNewAbsenceForm($request);
     }
     public function show($id, Request $request){
 
