@@ -67,24 +67,24 @@ class AbsenceController extends Controller
             $idConfirm = $request->id_confirm;
             $rejectReason = $request->reason;
 
-            $idAccept = AbsenceStatus::where('name', '=', 'Accepted')->first()->id;
-            $idReject = AbsenceStatus::where('name', '=', 'Rejected')->first()->id;
+            $idAccept = AbsenceStatus::where('name', '=', config('settings.status_common.absence.accepted'))->first()->id;
+            $idReject = AbsenceStatus::where('name', '=', config('settings.status_common.absence.rejected'))->first()->id;
 
             if($typeConfirm === 'absence'){
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idAccept, "");
-                    return response(['msg' => 'Được Nghỉ']);
+                    return response(['msg' => trans('absence_po.list_po.status.absence_accepted')]);
                 } else {
                     $this->updateConfirm($idConfirm, $idReject, $rejectReason);
-                    return response(['msg' => 'Không Được Nghỉ']);
+                    return response(['msg' => trans('absence_po.list_po.status.absence_rejected')]);
                 }
             } else {
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idReject, "");
-                    return response(['msg' => 'Không Được Nghỉ']);
+                    return response(['msg' => trans('absence_po.list_po.status.absence_rejected')]);
                 } else {
                     $this->updateConfirm($idConfirm, $idAccept, $rejectReason);
-                    return response(['msg' => 'Được Nghỉ']);
+                    return response(['msg' => trans('absence_po.list_po.status.absence_accepted')]);
                 }
             }
         }

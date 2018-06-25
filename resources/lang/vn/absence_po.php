@@ -11,10 +11,10 @@ return [
         'path'=>'Danh sách xin vắng làm',
         'modal'=>[
             'reason'=>'Lý do từ chối',
-            'done'=>'Đồng ý',
+            'done'=>'Đồng Ý',
             'close'=>'Đóng',
             'send'=>'Gửi',
-            'cancel'=>'Từ chối'
+            'cancel'=>'Từ Chối'
         ],
         'profile_info'=>[
             'start_date'=>'Ngày bắt đầu',
@@ -37,7 +37,9 @@ return [
             'accepted_deny'=>'Đồng ý hủy',
             'no_accepted_done'=>'Không được nghỉ',
             'no_accepted_deny'=>'Không được hủy',
-            'just_watching'=>'Chỉ được xem'
+            'just_watching'=>'Chỉ được xem',
+            'absence_accepted'=>'Được Nghỉ',
+            'absence_rejected'=>'Không Được Nghỉ',
         ],
         'type'=>[
             config('settings.status_common.absence_type.non_salary_date')=>'Nghỉ không lương',

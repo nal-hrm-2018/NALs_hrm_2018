@@ -101,7 +101,7 @@
                                                         @foreach($absenceType as $item)
                                                         <option value="{{$item->id}}"
                                                                 {{ (string)$item->id===request('absence_type')?'selected="selected"':'' }}>
-                                                            {{$item->name}}
+                                                            {{trans('absence_po.list_po.type.' . $item->name)}}
                                                         </option>
                                                         @endforeach
                                                     </select>
@@ -175,7 +175,6 @@
                             <tbody>
                             <?php
                                 $idWaiting = $absenceStatus->where('name', '=', 'waiting')->first()->id;
-//                                dd(config('settings.status_common.absence.waiting'));
                                 $idAccepted = $absenceStatus->where('name', '=', 'accepted')->first()->id;
                                 $idRejected = $absenceStatus->where('name', '=', 'rejected')->first()->id;
                             ?>
@@ -212,22 +211,22 @@
                                         @if($confirm->absence_status_id === $idWaiting)
                                             @if($confirm->absence->is_deny === 0)
                                                 <div class="btn-group-vertical">
-                                                    <button class="btn btn-xs btn-primary button-confirm" id="button-absence-accept-{{$confirm->id}}">Đồng Ý Nghỉ</button>
+                                                    <button class="btn btn-xs btn-primary button-confirm" id="button-absence-accept-{{$confirm->id}}">{{trans('absence_po.list_po.modal.done')}}</button>
                                                     <button class="btn btn-xs btn-danger button-confirm" id="button-absence-reject-{{$confirm->id}}" data-toggle="modal"
-                                                            data-target="#show-modal-confirm">Từ Chối Nghỉ</button>
+                                                            data-target="#show-modal-confirm">{{trans('absence_po.list_po.modal.cancel')}}</button>
                                                 </div>
                                             @elseif($confirm->absence->is_deny === 1)
                                                 <div class="btn-group-vertical">
-                                                    <button class="btn btn-xs btn-primary button-confirm" id="button-cancel-accept-{{$confirm->id}}">Đồng Ý Hủy</button>
+                                                    <button class="btn btn-xs btn-primary button-confirm" id="button-cancel-accept-{{$confirm->id}}">{{trans('absence_po.list_po.modal.done')}}</button>
                                                     <button class="btn btn-xs btn-danger button-confirm" id="button-cancel-reject-{{$confirm->id}}" data-toggle="modal"
-                                                            data-target="#show-modal-confirm">Từ Chối Hủy</button>
+                                                            data-target="#show-modal-confirm">{{trans('absence_po.list_po.modal.cancel')}}</button>
                                                 </div>
                                             @endif
                                         @else
                                             @if($confirm->absence_status_id === $idAccepted)
-                                                Được Nghỉ
+                                                {{trans('absence_po.list_po.status.absence_accepted')}}
                                             @elseif($confirm->absence_status_id === $idRejected)
-                                                Không Được Nghỉ
+                                                {{trans('absence_po.list_po.status.absence_rejected')}}
                                             @endif
                                         @endif
                                     </td>
@@ -257,7 +256,7 @@
                                     <div class="modal-content" >
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title"><th>Lý do từ chối</th></h4>
+                                            <h4 class="modal-title"><th>{{trans('absence_po.list_po.modal.reason')}}</th></h4>
 
                                             <div class="modal-body">
                                                 <div>

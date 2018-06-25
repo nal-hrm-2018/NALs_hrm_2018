@@ -37,7 +37,9 @@ return [
             'accepted_deny'=>'Done deny',
             'no_accepted_done'=>'Not accepted',
             'no_accepted_deny'=>'Not deny',
-            'just_watching'=>'Just Watching'
+            'just_watching'=>'Just Watching',
+            'absence_accepted'=>'Absence Accepted',
+            'absence_rejected'=>'Absence Rejected',
         ],
         'type'=>[
             config('settings.status_common.absence_type.non_salary_date')=>'Non salary date',
