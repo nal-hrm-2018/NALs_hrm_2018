@@ -16,6 +16,7 @@
             </ol>
 
         </section>
+
         <section class="content">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -27,11 +28,57 @@
                     </li>
                 </ul>
                 <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
+                <?php
+                $number_record_per_page = null; $employee_name = null; $email = null; $project_id = null; $absence_type = null;
+                $from_date = null; $to_date = null; $confirm_status = null; $page=1;
+                $arrays[] = $_GET;
+                foreach ($arrays as $key => $value) {
+                    if (!empty($value['number_record_per_page'])) {
+                        $number_record_per_page = $value['number_record_per_page'];
+                    }
+                    if (!empty($value['employee_name'])) {
+                        $employee_name = $value['employee_name'];
+                    }
+                    if (!empty($value['email'])) {
+                        $email = $value['email'];
+                    }
+                    if (!empty($value['project_id'])) {
+                        $project_id = $value['project_id'];
+                    }
+                    if (!empty($value['absence_type'])) {
+                        $absence_type = $value['absence_type'];
+                    }
+                    if (!empty($value['from_date'])) {
+                        $from_date = $value['from_date'];
+                    }
+                    if (!empty($value['to_date'])) {
+                        $to_date = $value['to_date'];
+                    }
+                    if (!empty($value['confirm_status'])) {
+                        $confirm_status = $value['confirm_status'];
+                    }
+                    if (!empty($value['page'])) {
+                        $page = $value['page'];
+                    }
+                }
+                ?>
                 <div class="tab-content">
                     <div class="tab-pane" id="confirmation">
                         <div class="box-body">
                         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                             <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
+                            <button  type="button" class="btn btn-default export-confirm-list" id="click-here" style="float: right"
+                                     onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
+                                <a id="export"
+                                   href="{{asset('export-confirm-list').'?'.'po_id='.$id.'&number_record_per_page='.$number_record_per_page
+                                   .'&employee_name='.$employee_name.'&email='.$email.'&project_id='.$project_id.'&absence_type='.$absence_type
+                                   .'&from_date='.$from_date.'&to_date='.$to_date.'&confirm_status='.$confirm_status.'&page='.$page}}">
+                                    <i class="fa fa-vcard"></i>
+                                    <span id="contain-canvas" style="">
+                                <canvas id="my_canvas" width="16" height="16" style=""></canvas>
+                            </span>
+                                    {{trans('common.button.export')}}</a>
+                            </button>
                         </button>
                         <div id="demo" class="collapse">
                             <div class="modal-dialog">
@@ -88,8 +135,6 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 <div class="input-group margin">
                                                     <div class="input-group-btn">
                                                         <button type="button" class="btn width-100">{{trans('absence.confirmation.type')}}</button>
@@ -99,34 +144,72 @@
                                                             {{trans('employee.drop_box.placeholder-default')}}
                                                         </option>
                                                         @foreach($absenceType as $item)
-                                                        <option value="{{$item->id}}"
-                                                                {{ (string)$item->id===request('absence_type')?'selected="selected"':'' }}>
-                                                            {{trans('absence_po.list_po.type.' . $item->name)}}
-                                                        </option>
+                                                            <option value="{{$item->id}}"
+                                                                    {{ (string)$item->id===request('absence_type')?'selected="selected"':'' }}>
+                                                                {{$item->name}}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="input-group margin">
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+                                                <div class="input-group margin date form_datetime" >
                                                     <div class="input-group-btn">
                                                         <button type="button" class="btn width-100">{{trans('absence.confirmation.from')}}</button>
                                                     </div>
-                                                    {{ Form::date('from_date', old('from_date'),
+                                                    <div class='input-group date form_datetime' style="width:355px;">
+                                                        {{ Form::text('from_date', old('from_date'),
                                                         ['class' => 'form-control',
                                                         'id' => 'from_date',
                                                         'autofocus' => false,
+                                                        'placeholder'=>'yyyy-MM-dd HH:mm'
                                                         ])
                                                     }}
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                          </span>
+                                                    </div>
                                                 </div>
                                                 <div class="input-group margin">
                                                     <div class="input-group-btn">
                                                         <button type="button" class="btn width-100">{{trans('absence.confirmation.to')}}</button>
                                                     </div>
-                                                    {{ Form::date('to_date', old('to_date'),
+                                                    {{--{{ Form::text('to_date', old('to_date'),--}}
+                                                        {{--['class' => 'form-control',--}}
+                                                        {{--'id' => 'to_date',--}}
+                                                        {{--'autofocus' => false,--}}
+                                                        {{--])--}}
+                                                    {{--}}--}}
+                                                    <div class='input-group date form_datetime' style="width:355px;">
+                                                        {{ Form::text('to_date', old('to_date'),
                                                         ['class' => 'form-control',
                                                         'id' => 'to_date',
                                                         'autofocus' => false,
+                                                        'placeholder'=>'yyyy-MM-dd HH:mm'
                                                         ])
                                                     }}
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                          </span>
+                                                    </div>
+                                                    </div>
+                                                <div class="input-group margin">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn width-100">{{trans('absence.confirmation.status')}}</button>
+                                                    </div>
+                                                    <select name="confirm_status" id="confirm_status" class="form-control">
+                                                        <option {{!empty(request('confirm_status'))?'':'selected="selected"'}} value="">
+                                                            {{trans('employee.drop_box.placeholder-default')}}
+                                                        </option>
+                                                        @foreach($confirmStatus as $item)
+                                                            <option value="{{$item->id}}"
+                                                                    {{ (string)$item->id===request('confirm_status')?'selected="selected"':'' }}>
+                                                                {{$item->name}}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,10 +239,12 @@
                                  !!}
 
                             </div>
-                        <table id="confirm-po-list" class="table table-bordered table-striped">
+
+
+                            <table id="confirm-po-list" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th >ID</th>
+                                <th hidden>ID</th>
                                 <th>{{trans('absence.confirmation.employee_name')}}</th>
                                 <th>{{trans('absence.confirmation.email')}}</th>
                                 <th>{{trans('absence.confirmation.project_name')}}</th>
@@ -180,7 +265,7 @@
                             ?>
                             @foreach($listConfirm as $confirm)
                                 <tr>
-                                    <td >{{$confirm->id}}</td>
+                                    <td hidden>{{$confirm->id}}</td>
                                     <td>{{$confirm->absence->employee->name}}</td>
                                     <td>{{$confirm->absence->employee->email}}</td>
                                     <td>
@@ -194,7 +279,7 @@
                                     </td>
                                     <td>{{$confirm->absence->from_date}}</td>
                                     <td>{{$confirm->absence->to_date}}</td>
-                                    <td>{{$confirm->absence->absencestypes->name}}</td>
+                                    <td>{{$confirm->absence->absenceType->name}}</td>
                                     <td>{{$confirm->absence->reason}}</td>
                                     <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)
@@ -281,7 +366,6 @@
             <!-- Main content -->
         </section>
         <!-- /.content -->
-    </div>
     <!-- /.content-wrapper -->
     <!-- jQuery 3 -->
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
@@ -388,5 +472,17 @@
                 }
             }
         }
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.form_datetime').datetimepicker({
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1});
+        });
     </script>
 @endsection

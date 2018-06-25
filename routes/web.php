@@ -7,6 +7,7 @@ Auth::routes();
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ProcessAddRequest;
 
+
 Route::get('/index', function () {
     return view('admin.module.index.index');
 });
@@ -83,7 +84,20 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors', 'User\Vendor\VendorController');
     Route::resource('projects', 'Project\ProjectController');
+    Route::get('absences/hr',[
+        'uses'=>'Absence\AbsenceController@indexHR',
+        'as'=>'absences-hr'
+    ]);
+    Route::get('absences/hr/export',[
+        'uses'=>'Absence\AbsenceController@exportAbsenceHR',
+        'as'=>'export-absences-hr'
+    ]);
+    Route::get('absences/hr/export',[
+        'uses'=>'Absence\AbsenceController@exportAbsenceHR',
+        'as'=>'export-absences-hr'
+    ]);
     Route::resource('absences', 'Absence\AbsenceController');
+
     Route::post('projects/checkProcessAjax',[
         'as'=>'checkProcessAjax',
         'uses'=>'Project\ProjectController@checkProcessesAjax'
@@ -102,7 +116,11 @@ Route::group(['middleware' => 'user'], function () {
 
     Route::get('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
     Route::post('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
+    Route::get('/export-confirm-list', 'Absence\AbsenceController@exportConfirmList')->name('exportConfirmList');
 
+    Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
+    Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');
+    Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
 });
 
 //cong list route cam pha'
@@ -125,9 +143,6 @@ Route::get('/phu-test', function (){
 });
 Route::get('/download-template', 'User\Employee\EmployeeController@downloadTemplate');
 Route::get('/download-template-vendor', 'User\Vendor\VendorController@downloadTemplateVendor')->name('vendor-template');
-Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
-Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');
-Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');

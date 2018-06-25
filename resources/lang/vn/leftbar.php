@@ -21,6 +21,7 @@ return[
             'vendor' => 'Danh sách Nhân Viên Ngoài',
             'team' => 'Danh sách Team',
             'project' => 'Danh sách Dự Án',
+            'absence_po'=>'Danh sách dành cho PO team',
             'absence' => 'Danh sách vắng nghỉ'
 
         ],

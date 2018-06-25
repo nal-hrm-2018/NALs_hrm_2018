@@ -34,12 +34,14 @@ return [
             config('settings.status_common.absence.accepted')=>'Đã đồng ý',
             config('settings.status_common.absence.rejected')=>'Đã từ chối',
             'accepted_done'=>'Đồng ý nghỉ',
-            'accepted_deny'=>'Đồng ý hủy',
+//            'accepted_deny'=>'Đồng ý hủy',
             'no_accepted_done'=>'Không được nghỉ',
             'no_accepted_deny'=>'Không được hủy',
             'just_watching'=>'Chỉ được xem',
             'absence_accepted'=>'Được Nghỉ',
             'absence_rejected'=>'Không Được Nghỉ',
+//            'no_accepted_deny'=>'Không được hủy',
+            'just_watching'=>'Chỉ được xem'
         ],
         'type'=>[
             config('settings.status_common.absence_type.non_salary_date')=>'Nghỉ không lương',
