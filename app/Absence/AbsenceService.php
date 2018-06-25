@@ -234,6 +234,7 @@ class AbsenceService{
                         $countHours = $objAS->countHours($objAS->formatTime($startDate),17,5);
                         $sumDate += $objAS->countDay($countHours);
                     }
+
                 }
                 //----------
                 elseif(($endDate->isWeekend())&& $countDate == 2){
@@ -242,6 +243,7 @@ class AbsenceService{
                         $sumDate += $objAS->countDay($countHours);
                     }
                     if(!($objAS->checkHoliday($endDate))){
+
                         $countHours = $objAS->countHours(8,17.5);
                         $sumDate += $objAS->countDay($countHours);
                     }
@@ -256,12 +258,14 @@ class AbsenceService{
                         $sumDate += $objAS->countDay($countHours);
                     }
                 }
+
                 elseif(!($startDate->isWeekend())&&!($endDate->isWeekend())&& $countDate == 2){
                     if(!($objAS->checkHoliday($startDate))){
                         $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
                         $sumDate += $objAS->countDay($countHours);
                     }
                     if(!($objAS->checkHoliday($endDate))){
+
                         $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
                         $sumDate += $objAS->countDay($countHours);
                     }
