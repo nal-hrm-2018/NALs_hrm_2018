@@ -9,6 +9,7 @@
 namespace App\Export;
 
 
+use App\Models\AbsenceStatus;
 use App\Models\Confirm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -102,12 +103,46 @@ class AbsencePOTeam implements FromCollection, WithHeadings
                     $query->where("name", 'like', '%' . $absence_status . '%');
                 });
         }
-        dd('abs');
-        $dataConfirmQuery = $query->orderBy('id', 'DESC')->paginate($this->request['number_record_per_page']);
-        return $dataConfirmQuery->map(function (Employee $item) {
-            dd($item);
-            return $item;
-        });
+        $arrayList = array();
+        $indexInLoop = 0;
+        $absenceStatus = AbsenceStatus::all();
+        $idAbsenceStatus = $absenceStatus->where('name', '=', 'waiting')->first()->id;
+        $dataConfirmQuery = $query
+                            ->orderBy('id', 'DESC')
+                            ->paginate($this->request['number_record_per_page']);
+        foreach ($dataConfirmQuery as $item){
+            $arrayList[$indexInLoop] = array();
+            $arrayList[$indexInLoop]['employee_name'] = $item->absence->employee->name;
+            $arrayList[$indexInLoop]['email'] = $item->absence->employee->email;
+            $arrayList[$indexInLoop]['from_date'] = $item->absence->from_date;
+            $arrayList[$indexInLoop]['to_date'] = $item->absence->to_date;
+            $arrayList[$indexInLoop]['absence_type']= trans('absence_po.list_po.type.'.$item->absence->absenceType->name );;
+
+            if (!is_null($item->absence->reason)){
+                $arrayList[$indexInLoop]['reason'] = $item->absence->reason;
+            }
+            else{
+                $arrayList[$indexInLoop]['reason'] = '-';
+            }
+            if($item->absence_status_id === $idAbsenceStatus){
+                if($item->absence->is_deny === 0) {
+                    $arrayList[$indexInLoop]['description'] = trans('absence.confirmation.absence_request');
+                } else if($item->absence->is_deny === 1) {
+                    $arrayList[$indexInLoop]['description'] = trans('absence.confirmation.cancel_request');
+                }
+            } else {
+                $arrayList[$indexInLoop]['description'] = '-';
+            }
+            $arrayList[$indexInLoop]['status'] = trans('absence_po.list_po.status.'.$item->absenceStatus->name);
+            if (!empty($item->reason)){
+                $arrayList[$indexInLoop]['reject_reason'] = $item->reason;
+            }
+            else{
+                $arrayList[$indexInLoop]['reject_reason'] = '-';
+            }
+            $indexInLoop++;
+        }
+        return collect($arrayList);
     }
 
     /**
@@ -116,15 +151,15 @@ class AbsencePOTeam implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'NAME',
-            'EMAIL',
-            'START DATE',
-            'END DATE',
-            'ABSENCE TYPE',
-            'REASON',
-            'NOTE',
-            'ABSENCE STATUS',
-            'PO NOTE'
+            trans('absence.confirmation.employee_name'),
+            trans('absence.confirmation.email'),
+            trans('absence.confirmation.from'),
+            trans('absence.confirmation.to'),
+            trans('absence.confirmation.type'),
+            trans('absence.confirmation.cause'),
+            trans('absence_po.list_po.profile_info.note'),
+            trans('absence.confirmation.status'),
+            trans('absence.confirmation.reject_cause')
         ];
     }
 }

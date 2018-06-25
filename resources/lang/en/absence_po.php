@@ -20,10 +20,10 @@ return [
             'start_date'=>'Start date',
             'end_date'=>'End date',
             'type' => 'Type',
-            'reason'=>'Reason',
+            'reason'=>'Cause',
             'note'=>'Note',
             'status'=>'Status',
-            'note_po'=>'Note PO'
+            'note_po'=>'Reject Cause'
         ],
         'note'=>[
             'absence_new'=>'Absence',
@@ -37,13 +37,19 @@ return [
             'accepted_deny'=>'Done deny',
             'no_accepted_done'=>'Not accepted',
             'no_accepted_deny'=>'Not deny',
-            'just_watching'=>'Just Watching'
+            'just_watching'=>'Just Watching',
+            'absence_accepted'=>'Absence Accepted',
+            'absence_rejected'=>'Absence Rejected',
         ],
         'type'=>[
             config('settings.status_common.absence_type.non_salary_date')=>'Non salary date',
             config('settings.status_common.absence_type.salary_date')=>'Salary date',
             config('settings.status_common.absence_type.subtract_salary_date')=>'Subtract salary date',
             config('settings.status_common.absence_type.insurance_date')=>'Insurance date',
+            config('settings.status_common.absence_type.absented_date')=>'Absented date',
+        ],
+        'msg'=>[
+            'confirm_export'=>'Do you want to export this confirmation list?'
         ],
         'message'=>[
             'export_msg'=>'Do you want to download Absence List?'

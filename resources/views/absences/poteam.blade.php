@@ -97,7 +97,7 @@
             <div style="float:right; background-color: #ECF0F5; height: 50px;">
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
 
-                    <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
+                    <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('absence_po.list_po.msg.confirm_export')}}')">
                     <a id="export" href="{{route('absence-po-team').'?'.'number_record_per_page='.$exportPage.'&name='.$exportName.'&email='.$exportEmail.'&type='.$exportType.'&start_date='.$exportStartDate.'&end_date='.$exportEndDate.'&absence_status='.$exportAbsenceStatus}}">
                         <i class="fa fa-cloud-download"></i>
                         <span id="contain-canvas" style="">
