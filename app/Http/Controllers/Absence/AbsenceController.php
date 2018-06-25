@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Absence;
 
 use App\Export\HRAbsenceExport;
-use App\Absence\AbsenceService;
+use App\Service\AbsenceService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +13,6 @@ use App\Http\Rule\Absence\ValidAbsenceFilter;
 use App\Models\Absence;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
-
 use App\Models\Employee;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -65,21 +64,31 @@ class AbsenceController extends Controller
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-        $absenceService = new \App\Absence\AbsenceService();
-        $absenceService1 = $this->absenceService;
+        if (!isset($request['year_absence'])) {
+            $request['year_absence'] = date('Y');
+        }
+
+        $absenceService = $this->absenceService;
         $month_absences = getArrayMonth();
         $year_absences = $this->absenceService->getArrayYearAbsence();
-        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')
+            ->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $param = (Input::except(['page', 'is_employee']));
-        session()->flashInput($request->input());
-        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences','absenceService','absenceService1'));
+//        session()->flashInput($request->input());
+        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences','absenceService'));
     }
 
     public function exportAbsenceHR(Request $request)
     {
-        $time = (new \DateTime())->format('Y-m-d H:i:s');
-        return Excel::download(new HRAbsenceExport(null, $request), 'absence-list-' . $time . '.csv');
+            $absences = $request->get('absences');
+            if(!is_null($absences)){
+                $time = (new \DateTime())->format('Y-m-d H:i:s');
+                return Excel::download(new HRAbsenceExport($absences), 'absence-list-' . $time . '.csv');
+            }else{
+                \session()->flash(trans('common.msg_fails'), trans('absence.msg_content.msg_export_fails'));
+                redirect(route('absences-hr'))->withInput();
+            }
     }
 
 
@@ -162,6 +171,9 @@ class AbsenceController extends Controller
     public function index(Request $request){
         $id = \Illuminate\Support\Facades\Auth::user()->id;
         $dateNow = new DateTime;
+
+        $status = AbsenceStatus::select()->where('name','accepted')->first();
+        $type = AbsenceType::select()->where('name','salary_date')->first();
         $year = $dateNow->format('Y');
         $abc = new \App\Absence\AbsenceService();
 
@@ -169,19 +181,49 @@ class AbsenceController extends Controller
         $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
         $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
 
-        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id, $year, 0, 2);
+
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
         $soNgayTruPhepDu = $abc->subRedundancy($id, $year);
         $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year);
 
+        if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
+            $checkMonth = 1;
+        }else{
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
+            $checkMonth = 0;
+        }
+        $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
+        $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
+
+        $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh;
+
+        $type = AbsenceType::select()->where('name','insurance_date')->first();
+
+        $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
         $absences = [
-            "1" => $tongSoNgayDuocNghi,
-            "2" => $soNgayPhepCoDinh,
-            "3" => $soNgayPhepDu,
-            "4" => $tongSoNgayDaNghi,
-            "5" => $soNgayTruPhepCoDinh,
-            "6" => $soNgayTruPhepDu,
-        ];
-        return view('vangnghi.list', compact('absences'));
+                        "1"=>$tongSoNgayDuocNghi, 
+                        "2"=>$soNgayPhepCoDinh,
+                        "3"=>$soNgayPhepDu,
+                        "4"=>$tongSoNgayDaNghi,
+                        "5"=>$soNgayTruPhepCoDinh,
+                        "6"=>$soNgayTruPhepDu,
+                        "7"=>$soNgayPhepCoDinhConLai,
+                        "8"=>$soNgayTruPhepDuConLai,
+                        "9"=>$soNgayPhepConLai,
+                        "10"=>$soNgayNghiTruLuong,
+                        "11"=>$soNgayNghiBaoHiem
+                    ];
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id')
+                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+                ->where('absences.delete_flag', 0)
+                ->whereYear('absences.from_date', $year)
+                ->orWhereYear('absences.to_date', $year)
+                ->get();
+        return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence'));
     }
 
     public function create()
@@ -204,7 +246,7 @@ class AbsenceController extends Controller
                 $query->select('project_id')
                     ->from('processes')
                     ->where('employee_id', '=', $id_employee)
-                    ->whereDate('processes.start_date', '>', $dayBefore);
+                    ->whereDate('processes.end_date', '>', $dayBefore);
             })
             ->WHERE('employees.delete_flag', '=', 0)
             ->WHERE('roles.name', 'like', 'po')
