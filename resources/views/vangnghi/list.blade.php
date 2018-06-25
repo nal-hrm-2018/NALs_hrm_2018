@@ -102,10 +102,16 @@
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép dư:
                                             <span id="phepDu">{{$absences['phepDu']}}</span>
                                         </span>
-                                        @if($checkMonth == 1 && $absences['phepDu'] > 0)
-                                            <strong class="label label-danger">
+                                        <span id='hanphep'>
+                                            @if($checkMonth == 1 && $absences['phepDu'] > 0)
                                                 Đã hết hạn
-                                            </strong>
+                                            @endif
+                                        </span>
+                                        @if($checkMonth == 1 && $absences['phepDu'] > 0)
+                                            <script type="text/javascript">
+                                                $("#hanphep").addClass("label");
+                                                $("#hanphep").addClass("label-danger");
+                                            </script>
                                         @endif
                                     </div>
                                 </div>
@@ -141,10 +147,31 @@
                                         <tr>
                                             <td>{{$obj->from_date}}</td>
                                             <td>{{$obj->to_date}}</td>
-                                            <td>{{trans('absence_po.list_po.type.'.$obj->name_type)}}</td>
+                                            <td>
+                                                @if(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.salary_date'))
+                                                    <span class="label label-primary">
+                                                @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.non_salary_date'))
+                                                    <span class="label label-info">
+                                                @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.subtract_salary_date'))
+                                                    <span class="label label-danger">
+                                                @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.insurance_date'))
+                                                    <span class="label label-default">
+                                                @endif
+                                                {{trans('absence_po.list_po.type.'.$obj->name_type)}}</span>
+                                            </td>
                                             <td>{{$obj->reason}}</td>
                                             <td>{{$obj->description}}</td>
-                                            <td>{{trans('absence_po.list_po.status.'.$obj->name_status)}}</td>
+                                            <td>
+                                                @if(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.waiting'))
+                                                    <span class="label label-warning">
+                                                @elseif(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.accepted'))
+                                                    <span class="label label-success">
+                                                @elseif(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.rejected'))
+                                                    <span class="label label-danger">
+                                                @endif
+                                                    {{trans('absence_po.list_po.status.'.$obj->name_status)}}
+                                                </span>
+                                            </td>
                                             <td>
 
                                                 <?php 
@@ -211,6 +238,19 @@
                     document.getElementById("soNgayConLai").innerHTML = msg.aAbsences['soNgayConLai'];
                     document.getElementById("phepCoDinh").innerHTML = msg.aAbsences['phepCoDinh'];
                     document.getElementById("phepDu").innerHTML = msg.aAbsences['phepDu'];
+                    if(msg.aCheckMonth == 1 && msg.aAbsences['phepDu'] > 0){
+                        $("#hanphep").addClass("label");
+                        $("#hanphep").addClass("label-danger");
+                        document.getElementById("hanphep").innerHTML = "Đã hết hạn";
+                    }else{
+                        if($("#hanphep").hasClass("label")){
+                            $("#hanphep").removeClass("label");
+                        }
+                        if($("#hanphep").hasClass("label-danger")){
+                            $("#hanphep").removeClass("label-danger");
+                        }
+                        document.getElementById("hanphep").innerHTML = "";
+                    }
 
                     document.getElementById("soNgayNghiTruLuong").innerHTML = msg.aAbsences['soNgayNghiTruLuong'];
                     document.getElementById("soNgayNghiBaoHiem").innerHTML = msg.aAbsences['soNgayNghiBaoHiem'];
@@ -220,10 +260,27 @@
                         listAbsence += "<tr>";
                         listAbsence += "<td>"+msg.aListAbsence[key].from_date+"</td>";
                         listAbsence += "<td>"+msg.aListAbsence[key].to_date+"</td>";
-                        listAbsence += "<td>"+msg.aListAbsence[key].name_type+"</td>";
+                        if( msg.aListAbsence[key].name_type == "{{trans('absence_po.list_po.type.salary_date')}}"){
+                            class_type = "label label-primary";
+                        }else if( msg.aListAbsence[key].name_type == "{{trans('absence_po.list_po.type.non_salary_date')}}"){
+                            class_type = "label label-info";
+                        }else if( msg.aListAbsence[key].name_type == "{{trans('absence_po.list_po.type.subtract_salary_date')}}"){
+                            class_type = "label label-danger";
+                        }else if( msg.aListAbsence[key].name_type == "{{trans('absence_po.list_po.type.insurance_date')}}"){
+                            class_type = "label label-default";
+                        }
+                        listAbsence += "<td><span class=\""+class_type+"\">"+msg.aListAbsence[key].name_type+"</span></td>";
                         listAbsence += "<td>"+msg.aListAbsence[key].reason+"</td>";
                         listAbsence += "<td>"+msg.aListAbsence[key].description+"</td>";
-                        listAbsence += "<td>"+msg.aListAbsence[key].name_status+"</td>";
+                        var class_status = ""
+                        if( msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.waiting')}}"){
+                            class_status = "label label-warning";
+                        }else if( msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.accepted')}}"){
+                            class_status = "label label-success";
+                        }else if( msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.rejected')}}"){
+                            class_status = "label label-danger";
+                        }
+                        listAbsence += "<td><span class=\""+class_status+"\">"+msg.aListAbsence[key].name_status+"</span></td>";
                         listAbsence += "<td>"+msg.aListAbsence[key].confirm+"</td>";
                         listAbsence +="</tr>";
                     }                    

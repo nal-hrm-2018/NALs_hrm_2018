@@ -404,6 +404,6 @@ class AbsenceController extends Controller
             }
              
         }
-        return response(['aAbsences' => $absences, "aListAbsence" => $listAbsence]);
+        return response(['aAbsences' => $absences, "aListAbsence" => $listAbsence, 'aCheckMonth' => $checkMonth]);
     }
 }
