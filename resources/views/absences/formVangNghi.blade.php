@@ -27,7 +27,7 @@
           <div id="msg">
           </div>
           <SCRIPT LANGUAGE="JavaScript">
-              function confirmEmployee() {
+              function confirmAction() {
                   var name = $('#name').val();
                   var id = $('#id_employee').val();
                   return confirm(message_confirm('create', 'absences', id, name));
@@ -35,10 +35,16 @@
           </SCRIPT>
           <div class="col-md-10" style="width: 100% ; margin-bottom: 2em"></div>
           <div class="row">
-            {{ Form::model($objEmployee, ['url' => ['/absences', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','onSubmit' => 'return confirmEmployee()'])}}
+            {{--{{ Form::model($objEmployee, ['url' => ['/absences', $objEmployee["id"]],
+                                          'class' => 'form-horizontal',
+                                          'method'=>isset($objEmployee["id"])?'PUT':'POST',
+                                          'onSubmit' => 'return confirmEmployee()'])}}--}}
+            <form action="{{asset('absences')}}" method="post" class="form-horizontal"
+                  onSubmit="return confirmAction()">
+
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
-            <div class="col-md-3"></div>
+              <div class="col-md-3"></div>
             <!-- /.col -->
             <div class="col-md-5">
               <!-- /.form-group -->
@@ -74,24 +80,24 @@
               <div class="form-group">
                 <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input type='text' class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
+                  <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
                 </div>
-                <label id="lb_error_start_date" style="color: red;">{{$errors->first('start_date')}}</label>
+                <label id="lb_error_from_date" style="color: red;">{{$errors->first('from_date')}}</label>
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input type='text' class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
+                  <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" placeholder="yyyy-MM-dd HH:mm"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
                 </div>
-                <label id="lb_error_end_date" style="color: red;">{{$errors->first('end_date')}}</label>
+                <label id="lb_error_to_date" style="color: red;">{{$errors->first('to_date')}}</label>
                 <!-- /.input group -->
               </div>
 
@@ -102,15 +108,28 @@
                         <?php
                           foreach ($Absence_type as $val) {
                             $selected = "";
-                            if ($val["id"] == old('absence_type_id')) {
-                                $selected = "selected";
-                            }
-                            if (isset($Absence_employee)) {
-                                if ($absences->absence_type_id == $val["id"]) {
+                              $name="";
+                            if($val["name"]!="subtract_salary_date"){
+                                if ($val["id"] == old('absence_type_id')) {
                                     $selected = "selected";
                                 }
+                                if (isset($Absence_employee)) {
+                                    if ($absences->absence_type_id == $val["id"]) {
+                                        $selected = "selected";
+                                    }
+                                }
+                                if ($val["name"]=='non_salary_date'){
+                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ không lương' . '</option>';
+                                }
+                                if ($val["name"]=='insurance_date'){
+                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ theo bảo hiểm' . '</option>';
+                                }
+                                if ($val["name"]=='salary_date'){
+                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ có lương' . '</option>';
+                                }
+
                             }
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . $val["name"] . '</option>';
+
                         }
                         ?>
                     </select>
@@ -119,7 +138,7 @@
 
               <div class="form-group">
                 <label>Lý do<strong style="color: red">(*)</strong></label>
-                <input type="text" class="form-control" placeholder="Câu trả lời của bạn"  name="ly_do" id="ly_do">
+                <input type="text" class="form-control" placeholder="Câu trả lời của bạn" value="{!! old('reason') !!}"  name="reason" id="ly_do">
                 <label id="lb_error_reason" style="color: red;">{{$errors->first('reason')}}</label>
                 <!-- /.input group -->
               </div>
@@ -132,7 +151,7 @@
 
               <div class="form-group">
                 <div class="checkbox">
-                  <label style="color: green"><input type="checkbox" value="">Bổ Sung</label>
+                  <label style="color: green"><input disabled="disabled" type="checkbox" value="">Bổ Sung</label>
                 </div>
               </div>
 
@@ -151,7 +170,8 @@
               </div>
             </div>
             <!-- /.form-group -->
-            {{ Form::close() }}
+            {{--{{ Form::close() }}--}}
+            </form>
 
           </div>
           <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
