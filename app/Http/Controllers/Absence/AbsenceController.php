@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Absence;
 
+use App\Export\ConfirmExport;
 use App\Export\HRAbsenceExport;
+use App\Export\InvoicesExport;
 use App\Service\AbsenceService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -82,6 +84,7 @@ class AbsenceController extends Controller
     public function exportAbsenceHR(Request $request)
     {
             $absences = $request->get('absences');
+            dd($absences);
             if(!is_null($absences)){
                 $time = (new \DateTime())->format('Y-m-d H:i:s');
                 return Excel::download(new HRAbsenceExport($absences), 'absence-list-' . $time . '.csv');
@@ -97,7 +100,7 @@ class AbsenceController extends Controller
         $absenceType = AbsenceType::where('name', '!=', config('settings.status_common.absence_type.subtract_salary_date'))->get();
         $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
         $absenceStatus = AbsenceStatus::all();
-
+        $confirmStatus = AbsenceStatus::all();
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
@@ -118,7 +121,8 @@ class AbsenceController extends Controller
 //        dd($request);
         $param = (Input::except(['page', 'is_employee']));
 //        dd($param);
-        return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO', 'id', 'absenceStatus', 'param'));
+        return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO',
+            'id', 'absenceStatus', 'param', 'confirmStatus'));
     }
 
     public function confirmRequestAjax($id, Request $request)
@@ -129,24 +133,24 @@ class AbsenceController extends Controller
             $idConfirm = $request->id_confirm;
             $rejectReason = $request->reason;
 
-            $idAccept = AbsenceStatus::where('name', '=', 'Accepted')->first()->id;
-            $idReject = AbsenceStatus::where('name', '=', 'Rejected')->first()->id;
+            $idAccept = AbsenceStatus::where('name', '=', config('settings.status_common.absence.accepted'))->first()->id;
+            $idReject = AbsenceStatus::where('name', '=', config('settings.status_common.absence.rejected'))->first()->id;
 
             if($typeConfirm === 'absence'){
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idAccept, "");
-                    return response(['msg' => 'Được Nghỉ']);
+                    return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idReject, $rejectReason);
-                    return response(['msg' => 'Không Được Nghỉ']);
+                    return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 }
             } else {
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idReject, "");
-                    return response(['msg' => 'Không Được Nghỉ']);
+                    return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idAccept, $rejectReason);
-                    return response(['msg' => 'Được Nghỉ']);
+                    return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 }
             }
         }
@@ -165,6 +169,12 @@ class AbsenceController extends Controller
         $absence = $confirm->absence;
         $absence->is_deny = 0;
         $absence->save();
+    }
+
+    public function exportConfirmList(Request $request){
+        $time =(new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new ConfirmExport($request), 'confirm-list-'.$time.'.csv');
+//        echo 'hello';
     }
 
 

@@ -29,6 +29,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             'absence_type' => !empty($request->absence_type) ? $request->absence_type : '',
             'from_date' => !empty($request->from_date) ? $request->from_date : '',
             'to_date' => !empty($request->to_date) ? $request->to_date : '',
+            'confirm_status' => !empty($request->confirm_status) ? $request->confirm_status : '',
         ];
         foreach ($params as $key => $value) {
             $employee_name = $value['employee_name'];
@@ -37,6 +38,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $absence_type = $value['absence_type'];
             $from_date = $value['from_date'];
             $to_date = $value['to_date'];
+            $confirm_status = $value['confirm_status'];
         }
         $query->join('absences', 'absences.id', '=', 'confirms.absence_id')
             ->join('employees', 'employees.id', '=', 'absences.employee_id')
@@ -57,7 +59,22 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $query->where('absences.absence_type_id', '=', $absence_type);
 
         }
-//                dd($query->toSql());
+        if (!empty($from_date) && !empty($to_date)) {
+            $from_date .= ':00';
+            $to_date .= ':00';
+            $query->where('absences.from_date', '>=', $from_date);
+            $query->where('absences.to_date', '<=', $to_date);
+        } else if (!empty($from_date) && empty($to_date)) {
+            $from_date .= ':00';
+            $query->where('absences.from_date', '>=', $from_date);
+        } else if (empty($from_date) && !empty($to_date)) {
+            $to_date .= ':00';
+            $query->where('absences.to_date', '<=', $to_date);
+        }
+        if (!empty($confirm_status)) {
+            $query->where('confirms.absence_status_id', '=', $confirm_status);
+        }
+//                dd($from_date);
         return $query;
     }
 
