@@ -11,10 +11,10 @@ return [
         'path'=>'Danh sách xin vắng làm',
         'modal'=>[
             'reason'=>'Lý do từ chối',
-            'done'=>'Đồng ý',
+            'done'=>'Đồng Ý',
             'close'=>'Đóng',
             'send'=>'Gửi',
-            'cancel'=>'Từ chối'
+            'cancel'=>'Từ Chối'
         ],
         'profile_info'=>[
             'start_date'=>'Ngày bắt đầu',
@@ -34,9 +34,13 @@ return [
             config('settings.status_common.absence.accepted')=>'Đã đồng ý',
             config('settings.status_common.absence.rejected')=>'Đã từ chối',
             'accepted_done'=>'Đồng ý nghỉ',
-            'accepted_deny'=>'Đồng ý hủy',
+//            'accepted_deny'=>'Đồng ý hủy',
             'no_accepted_done'=>'Không được nghỉ',
             'no_accepted_deny'=>'Không được hủy',
+            'just_watching'=>'Chỉ được xem',
+            'absence_accepted'=>'Được Nghỉ',
+            'absence_rejected'=>'Không Được Nghỉ',
+//            'no_accepted_deny'=>'Không được hủy',
             'just_watching'=>'Chỉ được xem'
         ],
         'type'=>[
@@ -44,6 +48,10 @@ return [
             config('settings.status_common.absence_type.salary_date')=>'Nghỉ có lương',
             config('settings.status_common.absence_type.subtract_salary_date')=>'Nghỉ trừ lương',
             config('settings.status_common.absence_type.insurance_date')=>'Nghỉ theo bảo hiểm',
-        ]
+            config('settings.status_common.absence_type.absented_date')=>'Nghỉ phép',
+        ],
+        'msg'=>[
+            'confirm_export'=>'Bạn có muốn tải về danh sách xác nhận vắng nghỉ không?'
+        ],
     ]
 ];

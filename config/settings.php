@@ -12,7 +12,7 @@ return [
         'jp' => '日本語',
     ],
 
-    'paginate' => 2,
+    'paginate' => 20,
 
     'work_status'=>[
         'active'=>0,
@@ -46,7 +46,6 @@ return [
             'absented_date'=>'absented_date',
         ]
     ],
-
     'Roles'=>[
         'PO'=>'PO',
         'TeamDev'=>'Dev',

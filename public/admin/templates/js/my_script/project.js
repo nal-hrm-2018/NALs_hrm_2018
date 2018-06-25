@@ -108,9 +108,6 @@ function checkPOProcess(employee_role_selected, employee_name_selected, employee
 
 }
 
-
-
-
 function getEstimateCost(date1, date2, man_power) {
     var salary = 10000000;
     var t1 = new Date(date1);
@@ -386,6 +383,7 @@ function removeEmployee(employee_id, target_tr, target_input) {
     if (target_input && (target_input.val())) {
         target_tr.find("input.delete_flag").attr('value','1');
         target_tr.css('display', 'none');
+
     } else {
         target_tr.remove();
     }

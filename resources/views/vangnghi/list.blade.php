@@ -38,70 +38,155 @@
         </div>
         <!-- Main content -->
         <section class="content">
-            <div class="row">
-                <input id="number_record_per_page" type="hidden" name="number_record_per_page"
-                       value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>      
+            <div class="row">     
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
                         <div class="box-body">
+                            <div class="row" style="margin-left: 10px; ">
+                                <div class="form-group">
+                                    <label>Chọn năm</label>
+                                    <select class="form-control" style="width: 30%;"  name="year" id="year" onchange="sendRequestAjax()">
+                                        @if($startwork_date == $endwork_date)
+                                            <option value="{{$startwork_date}}">{{$startwork_date}}</option>
+                                        @endif
+                                        @if($startwork_date < $endwork_date)
+                                            @for($i=$endwork_date; $i>=$startwork_date; $i--)
+                                                <option value="{{$i}}" >{{$i}}</option>
+                                            @endfor
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row absence_head">
                                 <div class="col-md-6">
                                     <div>
-                                        <p>- Số ngày được nghỉ phép: {{$absences['1']}}</p>
-                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép cố định: {{$absences['2']}}</span>
-                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép dư: {{$absences['3']}}</span>
+                                        <p>
+                                            - Số ngày được nghỉ phép: 
+                                            <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
+                                        </p>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép cố định: 
+                                            <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
+                                        </span>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép dư: 
+                                            <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
+                                        </span>
                                     </div>
                                     <div>
-                                        <p>- Số ngày đã nghỉ: {{$absences['4']}}</p>
-                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép cố định: {{$absences['5']}}</span>
-                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép dư: {{$absences['6']}}</span>
+                                        <p>
+                                            - Số ngày đã nghỉ: 
+                                            <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
+                                        </p>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép cố định: 
+                                            <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
+                                        </span>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép dư: 
+                                            <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
+                                        </span>
                                         
                                     </div>
                                     <div>
-                                        <p>- Số ngày còn lại: 4</p>
+                                        <p>
+                                            - Số ngày còn lại:
+                                            <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
+                                        </p>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép cố định: 
+                                            <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
+                                        </span>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép dư:
+                                            <span id="phepDu">{{$absences['phepDu']}}</span>
+                                        </span>
+                                        <span id='hanphep'>
+                                            @if($checkMonth == 1 && $absences['phepDu'] > 0)
+                                                Đã hết hạn
+                                            @endif
+                                        </span>
+                                        @if($checkMonth == 1 && $absences['phepDu'] > 0)
+                                            <script type="text/javascript">
+                                                $("#hanphep").addClass("label");
+                                                $("#hanphep").addClass("label-danger");
+                                            </script>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <p>- Số ngày nghỉ trừ lương: 2</p>
+                                        <p>
+                                            - Số ngày nghỉ trừ lương: 
+                                            <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
+                                        </p>
                                     </div>
                                     <div class="row">
-                                        <p>- Số ngày nghỉ chế độ bảo hiểm: 3</p>
-                                    </div>
-                                    <div class="row">
-                                        <p>- Số ngày nghỉ khác: 4</p>
+                                        <p>
+                                            - Số ngày nghỉ chế độ bảo hiểm: 
+                                            <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                            <script>
-                                (function () {
-                                    $('#select_length').change(function () {
-                                        $("#number_record_per_page").val($(this).val());
-                                        $('#form_search_employee').submit()
-                                    });
-                                })();
-
-                            </script>
-                            <table id="employee-list" class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped" id="absences-list">
                                 <thead>
-                                <tr>
-                                    <th class="small-row-id text-center">From</th>
-                                    <th>To</th>
-                                    <th>type absence</th>
-                                    <th>Reason</th>
-                                    <th>Note</th>
-                                    <th>Status</th>
-                                    <th>reason do reject</th>
-                                </tr>
+                                    <tr>
+                                        <th>Nghỉ từ ngày</th>
+                                        <th>Nghỉ đến ngày</th>
+                                        <th>Loại nghỉ</th>
+                                        <th>Lý do</th>
+                                        <th>Ghi chú</th>
+                                        <th>Trạng thái</th>
+                                        <th>Lý do từ chối</th>
+                                    </tr>
                                 </thead>
-                                <tbody class="context-menu">
-                                
+                                <tbody class="context-menu" id="listAbsence">
+                                    @foreach($listAbsence AS $obj)
+                                        <tr>
+                                            <td>{{$obj->from_date}}</td>
+                                            <td>{{$obj->to_date}}</td>
+                                            <td>
+                                                @if(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.salary_date'))
+                                                    <span class="label label-primary">
+                                                @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.non_salary_date'))
+                                                    <span class="label label-info">
+                                                @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.subtract_salary_date'))
+                                                    <span class="label label-danger">
+                                                @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.insurance_date'))
+                                                    <span class="label label-default">
+                                                @endif
+                                                {{trans('absence_po.list_po.type.'.$obj->name_type)}}</span>
+                                            </td>
+                                            <td>{{$obj->reason}}</td>
+                                            <td>{{$obj->description}}</td>
+                                            <td>
+                                                @if(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.waiting'))
+                                                    <span class="label label-warning">
+                                                @elseif(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.accepted'))
+                                                    <span class="label label-success">
+                                                @elseif(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.rejected'))
+                                                    <span class="label label-danger">
+                                                @endif
+                                                    {{trans('absence_po.list_po.status.'.$obj->name_status)}}
+                                                </span>
+                                            </td>
+                                            <td>
+
+                                                <?php 
+                                                    if($obj->name_status == "rejected"){
+                                                        echo selectConfirm($obj->id)->reason;
+                                                    }else{
+                                                        echo "-";
+                                                    }
+                                                    
+                                                ?>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
-                            <div class="row">
-                                
-                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -114,84 +199,9 @@
         <!-- /.content -->
 
     </div>
-    <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-    <script>
-        (function () {
-            $('#select_length').change(function () {
-                $("#number_record_per_page").val($(this).val());
-                $('#form_search_process').submit()
-            });
-        })();
-    </script>
-    <script type="text/javascript">
-        $(function () {
-
-            $('tr.employee-menu').on('contextmenu', function (event) {
-                event.preventDefault();
-                $('ul.contextMenu').fadeOut("fast");
-                var eId = $(this).data('employee-id');
-                $('ul.contextMenu[data-employee-id="' + eId + '"')
-                    .show()
-                    .css({top: event.pageY - 170, left: event.pageX - 250, 'z-index': 300});
-
-            });
-            $(document).click(function () {
-                if ($('ul.contextMenu:hover').length === 0) {
-                    $('ul.contextMenu').fadeOut("fast");
-                }
-            });
-        });
-
-    </script>
-
-    <script type="text/javascript">
-        $(function () {
-            $('.btn-employee-remove').click(function () {
-                var elementRemove = $(this).data('employee-id');
-                var nameRemove = $(this).data('employee-name');
-                console.log(elementRemove);
-                if (confirm(message_confirm('delete', 'employee', elementRemove, nameRemove))) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: '{{ url('/employee') }}' + '/' + elementRemove,
-                        data: {
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            "id": elementRemove,
-                            '_method': 'DELETE',
-                            _token: '{{csrf_token()}}',
-                        },
-                        success: function (msg) {
-                            alert("Remove " + msg.status);
-                            var fade = "employee-id-" + msg.id;
-                            $('ul.contextMenu[data-employee-id="' + msg.id + '"').hide()
-                            var fadeElement = $('#' + fade);
-                            console.log(fade);
-                            fadeElement.fadeOut("fast");
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var old = '{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:'' }}';
-            var options = $("#select_length option");
-            var select = $('#select_length');
-
-            for (var i = 0; i < options.length; i++) {
-                if (options[i].value === old) {
-                    select.val(old).change();
-                }
-            }
-        });
-    </script>
     <script>
         $(document).ready(function () {
-            $('#employee-list').DataTable({
+            $('#absences-list').DataTable({
                 'paging': false,
                 'lengthChange': false,
                 'searching': false,
@@ -200,75 +210,86 @@
                 'autoWidth': false,
                 'borderCollapse':'collapse'
             });
-//            $('#employee-list').css(borderCollapse, collapse);
         });
     </script>
-    {{--<script type="text/javascript">
-        document.getElementById("employee-list").style.borderCollapse = "collapse";
-    </script>--}}
     <script type="text/javascript">
-        $(function () {
-            $("#btn_reset_employee").on("click", function () {
-                $("#nameEmployee").val('');
-                $("#employeeId").val('');
-                $("#emailEmployee").val('');
-                $("#role_employee").val('').change();
-                $("#team_employee").val('').change();
-                $("#status").val('').change();
-            });
-        });
-    </script>
-    <script>
-        $('#btn-search').click(function (e) {
-            $('#form_search_employee').trigger("reset");
-        });
-    </script>
-    <script>
-        $('#btn-import').click(function (e) {
-            var value = $('#myfile')[0].files[0];
-            if(value == null){
-                $('#i_submit').addClass('disabled');
-            }
-        });
+        function sendRequestAjax() {
+            year = document.getElementById("year").value;
+            $.ajax({
+                type: "POST",
+                url: '{{ url('/absences') }}' + '/' + {{ $objEmployee->id}},
+                data: {
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    'year': year,
+                    '_method': 'POST',
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (msg) {
+                    document.getElementById("soNgayDuocNghiPhep").innerHTML = msg.aAbsences['soNgayDuocNghiPhep'];
+                    document.getElementById("soNgayNghiPhepCoDinh").innerHTML = msg.aAbsences['soNgayNghiPhepCoDinh'];
+                    document.getElementById("soNgayPhepDu").innerHTML = msg.aAbsences['soNgayPhepDu'];
 
-    </script>
-    {{--<script type="text/javascript">
-        $(document).ready(function (){
-            var ctx = document.getElementById('my_canvas').getContext('2d');
-            var al = 0;
-            var start = 4.72;
-            var cw = ctx.canvas.width;
-            var ch = ctx.canvas.height;
-            var diff;
-            function runTime() {
-                diff = ((al / 100) * Math.PI*0.2*10).toFixed(2);
-                ctx.clearRect(0, 0, cw, ch);
-                ctx.lineWidth = 3;
-                ctx.fillStyle = '#09F';
-                ctx.strokeStyle = "#09F";
-                ctx.textAlign = 'center';
-//                ctx.fillText(al+'%', cw*.5, ch*.5+2, cw);
-                ctx.beginPath();
-                ctx.arc(10, 10, 5, start, diff/1+start, false);
-                ctx.stroke();
-                if (al >= 100) {
-                    clearTimeout(sim);
-                    sim = null;
-                    al=0;
-                    $("#contain-canvas").css("visibility","hidden")
-                    // Add scripting here that will run when progress completes
+                    document.getElementById("soNgayDaNghi").innerHTML = msg.aAbsences['soNgayDaNghi'];
+                    document.getElementById("truVaoPhepCoDinh").innerHTML = msg.aAbsences['truVaoPhepCoDinh'];
+                    document.getElementById("truVaoPhepDu").innerHTML = msg.aAbsences['truVaoPhepDu'];
+                    
+                    document.getElementById("soNgayConLai").innerHTML = msg.aAbsences['soNgayConLai'];
+                    document.getElementById("phepCoDinh").innerHTML = msg.aAbsences['phepCoDinh'];
+                    document.getElementById("phepDu").innerHTML = msg.aAbsences['phepDu'];
+                    if(msg.aCheckMonth == 1 && msg.aAbsences['phepDu'] > 0){
+                        $("#hanphep").addClass("label");
+                        $("#hanphep").addClass("label-danger");
+                        document.getElementById("hanphep").innerHTML = "Đã hết hạn";
+                    }else{
+                        if($("#hanphep").hasClass("label")){
+                            $("#hanphep").removeClass("label");
+                        }
+                        if($("#hanphep").hasClass("label-danger")){
+                            $("#hanphep").removeClass("label-danger");
+                        }
+                        document.getElementById("hanphep").innerHTML = "";
+                    }
+
+                    document.getElementById("soNgayNghiTruLuong").innerHTML = msg.aAbsences['soNgayNghiTruLuong'];
+                    document.getElementById("soNgayNghiBaoHiem").innerHTML = msg.aAbsences['soNgayNghiBaoHiem'];
+
+                    var listAbsence = "";
+                    for (var key in msg.aListAbsence) {
+                        listAbsence += "<tr>";
+                        listAbsence += "<td>"+msg.aListAbsence[key].from_date+"</td>";
+                        listAbsence += "<td>"+msg.aListAbsence[key].to_date+"</td>";
+                        if( msg.aListAbsence[key].name_type == "{{trans('absence_po.list_po.type.salary_date')}}"){
+                            class_type = "label label-primary";
+                        }else if( msg.aListAbsence[key].name_type == "{{trans('absence_po.list_po.type.non_salary_date')}}"){
+                            class_type = "label label-info";
+                        }else if( msg.aListAbsence[key].name_type == "{{trans('absence_po.list_po.type.subtract_salary_date')}}"){
+                            class_type = "label label-danger";
+                        }else if( msg.aListAbsence[key].name_type == "{{trans('absence_po.list_po.type.insurance_date')}}"){
+                            class_type = "label label-default";
+                        }
+                        listAbsence += "<td><span class=\""+class_type+"\">"+msg.aListAbsence[key].name_type+"</span></td>";
+                        listAbsence += "<td>"+msg.aListAbsence[key].reason+"</td>";
+                        listAbsence += "<td>"+msg.aListAbsence[key].description+"</td>";
+                        var class_status = ""
+                        if( msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.waiting')}}"){
+                            class_status = "label label-warning";
+                        }else if( msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.accepted')}}"){
+                            class_status = "label label-success";
+                        }else if( msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.rejected')}}"){
+                            class_status = "label label-danger";
+                        }
+                        listAbsence += "<td><span class=\""+class_status+"\">"+msg.aListAbsence[key].name_status+"</span></td>";
+                        listAbsence += "<td>"+msg.aListAbsence[key].confirm+"</td>";
+                        listAbsence +="</tr>";
+                    }                    
+                    document.getElementById("listAbsence").innerHTML = listAbsence;
                 }
-                al++;
-            }
-            var sim = null;
-            $("#click-here").click(function () {
-                $("i.fa fa-vcard").css("visibility","hidden")
-                $("#contain-canvas").css("visibility","visible")
-                sim = setInterval(runTime, 15 );
             });
-        });
+        } 
 
-    </script>--}}
+    </script>
     <style>
         #contain-canvas{
             visibility:hidden;

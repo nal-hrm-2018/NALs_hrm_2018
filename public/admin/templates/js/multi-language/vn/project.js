@@ -5,6 +5,9 @@ var project = {
     'alert_choose_employee':'Hãy chọn nhân viên !',
     'error':'Lỗi',
     'id':'Mã Dự Án',
+    'add':'thêm',
+    'remove':'xóa',
+    'project':'Dự án',
     'process_start_date':'Ngày bắt đầu',
     'process_end_date':'Ngày kết thúc',
     'man_power':'Công số',
@@ -20,6 +23,10 @@ var project = {
     'confirm_remove_employee_from_project':'Bạn có muốn xóa nhân viên có ID: {dvalue1} , Tên: {dvalue2} ra khỏi Dự án này không ?',
 
     'confirm_add_employee_to_project':'Bạn có muốn thêm nhân viên có ID: {dvalue1} , Tên: {dvalue2} vào Dự án này không ?',
+
+    'confirm_add_project_4_param':'Bạn có muốn {dvalue1} {dvalue2} có ID: {dvalue3} , Tên: {dvalue4} không?',
+
+    'confirm_add_project_2_param':'Bạn có muốn {dvalue1} {dvalue2} này không ?',
 
     'error_number_form_ascending_order':'Lỗi. Số member phải theo thứ tự tăng dần.',
 

@@ -41,7 +41,9 @@ return [
         'reopen'=> 'Reopen',
         'back' => 'BACK',
         'input'=>'Input',
-        'view'=>'View'
+        'view'=>'View',
+        'filter'=>'Filter',
+        'export'=>"EXPORT",
     ],
 
     'title_form' => [
@@ -53,6 +55,7 @@ return [
         'vendor_list'=>'Vendor List',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Project Detail',
+        'absence_list'=>'Absence list for HR view',
         'absence_detail'=>'Absence List'
     ],
     'path'=>[
@@ -67,6 +70,9 @@ return [
         'absence'=>'Absence',
         'list' => 'List',
         'detail'=>'Detail',
+        'add_project'=>'Add project',
+        'edit_project'=>'Edit project',
+        'absences'=>'Absences',
         'add'=>'Add',
         'edit'=>'Edit',
         'list_project'=>'List Project',
@@ -81,7 +87,6 @@ return [
         'list_team'=>'List Team',
         'add_team'=>'Add Team',
         'edit_team'=>'Edit Team',
-        'absence'=>'Absence',
         'po_project'=>'PO Project',
         'confirmation'=>'Confirmation',
         'statistic'=>'Statistic',
@@ -127,6 +132,28 @@ return [
         'employee_id'=>'Employee Id',
         'role_id'=>'Role Id'
     ],
+    'name' => [
+        'employee_name' => 'Employee name',
+    ],
     'cv'=>'CV',
     'performance'=>'Performance',
+
+    'year'=>[
+        'year'=>"Year"
+    ],
+    'month'=>[
+        'month'=>'Month',
+        'january'=>'January',
+        'february'=>'February',
+        'march'=>'March',
+        'april'=>'April',
+        'may'=>'May',
+        'june'=>'June',
+        'july'=>'July',
+        'august'=>'August',
+        'september'=>'September',
+        'october'=>'October',
+        'november'=>'November',
+        'december'=>'December'
+    ]
 ];
