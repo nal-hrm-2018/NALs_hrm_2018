@@ -86,6 +86,18 @@ class AbsenceService{
                 ->where('absences.employee_id',$id)
                 ->where('absence_statuses.id', $absence_status)
                 ->where('absence_types.id', $absence_type)
+                /*->where(function ($query) use($year,$month) {
+                        $query->whereYear('absences.from_date', $year)
+                            ->whereMonth('absences.from_date', $month);
+                    })
+                ->orWhere(function ($query) use($year,$month) {
+                            $query->whereYear('absences.to_date', $year)
+                                ->whereMonth('absences.to_date', $month);
+                        })
+                ->orWhere(function ($query) use($year,$month) {
+                            $query->whereYear('absences.from_date','<=' ,$year)
+                                ->whereMonth('absences.to_date', '>=',$year);
+                        })  */              
                 ->where(function ($query) use($input) {
                     $query->orwhere(function ($query) use($input) {
                         $query->whereRaw("(date_format(absences.from_date,'%Y-%m') = '".$input."')")
@@ -127,13 +139,31 @@ class AbsenceService{
             }
         }else{
             foreach ($listAbsence as $objAbsence) {
-                if((int)date_create($objAbsence->from_date)->format('m') < $month && (int)date_create($objAbsence->to_date)->format('m') > $month){
+                if(
+                    ((int)date_create($objAbsence->from_date)->format('m') < $month &&
+                    (int)date_create($objAbsence->from_date)->format('Y') == $year && 
+                    (int)date_create($objAbsence->to_date)->format('m') > $month &&  
+                    (int)date_create($objAbsence->to_date)->format('Y') == $year)
+                    ||
+                    ((int)date_create($objAbsence->from_date)->format('Y') < $year &&
+                    (int)date_create($objAbsence->to_date)->format('Y') > $year)
+                ){
                     $startDate = Carbon::create($year,$month,1);
                     $endDate = Carbon::create($year,$month,$startDate->daysInMonth);
-                } else if((int)date_create($objAbsence->from_date)->format('m') < $month){
+                } else if(
+                        ((int)date_create($objAbsence->from_date)->format('m') < $month &&
+                        (int)date_create($objAbsence->from_date)->format('Y') == $year) 
+                        || 
+                        ((int)date_create($objAbsence->from_date)->format('Y') < $year)
+                    ){
                     $startDate = Carbon::create($year,$month,1,0);
                     $endDate = Carbon::parse($objAbsence->to_date);
-                } else if((int)date_create($objAbsence->to_date)->format('m') > $month){
+                } else if(
+                        ((int)date_create($objAbsence->to_date)->format('m') > $month &&
+                        (int)date_create($objAbsence->to_date)->format('Y') == $year)
+                        ||
+                        ((int)date_create($objAbsence->to_date)->format('Y') > $year)
+                    ){
                     $startDate = Carbon::parse($objAbsence->from_date);
                     $endDate = Carbon::create($year,$month,$startDate->daysInMonth,23,59);
                 } else {
@@ -493,20 +523,20 @@ class AbsenceService{
             }
         }else{
             $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, $type->id,$status->id);
-            if($year < $dateNow->year){
-                $num1 = $objAS->numberOfDaysOff($id, $year, 0, $type->id,$status->id);
-            }else{
-                $num1 = $objAS->numberOfDaysOff($id, $year, $dateNow->month, $type->id,$status->id);
-            }
+            $num1 = $objAS->numberOfDaysOff($id, $year, 0, $type->id,$status->id);
 
             $num2 = $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
             if($num2 - $num >= 0 && $year == $dateNow->year){
                 return $num1 - $num;
             }else{
-                if($num1 - $num2 > $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1)+$objAS->absenceDateOnYear($id,$year)){
+                if($num1 - $num2 > $objAS->numberAbsenceAddPerennial($id, $year)+$objAS->absenceDateOnYear($id,$year)){
                     return $objAS->numberAbsenceAddPerennial($id, $year) + $objAS->absenceDateOnYear($id,$year);
                 }else{
-                    return $num1 - $num2;
+                    if($num1 >= $num2){
+                        return $num1 - $num2;
+                    }else{
+                        return $num1;
+                    }
                 }
             }
         }

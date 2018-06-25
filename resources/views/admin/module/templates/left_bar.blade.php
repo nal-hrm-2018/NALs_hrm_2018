@@ -68,6 +68,8 @@
             <li><a href="{{ asset('absences')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence')}}</a></li>
             <li><a href="{{ asset('absences/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.absence')}}</a></li>
             <li><a href="{{ asset('absence-po')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence_po')}}</a></li>
+            <li><a href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>
+            <li><a href="{{ asset('absences/po-project').'/'.\Illuminate\Support\Facades\Auth::user()->id}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>
           </ul>
         </li>
                 
