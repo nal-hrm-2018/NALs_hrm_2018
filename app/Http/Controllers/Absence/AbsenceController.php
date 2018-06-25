@@ -222,10 +222,10 @@ class AbsenceController extends Controller
         $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
 
 
-        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);// tong ngay da nghi phep ( bao gom ngay nghi co luong va` tru luong)
 
-        $soNgayTruPhepDu = $abc->subRedundancy($id, $year);
-        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year);
+        $soNgayTruPhepDu = $abc->subRedundancy($id, $year); // so ngay tru vao ngay phep du nam ngoai
+        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year); // so ngay tru vao ngay phep
 
         if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
             $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
