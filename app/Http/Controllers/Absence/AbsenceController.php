@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Absence;
 
 use App\Absence\AbsenceService;
 use App\Export\ConfirmExport;
+use App\Export\AbsencePOTeam;
 use App\Export\HRAbsenceExport;
 use App\Http\Controllers\Controller;
 use App\Models\AbsenceStatus;
@@ -325,11 +326,19 @@ class AbsenceController extends Controller
         $getIdUserLogged = Auth::id();
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllAbsenceTypes = AbsenceType::all();
-
+        if (!isset($this->request['number_record_per_page'])) {
+            $this->$request['number_record_per_page'] = config('settings.paginate');
+        }
 //        $getAllAbsenceInConfirm = Confirm::where('employee_id',$getIdUserLogged)
 //            ->orderBy('id', 'DESC')->get();
-        $getAllAbsenceInConfirm = $this->absencePoTeamService->searchAbsence($request, $getIdUserLogged)->orderBy('id', 'DESC')->get();
-        return view('absences.poteam', compact('getAllAbsenceInConfirm','getAllAbsenceStatus','getAllAbsenceTypes'));
+        $getAllAbsenceInConfirm = $this->absencePoTeamService->searchAbsence($request, $getIdUserLogged)->orderBy('id', 'DESC')->paginate($request['number_record_per_page'])->setPath('');
+        $requestSearch = [
+            'name'=>$request['name'],
+            'email'=>$request['email'],
+            'start_date'=>$request['start_date'],
+            'end_date'=>$request['end_date']
+        ];
+        return view('absences.poteam', compact('getAllAbsenceInConfirm','getAllAbsenceStatus','getAllAbsenceTypes','requestSearch'));
     }
 
     public function denyPOTeam(Request $request)
@@ -415,5 +424,11 @@ class AbsenceController extends Controller
              
         }
         return response(['aAbsences' => $absences, "aListAbsence" => $listAbsence, 'aCheckMonth' => $checkMonth]);
+    }
+
+    public function exportAbsencePoTeam(Request $request)
+    {
+        $time = (new \DateTime())->format('Y-m-d H:i:s');
+        return Excel::download(new AbsencePOTeam($request), 'absence-list-' . $time . '.csv');
     }
 }

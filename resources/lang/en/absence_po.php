@@ -20,10 +20,10 @@ return [
             'start_date'=>'Start date',
             'end_date'=>'End date',
             'type' => 'Type',
-            'reason'=>'Reason',
+            'reason'=>'Cause',
             'note'=>'Note',
             'status'=>'Status',
-            'note_po'=>'Note PO'
+            'note_po'=>'Reject Cause'
         ],
         'note'=>[
             'absence_new'=>'Absence',
@@ -51,5 +51,8 @@ return [
         'msg'=>[
             'confirm_export'=>'Do you want to export this confirmation list?'
         ],
+        'message'=>[
+            'export_msg'=>'Do you want to download Absence List?'
+        ]
     ]
 ];
