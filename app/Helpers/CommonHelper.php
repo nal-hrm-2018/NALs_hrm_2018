@@ -56,6 +56,7 @@ function getAbsenceType($type)
    if(empty($type)){
     return '';
    }else{
+//       dd($type);
     return $type->id;
    }
 }
