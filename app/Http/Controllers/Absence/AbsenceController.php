@@ -8,29 +8,89 @@ use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
 use App\Models\Employee;
 use App\Service\AbsenceFormService;
+use App\Export\HRAbsenceExport;
+use App\Service\SearchEmployeeService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
+use App\Http\Rule\Absence\ValidAbsenceFilter;
+use App\Models\Absence;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\AbsenceAddRequest;
 use App\Service\AbsencePoTeamService;
 use Carbon\Carbon;
 use App\Models\Confirm;
+use DateTime;
 use App\Models\Process;
 use App\Models\Role;
 use App\Service\SearchConfirmService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 
 class AbsenceController extends Controller
 {
+    protected $absenceService;
+    private $searchEmployeeService;
     public $id_employee;
     public $absencePoTeamService;
     public $absenceFormService;
     private $searchConfirmService;
 
-    public function __construct(SearchConfirmService $searchConfirmService, AbsencePoTeamService $absencePoTeamService,AbsenceFormService $absenceFormService)
+    public function __construct(AbsenceService $absenceService,
+                                SearchEmployeeService $searchEmployeeService,
+                                AbsencePoTeamService $absencePoTeamService,
+                                SearchConfirmService $searchConfirmService,
+                                AbsenceFormService $absenceFormService)
     {
+        $this->searchEmployeeService = $searchEmployeeService;
+        $this->absenceService = $absenceService;
         $this->searchConfirmService = $searchConfirmService;
         $this->absencePoTeamService = $absencePoTeamService;
         $this->absenceFormService = $absenceFormService;
     }
+
+    public function indexHR(Request $request)
+    {
+        $validator = Validator::make(
+            $request->input(),
+            [
+                'month_absence' => new ValidAbsenceFilter(
+                    $request->get('year_absence')
+                )
+            ]
+        );
+        if ($validator->fails()) {
+            view()->share('errors', $validator->errors());
+        }
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
+        if (!isset($request['year_absence'])) {
+            $request['year_absence'] = date('Y');
+        }
+
+        $absenceService = $this->absenceService;
+        $month_absences = getArrayMonth();
+        $year_absences = $this->absenceService->getArrayYearAbsence();
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')
+            ->paginate($request['number_record_per_page']);
+        $employees->setPath('');
+        $param = (Input::except(['page', 'is_employee']));
+//        session()->flashInput($request->input());
+        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences','absenceService'));
+    }
+
+    public function exportAbsenceHR(Request $request)
+    {
+            $absences = $request->get('absences');
+            if(!is_null($absences)){
+                $time = (new \DateTime())->format('Y-m-d H:i:s');
+                return Excel::download(new HRAbsenceExport($absences), 'absence-list-' . $time . '.csv');
+            }else{
+                \session()->flash(trans('common.msg_fails'), trans('absence.msg_content.msg_export_fails'));
+                redirect(route('absences-hr'))->withInput();
+            }
+    }
+
 
     public function confirmRequest($id, Request $request)
     {
@@ -110,17 +170,38 @@ class AbsenceController extends Controller
 
     public function index(Request $request){
         $id = Auth::user()->id;
-        $dateNow = new \DateTime;
+        $dateNow = new DateTime;
+
+        $status = AbsenceStatus::select()->where('name','accepted')->first();
+        $type = AbsenceType::select()->where('name','salary_date')->first();
         $year = $dateNow->format('Y');
-    	$abc = new AbsenceService();
+        $abc = new \App\Absence\AbsenceService();
 
-        $tongSoNgayDuocNghi = $abc->totalDateAbsences($id,$year);
-        $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id,$year-1);
-        $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id,$year);
+        $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
+        $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
+        $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
 
-        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,2);
+
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
         $soNgayTruPhepDu = $abc->subRedundancy($id, $year);
         $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year);
+
+        if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
+            $checkMonth = 1;
+        }else{
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
+            $checkMonth = 0;
+        }
+        $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
+        $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
+
+        $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh;
+
+        $type = AbsenceType::select()->where('name','insurance_date')->first();
+
+        $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $absences = [
                         "1"=>$tongSoNgayDuocNghi, 
@@ -129,67 +210,97 @@ class AbsenceController extends Controller
                         "4"=>$tongSoNgayDaNghi,
                         "5"=>$soNgayTruPhepCoDinh,
                         "6"=>$soNgayTruPhepDu,
+                        "7"=>$soNgayPhepCoDinhConLai,
+                        "8"=>$soNgayTruPhepDuConLai,
+                        "9"=>$soNgayPhepConLai,
+                        "10"=>$soNgayNghiTruLuong,
+                        "11"=>$soNgayNghiBaoHiem
                     ];
-        return view('vangnghi.list', compact('absences'));
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id')
+                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+                ->where('absences.delete_flag', 0)
+                ->whereYear('absences.from_date', $year)
+                ->orWhereYear('absences.to_date', $year)
+                ->get();
+        return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence'));
     }
 
     public function create()
     {
-        $id_employee=Auth::user()->id;
+        $id_employee = Auth::user()->id;
 
-        $curDate= date_create(Carbon::now()->format('Y-m-d'));
+        $curDate = date_create(Carbon::now()->format('Y-m-d'));
         $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
         $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
 
         $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
             ->join('teams', 'employees.team_id', '=', 'teams.id')
-            ->where('employees.delete_flag', 0)->findOrFail($id_employee)->toArray();
+            ->where('employees.delete_flag', 0)->find($id_employee);
 
         $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
             ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
-            ->whereIn('processes.project_id', function ($query) use ($id_employee,$dayBefore)  {
+            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore) {
                 $query->select('project_id')
                     ->from('processes')
                     ->where('employee_id', '=', $id_employee)
-                    ->whereDate('processes.start_date', '>', $dayBefore);
+                    ->whereDate('processes.end_date', '>', $dayBefore);
             })
             ->WHERE('employees.delete_flag', '=', 0)
             ->WHERE('roles.name', 'like', 'po')
             ->get()->toArray();
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
 
-        return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee,'Absence_type' => $Absence_type]);
+        return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee, 'Absence_type' => $Absence_type]);
     }
 
     public function store(AbsenceAddRequest $request){
         return $this->absenceFormService->addNewAbsenceForm($request);
     }
-    public function show($id, Request $request){
+
+    public function show($id, Request $request)
+    {
 
     }
-    public function edit($id){
+
+    public function edit($id)
+    {
 
     }
-    public function update(Request $request, $id){
+
+    public function update(Request $request, $id)
+    {
 
     }
-    public function destroy($id, Request $request){
+
+    public function destroy($id, Request $request)
+    {
 
     }
 
     // function create by Quy.
-    public function showListAbsence(){
+
+    public function showListAbsence(Request $request){
         $getIdUserLogged = Auth::id();
-        $getAllAbsenceInConfirm = Confirm::where('employee_id',$getIdUserLogged)
-            ->orderBy('id', 'DESC')->get();
-        return view('absences.poteam', compact('getAllAbsenceInConfirm'));
+        $getAllAbsenceStatus = AbsenceStatus::all();
+        $getAllAbsenceTypes = AbsenceType::all();
+
+//        $getAllAbsenceInConfirm = Confirm::where('employee_id',$getIdUserLogged)
+//            ->orderBy('id', 'DESC')->get();
+        $getAllAbsenceInConfirm = $this->absencePoTeamService->searchAbsence($request, $getIdUserLogged)->orderBy('id', 'DESC')->get();
+        return view('absences.poteam', compact('getAllAbsenceInConfirm','getAllAbsenceStatus','getAllAbsenceTypes'));
     }
-    public function denyPOTeam(Request $request){
+
+    public function denyPOTeam(Request $request)
+    {
         return $this->absencePoTeamService->poTeamAcceptOrDenyAbsence($request);
+
     }
-    public function doneConfirm(Request $request){
+
+    public function doneConfirm(Request $request)
+    {
         return $this->absencePoTeamService->poTeamAcceptAbsenceForm($request);
     }
 }

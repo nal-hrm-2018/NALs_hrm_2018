@@ -77,6 +77,11 @@ class Employee extends Model implements
         return $this->hasMany('App\Models\Performance', 'employee_id')->where('delete_flag', '=', 0);
     }
 
+    public function extraAbsenceDates()
+    {
+        return $this->hasMany('App\Models\ExtraAbsenceDate', 'employee_id')->where('delete_flag', '=', 0);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

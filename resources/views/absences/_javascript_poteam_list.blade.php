@@ -24,9 +24,9 @@
                     console.log(msg.html);
                     $('.close').click();
                     $('.div.confirm-status[data-confirm-id="' + msg.id + '"').remove();
-                    $('.center.confirm-status[data-confirm-id="' + idConfirm + '"]').html(msg.html);
-                    $('.notecss-confirm[data-confirm-id="' + idConfirm + '"]').html('-');
-                    $('.reason-view[data-reason-view="'+idConfirm+'"]').html(textArea);
+                    $('.center.confirm-status[data-confirm-id="' + idConfirm + '"]').html('<div class="absence-center-status">'+msg.html+'</div>');
+                    $('.notecss-confirm[data-confirm-id="' + idConfirm + '"]').html('<div class="absence-center">-</div>');
+                    $('.reason-view[data-reason-view="'+idConfirm+'"]').html('<div class="absence-center">'+textArea+'</div>');
                 }
             });
         });
@@ -50,11 +50,48 @@
                     console.log(msg.absenceStatus);
                     console.log(msg.id);
                     $('.div.confirm-status[data-confirm-id="' + idConfirm + '"').remove();
-                    $('.center.confirm-status[data-confirm-id="' + idConfirm + '"]').html(msg.absenceStatus);
-                    $('.notecss-confirm[data-confirm-id="' + idConfirm + '"]').html(msg.html);
+                    $('.center.confirm-status[data-confirm-id="' + idConfirm + '"]').html('<div class="absence-center-status">'+msg.absenceStatus+'</div>');
+                    $('.notecss-confirm[data-confirm-id="' + idConfirm + '"]').html('<div class="absence-center-reason">'+msg.html+'</div>');
                 }
             });
         });
 
+    });
+</script>
+{{--DataTable--}}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#absence-po-list').DataTable({
+            'paging': false,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': false,
+            'autoWidth': false,
+            'borderCollapse':'collapse',
+            "aaSorting": [
+                [0, 'DESC']
+            ]
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('.form_datetime').datetimepicker({
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1});
+    });
+    $("#btn_reset_absence_po_team").on("click", function () {
+        $("#name_absence").val('');
+        $("#email_absence").val('');
+        $("#start_date_absence").val('');
+        $('#end_date_absence').val('');
+        $('#type').val('').change();
+        $('#absence_status').val('').change();
     });
 </script>

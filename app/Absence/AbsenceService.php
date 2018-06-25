@@ -10,8 +10,52 @@ use DateTime;
 use Carbon\Carbon;
 class AbsenceService{
 
+    function getNumberOfDaysOff($listAbsence,$year,$month, $absence_type){
+        $objAS = new AbsenceService;
+        $sumDate = 0;
+        if($month == 0){
+            foreach ($listAbsence as $objAbsence) {
+                if($objAbsence->absence_type_id === $absence_type){
+                    if((int)date_create($objAbsence->from_date)->format('Y') < $year && (int)date_create($objAbsence->to_date)->format('Y') > $year){
+                        $startDate = Carbon::create($year,1,1);
+                        $endDate = Carbon::create($year,12,31);
+                    }else if((int)date_create($objAbsence->from_date)->format('Y') < $year){
+                        $startDate = Carbon::create($year,1,1,0);
+                        $endDate = Carbon::parse($objAbsence->to_date);
+                    } else if((int)date_create($objAbsence->to_date)->format('Y') > $year){
+                        $startDate = Carbon::parse($objAbsence->from_date);
+                        $endDate = Carbon::create($year,12,31,23,59);
+                    } else {
+                        $startDate = Carbon::parse($objAbsence->from_date);
+                        $endDate = Carbon::parse($objAbsence->to_date);
+                    }
+                    $sumDate += $objAS->sumDate($startDate,$endDate);
+                }
+            }
+        }else{
+            foreach ($listAbsence as $objAbsence) {
+                if($objAbsence->absence_type_id === $absence_type) {
+                    if ((int)date_create($objAbsence->from_date)->format('m') < $month && (int)date_create($objAbsence->to_date)->format('m') > $month) {
+                        $startDate = Carbon::create($year, $month, 1);
+                        $endDate = Carbon::create($year, $month, $startDate->daysInMonth);
+                    } else if ((int)date_create($objAbsence->from_date)->format('m') < $month) {
+                        $startDate = Carbon::create($year, $month, 1, 0);
+                        $endDate = Carbon::parse($objAbsence->to_date);
+                    } else if ((int)date_create($objAbsence->to_date)->format('m') > $month) {
+                        $startDate = Carbon::parse($objAbsence->from_date);
+                        $endDate = Carbon::create($year, $month, $startDate->daysInMonth, 23, 59);
+                    } else {
+                        $startDate = Carbon::parse($objAbsence->from_date);
+                        $endDate = Carbon::parse($objAbsence->to_date);
+                    }
+                    $sumDate += $objAS->sumDate($startDate, $endDate);
+                }
+            }
 
-    function numberOfDaysOff($id, $year, $month, $absence_type){
+        }
+        return $sumDate;
+    }
+    function numberOfDaysOff($id, $year, $month, $absence_type, $absence_status){
         // $year = (int)$year;
         $objAS = new AbsenceService;
         if($month == 0){
@@ -19,27 +63,46 @@ class AbsenceService{
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
-                ->where('absence_statuses.id', 2)
-                ->where('absence_types.id', $absence_type)
-                ->whereYear('absences.from_date', $year)
-                ->orWhereYear('absences.to_date', $year)
+                ->where('absences.employee_id',$id)
+                ->where('absences.absence_status_id', $absence_status)
+                ->where('absences.absence_type_id', $absence_type)
+                ->where(function ($query) use ($year) {
+                    $query->orwhere(function ($query) use ($year) {
+                        $query->whereYear('absences.from_date', $year)
+                            ->orWhereYear('absences.to_date', $year);
+                    });
+                    $query->orwhere(function ($query) use ($year) {
+                        $query->whereYear('absences.from_date', '<', $year)
+                            ->WhereYear('absences.to_date', '>', $year);
+                    });
+                })
                 ->get();
         }else{
+            $input =Carbon::create($year,$month)->format('Y-m');
             $listAbsence = Absence::select()
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
-                ->where('absence_statuses.id', 2)
+                ->where('absences.employee_id',$id)
+                ->where('absence_statuses.id', $absence_status)
                 ->where('absence_types.id', $absence_type)
-                ->whereMonth('absences.from_date', $month)
-                ->orWhereMonth('absences.to_date', $month)
-                ->where(function ($query) use($year) {
-                    $query->whereYear('absences.from_date', $year)
-                          ->orWhereYear('absences.to_date', $year);
-                })
-                ->where(function ($query) use($year) {
-                    $query->whereYear('absences.to_date', $year)
-                          ->orWhereYear('absences.from_date', $year);
+                ->where(function ($query) use($input) {
+                    $query->orwhere(function ($query) use($input) {
+                        $query->whereRaw("(date_format(absences.from_date,'%Y-%m') = '".$input."')")
+                            -> whereRaw("(date_format(absences.to_date,'%Y-%m') != '".$input."')");
+                    });
+                    $query->orwhere(function ($query) use($input) {
+                        $query->whereRaw("(date_format(absences.from_date,'%Y-%m') != '".$input."')")
+                            ->whereRaw("(date_format(absences.to_date,'%Y-%m') = '".$input."')");
+                    });
+                    $query->orwhere(function ($query) use($input) {
+                        $query->whereRaw("(date_format(absences.from_date,'%Y-%m') = '".$input."')")
+                            ->whereRaw("(date_format(absences.to_date,'%Y-%m') = '".$input."')");
+                    });
+                    $query->orwhere(function ($query) use($input) {
+                        $query->whereRaw("(date_format(absences.from_date,'%Y-%m') < '".$input."')")
+                            ->whereRaw("(date_format(absences.to_date,'%Y-%m') > '".$input."')");
+                    });
                 })
                 ->get();
         }
@@ -83,44 +146,20 @@ class AbsenceService{
         }
         return $sumDate;
     }
-    function numberOfDaysOffBeforeJuly($id,$year,$month,$absence_type){
+    // ngay nghi truoc thang 7
+    function numberOfDaysOffBeforeJuly($id,$year,$month,$absence_type, $absence_status){
+        $objAS = new AbsenceService;
         if($month != 0){
-            $objAS = new AbsenceService;
-            $listAbsence = Absence::select()
-                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
-                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
-                ->where('absences.delete_flag', 0)
-                ->where('absence_statuses.id', 2)
-                ->where('absence_types.id', $absence_type)
-                ->whereMonth('absences.from_date','<', $month)
-                ->whereYear('absences.from_date', $year)
-                ->orWhereMonth('absences.to_date','<',$month)
-                ->whereYear('absences.to_date', $year)
-                ->get();
             $sumDate = 0;
-            foreach ($listAbsence as $objAbsence) {
-                if((int)date_create($objAbsence->from_date)->format('Y') < $year && ((int)date_create($objAbsence->to_date)->format('Y') == $year && (int)date_create($objAbsence->to_date)->format('m') >= $month || (int)date_create($objAbsence->to_date)->format('Y') > $year )){
-                    $startDate = Carbon::create($year,1,1);
-                    $endDate = Carbon::create($year,$month,1);
-                    $endDate = $endDate->subDay();
-                }else if((int)date_create($objAbsence->from_date)->format('Y') < $year){
-                    $startDate = Carbon::create($year,1,1,0);
-                    $endDate = Carbon::parse($objAbsence->to_date);
-                } else if((int)date_create($objAbsence->to_date)->format('Y') == $year && (int)date_create($objAbsence->to_date)->format('m') >= $month){
-                    $startDate = Carbon::parse($objAbsence->from_date);
-                    $endDate = Carbon::create($year,$month,1,23,59);
-                    $endDate = $endDate->subDay();
-                } else {
-                    $startDate = Carbon::parse($objAbsence->from_date);
-                    $endDate = Carbon::parse($objAbsence->to_date);
-                }
-                $sumDate += $objAS->sumDate($startDate,$endDate);
+            for($i = 1; $i < $month; $i++){
+                $sumDate += $objAS->numberOfDaysOff($id,$year,$i,$absence_type, $absence_status);
             }
             return $sumDate;
         }else{
             return 0;
         }
     }
+
     function countHours($startHours,$endHours){
         $count = 0;
         if($startHours < 11.5 && $endHours < 11.5){
@@ -179,31 +218,106 @@ class AbsenceService{
             if($startDate->isWeekend() && $endDate->isWeekend()){
                 $sumDate += $countDate;
             }else if(!($startDate->isWeekend()) || !($endDate->isWeekend())){
-                if($countDate == 1 && $startDate->day == $endDate->day){
+                //--------
+                if(!($startDate->isWeekend()) && !($endDate->isWeekend()) && $countDate == 1 ){
                     if(!($objAS->checkHoliday($startDate))){
                         $countHours = $objAS->countHours($objAS->formatTime($startDate),$objAS->formatTime($endDate));
                         $sumDate += $objAS->countDay($countHours);
                     }
-                    
-                }
-                if($countDate > 1){
-                    if(!($startDate->isWeekend()) && !($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                    $countDate --;
-                    if(!($endDate->isWeekend()) && !($objAS->checkHoliday($endDate))){
+                }else if(($startDate->isWeekend())&& $countDate == 1 ){
+                    if(!($objAS->checkHoliday($startDate))){
                         $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
                         $sumDate += $objAS->countDay($countHours);
                     }
-                    $countDate --;
+                }else if(($endDate->isWeekend())&& $countDate == 1 ){
+                    if(!($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17,5);
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                }
+                //----------
+                elseif(($endDate->isWeekend())&& $countDate == 2){
+                    if(!($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                    if(!($objAS->checkHoliday($endDate))){
+                        $countHours = $objAS->countHours(8,17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                }
+                elseif(($startDate->isWeekend())&& $countDate == 2){
+                    if(!($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours(8,17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                    if(!($objAS->checkHoliday($endDate))){
+                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                }
+                elseif(!($startDate->isWeekend())&&!($endDate->isWeekend())&& $countDate == 2){
+                    if(!($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                    if(!($objAS->checkHoliday($endDate))){
+                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
+                        $sumDate += $objAS->countDay($countHours);
+                    }
+                }
+                //----------
+
+                elseif(($endDate->isWeekend())&&$countDate > 2){
+                    if(!($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                        $countDate --;
+                    }
+                    if(!($objAS->checkHoliday($endDate))){
+                        $countHours = $objAS->countHours(8,17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                        $countDate --;
+                    }
                     if($countDate > 0){
                         $countHoliday = $objAS->countHoliday($startDate->addDay(), $endDate->subDay());
                         $sumDate += $countDate - $countHoliday;
                     }                    
                 }
+                elseif(($startDate->isWeekend())&&$countDate > 2){
+                    if(!($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours(8,17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                        $countDate --;
+                    }
+                    if(!($objAS->checkHoliday($endDate))){
+                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
+                        $sumDate += $objAS->countDay($countHours);
+                        $countDate --;
+                    }
+                    if($countDate > 0){
+                        $countHoliday = $objAS->countHoliday($startDate->addDay(), $endDate->subDay());
+                        $sumDate += $countDate - $countHoliday;
+                    }
+                }
+                elseif(!($startDate->isWeekend())&&!($endDate->isWeekend())&&$countDate > 2){
+                    if(!($objAS->checkHoliday($startDate))){
+                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
+                        $sumDate += $objAS->countDay($countHours);
+                        $countDate --;
+                    }
+                    if(!($objAS->checkHoliday($endDate))){
+                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
+                        $sumDate += $objAS->countDay($countHours);
+                        $countDate --;
+                    }
+                    if($countDate > 0){
+                        $countHoliday = $objAS->countHoliday($startDate->addDay(), $endDate->subDay());
+                        $sumDate += $countDate - $countHoliday;
+                    }
+                }
             }
-        }  
+        } 
         return $sumDate;  
     }
 
@@ -245,7 +359,7 @@ class AbsenceService{
         }               
     }
 
-	function absenceDateOnYear($id, $year){
+    function absenceDateOnYear($id, $year){
         $sumDate = 0;
         $year = (int)$year;
         $currentDate = new DateTime;
@@ -282,6 +396,7 @@ class AbsenceService{
             if($startDate <= 15){
                 $sumDate++;
             }
+            $x = 12 - ($startMonth+1)+1;
             $sumDate += 12 - ($startMonth+1)+1;
             return $sumDate;
         }
@@ -314,60 +429,104 @@ class AbsenceService{
         }
     }
     function numberAbsenceRedundancyOfYearOld($id, $year){
-        return 1;
+        $employee = Employee::find($id);
+        $days=$employee->extraAbsenceDates()->where('year', '=', (int)$year)->first();
+        if(empty($days)){
+            return 0;
+        }else{
+            return $days->date;
+        }
     }
-
+    // tru ngay nghi cu
     function subRedundancy($id, $year){
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
 
-        if($dateNow->year == $year && $dateNow->month < 6){
-            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 2);
+        $status = AbsenceStatus::select()->where('name','accepted')->first();
+        $type = AbsenceType::select()->where('name','salary_date')->first();
+
+        if($dateNow->year == $year && $dateNow->month < 7){
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, $type->id,$status->id);
             if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
                 return $num;
             }else{
-                $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+                return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
             }
         }else{
-            return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, $type->id,$status->id);
+            if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
+                return $num;
+            }else{
+                return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+            }
         }
         
     }
+    // tru ngay nghi phep
     function subDateAbsences($id, $year){
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
+
+        $status = AbsenceStatus::select()->where('name','accepted')->first();
+        $type = AbsenceType::select()->where('name','salary_date')->first();
+
         if($dateNow->year == $year && $dateNow->month < 7){
-            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, 2);
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, $type->id,$status->id);
             if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
-                return $objAS->absenceDateOnYear($id, $dateNow->year);
+                if($objAS->absenceDateOnYear($id,$year) > $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, $type->id,$status->id)){
+                    return $objAS->numberOfDaysOff($id,$year,0, $type->id,$status->id) - $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, $type->id,$status->id)-$objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+
+                }else{
+                    return 0;
+                }
+
             }else{
-                return $num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+                /*return $num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);*/
+                if($num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) > $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1)+$objAS->absenceDateOnYear($id,$year)){
+                    return $objAS->numberAbsenceAddPerennial($id, $year) + $objAS->absenceDateOnYear($id,$year);
+                }else{
+                    return $num - $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
+                }
             }
         }else{
-            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, 2);
-            $num1 = $objAS->numberOfDaysOff($id, $year, $dateNow->month, 2);
+            $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, 7, $type->id,$status->id);
+            if($year < $dateNow->year){
+                $num1 = $objAS->numberOfDaysOff($id, $year, 0, $type->id,$status->id);
+            }else{
+                $num1 = $objAS->numberOfDaysOff($id, $year, $dateNow->month, $type->id,$status->id);
+            }
+
             $num2 = $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1);
-            if($num2 - $num >= 0){
+            if($num2 - $num >= 0 && $year == $dateNow->year){
                 return $num1 - $num;
             }else{
-                return $num1 - ($num - $num2);
+                if($num1 - $num2 > $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1)+$objAS->absenceDateOnYear($id,$year)){
+                    return $objAS->numberAbsenceAddPerennial($id, $year) + $objAS->absenceDateOnYear($id,$year);
+                }else{
+                    return $num1 - $num2;
+                }
             }
         }
 
     }
 
+    function sumDateExistence($id, $year){
+        $objAS = new AbsenceService;
+        return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id,$year) - $objAS->subDateAbsences($id, $year);
+    }
+    function sumDateRedundancyExistence($id, $year){
+        $dateNow = new DateTime;
+        $objAS = new AbsenceService;
+        $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
+        return $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $objAS->subRedundancy($id, $year);
+    }
     function totalDateAbsences($id, $year){
         $dateNow = new DateTime;
         $objAS = new AbsenceService;
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
-        if($dateNow->year == $year && $dateNow->month < 7){
-            return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) + $objAS->numberAbsenceAddPerennial($id,$year);
-        }else{
-            return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceAddPerennial($id,$year);
-        }
+        return $objAS->absenceDateOnYear($id, $year) + $objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) + $objAS->numberAbsenceAddPerennial($id,$year);
     }
-
-
 }
