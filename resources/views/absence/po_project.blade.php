@@ -160,7 +160,7 @@
                                                     <div class="input-group-btn">
                                                         <button type="button" class="btn width-100">{{trans('absence.confirmation.from')}}</button>
                                                     </div>
-                                                    <div class='input-group date form_datetime' style="width:355px;">
+                                                    <div class='input-group date form_datetime' style="width:100%;">
                                                         {{ Form::text('from_date', old('from_date'),
                                                         ['class' => 'form-control',
                                                         'id' => 'from_date',
@@ -183,7 +183,7 @@
                                                         {{--'autofocus' => false,--}}
                                                         {{--])--}}
                                                     {{--}}--}}
-                                                    <div class='input-group date form_datetime' style="width:355px;">
+                                                    <div class='input-group date form_datetime' style="width:100%;">
                                                         {{ Form::text('to_date', old('to_date'),
                                                         ['class' => 'form-control',
                                                         'id' => 'to_date',
@@ -286,7 +286,7 @@
                                     <td>{{$confirm->absence->from_date}}</td>
                                     <td>{{$confirm->absence->to_date}}</td>
                                     <td><span
-                                        @if($confirm->absence->absenceType->name === config('settings.status_common.absence_type.absented_date'))
+                                        @if($confirm->absence->absenceType->name === config('settings.status_common.absence_type.salary_date'))
                                             class="label label-success"
                                         @elseif($confirm->absence->absenceType->name === config('settings.status_common.absence_type.insurance_date'))
                                             class="label label-primary"

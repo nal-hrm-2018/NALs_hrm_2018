@@ -74,26 +74,15 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
             $endYear = (int)$end_date_policy->format('Y');
 
             if ($startYear != $year && $endYear <= $year) {
-                if ($startMonth == $endMonth) {
-                    if ($endDate - $startDate > 15) {
-                        $sumDate++;
-                    }
-                    return $sumDate;
-                } else {
+
                     $sumDate++;
                     if ($endDate >= 15) {
                         $sumDate++;
                     }
                     $sumDate += ($endMonth - 1) - ($input->startOfYear()->month + 1) + 1;
                     return $sumDate;
-                }
             } elseif ($startYear == $year && $endYear <= $year) {
-                if ($startMonth == $endMonth) {
-                    if ($endDate - $startDate > 15) {
-                        $sumDate++;
-                    }
-                    return $sumDate;
-                } else {
+
                     if ($startDate <= 15) {
                         $sumDate++;
                     }
@@ -102,14 +91,30 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
                     }
                     $sumDate += ($endMonth - 1) - ($startMonth + 1) + 1;
                     return $sumDate;
-                }
             } elseif ($startYear == $year && $endYear > $year) {
                 if ($startDate <= 15) {
                     $sumDate++;
                 }
                 $sumDate += 12 - ($startMonth + 1) + 1;
                 return $sumDate;
-            } else {
+            }elseif($year == $startYear && $year == $endYear){
+                if($startMonth == $endMonth){
+                    if($endDate - $startDate > 15){
+                        $sumDate ++;
+                    }
+                    return $sumDate;
+                }else{
+                    if($startDate <= 15){
+                        $sumDate++;
+                    }
+                    if($endDate >= 15){
+                        $sumDate++;
+                    }
+                    $sumDate += ($endMonth - 1) - ($startMonth+1)+1;
+                    return $sumDate;
+                }
+            }
+            else {
                 return 12;
             }
         }

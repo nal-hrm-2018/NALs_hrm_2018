@@ -132,14 +132,16 @@ class AbsenceController extends Controller
             $typeConfirm = $request->type_confirm;
             $actionConfirm = $request->action_confirm;
             $idConfirm = $request->id_confirm;
+            $idAbsence = Confirm::where('id', '=', $idConfirm)->first()->absence_id;
             $rejectReason = $request->reason;
-
+            $idWaiting = AbsenceStatus::where('name', '=', config('settings.status_common.absence.waiting'))->first()->id;
             $idAccept = AbsenceStatus::where('name', '=', config('settings.status_common.absence.accepted'))->first()->id;
             $idReject = AbsenceStatus::where('name', '=', config('settings.status_common.absence.rejected'))->first()->id;
 
             if($typeConfirm === 'absence'){
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idAccept, "");
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept);
                     return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idReject, $rejectReason);
@@ -151,11 +153,27 @@ class AbsenceController extends Controller
                     return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idAccept, $rejectReason);
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept);
                     return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 }
             }
         }
         return response(['msg' => 'Failed']);
+    }
+
+    public function updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept){
+        $listConfirm = Confirm::where('absence_id', '=', $idAbsence)->get();
+        $temp = 0;
+        foreach ($listConfirm as $item){
+            if($item->absence_status_id == $idReject || $item->absence_status_id == $idWaiting){
+                $temp ++;
+            }
+        }
+        if($temp == 0) {
+            $absence = Absence::where('id', '=', $idAbsence)->first();
+            $absence->absence_status_id = $idAccept;
+            $absence->save();
+        }
     }
 
     public function updateConfirm($idConfirm, $idAbsenceStatus, $rejectReason)
@@ -205,10 +223,10 @@ class AbsenceController extends Controller
         $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
 
 
-        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);// tong ngay da nghi phep ( bao gom ngay nghi co luong va` tru luong)
 
-        $soNgayTruPhepDu = $abc->subRedundancy($id, $year);
-        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year);
+        $soNgayTruPhepDu = $abc->subRedundancy($id, $year); // so ngay tru vao ngay phep du nam ngoai
+        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year); // so ngay tru vao ngay phep
 
         if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
             $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);

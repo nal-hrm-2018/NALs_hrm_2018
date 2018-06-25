@@ -162,8 +162,13 @@ class ConfirmExport implements FromCollection,WithEvents, WithHeadings
             } else {
                 $arrayList[$i]['description'] = '-';
             }
-            $arrayList[$i]['status'] = $item->absenceStatus->name;
-            $arrayList[$i]['reject_reason'] = $item->reason;
+            $arrayList[$i]['status'] = trans('absence_po.list_po.status.'.$item->absenceStatus->name );
+
+            if(isset($item->reason)) {
+                $arrayList[$i]['reject_reason'] = $item->reason;
+            } else {
+                $arrayList[$i]['reject_reason'] = '-';
+            }
             $i++;
         }
         return collect($arrayList);
