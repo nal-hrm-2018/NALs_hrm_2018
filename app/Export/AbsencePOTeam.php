@@ -21,7 +21,8 @@ class AbsencePOTeam implements FromCollection, WithHeadings
 {
     private $request;
 
-    public function __construct(Request $request){
+    public function __construct(Request $request)
+    {
         $this->request = $request;
     }
 
@@ -31,7 +32,7 @@ class AbsencePOTeam implements FromCollection, WithHeadings
     public function collection()
     {
         $idLogged = Auth::id();
-        $query = Confirm::where('employee_id', $idLogged)->where('delete_flag','0');
+        $query = Confirm::where('employee_id', $idLogged)->where('delete_flag', '0');
 
         if (!isset($this->request['number_record_per_page'])) {
             $this->request['number_record_per_page'] = config('settings.paginate');
@@ -64,8 +65,8 @@ class AbsencePOTeam implements FromCollection, WithHeadings
                 ->whereHas('absence', function ($query) use ($email) {
                     $query
                         ->whereHas('employee', function ($query) use ($email) {
-                        $query->where("email", 'like', '%' . $email . '%');
-                    });
+                            $query->where("email", 'like', '%' . $email . '%');
+                        });
                 });
         }
         if (!is_null($this->request['type'])) {
@@ -76,23 +77,21 @@ class AbsencePOTeam implements FromCollection, WithHeadings
                     });
                 });
         }
-        if (!is_null($this->request['start_date']) &&  !is_null($this->request['end_date'])) {
+        if (!is_null($this->request['start_date']) && !is_null($this->request['end_date'])) {
 
             $query
                 ->whereHas('absence', function ($query) use ($startDate, $endDate) {
                     $query->where("from_date", '>=', $startDate)
                         ->where("to_date", '<=', $endDate);
                 });
-        }
-        elseif (!is_null($this->request['start_date'])){
+        } elseif (!is_null($this->request['start_date'])) {
             $query
                 ->whereHas('absence', function ($query) use ($startDate) {
                     $query->where("from_date", '>=', $startDate);
                 });
-        }
-        elseif (!is_null($this->request['end_date'])){
+        } elseif (!is_null($this->request['end_date'])) {
             $query
-                ->whereHas('absence', function ($query) use ( $endDate) {
+                ->whereHas('absence', function ($query) use ($endDate) {
                     $query->where("to_date", '<=', $endDate);
                 });
         }
@@ -108,36 +107,40 @@ class AbsencePOTeam implements FromCollection, WithHeadings
         $absenceStatus = AbsenceStatus::all();
         $idAbsenceStatus = $absenceStatus->where('name', '=', 'waiting')->first()->id;
         $dataConfirmQuery = $query
-                            ->orderBy('id', 'DESC')
-                            ->paginate($this->request['number_record_per_page']);
-        foreach ($dataConfirmQuery as $item){
+            ->orderBy('id', 'DESC')
+            ->paginate($this->request['number_record_per_page']);
+        foreach ($dataConfirmQuery as $item) {
             $arrayList[$indexInLoop] = array();
             $arrayList[$indexInLoop]['employee_name'] = $item->absence->employee->name;
             $arrayList[$indexInLoop]['email'] = $item->absence->employee->email;
             $arrayList[$indexInLoop]['from_date'] = $item->absence->from_date;
             $arrayList[$indexInLoop]['to_date'] = $item->absence->to_date;
-            $arrayList[$indexInLoop]['absence_type']= trans('absence_po.list_po.type.'.$item->absence->absenceType->name );;
+            $arrayList[$indexInLoop]['absence_type'] = trans('absence_po.list_po.type.' . $item->absence->absenceType->name);;
 
-            if (!is_null($item->absence->reason)){
+            if (!is_null($item->absence->reason)) {
                 $arrayList[$indexInLoop]['reason'] = $item->absence->reason;
-            }
-            else{
+            } else {
                 $arrayList[$indexInLoop]['reason'] = '-';
             }
-            if($item->absence_status_id === $idAbsenceStatus){
-                if($item->absence->is_deny === 0) {
+            if ($item->absence_status_id === $idAbsenceStatus) {
+                if ($item->absence->is_deny === 0) {
                     $arrayList[$indexInLoop]['description'] = trans('absence.confirmation.absence_request');
-                } else if($item->absence->is_deny === 1) {
+                } else if ($item->absence->is_deny === 1) {
                     $arrayList[$indexInLoop]['description'] = trans('absence.confirmation.cancel_request');
                 }
             } else {
                 $arrayList[$indexInLoop]['description'] = '-';
             }
-            $arrayList[$indexInLoop]['status'] = trans('absence_po.list_po.status.'.$item->absenceStatus->name);
-            if (!empty($item->reason)){
-                $arrayList[$indexInLoop]['reject_reason'] = $item->reason;
+
+            if ($item->is_process != 0) {
+                $arrayList[$indexInLoop]['description'] = trans('absence_po.list_po.status.just_watching');
+            } else {
+                $arrayList[$indexInLoop]['status'] = trans('absence_po.list_po.status.' . $item->absenceStatus->name);
             }
-            else{
+
+            if (!empty($item->reason)) {
+                $arrayList[$indexInLoop]['reject_reason'] = $item->reason;
+            } else {
                 $arrayList[$indexInLoop]['reject_reason'] = '-';
             }
             $indexInLoop++;
