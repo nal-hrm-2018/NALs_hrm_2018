@@ -145,7 +145,7 @@
 
               <div class="form-group">
                 <label>Ghi chú</label>
-                <input type="text" class="form-control" placeholder="Câu trả lời của bạn"  name="ghi_chu" id="ghi_chu">
+                <input type="text" class="form-control" placeholder="Câu trả lời của bạn"{!! old('ghi_chu') !!}  name="ghi_chu" id="ghi_chu">
                 <!-- /.input group -->
               </div>
 

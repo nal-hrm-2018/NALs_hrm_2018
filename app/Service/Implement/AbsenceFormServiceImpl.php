@@ -8,8 +8,9 @@
 
 namespace App\Service\Implement;
 
-
 use App\Models\Absence;
+use App\Models\Confirm;
+use App\Models\Process;
 use App\Service\AbsenceFormService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,40 +20,29 @@ class AbsenceFormServiceImpl implements AbsenceFormService
 {
     public function addNewAbsenceForm(Request $request)
     {
-    /*    $absence_form = new Absence();
-        $absence_form->employee_id = Auth::user()->id;
-        $absence_form->absence_type_id = $request->absence_type_id;
-        $absence_form->name = $request->name;
-        $absence_form->from_date = $request->from_date;
-        $absence_form->to_date = $request->to_date;
-        $date = Carbon::now()->format('Y-m-d H:i:s');;
-        if (strtotime($absence_form->to_date) < strtotime($date)) {
-            $absence_form->is_late = 0;
-        } else {
-            $absence_form->is_late = 1;
-        }
-        $absence_form->reason = $request->reason;
-        $absence_form->absence_status_id = $request->absence_status_id;
-        $absence_form->created_at = new \DateTime();
-        $absence_form->delete_flag = 0;
-
-        if ($absence_form->save()) {
-            \Session::flash('msg_success', 'Form successfully created!!!');
-            return redirect('absences');
-        } else {
-            \Session::flash('msg_fail', 'Form failed created!!!');
-            return back()->with(['absences' => $absence_form]);
-        }*/
+        $id_employee = Auth::user()->id;
 
         $date = Carbon::now()->format('Y-m-d H:i:s');;
-        if (strtotime($request->to_date) < strtotime($date)) {
+
+        if (strtotime($request->get('from_date')) < strtotime($date)) {
             $is_late = 1;
         } else {
             $is_late = 0;
         }
 
+        $objProcess = Process::select('*')
+                    ->where('employee_id', '=', $id_employee)
+                    ->whereDate('processes.end_date', '>=', $date)
+                    ->get()
+                    ->toArray();
+        if (empty($objProcess)) {
+            $is_process = 0;
+        } else {
+            $is_process = 1;
+        }
+
         $data =[
-            'employee_id'=>Auth::user()->id,
+            'employee_id'=>$id_employee,
             'absence_type_id'=>$request->get('absence_type_id'),
             'from_date'=>$request->get('from_date'),
             'to_date'=>$request->get('to_date'),
@@ -65,14 +55,30 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             'description'=>$request->get('ghi_chu')
         ];
 
-        if(is_null(Absence::create($data))){
+
+
+        $objAbsence=Absence::create($data);
+
+        if(is_null($objAbsence)){
             \Session::flash('msg_fail', 'Account failed created!!!');
             return back()->withInput(Input::all());
         }else{
+
+            $data1 =[
+                'reason'=>$request->get('reason'),
+                'created_at'=>new \DateTime(),
+                'delete_flag'=>0,
+                'absence_status_id'=>1,
+                'absence_type_id'=>$request->get('absence_type_id'),
+                'absence_id'=> $objAbsence->id,
+                'is_process'=>$is_process,
+                'employee_id'=>$id_employee
+            ];
+
+            Confirm::create($data1);
+
             \Session::flash('msg_success', 'Form successfully created!!!');
             return redirect('absences');
         }
-
-
     }
 }
