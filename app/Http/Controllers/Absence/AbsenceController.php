@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Absence;
 
+use App\Models\TempListConfirm;
 use App\Service\AbsenceService;
 use App\Export\ConfirmExport;
 use App\Export\AbsencePOTeam;
@@ -13,6 +14,7 @@ use App\Models\Employee;
 use App\Service\AbsenceFormService;
 use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use App\Http\Rule\Absence\ValidAbsenceFilter;
@@ -97,30 +99,36 @@ class AbsenceController extends Controller
 
     public function confirmRequest($id, Request $request)
     {
-        $absenceType = AbsenceType::where('name', '!=', config('settings.status_common.absence_type.subtract_salary_date'))->get();
+        $absenceType = AbsenceType::where('name', '!=',
+            config('settings.status_common.absence_type.subtract_salary_date'))->get();
         $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
         $absenceStatus = AbsenceStatus::all();
         $confirmStatus = AbsenceStatus::all();
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
+
+        $currentTime = date('Y-m-d H:m:s');
+        $timeBeforeTwoWeek = strtotime($currentTime) - 2*7*24*60*60;
+        $timeBeforeTwoWeek = date('Y-m-d H:m:s', $timeBeforeTwoWeek);
         $projects = Process::select('processes.project_id', 'projects.name')
             ->join('projects', 'projects.id', '=', 'processes.project_id')
             ->where('processes.employee_id', '=', $id)
             ->where('processes.role_id', '=', $idPO)
             ->where('processes.delete_flag', '=', '0')
+            ->where('processes.start_date', '<=', $currentTime)
+            ->where('processes.end_date', '>=', $timeBeforeTwoWeek)
             ->get();
-        $listConfirm = $this->searchConfirmService->searchConfirm($request)->where('confirms.employee_id', '=', $id)
-            ->where('confirms.is_process', '=', 1)
-            ->where('confirms.delete_flag', '=', 0)
-            ->orderBy('confirms.id', 'desc')
-//            ->get();
-            ->paginate($request['number_record_per_page'], ['confirms.*']);
-//        dd($listConfirm);
+
+        $listValueOnPage = $this->searchConfirmService->searchConfirm($request, $id)->get();
+        $tempTableName = 'temp_list_confirm';
+        $this->searchConfirmService->createTempTable($listValueOnPage, $tempTableName);
+
+        $listConfirm = TempListConfirm::query()->paginate($request['number_record_per_page']);
         $listConfirm->setPath('');
-//        dd($request);
         $param = (Input::except(['page', 'is_employee']));
-//        dd($param);
+        DB::unprepared(DB::raw("DROP TEMPORARY TABLE " . $tempTableName));
+
         return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO',
             'id', 'absenceStatus', 'param', 'confirmStatus'));
     }
@@ -192,7 +200,6 @@ class AbsenceController extends Controller
     public function exportConfirmList(Request $request){
         $time =(new \DateTime())->format('Y-m-d H:i:s');
         return Excel::download(new ConfirmExport($request), 'confirm-list-'.$time.'.csv');
-//        echo 'hello';
     }
 
 

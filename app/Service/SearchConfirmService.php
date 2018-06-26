@@ -8,9 +8,10 @@
 
 namespace App\Service;
 use App\Http\Requests\CommonRequest;
+use Illuminate\Http\Request;
 
 interface SearchConfirmService
 {
-    public function searchConfirm($Request);
-
+    public function searchConfirm($Request, $id);
+    public function createTempTable($listValueOnPage, $tempTableName);
 }
