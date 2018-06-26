@@ -31,8 +31,8 @@ return [
         ],
         'status'=>[
             config('settings.status_common.absence.waiting')=>'Đang xử lý',
-            config('settings.status_common.absence.accepted')=>'Đã đồng ý',
-            config('settings.status_common.absence.rejected')=>'Đã từ chối',
+            config('settings.status_common.absence.accepted')=>'Đồng ý nghỉ',
+            config('settings.status_common.absence.rejected')=>'Không được nghỉ',
             'accepted_done'=>'Đồng ý nghỉ',
 //            'accepted_deny'=>'Đồng ý hủy',
             'no_accepted_done'=>'Không được nghỉ',
@@ -53,5 +53,8 @@ return [
         'msg'=>[
             'confirm_export'=>'Bạn có muốn tải về danh sách xác nhận vắng nghỉ không?'
         ],
+        'message'=>[
+            'export_msg'=>'Bạn có muốn tải xuống danh sách xin vắng làm?'
+        ]
     ]
 ];
