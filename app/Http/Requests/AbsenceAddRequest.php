@@ -9,7 +9,10 @@
 namespace App\Http\Requests;
 
 
+use App\Models\Employee;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AbsenceAddRequest extends FormRequest
 {
@@ -20,10 +23,16 @@ class AbsenceAddRequest extends FormRequest
 
     public function rules()
     {
+        $curDate = date_create(Carbon::now()->format('Y-m-d'));
+        $dayBefore = ($curDate)->modify('-15 day')->format('d-m-Y');
+        $objEmp=Employee::SELECT("*")
+                            ->where('id','=',Auth::id())
+                            ->first();
+        $dayAfter=$objEmp["endwork_date"];
         return [
             'absence_type_id' => 'required',
-            'from_date' => 'required',
-            'to_date' => 'required|after:from_date',
+            'from_date' => 'required|after:'.$dayBefore,
+            'to_date' => 'required|after:from_date|before:'.$dayAfter,
             'reason' => 'required'
         ];
     }
@@ -56,6 +65,12 @@ class AbsenceAddRequest extends FormRequest
                 'attribute' => 'ngày kết thúc',
                 'date'=>'bắt đầu nghỉ'
             ]),
+            'from_date.after' => trans('validation.after', [
+                'attribute' => 'ngày bắt đầu nghỉ',
+            ]),
+            'to_date.before' => trans('validation.before', [
+                'attribute' => 'ngày kết thúc',
+            ])
         ];
     }
 }

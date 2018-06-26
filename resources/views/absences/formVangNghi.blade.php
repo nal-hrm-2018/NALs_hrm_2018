@@ -151,7 +151,17 @@
 
               <div class="form-group">
                 <div class="checkbox">
-                  <label style="color: green"><input disabled="disabled" type="checkbox" value="">Bổ Sung</label>
+
+                  <?php
+                    $date = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
+
+                    if (strtotime(('from_date')) < strtotime($date)) {
+                        echo  '<label style="color: green"><input disabled="disabled" type="checkbox" checked value="">Bổ Sung</label>';
+                    } else {
+                        echo  '<label style="color: green"><input disabled="disabled" type="checkbox" value="">Bổ Sung</label>';
+
+                    }
+                  ?>
                 </div>
               </div>
 
