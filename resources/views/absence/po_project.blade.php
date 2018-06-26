@@ -275,12 +275,18 @@
                                     <td>{{$confirm->absence->employee->name}}</td>
                                     <td>{{$confirm->absence->employee->email}}</td>
                                     <td>
+
                                         <?php
-                                            $projects = $confirm->absence->employee->projects;
-                                            foreach ($projects as $project){
-                                                $process = $project->processes->where('employee_id', '=', $id)->where('role_id', '=', $idPO);
-                                                if($process->isNotEmpty()) echo $project->name;
+                                        foreach ($projects as $project){
+                                            $processes = \App\Models\Process::where('project_id', '=', $project->project_id)
+                                                ->where('delete_flag', '=', 0)
+                                                ->where('employee_id', '=', $confirm->absence->employee->id)
+                                                ->get();
+                                            if($processes->isNotEmpty()) {
+                                                echo $project->name;
+                                                break;
                                             }
+                                        }
                                         ?>
                                     </td>
                                     <td>{{$confirm->absence->from_date}}</td>
@@ -464,6 +470,7 @@
                 $("#absence_type").val('').change();
                 $("#from_date").val('');
                 $("#to_date").val('');
+                $("#confirm_status").val('').change();
             });
         });
     </script>
