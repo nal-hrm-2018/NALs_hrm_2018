@@ -235,6 +235,9 @@ class AbsenceController extends Controller
 
         $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
         $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
+        if($soNgayPhepDu > 5){
+            $soNgayPhepDu = 5;
+        }
         $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
 
 
@@ -254,10 +257,12 @@ class AbsenceController extends Controller
         $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
 
         $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
-        $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+        $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $type = AbsenceType::select()->where('name','non_salary_date')->first();
+        $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $type = AbsenceType::select()->where('name','insurance_date')->first();
-
         $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $absences = [
@@ -271,6 +276,7 @@ class AbsenceController extends Controller
                         "phepCoDinh"=>$soNgayPhepCoDinhConLai,
                         "phepDu"=>$soNgayTruPhepDuConLai,
                         "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
+                        "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
         $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
@@ -279,6 +285,7 @@ class AbsenceController extends Controller
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
+                ->where('absences.employee_id',$id)
                 ->whereYear('absences.from_date', $year)
                 ->orWhereYear('absences.to_date', $year)
                 ->get();
@@ -427,10 +434,13 @@ class AbsenceController extends Controller
         $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
         $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
 
-        $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh;
+        $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
+        $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $type = AbsenceType::select()->where('name','non_salary_date')->first();
+        $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $type = AbsenceType::select()->where('name','insurance_date')->first();
-
         $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $absences = [
@@ -444,12 +454,14 @@ class AbsenceController extends Controller
                         "phepCoDinh"=>$soNgayPhepCoDinhConLai,
                         "phepDu"=>$soNgayTruPhepDuConLai,
                         "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
+                        "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
         $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absence_statuses.name AS confirm')
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
+                ->where('absences.employee_id',$id)
                 ->whereYear('absences.from_date', $year)
                 ->orWhereYear('absences.to_date', $year)
                 ->get();
