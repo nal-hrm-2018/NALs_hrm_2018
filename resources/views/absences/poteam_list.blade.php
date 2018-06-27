@@ -68,6 +68,7 @@
                 <th>{{trans('absence_po.list_po.profile_info.type')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.reason')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.note')}}</th>
+                <th>{{trans('absence_po.list_po.profile_info.action')}}</th>
                 <th class="center">{{trans('absence_po.list_po.profile_info.status')}}</th>
                 <th>{{trans('absence_po.list_po.profile_info.note_po')}}</th>
             </tr>
@@ -121,6 +122,9 @@
                     </td>
                     <td>
                         <div class="absence-center-reason">{{$element->absence->reason}}</div>
+                    </td>
+                    <td>
+                        <div class="absence-center-reason">{{$element->absence->description}}</div>
                     </td>
                     @if($element->absence->absenceStatus['name'] == config('settings.status_common.absence.waiting') && ($element->absenceStatus['name'] == config('settings.status_common.absence.waiting')))
                         @if($element->absence['is_deny'] == 0 )
