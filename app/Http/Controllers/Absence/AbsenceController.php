@@ -80,7 +80,8 @@ class AbsenceController extends Controller
         $employees->setPath('');
         $param = (Input::except(['page', 'is_employee']));
 //        session()->flashInput($request->input());
-        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences','absenceService'));
+        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences'
+            ,'absenceService'));
     }
 
     public function exportAbsenceHR(Request $request)
@@ -148,37 +149,50 @@ class AbsenceController extends Controller
             if($typeConfirm === 'absence'){
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idAccept, "");
-                    $this->updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept);
-                    return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
+                    return response(['msg' => '<span class="label label-success">'.
+                        trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idReject, $rejectReason);
-                    return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
+                    return response(['msg' => '<span class="label label-default">'.
+                        trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 }
             } else {
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idReject, "");
-                    return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
+                    return response(['msg' => '<span class="label label-default">'.
+                        trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idAccept, $rejectReason);
-                    $this->updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept);
-                    return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
+                    return response(['msg' => '<span class="label label-success">'.
+                        trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 }
             }
         }
         return response(['msg' => 'Failed']);
     }
 
-    public function updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept){
+    public function updateStatusAbsence($idAbsence, $idReject, $idAccept){
         $listConfirm = Confirm::where('absence_id', '=', $idAbsence)->get();
         $temp = 0;
         foreach ($listConfirm as $item){
-            if($item->absence_status_id == $idReject || $item->absence_status_id == $idWaiting){
+            if($item->absence_status_id == $idAccept){
                 $temp ++;
+            } else if($item->absence_status_id == $idReject){
+                $absence = Absence::where('id', '=', $idAbsence)->first();
+                $absence->absence_status_id = $idReject;
+                $absence->is_deny = 0;
+                $absence->save();
+                break;
             }
         }
-        if($temp == 0) {
+        if($temp == sizeof($listConfirm)) {
             $absence = Absence::where('id', '=', $idAbsence)->first();
             $absence->absence_status_id = $idAccept;
+            $absence->is_deny = 0;
             $absence->save();
         }
     }
@@ -191,10 +205,6 @@ class AbsenceController extends Controller
             $confirm->reason = $rejectReason;
         }
         $confirm->save();
-
-        $absence = $confirm->absence;
-        $absence->is_deny = 0;
-        $absence->save();
     }
 
     public function exportConfirmList(Request $request){
@@ -205,15 +215,17 @@ class AbsenceController extends Controller
 
     public function index(Request $request){
         $id = Auth::user()->id;
+        $dateNow = new DateTime;
         $objEmployee = Employee::find($id);
         $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
         $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
-
+        if((int)$dateNow->format("Y") <= $endwork_date){
+            $endwork_date = (int)$dateNow->format("Y");
+        }
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
         $type = AbsenceType::select()->where('name','salary_date')->first();
 
-        $dateNow = new DateTime;
         $year = 0;
         if((int)$dateNow->format('Y') < $endwork_date){
              $year = $dateNow->format('Y');
@@ -225,6 +237,9 @@ class AbsenceController extends Controller
 
         $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
         $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
+        if($soNgayPhepDu > 5){
+            $soNgayPhepDu = 5;
+        }
         $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
 
 
@@ -256,10 +271,12 @@ class AbsenceController extends Controller
         }
 
         $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
-        $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+        $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $type = AbsenceType::select()->where('name','non_salary_date')->first();
+        $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $type = AbsenceType::select()->where('name','insurance_date')->first();
-
         $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $absences = [
@@ -273,9 +290,12 @@ class AbsenceController extends Controller
                         "phepCoDinh"=>$soNgayPhepCoDinhConLai,
                         "phepDu"=>$soNgayTruPhepDuConLai,
                         "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
+                        "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
-        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id')
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
+            'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
+            'absences.absence_status_id')
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
@@ -286,6 +306,27 @@ class AbsenceController extends Controller
                 })
                 ->get();
         return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
+    }
+
+    public function cancelRequest(Request $request){
+        if ($request->ajax()) {
+            $idAbsence = $request->id_absence;
+            $absence = Absence::where('id', '=', $idAbsence)->first();
+            $idWaiting = AbsenceStatus::where('name', '=', config('settings.status_common.absence.waiting'))->first()->id;
+
+            $absence->absence_status_id = $idWaiting;
+            $absence->is_deny = 1;
+            $absence->save();
+
+            $confirms = $absence->confirms;
+            foreach ($confirms as $confirm){
+                $confirm->absence_status_id = $idWaiting;
+                $confirm->reason = null;
+                $confirm->save();
+            }
+            return response(['msg' => 'Success']);
+        }
+        return response(['msg' => 'Failed']);
     }
 
     public function create()
@@ -382,7 +423,9 @@ class AbsenceController extends Controller
 
         $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
         $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
-
+        if((int)$dateNow->format("Y") <= $endwork_date){
+            $endwork_date = (int)$dateNow->format("Y");
+        }
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
         $type = AbsenceType::select()->where('name','salary_date')->first();
@@ -421,10 +464,13 @@ class AbsenceController extends Controller
             $soNgayTruPhepDuConLai=0;
         }
 
-        $soNgayNghiTruLuong = $tongSoNgayDaNghi - $soNgayTruPhepDu - $soNgayTruPhepCoDinh;
+        $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
+        $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $type = AbsenceType::select()->where('name','non_salary_date')->first();
+        $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $type = AbsenceType::select()->where('name','insurance_date')->first();
-
         $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $absences = [
@@ -438,18 +484,20 @@ class AbsenceController extends Controller
                         "phepCoDinh"=>$soNgayPhepCoDinhConLai,
                         "phepDu"=>$soNgayTruPhepDuConLai,
                         "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
+                        "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
-        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id')
-            ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
-            ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
-            ->where('absences.delete_flag', 0)
-            ->where('absences.employee_id',$id)
-            ->where(function($listAbsence)use($year){
-                $listAbsence->whereYear('absences.from_date', $year)
-                    ->orWhereYear('absences.to_date', $year);
-            })
-            ->get();
+
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absence_statuses.name AS confirm')
+                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+                ->where('absences.delete_flag', 0)
+                ->where('absences.employee_id',$id)
+                ->where(function($listAbsence)use($year){
+                    $listAbsence->whereYear('absences.from_date', $year)
+                        ->orWhereYear('absences.to_date', $year);
+                })
+                ->get();
         foreach ($listAbsence as $value) {
             $value->name_type = trans('absence_po.list_po.type.'.$value->name_type);
             $value->name_status = trans('absence_po.list_po.status.'.$value->name_status);

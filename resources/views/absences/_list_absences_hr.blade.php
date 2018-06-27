@@ -123,7 +123,7 @@
                     value="{{$employee[trans('absence.remaining_date')]}}">
 
             <ul class="contextMenu" data-employee-id="{{$employee['id']}}" hidden>
-                <li><a href={{route('vendors.show',$employee['id'])}}><i
+                <li><a href={{route('absences.show',$employee['id'])}}><i
                                 class="fa fa-id-card"></i> {{trans('common.action.view')}}
                     </a></li>
             </ul>
