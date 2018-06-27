@@ -294,7 +294,7 @@
                 });
             });
             $('.btn-edit').click(function () {
-                alert("hello");
+                location.href='/#';
             });
         });
     </script>

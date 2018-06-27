@@ -25,6 +25,7 @@ return [
         'reject_cause'=>'Lý Do Từ Chối',
         'absence_request'=>'Xin Nghỉ',
         'cancel_request'=>'Xin Hủy',
+        'action'=>'Hành Động'
     ],
     'employee_status'=>[
         'absence_waiting'=>'Đang Chờ Nghỉ',
