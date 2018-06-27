@@ -96,7 +96,6 @@ class TeamServiceImpl extends CommonService
                     \Session::flash('msg_fail', trans('team.team_service.msg_fail1'));
                     return false;
                 }
-                
             }
 
             //list member
