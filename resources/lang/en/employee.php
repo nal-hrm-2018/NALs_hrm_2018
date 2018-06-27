@@ -53,8 +53,8 @@ return[
         'year'=>'Year',
     ],
     'msg_content'=>[
-        'msg_download_employee_template'=>'Are you want to download the Employee Template?',
-        'msg_download_employee_list'=>'Are you want to download the Employee List?'
+        'msg_download_employee_template'=>'Do you want to download the Employee Template?',
+        'msg_download_employee_list'=>'Do you want to download the Employee List?'
     ],
     'import_employee'=>'IMPORT EMPLOYEE',
     'select_csv_file'=>'Select CSV file',
