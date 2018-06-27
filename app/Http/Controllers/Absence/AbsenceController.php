@@ -250,13 +250,25 @@ class AbsenceController extends Controller
 
         if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
             $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
+            if($soNgayPhepConLai<0){
+                $soNgayPhepConLai=0;
+            }
             $checkMonth = 1;
         }else{
             $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
+            if($soNgayPhepConLai<0){
+                $soNgayPhepConLai=0;
+            }
             $checkMonth = 0;
         }
         $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
+        if($soNgayPhepCoDinhConLai<0){
+            $soNgayPhepCoDinhConLai=0;
+        }
         $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
+        if($soNgayTruPhepDuConLai<0){
+            $soNgayTruPhepDuConLai=0;
+        }
 
         $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
         $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
@@ -435,13 +447,25 @@ class AbsenceController extends Controller
 
         if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
             $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
+            if($soNgayPhepConLai<0){
+                $soNgayPhepConLai=0;
+            }
             $checkMonth = 1;
         }else{
             $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
+            if($soNgayPhepConLai<0){
+                $soNgayPhepConLai=0;
+            }
             $checkMonth = 0;
         }
         $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
+        if($soNgayPhepCoDinhConLai<0){
+            $soNgayPhepCoDinhConLai=0;
+        }
         $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
+        if($soNgayTruPhepDuConLai<0){
+            $soNgayTruPhepDuConLai=0;
+        }
 
         $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
         $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
@@ -466,6 +490,7 @@ class AbsenceController extends Controller
                         "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
+
         $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absence_statuses.name AS confirm')
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
