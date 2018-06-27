@@ -26,5 +26,13 @@ return [
         'absence_request'=>'Xin Nghỉ',
         'cancel_request'=>'Xin Hủy',
     ],
+    'employee_status'=>[
+        'absence_waiting'=>'Đang Chờ Nghỉ',
+        'absence_accept'=>'Được Nghỉ',
+        'absence_reject'=>'Không Được Nghỉ',
+        'cancel_waiting'=>'Đang Chờ Hủy',
+        'cancel_accept'=>'Được Hủy',
+        'cancel_reject'=>'Không Được Hủy',
+    ],
 ];
 

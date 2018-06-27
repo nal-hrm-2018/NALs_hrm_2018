@@ -80,7 +80,8 @@ class AbsenceController extends Controller
         $employees->setPath('');
         $param = (Input::except(['page', 'is_employee']));
 //        session()->flashInput($request->input());
-        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences','absenceService'));
+        return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences'
+            ,'absenceService'));
     }
 
     public function exportAbsenceHR(Request $request)
@@ -149,21 +150,25 @@ class AbsenceController extends Controller
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idAccept, "");
                     $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
-                    return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
+                    return response(['msg' => '<span class="label label-success">'.
+                        trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idReject, $rejectReason);
                     $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
-                    return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
+                    return response(['msg' => '<span class="label label-default">'.
+                        trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 }
             } else {
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idReject, "");
                     $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
-                    return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
+                    return response(['msg' => '<span class="label label-default">'.
+                        trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idAccept, $rejectReason);
                     $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
-                    return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
+                    return response(['msg' => '<span class="label label-success">'.
+                        trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 }
             }
         }
@@ -179,6 +184,7 @@ class AbsenceController extends Controller
             } else if($item->absence_status_id == $idReject){
                 $absence = Absence::where('id', '=', $idAbsence)->first();
                 $absence->absence_status_id = $idReject;
+                $absence->is_deny = 0;
                 $absence->save();
                 break;
             }
@@ -186,6 +192,7 @@ class AbsenceController extends Controller
         if($temp == sizeof($listConfirm)) {
             $absence = Absence::where('id', '=', $idAbsence)->first();
             $absence->absence_status_id = $idAccept;
+            $absence->is_deny = 0;
             $absence->save();
         }
     }
@@ -198,10 +205,6 @@ class AbsenceController extends Controller
             $confirm->reason = $rejectReason;
         }
         $confirm->save();
-
-        $absence = $confirm->absence;
-        $absence->is_deny = 0;
-        $absence->save();
     }
 
     public function exportConfirmList(Request $request){
@@ -270,14 +273,37 @@ class AbsenceController extends Controller
                         "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
-        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id')
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
+            'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
+            'absences.absence_status_id')
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
                 ->whereYear('absences.from_date', $year)
                 ->orWhereYear('absences.to_date', $year)
                 ->get();
+
         return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
+    }
+
+    public function cancelRequest(Request $request){
+        if ($request->ajax()) {
+            $idAbsence = $request->id_absence;
+            $absence = Absence::where('id', '=', $idAbsence)->first();
+            $idWaiting = AbsenceStatus::where('name', '=', config('settings.status_common.absence.waiting'))->first()->id;
+
+            $absence->absence_status_id = $idWaiting;
+            $absence->is_deny = 1;
+            $absence->save();
+
+            $confirms = $absence->confirms;
+            foreach ($confirms as $confirm){
+                $confirm->absence_status_id = $idWaiting;
+                $confirm->save();
+            }
+            return response(['msg' => 'Success']);
+        }
+        return response(['msg' => 'Failed']);
     }
 
     public function create()
