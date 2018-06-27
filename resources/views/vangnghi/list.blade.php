@@ -118,6 +118,12 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <p>
+                                            - Số ngày nghỉ không lương: 
+                                            <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p>
                                             - Số ngày nghỉ trừ lương: 
                                             <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
                                         </p>
