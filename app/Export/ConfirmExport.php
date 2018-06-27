@@ -129,7 +129,7 @@ class ConfirmExport implements FromCollection,WithEvents, WithHeadings
         $confirmSearch = $query->
             where('confirms.employee_id', '=', $po_id)
                 ->where('confirms.is_process', '=', 1)
-                ->where('confirms.delete_flag', '=', 0)
+                    ->where('confirms.delete_flag', '=', 0)
                 ->orderBy('confirms.id', 'desc')
                 ->paginate($this->request['number_record_per_page'], ['confirms.*']);
 

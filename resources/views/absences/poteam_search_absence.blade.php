@@ -7,7 +7,7 @@
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{trans('vendor.profile_info.name')}}</button>
                 </div>
-                {{ Form::text('name', old('name'),
+                {{ Form::text('name', $requestSearch['name'],
                     ['class' => 'form-control',
                     'id' => 'name_absence',
                     'autofocus' => false,
@@ -18,7 +18,7 @@
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{trans('vendor.profile_info.email')}}</button>
                 </div>
-                {{ Form::text('email', old('email'),
+                {{ Form::text('email', $requestSearch['email'],
                     ['class' => 'form-control',
                     'id' => 'email_absence',
                     'autofocus' => false,
@@ -48,7 +48,7 @@
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{trans('absence_po.list_po.profile_info.start_date')}}</button>
                 </div>
-                {{ Form::text('start_date', old('start_date'),
+                {{ Form::text('start_date', $requestSearch['start_date'],
                     ['class' => 'form-control form_datetime',
                     'id' => 'start_date_absence',
                     'autofocus' => false,
@@ -60,7 +60,7 @@
                 <div class="input-group-btn">
                     <button type="button" class="btn width-100">{{trans('absence_po.list_po.profile_info.end_date')}}</button>
                 </div>
-                {{ Form::text('end_date', old('end_date'),
+                {{ Form::text('end_date', $requestSearch['end_date'],
                     ['class' => 'form-control form_datetime',
                     'id' => 'end_date_absence',
                     'autofocus' => false,
