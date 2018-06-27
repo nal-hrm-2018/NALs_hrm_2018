@@ -118,6 +118,12 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <p>
+                                            - Số ngày nghỉ không lương: 
+                                            <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p>
                                             - Số ngày nghỉ trừ lương: 
                                             <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
                                         </p>
@@ -140,6 +146,7 @@
                                         <th>Ghi chú</th>
                                         <th>Trạng thái</th>
                                         <th>Lý do từ chối</th>
+                                        <th>Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu" id="listAbsence">
@@ -182,6 +189,23 @@
                                                     }
                                                     
                                                 ?>
+                                            </td>
+                                            <td>
+                                                @if(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.waiting'))
+                                                    <button type="button" class="btn btn-default">
+                                                        <a href=""><i class="fa fa-edit"></i>Sửa</a>
+                                                    </button>
+                                                    <button type="button" class="btn btn-default">
+                                                        <a href=""><i class="fa fa-times"></i>Hủy</a>
+                                                    </button>
+                                                @else
+                                                    <button type="submit" class="btn btn-default disabled">
+                                                        <a href="javascript:void(0)"><i class="fa fa-edit"></i>Sửa</a>
+                                                    </button>
+                                                    <button type="submit" class="btn btn-default disabled">
+                                                        <a href="javascript:void(0)"><i class="fa fa-times"></i>Hủy</a>
+                                                    </button>
+                                                @endif                                               
                                             </td>
                                         </tr>
                                     @endforeach
@@ -282,6 +306,20 @@
                         }
                         listAbsence += "<td><span class=\""+class_status+"\">"+msg.aListAbsence[key].name_status+"</span></td>";
                         listAbsence += "<td>"+msg.aListAbsence[key].confirm+"</td>";
+  
+                        listAbsence +="<td>";
+                        if(msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.waiting')}}"){
+                            listAbsence +="<button type=\"button\" class=\"btn btn-default\">"+
+                                            "<a href=\"\"><i class=\"fa fa-edit\"></i>Sửa</a></button>"+
+                                            "<button type=\"button\" class=\"btn btn-default\">"+
+                                            "<a href=\"\"><i class=\"fa fa-times\"></i>Hủy</a></button>";
+                        }else{
+                            listAbsence +="<button type=\"button\" class=\"btn btn-default disabled\">"+
+                                            "<a href=\"javascript:void(0)\"><i class=\"fa fa-edit\"></i>Sửa</a></button>"+
+                                            "<button type=\"button\" class=\"btn btn-default disabled\">"+
+                                            "<a href=\"javascript:void(0)\"><i class=\"fa fa-times\"></i>Hủy</a></button>";
+                        }
+                        listAbsence +="</td>";
                         listAbsence +="</tr>";
                     }                    
                     document.getElementById("listAbsence").innerHTML = listAbsence;
