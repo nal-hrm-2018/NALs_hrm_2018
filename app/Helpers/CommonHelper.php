@@ -327,13 +327,22 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             getAbsenceType(config('settings.status_common.absence_type.salary_date')),
             getAbsenceStatuses(config('settings.status_common.absence.accepted'))
         );
+        //tong ngay nghi truoc thang 7
+        $numberOfDaysOffBeforeJuly = $absenceService->getNumberDaysOffFromTo(
+            $employee,
+            7,
+            empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
+            getAbsenceType(config('settings.status_common.absence_type.salary_date')),
+            getAbsenceStatuses(config('settings.status_common.absence.accepted'))
+        );
         // tong so ngay duoc nghi trong 1 nam cua 1 employee
         $totalDateAbsences=$absenceService->totalDateAbsences(
             $employee,
             empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
             empty(request()->get('month_absence'))?null:request()->get('month_absence'),
             $numberAbsenceRedundancyOfYearOld,
-            $numberDaysOffFromTo
+            $numberDaysOffFromTo,
+            $numberOfDaysOffBeforeJuly
         );
         // tong ngay nghi co dinh cua employee trong 1 nam
         $totalDefaultDateAbsences = $absenceService->absenceDateOnYear(
@@ -352,14 +361,7 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             empty(request()->get('month_absence')) ? null : request()->get('month_absence'),
             getAbsenceType(config('settings.status_common.absence_type.salary_date'))
         );
-        //tong ngay nghi truoc thang 7
-        $numberOfDaysOffBeforeJuly = $absenceService->getNumberDaysOffFromTo(
-            $employee,
-            7,
-            empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
-            getAbsenceType(config('settings.status_common.absence_type.salary_date')),
-            getAbsenceStatuses(config('settings.status_common.absence.accepted'))
-        );
+
         //------------------
         $item = [];
         $item['id']=isset($employee->id)? $employee->id: "";

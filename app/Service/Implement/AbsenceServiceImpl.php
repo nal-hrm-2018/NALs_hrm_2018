@@ -21,22 +21,18 @@ use DateTime;
 
 class AbsenceServiceImpl extends CommonService implements AbsenceService
 {
-    protected $totalDefaultDateAbsences;
-    protected $totalDaysOff;
-    protected $numberOfDaysOffBeforeJuly;
-    protected $numberAbsenceRedundancyOfYearOld;
-    protected $numberDaysOffFromMonthStartToMonthEnd;
-    protected $totalDateAbsences;
 
     public function __construct()
     {
     }
+
     public function __get($property)
     {
         if (property_exists($this, $property)) {
             return $this->$property;
         }
     }
+
     public function __set($property, $value)
     {
         if (property_exists($this, $property)) {
@@ -71,9 +67,9 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
         if (empty($days)) {
             return 0;
         } else {
-            if($days->date > 5){
+            if ($days->date > 5) {
                 return 5;
-            }else{
+            } else {
                 return $days->date;
             }
         }
@@ -109,6 +105,27 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
                 return 12;
             } elseif ($startYear == $year && $endYear <= $year) {
 
+                if ($startDate <= 15) {
+                    $sumDate++;
+                }
+                if ($endDate >= 15) {
+                    $sumDate++;
+                }
+                $sumDate += ($endMonth - 1) - ($startMonth + 1) + 1;
+                return $sumDate;
+            } elseif ($startYear == $year && $endYear > $year) {
+                if ($startDate <= 15) {
+                    $sumDate++;
+                }
+                $sumDate += 12 - ($startMonth + 1) + 1;
+                return $sumDate;
+            } elseif ($year == $startYear && $year == $endYear) {
+                if ($startMonth == $endMonth) {
+                    if ($endDate - $startDate > 15) {
+                        $sumDate++;
+                    }
+                    return $sumDate;
+                } else {
                     if ($startDate <= 15) {
                         $sumDate++;
                     }
@@ -117,30 +134,8 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
                     }
                     $sumDate += ($endMonth - 1) - ($startMonth + 1) + 1;
                     return $sumDate;
-            } elseif ($startYear == $year && $endYear > $year) {
-                if ($startDate <= 15) {
-                    $sumDate++;
                 }
-                $sumDate += 12 - ($startMonth + 1) + 1;
-                return $sumDate;
-            }elseif($year == $startYear && $year == $endYear){
-                if($startMonth == $endMonth){
-                    if($endDate - $startDate > 15){
-                        $sumDate ++;
-                    }
-                    return $sumDate;
-                }else{
-                    if($startDate <= 15){
-                        $sumDate++;
-                    }
-                    if($endDate >= 15){
-                        $sumDate++;
-                    }
-                    $sumDate += ($endMonth - 1) - ($startMonth+1)+1;
-                    return $sumDate;
-                }
-            }
-            else {
+            } else {
                 return 12;
             }
         }
@@ -148,26 +143,32 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
     }
 
     //tong ngay duoc nghi theo nam , thang
-    function totalDateAbsences($employee, $year, $month,$numberAbsenceRedundancyOfYearOld,$dayoff)
+    function totalDateAbsences($employee, $year, $month, $numberAbsenceRedundancyOfYearOld, $dayoff, $numberOfDaysOffBeforeJuly)
     {
         if (!empty($month)) {
             if ((int)$month < 7) {
                 //tong ngay duoc phep nghi truoc thang 7
                 $total_date = $this->absenceDateOnYear($employee->id, $year) + $this->getnumberAbsenceRedundancyByYear($employee->id, $year - 1)
                     + $this->numberAbsenceAddPerennial($employee->id, $year) - $dayoff;
-                if($total_date<=0){
+                if ($total_date <= 0) {
                     return 0;
                 }
                 return $total_date;
             } else {
+
+                $subRedundancy = $this->getSubRedundancy($numberAbsenceRedundancyOfYearOld, $numberOfDaysOffBeforeJuly);
                 //tong ngay duoc phep nghi sau thang 7
-                if($dayoff<=$numberAbsenceRedundancyOfYearOld){
-                    return $this->absenceDateOnYear($employee->id, $year)
-                        + $this->numberAbsenceAddPerennial($employee->id, $year);
-                }else{
+                if ($subRedundancy < $numberAbsenceRedundancyOfYearOld) {
+                    $total_date = $this->absenceDateOnYear($employee->id, $year) + $numberAbsenceRedundancyOfYearOld
+                        + $this->numberAbsenceAddPerennial($employee->id, $year) - $dayoff - ($numberAbsenceRedundancyOfYearOld - $subRedundancy);
+                    if ($total_date <= 0) {
+                        return 0;
+                    }
+                    return $total_date;
+                } else {
                     $total_date = $this->absenceDateOnYear($employee->id, $year) + $this->getnumberAbsenceRedundancyByYear($employee->id, $year - 1)
                         + $this->numberAbsenceAddPerennial($employee->id, $year) - $dayoff;
-                    if($total_date<=0){
+                    if ($total_date <= 0) {
                         return 0;
                     }
                     return $total_date;
@@ -189,12 +190,12 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
     // so ngay da nghi tu` thang , den thang
     function getNumberDaysOffFromTo($employee, $to_month, $year, $absence_type, $absence_status)
     {
-        if(!empty($to_month)){
+        if (!empty($to_month)) {
             $start_work_date = Carbon::parse($employee->startwork_date);
             if ((int)$start_work_date->year < $year) {
                 $start_work_date = 1;
-            }else{
-                $start_work_date=$start_work_date->month;
+            } else {
+                $start_work_date = $start_work_date->month;
             }
             $sumDate = 0;
             $AbService = new \App\Absence\AbsenceService();
@@ -202,11 +203,9 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
                 $sumDate += $AbService->numberOfDaysOff($employee->id, $year, $i, $absence_type, $absence_status);
             }
             return $sumDate;
-        }else{
+        } else {
             return null;
         }
-
-
     }
 
     function getListNumberOfDaysOff($id, $year, $month, $absence_status)
@@ -263,39 +262,41 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
 
     // tinh so ngay nghi tru luong
     function getSubtractSalaryDate(
-        $totalDaysOff ,
-        $totalDefaultDateAbsences ,
+        $totalDaysOff,
+        $totalDefaultDateAbsences,
         $numberOfDaysOffBeforeJuly,
         $numberAbsenceRedundancyOfYearOld,
         $month,
         $totalDateAbsences
-    ){
+    )
+    {
         if (!empty($month)) {
-            if(($totalDateAbsences-$totalDaysOff)<0){
-                return $totalDaysOff-$totalDateAbsences;
-            }else{
+            if (($totalDateAbsences - $totalDaysOff) < 0) {
+                return $totalDaysOff - $totalDateAbsences;
+            } else {
                 return 0;
             }
-        }else{
-            $subRedundancy=$this->getSubRedundancy($numberAbsenceRedundancyOfYearOld,$numberOfDaysOffBeforeJuly);
+        } else {
+            $subRedundancy = $this->getSubRedundancy($numberAbsenceRedundancyOfYearOld, $numberOfDaysOffBeforeJuly);
             if ($subRedundancy > 5) {
                 $subRedundancy = 5;
             }
-            if($totalDaysOff-$subRedundancy > $totalDefaultDateAbsences ){
-                return $totalDaysOff-$subRedundancy-$totalDefaultDateAbsences;
-            }else{
+            if ($totalDaysOff - $subRedundancy > $totalDefaultDateAbsences) {
+                return $totalDaysOff - $subRedundancy - $totalDefaultDateAbsences;
+            } else {
                 return 0;
             }
         }
     }
 
     // tinh so ngay nghi co luong
-    function getSalaryDate($totalDaysOff ,
-                           $totalDefaultDateAbsences ,
+    function getSalaryDate($totalDaysOff,
+                           $totalDefaultDateAbsences,
                            $numberOfDaysOffBeforeJuly,
                            $numberAbsenceRedundancyOfYearOld,
                            $month,
-                           $totalDateAbsences){
+                           $totalDateAbsences)
+    {
         if (!empty($month)) {
             if (($totalDateAbsences - $totalDaysOff) < 0) {
                 return $totalDateAbsences;
@@ -308,7 +309,7 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
                 $subRedundancy = 5;
             }
 
-            if ($totalDaysOff - $subRedundancy > $totalDateAbsences) {
+            if ($totalDaysOff - $subRedundancy > $totalDefaultDateAbsences) {
                 return $totalDefaultDateAbsences + $subRedundancy;
             } else {
                 return $totalDaysOff;
@@ -318,34 +319,36 @@ class AbsenceServiceImpl extends CommonService implements AbsenceService
     }
 
     // tru vao phep du nam ngoai
-    function getSubRedundancy($numberAbsenceRedundancyOfYearOld,$numberOfDaysOffBeforeJuly){
-        if($numberAbsenceRedundancyOfYearOld>$numberOfDaysOffBeforeJuly){
+    function getSubRedundancy($numberAbsenceRedundancyOfYearOld, $numberOfDaysOffBeforeJuly)
+    {
+        if ($numberAbsenceRedundancyOfYearOld > $numberOfDaysOffBeforeJuly) {
             return $numberOfDaysOffBeforeJuly;
-        }else{
+        } else {
             return $numberAbsenceRedundancyOfYearOld;
         }
     }
 
     //so ngay nghi duoc cong them vi lam viec lau nam
-    function numberAbsenceAddPerennial($id,$year){
+    function numberAbsenceAddPerennial($id, $year)
+    {
         $objEmployee = Employee::find($id);
         $dateNow = new DateTime;
 
         $startDate = date_create($objEmployee->startwork_date);
-        $startDate = Carbon::create($startDate->format('Y'),$startDate->format('m'),$startDate->format('d'));
+        $startDate = Carbon::create($startDate->format('Y'), $startDate->format('m'), $startDate->format('d'));
 
-        if($year == (int) $dateNow->format('Y')){
-            $endDate = Carbon::create($year,$dateNow->format('m'),$dateNow->format('d'));
-        }else{
-            $endDate = Carbon::create($year,12,31);
+        if ($year == (int)$dateNow->format('Y')) {
+            $endDate = Carbon::create($year, $dateNow->format('m'), $dateNow->format('d'));
+        } else {
+            $endDate = Carbon::create($year, 12, 31);
         }
 
         $num = $startDate->diffInYears($endDate);
-        if($num >= 3 && $num<=7){
-            return 5-(7-$num);
-        }else if($num > 7){
+        if ($num >= 3 && $num <= 7) {
+            return 5 - (7 - $num);
+        } else if ($num > 7) {
             return 5;
-        }else{
+        } else {
             return 0;
         }
     }
