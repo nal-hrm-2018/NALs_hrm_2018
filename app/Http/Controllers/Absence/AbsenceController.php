@@ -148,19 +148,21 @@ class AbsenceController extends Controller
             if($typeConfirm === 'absence'){
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idAccept, "");
-                    $this->updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept);
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
                     return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idReject, $rejectReason);
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
                     return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 }
             } else {
                 if($actionConfirm === 'accept'){
                     $this->updateConfirm($idConfirm, $idReject, "");
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
                     return response(['msg' => '<span class="label label-default">'.trans('absence_po.list_po.status.absence_rejected').'</span>']);
                 } else {
                     $this->updateConfirm($idConfirm, $idAccept, $rejectReason);
-                    $this->updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept);
+                    $this->updateStatusAbsence($idAbsence, $idReject, $idAccept);
                     return response(['msg' => '<span class="label label-success">'.trans('absence_po.list_po.status.absence_accepted').'</span>']);
                 }
             }
@@ -168,15 +170,20 @@ class AbsenceController extends Controller
         return response(['msg' => 'Failed']);
     }
 
-    public function updateStatusAbsence($idAbsence, $idReject, $idWaiting, $idAccept){
+    public function updateStatusAbsence($idAbsence, $idReject, $idAccept){
         $listConfirm = Confirm::where('absence_id', '=', $idAbsence)->get();
         $temp = 0;
         foreach ($listConfirm as $item){
-            if($item->absence_status_id == $idReject || $item->absence_status_id == $idWaiting){
+            if($item->absence_status_id == $idAccept){
                 $temp ++;
+            } else if($item->absence_status_id == $idReject){
+                $absence = Absence::where('id', '=', $idAbsence)->first();
+                $absence->absence_status_id = $idReject;
+                $absence->save();
+                break;
             }
         }
-        if($temp == 0) {
+        if($temp == sizeof($listConfirm)) {
             $absence = Absence::where('id', '=', $idAbsence)->first();
             $absence->absence_status_id = $idAccept;
             $absence->save();
