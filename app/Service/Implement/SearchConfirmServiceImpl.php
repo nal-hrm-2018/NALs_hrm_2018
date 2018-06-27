@@ -10,13 +10,16 @@ namespace App\Service\Implement;
 
 
 use App\Models\Confirm;
+use App\Models\TempListConfirm;
 use App\Service\SearchConfirmService;
 use App\Service\CommonService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SearchConfirmServiceImpl extends CommonService implements SearchConfirmService
 {
 
-    public function searchConfirm($request)
+    public function searchConfirm($request, $id)
     {
         $query = Confirm::select('confirms.*')->distinct('confirms.id');
 
@@ -74,9 +77,34 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
         if (!empty($confirm_status)) {
             $query->where('confirms.absence_status_id', '=', $confirm_status);
         }
-//                dd($from_date);
+        $query = $query->where('confirms.employee_id', '=', $id)
+            ->where('confirms.is_process', '=', 1)
+            ->where('confirms.delete_flag', '=', 0)
+            ->orderBy('confirms.id', 'desc');
         return $query;
     }
+
+    public function createTempTable($listValueOnPage, $tempTableName)
+    {
+        DB::unprepared(DB::raw("CREATE TEMPORARY TABLE ". $tempTableName ." AS(select * from confirms where id=0)"));
+
+        foreach ($listValueOnPage as $item){
+            $temp_list = new TempListConfirm();
+            $temp_list->id = $item->id;
+            $temp_list->reason = $item->reason;
+            $temp_list->updated_at = $item->updated_at;
+            $temp_list->updated_by_employee = $item->updated_by_employee;
+            $temp_list->created_at = $item->created_at;
+            $temp_list->created_by_employee = $item->created_by_employee;
+            $temp_list->delete_flag = $item->delete_flag;
+            $temp_list->absence_status_id = $item->absence_status_id;
+            $temp_list->absence_id = $item->absence_id;
+            $temp_list->employee_id = $item->employee_id;
+            $temp_list->is_process = $item->is_process;
+            $temp_list->save();
+        }
+    }
+
 
 
 }
