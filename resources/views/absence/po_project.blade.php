@@ -259,6 +259,7 @@
                                 <th>{{trans('absence.confirmation.type')}}</th>
                                 <th>{{trans('absence.confirmation.cause')}}</th>
                                 <th>{{trans('absence.confirmation.description')}}</th>
+                                <th>{{trans('absence.confirmation.action')}}</th>
                                 <th>{{trans('absence.confirmation.status')}}</th>
                                 <th>{{trans('absence.confirmation.reject_cause')}}</th>
                             </tr>
@@ -301,6 +302,7 @@
                                         @endif
                                         >{{trans('absence_po.list_po.type.'.$confirm->absence->absenceType->name )}}</span></td>
                                     <td>{{$confirm->absence->reason}}</td>
+                                    <td>{{$confirm->absence->description}}</td>
                                     <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)
                                             @if($confirm->absence->is_deny === 0)
