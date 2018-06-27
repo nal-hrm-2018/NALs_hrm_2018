@@ -215,15 +215,17 @@ class AbsenceController extends Controller
 
     public function index(Request $request){
         $id = Auth::user()->id;
+        $dateNow = new DateTime;
         $objEmployee = Employee::find($id);
         $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
         $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
-
+        if((int)$dateNow->format("Y") <= $endwork_date){
+            $endwork_date = (int)$dateNow->format("Y");
+        }
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
         $type = AbsenceType::select()->where('name','salary_date')->first();
 
-        $dateNow = new DateTime;
         $year = 0;
         if((int)$dateNow->format('Y') < $endwork_date){
              $year = $dateNow->format('Y');
@@ -286,10 +288,11 @@ class AbsenceController extends Controller
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
                 ->where('absences.employee_id',$id)
-                ->whereYear('absences.from_date', $year)
-                ->orWhereYear('absences.to_date', $year)
+                ->where(function($listAbsence)use($year){
+                    $listAbsence->whereYear('absences.from_date', $year)
+                        ->orWhereYear('absences.to_date', $year);
+                })
                 ->get();
-
         return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
     }
 
@@ -306,6 +309,7 @@ class AbsenceController extends Controller
             $confirms = $absence->confirms;
             foreach ($confirms as $confirm){
                 $confirm->absence_status_id = $idWaiting;
+                $confirm->reason = null;
                 $confirm->save();
             }
             return response(['msg' => 'Success']);
@@ -407,7 +411,9 @@ class AbsenceController extends Controller
 
         $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
         $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
-
+        if((int)$dateNow->format("Y") <= $endwork_date){
+            $endwork_date = (int)$dateNow->format("Y");
+        }
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
         $type = AbsenceType::select()->where('name','salary_date')->first();
@@ -462,8 +468,10 @@ class AbsenceController extends Controller
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
                 ->where('absences.employee_id',$id)
-                ->whereYear('absences.from_date', $year)
-                ->orWhereYear('absences.to_date', $year)
+                ->where(function($listAbsence)use($year){
+                    $listAbsence->whereYear('absences.from_date', $year)
+                        ->orWhereYear('absences.to_date', $year);
+                })
                 ->get();
         foreach ($listAbsence as $value) {
             $value->name_type = trans('absence_po.list_po.type.'.$value->name_type);
