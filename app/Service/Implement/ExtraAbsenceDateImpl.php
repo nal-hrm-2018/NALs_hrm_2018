@@ -45,7 +45,8 @@ class ExtraAbsenceDateImpl extends CommonService implements ExtraAbsenceDateServ
             }
             return false;
     }
-    public function update($id){
+    public function update($employee_id,$year){
+
 
     }
 
