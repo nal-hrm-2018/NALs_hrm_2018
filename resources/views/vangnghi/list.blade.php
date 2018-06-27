@@ -136,6 +136,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                            $idWaiting = \App\Models\AbsenceStatus::where('name', '=',
+                                config('settings.status_common.absence.waiting'))->first()->id;
+                            $idReject = \App\Models\AbsenceStatus::where('name', '=',
+                                config('settings.status_common.absence.rejected'))->first()->id;
+                            $idAccept = \App\Models\AbsenceStatus::where('name', '=',
+                                config('settings.status_common.absence.accepted'))->first()->id;
+                            ?>
                             <table class="table table-bordered table-striped" id="absences-list">
                                 <thead>
                                     <tr>
@@ -152,7 +160,7 @@
                                 <tbody class="context-menu" id="listAbsence">
                                     @foreach($listAbsence AS $obj)
                                         <tr>
-                                            <td>{{$obj->from_date}}</td>
+                                            <td>{{$obj->from_date}} - {{$obj->id}}</td>
                                             <td>{{$obj->to_date}}</td>
                                             <td>
                                                 @if(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.salary_date'))
@@ -163,21 +171,32 @@
                                                     <span class="label label-danger">
                                                 @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.insurance_date'))
                                                     <span class="label label-default">
+                                                @else
+                                                    <span>
                                                 @endif
                                                 {{trans('absence_po.list_po.type.'.$obj->name_type)}}</span>
                                             </td>
                                             <td>{{$obj->reason}}</td>
                                             <td>{{$obj->description}}</td>
-                                            <td>
-                                                @if(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.waiting'))
-                                                    <span class="label label-warning">
-                                                @elseif(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.accepted'))
-                                                    <span class="label label-success">
-                                                @elseif(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.rejected'))
-                                                    <span class="label label-danger">
+
+                                            <td class="td-absence-status" id="td-absence-status-{{$obj->id}}">
+                                                @if($obj->is_deny == 0)
+                                                    @if($obj->absence_status_id == $idWaiting)
+                                                        <span class="label label-primary">{{trans('absence.employee_status.absence_waiting')}}</span>
+                                                    @elseif($obj->absence_status_id == $idAccept)
+                                                        <span class="label label-success">{{trans('absence.employee_status.absence_accept')}}</span>
+                                                    @elseif($obj->absence_status_id == $idReject)
+                                                        <span class="label label-default">{{trans('absence.employee_status.absence_reject')}}</span>
+                                                    @endif
+                                                @else
+                                                    @if($obj->absence_status_id == $idWaiting)
+                                                        <span class="label label-warning">{{trans('absence.employee_status.cancel_waiting')}}</span>
+                                                    @elseif($obj->absence_status_id == $idAccept)
+                                                        <span class="label label-info">{{trans('absence.employee_status.cancel_accept')}}</span>
+                                                    @elseif($obj->absence_status_id == $idReject)
+                                                        <span class="label label-danger">{{trans('absence.employee_status.cancel_reject')}}</span>
+                                                    @endif
                                                 @endif
-                                                    {{trans('absence_po.list_po.status.'.$obj->name_status)}}
-                                                </span>
                                             </td>
                                             <td>
 
@@ -191,21 +210,36 @@
                                                 ?>
                                             </td>
                                             <td>
-                                                @if(trans('absence_po.list_po.status.'.$obj->name_status) == trans('absence_po.list_po.status.waiting'))
-                                                    <button type="button" class="btn btn-default">
-                                                        <a href=""><i class="fa fa-edit"></i>Sửa</a>
-                                                    </button>
-                                                    <button type="button" class="btn btn-default">
-                                                        <a href=""><i class="fa fa-times"></i>Hủy</a>
-                                                    </button>
-                                                @else
-                                                    <button type="submit" class="btn btn-default disabled">
-                                                        <a href="javascript:void(0)"><i class="fa fa-edit"></i>Sửa</a>
-                                                    </button>
-                                                    <button type="submit" class="btn btn-default disabled">
-                                                        <a href="javascript:void(0)"><i class="fa fa-times"></i>Hủy</a>
-                                                    </button>
-                                                @endif                                               
+                                                <?php
+                                                    $i = 0;
+                                                    foreach($obj->confirms as $confirm){
+                                                        if($confirm->absence_status_id == $idWaiting && $obj->is_deny == 0){
+                                                            $i++;
+                                                        }
+                                                    }
+                                                    if($i == sizeof($obj->confirms)) {
+                                                        echo '<div style="display: inline" id="div-edit-'. $obj->id .'">
+                                                                <button class="btn btn-default btn-edit" id="btn-edit-'. $obj->id .'">
+                                                                    <span style="color:blue"><i class="fa fa-edit"></i>Sửa</span>
+                                                                </button></div>';
+                                                    } else {
+                                                        echo '<div style="display: inline"><button class="btn btn-default disabled">
+                                                                    <span><i class="fa fa-edit"></i>Sửa</span>
+                                                                </button></div>';
+                                                    }
+
+                                                    if($obj->is_deny == 0 && $obj->absence_status_id != $idReject){
+                                                        echo '<div style="display: inline" id="div-cancel-'. $obj->id .'">
+                                                                <button class="btn btn-default btn-cancel" id="btn-cancel-'. $obj->id .'">
+                                                                    <span style="color:blue"><i class="fa fa-times"></i>Hủy</span>
+                                                                </button></div>';
+                                                    } else {
+                                                        echo '<div style="display: inline"><button class="btn btn-default disabled">
+                                                                    <span><i class="fa fa-times"></i>Hủy</span>
+                                                                </button></div>';
+                                                    }
+
+                                                ?>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -234,6 +268,34 @@
                 'autoWidth': false,
                 'borderCollapse':'collapse'
             });
+
+            $('.btn-cancel').click(function () {
+                var id_element = $(this).attr('id');
+                var id_absence = id_element.split('-')[2];
+                var id_td_absence_status = $(this).parent().parent().parent().find('td.td-absence-status').attr('id');
+                $.ajax({
+                    type: "POST",
+                    url: '{{ url('/absences') }}',
+                    data: {
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        'id_absence': id_absence,
+                        '_method': 'POST',
+                        _token: '{{csrf_token()}}',
+                    },
+                    success: function (msg) {
+                        $('#div-cancel-' + id_absence).html('<button class="btn btn-default disabled"><span>' +
+                            '<i class="fa fa-times"></i>Hủy</span></button>');
+                        $('#div-edit-' + id_absence).html('<button class="btn btn-default disabled"><span>' +
+                            '<i class="fa fa-edit"></i>Sửa</span></button>');
+                        $('#' + id_td_absence_status).html("<span class=\"label label-warning\">{{trans('absence.employee_status.cancel_waiting')}}</span>");
+                    }
+                });
+            });
+            $('.btn-edit').click(function () {
+                alert("hello");
+            });
         });
     </script>
     <script type="text/javascript">
@@ -241,7 +303,7 @@
             year = document.getElementById("year").value;
             $.ajax({
                 type: "POST",
-                url: '{{ url('/absences') }}' + '/' + {{ $objEmployee->id}},
+                url: '{{ url('/absences') }}' + '/' + '{{ $objEmployee->id}}',
                 data: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -99,6 +99,11 @@ Route::group(['middleware' => 'user'], function () {
 
     Route::resource('absences', 'Absence\AbsenceController');
 
+    Route::post('/absences', [
+        'as' => 'cancel_request',
+        'uses' => 'Absence\AbsenceController@cancelRequest',
+    ]);
+
     Route::post('projects/checkProcessAjax',[
         'as'=>'checkProcessAjax',
         'uses'=>'Project\ProjectController@checkProcessesAjax'
