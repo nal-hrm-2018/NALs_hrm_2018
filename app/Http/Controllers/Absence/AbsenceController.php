@@ -98,8 +98,9 @@ class AbsenceController extends Controller
     }
 
 
-    public function confirmRequest($id, Request $request)
+    public function confirmRequest(Request $request)
     {
+        $id = Auth::user()->id;
         $absenceType = AbsenceType::where('name', '!=',
             config('settings.status_common.absence_type.subtract_salary_date'))->get();
         $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
@@ -109,18 +110,16 @@ class AbsenceController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
 
-        $currentTime = date('Y-m-d H:m:s');
-        $timeBeforeTwoWeek = strtotime($currentTime) - 2*7*24*60*60;
-        $timeBeforeTwoWeek = date('Y-m-d H:m:s', $timeBeforeTwoWeek);
-        $projects = Process::select('processes.project_id', 'projects.name')
-            ->join('projects', 'projects.id', '=', 'processes.project_id')
-            ->where('processes.employee_id', '=', $id)
-            ->where('processes.role_id', '=', $idPO)
-            ->where('processes.delete_flag', '=', '0')
-            ->where('processes.start_date', '<=', $currentTime)
-            ->where('processes.end_date', '>=', $timeBeforeTwoWeek)
-            ->get();
 
+        $projects = Confirm::select('confirms.project_id', 'projects.name')
+            ->distinct('confirms.project_id')
+            ->join('projects', 'projects.id', '=', 'confirms.project_id')
+            ->where('confirms.project_id', '!=', null)
+            ->where('confirms.employee_id', '=', $id)
+            ->where('confirms.delete_flag', '=', 0)
+            ->where('projects.delete_flag', '=', 0)
+            ->orderBy('confirms.project_id', 'desc')
+            ->get();
         $listValueOnPage = $this->searchConfirmService->searchConfirm($request, $id)->get();
         $tempTableName = 'temp_list_confirm';
         $this->searchConfirmService->createTempTable($listValueOnPage, $tempTableName);
@@ -129,12 +128,11 @@ class AbsenceController extends Controller
         $listConfirm->setPath('');
         $param = (Input::except(['page', 'is_employee']));
         DB::unprepared(DB::raw("DROP TEMPORARY TABLE " . $tempTableName));
-
         return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO',
             'id', 'absenceStatus', 'param', 'confirmStatus'));
     }
 
-    public function confirmRequestAjax($id, Request $request)
+    public function confirmRequestAjax(Request $request)
     {
         if ($request->ajax()) {
             $typeConfirm = $request->type_confirm;

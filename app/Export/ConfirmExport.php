@@ -3,6 +3,7 @@
 namespace App\Export;
 use App\Models\AbsenceStatus;
 use App\Models\Confirm;
+use App\Models\Process;
 use App\Models\Role;
 use App\Models\Team;
 use App\Service\SearchConfirmService;
@@ -88,9 +89,9 @@ class ConfirmExport implements FromCollection,WithEvents, WithHeadings
                 });
         }
         $query->join('absences', 'absences.id', '=', 'confirms.absence_id')
-            ->join('employees', 'employees.id', '=', 'absences.employee_id')
-            ->join('processes', 'processes.employee_id', '=', 'employees.id')
-            ->join('projects', 'projects.id', '=', 'processes.project_id');
+            ->join('employees', 'employees.id', '=', 'absences.employee_id');
+//            ->join('processes', 'processes.employee_id', '=', 'employees.id')
+//            ->join('projects', 'projects.id', '=', 'processes.project_id');
         if (!empty($employee_name)) {
             $query->where('employees.name', 'like', '%'.$employee_name.'%');
         }
@@ -99,7 +100,7 @@ class ConfirmExport implements FromCollection,WithEvents, WithHeadings
 
         }
         if (!empty($project_id)) {
-            $query->where('projects.id', '=', $project_id);
+            $query->where('confirms.project_id', '=', $project_id);
 
         }
         if (!empty($absence_type)) {
@@ -128,8 +129,8 @@ class ConfirmExport implements FromCollection,WithEvents, WithHeadings
 
         $confirmSearch = $query->
             where('confirms.employee_id', '=', $po_id)
-                ->where('confirms.is_process', '=', 1)
-                    ->where('confirms.delete_flag', '=', 0)
+                ->where('confirms.project_id', '!=', null)
+                ->where('confirms.delete_flag', '=', 0)
                 ->orderBy('confirms.id', 'desc')
                 ->paginate($this->request['number_record_per_page'], ['confirms.*']);
 
@@ -144,10 +145,34 @@ class ConfirmExport implements FromCollection,WithEvents, WithHeadings
             $arrayList[$i] = array();
             $arrayList[$i]['employee_name'] = $item->absence->employee->name;
             $arrayList[$i]['email'] = $item->absence->employee->email;
-            $projects = $item->absence->employee->projects;
-            foreach ($projects as $project){
-                $process = $project->processes->where('employee_id', '=', $po_id)->where('role_id', '=', $idPO);
-                if($process->isNotEmpty()) $arrayList[$i]['project'] = $project->name;
+
+//            $currentTime = date('Y-m-d H:m:s');
+//            $timeBeforeTwoWeek = strtotime($currentTime) - 2*7*24*60*60;
+//            $timeBeforeTwoWeek = date('Y-m-d H:m:s', $timeBeforeTwoWeek);
+//            $projects = Process::select('processes.project_id', 'projects.name')
+//                ->join('projects', 'projects.id', '=', 'processes.project_id')
+//                ->where('processes.employee_id', '=', $po_id)
+//                ->where('processes.role_id', '=', $idPO)
+//                ->where('processes.delete_flag', '=', '0')
+//                ->where('processes.start_date', '<=', $currentTime)
+//                ->where('processes.end_date', '>=', $timeBeforeTwoWeek)
+//                ->get();
+//            foreach ($projects as $project){
+//                $processes = Process::where('project_id', '=', $project->project_id)
+//                    ->where('delete_flag', '=', 0)
+//                    ->where('employee_id', '=', $item->absence->employee->id)
+//                    ->get();
+//                if($processes->isNotEmpty()) {
+//                    $arrayList[$i]['project'] = $project->name;
+//                    break;
+//                }
+//            }
+//            if(!isset($arrayList[$i]['project'])) $arrayList[$i]['project'] = '-';
+
+            if(isset($item->project)){
+                $arrayList[$i]['project'] = $item->project->name;
+            } else {
+                $arrayList[$i]['project'] = '-';
             }
             $arrayList[$i]['from_date'] = $item->absence->from_date;
             $arrayList[$i]['to_date'] = $item->absence->to_date;
