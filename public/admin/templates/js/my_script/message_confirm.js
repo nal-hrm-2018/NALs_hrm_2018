@@ -1,12 +1,12 @@
 function message_confirm(action, attr, id, name){
-    var language = $('#language_active').attr('title');
-    if(language == "English"){
+    var language = $('#language_active').attr('lang');
+    if(language == 'en'){
         if(id == "" || name == ""){
             return 'Do you want to '+ action +' this ' + attr + '?';
         } else {
             return 'Do you want to '+ action +' this ' + attr + ' has ID: ' + id + ', Name: ' + name + ' ?';
         }
-    } else if(language == "Vietnamese"){
+    } else if(language == 'vn'){
         if(id == "" || name == ""){
             return 'Bạn có muốn ' + action + ' ' + attr + ' này không?';
         } else {
@@ -15,14 +15,14 @@ function message_confirm(action, attr, id, name){
     }
 }
 function message_confirm_add(action, attr, name) {
-    var language = $('#language_active').attr('title');
-    if(language == "English"){
+    var language = $('#language_active').attr('lang');
+    if(language == 'en'){
         if(name == ""){
             return 'Do you want to '+ action +' this ' + attr + '?';
         } else {
             return 'Do you want to '+ action +' this ' + attr + ' has Name: ' + name + ' ?';
         }
-    } else if(language == "Vietnamese"){
+    } else if(language == 'vn'){
         if(name == ""){
             return 'Bạn có muốn ' + action + ' ' + attr + ' này không?';
         } else {
