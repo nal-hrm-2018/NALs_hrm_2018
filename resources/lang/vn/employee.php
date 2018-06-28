@@ -46,7 +46,8 @@ return[
             'quited'=>'Nghỉ việc',
         ],
         'avatar'=>'Ảnh đại diện',
-        'position'=>'Loại hợp đồng',
+
+        'position'=>'Loại Hợp đồng',
         'start_work'=>'Ngày Bắt Đầu Làm',
         'end_work'=>'Ngày Kết Thúc Làm',
         'today'=>'Ngày Hiện Tại',

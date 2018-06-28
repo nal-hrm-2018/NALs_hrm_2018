@@ -258,9 +258,26 @@ function checkPOinProject($processes)
     return false;
 }
 function selectConfirm($id_absence){
-    $objConfirm = Confirm::select()
-            ->where('absence_id',$id_absence)->first();
-    return $objConfirm;
+    $listConfirm = Confirm::select('*', 'employees.name AS nameEmployee', 'confirms.reason AS reasonAbsence')
+            ->join('employees', 'employees.id', '=', 'confirms.employee_id')
+            ->join('absence_statuses', 'absence_statuses.id', '=', 'confirms.absence_status_id')
+            ->where('confirms.absence_id',$id_absence)
+            ->where('confirms.delete_flag',0)
+            ->where('confirms.absence_status_id',2)
+            ->get();
+    return $listConfirm;
+}
+function selectConfirmByID(){
+    $id = Auth::user()->id;
+    $listConfirm = Confirm::select('*', 'employees.name AS nameEmployee', 'confirms.reason AS reasonAbsence')
+            ->join('employees', 'employees.id', '=', 'confirms.employee_id')
+            ->join('absence_statuses', 'absence_statuses.id', '=', 'confirms.absence_status_id')
+            ->join('absences', 'absences.id', '=', 'confirms.absence_id')
+            ->where('confirms.delete_flag',0)
+            ->where('absences.employee_id',$id)
+            ->where('confirms.absence_status_id',2)
+            ->get();
+    return $listConfirm;
 }
 
 function getRemainingDate($dayoff,$total){

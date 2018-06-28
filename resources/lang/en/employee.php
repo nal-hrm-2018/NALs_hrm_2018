@@ -46,7 +46,8 @@ return[
             'quited'=>'Quited',
         ],
         'avatar'=>'Avatar',
-        'position'=>'Policy type',
+
+        'position'=>'Policy Type',
         'start_work'=>'Start Work Date',
         'end_work'=>'End Work Date',
         'today'=>'Today',

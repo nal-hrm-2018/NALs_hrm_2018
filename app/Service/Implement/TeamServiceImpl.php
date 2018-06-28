@@ -83,8 +83,6 @@ class TeamServiceImpl extends CommonService
                 $objPoOld -> is_manager = 0;
                 $objPoOld -> save();
             }
-            
-
 
             //list member
             $listMember = $request->employee;
@@ -116,6 +114,7 @@ class TeamServiceImpl extends CommonService
                         }
                     }
                 }
+
                 //update PO
                 $poId = $request->po_name;
                 if($poId > 0){
