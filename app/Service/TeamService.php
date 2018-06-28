@@ -13,5 +13,5 @@ use App\Http\Requests\TeamEditRequest;
 interface TeamService
 {
     public function addNewTeam( $Request);
-    public function updateTeam( TeamEditRequest $request, $id);
+    public function updateTeam(  $request, $id);
 }
