@@ -22,6 +22,7 @@ return [
             'type' => 'Type',
             'reason'=>'Cause',
             'note'=>'Note',
+            'action'=>'Action',
             'status'=>'Status',
             'note_po'=>'Reject Cause'
         ],

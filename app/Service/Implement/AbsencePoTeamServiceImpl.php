@@ -10,6 +10,7 @@ namespace App\Service\Implement;
 
 
 use App\Models\Confirm;
+use App\Models\Employee;
 use App\Service\AbsencePoTeamService;
 use http\Exception;
 use Illuminate\Http\Request;
@@ -78,7 +79,14 @@ class AbsencePoTeamServiceImpl implements AbsencePoTeamService
     public function searchAbsence(Request $request, $idLogged)
     {
         $query = Confirm::where('employee_id', $idLogged);
-
+        $poTeamEmployee = Employee::where('id',$idLogged);
+        $teamOfPOTeam = $poTeamEmployee->first()->team_id;
+        $query
+            ->whereHas('absence', function ($query) use ($teamOfPOTeam) {
+                $query->whereHas('employee', function ($query) use ($teamOfPOTeam) {
+                    $query->where("team_id", $teamOfPOTeam);
+                });
+            });
         if (!isset($this->request['number_record_per_page'])) {
             $this->$request['number_record_per_page'] = config('settings.paginate');
         }
