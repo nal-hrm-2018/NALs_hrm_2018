@@ -308,7 +308,7 @@ function displayNumberAbsenceRedundancyByYear($numberAbsenceRedundancyOfYearOld,
 function getJsonObjectAbsenceHrList($employees,$absenceService){
     $object = [];
     foreach($employees as $employee){
-        //list tat ca don nghi cua 1 employee
+        //list tat ca don nghi cua 1 employee ( chon thang -> tra ve don nghi trong thang do , chon nam tra ve don nghi trong nam do)
         $listAbsence=$absenceService->getListNumberOfDaysOff(
             $employee->id,empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
             empty(request()->get('month_absence'))?null:request()->get('month_absence'),
@@ -319,7 +319,7 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             $employee->id,
             empty(request()->get('year_absence'))?((int)date('Y')-1):((int)request()->get('year_absence')-1)
         );
-        // so ngay nghi tu ngay bat dau hop dong den ngay input
+        // so ngay nghi tu ngay bat dau hop dong den ngay input (neu thang nhap vao = null thi tra ve null )
         $numberDaysOffFromTo= $absenceService->getNumberDaysOffFromTo(
             $employee,
             empty(request()->get('month_absence'))?null:request()->get('month_absence'),
@@ -327,7 +327,7 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             getAbsenceType(config('settings.status_common.absence_type.salary_date')),
             getAbsenceStatuses(config('settings.status_common.absence.accepted'))
         );
-        //tong ngay nghi truoc thang 7
+        //tong ngay nghi truoc thang 7 (lay tu ngay bat dau hop dong den thang 7)
         $numberOfDaysOffBeforeJuly = $absenceService->getNumberDaysOffFromTo(
             $employee,
             7,
@@ -335,7 +335,7 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             getAbsenceType(config('settings.status_common.absence_type.salary_date')),
             getAbsenceStatuses(config('settings.status_common.absence.accepted'))
         );
-        // tong so ngay duoc nghi trong 1 nam cua 1 employee
+        // tong so ngay duoc nghi cua employee ( neu thang = null >> tra ve tong ngay duoc nghi trong nam , thang != null tra ve tong ngay duoc nghi tu stat den thang input)
         $totalDateAbsences=$absenceService->totalDateAbsences(
             $employee,
             empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
@@ -344,7 +344,7 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             $numberDaysOffFromTo,
             $numberOfDaysOffBeforeJuly
         );
-        // tong ngay nghi co dinh cua employee trong 1 nam
+        // tong ngay nghi co dinh cua employee trong 1 nam (tong ngay nghi cua ca nam cua 1 employee)
         $totalDefaultDateAbsences = $absenceService->absenceDateOnYear(
                 $employee->id,
                 empty(request()->get('year_absence')) ? date('Y') : request()->get('year_absence')) +
@@ -354,7 +354,7 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
                 empty(request()->get('year_absence')) ? date('Y') : request()->get('year_absence')
             );
 
-        // tong ngay da nghi phep cua employee theo nam , thang
+        // tong ngay da nghi phep cua employee (thang = null tong ngay da nghi ca nam , thang != nul tong ngay da nghi tu stat den thang input)
         $salaryDaysOff = $absenceService->numberOfDaysOff(
             $listAbsence,
             empty(request()->get('year_absence')) ? date('Y') : request()->get('year_absence'),
