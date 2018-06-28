@@ -97,7 +97,6 @@ class TeamServiceImpl extends CommonService
                     return false;
                 }
             }
-
             //list member
             $listMember = $request->employee;
 
@@ -108,15 +107,18 @@ class TeamServiceImpl extends CommonService
                 ->where('roles.name', '<>', 'PO')
                 ->where('team_id', $id)
                 ->where('delete_flag',0)->get();
+                dd("123");
                 //update member in team remove
                 if($listMemberInTeams != null){
                     foreach ($listMemberInTeams as $objMemberInTeams){
+                        dd("123");
                         $check = true;
                         foreach ($listMember as $objMember){
                             if($objMemberInTeams->id == $objMember){
                                 $check = false;
                             }
                         }
+                        dd("123");
                         if($check){
                             $objMemberById = Employee::where('delete_flag',0)->find($objMemberInTeams->id);
                             if ($objMemberById == null) {
@@ -129,6 +131,7 @@ class TeamServiceImpl extends CommonService
                         }
                     }
                 }
+
                 //update list member
                 foreach ($listMember as $objMember){
                     $objMemberById = Employee::where('delete_flag',0)->find($objMember);

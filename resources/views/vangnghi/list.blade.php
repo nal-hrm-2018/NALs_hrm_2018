@@ -200,13 +200,30 @@
                                             </td>
                                             <td>
 
-                                                <?php 
-                                                    if($obj->name_status == "rejected"){
-                                                        echo selectConfirm($obj->id)->reason;
-                                                    }else{
+                                                <?php
+                                                    $count = 0;
+                                                    $listConfirm = selectConfirm($obj->id);
+                                                    if(count($listConfirm) > 0){
+                                                        foreach ($listConfirm as $objConfirm){
+                                                            if(sizeof($listConfirm)>0 && sizeof($listConfirm)<=2){
+                                                                echo '<p>PO '.$objConfirm->nameEmployee.': '.$objConfirm->reasonAbsence.'</p>';
+                                                            } else if(sizeof($listConfirm)>2){
+                                                                echo '<p>PO '.$objConfirm->nameEmployee.': '.$objConfirm->reasonAbsence;
+                                                                if($count == 1){
+                                                                    echo '<a href="#" class="show-list-confirms"
+                                                                id="show-list-confirms-'. $obj->id .'" data-toggle="modal"
+                                                                data-target="#show-list-confirms" style="color: red"> [...]</a></p>';
+                                                                    break;
+                                                                }
+                                                                $count++;
+                                                            } else {
+                                                                echo '-';
+                                                            }
+                                                        }
+                                                    } else{
                                                         echo "-";
                                                     }
-                                                    
+
                                                 ?>
                                             </td>
                                             <td>
@@ -245,6 +262,34 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div id="show-list-confirms" class="modal fade" role="dialog">
+                            <div class="modal-dialog" style="width: 400px">
+                                <!-- Modal content-->
+                                <div class="modal-content" >
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><th>Lý do từ chối: <span id="team_name_modal"></span></th></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table id="member-list" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>PO</th>
+                                                <th>Lý do</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="context-menu" id="table-list-confirms">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -337,7 +382,8 @@
                         }
                         document.getElementById("hanphep").innerHTML = "";
                     }
-
+        
+                    document.getElementById("soNgayNghiKhongLuong").innerHTML = msg.aAbsences['soNgayNghiKhongLuong'];
                     document.getElementById("soNgayNghiTruLuong").innerHTML = msg.aAbsences['soNgayNghiTruLuong'];
                     document.getElementById("soNgayNghiBaoHiem").innerHTML = msg.aAbsences['soNgayNghiBaoHiem'];
 
@@ -367,7 +413,43 @@
                             class_status = "label label-danger";
                         }
                         listAbsence += "<td><span class=\""+class_status+"\">"+msg.aListAbsence[key].name_status+"</span></td>";
-                        listAbsence += "<td>"+msg.aListAbsence[key].confirm+"</td>";
+
+                        var count = 0;
+                        var reason = "";
+                        if(msg.listConfirm.length > 0){
+                            for (var key1 in msg.listConfirm){
+                                if(msg.listConfirm[key1].absence_id == msg.aListAbsence[key].idAbsence){
+                                    count++;
+                                }
+                            }
+                            var count1 = 0;
+                            if(count > 0){
+                                for (var key1 in msg.listConfirm){
+                                    if(msg.listConfirm[key1].absence_id == msg.aListAbsence[key].idAbsence){
+                                        if(count > 0 && count <= 2){
+                                            reason += "<p>PO "+msg.listConfirm[key1].nameEmployee+": "+msg.listConfirm[key1].reasonAbsence+"</p>";
+                                        }else if(count >2){
+                                            reason += "<p>PO "+msg.listConfirm[key1].nameEmployee+": "+msg.listConfirm[key1].reasonAbsence;
+                                            if(count1 == 1){
+                                                reason += "<a href='' onclick='clickConfirm("+msg.aListAbsence[key].idAbsence+")' class='show-list-confirms'"+
+                                                "id='show-list-confirms-"+ msg.aListAbsence[key].idAbsence +"'  data-toggle='modal'"+
+                                                "data-target='#show-list-confirms' style='color: red'> [...]</a></p>";
+                                                    break;
+                                            }
+                                            count1 ++;
+                                        }else{
+                                            reason = "-";
+                                        }
+                                    }
+                                }
+                            }else{
+                                reason = "-";
+                            }
+                        }else{
+                            reason = "-";
+                        }
+                        
+                        listAbsence += "<td>"+reason+"</td>";
   
                         listAbsence +="<td>";
                         if(msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.waiting')}}"){
@@ -389,6 +471,41 @@
             });
         } 
 
+    </script>
+    <script>
+        $('.show-list-confirms').click(function () {
+            var id = $(this).attr('id');
+            var id_absence = id.slice(19);
+            <?php
+                $listConfirm = selectConfirmByID();
+            ?>
+            var listReason = "";
+            document.getElementById("table-list-confirms").innerHTML = "";
+            @foreach($listConfirm as $obj)
+                if("{{$obj->absence_id}}" == id_absence){
+                    listReason += "<tr><td>{{$obj->nameEmployee}}</td>"
+                                    + "<td>{{$obj->reasonAbsence}}</td></tr>";
+                }
+            @endforeach
+            document.getElementById("table-list-confirms").innerHTML = listReason;
+        });
+    </script>
+    <script>
+        function clickConfirm(id) {
+            var id_absence = id;
+            <?php
+                $listConfirm = selectConfirmByID();
+            ?>
+            var listReason = "";
+            document.getElementById("table-list-confirms").innerHTML = "";
+            @foreach($listConfirm as $obj)
+                if("{{$obj->absence_id}}" == id_absence){
+                    listReason += "<tr><td>{{$obj->nameEmployee}}</td>"
+                                    + "<td>{{$obj->reasonAbsence}}</td></tr>";
+                }
+            @endforeach
+            document.getElementById("table-list-confirms").innerHTML = listReason;
+        };
     </script>
     <style>
         #contain-canvas{
