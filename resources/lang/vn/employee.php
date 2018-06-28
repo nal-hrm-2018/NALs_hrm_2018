@@ -37,7 +37,7 @@ return[
             'divorced'=>'Ly hôn'
         ],
         'team'=>'Team',
-        'role'=>'Chức vụ',
+        'role'=>'Vị trí',
         'policy_date'=>'Hạn hợp đồng',
         'policy_status'=>[
             'title'=>'Tình trạng hợp đồng',
@@ -46,7 +46,7 @@ return[
             'quited'=>'Nghỉ việc',
         ],
         'avatar'=>'Ảnh đại diện',
-        'position'=>'Loại Nhân Viên',
+        'position'=>'Loại hợp đồng',
         'start_work'=>'Ngày Bắt Đầu Làm',
         'end_work'=>'Ngày Kết Thúc Làm',
         'today'=>'Ngày Hiện Tại',
