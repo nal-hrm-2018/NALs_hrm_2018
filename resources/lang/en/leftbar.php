@@ -20,10 +20,10 @@ return[
             'vendor' => 'List Vendor',
             'team' => 'List Team',
             'project' => 'List Project',
-            'absence_po'=>'List Absence with PO Team',
+            'absence_po'=>'List Absence for PO Team',
             'absence' => 'List Absence',
-            'absences_hr'=>'List Absence with HR',
-            'absences_po_project'=>'List Absence with PO Project',
+            'absences_hr'=>'List Absence for HR',
+            'absences_po_project'=>'List Absence for PO Project',
 
         ],
         'add'=>[
