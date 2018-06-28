@@ -100,7 +100,6 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $temp_list->absence_status_id = $item->absence_status_id;
             $temp_list->absence_id = $item->absence_id;
             $temp_list->employee_id = $item->employee_id;
-            $temp_list->is_process = $item->is_process;
             $temp_list->project_id = $item->project_id;
             $temp_list->save();
         }
