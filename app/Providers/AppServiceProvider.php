@@ -4,17 +4,11 @@ namespace App\Providers;
 
 use App\Service\AbsenceFormService;
 use App\Service\AbsenceService;
-use App\Service\AbsencePoTeamService;
 use App\Service\ChartService;
 use App\Service\Implement\AbsenceFormServiceImpl;
-use App\Service\Implement\AbsencePoTeamServiceImpl;
 use App\Service\Implement\ChartServiceImpl;
-
-
-use App\Service\Implement\SearchProjectServiceImpl;
 use App\Service\Implement\SearchConfirmServiceImpl;
 use App\Service\SearchConfirmService;
-use App\Service\SearchProjectService;
 use App\Service\Implement\AbsenceServiceImpl;
 use App\Service\Implement\ProjectServiceImpl;
 use App\Service\Implement\SearchServiceImpl;
@@ -24,6 +18,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
 use App\Service\SearchService;
 use App\Service\TeamService;
+use App\Service\ExtraAbsenceDateService;
+use App\Service\Implement\ExtraAbsenceDateImpl;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -50,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         App::bind(AbsenceService::class, AbsenceServiceImpl::class);
         App::bind(SearchConfirmService::class, SearchConfirmServiceImpl::class);
         App::bind(AbsenceFormService::class, AbsenceFormServiceImpl::class);
+        App::bind(ExtraAbsenceDateService::class, ExtraAbsenceDateImpl::class);
 
     }
 }

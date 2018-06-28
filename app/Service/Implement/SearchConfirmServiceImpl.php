@@ -44,9 +44,9 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $confirm_status = $value['confirm_status'];
         }
         $query->join('absences', 'absences.id', '=', 'confirms.absence_id')
-            ->join('employees', 'employees.id', '=', 'absences.employee_id')
-            ->join('processes', 'processes.employee_id', '=', 'employees.id')
-            ->join('projects', 'projects.id', '=', 'processes.project_id');
+            ->join('employees', 'employees.id', '=', 'absences.employee_id');
+//            ->join('processes', 'processes.employee_id', '=', 'employees.id')
+//            ->join('projects', 'projects.id', '=', 'processes.project_id');
         if (!empty($employee_name)) {
             $query->where('employees.name', 'like', '%'.$employee_name.'%');
         }
@@ -55,7 +55,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
 
         }
         if (!empty($project_id)) {
-            $query->where('projects.id', '=', $project_id);
+            $query->where('confirms.project_id', '=', $project_id);
 
         }
         if (!empty($absence_type)) {
@@ -78,7 +78,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $query->where('confirms.absence_status_id', '=', $confirm_status);
         }
         $query = $query->where('confirms.employee_id', '=', $id)
-            ->where('confirms.is_process', '=', 1)
+            ->where('confirms.project_id', '!=', null)
             ->where('confirms.delete_flag', '=', 0)
             ->orderBy('confirms.id', 'desc');
         return $query;
@@ -101,6 +101,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $temp_list->absence_id = $item->absence_id;
             $temp_list->employee_id = $item->employee_id;
             $temp_list->is_process = $item->is_process;
+            $temp_list->project_id = $item->project_id;
             $temp_list->save();
         }
     }
