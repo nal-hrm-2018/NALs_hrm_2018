@@ -364,7 +364,11 @@ class AbsenceController extends Controller
     public function show($id, Request $request)
     {
         $dateNow = new DateTime;
-        $objEmployee = Employee::find($id);
+        $objEmployee = Employee::select('*','teams.name AS nameTeam', 'employees.name AS nameEmployee', 'employees.id AS idEmployee')
+                    ->join('teams','teams.id','=','employees.team_id')
+                    ->where('employees.id',$id)
+                    ->where('employees.delete_flag',0)
+                    ->first();
         $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
         $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
         if((int)$dateNow->format("Y") <= $endwork_date){
@@ -453,7 +457,7 @@ class AbsenceController extends Controller
                         ->orWhereYear('absences.to_date', $year);
                 })
                 ->get();
-        return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
+        return view('absences.detail', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
     }
 
     public function edit($id)

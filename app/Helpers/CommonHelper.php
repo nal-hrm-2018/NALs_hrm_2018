@@ -279,20 +279,6 @@ function selectConfirmByID(){
             ->get();
     return $listConfirm;
 }
-function getSalaryDate($absenceService,$total,$listAbsence, $year_absence, $month_absence)
-{
-    $dayoff = $absenceService->numberOfDaysOff(
-        $listAbsence,
-        $year_absence,
-        $month_absence,
-        getAbsenceType(config('settings.status_common.absence_type.salary_date'))
-    );
-    if (($total - $dayoff) < 0) {
-        return $total;
-    } else {
-        return $dayoff;
-    }
-}
 
 function getRemainingDate($dayoff,$total){
 
@@ -303,13 +289,6 @@ function getRemainingDate($dayoff,$total){
     }
 }
 
-function getSubtractSalaryDate($dayoff,$total){
-    if(($total-$dayoff)<0){
-        return $dayoff-$total;
-    }else{
-        return 0;
-    }
-}
 // kiem tra ngay het han hop dong
 function checkExpiredPolicy($employee_id , $year ,$month){
     $employee = Employee::find($employee_id);
@@ -327,29 +306,8 @@ function checkExpiredPolicy($employee_id , $year ,$month){
     return false;
 }
 
-function getNumberDaysOffFromTo($absenceService,$employee,$year,$month){
-    if(!empty($month)){
-        $start_work_date = Carbon::parse($employee->startwork_date);
-        if ((int)$start_work_date->year < $year) {
-            $start_work_date = 1;
-        }else{
-            $start_work_date=$start_work_date->month;
-        }
-        //lay so ngay da nghi from to
-        return $absenceService->getNumberDaysOffFromTo(
-            $employee->id,
-            $start_work_date,
-            $month, $year,
-            getAbsenceType(config('settings.status_common.absence_type.salary_date')),
-            getAbsenceStatuses(config('settings.status_common.absence.accepted'))
-        );
-    }else{
-        return null;
-    }
-}
-
 function displayNumberAbsenceRedundancyByYear($numberAbsenceRedundancyOfYearOld,$numberDaysOffFromTo,$month){
-    if(empty($numberDaysOffFromTo)){
+    if(empty($month)){
         return $numberAbsenceRedundancyOfYearOld;
     }else{
         if($month<7){
@@ -378,12 +336,21 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             $employee->id,
             empty(request()->get('year_absence'))?((int)date('Y')-1):((int)request()->get('year_absence')-1)
         );
-        // so ngay nghi tu ngay from den ngay to
-        $numberDaysOffFromTo= getNumberDaysOffFromTo(
-            $absenceService,
+        // so ngay nghi tu ngay bat dau hop dong den ngay input
+        $numberDaysOffFromTo= $absenceService->getNumberDaysOffFromTo(
             $employee,
+            empty(request()->get('month_absence'))?null:request()->get('month_absence'),
             empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
-            empty(request()->get('month_absence'))?null:request()->get('month_absence')
+            getAbsenceType(config('settings.status_common.absence_type.salary_date')),
+            getAbsenceStatuses(config('settings.status_common.absence.accepted'))
+        );
+        //tong ngay nghi truoc thang 7
+        $numberOfDaysOffBeforeJuly = $absenceService->getNumberDaysOffFromTo(
+            $employee,
+            7,
+            empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
+            getAbsenceType(config('settings.status_common.absence_type.salary_date')),
+            getAbsenceStatuses(config('settings.status_common.absence.accepted'))
         );
         // tong so ngay duoc nghi trong 1 nam cua 1 employee
         $totalDateAbsences=$absenceService->totalDateAbsences(
@@ -391,17 +358,28 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
             empty(request()->get('month_absence'))?null:request()->get('month_absence'),
             $numberAbsenceRedundancyOfYearOld,
-            $numberDaysOffFromTo
+            $numberDaysOffFromTo,
+            $numberOfDaysOffBeforeJuly
         );
-        // tong ngay da nghi phep cua employee
-        $salaryDaysOff = getSalaryDate(
-            $absenceService,
-            $totalDateAbsences,
+        // tong ngay nghi co dinh cua employee trong 1 nam
+        $totalDefaultDateAbsences = $absenceService->absenceDateOnYear(
+                $employee->id,
+                empty(request()->get('year_absence')) ? date('Y') : request()->get('year_absence')) +
+            $absenceService->numberAbsenceAddPerennial
+            (
+                $employee->id,
+                empty(request()->get('year_absence')) ? date('Y') : request()->get('year_absence')
+            );
+
+        // tong ngay da nghi phep cua employee theo nam , thang
+        $salaryDaysOff = $absenceService->numberOfDaysOff(
             $listAbsence,
             empty(request()->get('year_absence')) ? date('Y') : request()->get('year_absence'),
-            empty(request()->get('month_absence')) ? null : request()->get('month_absence')
-        ) ;
+            empty(request()->get('month_absence')) ? null : request()->get('month_absence'),
+            getAbsenceType(config('settings.status_common.absence_type.salary_date'))
+        );
 
+        //------------------
         $item = [];
         $item['id']=isset($employee->id)? $employee->id: "";
         $item[trans('common.name.employee_name')]=isset($employee->name)? $employee->name: "-";
@@ -410,11 +388,17 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
         $item[trans('absence.last_year_absences_date')]=displayNumberAbsenceRedundancyByYear(
             $numberAbsenceRedundancyOfYearOld,
             $numberDaysOffFromTo,
-            empty(request()->get('month_absence'))?date('m'):request()->get('month_absence')
+            empty(request()->get('month_absence'))?null:request()->get('month_absence')
         );
 
-        $item[trans('absence.absented_date')]=$salaryDaysOff;
-
+        $item[trans('absence.absented_date')]=$absenceService->getSalaryDate(
+            $salaryDaysOff,
+            $totalDefaultDateAbsences,
+            $numberOfDaysOffBeforeJuly,
+            $numberAbsenceRedundancyOfYearOld,
+            empty(request()->get('month_absence'))?null:request()->get('month_absence'),
+            $totalDateAbsences
+        ) ;
         $item[trans('absence.non_salary_date')]= $absenceService->numberOfDaysOff(
             $listAbsence,
             empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
@@ -427,8 +411,12 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
             empty(request()->get('month_absence'))?null:request()->get('month_absence'),
             getAbsenceType(config('settings.status_common.absence_type.insurance_date'))
         );
-        $item[trans('absence.subtract_salary_date')]=getSubtractSalaryDate(
+        $item[trans('absence.subtract_salary_date')]=$absenceService->getSubtractSalaryDate(
             $salaryDaysOff,
+            $totalDefaultDateAbsences,
+            $numberOfDaysOffBeforeJuly,
+            $numberAbsenceRedundancyOfYearOld,
+            empty(request()->get('month_absence'))?null:request()->get('month_absence'),
             $totalDateAbsences
         );
         $item[trans('absence.remaining_date')]=getRemainingDate(
