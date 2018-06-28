@@ -32,8 +32,8 @@ return [
         ],
         'status'=>[
             config('settings.status_common.absence.waiting')=>'Đang xử lý',
-            config('settings.status_common.absence.accepted')=>'Đồng ý nghỉ',
-            config('settings.status_common.absence.rejected')=>'Không được nghỉ',
+            config('settings.status_common.absence.accepted')=>'Được Nghỉ',
+            config('settings.status_common.absence.rejected')=>'Không Được Nghỉ',
             'accepted_done'=>'Đồng ý nghỉ',
 //            'accepted_deny'=>'Đồng ý hủy',
             'no_accepted_done'=>'Không được nghỉ',

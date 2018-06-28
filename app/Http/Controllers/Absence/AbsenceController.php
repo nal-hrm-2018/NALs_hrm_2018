@@ -98,8 +98,9 @@ class AbsenceController extends Controller
     }
 
 
-    public function confirmRequest($id, Request $request)
+    public function confirmRequest(Request $request)
     {
+        $id = Auth::user()->id;
         $absenceType = AbsenceType::where('name', '!=',
             config('settings.status_common.absence_type.subtract_salary_date'))->get();
         $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
@@ -109,18 +110,16 @@ class AbsenceController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
 
-        $currentTime = date('Y-m-d H:m:s');
-        $timeBeforeTwoWeek = strtotime($currentTime) - 2*7*24*60*60;
-        $timeBeforeTwoWeek = date('Y-m-d H:m:s', $timeBeforeTwoWeek);
-        $projects = Process::select('processes.project_id', 'projects.name')
-            ->join('projects', 'projects.id', '=', 'processes.project_id')
-            ->where('processes.employee_id', '=', $id)
-            ->where('processes.role_id', '=', $idPO)
-            ->where('processes.delete_flag', '=', '0')
-            ->where('processes.start_date', '<=', $currentTime)
-            ->where('processes.end_date', '>=', $timeBeforeTwoWeek)
-            ->get();
 
+        $projects = Confirm::select('confirms.project_id', 'projects.name')
+            ->distinct('confirms.project_id')
+            ->join('projects', 'projects.id', '=', 'confirms.project_id')
+            ->where('confirms.project_id', '!=', null)
+            ->where('confirms.employee_id', '=', $id)
+            ->where('confirms.delete_flag', '=', 0)
+            ->where('projects.delete_flag', '=', 0)
+            ->orderBy('confirms.project_id', 'desc')
+            ->get();
         $listValueOnPage = $this->searchConfirmService->searchConfirm($request, $id)->get();
         $tempTableName = 'temp_list_confirm';
         $this->searchConfirmService->createTempTable($listValueOnPage, $tempTableName);
@@ -129,12 +128,11 @@ class AbsenceController extends Controller
         $listConfirm->setPath('');
         $param = (Input::except(['page', 'is_employee']));
         DB::unprepared(DB::raw("DROP TEMPORARY TABLE " . $tempTableName));
-
         return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO',
             'id', 'absenceStatus', 'param', 'confirmStatus'));
     }
 
-    public function confirmRequestAjax($id, Request $request)
+    public function confirmRequestAjax(Request $request)
     {
         if ($request->ajax()) {
             $typeConfirm = $request->type_confirm;
@@ -368,7 +366,101 @@ class AbsenceController extends Controller
 
     public function show($id, Request $request)
     {
+        $dateNow = new DateTime;
+        $objEmployee = Employee::select('*','teams.name AS nameTeam', 'employees.name AS nameEmployee', 'employees.id AS idEmployee')
+                    ->join('teams','teams.id','=','employees.team_id')
+                    ->where('employees.id',$id)
+                    ->where('employees.delete_flag',0)
+                    ->first();
+        $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
+        $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
+        if((int)$dateNow->format("Y") <= $endwork_date){
+            $endwork_date = (int)$dateNow->format("Y");
+        }
 
+        $status = AbsenceStatus::select()->where('name','accepted')->first();
+        $type = AbsenceType::select()->where('name','salary_date')->first();
+
+        $year = 0;
+        if((int)$dateNow->format('Y') < $endwork_date){
+             $year = $dateNow->format('Y');
+        }else{
+            $year = $endwork_date;
+        }
+
+        $abc = new \App\Absence\AbsenceService();
+
+        $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
+        $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
+        if($soNgayPhepDu > 5){
+            $soNgayPhepDu = 5;
+        }
+        $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
+
+
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);// tong ngay da nghi phep ( bao gom ngay nghi co luong va` tru luong)
+
+        $soNgayTruPhepDu = $abc->subRedundancy($id, $year); // so ngay tru vao ngay phep du nam ngoai
+        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year); // so ngay tru vao ngay phep
+
+        if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
+            if($soNgayPhepConLai<0){
+                $soNgayPhepConLai=0;
+            }
+            $checkMonth = 1;
+        }else{
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
+            if($soNgayPhepConLai<0){
+                $soNgayPhepConLai=0;
+            }
+            $checkMonth = 0;
+        }
+        $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
+        if($soNgayPhepCoDinhConLai<0){
+            $soNgayPhepCoDinhConLai=0;
+        }
+        $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
+        if($soNgayTruPhepDuConLai<0){
+            $soNgayTruPhepDuConLai=0;
+        }
+
+        $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
+        $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $type = AbsenceType::select()->where('name','non_salary_date')->first();
+        $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $type = AbsenceType::select()->where('name','insurance_date')->first();
+        $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $absences = [
+                        "soNgayDuocNghiPhep"=>$tongSoNgayDuocNghi, 
+                        "soNgayNghiPhepCoDinh"=>$soNgayPhepCoDinh,
+                        "soNgayPhepDu"=>$soNgayPhepDu,
+                        "soNgayDaNghi"=>$tongSoNgayDaNghi,
+                        "truVaoPhepCoDinh"=>$soNgayTruPhepCoDinh,
+                        "truVaoPhepDu"=>$soNgayTruPhepDu,
+                        "soNgayConLai"=>$soNgayPhepConLai,
+                        "phepCoDinh"=>$soNgayPhepCoDinhConLai,
+                        "phepDu"=>$soNgayTruPhepDuConLai,
+                        "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
+                        "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
+                        "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
+                    ];
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
+            'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
+            'absences.absence_status_id')
+                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+                ->where('absences.delete_flag', 0)
+                ->where('absences.employee_id',$id)
+                ->where(function($listAbsence)use($year){
+                    $listAbsence->whereYear('absences.from_date', $year)
+                        ->orWhereYear('absences.to_date', $year);
+                })
+                ->get();
+        return view('absences.detail', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
     }
 
     public function edit($id)
@@ -522,7 +614,7 @@ class AbsenceController extends Controller
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
 
-        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absence_statuses.name AS confirm')
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id AS idAbsence')
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
@@ -535,14 +627,22 @@ class AbsenceController extends Controller
         foreach ($listAbsence as $value) {
             $value->name_type = trans('absence_po.list_po.type.'.$value->name_type);
             $value->name_status = trans('absence_po.list_po.status.'.$value->name_status);
-            if($value->name_status == trans('absence_po.list_po.status.rejected')){
+            /*if($value->name_status == trans('absence_po.list_po.status.rejected')){
                 $value->confirm = selectConfirm($value->id)->reason;
             }else{
                 $value->confirm = "-";
-            }
+            }*/
              
         }
-        return response(['aAbsences' => $absences, "aListAbsence" => $listAbsence, 'aCheckMonth' => $checkMonth]);
+        $listConfirm = Confirm::select('*', 'employees.name AS nameEmployee', 'confirms.reason AS reasonAbsence')
+            ->join('employees', 'employees.id', '=', 'confirms.employee_id')
+            ->join('absence_statuses', 'absence_statuses.id', '=', 'confirms.absence_status_id')
+            ->join('absences', 'absences.id', '=', 'confirms.absence_id')
+            ->where('confirms.delete_flag',0)
+            ->where('absences.employee_id',$id)
+            ->where('confirms.absence_status_id',2)
+            ->get();
+        return response(['aAbsences' => $absences, "aListAbsence" => $listAbsence, 'aCheckMonth' => $checkMonth, 'listConfirm'=>$listConfirm]);
     }
 
     public function exportAbsencePoTeam(Request $request)

@@ -62,7 +62,7 @@ class TeamServiceImpl extends CommonService
             return false;
         }
     }
-    public function updateTeam(TeamEditRequest $request, $id)
+    public function updateTeam( $request, $id)
     {
 
         try {
@@ -84,28 +84,12 @@ class TeamServiceImpl extends CommonService
                 $objPoOld -> save();
             }
             
-            //update PO            
-            $poId = $request->po_name;
-            if($poId > 0){
-                $objPoNew = Employee::where('delete_flag',0)->find($poId);
-                if($objPoNew != null){
-                    $objPoNew -> team_id = $id;
-                    $objPoNew -> is_manager  = 1;
-                    $objPoNew -> save();
-                }else{
-                    \Session::flash('msg_fail', trans('team.team_service.msg_fail1'));
-                    return false;
-                }
-            }
-
             //list member
             $listMember = $request->employee;
 
             if($listMember != null){
                 //list member in team
                 $listMemberInTeams = Employee::select('employees.id')
-                ->join('roles', 'roles.id', '=', 'employees.role_id')
-                ->where('roles.name', '<>', 'PO')
                 ->where('team_id', $id)
                 ->where('delete_flag',0)->get();
                 //update member in team remove
@@ -116,6 +100,7 @@ class TeamServiceImpl extends CommonService
                             if($objMemberInTeams->id == $objMember){
                                 $check = false;
                             }
+
                         }
                         if($check){
                             $objMemberById = Employee::where('delete_flag',0)->find($objMemberInTeams->id);
@@ -127,6 +112,20 @@ class TeamServiceImpl extends CommonService
                                 $objMemberById->save();
                             }
                         }
+                    }
+                }
+
+                //update PO
+                $poId = $request->po_name;
+                if($poId > 0){
+                    $objPoNew = Employee::where('delete_flag',0)->find($poId);
+                    if($objPoNew != null){
+                        $objPoNew -> team_id = $id;
+                        $objPoNew -> is_manager  = 1;
+                        $objPoNew -> save();
+                    }else{
+                        \Session::flash('msg_fail', trans('team.team_service.msg_fail1'));
+                        return false;
                     }
                 }
                 //update list member
