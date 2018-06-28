@@ -14,25 +14,15 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Absence List
+                Chi tiết vắng nghỉ
                 <small>Nal solution</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{asset('/absences')}}"> Absance</a></li>
-                <li><a href="#">List</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+                <li><a href="{{asset('/absences')}}"> Vắng nghỉ</a></li>
+                <li><a href="#">Chi tiết</a></li>
             </ol>
-        </section>
-        <section class="content-header">
-            <div>
-                <button type="button" class="btn btn-default">
-                    <a href=""><i class="fa fa-user-plus"></i>Đăng ký vắng nghỉ</a>
-                </button>
-
-            </div>
-            
-        </section>
-        
+        </section>       
 
         <div id="msg">
         </div>
@@ -43,6 +33,27 @@
                     <div class="box">
                         <!-- /.box-header -->
                         <div class="box-body">
+                            <div class="row" style="margin-left: 10px; ">
+                                <div>
+                                    <label style="font-size: 25px;">Họ và tên: {{$objEmployee->nameEmployee}}</label>
+                                </div>
+                                <div>
+                                    <label>Ngày sinh: {{$objEmployee->birthday}}</label>
+                                </div>
+                                <div>
+                                    @if($objEmployee->gender == 1)
+                                        <label>Giới tính: Nam</label>
+                                    @elseif($objEmployee->gender == 2)
+                                        <label>Giới tính: Nữ</label>
+                                    @else
+                                        <label>Giới tính: Khác</label>
+                                    @endif
+                                </div>
+                                <div>
+                                    <label>Team: {{$objEmployee->nameTeam}}</label>
+                                </div>
+                            </div>
+                            <br />
                             <div class="row" style="margin-left: 10px; ">
                                 <div class="form-group">
                                     <label>Chọn năm</label>
@@ -154,7 +165,6 @@
                                         <th>Ghi chú</th>
                                         <th>Trạng thái</th>
                                         <th>Lý do từ chối</th>
-                                        <th>Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu" id="listAbsence">
@@ -222,38 +232,6 @@
                                                         }
                                                     } else{
                                                         echo "-";
-                                                    }
-
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    $i = 0;
-                                                    foreach($obj->confirms as $confirm){
-                                                        if($confirm->absence_status_id == $idWaiting && $obj->is_deny == 0){
-                                                            $i++;
-                                                        }
-                                                    }
-                                                    if($i == sizeof($obj->confirms)) {
-                                                        echo '<div style="display: inline" id="div-edit-'. $obj->id .'">
-                                                                <button class="btn btn-default btn-edit" id="btn-edit-'. $obj->id .'">
-                                                                    <span style="color:blue"><i class="fa fa-edit"></i>Sửa</span>
-                                                                </button></div>';
-                                                    } else {
-                                                        echo '<div style="display: inline"><button class="btn btn-default disabled">
-                                                                    <span><i class="fa fa-edit"></i>Sửa</span>
-                                                                </button></div>';
-                                                    }
-
-                                                    if($obj->is_deny == 0 && $obj->absence_status_id != $idReject){
-                                                        echo '<div style="display: inline" id="div-cancel-'. $obj->id .'">
-                                                                <button class="btn btn-default btn-cancel" id="btn-cancel-'. $obj->id .'">
-                                                                    <span style="color:blue"><i class="fa fa-times"></i>Hủy</span>
-                                                                </button></div>';
-                                                    } else {
-                                                        echo '<div style="display: inline"><button class="btn btn-default disabled">
-                                                                    <span><i class="fa fa-times"></i>Hủy</span>
-                                                                </button></div>';
                                                     }
 
                                                 ?>
@@ -348,7 +326,7 @@
             year = document.getElementById("year").value;
             $.ajax({
                 type: "POST",
-                url: '{{ url('/absences') }}' + '/' + '{{ $objEmployee->id}}',
+                url: '{{ url('/absences') }}' + '/' + '{{ $objEmployee->idEmployee}}',
                 data: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -451,19 +429,6 @@
                         
                         listAbsence += "<td>"+reason+"</td>";
   
-                        listAbsence +="<td>";
-                        if(msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.waiting')}}"){
-                            listAbsence +="<button type=\"button\" class=\"btn btn-default\">"+
-                                            "<a href=\"\"><i class=\"fa fa-edit\"></i>Sửa</a></button>"+
-                                            "<button type=\"button\" class=\"btn btn-default\">"+
-                                            "<a href=\"\"><i class=\"fa fa-times\"></i>Hủy</a></button>";
-                        }else{
-                            listAbsence +="<button type=\"button\" class=\"btn btn-default disabled\">"+
-                                            "<a href=\"javascript:void(0)\"><i class=\"fa fa-edit\"></i>Sửa</a></button>"+
-                                            "<button type=\"button\" class=\"btn btn-default disabled\">"+
-                                            "<a href=\"javascript:void(0)\"><i class=\"fa fa-times\"></i>Hủy</a></button>";
-                        }
-                        listAbsence +="</td>";
                         listAbsence +="</tr>";
                     }                    
                     document.getElementById("listAbsence").innerHTML = listAbsence;

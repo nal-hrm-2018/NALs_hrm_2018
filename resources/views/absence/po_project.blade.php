@@ -85,7 +85,7 @@
                         <div id="demo" class="collapse">
                             <div class="modal-dialog">
                             {!! Form::open(
-                                ['url' =>route('confirmRequest',$id),
+                                ['url' =>route('confirmRequest'),
                                 'method'=>'GET',
                                 'id'=>'form_search_confirm'
                                 ]) !!}
@@ -259,6 +259,7 @@
                                 <th>{{trans('absence.confirmation.type')}}</th>
                                 <th>{{trans('absence.confirmation.cause')}}</th>
                                 <th>{{trans('absence.confirmation.description')}}</th>
+                                <th>{{trans('absence.confirmation.action')}}</th>
                                 <th>{{trans('absence.confirmation.status')}}</th>
                                 <th>{{trans('absence.confirmation.reject_cause')}}</th>
                             </tr>
@@ -275,19 +276,25 @@
                                     <td>{{$confirm->absence->employee->name}}</td>
                                     <td>{{$confirm->absence->employee->email}}</td>
                                     <td>
-
-                                        <?php
-                                        foreach ($projects as $project){
-                                            $processes = \App\Models\Process::where('project_id', '=', $project->project_id)
-                                                ->where('delete_flag', '=', 0)
-                                                ->where('employee_id', '=', $confirm->absence->employee->id)
-                                                ->get();
-                                            if($processes->isNotEmpty()) {
-                                                echo $project->name;
-                                                break;
-                                            }
-                                        }
-                                        ?>
+<!--                                        --><?php
+//                                        foreach ($projects as $project){
+//                                            $processes = \App\Models\Process::where('project_id', '=', $project->project_id)
+//                                                ->where('delete_flag', '=', 0)
+//                                                ->where('employee_id', '=', $confirm->absence->employee->id)
+//                                                ->get();
+//                                            if($processes->isNotEmpty()) {
+//                                                $project_name = $project->name;
+//                                                break;
+//                                            }
+//                                        }
+//                                        if(isset($project_name)){
+//                                            echo $project_name;
+//                                        } else {
+//                                            echo '-';
+//                                        }
+//                                        $project_name = null;
+//                                        ?>
+                                    {{isset($confirm->project)?$confirm->project->name:'-'}}
                                     </td>
                                     <td>{{$confirm->absence->from_date}}</td>
                                     <td>{{$confirm->absence->to_date}}</td>
@@ -301,6 +308,7 @@
                                         @endif
                                         >{{trans('absence_po.list_po.type.'.$confirm->absence->absenceType->name )}}</span></td>
                                     <td>{{$confirm->absence->reason}}</td>
+                                    <td>{{isset($confirm->absence->description)?$confirm->absence->description:'-'}}</td>
                                     <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)
                                             @if($confirm->absence->is_deny === 0)
@@ -438,7 +446,7 @@
         function ajaxConfirm(type_confirm, action_confirm, id_confirm, reason, id_td_button, id_td_description, id_td_reason) {
             $.ajax({
                 type: "POST",
-                url: '{{ url('/absences/po-project/'.$id) }}',
+                url: '{{ url('/absences/po-project/' . $id) }}',
                 data: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

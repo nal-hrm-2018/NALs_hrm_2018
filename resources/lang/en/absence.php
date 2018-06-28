@@ -26,6 +26,16 @@ return [
         'reject_cause'=>'Reject Cause',
         'absence_request'=>'Absence Request',
         'cancel_request'=>'Cancel Request',
+        'action'=>'Action'
     ],
+    'employee_status'=>[
+        'absence_waiting'=>'Absence Waiting',
+        'absence_accept'=>'Absence Accepted',
+        'absence_reject'=>'Absence Rejected',
+        'cancel_waiting'=>'Cancel Waiting',
+        'cancel_accept'=>'Cancel Accepted',
+        'cancel_reject'=>'Cancel Rejected',
+    ],
+    'action'
 ];
 

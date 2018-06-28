@@ -10,6 +10,28 @@ use DateTime;
 use Carbon\Carbon;
 class AbsenceService{
 
+    function isDaysOffIsBelongMonth($objAbsence,$month){
+        if(
+        (strtotime($month) == strtotime(date('Y-m-01', strtotime($objAbsence->from_date))) &&
+            strtotime($month) != strtotime(date('Y-m-01', strtotime($objAbsence->to_date)))
+        ) ||
+        ((strtotime($month) == strtotime(date('Y-m-01', strtotime($objAbsence->to_date))) &&
+            strtotime($month) != strtotime(date('Y-m-01', strtotime($objAbsence->from_date))))
+
+        )||
+        ((strtotime($month) == strtotime(date('Y-m-01', strtotime($objAbsence->from_date))) &&
+            strtotime($month) == strtotime(date('Y-m-01', strtotime($objAbsence->to_date))))
+        ) ||
+        (
+        (strtotime($month) > strtotime(date('Y-m-01', strtotime($objAbsence->from_date)))
+            && strtotime($month) < strtotime(date('Y-m-01', strtotime($objAbsence->to_date))))
+        )
+        ){
+            return true;
+        }
+        return false;
+    }
+
     function getNumberOfDaysOff($listAbsence,$year,$month, $absence_type){
         $objAS = new AbsenceService;
         $sumDate = 0;
@@ -34,7 +56,7 @@ class AbsenceService{
             }
         }else{
             foreach ($listAbsence as $objAbsence) {
-                if($objAbsence->absence_type_id === $absence_type) {
+                if($objAbsence->absence_type_id === $absence_type ) {
                     if ((int)date_create($objAbsence->from_date)->format('m') < $month && (int)date_create($objAbsence->to_date)->format('m') > $month) {
                         $startDate = Carbon::create($year, $month, 1);
                         $endDate = Carbon::create($year, $month, $startDate->daysInMonth);

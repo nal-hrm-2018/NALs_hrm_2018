@@ -26,7 +26,7 @@ class Confirm extends Model
         'absence_status_id',
         'absence_id',
         'reason',
-        'is_process',
+        'project_id',
         'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'
         ];
 
@@ -42,5 +42,9 @@ class Confirm extends Model
     public function absenceStatus()
     {
         return $this->belongsTo('App\Models\AbsenceStatus','absence_status_id');
+    }
+    public function project()
+    {
+        return $this->belongsTo('App\Models\Project','project_id');
     }
 }
