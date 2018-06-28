@@ -42,7 +42,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
 
         $poTeam = Employee::select('*')->where('is_manager', 1)
             ->where('team_id', $employeeLogged->team_id)->first();
-
         $arrayList = array();
 
         $data = [
@@ -67,19 +66,19 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             return back()->withInput(Input::all());
         } else {
             if (empty($objProcess)) {
-                $is_process = 0;
+//                $is_process = 0;
                 $data1 = [
                     'reason' => $request->get('reason'),
                     'created_at' => new \DateTime(),
                     'delete_flag' => 0,
                     'absence_status_id' => 1,
                     'absence_id' => $objAbsence->id,
-                    'is_process' => $is_process,
+                    'project_id' => null,
                     'employee_id' => $poTeam->id
                 ];
                 Confirm::create($data1);
             } else {
-                $is_process = 1;
+//                $is_process = 1;
                 $getIdRolePo = Role::where('name','PO')->first();
                 $indexInLoop = 0;
 
@@ -91,6 +90,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                         ->first();
                     $indexInLoop++;
                 }
+//                dd($arrayList);
 
                     foreach ($arrayList as $key => $value){
                         if(!empty($value)){
@@ -100,7 +100,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                                 'delete_flag' => 0,
                                 'absence_status_id' => 1,
                                 'absence_id' => $objAbsence->id,
-                                'is_process' => $is_process,
+                                'project_id' => $value['project_id'],
                                 'employee_id' => $value['employee_id']
                             ];
                             Confirm::create($data1);
@@ -114,7 +114,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                     'absence_status_id' => 1,
                     'absence_type_id' => $request->get('absence_type_id'),
                     'absence_id' => $objAbsence->id,
-                    'is_process' => $is_process,
+                    'project_id' => null,
                     'employee_id' => $poTeam->id
                 ];
                 Confirm::create($dataPoTeamJustWatch);
@@ -146,7 +146,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
 
         $poTeam = Employee::select('*')->where('is_manager', 1)
             ->where('team_id', $employeeLogged->team_id)->first();
-
         $arrayList = array();
 
         $data = [
@@ -169,20 +168,20 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             return back()->withInput(Input::all());
         } else {
             if (empty($objProcess)) {
-                $is_process = 0;
+//                $is_process = 0;
                 $data1 = [
                     'reason' => $request->get('reason'),
                     'created_at' => new \DateTime(),
                     'delete_flag' => 0,
                     'absence_status_id' => 1,
                     'absence_id' => $objAbsence['id'],
-                    'is_process' => $is_process,
+                    'is_process' => null,
                     'employee_id' => $poTeam->id
                 ];
        Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($data1);
 
             } else {
-                $is_process = 1;
+//                $is_process = 1;
                 $getIdRolePo = Role::where('name', 'PO')->first();
                 $indexInLoop = 0;
 
@@ -203,7 +202,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                             'delete_flag' => 0,
                             'absence_status_id' => 1,
                             'absence_id' => $objAbsence['id'],
-                            'is_process' => $is_process,
+                            'project_id' => $value['project_id'],
                             'employee_id' => $value['employee_id']
                         ];
                         Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($data1);
@@ -216,7 +215,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                     'delete_flag' => 0,
                     'absence_status_id' => 1,
                     'absence_id' => $objAbsence['id'],
-                    'is_process' => $is_process,
+                    'project_id' => null,
                     'employee_id' => $poTeam->id
                 ];
                 Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($dataPoTeamJustWatch);
