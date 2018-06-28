@@ -97,6 +97,9 @@ Route::group(['middleware' => 'user'], function () {
         'as'=>'export-absences-hr'
     ]);
 
+    Route::get('absences/po-project', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
+    Route::post('absences/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
+    Route::get('/export-confirm-list', 'Absence\AbsenceController@exportConfirmList')->name('exportConfirmList');
     Route::resource('absences', 'Absence\AbsenceController');
 
     Route::post('/absences', [
@@ -120,9 +123,6 @@ Route::group(['middleware' => 'user'], function () {
         'uses' => 'User\Vendor\VendorController@showChart',
     ]);
 
-    Route::get('absences/po-project/{id}', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
-    Route::post('absences/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
-    Route::get('/export-confirm-list', 'Absence\AbsenceController@exportConfirmList')->name('exportConfirmList');
 
     Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
     Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');

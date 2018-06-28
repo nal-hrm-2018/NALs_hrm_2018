@@ -14,4 +14,5 @@ use Illuminate\Http\Request;
 interface AbsenceFormService
 {
     public function addNewAbsenceForm(Request $request);
+    public function editAbsenceForm(Request $request,$id);
 }
