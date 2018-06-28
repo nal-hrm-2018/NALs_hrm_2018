@@ -97,12 +97,12 @@ Route::group(['middleware' => 'user'], function () {
         'as'=>'export-absences-hr'
     ]);
 
-    Route::get('absences/po-project', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
-    Route::post('absences/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
+    Route::get('absence/po-project', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
+    Route::post('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
     Route::get('/export-confirm-list', 'Absence\AbsenceController@exportConfirmList')->name('exportConfirmList');
     Route::resource('absences', 'Absence\AbsenceController');
 
-    Route::post('/absences', [
+    Route::post('/absence', [
         'as' => 'cancel_request',
         'uses' => 'Absence\AbsenceController@cancelRequest',
     ]);

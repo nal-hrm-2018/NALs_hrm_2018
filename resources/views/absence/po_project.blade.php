@@ -446,7 +446,7 @@
         function ajaxConfirm(type_confirm, action_confirm, id_confirm, reason, id_td_button, id_td_description, id_td_reason) {
             $.ajax({
                 type: "POST",
-                url: '{{ url('/absences/po-project/' . $id) }}',
+                url: '{{ url('/absence/po-project/' . $id) }}',
                 data: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
