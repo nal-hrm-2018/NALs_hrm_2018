@@ -124,7 +124,7 @@
                         <div class="absence-center-reason">{{$element->absence->reason}}</div>
                     </td>
                     <td>
-                        <div class="absence-center-reason">{{$element->absence->description}}</div>
+                        <div class="absence-center-reason">{{!empty($element->absence->description)?$element->absence->description:'-'}}</div>
                     </td>
                     @if($element->absence->absenceStatus['name'] == config('settings.status_common.absence.waiting') && ($element->absenceStatus['name'] == config('settings.status_common.absence.waiting')))
                         @if($element->absence['is_deny'] == 0 )
@@ -148,7 +148,7 @@
                         </td>
                     @endif
 
-                    @if($element['is_process'] != 0 )
+                    @if(!is_null($element['project_id']) )
                         <td><span class="label label-danger">{{trans('absence_po.list_po.status.just_watching')}}</span> </td>
                     @else
                         @if($element->absenceStatus['name'] == config('settings.status_common.absence.waiting'))

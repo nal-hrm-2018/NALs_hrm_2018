@@ -373,12 +373,41 @@ class AbsenceController extends Controller
 
     public function edit($id)
     {
+        $id_employee = Auth::user()->id;
 
+        $curDate = date_create(Carbon::now()->format('Y-m-d'));
+        $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
+
+        $absence = Absence::where('delete_flag', 0)->find($id);
+        if ($absence == null) {
+            return abort(404);
+        }
+        $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
+            ->join('teams', 'employees.team_id', '=', 'teams.id')
+            ->where('employees.delete_flag', 0)->find($id_employee);
+
+        $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
+            ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
+            ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
+            ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
+            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore) {
+                $query->select('project_id')
+                    ->from('processes')
+                    ->where('employee_id', '=', $id_employee)
+                    ->whereDate('processes.end_date', '>', $dayBefore);
+            })
+            ->WHERE('employees.delete_flag', '=', 0)
+            ->WHERE('roles.name', 'like', 'po')
+            ->get()->toArray();
+        $objAbsence = Absence::where('delete_flag', 0)->findOrFail($id)->toArray();
+        $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
+
+        return view('absences.editFormVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee,'objAbsence' => $objAbsence, 'Absence_type' => $Absence_type]);
     }
 
-    public function update(Request $request, $id)
+    public function update(AbsenceAddRequest $request,$id)
     {
-
+        return $this->absenceFormService->editAbsenceForm($request,$id);
     }
 
     public function destroy($id, Request $request)
@@ -390,6 +419,8 @@ class AbsenceController extends Controller
 
     public function showListAbsence(Request $request){
         $getIdUserLogged = Auth::id();
+        $poTeamEmployee = Employee::where('id',$getIdUserLogged)->first();
+//        dd($poTeamEmployee->processes);
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllAbsenceTypes = AbsenceType::all();
         if (!isset($this->request['number_record_per_page'])) {

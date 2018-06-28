@@ -37,7 +37,7 @@ return[
             'divorced'=>'Divorced'
         ],
         'team'=>'Team',
-        'role'=>'Role',
+        'role'=>'Position',
         'policy_date'=>'Policy Date',
         'policy_status'=>[
             'title'=>'Policy Status',
@@ -46,7 +46,7 @@ return[
             'quited'=>'Quited',
         ],
         'avatar'=>'Avatar',
-        'position'=>'Position',
+        'position'=>'Policy Type',
         'start_work'=>'Start Work Date',
         'end_work'=>'End Work Date',
         'today'=>'Today',

@@ -7,7 +7,7 @@
         <strong>Phiếu Vắng Nghỉ</strong>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
         <li><a href="/absences">Vắng nghỉ</a></li>
         <li class="active">Phiếu vắng nghỉ</li>
       </ol>
@@ -30,17 +30,17 @@
               function confirmAction() {
                   var name = $('#name').val();
                   var id = $('#id_employee').val();
-                  return confirm(message_confirm('create', 'absences', id, name));
+                  return confirm(message_confirm('edit', 'absences', id, name));
               }
           </SCRIPT>
           <div class="col-md-10" style="width: 100% ; margin-bottom: 2em"></div>
           <div class="row">
-            {{--{{ Form::model($objEmployee, ['url' => ['/absences', $objEmployee["id"]],
+            {{ Form::model($objAbsence, ['url' => ['/absences', $objAbsence["id"]],
                                           'class' => 'form-horizontal',
-                                          'method'=>isset($objEmployee["id"])?'PUT':'POST',
-                                          'onSubmit' => 'return confirmEmployee()'])}}--}}
-            <form action="{{asset('absences')}}" method="post" class="form-horizontal"
-                  onSubmit="return confirmAction()">
+                                          'method'=>isset($objAbsence["id"])?'PUT':'POST',
+                                          'onSubmit' => 'return confirmAction()']) }}
+           {{-- <form action="{{asset('absences')}}" method="post" class="form-horizontal"
+                  onSubmit="return confirmAction()">--}}
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
@@ -80,7 +80,7 @@
               <div class="form-group">
                 <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
+                  <input name="from_date" type='text' value="{!! old('from_date',isset($objAbsence["from_date"]) ? $objAbsence["from_date"] : null) !!}" class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -92,7 +92,7 @@
               <div class="form-group">
                 <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
                 <div class='input-group date form_datetime'>
-                  <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" placeholder="yyyy-MM-dd HH:mm"/>
+                  <input name="to_date" type='text' class="form-control" value="{!! old('to_date',isset($objAbsence["to_date"]) ? $objAbsence["to_date"] : null) !!}" placeholder="yyyy-MM-dd HH:mm"/>
                   <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -113,8 +113,9 @@
                                 if ($val["id"] == old('absence_type_id')) {
                                     $selected = "selected";
                                 }
-                                if (isset($Absence_employee)) {
-                                    if ($absences->absence_type_id == $val["id"]) {
+
+                                if (!empty($objAbsence['absence_type_id'])) {
+                                    if ($objAbsence['absence_type_id'] == $val["id"]) {
                                         $selected = "selected";
                                     }
                                 }
@@ -138,14 +139,14 @@
 
               <div class="form-group">
                 <label>Lý do<strong style="color: red">(*)</strong></label>
-                <input type="text" class="form-control" placeholder="Câu trả lời của bạn" value="{!! old('reason') !!}"  name="reason" id="ly_do">
+                <input type="text" class="form-control" placeholder="Câu trả lời của bạn" value="{!! old('reason',isset($objAbsence["reason"]) ? $objAbsence["reason"] : null) !!}"  name="reason" id="ly_do">
                 <label id="lb_error_reason" style="color: red;">{{$errors->first('reason')}}</label>
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
                 <label>Ghi chú</label>
-                <input type="text" class="form-control" placeholder="Câu trả lời của bạn"{!! old('ghi_chu') !!}  name="ghi_chu" id="ghi_chu">
+                <input type="text" class="form-control" placeholder="Câu trả lời của bạn" value="{!! old('ghi_chu',isset($objAbsence["description"]) ? $objAbsence["description"] : null) !!}" name="ghi_chu" id="ghi_chu">
                 <!-- /.input group -->
               </div>
 
@@ -153,20 +154,19 @@
                 <br />
                 <div class="col-md-3" style="margin-left: 100px;">
                   <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
-                    RESET
+                    LÀM MỚI
                   </button>
                 </div>
                 <div class="col-md-4">
                   <button type="submit" class="btn btn-primary">
-                    SAVE
+                    SỬA
                   </button>
                 </div>
               </div>
             </div>
             <!-- /.form-group -->
-            {{--{{ Form::close() }}--}}
-            </form>
-
+            {{ Form::close() }}
+            {{--</form>--}}
           </div>
           <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
         </div>
