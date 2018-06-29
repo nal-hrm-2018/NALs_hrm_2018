@@ -21,6 +21,7 @@ return [
             'end_date'=>'Ngày kết thúc',
             'type' => 'Loại',
             'reason'=>'Lý do',
+            'action'=>'Hành động',
             'note'=>'Ghi chú',
             'status'=>'Tình trạng',
             'note_po'=>'Ghi chú của PO'

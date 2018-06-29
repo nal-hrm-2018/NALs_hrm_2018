@@ -24,7 +24,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
     {
         $id_employee = Auth::user()->id;
 
-        $date = Carbon::now()->format('Y-m-d H:i:s');;
+        $date = Carbon::now()->format('Y-m-d H:i:s');
 
         if (strtotime($request->get('from_date')) < strtotime($date)) {
             $is_late = 1;
@@ -39,7 +39,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             ->toArray();
 
         $employeeLogged = Employee::where('id', $id_employee)->first();
-
         $poTeam = Employee::select('*')->where('is_manager', 1)
             ->where('team_id', $employeeLogged->team_id)->first();
         $arrayList = array();

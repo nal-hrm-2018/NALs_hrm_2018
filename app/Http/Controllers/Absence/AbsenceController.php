@@ -332,6 +332,7 @@ class AbsenceController extends Controller
         $id_employee = Auth::user()->id;
 
         $curDate = date_create(Carbon::now()->format('Y-m-d'));
+        $dateNowFormat = date_format($curDate,'Y-m-d');
         $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
         $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
 
@@ -343,14 +344,16 @@ class AbsenceController extends Controller
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
             ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
-            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore) {
+            ->where('processes.start_date','<=',$dateNowFormat)
+            ->where('processes.end_date','>=',$dateNowFormat)
+            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore,$dateNowFormat) {
                 $query->select('project_id')
                     ->from('processes')
                     ->where('employee_id', '=', $id_employee)
                     ->whereDate('processes.end_date', '>', $dayBefore);
             })
             ->WHERE('employees.delete_flag', '=', 0)
-            ->WHERE('roles.name', 'like', 'po')
+            ->WHERE('roles.name', 'like', 'PO')
             ->get()->toArray();
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
 
@@ -508,6 +511,8 @@ class AbsenceController extends Controller
 
     public function showListAbsence(Request $request){
         $getIdUserLogged = Auth::id();
+        $poTeamEmployee = Employee::where('id',$getIdUserLogged)->first();
+//        dd($poTeamEmployee->processes);
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllAbsenceTypes = AbsenceType::all();
         if (!isset($this->request['number_record_per_page'])) {

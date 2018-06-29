@@ -598,7 +598,13 @@ class AbsenceService{
         if(empty($days)){
             return 0;
         }else{
-            return $days->date;
+            if($days->date <0){
+                return 0;
+            }else if($days->date > 5){
+                return 5;
+            }else{
+                return $days->date;
+            }
         }
     }
     // tru ngay nghi cu
