@@ -105,11 +105,9 @@ class AbsenceController extends Controller
             config('settings.status_common.absence_type.subtract_salary_date'))->get();
         $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
         $absenceStatus = AbsenceStatus::all();
-        $confirmStatus = AbsenceStatus::all();
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-
 
         $projects = Confirm::select('confirms.project_id', 'projects.name')
             ->distinct('confirms.project_id')
@@ -129,7 +127,7 @@ class AbsenceController extends Controller
         $param = (Input::except(['page', 'is_employee']));
         DB::unprepared(DB::raw("DROP TEMPORARY TABLE " . $tempTableName));
         return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO',
-            'id', 'absenceStatus', 'param', 'confirmStatus'));
+            'id', 'absenceStatus', 'param'));
     }
 
     public function confirmRequestAjax(Request $request)
@@ -303,7 +301,7 @@ class AbsenceController extends Controller
                         ->orWhereYear('absences.to_date', $year);
                 })
                 ->get();
-        return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
+        return view('absences.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
     }
 
     public function cancelRequest(Request $request){
@@ -332,6 +330,7 @@ class AbsenceController extends Controller
         $id_employee = Auth::user()->id;
 
         $curDate = date_create(Carbon::now()->format('Y-m-d'));
+        $dateNowFormat = date_format($curDate,'Y-m-d');
         $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
         $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
 
@@ -343,14 +342,16 @@ class AbsenceController extends Controller
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
             ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
-            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore) {
+            ->where('processes.start_date','<=',$dateNowFormat)
+            ->where('processes.end_date','>=',$dateNowFormat)
+            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore,$dateNowFormat) {
                 $query->select('project_id')
                     ->from('processes')
                     ->where('employee_id', '=', $id_employee)
                     ->whereDate('processes.end_date', '>', $dayBefore);
             })
             ->WHERE('employees.delete_flag', '=', 0)
-            ->WHERE('roles.name', 'like', 'po')
+            ->WHERE('roles.name', 'like', 'PO')
             ->get()->toArray();
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
 
@@ -363,7 +364,104 @@ class AbsenceController extends Controller
 
     public function show($id, Request $request)
     {
+        $dateNow = new DateTime;
+        $objEmployee = Employee::select('*','teams.name AS nameTeam', 'employees.name AS nameEmployee', 'employees.id AS idEmployee')
+                    ->join('teams','teams.id','=','employees.team_id')
+                    ->where('employees.id',$id)
+                    ->where('employees.delete_flag',0)
+                    ->first();
+        if($objEmployee == null){
+             return abort(404);
+        }
+        $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
+        $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
+        if((int)$dateNow->format("Y") <= $endwork_date){
+            $endwork_date = (int)$dateNow->format("Y");
+        }
 
+        $status = AbsenceStatus::select()->where('name','accepted')->first();
+        $type = AbsenceType::select()->where('name','salary_date')->first();
+
+        $year = 0;
+        if((int)$dateNow->format('Y') < $endwork_date){
+             $year = $dateNow->format('Y');
+        }else{
+            $year = $endwork_date;
+        }
+
+        $abc = new \App\Absence\AbsenceService();
+
+        $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
+        $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
+        if($soNgayPhepDu > 5){
+            $soNgayPhepDu = 5;
+        }
+        $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
+
+
+        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);// tong ngay da nghi phep ( bao gom ngay nghi co luong va` tru luong)
+
+        $soNgayTruPhepDu = $abc->subRedundancy($id, $year); // so ngay tru vao ngay phep du nam ngoai
+        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year); // so ngay tru vao ngay phep
+
+        if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
+            if($soNgayPhepConLai<0){
+                $soNgayPhepConLai=0;
+            }
+            $checkMonth = 1;
+        }else{
+            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
+            if($soNgayPhepConLai<0){
+                $soNgayPhepConLai=0;
+            }
+            $checkMonth = 0;
+        }
+        $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
+        if($soNgayPhepCoDinhConLai<0){
+            $soNgayPhepCoDinhConLai=0;
+        }
+        $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
+        if($soNgayTruPhepDuConLai<0){
+            $soNgayTruPhepDuConLai=0;
+        }
+
+        $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
+        $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $type = AbsenceType::select()->where('name','non_salary_date')->first();
+        $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $type = AbsenceType::select()->where('name','insurance_date')->first();
+        $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+
+        $absences = [
+                        "soNgayDuocNghiPhep"=>$tongSoNgayDuocNghi, 
+                        "soNgayNghiPhepCoDinh"=>$soNgayPhepCoDinh,
+                        "soNgayPhepDu"=>$soNgayPhepDu,
+                        "soNgayDaNghi"=>$tongSoNgayDaNghi,
+                        "truVaoPhepCoDinh"=>$soNgayTruPhepCoDinh,
+                        "truVaoPhepDu"=>$soNgayTruPhepDu,
+                        "soNgayConLai"=>$soNgayPhepConLai,
+                        "phepCoDinh"=>$soNgayPhepCoDinhConLai,
+                        "phepDu"=>$soNgayTruPhepDuConLai,
+                        "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
+                        "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
+                        "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
+                    ];
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
+            'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
+            'absences.absence_status_id')
+                ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+                ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+                ->where('absences.delete_flag', 0)
+                ->where('absences.employee_id',$id)
+                ->where(function($listAbsence)use($year){
+                    $listAbsence->whereYear('absences.from_date', $year)
+                        ->orWhereYear('absences.to_date', $year);
+                })
+                ->get();
+        return view('absences.detail', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
     }
 
     public function edit($id)
@@ -414,6 +512,8 @@ class AbsenceController extends Controller
 
     public function showListAbsence(Request $request){
         $getIdUserLogged = Auth::id();
+        $poTeamEmployee = Employee::where('id',$getIdUserLogged)->first();
+//        dd($poTeamEmployee->processes);
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllAbsenceTypes = AbsenceType::all();
         if (!isset($this->request['number_record_per_page'])) {
@@ -515,7 +615,7 @@ class AbsenceController extends Controller
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
 
-        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absence_statuses.name AS confirm')
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absences.from_date','absences.to_date','absences.reason','absences.description','absences.id AS idAbsence')
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
                 ->where('absences.delete_flag', 0)
@@ -528,14 +628,22 @@ class AbsenceController extends Controller
         foreach ($listAbsence as $value) {
             $value->name_type = trans('absence_po.list_po.type.'.$value->name_type);
             $value->name_status = trans('absence_po.list_po.status.'.$value->name_status);
-            if($value->name_status == trans('absence_po.list_po.status.rejected')){
+            /*if($value->name_status == trans('absence_po.list_po.status.rejected')){
                 $value->confirm = selectConfirm($value->id)->reason;
             }else{
                 $value->confirm = "-";
-            }
+            }*/
              
         }
-        return response(['aAbsences' => $absences, "aListAbsence" => $listAbsence, 'aCheckMonth' => $checkMonth]);
+        $listConfirm = Confirm::select('*', 'employees.name AS nameEmployee', 'confirms.reason AS reasonAbsence')
+            ->join('employees', 'employees.id', '=', 'confirms.employee_id')
+            ->join('absence_statuses', 'absence_statuses.id', '=', 'confirms.absence_status_id')
+            ->join('absences', 'absences.id', '=', 'confirms.absence_id')
+            ->where('confirms.delete_flag',0)
+            ->where('absences.employee_id',$id)
+            ->where('confirms.absence_status_id',2)
+            ->get();
+        return response(['aAbsences' => $absences, "aListAbsence" => $listAbsence, 'aCheckMonth' => $checkMonth, 'listConfirm'=>$listConfirm]);
     }
 
     public function exportAbsencePoTeam(Request $request)

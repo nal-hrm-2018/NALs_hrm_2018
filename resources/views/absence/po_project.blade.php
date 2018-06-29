@@ -204,7 +204,7 @@
                                                         <option {{!empty(request('confirm_status'))?'':'selected="selected"'}} value="">
                                                             {{trans('employee.drop_box.placeholder-default')}}
                                                         </option>
-                                                        @foreach($confirmStatus as $item)
+                                                        @foreach($absenceStatus as $item)
                                                             <option value="{{$item->id}}"
                                                                     {{ (string)$item->id===request('confirm_status')?'selected="selected"':'' }}>
                                                                 {{trans('absence_po.list_po.status.'.$item->name )}}
@@ -273,42 +273,26 @@
                             @foreach($listConfirm as $confirm)
                                 <tr>
                                     <td hidden>{{$confirm->id}}</td>
-                                    <td>{{$confirm->absence->employee->name}}</td>
-                                    <td>{{$confirm->absence->employee->email}}</td>
-                                    <td>
-<!--                                        --><?php
-//                                        foreach ($projects as $project){
-//                                            $processes = \App\Models\Process::where('project_id', '=', $project->project_id)
-//                                                ->where('delete_flag', '=', 0)
-//                                                ->where('employee_id', '=', $confirm->absence->employee->id)
-//                                                ->get();
-//                                            if($processes->isNotEmpty()) {
-//                                                $project_name = $project->name;
-//                                                break;
-//                                            }
-//                                        }
-//                                        if(isset($project_name)){
-//                                            echo $project_name;
-//                                        } else {
-//                                            echo '-';
-//                                        }
-//                                        $project_name = null;
-//                                        ?>
-                                    {{isset($confirm->project)?$confirm->project->name:'-'}}
-                                    </td>
-                                    <td>{{$confirm->absence->from_date}}</td>
-                                    <td>{{$confirm->absence->to_date}}</td>
+                                    <td>{{isset($confirm->absence)?isset($confirm->absence->employee)?$confirm->absence->employee->name:'-':'-'}}</td>
+                                    <td>{{isset($confirm->absence)?isset($confirm->absence->employee)?$confirm->absence->employee->email:'-':'-'}}</td>
+                                    <td>{{isset($confirm->project)?$confirm->project->name:'-'}}</td>
+                                    <td>{{isset($confirm->absence)?$confirm->absence->from_date:'-'}}</td>
+                                    <td>{{isset($confirm->absence)?$confirm->absence->to_date:'-'}}</td>
                                     <td><span
-                                        @if($confirm->absence->absenceType->name === config('settings.status_common.absence_type.salary_date'))
+                                        <?php
+                                            $absenceTypeName = isset($confirm->absence)?isset($confirm->absence->absenceType)?
+                                                                $confirm->absence->absenceType->name:'-':'-';
+                                        ?>
+                                        @if($absenceTypeName === config('settings.status_common.absence_type.salary_date'))
                                             class="label label-success"
-                                        @elseif($confirm->absence->absenceType->name === config('settings.status_common.absence_type.insurance_date'))
+                                        @elseif($absenceTypeName === config('settings.status_common.absence_type.insurance_date'))
                                             class="label label-primary"
-                                        @elseif($confirm->absence->absenceType->name === config('settings.status_common.absence_type.non_salary_date'))
+                                        @elseif($absenceTypeName === config('settings.status_common.absence_type.non_salary_date'))
                                             class="label label-warning"
                                         @endif
-                                        >{{trans('absence_po.list_po.type.'.$confirm->absence->absenceType->name )}}</span></td>
-                                    <td>{{$confirm->absence->reason}}</td>
-                                    <td>{{isset($confirm->absence->description)?$confirm->absence->description:'-'}}</td>
+                                        >{{$absenceTypeName === '-' ? '-' : trans('absence_po.list_po.type.'.$absenceTypeName)}}</span></td>
+                                    <td>{{isset($confirm->absence)?$confirm->absence->reason:'-'}}</td>
+                                    <td>{{isset($confirm->absence)?isset($confirm->absence->description)?$confirm->absence->description:'-':'-'}}</td>
                                     <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)
                                             @if($confirm->absence->is_deny === 0)
@@ -446,7 +430,7 @@
         function ajaxConfirm(type_confirm, action_confirm, id_confirm, reason, id_td_button, id_td_description, id_td_reason) {
             $.ajax({
                 type: "POST",
-                url: '{{ url('/absences/po-project/' . $id) }}',
+                url: '{{ url('/absence/po-project/' . $id) }}',
                 data: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

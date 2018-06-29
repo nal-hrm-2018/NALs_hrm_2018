@@ -10,6 +10,28 @@ use DateTime;
 use Carbon\Carbon;
 class AbsenceService{
 
+    function isDaysOffIsBelongMonth($objAbsence,$month){
+        if(
+        (strtotime($month) == strtotime(date('Y-m-01', strtotime($objAbsence->from_date))) &&
+            strtotime($month) != strtotime(date('Y-m-01', strtotime($objAbsence->to_date)))
+        ) ||
+        ((strtotime($month) == strtotime(date('Y-m-01', strtotime($objAbsence->to_date))) &&
+            strtotime($month) != strtotime(date('Y-m-01', strtotime($objAbsence->from_date))))
+
+        )||
+        ((strtotime($month) == strtotime(date('Y-m-01', strtotime($objAbsence->from_date))) &&
+            strtotime($month) == strtotime(date('Y-m-01', strtotime($objAbsence->to_date))))
+        ) ||
+        (
+        (strtotime($month) > strtotime(date('Y-m-01', strtotime($objAbsence->from_date)))
+            && strtotime($month) < strtotime(date('Y-m-01', strtotime($objAbsence->to_date))))
+        )
+        ){
+            return true;
+        }
+        return false;
+    }
+
     function getNumberOfDaysOff($listAbsence,$year,$month, $absence_type){
         $objAS = new AbsenceService;
         $sumDate = 0;
@@ -34,7 +56,7 @@ class AbsenceService{
             }
         }else{
             foreach ($listAbsence as $objAbsence) {
-                if($objAbsence->absence_type_id === $absence_type) {
+                if($objAbsence->absence_type_id === $absence_type ) {
                     if ((int)date_create($objAbsence->from_date)->format('m') < $month && (int)date_create($objAbsence->to_date)->format('m') > $month) {
                         $startDate = Carbon::create($year, $month, 1);
                         $endDate = Carbon::create($year, $month, $startDate->daysInMonth);
@@ -352,114 +374,7 @@ class AbsenceService{
             }
         }
 
-        /*if($countDate > 0){
-            if($startDate->isWeekend() && $endDate->isWeekend()){
-                $sumDate += $countDate;
-            }else if(!($startDate->isWeekend()) || !($endDate->isWeekend())){
-                //--------
-                if(!($startDate->isWeekend()) && !($endDate->isWeekend()) && $countDate == 1 ){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours($objAS->formatTime($startDate),$objAS->formatTime($endDate));
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                }else if(($startDate->isWeekend())&& $countDate == 1 ){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                }else if(($endDate->isWeekend())&& $countDate == 1 ){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17,5);
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-
-                }
-                //----------
-                else if(($endDate->isWeekend()) && $countDate == 2){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                    if(!($objAS->checkHoliday($endDate))){
-
-                        $countHours = $objAS->countHours(8,17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                }
-                else if(($startDate->isWeekend()) && $countDate == 2){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours(8,17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                    if(!($objAS->checkHoliday($endDate))){
-                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                }
-
-                elseif(!($startDate->isWeekend()) && !($endDate->isWeekend()) && $countDate == 2){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                    if(!($objAS->checkHoliday($endDate))){
-
-                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
-                        $sumDate += $objAS->countDay($countHours);
-                    }
-                }
-                //----------
-
-                else if(($endDate->isWeekend())&&$countDate > 2){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                        $countDate --;
-                    }
-                    if(!($objAS->checkHoliday($endDate))){
-                        $countHours = $objAS->countHours(8,17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                        $countDate --;
-                    }
-                    if($countDate > 0){
-                        $countHoliday = $objAS->countHoliday($startDate->addDay(), $endDate->subDay());
-                        $sumDate += $countDate - $countHoliday;
-                    }                    
-                }
-                elseif(($startDate->isWeekend())&&$countDate > 2){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours(8,17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                        $countDate --;
-                    }
-                    if(!($objAS->checkHoliday($endDate))){
-                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
-                        $sumDate += $objAS->countDay($countHours);
-                        $countDate --;
-                    }
-                    if($countDate > 0){
-                        $countHoliday = $objAS->countHoliday($startDate->addDay(), $endDate->subDay());
-                        $sumDate += $countDate - $countHoliday;
-                    }
-                }
-                elseif(!($startDate->isWeekend())&&!($endDate->isWeekend())&&$countDate > 2){
-                    if(!($objAS->checkHoliday($startDate))){
-                        $countHours = $objAS->countHours($objAS->formatTime($startDate),17.5);
-                        $sumDate += $objAS->countDay($countHours);
-                        $countDate --;
-                    }
-                    if(!($objAS->checkHoliday($endDate))){
-                        $countHours = $objAS->countHours(8,$objAS->formatTime($endDate));
-                        $sumDate += $objAS->countDay($countHours);
-                        $countDate --;
-                    }
-                    if($countDate > 0){
-                        $countHoliday = $objAS->countHoliday($startDate->addDay(), $endDate->subDay());
-                        $sumDate += $countDate - $countHoliday;
-                    }
-                }
-            }
-        } */
+        
         return $sumDate;  
     }
 
@@ -576,7 +491,13 @@ class AbsenceService{
         if(empty($days)){
             return 0;
         }else{
-            return $days->date;
+            if($days->date <0){
+                return 0;
+            }else if($days->date > 5){
+                return 5;
+            }else{
+                return $days->date;
+            }    
         }
     }
     // tru ngay nghi cu
@@ -587,7 +508,6 @@ class AbsenceService{
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
         $type = AbsenceType::select()->where('name','salary_date')->first();
-
         if($dateNow->year == $year && $dateNow->month < 7){
             $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, $type->id,$status->id);
             if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
