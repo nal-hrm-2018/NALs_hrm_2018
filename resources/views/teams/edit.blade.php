@@ -73,13 +73,13 @@
                 <li class="active">{{trans('team.title_header.edit_team')}}</li>
             </ol>
         </section>
-            <SCRIPT LANGUAGE="JavaScript">
-                function confirmTeam() {
-                    var name = $('#team_name').val();
-                    var id = $('#id_team').val();
-                    return confirm(message_confirm('edit', 'team', id, name));
-                }
-            </SCRIPT>
+        <SCRIPT LANGUAGE="JavaScript">
+            function confirmTeam() {
+                var name = $('#team_name').val();
+                var id = $('#id_team').val();
+                return confirm(message_confirm('edit', 'team', id, name));
+            }
+        </SCRIPT>
 
         <!-- Main content -->
         <section class="content">
@@ -103,11 +103,12 @@
                                 <input type="text" class="form-control width80" id="team_name" placeholder="Team name"
                                        name="team_name"
                                        value="{!! old('team_name', isset($team->name) ? $team->name : null) !!}"
-                                       >
+                                >
                                 <!-- /.input group -->
                             </div>
                             <div class="" id="name_error" style="color: red;">
-                                <label id="lb_error_team_name" style="color: red; ">{{$errors->first('team_name')}}</label>
+                                <label id="lb_error_team_name"
+                                       style="color: red; ">{{$errors->first('team_name')}}</label>
                             </div>
                             <div class="form-group">
                                 <label>{{trans('team.team.po_name')}}</label><br/>
@@ -116,10 +117,8 @@
                                     <option value="0" id="po_0">{{ trans('employee.drop_box.placeholder-default') }}
                                     @foreach($listEmployee as $obj)
                                         {{$selected = ""}}
-                                        @if(isset($poOfteam))
-                                            @if( $obj->is_manager == '1')
-                                                {{$selected = "selected"}}
-                                            @endif
+                                        @if( $obj->is_manager == '1')
+                                            {{$selected = "selected"}}
                                         @endif
                                         <option value="{{ $obj->id}}" id="po_{{ $obj->id}}" {{$selected}}>
                                             {{ $obj -> name }}
@@ -133,7 +132,8 @@
                             <div class="form-group">
                                 <label>{{trans('team.team.member')}}</label><br/>
                                 <select class="form-control select2 width80" name="employees" id="member">
-                                    <option value="0" id="member_0">{{ trans('employee.drop_box.placeholder-default') }}</option>
+                                    <option value="0"
+                                            id="member_0">{{ trans('employee.drop_box.placeholder-default') }}</option>
                                     @foreach($listEmployee as $obj)
                                         <option value="{{$obj->id}}"
                                                 id="member_{{$obj->id}}">{{$obj->name}}</option>
@@ -144,61 +144,63 @@
                                 </button>
                             </div>
                             <div class="" style="color: red;">
-                                <label id="lb_error_employees" style="color: red;">{{$errors->first('employees')}}</label>
+                                <label id="lb_error_employees"
+                                       style="color: red;">{{$errors->first('employees')}}</label>
                             </div>
                             <div class="form-group" id="listChoose" style="display: none;">
                                 @foreach($listEmployeeOfTeam as $obj)
-                                    <input type="text" hidden="hidden" class="input_{{$obj->id}}" name="employee[]" id="" value="{{$obj->id}}">
+                                    <input type="text" hidden="hidden" class="input_{{$obj->id}}" name="employee[]"
+                                           id="" value="{{$obj->id}}">
                                 @endforeach
                             </div>
                             <div class="form-group" id="contextMenuTeam">
                                 <div class="box-body">
                                     @if(!($listEmployeeOfTeam->isEmpty()))
-                                  <table id="employee-list" class="table table-bordered table-striped">
-                                      <thead>
-                                        <tr>                                            
-                                            <th>{{trans('team.add_team.id')}}</th>
-                                            <th>{{trans('team.add_team.team_name')}}</th>
-                                            <th>{{trans('team.add_team.role')}}</th>
-                                            <th>{{trans('team.add_team.name')}}</th>
-                                            <th>{{trans('team.add_team.remove')}}</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody class="context-menu">
-                                        @foreach($listEmployeeOfTeam as $obj)
-                                            <tr id="show_{{$obj->id}}">                                                
-                                                <td>{{$obj->id}}</td>
-                                                <td>{{isset($obj->team)?$obj->team:'-'}}</td>
-                                                <td>
-                                                    <?php
-                                                    if(isset($obj->role)){
-                                                        if($obj->role == "PO"){
-                                                            echo "<span class='label label-primary'>". $obj->role ."</span>";
-                                                        } else if($obj->role == "Dev"){
-                                                            echo "<span class='label label-success'>". $obj->role ."</span>";
-                                                        } else if($obj->role == "BA"){
-                                                            echo "<span class='label label-info'>". $obj->role ."</span>";
-                                                        } else if($obj->role == "ScrumMaster"){
-                                                            echo "<span class='label label-warning'>". $obj->role ."</span>";
-                                                        }
-                                                    } else {
-                                                        echo "-";
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <td>{{$obj->name}}</td>
-                                                <td>
-                                                    <a class="btn-employee-remove" style="margin-left: 25px;">
-                                                        <i class="fa fa-remove"
-                                                       onclick='removeEmployeeTeam({{$obj->id}}) '></i>
-                                                   </a>
-                                                </td>
+                                        <table id="employee-list" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>{{trans('team.add_team.id')}}</th>
+                                                <th>{{trans('team.add_team.team_name')}}</th>
+                                                <th>{{trans('team.add_team.role')}}</th>
+                                                <th>{{trans('team.add_team.name')}}</th>
+                                                <th>{{trans('team.add_team.remove')}}</th>
                                             </tr>
-                                        @endforeach
-                                      </tbody>
-                                  </table>
-                                  @endif
-                                </div>                                                                   
+                                            </thead>
+                                            <tbody class="context-menu">
+                                            @foreach($listEmployeeOfTeam as $obj)
+                                                <tr id="show_{{$obj->id}}">
+                                                    <td>{{$obj->id}}</td>
+                                                    <td>{{isset($obj->team)?$obj->team:'-'}}</td>
+                                                    <td>
+                                                        <?php
+                                                        if (isset($obj->role)) {
+                                                            if ($obj->role == "PO") {
+                                                                echo "<span class='label label-primary'>" . $obj->role . "</span>";
+                                                            } else if ($obj->role == "Dev") {
+                                                                echo "<span class='label label-success'>" . $obj->role . "</span>";
+                                                            } else if ($obj->role == "BA") {
+                                                                echo "<span class='label label-info'>" . $obj->role . "</span>";
+                                                            } else if ($obj->role == "ScrumMaster") {
+                                                                echo "<span class='label label-warning'>" . $obj->role . "</span>";
+                                                            }
+                                                        } else {
+                                                            echo "-";
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td>{{$obj->name}}</td>
+                                                    <td>
+                                                        <a class="btn-employee-remove" style="margin-left: 25px;">
+                                                            <i class="fa fa-remove"
+                                                               onclick='removeEmployeeTeam({{$obj->id}}) '></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -207,7 +209,7 @@
                     <div class="col-md-6" style="display: inline; ">
                         <div style="float: right;">
                             <input id="btn_reset_form_team" type="button" value="{{ trans('common.button.reset')}}"
-                                   class="btn btn-default pull-left" />
+                                   class="btn btn-default pull-left"/>
                         </div>
                     </div>
                     <div class="col-md-1" style="display: inline;">
@@ -218,31 +220,31 @@
                 </div>
                 {{ Form::close() }}
                 <script type="text/javascript">
-                    $(document).ready(function (){
-                        $("#form_edit_team").submit( function(){
+                    $(document).ready(function () {
+                        $("#form_edit_team").submit(function () {
                             return confirmTeam();
                         });
                     });
                 </script>
                 <script type="text/javascript">
-                    $(document).ready(function (){
+                    $(document).ready(function () {
                         $listEmployeeID = new Array();
                         $listEmployeeName = new Array();
                         $listEmployeeTeam = new Array();
                         $listEmployeeRole = new Array();
                         @foreach($listEmployeeOfTeam as $obj)
-                            $listEmployeeID.push('{{$obj->id}}');
-                            $listEmployeeName.push('{{$obj->name}}');
-                            $listEmployeeTeam.push('{{isset($obj->team)?$obj->team:'-'}}');
-                            $listEmployeeRole.push('{{isset($obj->role)?$obj->role:'-'}}');
-                            
-                            $('#member_{{$obj->id}}').prop('disabled', true);
-                            $('#member').select2();
-                            $('#po_{{$obj->id}}').prop('disabled', true);
-                            $('#select_po_name').select2();
+                        $listEmployeeID.push('{{$obj->id}}');
+                        $listEmployeeName.push('{{$obj->name}}');
+                        $listEmployeeTeam.push('{{isset($obj->team)?$obj->team:'-'}}');
+                        $listEmployeeRole.push('{{isset($obj->role)?$obj->role:'-'}}');
+
+                        $('#member_{{$obj->id}}').prop('disabled', true);
+                        $('#member').select2();
+                        $('#po_{{$obj->id}}').prop('disabled', true);
+                        $('#select_po_name').select2();
                         @endforeach
-                        $idPO = document.getElementById("select_po_name").value;
-                        $('#member_'+$idPO).prop('disabled', true);
+                            $idPO = document.getElementById("select_po_name").value;
+                        $('#member_' + $idPO).prop('disabled', true);
                         $('#member').select2();
                         $dem = 0;
                     })
@@ -251,45 +253,46 @@
                     function addFunction() {
                         $id = document.getElementById("member").value;
                         $idPo = document.getElementById("select_po_name").value;
-                        if($id == document.getElementById("select_po_name").value){
+                        if ($id == document.getElementById("select_po_name").value) {
                             alert("{{trans('team.msg_content.msg_add_member1')}}");
-                        }else{
+                        } else {
                             $check = true;
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                              if($id == $listEmployeeID[$i]){
-                                $check = false;
-                                alert("{{trans('team.msg_content.msg_add_member2')}}");
-                                break;
-                              }
+                                if ($id == $listEmployeeID[$i]) {
+                                    $check = false;
+                                    alert("{{trans('team.msg_content.msg_add_member2')}}");
+                                    break;
+                                }
                             }
-                            if($id != 0 && $check == true) {
+                            if ($id != 0 && $check == true) {
                                 $dem++;
                                 $listEmployeeID[$listEmployeeID.length] = document.getElementById("member").value;
                                 $listEmployeeName[$listEmployeeName.length] = $("#member_" + $id).text();
                                 @foreach($listEmployee as $obj)
-                                    if ({{ $obj -> id }} == $listEmployeeID[$listEmployeeID.length - 1])
-                                    {
-                                        $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($obj->team)?$obj->team->name:'-'}}';
-                                        $listEmployeeRole[$listEmployeeRole.length] = '{{isset($obj->role)?$obj->role->name:'-'}}';
-                                    }
+                                if ({{ $obj -> id }} == $listEmployeeID[$listEmployeeID.length - 1]
+                            )
+                                {
+                                    $listEmployeeTeam[$listEmployeeTeam.length] = '{{isset($obj->team)?$obj->team->name:'-'}}';
+                                    $listEmployeeRole[$listEmployeeRole.length] = '{{isset($obj->role)?$obj->role->name:'-'}}';
+                                }
                                 @endforeach
 
-                                $listAdd = "";
+                                    $listAdd = "";
                                 for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                     $classBtr = '';
-                                    if($listEmployeeRole[$i] == 'PO'){
+                                    if ($listEmployeeRole[$i] == 'PO') {
                                         $classBtr = 'label label-primary';
-                                    } else if($listEmployeeRole[$i] == 'Dev'){
+                                    } else if ($listEmployeeRole[$i] == 'Dev') {
                                         $classBtr = 'label label-success';
-                                    } else if($listEmployeeRole[$i] == 'BA'){
+                                    } else if ($listEmployeeRole[$i] == 'BA') {
                                         $classBtr = 'label label-info';
-                                    } else if($listEmployeeRole[$i] == 'ScrumMaster'){
+                                    } else if ($listEmployeeRole[$i] == 'ScrumMaster') {
                                         $classBtr = 'label label-warning';
                                     }
                                     $listAdd += "<tr id=\"show_" + $listEmployeeID[$i] + "\">" +
                                         "<td>" + $listEmployeeID[$i] + "</td>" +
                                         "<td>" + $listEmployeeTeam[$i] + "</td>" +
-                                        "<td><span class=\""+ $classBtr +"\">" + $listEmployeeRole[$i] + "</span></td>" +
+                                        "<td><span class=\"" + $classBtr + "\">" + $listEmployeeRole[$i] + "</span></td>" +
                                         "<td>" + $listEmployeeName[$i] + "</td>" +
                                         "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + $listEmployeeID[$i] + ")\"></i></td></tr>";
                                 }
@@ -301,7 +304,7 @@
                                 for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                     $listChoose += "<input type=\"text\" name=\"employee[]\" id=\"employee\" value=\"" + $listEmployeeID[$i] + "\" class=\"form-control width80 input_" + $listEmployeeID[$i] + "\">";
                                     if ($listEmployeeID[$i] == $idPo) {
-                                        $('#po_'+$idPo).prop('disabled', true);
+                                        $('#po_' + $idPo).prop('disabled', true);
                                         $('#select_po_name').select2();
                                     }
                                 }
@@ -323,16 +326,16 @@
                     function removeEmployeeTeam($id) {
                         $('tr').remove('#show_' + $id);
                         $('input').remove('.input_' + $id);
-                        $listEmployeeName.splice($listEmployeeID.indexOf(""+$id), 1);
-                        $listEmployeeID.splice($listEmployeeID.indexOf(""+$id), 1);
-                        
-                        $('#member_'+$id).prop('disabled', false);
+                        $listEmployeeName.splice($listEmployeeID.indexOf("" + $id), 1);
+                        $listEmployeeID.splice($listEmployeeID.indexOf("" + $id), 1);
+
+                        $('#member_' + $id).prop('disabled', false);
                         $('#member').select2();
 
-                        $('#po_'+$id).prop('disabled', false);
+                        $('#po_' + $id).prop('disabled', false);
                         $('#select_po_name').select2();
 
-                        if($listEmployeeID.length == 0){
+                        if ($listEmployeeID.length == 0) {
                             document.getElementById("contextMenuTeam").innerHTML = "";
                         }
                     }
@@ -340,12 +343,12 @@
                 <script type="text/javascript">
                     function choosePO() {
                         if ($idPO != 0) {
-                            $('#member_'+$idPO).prop('disabled', false);
+                            $('#member_' + $idPO).prop('disabled', false);
                             $('#member').select2();
 
                         }
                         $idPO = document.getElementById("select_po_name").value;
-                        $('#member_'+$idPO).prop('disabled', true);
+                        $('#member_' + $idPO).prop('disabled', true);
                         $('#member').select2();
                     }
                 </script>
@@ -360,8 +363,8 @@
     <script>
         $(function () {
             $("#btn_reset_form_team").bind("click", function () {
-				if(confirmAction("{{trans('team.submit.reset')}}"))
-                location.reload();
+                if (confirmAction("{{trans('team.submit.reset')}}"))
+                    location.reload();
             });
         });
     </script>

@@ -303,7 +303,7 @@ class AbsenceController extends Controller
                         ->orWhereYear('absences.to_date', $year);
                 })
                 ->get();
-        return view('vangnghi.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
+        return view('absences.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
     }
 
     public function cancelRequest(Request $request){
@@ -332,6 +332,7 @@ class AbsenceController extends Controller
         $id_employee = Auth::user()->id;
 
         $curDate = date_create(Carbon::now()->format('Y-m-d'));
+        $dateNowFormat = date_format($curDate,'Y-m-d');
         $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
         $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
 
@@ -343,14 +344,16 @@ class AbsenceController extends Controller
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
             ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
-            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore) {
+            ->where('processes.start_date','<=',$dateNowFormat)
+            ->where('processes.end_date','>=',$dateNowFormat)
+            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore,$dateNowFormat) {
                 $query->select('project_id')
                     ->from('processes')
                     ->where('employee_id', '=', $id_employee)
                     ->whereDate('processes.end_date', '>', $dayBefore);
             })
             ->WHERE('employees.delete_flag', '=', 0)
-            ->WHERE('roles.name', 'like', 'po')
+            ->WHERE('roles.name', 'like', 'PO')
             ->get()->toArray();
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
 
@@ -369,6 +372,9 @@ class AbsenceController extends Controller
                     ->where('employees.id',$id)
                     ->where('employees.delete_flag',0)
                     ->first();
+        if($objEmployee == null){
+             return abort(404);
+        }
         $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
         $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
         if((int)$dateNow->format("Y") <= $endwork_date){
@@ -508,6 +514,8 @@ class AbsenceController extends Controller
 
     public function showListAbsence(Request $request){
         $getIdUserLogged = Auth::id();
+        $poTeamEmployee = Employee::where('id',$getIdUserLogged)->first();
+//        dd($poTeamEmployee->processes);
         $getAllAbsenceStatus = AbsenceStatus::all();
         $getAllAbsenceTypes = AbsenceType::all();
         if (!isset($this->request['number_record_per_page'])) {

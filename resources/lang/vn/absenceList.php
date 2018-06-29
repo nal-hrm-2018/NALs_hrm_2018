@@ -1,35 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ngoc Quy
- * Date: 6/18/2018
- * Time: 2:28 PM
- */
 
 return [
-    'list_po' => [
-        'path'=>'Danh sách xin vắng làm',
-        'modal'=>[
-            'reason'=>'Lý do từ chối',
-            'done'=>'Đồng Ý',
-            'close'=>'Đóng',
-            'send'=>'Gửi',
-            'cancel'=>'Từ Chối'
-        ],
-        'profile_info'=>[
-            'start_date'=>'Ngày bắt đầu',
-            'end_date'=>'Ngày kết thúc',
-            'type' => 'Loại',
-            'reason'=>'Lý do',
-            'action'=>'Hành động',
-            'note'=>'Ghi chú',
-            'status'=>'Tình trạng',
-            'note_po'=>'Ghi chú của PO'
-        ],
-        'note'=>[
-            'absence_new'=>'Xin nghỉ',
-            'absence_deny'=>'Xin hủy'
-        ],
+    'path'=>[
+       'home' => 'Trang chủ',    
+       'list_absence' => 'Danh sách vắng nghỉ',
+       'add_absence' => 'Đăng ký vắng nghỉ',
+       'select_year' => 'Chọn năm'
+    ],  
+
+    'absence'=>[
+        'total_date_absences' => 'Số ngày phép có thể nghỉ',
+        'number_of_days_off'=>'Số ngày đã nghỉ',
+        'absented_date'=>'Số ngày nghỉ phép',
+        'remaining_date'=>'Số ngày nghỉ phép còn lại',
+        'subtract_salary_date'=>'Số ngày nghỉ trừ lương',
+        'insurance_date'=>'Số ngày nghỉ bảo hiểm',
+        'non_salary_date'=>'Số ngày nghỉ không lương',
+        'last_year_absences_date'=> 'Số ngày phép năm ngoái',
+    ],
+    'list_absence' => [
+        
         'status'=>[
             config('settings.status_common.absence.waiting')=>'Đang xử lý',
             config('settings.status_common.absence.accepted')=>'Được Nghỉ',
@@ -51,11 +41,5 @@ return [
             config('settings.status_common.absence_type.insurance_date')=>'Nghỉ theo bảo hiểm',
             config('settings.status_common.absence_type.absented_date')=>'Nghỉ phép',
         ],
-        'msg'=>[
-            'confirm_export'=>'Bạn có muốn tải về danh sách xác nhận vắng nghỉ không?'
-        ],
-        'message'=>[
-            'export_msg'=>'Bạn có muốn tải xuống danh sách xin vắng làm?'
-        ]
     ]
 ];
