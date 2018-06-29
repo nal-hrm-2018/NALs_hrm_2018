@@ -84,8 +84,11 @@ class TeamServiceImpl extends CommonService
                 $objPoOld -> save();
             }
             
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 4bdb39f5df7ba1468ef988932fcd4ca202029757
             //list member
             $listMember = $request->employee;
 
@@ -116,6 +119,10 @@ class TeamServiceImpl extends CommonService
                         }
                     }
                 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4bdb39f5df7ba1468ef988932fcd4ca202029757
                 //update PO
                 $poId = $request->po_name;
                 if($poId > 0){

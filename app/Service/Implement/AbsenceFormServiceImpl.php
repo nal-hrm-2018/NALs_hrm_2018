@@ -68,7 +68,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             if (empty($objProcess)) {
 //                $is_process = 0;
                 $data1 = [
-                    'reason' => $request->get('reason'),
                     'created_at' => new \DateTime(),
                     'delete_flag' => 0,
                     'absence_status_id' => 1,
@@ -95,7 +94,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                     foreach ($arrayList as $key => $value){
                         if(!empty($value)){
                             $data1 = [
-                                'reason' => $request->get('reason'),
                                 'created_at' => new \DateTime(),
                                 'delete_flag' => 0,
                                 'absence_status_id' => 1,
@@ -108,7 +106,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                     }
 
                 $dataPoTeamJustWatch = [
-                    'reason' => $request->get('reason'),
                     'created_at' => new \DateTime(),
                     'delete_flag' => 0,
                     'absence_status_id' => 1,
@@ -170,7 +167,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             if (empty($objProcess)) {
 //                $is_process = 0;
                 $data1 = [
-                    'reason' => $request->get('reason'),
                     'created_at' => new \DateTime(),
                     'delete_flag' => 0,
                     'absence_status_id' => 1,
@@ -197,7 +193,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                 foreach ($arrayList as $key => $value) {
                     if (!empty($value)) {
                         $data1 = [
-                            'reason' => $request->get('reason'),
                             'created_at' => new \DateTime(),
                             'delete_flag' => 0,
                             'absence_status_id' => 1,
@@ -210,7 +205,6 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                 }
 
                 $dataPoTeamJustWatch = [
-                    'reason' => $request->get('reason'),
                     'created_at' => new \DateTime(),
                     'delete_flag' => 0,
                     'absence_status_id' => 1,
