@@ -160,7 +160,7 @@
                                 <tbody class="context-menu" id="listAbsence">
                                     @foreach($listAbsence AS $obj)
                                         <tr>
-                                            <td>{{$obj->from_date}} - {{$obj->id}}</td>
+                                            <td>{{$obj->from_date}}</td>
                                             <td>{{$obj->to_date}}</td>
                                             <td>
                                                 @if(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.salary_date'))
