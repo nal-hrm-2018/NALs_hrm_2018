@@ -105,11 +105,9 @@ class AbsenceController extends Controller
             config('settings.status_common.absence_type.subtract_salary_date'))->get();
         $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
         $absenceStatus = AbsenceStatus::all();
-        $confirmStatus = AbsenceStatus::all();
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-
 
         $projects = Confirm::select('confirms.project_id', 'projects.name')
             ->distinct('confirms.project_id')
@@ -129,7 +127,7 @@ class AbsenceController extends Controller
         $param = (Input::except(['page', 'is_employee']));
         DB::unprepared(DB::raw("DROP TEMPORARY TABLE " . $tempTableName));
         return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO',
-            'id', 'absenceStatus', 'param', 'confirmStatus'));
+            'id', 'absenceStatus', 'param'));
     }
 
     public function confirmRequestAjax(Request $request)
