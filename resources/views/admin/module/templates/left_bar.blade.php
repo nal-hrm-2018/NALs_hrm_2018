@@ -1,7 +1,22 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      
+      <?php
+        $id=Auth::user()->id;
+        $arr_permission=DB::table('permission_employee')->select('permission_id')->where('employee_id',$id)->get()->toArray();
+        $status_vle=0;$status_ane=0;
+          foreach ($arr_permission as $key => $value) {
+            $name_permission=DB::table('permissions')->select('name')->where('id',$value->permission_id)->get()->toArray();
+            foreach ($name_permission as $key => $val) {
+              if($val->name=='view_list_employee'){
+                  $status_vle=1;//a la bien trang thái view list employee a=1 cho phep hien thị, 0 thì ẩn
+              }
+              if($val->name=='add_new_employee'){
+                  $status_ane=1; //a la bien trang thái view list employee a=1 cho phep hien thị, 0 thì ẩn
+              }
+            }
+          }
+      ?>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li>
@@ -9,6 +24,9 @@
             <i class="fa fa-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
+        <?php 
+          if($status_vle!=0 && $status_ane!=0){
+        ?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-users"></i> <span>{{trans('leftbar.nav.employee')}}</span>
@@ -17,10 +35,21 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            <?php
+              if($status_vle==1){
+            ?>
             <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.employee')}}</a></li>
+            <?php
+              }
+              if($status_ane==1){
+            ?>
             <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.employee')}}</a></li>
+            <?php
+              }
+            ?>
           </ul>
         </li>
+      <?php } ?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-handshake-o"></i> <span>{{trans('leftbar.nav.vendor')}}</span>

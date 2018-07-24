@@ -66,10 +66,44 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('employee/importEmployee', 'User\Employee\EmployeeController@importEmployee')->name('importEmployee');
     Route::post('employee/edit-password', 'User\Employee\EmployeeController@editPass')->name('editPass');
     Route::resource('employee', 'User\Employee\EmployeeController');
+
+    Route::get('employee',[
+        'uses'=> 'User\Employee\EmployeeController@index',
+        'as' => 'employee.index '
+    ])->middleware('role:view_list_employee');
+
+    Route::get('employee/create',[
+        'uses' => 'User\Employee\EmployeeController@create',
+        'as' => 'employee.create '
+    ])->middleware('role:add_new_employee');
+
+    Route::delete('/employee/{employee}',[
+        'uses' => 'User\Employee\EmployeeController@destroy',
+        'as' => 'employee.destroy'
+    ])->middleware('role:delete_employee');
+
+    Route::get('employee/importEmployee',[
+        'uses' => 'User\Employee\EmployeeController@importEmployee' ,
+        'as' => 'importEmployee '
+    ]);
+
+    // Route::post('employee/store',[
+    //     'uses' =>
+    // ]);
     Route::post('/employee/{id}', [
         'as' => 'show_chart',
         'uses' => 'User\Employee\EmployeeController@showChart',
     ]);
+
+    Route::get('/employee/{employee}',[
+        'as' =>'employee.show',
+        'uses' => 'User\Employee\EmployeeController@show'
+    ])->middleware('role:view_employee_basic');
+
+    Route::get('employee/{employee}/edit',[
+        'as' => 'employee.edit',
+        'uses' => 'User\Employee\EmployeeController@edit' 
+    ])->middleware('role:edit_employee_basic');
 
     Route::get('/export', 'User\Employee\EmployeeController@export')->name('export');
 
