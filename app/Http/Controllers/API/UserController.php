@@ -1,8 +1,13 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+
+
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use App\User;
-use Illuminate\Http\Request;
+
 use JWTAuth;
 use JWTAuthException;
 use Hash;
