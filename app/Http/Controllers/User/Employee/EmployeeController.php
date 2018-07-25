@@ -20,6 +20,7 @@ use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
+use App\Models\PermissionEmployee;
 use DateTime;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
@@ -37,12 +38,15 @@ class EmployeeController extends Controller
     private $searchEmployeeService;
     protected $searchService;
     private $chartService;
+    private $objmEmployeePermission;
 
-    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService, ChartService $chartService)
+    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService, ChartService $chartService,PermissionEmployee $objmEmployeePermission
+    )
     {
         $this->searchService = $searchService;
         $this->searchEmployeeService = $searchEmployeeService;
         $this->chartService = $chartService;
+        $this->objmEmployeePermission=$objmEmployeePermission;
     }
 
     public function index(Request $request)
@@ -56,7 +60,8 @@ class EmployeeController extends Controller
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $param = (Input::except(['page','is_employee']));
-        return view('employee.list', compact('employees','status', 'roles', 'teams', 'param'));
+        $employee_permission=$this->objmEmployeePermission->permission_employee();
+        return view('employee.list', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
     }
 
     public function create()

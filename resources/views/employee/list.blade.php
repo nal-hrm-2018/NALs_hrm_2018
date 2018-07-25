@@ -367,22 +367,34 @@
                                                 @else
                                                     <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
                                                 @endif
-                                            </p>
+                                            </p>  
                                         </td>
                                         <td style="text-align: center;width: 50px;">
                                             <button type="button" class="btn btn-default cv-button">
                                                 <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>
                                             </button>
                                         </td>
-
+  
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-
-                                            <li><a href="employee/{{$employee->id}}"><i
-                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
-                                            <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
-                                                    {{trans('common.action.edit')}}</a></li>
-                                            <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
+                                            @foreach($employee_permission as $key => $value)
+                                            @php
+                                                $name_permission=DB::table('permissions')->select('name')->where('id',$value->permission_id)->get()->toArray();
+                                            @endphp
+                                                @foreach($name_permission as $key => $val)
+                                                @if($val->name=='view_employee_basic')
+                                                    <li><a href="employee/{{$employee->id}}"><i
+                                                                class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
+                                                @endif
+                                                @if($val->name=='edit_employee_basic')
+                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
+                                                        {{trans('common.action.edit')}}</a></li>
+                                                @endif
+                                                @if($val->name=='delete_employee')
+                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
                                                             class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
+                                                @endif
+                                                @endforeach
+                                            @endforeach
                                         </ul>
                                     </tr>
                                 @endforeach

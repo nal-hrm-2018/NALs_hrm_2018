@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PermissionEmployee;
+use App\Models\Permissions;
 
 class RoleMiddleware
 {
@@ -18,10 +20,10 @@ class RoleMiddleware
     public function handle($request, Closure $next,$role)
     {
         $id_employee=Auth::user()->id;
-        $arr_permission=DB::table('permission_employee')->select('permission_id')->where('employee_id',$id_employee)->get()->toArray();
+        $arr_permission=PermissionEmployee::where('employee_id',$id_employee)->get();
         $cout=0;
         foreach ($arr_permission as $key => $value) {
-            $name_permission=DB::table('permissions')->select('name')->where('id',$value->permission_id)->get()->toArray();
+            $name_permission=Permissions::where('id',$value->permission_id)->get();
             foreach ($name_permission as $key => $value) {
                 $namee=$value->name;
             }
@@ -29,11 +31,6 @@ class RoleMiddleware
                 $cout=1;
                 return $next($request);
             }
-        }
-        if($cout==0){
-            $message = "Bạn không được phép vào chức năng này.";
-            echo "<script type='text/javascript'>alert('$message');</script>";
-            return response()->view('admin.module.index.index');
         }
     }
 }
