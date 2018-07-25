@@ -43,7 +43,7 @@ class ProfileController extends BaseAPIController
     {
         $user = JWTAuth::toUser($request->token);
 //        return response()->json(['result' => $user]);
-        return $this->sendSuccess($user);
+        return $this->sendSuccess($user, 'employee profile');
     }
 
     /**
