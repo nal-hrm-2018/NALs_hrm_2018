@@ -16,8 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('auth/login', 'API\UserController@login');
-Route::post('auth/register', 'API\UserController@register');
+Route::post('auth/login', 'API\BaseAPIController@login');
+Route::post('auth/register', 'API\BaseAPIController@register');
 Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::get('user-info', 'API\ProfileController@show');
+    Route::apiResources([
+        'profile' => 'API\ProfileController',
+        'employee' => 'API\ListEmployeeController',
+        'project' => 'API\EmployeeProjectController'
+    ]);
 });

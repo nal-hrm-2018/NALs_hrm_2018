@@ -4,13 +4,8 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 
-use App\User;
 
-use JWTAuth;
-use JWTAuthException;
-use Hash;
-
-class ProfileController extends BaseAPIController
+class ListEmployeeController extends BaseAPIController
 {
     /**
      * Display a listing of the resource.
@@ -39,11 +34,9 @@ class ProfileController extends BaseAPIController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($id)
     {
-        $user = JWTAuth::toUser($request->token);
-//        return response()->json(['result' => $user]);
-        return $this->sendSuccess($user);
+        //
     }
 
     /**
