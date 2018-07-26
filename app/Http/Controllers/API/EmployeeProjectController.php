@@ -4,6 +4,13 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 
+use App\Models\Employee;
+use App\Models\Project;
+use App\Models\Role;
+
+use JWTAuth;
+use JWTAuthException;
+use Hash;
 
 class EmployeeProjectController extends BaseAPIController
 {
@@ -12,9 +19,11 @@ class EmployeeProjectController extends BaseAPIController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = JWTAuth::toUser($request->token);
+        $role_id = $user->role_id;
+        return $this->sendSuccess($user, 'employee profile');
     }
 
     /**
