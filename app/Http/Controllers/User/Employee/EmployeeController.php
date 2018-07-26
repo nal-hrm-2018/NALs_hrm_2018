@@ -30,6 +30,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\EmployeeEditRequest;
 use App\Import\ImportFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 class EmployeeController extends Controller
 {
     /**
@@ -60,7 +61,8 @@ class EmployeeController extends Controller
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $param = (Input::except(['page','is_employee']));
-        $employee_permission=$this->objmEmployeePermission->permission_employee();
+        $id=Auth::user()->id;
+        $employee_permission=$this->objmEmployeePermission->permission_employee($id);
         return view('employee.list', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
     }
 

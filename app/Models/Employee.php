@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Models\PermissionEmployee;
 
 
 class Employee extends Model implements
@@ -128,4 +129,17 @@ class Employee extends Model implements
     {
         return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);
     }
+    public function hasPermission($role){
+        $arr_permission=PermissionEmployee::where('employee_id',$this->id)->get();
+        $status=0;$namee='';
+        foreach ($arr_permission as $key => $value) {
+            $name_permission=Permissions::where('id',$value->permission_id)->value('name');
+            if($name_permission==$role)
+                $status=1;
+        }
+        if($status==0)
+            return false;
+        return true;
+    }
+
 }

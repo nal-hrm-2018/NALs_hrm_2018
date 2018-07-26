@@ -10,9 +10,8 @@ class PermissionEmployee extends Model
     public $table = 'permission_employee';
     protected $fillable = ['permission_id', 'employee_id'];
 
-    public function permission_employee(){
-    	$id_employee=Auth::user()->id;
-        $arr_permission=PermissionEmployee::where('employee_id',$id_employee)->get();
+    public function permission_employee($id){
+        $arr_permission=PermissionEmployee::where('employee_id',$id)->get();
     	return $arr_permission;
     }
 

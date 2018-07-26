@@ -20,6 +20,9 @@ use App\Service\SearchService;
 use App\Service\TeamService;
 use App\Service\ExtraAbsenceDateService;
 use App\Service\Implement\ExtraAbsenceDateImpl;
+use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Blade;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -29,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+    
     }
 
     /**
