@@ -68,5 +68,7 @@ class ListEmployeeController extends BaseAPIController
     public function destroy($id)
     {
         //
+
+        print('hhh');
     }
 }
