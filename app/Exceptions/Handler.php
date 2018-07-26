@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
         if ($request->ajax()) {
             if ($exception instanceof TokenInvalidException) {
                 return response()->json([
-                    'result_code' => 1000,
+                    'result_code' => 401,
                     'message' => 'token invalid'
                 ]);
             }
@@ -59,6 +59,8 @@ class Handler extends ExceptionHandler
 //                'result_code' => 2000,
 //                'message' => 'Token is required'
 //            ]);
+        } else {
+            return true;
         }
         return parent::render($request, $exception);
     }

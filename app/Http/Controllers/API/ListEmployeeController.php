@@ -19,9 +19,11 @@ class ListEmployeeController extends BaseAPIController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $employees = Employee::all();
+        
+        return $this->sendSuccess($employees, 'list employees');
     }
 
     /**
@@ -44,9 +46,7 @@ class ListEmployeeController extends BaseAPIController
 
     public function show(Request $request)
     {
-        $employees = Employee::all();
-//        return response()->json(['result' => $user]);
-        return $this->sendSuccess($employees, 'list employees');
+      
     }
 
     /**

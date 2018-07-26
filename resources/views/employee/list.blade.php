@@ -367,22 +367,27 @@
                                                 @else
                                                     <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
                                                 @endif
-                                            </p>
+                                            </p>  
                                         </td>
                                         <td style="text-align: center;width: 50px;">
                                             <button type="button" class="btn btn-default cv-button">
                                                 <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>
                                             </button>
                                         </td>
-
+  
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-
-                                            <li><a href="employee/{{$employee->id}}"><i
+                                            @if(Auth::user()->hasPermission('view_employee_basic'))
+                                                <li><a href="employee/{{$employee->id}}"><i
                                                             class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
+                                            @endif
+                                            @if(Auth::user()->hasPermission('edit_employee_basic'))
                                             <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
                                                     {{trans('common.action.edit')}}</a></li>
+                                            @endif
+                                            @if(Auth::user()->hasPermission('delete_employee'))
                                             <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
-                                                            class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
+                                                        class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
+                                            @endif
                                         </ul>
                                     </tr>
                                 @endforeach

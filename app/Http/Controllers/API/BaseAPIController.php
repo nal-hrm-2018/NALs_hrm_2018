@@ -23,11 +23,10 @@ abstract class BaseAPIController extends Controller
         ]);
     }
 
-    function sendError($errorCode, $message, $data){
+    function sendError($errorCode, $message){
         return response()->json([
             'result_code' => $errorCode,
             'result_message' => $message,
-            'data' => $data
         ]);
     }
 }
