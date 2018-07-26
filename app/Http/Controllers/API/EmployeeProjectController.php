@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\User;
 
-class ListEmployeeController extends BaseAPIController
+
+class EmployeeProjectController extends BaseAPIController
 {
     /**
      * Display a listing of the resource.
@@ -38,13 +37,6 @@ class ListEmployeeController extends BaseAPIController
     public function show($id)
     {
         //
-    }
-
-    public function show(Request $request)
-    {
-        $user = JWTAuth::toUser($request->token);
-//        return response()->json(['result' => $user]);
-        return $this->sendSuccess($user);
     }
 
     /**
