@@ -32,7 +32,7 @@ class AuthAPIController extends BaseAPIController
         $token = null;
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return $this->sendError(422, 'invalid_email_or_password');
+                return $this->sendError(401, 'invalid_email_or_password');
             }
         } catch (JWTAuthException $e) {
             return $this->sendError(500, 'failed_to_create_token');
