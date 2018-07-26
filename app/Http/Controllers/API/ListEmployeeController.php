@@ -5,6 +5,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Models\Employee;
+
+
+use JWTAuth;
+use JWTAuthException;
+use Hash;
 
 class ListEmployeeController extends BaseAPIController
 {
@@ -35,16 +41,12 @@ class ListEmployeeController extends BaseAPIController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
 
     public function show(Request $request)
     {
-        $user = JWTAuth::toUser($request->token);
+        $employees = Employee::all();
 //        return response()->json(['result' => $user]);
-        return $this->sendSuccess($user);
+        return $this->sendSuccess($employees, 'list employees');
     }
 
     /**
@@ -67,8 +69,5 @@ class ListEmployeeController extends BaseAPIController
      */
     public function destroy($id)
     {
-        //
-
-        print('hhh');
     }
 }
