@@ -9,6 +9,7 @@
             <i class="fa fa-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
+          @if(Auth::user()->hasPermission('view_list_employee')||Auth::user()->hasPermission('add_new_employee'))
         <li class="treeview">
           <a href="#">
             <i class="fa fa-users"></i> <span>{{trans('leftbar.nav.employee')}}</span>
@@ -17,10 +18,16 @@
             </span>
           </a>
           <ul class="treeview-menu">
+              @if(Auth::user()->hasPermission('view_list_employee'))
             <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.employee')}}</a></li>
+              @endif
+
+              @if(Auth::user()->hasPermission('add_new_employee'))
             <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.employee')}}</a></li>
+              @endif
           </ul>
         </li>
+          @endif
         <li class="treeview">
           <a href="#">
             <i class="fa fa-handshake-o"></i> <span>{{trans('leftbar.nav.vendor')}}</span>
