@@ -21,8 +21,22 @@ class ProfileController extends BaseAPIController
     {
         $user = JWTAuth::toUser($request->token);
 
+        $data[] = [
+                'id' => $user->id,
+                'email'=>$user->email,
+                'name' => $user->name,
+                'birthday' => $user->birthday,
+                'gender' => $user->gender,
+                'mobile' => $user->mobile,
+                'address' => $user->address,
+                'marital_status'=> $user->marital_status,
+                'startwork_date' => $user->startwork_date,
+                'endwork_date' => $user->endwork_date,
+                'role_id' => $user->role_id
+                ];
+
      //   $data = new UserCollection($user);
-        return $this->sendSuccess($user, 'employee profile');
+        return $this->sendSuccess($data, 'employee profile');
     }
 
     /**

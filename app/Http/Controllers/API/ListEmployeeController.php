@@ -4,10 +4,11 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\employees;
 use App\Models\Employee;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Role;
 use JWTAuth;
 use JWTAuthException;
 use Hash;
@@ -22,14 +23,36 @@ class ListEmployeeController extends BaseAPIController
     public function index(Request $request)
     {
 
-        // $employees = DB::table('employees')->findAll(); 
-         $employees = Employee::all();
-        // dd($abc);
-        // $employees = Employee::select('id','name')->where('id','>','0')->get()->toArray();
-        // dd($employees);
-        // $data = array();
-        
-        return $this->sendSuccess($employees, 'list employees');
+        $employees = Employee::all();
+
+
+        // $employees = JWTAuth::toemployees($request->token);
+        // $employee_id = $employees->id;
+        // $view_list_employees_id = Permissions::where('name', 'view_list_employees');
+        // $permissions = PermissionEmployee::select('permission_id')
+        //     ->where('employee_id', $employee_id)->where('employee_id',$view_list_employees_id);
+        //     $employees->employeesId,['getid' => $employees->employeesNo]
+
+        // $employees = employees::all();
+
+        foreach ($employees as $employees){
+           $data[] = [
+                'id' => $employees->id,
+                'email'=>$employees->email,
+                'name' => $employees->name,
+                'birthday' => $employees->birthday,
+                'gender' => $employees->gender,
+                'mobile' => $employees->mobile,
+                'address' => $employees->address,
+                'marital_status'=> $employees->marital_status,
+                'startwork_date' => $employees->startwork_date,
+                'endwork_date' => $employees->endwork_date,
+                'role_id' => $employees->role_id
+                ];
+
+        }
+        return $this->sendSuccess($data, 'employee profile');
+       
     }
 
     /**
