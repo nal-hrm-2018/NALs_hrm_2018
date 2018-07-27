@@ -7,9 +7,6 @@ use App\Models\PermissionEmployee;
 use App\Models\Permissions;
 use Illuminate\Http\Request;
 
-
-
-
 use JWTAuth;
 use JWTAuthException;
 use Hash;
@@ -25,26 +22,27 @@ class EmployeeProjectController extends BaseAPIController
     {
         $user = JWTAuth::toUser($request->token);
         $employee_id = $user->id;
-        $view_list_project_id = Permissions::where('name', 'view_list_project');
-        $permissions = PermissionEmployee::select('permission_id')
-            ->where('employee_id', $employee_id)->where('employee_id',$view_list_project_id);
-
-        $projects = Project::all();
-
-        foreach ($projects as $project){
-            $data[] = [
-                'id' => $project->id,
-                'name' => $project->name,
-                'income' => $project->income,
-                'real_cost'=> $project->real_cost,
-                "description"=> $project->description,
-                "status_id" => $project->status_id,
-                "estimate_start_date"=> $project->estimate_start_date,
-                "start_date"=> $project->start_date,
-                "estimate_end_date"=> $project->estimate_end_date,
-                "end_date"=> $project->end_date];
+        $view_list_project_id = Permissions::where('name', 'view_list_project')->value('id');
+        $permissions = PermissionEmployee::where('employee_id',$employee_id)
+            ->where('permission_id', $view_list_project_id)->get();
+        if (count($permissions)){
+            $projects = Project::all();
+            foreach ($projects as $project){
+                $data[] = [
+                    'id' => $project->id,
+                    'name' => $project->name,
+                    'income' => $project->income,
+                    'real_cost'=> $project->real_cost,
+                    "description"=> $project->description,
+                    "status_id" => $project->status_id,
+                    "estimate_start_date"=> $project->estimate_start_date,
+                    "start_date"=> $project->start_date,
+                    "estimate_end_date"=> $project->estimate_end_date,
+                    "end_date"=> $project->end_date
+                ];
+            }
         }
-        return $this->sendSuccess($data, 'employee profile');
+        return $this->sendSuccess($data, 'list empolyee projects');
     }
 
     /**
