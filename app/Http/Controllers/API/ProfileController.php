@@ -20,7 +20,8 @@ class ProfileController extends BaseAPIController
     public function index(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
-//        return response()->json(['result' => $user]);
+
+     //   $data = new UserCollection($user);
         return $this->sendSuccess($user, 'employee profile');
     }
 
