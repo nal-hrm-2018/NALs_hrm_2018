@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 
 use App\User;
-
+use App\Models\Role;
 use JWTAuth;
 use JWTAuthException;
 use Hash;
+//use Illuminate\Support\Collection;
+//use App\Http\Resources\UserCollection as UserResource;
 
 class ProfileController extends BaseAPIController
 {
@@ -20,22 +22,35 @@ class ProfileController extends BaseAPIController
     public function index(Request $request)
     {
         $user = JWTAuth::toUser($request->token);
-
-        $data[] = [
-                'id' => $user->id,
-                'email'=>$user->email,
-                'name' => $user->name,
-                'birthday' => $user->birthday,
-                'gender' => $user->gender,
-                'mobile' => $user->mobile,
-                'address' => $user->address,
-                'marital_status'=> $user->marital_status,
-                'startwork_date' => $user->startwork_date,
-                'endwork_date' => $user->endwork_date,
-                'role_id' => $user->role_id
-                ];
-
-     //   $data = new UserCollection($user);
+        $role_id = $user->role_id;
+        $role_name = Role::where('id', $role_id)->value('name');
+        $gender_id = $user->role_id;
+        if ($gender_id == 1) {
+            $gender_name = 'female';
+        }elseif ($gender_id == 2) {
+            $gender_name = 'male';
+        }else{
+            $gender_name = 'N/A';
+        }
+        $data = [
+            'id' => $user->id,
+            'email'=>$user->email,
+            'name' => $user->name,
+            'birthday' => $user->birthday,
+            'gender' => [
+                'gender_id' => $gender_id,
+                'gender_name' => $gender_name
+            ],
+            'mobile' => $user->mobile,
+            'address' => $user->address,
+            'marital_status'=> $user->marital_status,
+            'startwork_date' => $user->startwork_date,
+            'endwork_date' => $user->endwork_date,
+            'role' => [
+                'role_id' => $role_id,
+                'role_name' => $role_name
+            ],
+            ];
         return $this->sendSuccess($data, 'employee profile');
     }
 

@@ -14,26 +14,18 @@ class UserCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
-        // return [
-        //     'data' => $this->collection,
-        //     'response' => [
-        //         'status' => 'success',
-        //         'code' => 200
-        //     ],
-        // ];
-        // return [
-        //     'id' => $this->id,
-        //     'name' => $this->name,
-        //     'email' => $this->email,
-        //     'posts' => Post::collection($this->posts),
-        //     'status' => 'success'
-        // ];
-
-        // $this->collection->transform(function (User $user) {
-        //     return (new UserResource($user));
-        // });
-
-        // return parent::toArray($request);
+       return  [
+            'id' => $user->id,
+            'email'=>$user->email,
+            'name' => $user->name,
+            'birthday' => $user->birthday,
+            'gender' => $user->gender,
+            'mobile' => $user->mobile,
+            'address' => $user->address,
+            'marital_status'=> $user->marital_status,
+            'startwork_date' => $user->startwork_date,
+            'endwork_date' => $user->endwork_date,
+           // 'role' => Role::collection($user->role_id)
+            ];
     }
 }

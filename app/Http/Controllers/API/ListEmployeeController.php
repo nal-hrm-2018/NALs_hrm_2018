@@ -24,31 +24,36 @@ class ListEmployeeController extends BaseAPIController
     {
 
         $employees = Employee::all();
-
-
-        // $employees = JWTAuth::toemployees($request->token);
-        // $employee_id = $employees->id;
-        // $view_list_employees_id = Permissions::where('name', 'view_list_employees');
-        // $permissions = PermissionEmployee::select('permission_id')
-        //     ->where('employee_id', $employee_id)->where('employee_id',$view_list_employees_id);
-        //     $employees->employeesId,['getid' => $employees->employeesNo]
-
-        // $employees = employees::all();
-
         foreach ($employees as $employees){
+            $role_id = $employees->role_id;
+            $role_name = Role::where('id', $role_id)->value('name');
+            $gender_id = $employees->role_id;
+            if ($gender_id == 1) {
+                $gender_name = 'female';
+            }elseif ($gender_id == 2) {
+                $gender_name = 'male';
+            }else{
+                $gender_name = 'N/A';
+            }
            $data[] = [
                 'id' => $employees->id,
                 'email'=>$employees->email,
                 'name' => $employees->name,
                 'birthday' => $employees->birthday,
-                'gender' => $employees->gender,
+                'gender' => [
+                    'gender_id' => $gender_id,
+                    'gender_name' => $gender_name
+                ],
                 'mobile' => $employees->mobile,
                 'address' => $employees->address,
                 'marital_status'=> $employees->marital_status,
                 'startwork_date' => $employees->startwork_date,
                 'endwork_date' => $employees->endwork_date,
-                'role_id' => $employees->role_id
-                ];
+                'role' => [
+                    'role_id' => $role_id,
+                    'role_name' => $role_name
+                ],
+            ];
 
         }
         return $this->sendSuccess($data, 'employee profile');
