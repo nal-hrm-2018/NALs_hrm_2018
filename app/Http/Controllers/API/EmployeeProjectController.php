@@ -25,6 +25,7 @@ class EmployeeProjectController extends BaseAPIController
         $view_list_project_id = Permissions::where('name', 'view_list_project')->value('id');
         $permissions = PermissionEmployee::where('employee_id',$employee_id)
             ->where('permission_id', $view_list_project_id)->get();
+        $data = [];
         if (count($permissions)){
             $projects = Project::all();
             foreach ($projects as $project){
@@ -41,8 +42,9 @@ class EmployeeProjectController extends BaseAPIController
                     "end_date"=> $project->end_date
                 ];
             }
+            return $this->sendSuccess($data, 'list empolyee projects');
         }
-        return $this->sendSuccess($data, 'list empolyee projects');
+        return $this->sendSuccess($data, 'permission denied');
     }
 
     /**
