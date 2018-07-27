@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Models\Employee;
-
+use Illuminate\Support\Facades\DB;
 
 use JWTAuth;
 use JWTAuthException;
@@ -21,7 +21,13 @@ class ListEmployeeController extends BaseAPIController
      */
     public function index(Request $request)
     {
-        $employees = Employee::all();
+
+        // $employees = DB::table('employees')->findAll(); 
+         $employees = Employee::all();
+        // dd($abc);
+        // $employees = Employee::select('id','name')->where('id','>','0')->get()->toArray();
+        // dd($employees);
+        // $data = array();
         
         return $this->sendSuccess($employees, 'list employees');
     }
