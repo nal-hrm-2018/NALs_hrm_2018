@@ -28,29 +28,29 @@ class EmployeeProjectController extends BaseAPIController
             ->where('permission_id', $view_list_project_id)->get();
         $data = [];
         if (count($permissions)){
-            $projects = Project::all();
-            foreach ($projects as $project){
-                $status_id = $project->status_id;
-                $status_name = Status::where('id', $status_id)->value('name');
-                $data[] = [
-                    'id' => $project->id,
-                    'name' => $project->name,
-                    'income' => $project->income,
-                    'real_cost'=> $project->real_cost,
-                    "description"=> $project->description,
-                    "status" => [
-                        'id' => $status_id,
-                        'status' => $status_name
-                        ],
-                    "estimate_start_date"=> $project->estimate_start_date,
-                    "start_date"=> $project->start_date,
-                    "estimate_end_date"=> $project->estimate_end_date,
-                    "end_date"=> $project->end_date
-                ];
-            }
-            return $this->sendSuccess($data, 'list empolyee projects');
+            $projects = Project::with(['status','processes'])->get();
+//            foreach ($projects as $project){
+//                $status_id = $project->status_id;
+//                $status_name = Status::where('id', $status_id)->value('name');
+//                $data[] = [
+//                    'id' => $project->id,
+//                    'name' => $project->name,
+//                    'income' => $project->income,
+//                    'real_cost'=> $project->real_cost,
+//                    "description"=> $project->description,
+//                    "status" => [
+//                        'id' => $status_id,
+//                        'status' => $status_name
+//                        ],
+//                    "estimate_start_date"=> $project->estimate_start_date,
+//                    "start_date"=> $project->start_date,
+//                    "estimate_end_date"=> $project->estimate_end_date,
+//                    "end_date"=> $project->end_date
+//                ];
+//            }
+            return $this->sendSuccess($projects, 'list empolyee projects');
         }
-        return $this->sendSuccess($data, 'permission denied');
+        return $this->sendError(410, 'Can not access');
     }
 
     /**
