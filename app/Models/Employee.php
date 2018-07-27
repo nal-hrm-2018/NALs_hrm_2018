@@ -17,6 +17,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use App\Models\PermissionEmployee;
+use App\Models\Permissions;
+use Illuminate\Support\Facades\DB;
 
 
 class Employee extends Model implements
@@ -130,16 +132,17 @@ class Employee extends Model implements
         return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);
     }
     public function hasPermission($role){
-        $arr_permission=PermissionEmployee::where('employee_id',$this->id)->get();
-        $status=0;$namee='';
-        foreach ($arr_permission as $key => $value) {
-            $name_permission=Permissions::where('id',$value->permission_id)->value('name');
-            if($name_permission==$role)
-                $status=1;
-        }
-        if($status==0)
-            return false;
-        return true;
+        $permission_id=Permissions::where('name',$role)->value('id');
+        $status_emp_per = DB::table('permission_employee')
+            ->join('permissions', 'permissions.id', '=', 'permission_employee.permission_id')
+            ->join('employees','employees.id','=','permission_employee.employee_id')
+            ->select('permission_employee.*')
+            ->where('permission_employee.permission_id',$permission_id)
+            ->where('permission_employee.employee_id',$this->id)
+            ->get();
+        if(count($status_emp_per)>0)
+            return true;
+        return false;
     }
 
 }
