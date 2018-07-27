@@ -22,7 +22,7 @@
                  !!}
             </label>
         </div>
-    </div>
+    </div> 
     <table id="project-list" class="table table-bordered table-striped">
         <thead>
         <tr>
