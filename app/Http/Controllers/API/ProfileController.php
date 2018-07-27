@@ -17,9 +17,11 @@ class ProfileController extends BaseAPIController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = JWTAuth::toUser($request->token);
+//        return response()->json(['result' => $user]);
+        return $this->sendSuccess($user, 'employee profile');
     }
 
     /**
@@ -41,9 +43,7 @@ class ProfileController extends BaseAPIController
      */
     public function show(Request $request)
     {
-        $user = JWTAuth::toUser($request->token);
-//        return response()->json(['result' => $user]);
-        return $this->sendSuccess($user, 'employee profile');
+        
     }
 
     /**
