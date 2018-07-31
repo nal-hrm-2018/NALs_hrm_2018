@@ -4,12 +4,11 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 
-use App\User;
 use App\Models\Role;
 use App\Models\Emoloyee;
+
 use JWTAuth;
 use JWTAuthException;
-use Illuminate\Support\Facades\DB;
 use Hash;
 //use Illuminate\Support\Collection;
 //use App\Http\Resources\UserCollection as UserResource;
