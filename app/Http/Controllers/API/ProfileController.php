@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 
-use App\User;
+
 
 use JWTAuth;
 use JWTAuthException;
