@@ -51,9 +51,17 @@
             <!-- /.col -->
             <div class="col-md-5">
               <!-- /.form-group -->
+              @php
+                $statusRole="disabled";
+              @endphp
+              @if(Auth::user()->hasRole())
+                  @php
+                  $statusRole="";
+                  @endphp
+              @endif
               <div class="form-group">
                 <label>{{trans('employee.profile_info.email')}}<strong style="color: red">(*)</strong></label>
-                <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.email')}}" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
+                <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.email')}}" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
                   readonly="readonly"
                 @endif
                 >
@@ -132,7 +140,7 @@
               </div>
               <div class="form-group">
                 <label>{{trans('employee.profile_info.position')}}<strong style="color: red">(*)</strong></label>
-                <select class="form-control select2" style="width: 100%;" name="employee_type_id" id="employee_type_id">
+                <select class="form-control select2" {{$statusRole}} style="width: 100%;" name="employee_type_id" id="employee_type_id">
                   <option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>
                   <?php
                     foreach($dataEmployeeTypes as $val){
@@ -148,7 +156,7 @@
               </div>
               <div class="form-group">
                 <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
-                <select class="form-control select2" style="width: 100%;" name="role_id" id="role_id">
+                <select class="form-control select2" {{$statusRole}} style="width: 100%;" name="role_id" id="role_id">
                   <option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>
                   <?php
                     foreach($dataRoles as $val){
@@ -170,7 +178,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
+                      <input type="date" {{$statusRole}} class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
                     </div>
                     <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
                   </div>
@@ -182,7 +190,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
+                      <input type="date" {{$statusRole}} class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
                     </div>
                     <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
                     <!-- /.input group -->

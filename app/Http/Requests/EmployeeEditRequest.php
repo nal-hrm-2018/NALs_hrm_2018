@@ -21,8 +21,8 @@ class EmployeeEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' =>[ 
-                'required',
+            'email' =>[
+//                'required',
                 'email',
                 new ValidEmail(request()->get('email'), request()->route()->parameters())],
             'confirm_confirmation' => 'same:password',
@@ -40,13 +40,13 @@ class EmployeeEditRequest extends FormRequest
                 'digits_between:1,4',
             ],
             /*'curriculum_vitae' => 'required',*/
-            'employee_type_id' => 'required',
+//            'employee_type_id' => 'required',
             'team_id' => 'required',
-            'role_id' => 'required',
+//            'role_id' => 'required',
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
-            'startwork_date' => 'required',
-            'endwork_date' => 'required|after:startwork_date'
+//            'startwork_date' => 'required',
+//            'endwork_date' => 'required|after:startwork_date'
         ];
     }
 
