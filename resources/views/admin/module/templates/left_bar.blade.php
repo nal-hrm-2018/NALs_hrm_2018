@@ -28,57 +28,58 @@
           </ul>
         </li>
           @endif
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-handshake-o"></i> <span>{{trans('leftbar.nav.vendor')}}</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.vendor')}}</a></li>
-            <li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.vendor')}}</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>{{trans('leftbar.nav.team')}}</span>
-              <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.team')}}</a></li>
-            <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.team')}}</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-diamond"></i> <span>{{trans('leftbar.nav.project')}}</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.project')}}</a></li>
-            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.project')}}</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.absence')}}</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ asset('absences')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence')}}</a></li>
-            <li><a href="{{ asset('absences/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.absence')}}</a></li>
-            <li><a href="{{ asset('absence-po')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence_po')}}</a></li>
-            <li><a href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>
-            <li><a href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>
-          </ul>
-        </li>
+        <!-- 1/8/hiddent_cmt-->
+        {{--<li class="treeview">--}}
+          {{--<a href="#">--}}
+            {{--<i class="fa fa-handshake-o"></i> <span>{{trans('leftbar.nav.vendor')}}</span>--}}
+            {{--<span class="pull-right-container">--}}
+              {{--<i class="fa fa-angle-left pull-right"></i>--}}
+            {{--</span>--}}
+          {{--</a>--}}
+          {{--<ul class="treeview-menu">--}}
+            {{--<li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.vendor')}}</a></li>--}}
+            {{--<li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.vendor')}}</a></li>--}}
+          {{--</ul>--}}
+        {{--</li>--}}
+        {{--<li class="treeview">--}}
+          {{--<a href="#">--}}
+            {{--<i class="fa fa-heartbeat"></i> <span>{{trans('leftbar.nav.team')}}</span>--}}
+              {{--<span class="pull-right-container">--}}
+              {{--<i class="fa fa-angle-left pull-right"></i>--}}
+            {{--</span>--}}
+          {{--</a>--}}
+          {{--<ul class="treeview-menu">--}}
+            {{--<li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.team')}}</a></li>--}}
+            {{--<li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.team')}}</a></li>--}}
+          {{--</ul>--}}
+        {{--</li>--}}
+        {{--<li class="treeview">--}}
+          {{--<a href="#">--}}
+            {{--<i class="fa fa-diamond"></i> <span>{{trans('leftbar.nav.project')}}</span>--}}
+            {{--<span class="pull-right-container">--}}
+              {{--<i class="fa fa-angle-left pull-right"></i>--}}
+            {{--</span>--}}
+          {{--</a>--}}
+          {{--<ul class="treeview-menu">--}}
+            {{--<li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.project')}}</a></li>--}}
+            {{--<li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.project')}}</a></li>--}}
+          {{--</ul>--}}
+        {{--</li>--}}
+        {{--<li class="treeview">--}}
+          {{--<a href="#">--}}
+            {{--<i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.absence')}}</span>--}}
+            {{--<span class="pull-right-container">--}}
+              {{--<i class="fa fa-angle-left pull-right"></i>--}}
+            {{--</span>--}}
+          {{--</a>--}}
+          {{--<ul class="treeview-menu">--}}
+            {{--<li><a href="{{ asset('absences')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence')}}</a></li>--}}
+            {{--<li><a href="{{ asset('absences/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.absence')}}</a></li>--}}
+            {{--<li><a href="{{ asset('absence-po')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence_po')}}</a></li>--}}
+            {{--<li><a href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>--}}
+            {{--<li><a href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>--}}
+          {{--</ul>--}}
+        {{--</li>--}}
                 
       </ul>
 
