@@ -193,15 +193,21 @@ class EmployeeController extends Controller
         if ($employee == null) {
             return abort(404);
         }
-        $employee->email = $request->email;
+        if(Auth::user()->hasRole()){
+            $employee->email = $request->email;
+            $employee->startwork_date = $request->startwork_date;
+            $employee->endwork_date = $request->endwork_date;
+            $employee->role_id = $request->role_id;
+            $employee->employee_type_id = $request->employee_type_id;
+        }
+
         $employee->name = $request->name;
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
         $employee->address = $request->address;
         $employee->marital_status = $request->marital_status;
-        $employee->startwork_date = $request->startwork_date;
-        $employee->endwork_date = $request->endwork_date;
+
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
         if(strtotime($employee->endwork_date) < strtotime($date)){
@@ -209,13 +215,13 @@ class EmployeeController extends Controller
         }else{
             $employee->work_status = 0;
         }
-        $employee->employee_type_id = $request->employee_type_id;
-        $employee->team_id = $request->team_id;
-        $employee->role_id = $request->role_id;
+
+       // $employee->team_id = $request->team_id;
+
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
             \Session::flash('msg_success', trans('employee.msg_edit.success'));
-            return redirect('employee');
+            return redirect()->route('employee.edit',compact('id'));
         } else {
             \Session::flash('msg_fail', trans('employee.msg_edit.fail'));
             return back()->with(['employee' => $employee]);
