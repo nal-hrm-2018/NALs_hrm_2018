@@ -216,7 +216,7 @@ class EmployeeController extends Controller
             $employee->work_status = 0;
         }
 
-        $employee->team_id = $request->team_id;
+       // $employee->team_id = $request->team_id;
 
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
