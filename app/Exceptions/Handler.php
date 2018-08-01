@@ -57,10 +57,8 @@ class Handler extends ExceptionHandler
             }
             return response()->json([
                 'result_code' => 500,
-                'message' => 'Ser'
+                'message' => 'Internal error'
             ]);
-        } else {
-            return true;
         }
         return parent::render($request, $exception);
     }
