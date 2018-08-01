@@ -90,7 +90,8 @@ class Employee extends Model implements
      */
     public function permissions()
     {
-        return $this->belongsToMany('App\Models\Permission', 'permission_employee', 'employee_id', 'permission_id');
+        return $this->belongsToMany('App\Models\Permissions', 'permission_employee', 'employee_id', 'permission_id');
+        
     }
 
     /**
@@ -132,14 +133,10 @@ class Employee extends Model implements
         return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);
     }
     public function hasPermission($role){
-        $permission_id=Permissions::where('name',$role)->value('id');
-        $status_emp_per = DB::table('permission_employee')
-            ->join('permissions', 'permissions.id', '=', 'permission_employee.permission_id')
-            ->join('employees','employees.id','=','permission_employee.employee_id')
-            ->select('permission_employee.*')
-            ->where('permission_employee.permission_id',$permission_id)
-            ->where('permission_employee.employee_id',$this->id)
-            ->get();
+        $status_emp_per = $this->whereHas('permissions',function($query) use ($role){
+            $query->where('name',$role);
+        })->where('id',$this->id)->get();
+
         if(count($status_emp_per)>0)
             return true;
         return false;

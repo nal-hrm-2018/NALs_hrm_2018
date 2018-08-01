@@ -55,12 +55,10 @@ class Handler extends ExceptionHandler
                     'message' => 'token invalid'
                 ]);
             }
-//            return response()->json([
-//                'result_code' => 2000,
-//                'message' => 'Token is required'
-//            ]);
-        } else {
-            return true;
+            return response()->json([
+                'result_code' => 500,
+                'message' => 'Internal error'
+            ]);
         }
         return parent::render($request, $exception);
     }
