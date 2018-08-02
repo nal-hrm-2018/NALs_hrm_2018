@@ -103,7 +103,7 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('employee/{employee}/edit',[
         'as' => 'employee.edit',
         'uses' => 'User\Employee\EmployeeController@edit' 
-    ]);//->middleware('role:edit_employee_basic');
+    ])->middleware('role:edit_profile');
 
     Route::get('/export', 'User\Employee\EmployeeController@export')->name('export');
 
