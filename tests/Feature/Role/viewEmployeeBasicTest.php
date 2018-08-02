@@ -18,16 +18,14 @@ class viewEmployeeBasicTest extends TestCase
     public function test_hasPermission(){
         $role="view_employee_basic";
         $id = 1;        
-        $employee=Employee::find($id)->hasPermission($role);
-        $this->assertTrue($employee);
-    
+        $result=Employee::find($id)->hasPermission($role);
+        $this->assertTrue($result);
     }
     public function test_not_hasPermission(){
         $role="view_employee_basic";  
-        $id = 20;      
-        $employee=Employee::find($id)->hasPermission($role);
-        $this->assertNotTrue($employee);
-    
+        $id = 20;
+        $result=Employee::find($id)->hasPermission($role);
+        $this->assertNotTrue($result);
     }
 }
 
