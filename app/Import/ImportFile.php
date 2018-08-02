@@ -116,7 +116,7 @@ class ImportFile{
                     if($objEmployee != null){
                         $listError .= "<li>".trans('vendor.profile_info.email')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.email_exist')."</li>";
                     }else{
-                        $partten = "/^[A-Za-z0-9_\.]{6,32}@([a-zA-Z0-9]{2,12})(\.[a-zA-Z]{2,12})+$/";
+                        $partten = "/^[A-Za-z0-9_\.]{1,32}@([a-zA-Z0-9]{2,12})(\.[a-zA-Z]{2,12})+$/";
                         if(!preg_match($partten ,$data[$c], $matchs)){
                             $listError .= "<li>".trans('vendor.profile_info.email')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.email_valid')."</li>";
                         }
