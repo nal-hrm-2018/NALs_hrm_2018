@@ -32,10 +32,11 @@
                         <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
                     </button>
                     @endif
-                    <!-- 1/8/hiddent_cmt-->
-                    {{--<button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">--}}
-                        {{--<a><i class="fa fa-users"></i> {{trans('common.button.import')}}</a>--}}
-                    {{--</button>--}}
+                    @if(Auth::user()->hasRole())
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
+                        <a><i class="fa fa-users"></i> {{trans('common.button.import')}}</a>
+                    </button>
+                     @endif
                     <div id="import" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
@@ -78,10 +79,11 @@
                             </script>
                         </div>
                     </div>
-
-                    {{--<button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">--}}
-                        {{--<a href="/download-template"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>--}}
-                    {{--</button>--}}
+                    @if(Auth::user()->hasRole())
+                    <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
+                        <a href="/download-template"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
+                    </button>
+                    @endif
                     <?php
                     $id = null; $name = null; $team = null; $role = null; $email = null; $statusExport = null; $page=1;
                     $arrays[] = $_GET;
@@ -149,15 +151,15 @@
                             return $check;
                         }
                     </SCRIPT>
-                    {{--<button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">--}}
-                        {{--<a id="export"--}}
-                           {{--href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">--}}
-                            {{--<i class="fa fa-vcard"></i>--}}
-                            {{--<span id="contain-canvas" style="">--}}
-                                {{--<canvas id="my_canvas" width="16" height="16" style=""></canvas>--}}
-                            {{--</span>--}}
-                            {{--{{trans('common.button.export')}}</a>--}}
-                    {{--</button>--}}
+                    <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
+                        <a id="export"
+                           href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">
+                            <i class="fa fa-vcard"></i>
+                            <span id="contain-canvas" style="">
+                                <canvas id="my_canvas" width="16" height="16" style=""></canvas>
+                            </span>
+                            {{trans('common.button.export')}}</a>
+                    </button>
                 </ol>
             </div>
         </section>
@@ -175,10 +177,9 @@
                         <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
                         <div class="box-body">
                             <div>
-                                <!-- 1/8/hiddent_cmt-->
-                                {{--<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">--}}
-                                    {{--<span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>--}}
-                                {{--</button>--}}
+                                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
+                                    <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
+                                </button>
                                 <div id="demo" class="collapse">
                                     <form method="get" role="form" id="form_search_employee">
                                         <!-- Modal content-->
