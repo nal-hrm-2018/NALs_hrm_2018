@@ -104,20 +104,20 @@
                 <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
               </div>
               <div class="form-group">
-                <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label>
-                <select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">
-                  <option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>
-                  <?php
-                    foreach($dataTeam as $val){
-                      $selected = "";
-                      if($val["id"] == old('team_id', isset($objEmployee["team_id"]) ? $objEmployee["team_id"] : null)){
-                        $selected = "selected";
-                      }
-                      echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
-                    }
-                  ?>
-                </select>
-                <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
+                {{--<label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label>--}}
+                {{--<select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">--}}
+                  {{--<option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>--}}
+                  {{--<?php--}}
+                    {{--foreach($dataTeam as $val){--}}
+                      {{--$selected = "";--}}
+                      {{--if($val["id"] == old('team_id', isset($objEmployee["team_id"]) ? $objEmployee["team_id"] : null)){--}}
+                        {{--$selected = "selected";--}}
+                      {{--}--}}
+                      {{--echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';--}}
+                    {{--}--}}
+                  {{--?>--}}
+                {{--</select>--}}
+                {{--<label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>--}}
               </div>
               <div class="form-group">
                 <label>{{trans('employee.profile_info.birthday')}}<strong style="color: red">(*)</strong></label>
