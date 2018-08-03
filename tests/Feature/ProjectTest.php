@@ -14,21 +14,21 @@ class ProjectTest extends TestCase
      *
      * @return void
      */
-//    public function test_hasPermission()
-//    {
-//        $role = "view_employee_project";
-//        $id = 1;
-//        $result = Employee::find($id)->hasPermission($role);
-//        $this->assertTrue($result);
-//    }
-//
-//    public function test_not_hasPermission()
-//    {
-//        $role = "view_employee_project";
-//        $id = 1;
-//        $result = Employee::find($id)->hasPermission($role);
-//        $this->assertNotTrue($result);
-//    }
+    public function test_hasPermission()
+    {
+        $role = "view_employee_project";
+        $id = 1;
+        $result = Employee::find($id)->hasPermission($role);
+        $this->assertTrue($result);
+    }
+
+    public function test_not_hasPermission()
+    {
+        $role = "view_employee_project";
+        $id = 6;
+        $result = Employee::find($id)->hasPermission($role);
+        $this->assertNotTrue($result);
+    }
 
     public function testListProject()
     {
