@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NALs</title>
+    <link rel="stylesheet" type="text/css" href="./dashboard.css">
+    <link rel="stylesheet" type="text/css" href="./reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+        ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+</head>
+<body>
+    <header class="header is-flex is-align-item-center is-space-between">
+        <a href="#">
+            <img src="./images/icon_logo.png">
+            <img src="./images/icon_name.png">
+        </a>
+        <div class="is-flex">
+            <div class="dropdown mg-right-10">
+                <a href="#" data-toggle="dropdown" aria-labelledby="dropdownMenuLink">
+                    <img src="./images/dropdown.png">
+                </a>
+                <div class="dropdown-menu dropdown-notification">
+                    <a class="dropdown-item" href="#"><i class="fas fa-users"></i>&nbsp;5 new members joined today</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i>&nbsp;25 sales made</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-user"></i>&nbsp;You changed your username</a>
+                </div>
+            </div>
+            <div class="dropdown mg-right-56">
+                <a class="btn btn-info dropdown-user" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="./images/face.png">
+                    <span>User Name</span>
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li></li>
+                    <li>
+                        <a class="dropdown-item" href="#"><i class="fas fa-info">&nbsp;</i>Update Profile</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt">&nbsp;</i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="is-flex">
+        <nav class="is-flex is-column nav-menu">
+            <a href="#" class="active nav-item"><img src="./images/menu-dashboard.png" class="mg-right-10">Dashboard</a>
+            <a href="#" class="nav-item"><img src="./images/menu-employess.png" class="mg-right-10">Employess</a>
+            <a href="#" class="nav-item"><img src="./images/menu-vendor.png" class="mg-right-10">Vendor</a>
+            <a href="#" class="nav-item"><img src="./images/menu-team.png" class="mg-right-10">Team</a>
+            <a href="#" class="nav-item"><img src="./images/menu-project.png" class="mg-right-10">Project</a>
+            <a href="#" class="nav-item"><img src="./images/menu-absence.png" class="mg-right-10">Absence</a>
+        </nav>
+        <div class="content">
+            <h6 class="title-content">Employees Information</h6>
+            <div class="container-donut-chart">
+                <div class="child">
+                    <span class="font-size-20">
+                        <strong class="font-size-28">100%</strong><img src="./images/chart1.png"><br>
+                        on last year
+                    </span>
+                    <div id="donut-chart1" class="donut-chart"></div>
+                    <div>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                            Man
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #e91d24;"></i>
+                            Woman
+                        </span>
+                    </div>
+                </div>
+                <div class="child">
+                    <span class="font-size-20">
+                        <strong class="font-size-28">150</strong><img src="./images/chart2.png"><br>
+                        young company
+                    </span>
+                    <div id="donut-chart2" class="donut-chart"></div>
+                    <div>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                            18 - 25
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #abe02a;"></i>
+                            36 - 45
+                        </span><br>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #e91d24;"></i>
+                            26 - 35
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #faa951;"></i>
+                            46 - More
+                        </span>
+                    </div>
+                </div>
+                <div class="child">
+                    <span class="font-size-20">
+                        <strong class="font-size-28">70%</strong><img src="./images/chart3.png"><br>
+                        experienced
+                    </span>
+                    <div id="donut-chart3" class="donut-chart"></div>
+                    <div>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                            25% PO
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #abe02a;"></i>
+                            25% TEST
+                        </span><br>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #e91d24;"></i>
+                            25% DEV
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #faa951;"></i>
+                            25% INTER
+                        </span>
+                    </div>
+                </div>
+                 <div class="child">
+                    <span class="font-size-20">
+                        <strong class="font-size-28">70%</strong><img src="./images/chart4.png"><br>
+                        experienced
+                    </span>
+                    <div id="donut-chart4" class="donut-chart"></div>
+                    <div>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                            10% PO
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #abe02a;"></i>
+                            30% TEST
+                        </span><br>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #e91d24;"></i>
+                            40% DEV
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #faa951;"></i>
+                            20% INTER
+                        </span>
+                    </div>
+                </div>
+                 <div class="child">
+                    <span class="font-size-20">
+                        <strong class="font-size-28">70%</strong><img src="./images/chart5.png"><br>
+                        experienced
+                    </span>
+                    <div id="donut-chart5" class="donut-chart"></div>
+                    <div>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                            10% PO
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #abe02a;"></i>
+                            30% TEST
+                        </span><br>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #e91d24;"></i>
+                            40% DEV
+                        </span>
+                        <span class="text-legend">
+                            <i class="fas fa-circle" style="color: #faa951;"></i>
+                            20% INTER
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="list-column-chart">
+                    <div id="container" class="column-chart"></div>
+                    <div id="container1" class="column-chart"></div>
+                    <div id="container2" class="column-chart"></div>
+                    <div id="container3" class="column-chart"></div>
+                    <div id="container4" class="column-chart"></div>
+                </div>
+                <table id="datatable" class="display-none">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Alpha</th>
+                            <th>Beta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Jan</th>
+                            <td>15</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <th>Feb</th>
+                            <td>17</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <th>Mar</th>
+                            <td>19</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <th>Apr</th>
+                            <td>17</td>
+                            <td>17</td>
+                        </tr>
+                        <tr>
+                            <th>May</th>
+                            <td>22</td>
+                            <td>30</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <footer class="footer is-flex is-align-item-center">
+                <a href="#">
+                    <img src="./images/icon_logo.png">
+                </a>
+                <span class="footer-text">Copyright©2018. All Right Reserved</span>
+            </footer>
+        </div>  
+    </div>
+    <script src="./dashboard.js"></script>
+</body>
+</html>

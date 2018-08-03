@@ -43,6 +43,10 @@
     left: auto !important;
 }
 
+.dropdown-menu {
+    z-index: 2000;
+}
+
 .nav-menu {
     background: #222128;
     width: fit-content;
