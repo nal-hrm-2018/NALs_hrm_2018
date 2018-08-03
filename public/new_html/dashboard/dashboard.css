@@ -212,7 +212,7 @@ a:hover {
     color: white;
 }
 
-@media (max-width: 1366.99px) {
+@media (max-width: 1439.99px) {
     .nav-item {
         width: 200px;
         height: 55px;
