@@ -17,6 +17,7 @@ class UserTest extends TestCase
      */
     public function testCreateUser()
     {
+        
         $user = factory(Employee::class)->create();
 //        echo json_encode($user);
         $response = $this->actingAs($user)->get('/dashboard');
