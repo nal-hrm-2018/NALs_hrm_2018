@@ -29,17 +29,4 @@ class ProjectTest extends TestCase
         $result = Employee::find($id)->hasPermission($role);
         $this->assertNotTrue($result);
     }
-
-    public function testListProject()
-    {
-        $credential = [
-            'email' => 'hr1@nal.com',
-            'password' => '123456'
-        ];
-        $this->post('login', $credential);
-        $response = $this->get('employee', [1]);
-//        ????
-        $response->assertStatus(200);
-    }
-
 }
