@@ -38,8 +38,7 @@ class ProjectTest extends TestCase
         ];
         $this->post('login', $credential);
         $response = $this->get('employee', [1]);
-        $view = $response->original;
-//        dd($view);
+//        ????
         $response->assertStatus(200);
     }
 
