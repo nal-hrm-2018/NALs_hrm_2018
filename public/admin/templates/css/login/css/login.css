@@ -1,0 +1,87 @@
+a {
+    text-decoration: none;
+}
+
+.con {
+    height: 100%;
+}
+
+.background-black {
+    background: black;
+}
+
+.background-login {
+    margin: 0 auto;
+    width: 992px;
+    background: url(../../../images/login/images/backgroundlogin.png);
+    background-repeat: no-repeat;
+}
+
+.is-flex {
+    display: flex;
+}
+
+.is-column {
+    flex-direction: column;
+}
+
+.is-space-beetween {
+    justify-content: space-between;
+}
+
+.content {
+    padding: 0!important;
+    display: inline-block;
+    margin-left: 175px !important;
+}
+
+.logo-nal {
+    margin-top: 3px;
+}
+
+.mg-top-90 {
+    margin-top: 90px;
+}
+
+.input-login {
+    width: 240px;
+    height: 35px;
+}
+
+.form-login {
+    width: 240px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.button-login {
+    width: 170px;
+    border-radius: 25px !important;
+}
+
+.forget-pass {
+    position: absolute;
+    font-size: 12px;
+    color: a6a4a4;
+}
+
+.forget-pass:hover {
+    color: black;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 575.98px) {
+    .background-login {
+        background: white;
+        width: auto;
+        background-size: 100% auto;
+    }
+
+    .content {
+        margin-left: 17%;
+    }
+
+    .background-black {
+        background: none;
+    }
+}
