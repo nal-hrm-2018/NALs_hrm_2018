@@ -40,12 +40,4 @@ class UserTest extends TestCase
         ];
         $this->post('login',$credential)->assertLocation('/');
     }
-    public function testLogoutTrue()
-    {
-        $credential = [
-            'email' => 'hr1@nal.com',
-            'password' => '123456'
-        ];
-        $this->post('login',$credential)->assertRedirect('/dashboard');
-    }
 }
