@@ -25,6 +25,17 @@ class PermissionTest extends TestCase
         $employee = Employee::find(1)->hasPermission($role);
         $this->assertTrue($employee);
     }
+    public function testPermissionViewAbsenceHistory(){
+        $role="view_absence_history";
+        $employee=Employee::find(1)->hasPermission($role);
+        $this->assertTrue($employee);
+    }
+
+    public function testPermissionViewAddNewAbsence(){
+        $role="add_new_absence";
+        $employee=Employee::find(1)->hasPermission($role);
+        $this->assertTrue($employee);
+    }
 
     public function testHasPermissionViewProjectEmployee()
     {
@@ -41,7 +52,6 @@ class PermissionTest extends TestCase
         $result = Employee::find($id)->hasPermission($role);
         $this->assertNotTrue($result);
     }
-
     public function testHasPermissionViewEmployeeAbsenceHR()
     {
         $role = "view_employee_absence_history";
