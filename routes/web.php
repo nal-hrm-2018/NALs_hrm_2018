@@ -136,6 +136,17 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/export-confirm-list', 'Absence\AbsenceController@exportConfirmList')->name('exportConfirmList');
     Route::resource('absences', 'Absence\AbsenceController');
 
+    Route::get('absences',[
+        'uses' => 'Absence\AbsenceController@index',
+        'as' => 'absences.index'
+    ])->middleware('role:view_absence_history');
+
+    Route::get('absences/create',[
+        'uses' => 'Absence\AbsenceController@create',
+        'as' => 'absences.create'
+    ])->middleware('role:add_new_absence');
+
+
     Route::post('/absence', [
         'as' => 'cancel_request',
         'uses' => 'Absence\AbsenceController@cancelRequest',

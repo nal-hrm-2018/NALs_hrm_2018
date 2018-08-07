@@ -32,7 +32,7 @@
                         <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
                     </button>
                     @endif
-                    @if(Auth::user()->hasRole())
+                    @if(Auth::user()->hasRoleHR())
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
                         <a><i class="fa fa-users"></i> {{trans('common.button.import')}}</a>
                     </button>
@@ -79,7 +79,7 @@
                             </script>
                         </div>
                     </div>
-                    @if(Auth::user()->hasRole())
+                    @if(Auth::user()->hasRoleHR())
                     <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
                         <a href="/download-template"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
                     </button>
