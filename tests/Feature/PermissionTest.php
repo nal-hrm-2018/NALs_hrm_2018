@@ -1,5 +1,4 @@
 <?php
-//
 namespace Tests\Feature;
 
 use App\Models\Employee;
@@ -43,5 +42,52 @@ class PermissionTest extends TestCase
         $result=Employee::find($id)->hasPermission($role);
         $this->assertNotTrue($result);
     }
+    public function testPermmissionViewListEmployee()
+    {
+        $role = "view_list_employee";
+        $employee = Employee::find(1)->hasPermission($role);
+        $this->assertTrue($employee);
+    }
+    public function testPermissionViewAbsenceHistory(){
+        $role="view_absence_history";
+        $employee=Employee::find(1)->hasPermission($role);
+        $this->assertTrue($employee);
+    }
 
+    public function testPermissionViewAddNewAbsence(){
+        $role="add_new_absence";
+        $employee=Employee::find(1)->hasPermission($role);
+        $this->assertTrue($employee);
+    }
+
+    public function testHasPermissionViewProjectEmployee()
+    {
+        $role = "view_employee_project";
+        $id = 1;
+        $result = Employee::find($id)->hasPermission($role);
+        $this->assertTrue($result);
+    }
+
+    public function testNotHasPermissionViewProjectEmployee()
+    {
+        $role = "view_employee_project";
+        $id = 6;
+        $result = Employee::find($id)->hasPermission($role);
+        $this->assertNotTrue($result);
+    }
+    public function testHasPermissionViewEmployeeAbsenceHR()
+    {
+        $role = "view_employee_absence_history";
+        $id = 1;
+        $result = Employee::find($id)->hasPermission($role);
+        $this->assertTrue($result);
+    }
+
+    public function testNotHasPermissionViewEmployeeAbsenceHR()
+    {
+        $role = "view_employee_absence_history";
+        $id = 6;
+        $result = Employee::find($id)->hasPermission($role);
+        $this->assertNotTrue($result);
+    }
 }
