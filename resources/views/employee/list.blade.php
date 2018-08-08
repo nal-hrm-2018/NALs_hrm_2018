@@ -343,7 +343,19 @@
                                         data-employee-id="{{$employee->id}}">
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
-                                        <td><p class="fix-center-employee">{{ isset($employee->team)? $employee->team->name: "-"}}</p></td>
+                                        @php
+                                            $arr_team = $employee->teams()->get();
+                                            $string_team ="";
+                                            foreach ($arr_team as $team){
+                                              $addteam=  (string)$team->name;
+                                              if ($string_team){
+                                              $string_team = $string_team.", ".$addteam;
+                                              } else{
+                                              $string_team = $string_team."".$addteam;
+                                              }
+                                            }
+                                        @endphp
+                                        <td><p class="fix-center-employee">{{ isset($string_team)? $string_team: "-"}}</p></td>
                                         <td><p class="fix-center-employee">
                                             <?php
                                                 if(isset($employee->role)){

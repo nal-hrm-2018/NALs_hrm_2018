@@ -16,6 +16,6 @@ class Team extends Model
     ];
     public function employees()
     {
-        return $this->hasMany(\App\Models\Employee::class, 'team_id', 'id')->where('delete_flag','=',0);
+        return $this->belongsToMany('App\Models\Employee', 'employee_team', 'team_id','employee_id' );
     }
 }
