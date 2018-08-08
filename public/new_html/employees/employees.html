@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NALs</title>
+    <link rel="stylesheet" type="text/css" href="./employees.css">
+    <link rel="stylesheet" type="text/css" href="./reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header is-flex is-align-item-center is-space-between">
+        <a href="#">
+            <img src="./images/icon_logo.png">
+            <img src="./images/icon_name.png">
+        </a>
+        <div class="is-flex">
+            <div class="dropdown mg-right-10">
+                <a href="#" data-toggle="dropdown" aria-labelledby="dropdownMenuLink">
+                    <img src="./images/dropdown.png">
+                </a>
+                <div class="dropdown-menu dropdown-notification">
+                    <a class="dropdown-item" href="#"><i class="fas fa-users"></i>&nbsp;5 new members joined today</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i>&nbsp;25 sales made</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-user"></i>&nbsp;You changed your username</a>
+                </div>
+            </div>
+            <div class="dropdown mg-right-56">
+                <a class="btn btn-info dropdown-user" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="./images/face.png">
+                    <span>User Name</span>
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li></li>
+                    <li>
+                        <a class="dropdown-item" href="#"><i class="fas fa-info">&nbsp;</i>Update Profile</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt">&nbsp;</i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="is-flex">
+        <nav class="is-flex is-column nav-menu">
+            <a href="#" class="nav-item"><img src="./images/menu-dashboard.png" class="mg-right-10">Dashboard</a>
+            <a href="#" class="nav-item active"><img src="./images/menu-employess.png" class="mg-right-10">Employess</a>
+            <a href="#" class="nav-item"><img src="./images/menu-vendor.png" class="mg-right-10">Vendor</a>
+            <a href="#" class="nav-item"><img src="./images/menu-team.png" class="mg-right-10">Team</a>
+            <a href="#" class="nav-item"><img src="./images/menu-project.png" class="mg-right-10">Project</a>
+            <a href="#" class="nav-item"><img src="./images/menu-absence.png" class="mg-right-10">Absence</a>
+        </nav>
+        <div class="content">
+            <div class="title-content d-flex">
+                <span class="title-emp">
+                    <a href="#">EMPLOYEES</a>
+                </span>
+                <span class="title-prof">
+                    <a href="#">MY PROFILE</a>
+                </span>
+            </div>
+            <div class="d-flex button-content">
+                <a href="#" class="button-content-item"><img src="./images/export.png" class="mg-img-button">&nbsp;EXPORT</a>
+                <a href="#" class="button-content-item"><img src="./images/template.png" class="mg-img-button">&nbsp;TEMPLATE</a>
+                <a href="#" class="button-content-item"><img src="./images/import.png" class="mg-img-button">&nbsp;IMPORT</a>
+                <a href="#" class="button-content-item"><img src="./images/add.png" class="mg-img-button">&nbsp;ADD</a>
+            </div>
+            <div class="d-flex is-space-between title-table">
+                <h4>List Employees</h4>
+                <div>
+                    <button type="button" class="btn btn-outline-info btn-search" data-toggle="modal" data-target="#exampleModal">
+                        Search&nbsp;<i class="fas fa-search"></i>
+                    </button>
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Search Employees</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-search" action="">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text width-label-input" id="basic-addon1">Employees ID</span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Employees ID" aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text width-label-input" id="basic-addon2">Name</span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon2">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text width-label-input" id="basic-addon3">Email</span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon3">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text width-label-input" for="inputGroupSelect01">Team</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01">
+                                                <option selected>Choose...</option>
+                                                <option value="1">PHP</option>
+                                                <option value="2">IOS</option>
+                                                <option value="3">DOTNET</option>
+                                                <option value="4">Android</option>
+                                                <option value="5">PMO</option>
+                                                <option value="6">Agile leader/SM</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text width-label-input" for="inputGroupSelect01">Position</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect02">
+                                                <option selected>Choose...</option>
+                                                <option value="1">DEV</option>
+                                                <option value="2">ACOUNTANT</option>
+                                                <option value="3">SM</option>
+                                                <option value="4">PO</option>
+                                                <option value="5">HR</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text width-label-input" for="inputGroupSelect01">Status</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect03">
+                                                <option selected>Choose...</option>
+                                                <option value="1">Active</option>
+                                                <option value="2">Quited</option>
+                                                <option value="3">Expired</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary btn-search-confirm">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <label>
+                                    <input type="checkbox" id="checkAll" style="display: none;">
+                                    <span class="chose-all">Chose all</span>
+                                </label>
+                            </th>
+                            <th scope="col">EMPLOYEES NAME</th>
+                            <th scope="col">CODE ID</th>
+                            <th scope="col">TEAM</th>
+                            <th scope="col">POSITION</th>
+                            <th scope="col">EMAIL</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col">CV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download1.png"></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                    <label class="custom-control-label" for="customCheck2"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download.png"></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                    <label class="custom-control-label" for="customCheck3"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download.png"></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                    <label class="custom-control-label" for="customCheck4"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download.png"></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                    <label class="custom-control-label" for="customCheck5"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download.png"></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck6">
+                                    <label class="custom-control-label" for="customCheck6"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download.png"></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                    <label class="custom-control-label" for="customCheck7"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download.png"></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck8">
+                                    <label class="custom-control-label" for="customCheck8"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download.png"></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck9">
+                                    <label class="custom-control-label" for="customCheck9"></label>
+                                </div>
+                            </th>
+                            <td>Employees's name</td>
+                            <td>ID123</td>
+                            <td>Name team</td>
+                            <td>Jobtitle</td>
+                            <td>Employees's email</td>
+                            <td>Status</td>
+                            <td><a href="#"><img src="./images/download.png"></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container-pagination">
+                <nav>
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <footer class="footer is-flex is-align-item-center">
+                <a href="#">
+                    <img src="./images/icon_logo.png">
+                </a>
+                <span class="footer-text">Copyright©2018. All Right Reserved</span>
+            </footer>
+        </div>
+    </div>
+    <script src="./employees.js"></script>
+</body>
+</html>
