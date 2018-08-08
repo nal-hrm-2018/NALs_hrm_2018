@@ -54,7 +54,7 @@
               @php
                 $statusRole="disabled";
               @endphp
-              @if(Auth::user()->hasRole())
+              @if(Auth::user()->hasRoleHR())
                   @php
                   $statusRole="";
                   @endphp

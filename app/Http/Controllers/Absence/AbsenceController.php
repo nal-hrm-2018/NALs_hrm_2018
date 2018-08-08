@@ -334,8 +334,12 @@ class AbsenceController extends Controller
         $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
         $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
 
+//        $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
+//            ->join('teams', 'employees.team_id', '=', 'teams.id')
+//            ->where('employees.delete_flag', 0)->find($id_employee);
         $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
-            ->join('teams', 'employees.team_id', '=', 'teams.id')
+            ->join('employee_team', 'employees.id', '=', 'employee_team.employee_id')
+            ->join('teams','employee_team.team_id','=','teams.id')
             ->where('employees.delete_flag', 0)->find($id_employee);
 
         $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')

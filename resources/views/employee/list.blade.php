@@ -343,7 +343,15 @@
                                         data-employee-id="{{$employee->id}}">
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
-                                        <td><p class="fix-center-employee">{{ isset($employee->team)? $employee->team->name: "-"}}</p></td>
+                                        <td>
+                                            <p class="fix-center-employee">
+                                                @foreach($employee->team as $team)
+                                                    @php
+                                                        echo $team->name.' ';
+                                                    @endphp
+                                                @endforeach
+                                            </p>
+                                        </td>
                                         <td><p class="fix-center-employee">
                                             <?php
                                                 if(isset($employee->role)){
