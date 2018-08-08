@@ -179,8 +179,8 @@ class EmployeeController extends Controller
         if ($employee == null) {
             return abort(404);
         }
-        $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
-        $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id);
+        $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
 
