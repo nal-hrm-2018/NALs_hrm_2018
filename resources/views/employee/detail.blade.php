@@ -84,8 +84,20 @@
                                                     <span class="label label-danger">{{trans('employee.profile_info.marital_status.divorced')}}</span>
                                                 @endif
                                             </p>
+                                            @php
+                                                $arr_team = $employee->teams()->get();
+                                                $string_team ="";
+                                                foreach ($arr_team as $team){
+                                                  $addteam=  (string)$team->name;
+                                                  if ($string_team){
+                                                  $string_team = $string_team.", ".$addteam;
+                                                  } else{
+                                                  $string_team = $string_team."".$addteam;
+                                                  }
+                                                }
+                                            @endphp
                                             <p>{{trans('employee.profile_info.team')}}:
-                                                <strong>{{ isset($employee->team)?$employee->team->name:'-' }}</strong>
+                                                <strong>{{ isset($string_team)?$string_team:'-' }}</strong>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
                                                 <?php
