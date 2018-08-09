@@ -345,7 +345,7 @@
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
                                         <td>
                                             <p class="fix-center-employee">
-                                                @foreach($employee->team as $team)
+                                                @foreach($employee->teams as $team)
                                                     @php
                                                         echo $team->name.' ';
                                                     @endphp
