@@ -7,14 +7,14 @@
       <span class="logo-lg"><b>NALs</b>HRM</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
+    <nav class="navbar navbar-static-top" style="padding:0;">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <a href="#" style="height: 50px;" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
 
       <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" style="     flex-direction: row;">
           <li>
             <div class="languages" style="margin-bottom:5px;">
               <a href="{{route('setlanguaes','en')}}" lang="en" title="{{trans('common.language.en')}}">

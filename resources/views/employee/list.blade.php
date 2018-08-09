@@ -24,7 +24,7 @@
             </ol>
         </section>
 
-        <section class="content-header">
+        <section class="content-header" style="display: flex;  flex-direction: row-reverse;">
             <div style="float:right; background-color: #ECF0F5; height: 50px;">
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
                     @if(Auth::user()->hasPermission('add_new_employee'))
