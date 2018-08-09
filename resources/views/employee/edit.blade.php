@@ -111,26 +111,34 @@
                 </select>
                 <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
               </div>
-              <?php
-              /*
-              <div class="form-group">
-                <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label>
-                <select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">
-                  <option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>
-                  <?php
-                    foreach($dataTeam as $val){
-                      $selected = "";
-                      if($val["id"] == old('team_id', isset($objEmployee["team_id"]) ? $objEmployee["team_id"] : null)){
-                        $selected = "selected";
-                      }
-                      echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
-                    }
-                  ?>
-                </select>
-                <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
-              </div>
-              */
-              ?>
+
+              {{--<div class="form-group">--}}
+                {{--<label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label>--}}
+                {{--<br>--}}
+                {{--<form class="form-control select2"  name="team_id" id="team_id">--}}
+                  {{--@php--}}
+                    {{--$arr_team = $objEmployee->teams()->get();--}}
+                    {{--foreach ($arr_team as $objteam){--}}
+                       {{--echo'<div style="display: inline-block;width: 130px"><input checked  type="checkbox" value="'.$objteam->id.'">'.$objteam->name.'</div>';--}}
+                    {{--}--}}
+                  {{--@endphp--}}
+                  {{--<br>--}}
+                  {{--@php--}}
+                    {{--foreach ($dataTeam as $team){--}}
+                      {{--$check=false;--}}
+                      {{--foreach ($arr_team as $objteam){--}}
+                         {{--if ($team->id == $objteam->id){--}}
+                          {{--$check = true; break;--}}
+                         {{--}--}}
+                       {{--}--}}
+                       {{--if ($check == false)--}}
+                       {{--echo'<div style="display: inline-block;width: 130px"><input type="checkbox" value="'.$team->id.'">'.$team->name.'</div>';--}}
+                    {{--}--}}
+                  {{--@endphp--}}
+                {{--</form>--}}
+                {{--<label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>--}}
+              {{--</div>--}}
+
               <div class="form-group">
                 <label>{{trans('employee.profile_info.birthday')}}<strong style="color: red">(*)</strong></label>
                 <div class="input-group date">
