@@ -10,13 +10,18 @@
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/contain/common-dashboard.css') !!}">
 
+    <!-- add frontend -->
+    <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/contain/dashboard.css') !!}">
+    <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/contain/reset.css') !!}">
+    <!-- end add fontend -->
+
     <!-- Google Font -->
     {{--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">--}}
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    @include('admin.module.templates.header')
-    @include('admin.module.templates.left_bar')
+    @include('admin.module.templates.newheader')
+    @include('admin.module.templates.newleft_bar')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var ibackbutton = document.getElementById("backbuttonstate");
@@ -42,8 +47,8 @@
         }, false);
     </script>
     <input style="display:none;" type="text" id="backbuttonstate" value="0"/>
-    @yield('content')
-    @include('admin.module.templates.footer')
+   @yield('content')
+    @include('admin.module.templates.newfooter')
     <div class="control-sidebar-bg"></div>
 </div>
 
@@ -106,7 +111,19 @@
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/project.js') !!}"> </script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/project.js') !!}"> </script>
 <script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/en/absence.js') !!}"> </script>
-<script type="text/javascript" src="{!! asset('admin/templates/js/multi-language/vn/absence.js') !!}"> </script>
+ <!-- add fontend -->
+    <script type="text/javascript" src="{!! asset('admin/templates/js/my_script/dashboard.js') !!}"> </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+        ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+    <!--  -->
 <script>
     $(function () {
         $('#example1').DataTable()
@@ -187,5 +204,6 @@
         })
     })
 </script>
+<script src="./dashboard.js"></script>
 </body>
 </html>
