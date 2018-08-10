@@ -20,15 +20,14 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    @include('admin.module.templates.newheader')
+    @include('admin.module.templates.header')
      <div style="display: flex;">
-        @include('admin.module.templates.newleft_bar')
+        @include('admin.module.templates.left_bar')
         @yield('content')
      </div>
      <div style="padding-left: 230px; background: #222128;">
-        @include('admin.module.templates.newfooter')
+        @include('admin.module.templates.footer')
     </div>
-     {{--@include('admin.module.templates.newfooter')--}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var ibackbutton = document.getElementById("backbuttonstate");
