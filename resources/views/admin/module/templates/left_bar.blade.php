@@ -5,8 +5,9 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li>
-          <a href="{{route('dashboard-user')}}">
-            <i class="fa fa-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
+          <a href="{{route('dashboard-user')}}" class="nav-item">
+            <img src="{!! asset('admin/templates/images/dist/img/menu-dashboard.png') !!}" class="mg-right-10">
+            <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
           @if(Auth::user()->hasPermission('view_list_employee')||Auth::user()->hasPermission('add_new_employee'))
@@ -19,11 +20,11 @@
           </a>
           <ul class="treeview-menu">
               @if(Auth::user()->hasPermission('view_list_employee'))
-            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.employee')}}</a></li>
+            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o-notch-notch"></i>{{trans('leftbar.nav.list.employee')}}</a></li>
               @endif
 
               @if(Auth::user()->hasPermission('add_new_employee'))
-            <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.employee')}}</a></li>
+            <li><a href="{{ asset('employee/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.employee')}}</a></li>
               @endif
           </ul>
         </li>
@@ -37,8 +38,8 @@
             {{--</span>--}}
           {{--</a>--}}
           {{--<ul class="treeview-menu">--}}
-            {{--<li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.vendor')}}</a></li>--}}
-            {{--<li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.vendor')}}</a></li>--}}
+            {{--<li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.vendor')}}</a></li>--}}
+            {{--<li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.vendor')}}</a></li>--}}
           {{--</ul>--}}
         {{--</li>--}}
         {{--<li class="treeview">--}}
@@ -49,8 +50,8 @@
             {{--</span>--}}
           {{--</a>--}}
           {{--<ul class="treeview-menu">--}}
-            {{--<li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.team')}}</a></li>--}}
-            {{--<li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.team')}}</a></li>--}}
+            {{--<li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.team')}}</a></li>--}}
+            {{--<li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.team')}}</a></li>--}}
           {{--</ul>--}}
         {{--</li>--}}
         {{--<li class="treeview">--}}
@@ -61,8 +62,8 @@
             {{--</span>--}}
           {{--</a>--}}
           {{--<ul class="treeview-menu">--}}
-            {{--<li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.project')}}</a></li>--}}
-            {{--<li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.project')}}</a></li>--}}
+            {{--<li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.project')}}</a></li>--}}
+            {{--<li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.project')}}</a></li>--}}
           {{--</ul>--}}
         {{--</li>--}}
         <li class="treeview">
@@ -75,16 +76,16 @@
           <ul class="treeview-menu">
 
             @if(Auth::user()->hasPermission('view_absence_history'))
-            <li><a href="{{ asset('absences')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence')}}</a></li>
+            <li><a href="{{ asset('absences')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absence')}}</a></li>
             @endif
             @if(Auth::user()->hasPermission('add_new_absence'))
-            <li><a href="{{ asset('absences/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.absence')}}</a></li>
+            <li><a href="{{ asset('absences/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.absence')}}</a></li>
             @endif
             @if(Auth::user()->hasPermission('view_employee_absence_history'))
-            <li><a href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>
+            <li><a href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>
             @endif
             @if(Auth::user()->hasPermission('view_project_absence_history'))
-              <li><a href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>
+              <li><a href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>
             @endif
           </ul>
         </li>
