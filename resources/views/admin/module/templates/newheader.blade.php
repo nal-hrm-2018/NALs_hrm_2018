@@ -18,7 +18,7 @@
       </div>
       <div class="dropdown mg-right-56">
         <a class="btn btn-info dropdown-user" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img class="user-image" alt="User Image" src="{!! asset('admin/templates/images/dist/img/face.png') !!}" />
+          <img class="margin-img-face" alt="User Image" src="{!! asset('admin/templates/images/dist/img/face.png') !!}" />
           <span class="hidden-xs">{{Auth::user()->name}}</span>
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
