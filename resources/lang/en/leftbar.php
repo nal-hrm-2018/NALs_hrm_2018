@@ -23,6 +23,7 @@ return[
             'absence_po'=>'List Absence for PO Team',
             'absence' => 'List Absence',
             'absences_hr'=>'List Absence for HR',
+            'absences_holiday'=>'List Holiday',
             'absences_po_project'=>'List Absence for PO Project',
 
         ],

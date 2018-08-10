@@ -1,7 +1,7 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      
+
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li>
@@ -73,7 +73,6 @@
             </span>
           </a>
           <ul class="treeview-menu">
-
             @if(Auth::user()->hasPermission('view_absence_history'))
             <li><a href="{{ asset('absences')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absence')}}</a></li>
             @endif
@@ -83,12 +82,15 @@
             @if(Auth::user()->hasPermission('view_employee_absence_history'))
             <li><a href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>
             @endif
+            @if(Auth::user()->hasPermission('view_holiday_list'))
+            <li><a href="{{ asset('absences/holiday')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_holiday')}}</a></li>
+            @endif
             @if(Auth::user()->hasPermission('view_project_absence_history'))
               <li><a href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>
             @endif
           </ul>
         </li>
-                
+
       </ul>
 
     </section>

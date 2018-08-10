@@ -301,7 +301,7 @@ class AbsenceController extends Controller
                         ->orWhereYear('absences.to_date', $year);
                 })
                 ->get();
-        return view('absences.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
+        return view('absences.list', c('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
     }
 
     public function cancelRequest(Request $request){

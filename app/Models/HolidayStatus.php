@@ -9,7 +9,9 @@
 namespace App\Models;
 
 
-class HolidayStatus
+use Illuminate\Database\Eloquent\Model;
+
+class HolidayStatus extends Model
 {
     public $table = 'holiday_statuses';
     protected $fillable = [
@@ -17,5 +19,8 @@ class HolidayStatus
         'name',
         'updated_at', 'updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'
     ];
-
+    public function holiday()
+    {
+        return $this->belongsTo('App\Models\Holiday');
+    }
 }

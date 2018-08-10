@@ -24,6 +24,7 @@ return[
             'absence_po'=>'DS dành cho PO team',
             'absence' => 'Danh sách vắng nghỉ',
             'absences_hr'=>'DS dành cho HR',
+            'absences_holiday'=>'DS ngày lễ',
             'absences_po_project'=>'DS dành cho PO Dự án',
 
         ],

@@ -130,7 +130,14 @@ Route::group(['middleware' => 'user'], function () {
         'uses'=>'Absence\AbsenceController@exportAbsenceHR',
         'as'=>'export-absences-hr'
     ])->middleware('role:view_employee_absence_history');
-
+    Route::get('absences/holiday',[
+        'uses'=>'Absence\HolidayController@index',
+        'as'=>'absences-holiday'
+    ])->middleware('role:view_holiday_list');
+    Route::post('absences/holiday',[
+        'uses'=>'Absence\HolidayController@store',
+        'as'=>'absences-holiday'
+    ]);
     Route::get('absence/po-project', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
     Route::post('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
     Route::get('/export-confirm-list', 'Absence\AbsenceController@exportConfirmList')->name('exportConfirmList');
