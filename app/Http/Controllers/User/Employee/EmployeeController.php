@@ -20,6 +20,7 @@ use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
+use App\Models\EmployeeTeam;
 use App\Models\PermissionEmployee;
 use DateTime;
 use App\Service\SearchService;
@@ -96,12 +97,20 @@ class EmployeeController extends Controller
         }
         $employee->is_employee = 1;
         $employee->employee_type_id = $request->employee_type_id;
-        $employee->team_id = $request->team_id;
+        //$employee->team_id = $request->team_id;
         $employee->role_id = $request->role_id;
         $employee->created_at = new DateTime();
         $employee->delete_flag = 0;
         
         if($employee->save()){
+            $id_employeeteam=$employee->id;
+
+            foreach ($request['team_id'] as $teamid){
+                $employeeteam = new EmployeeTeam;
+                $employeeteam->team_id=$teamid;
+                $employeeteam->employee_id=$id_employeeteam;
+                $employeeteam->save();
+            }
             \Session::flash('msg_success', trans('employee.msg_add.success'));
             return redirect('employee');
         }else{
@@ -179,21 +188,29 @@ class EmployeeController extends Controller
         if ($employee == null) {
             return abort(404);
         }
+        $dataTeamAll = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        $dataTeam = Employee::find($id);
+
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id);
-        $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
 
-        return view('employee.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        return view('employee.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes ,'dataTeamAll' => $dataTeamAll]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
     {
+        $id_emp=Auth::user()->id;
+        if($id_emp!=$id){
+            if(!Auth::user()->hasRoleHR()){
+                return redirect()->route('dashboard-user');
+            }
+        }
         $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
         if ($employee == null) {
             return abort(404);
         }
-        if(Auth::user()->hasRole()){
+        if(Auth::user()->hasRoleHR()){
             $employee->email = $request->email;
             $employee->startwork_date = $request->startwork_date;
             $employee->endwork_date = $request->endwork_date;
@@ -220,6 +237,8 @@ class EmployeeController extends Controller
 
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
+            $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
+            $employee->teams()->sync($request['team_id']);
             \Session::flash('msg_success', trans('employee.msg_edit.success'));
             return redirect()->route('employee.edit',compact('id'));
         } else {

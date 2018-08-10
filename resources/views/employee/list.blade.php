@@ -344,6 +344,7 @@
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
 
+
                                         @php
                                             $arr_team = $employee->teams()->get();
                                             $string_team ="";
