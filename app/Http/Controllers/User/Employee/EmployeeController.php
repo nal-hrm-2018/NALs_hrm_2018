@@ -188,12 +188,10 @@ class EmployeeController extends Controller
         if ($employee == null) {
             return abort(404);
         }
-//        $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
         $dataTeamAll = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
-//        $dataTeam = Employee::find($id);
+        $dataTeam = Employee::find($id);
 
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id);
-        $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
 
@@ -202,7 +200,6 @@ class EmployeeController extends Controller
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        $id=$id;
         $id_emp=Auth::user()->id;
         if($id_emp!=$id){
             if(!Auth::user()->hasRoleHR()){
@@ -241,7 +238,7 @@ class EmployeeController extends Controller
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
             $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
-            $employee->team()->sync($request['team_id']);
+            $employee->teams()->sync($request['team_id']);
             \Session::flash('msg_success', trans('employee.msg_edit.success'));
             return redirect()->route('employee.edit',compact('id'));
         } else {
