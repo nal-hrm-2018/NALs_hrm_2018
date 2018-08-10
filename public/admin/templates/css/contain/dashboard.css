@@ -1,0 +1,243 @@
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.header{
+    margin: 0 auto;
+    width: 100%;
+    height: 79px;
+    border-bottom: 4px solid #3ab4db;
+    background: #53cbf2;
+}
+
+.is-flex {
+    display: flex;
+}
+
+.is-column {
+	flex-direction: column;
+}
+
+.is-align-item-center {
+    align-items: center;
+}
+
+.is-space-between {
+    justify-content: space-between;
+}
+
+.mg-right-56 {
+    margin-right: 56px;
+}
+
+.mg-right-10 {
+    margin-right: 10px;
+}
+
+.dropdown-user {
+    display: flex !important;
+    justify-content: space-between;
+    border-top: 1px solid #177c9c !important;
+    border-radius: 25px !important; 
+}
+
+.margin-img-face {
+    margin-right: 15px;
+}
+
+.dropdown-notification {
+    right: -5px !important;
+    left: auto !important;
+}
+
+.dropdown-menu {
+    z-index: 2000;
+}
+
+.nav-menu {
+    background: #222128;
+    padding-top: 47px;
+    vertical-align: middle;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    width: 230px;
+    height: 73px;
+    font-size: 22px;
+    padding: 5px 10px;
+    color: #dbdbdc;
+    border-right: 3px solid #222128;
+}
+.nav-item-part{
+    color: #dbdbdc;
+    height: 40px ;
+}
+
+.nav-menu .nav-item:hover {
+    color: white;
+    background: black;
+    border-color: black;
+}
+
+.nav-menu .nav-item.active {
+    color: white;
+    background: black;
+    border-color: #53cbf2;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+.fas {
+    width: 20px;
+}
+
+.content {
+    width: 100%;
+    background: #ededed;
+}
+
+.title-content {
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 25px;
+    margin-left: 20px;
+}
+
+.container-donut-chart {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 20px;
+    padding: 20px 0px;
+    background: white;
+    box-shadow: 0 0 10px #cacaca;
+    border-radius: 5px;
+}
+
+.donut-chart {
+    width: 250px; 
+    height: 250px;
+}
+
+.child {
+    padding-bottom: 40px;
+}
+
+.text-legend {
+    display: inline-block;
+    width: 110px;
+    line-height: 2.0;
+}
+
+.font-size-28 {
+    font-size: 28px;
+}
+
+.font-size-20 {
+    font-size: 20px;
+}
+
+.highcharts-exporting-group {
+  display: none;
+}
+
+.highcharts-credits {
+  display:none;
+}
+
+@import 'https://code.highcharts.com/css/highcharts.css';
+
+.list-column-chart {
+    display:flex; 
+    flex-wrap:wrap; 
+    justify-content: space-evenly;
+}
+
+.column-chart {
+    min-width: 500px;
+    height: 300px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px #cacaca;
+}
+
+.display-none {
+    display: none;
+}
+
+#container .highcharts-color-1>rect {
+    fill: #e91d24;
+}
+
+#container .highcharts-color-0>rect {
+    fill: #ededed;
+}
+
+#container1 .highcharts-color-1>rect {
+    fill: #53cbf2;
+}
+
+#container1 .highcharts-color-0>rect {
+    fill: #ededed;
+}
+
+#container2 .highcharts-color-1>rect {
+    fill: #abe02a;
+}
+
+#container2 .highcharts-color-0>rect {
+    fill: #ededed;
+}
+
+#container3 .highcharts-color-1>rect {
+    fill: #e91d24;
+}
+
+#container3 .highcharts-color-0>rect {
+    fill: #ededed;
+}
+
+#container4 .highcharts-color-1>rect {
+    fill: #53cbf2;
+}
+
+#container4 .highcharts-color-0>rect {
+    fill: #ededed;
+}
+
+.highcharts-title {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.footer {
+    width: 100%;
+    height: 75px;
+    background: #53cbf2;
+}
+
+.footer-text {
+    font-size: 18px;
+    color: white;
+}
+
+@media (max-width: 1439.99px) {
+    .nav-item {
+        width: 230px;
+        height: 55px;
+        font-size: 18px;
+    }
+
+    .title-content {
+        font-size: 18px;
+    }
+
+    .child {
+    }
+
+    .donut-chart {
+        height: 250px;
+    }
+}

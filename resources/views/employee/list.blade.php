@@ -24,7 +24,7 @@
             </ol>
         </section>
 
-        <section class="content-header">
+        <section class="content-header" style="display: flex;  flex-direction: row-reverse;">
             <div style="float:right; background-color: #ECF0F5; height: 50px;">
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
                     @if(Auth::user()->hasPermission('add_new_employee'))
@@ -343,15 +343,22 @@
                                         data-employee-id="{{$employee->id}}">
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
-                                        <td>
-                                            <p class="fix-center-employee">
-                                                @foreach($employee->team as $team)
-                                                    @php
-                                                        echo $team->name.' ';
-                                                    @endphp
-                                                @endforeach
-                                            </p>
-                                        </td>
+
+
+                                        @php
+                                            $arr_team = $employee->teams()->get();
+                                            $string_team ="";
+                                            foreach ($arr_team as $team){
+                                              $addteam=  (string)$team->name;
+                                              if ($string_team){
+                                              $string_team = $string_team.", ".$addteam;
+                                              } else{
+                                              $string_team = $string_team."".$addteam;
+                                              }
+                                            }
+                                        @endphp
+                                        <td><p class="fix-center-employee">{{ isset($string_team)? $string_team: "-"}}</p></td>
+
                                         <td><p class="fix-center-employee">
                                             <?php
                                                 if(isset($employee->role)){

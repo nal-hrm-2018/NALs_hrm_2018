@@ -103,7 +103,9 @@ class AbsenceController extends Controller
         $id = Auth::user()->id;
         $absenceType = AbsenceType::where('name', '!=',
             config('settings.status_common.absence_type.subtract_salary_date'))->get();
+
         $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
+        //dd($idPO);
         $absenceStatus = AbsenceStatus::all();
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
@@ -341,7 +343,6 @@ class AbsenceController extends Controller
             ->join('employee_team', 'employees.id', '=', 'employee_team.employee_id')
             ->join('teams','employee_team.team_id','=','teams.id')
             ->where('employees.delete_flag', 0)->find($id_employee);
-
         $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
@@ -357,6 +358,7 @@ class AbsenceController extends Controller
             ->WHERE('employees.delete_flag', '=', 0)
             ->WHERE('roles.name', 'like', 'PO')
             ->get()->toArray();
+//        dd($objPO);
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
 
         return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee, 'Absence_type' => $Absence_type]);

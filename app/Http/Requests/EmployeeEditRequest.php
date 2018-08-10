@@ -41,7 +41,7 @@ class EmployeeEditRequest extends FormRequest
             ],
             /*'curriculum_vitae' => 'required',*/
 //            'employee_type_id' => 'required',
-            'team_id' => 'required',
+//            'team_id' => 'required',
 //            'role_id' => 'required',
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',

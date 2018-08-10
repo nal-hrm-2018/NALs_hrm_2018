@@ -101,12 +101,7 @@ class Employee extends Model implements
     {
         return $this->hasMany('App\Models\Process')->where('delete_flag', '=', 0);
     }
-
-//    public function team()
-//    {
-//        return $this->belongsTo('App\Models\Team', 'team_id');
-//    }
-    public function team(){
+    public function teams(){
         return $this->belongsToMany('App\Models\Team', 'employee_team', 'employee_id', 'team_id');
     }
 

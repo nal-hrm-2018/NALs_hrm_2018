@@ -37,7 +37,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             ->whereDate('processes.end_date', '>=', $date)
             ->get()
             ->toArray();
-        dd($objProcess);
+        //dd($objProcess);
         $employeeLogged = Employee::where('id', $id_employee)->first();
         $poTeam = Employee::select('*')->where('is_manager', 1)
             ->where('team_id', $employeeLogged->team_id)->first();

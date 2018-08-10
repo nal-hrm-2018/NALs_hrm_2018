@@ -3,9 +3,7 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section>
-            <!-- Donut chart -->
+         <section>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <i class="fa fa-bar-chart-o"></i>
@@ -35,7 +33,7 @@
                         <div id="donut-chart-5" style="height: 150px;"></div>
                     </div>
                 </div>
-                <!-- /.box-body-->
+
             </div>
         </section>
         <!-- /.content -->
@@ -43,10 +41,10 @@
         <!-- Content Wrapper. Contains page content -->
 
         <!-- Content Header (Page header) -->
-        <section>
+       <section>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <!-- BAR CHART -->
+                   
                     <div class="box box-success">
                         <div class="box-header with-border">
                             <h3 class="box-title">Gender Chart</h3>
@@ -62,7 +60,6 @@
                                 <canvas id="barChart" style="height:230px"></canvas>
                             </div>
                         </div>
-                        <!-- /.box-body -->
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -82,14 +79,12 @@
                         <div class="box-body">
                             <div id="bar-chart" style="height: 235px;"></div>
                         </div>
-                        <!-- /.box-body-->
                     </div>
-                    <!-- /.box -->
 
                 </div>
             </div>
         </section>
-        <section>
+         <section>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 
@@ -108,7 +103,6 @@
                                 <canvas id="barChart-project" style="height:230px"></canvas>
                             </div>
                         </div>
-                        <!-- /.box-body -->
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -128,12 +122,11 @@
                                 <canvas id="barChart-cost" style="height:230px"></canvas>
                             </div>
                         </div>
-                        <!-- /.box-body -->
                     </div>
                 </div>
             </div>
         </section>
-        <section>
+      <section>
             <div class="row"  style="text-align: center;">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="box box-primary">
@@ -151,9 +144,7 @@
                         <div class="box-body">
                             <div id="bar-chart-recruitment" style="height: 300px;"></div>
                         </div>
-                        <!-- /.box-body-->
                     </div>
-                    <!-- /.box -->
                 </div>
             </div>
         </section>
