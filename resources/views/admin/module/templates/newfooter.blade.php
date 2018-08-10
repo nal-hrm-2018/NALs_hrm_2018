@@ -1,4 +1,4 @@
-<footer class="main-footer footer is-flex is-align-item-center">
+<footer class="footer is-flex is-align-item-center">
     <div class="pull-right hidden-xs">
     </div>
     <a href="#">

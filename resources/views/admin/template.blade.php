@@ -11,8 +11,8 @@
     <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/contain/common-dashboard.css') !!}">
 
     <!-- add frontend -->
-    <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/contain/dashboard.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/contain/reset.css') !!}">
+    <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/contain/dashboard.css') !!}">
     <!-- end add fontend -->
 
     <!-- Google Font -->
@@ -21,7 +21,14 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
     @include('admin.module.templates.newheader')
-    @include('admin.module.templates.newleft_bar')
+     <div style="display: flex;">
+        @include('admin.module.templates.newleft_bar')
+        @yield('content')
+     </div>
+     <div style="padding-left: 230px; background: #222128;">
+        @include('admin.module.templates.newfooter')
+    </div>
+     {{--@include('admin.module.templates.newfooter')--}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var ibackbutton = document.getElementById("backbuttonstate");
@@ -47,9 +54,7 @@
         }, false);
     </script>
     <input style="display:none;" type="text" id="backbuttonstate" value="0"/>
-   @yield('content')
-    @include('admin.module.templates.newfooter')
-    <div class="control-sidebar-bg"></div>
+    {{--<div class="control-sidebar-bg"></div>--}}
 </div>
 
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
