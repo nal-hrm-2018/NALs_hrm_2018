@@ -29,7 +29,7 @@
             </div>
             <div class="dropdown mg-right-56">
                 <a class="btn btn-info dropdown-user" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="./images/face.png">
+                    <img src="./images/face.png" class="margin-img-face">
                     <span>User Name</span>
                 </a>
 
@@ -62,10 +62,35 @@
                 </span>
             </div>
             <div class="d-flex button-content">
-                <a href="#" class="button-content-item"><img src="./images/export.png" class="mg-img-button">&nbsp;EXPORT</a>
-                <a href="#" class="button-content-item"><img src="./images/template.png" class="mg-img-button">&nbsp;TEMPLATE</a>
-                <a href="#" class="button-content-item"><img src="./images/import.png" class="mg-img-button">&nbsp;IMPORT</a>
-                <a href="#" class="button-content-item"><img src="./images/add.png" class="mg-img-button">&nbsp;ADD</a>
+                <button type="button" class="button-content-item">
+                    <img src="./images/export.png" class="mg-img-button">&nbsp;EXPORT
+                </button>
+                <button type="button" class="button-content-item">
+                    <img src="./images/template.png" class="mg-img-button" >&nbsp;TEMPLATE
+                </button>
+                <button type="button" class="button-content-item" data-toggle="modal" data-target="#exampleModal2">
+                    <img src="./images/import.png" class="mg-img-button">&nbsp;IMPORT
+                </button>
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Import</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="button-content-item active-button"><img src="./images/add.png" class="mg-img-button">&nbsp;ADD</a>
             </div>
             <div class="d-flex is-space-between title-table">
                 <h4>List Employees</h4>
