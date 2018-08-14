@@ -37,9 +37,12 @@ body {
 .dropdown-user {
     display: flex !important;
     justify-content: space-between;
-    width: 150px;
     border-top: 1px solid #177c9c !important;
     border-radius: 25px !important; 
+}
+
+.margin-img-face {
+    margin-right: 15px;
 }
 
 .dropdown-notification {
@@ -128,14 +131,15 @@ a:hover {
 }
 
 .button-content-item {
+    display: flex;
+    align-items: center;
     margin-left: 14px;
     width: 158px;
+    background: #ededed;
     padding: 5px 0px;
     font-size: 18px;
     border: 2px solid #d1d8e2;
     border-radius: 4px;
-    display: flex;
-    align-items: center;
 }
 
 .button-content-item:hover {
