@@ -17,8 +17,19 @@ class Holiday extends  Model
     public $table = 'holidays';
     protected $fillable = [
         'id',
+        'name',
         'date',
         'description',
+        'holiday_status_id',
         'updated_at', 'updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'
     ];
+
+    protected $casts = [
+        'date' => 'date'
+    ];
+
+    public function status()
+    {
+        return $this->belongsTo('App\Models\HolidayStatus', 'holiday_status_id');
+    }
 }

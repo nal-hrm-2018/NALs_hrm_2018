@@ -87,6 +87,9 @@
                     @if(Auth::user()->hasPermission('view_employee_absence_history'))
                         <li><a class="nav-item-part" href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>
                     @endif
+                    @if(Auth::user()->hasPermission('view_holiday_list'))
+                        <li><a class="nav-item-part" href="{{ asset('holiday')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_holiday')}}</a></li>
+                    @endif
                     @if(Auth::user()->hasPermission('view_project_absence_history'))
                         <li><a class="nav-item-part" href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>
                     @endif
