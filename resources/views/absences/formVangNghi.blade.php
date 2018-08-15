@@ -63,20 +63,32 @@
 
                 <div class="form-group">
                   <label>Team<strong style="color: red">(*)</strong></label>
-                  <input type="text" readonly="readonly" class="form-control" placeholder="Team Name"  name="team_name" id="team_name" value="{{isset($objEmployee["team_name"]) ? $objEmployee["team_name"] : null}}">
+                  @php
+                    $arr_team = $objEmployee->teams()->get();
+                    $string_team ="";
+                    foreach ($arr_team as $team){
+                      $addteam=  (string)$team->name;
+                      if ($string_team){
+                      $string_team = $string_team.", ".$addteam;
+                      } else{
+                      $string_team = $string_team."".$addteam;
+                      }
+                    }
+                  @endphp
+                  <input type="text" readonly="readonly" class="form-control" placeholder="Team Name"  name="team_name" id="team_name" value="{{isset($string_team)? $string_team: Null}}">
                   <!-- /.input group -->
                 </div>
 
-                <div class="form-group">
-                  <label>PO Project<strong style="color: red">(*)</strong></label>
-                  @if($objPO!=null)
-                    @foreach($objPO as $PO)
-                      <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="{{isset($PO["PO_name"]) ? $PO["PO_name"] : null}}{{isset($PO["project_name"])  ? '  -  PROJECT: '.$PO["project_name"] : null}} ">
-                    @endforeach
-                  @else
-                    <input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="">
-                  @endif
-                </div>
+                {{--<div class="form-group">--}}
+                  {{--<label>PO Project<strong style="color: red">(*)</strong></label>--}}
+                  {{--@if($objPO!=null)--}}
+                    {{--@foreach($objPO as $PO)--}}
+                      {{--<input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="{{isset($PO["PO_name"]) ? $PO["PO_name"] : null}}{{isset($PO["project_name"])  ? '  -  PROJECT: '.$PO["project_name"] : null}} ">--}}
+                    {{--@endforeach--}}
+                  {{--@else--}}
+                    {{--<input type="text" readonly="readonly" class="form-control" placeholder="Po Name"  name="Po_Name" id="Po_Name" value="">--}}
+                  {{--@endif--}}
+                {{--</div>--}}
 
                 <div class="form-group">
                   <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
