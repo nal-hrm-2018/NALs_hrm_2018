@@ -113,14 +113,19 @@ a:hover {
 .title-emp {
     padding: 10px;
     font-size: 24px;
-    border-bottom: 4px solid #3ab4db;
+    border-bottom: 3px solid #222128;
 }
 
 .title-prof {
     padding: 10px;
     font-size: 24px;
-    border-bottom: 4px solid #222128;
+    border-bottom: 3px solid #3ab4db;
+}
+
+.empty {
     flex-grow: 1;
+    padding: 10px;
+    border-bottom: 3px solid #222128;
 }
 
 .button-content {
@@ -131,15 +136,20 @@ a:hover {
 }
 
 .button-content-item {
-    display: flex;
-    align-items: center;
     margin-left: 14px;
     width: 158px;
-    background: #ededed;
     padding: 5px 0px;
     font-size: 18px;
     border: 2px solid #d1d8e2;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.button-content-item.active-button {
+    background: white;
+    font-weight: 700;
+    border-color: #53cbf2;
 }
 
 .button-content-item:hover {
@@ -148,16 +158,6 @@ a:hover {
 
 .mg-img-button {
     margin-left: 8px;
-}
-
-.title-table {
-    margin-top: 22px;
-    margin-left: 13px;
-    margin-right: 28px;
-}
-
-.width-label-input {
-    width: 130px;
 }
 
 .table-content {
@@ -194,29 +194,6 @@ a:hover {
 
 .custom-control {
     bottom: 10px;
-}
-
-.custom-menu {
-    display: none;
-    z-index: 1000;
-    position: absolute;
-    overflow: hidden;
-    border: 1px solid #CCC;
-    white-space: nowrap;
-    text-align: left;
-    font-family: sans-serif;
-    background: #FFF;
-    color: #333;
-    border-radius: 5px;
-}
-
-.custom-menu li {
-    padding: 8px 12px;
-    cursor: pointer;
-}
-
-.custom-menu li:hover {
-    background-color: #DEF;
 }
 
 th>label {
