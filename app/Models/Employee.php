@@ -148,5 +148,13 @@ class Employee extends Model implements
             return true;
         return false;
     }
+    public function hasRole($role){
+        $status_emp_role = $this->whereHas('role',function($query) use ($role){
+            $query->where('name',$role);
+        })->where('id',$this->id)->get();
 
+        if(count($status_emp_role)>0)
+            return true;
+        return false;
+    }
 }
