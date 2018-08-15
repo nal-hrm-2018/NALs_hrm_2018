@@ -6,7 +6,30 @@
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <div class="is-flex">
-      <div class="dropdown mg-right-10">
+        <div class="languages" style="margin:10px;">
+            <a href="{{route('setlanguaes','en')}}" lang="en" title="{{trans('common.language.en')}}">
+                {{ Html::image('admin/templates/images/Localization/en.png', 'a picture', [
+              'class' => 'thumb',
+              'id'=>app()->getLocale()===config('settings.locale.en')?'language_active':'inactive',
+              'title'=>trans('common.language.en'),
+              'lang'=>'en',
+              'style'=>app()->getLocale()===config('settings.locale.en')?'padding:0px 2px;border:1px solid white':'',
+              'height'=>'25'
+              ]) }}
+            </a>
+            <a href="{{route('setlanguaes','vn')}}" lang="vn" title="{{trans('common.language.vn')}}">
+                {{ Html::image('admin/templates/images/Localization/vi.png', 'a picture', [
+              'class' => 'thumb',
+              'id'=>app()->getLocale()===config('settings.locale.vn')?'language_active':'inactive',
+              'title'=>trans('common.language.vn'),
+              'style'=>app()->getLocale()===config('settings.locale.vn')?'padding:0px 2px;border:1px solid white':'',
+              'lang'=>'vn',
+              'height'=>'25'
+              ]) }}
+            </a>
+        </div>
+
+        <div class="dropdown mg-right-10">
         <a href="#" data-toggle="dropdown" aria-labelledby="dropdownMenuLink">
           <img src="{!! asset('admin/templates/images/dist/img/dropdown.png') !!}">
         </a>

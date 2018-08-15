@@ -241,3 +241,9 @@ a:hover {
         height: 250px;
     }
 }
+.content-wrapper {
+    flex-grow: 1;
+}
+.fullwidth {
+    width: 100%;
+}
