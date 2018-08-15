@@ -43,7 +43,7 @@
                     <label id="lb_error_name" class="text-danger">{{$errors->first('name')}}</label>
                 </div>
             </div>
-            <div class="col-md-6 add-holiday-input">
+            <div class="col-md-5 add-holiday-input">
                 <div class="form-group">
                     <label>{{trans('holiday.date')}}<strong class="text-danger">(*)</strong></label>
                     <div class="input-group date">
