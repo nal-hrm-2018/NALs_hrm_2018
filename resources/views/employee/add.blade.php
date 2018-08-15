@@ -37,7 +37,7 @@
                                         <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}"/>
                                     </div>
                                 </CENTER>
-                                <div class="row" style="margin-top: 20px;">
+                                <div class="" style="margin-top: 20px;">
                                     <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
                                 </div>
                             </div>
