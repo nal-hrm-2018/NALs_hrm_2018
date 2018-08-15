@@ -21,6 +21,6 @@ class HolidayStatus extends Model
     ];
     public function holiday()
     {
-        return $this->belongsTo('App\Models\Holiday');
+        return $this->hasOne('App\Models\Holiday');
     }
 }

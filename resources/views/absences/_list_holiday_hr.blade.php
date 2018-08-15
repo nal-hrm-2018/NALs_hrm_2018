@@ -25,102 +25,47 @@
     })();
 </script>
 
-<table id="hr-absence-list" class="table table-bordered table-striped">
-    <thead>
-    <style type="text/css">
-        .list-project tr td {
-            vertical-align: middle !important;
-        }
-    </style>
-    <tr class="list-project">
-        <th class="text-center project-center">Tên ngày nghỉ</th>
-        <th class="text-center project-center">Năm</th>
-        <th class="text-center project-center">Tháng</th>
-        <th class="text-center project-center">Ngày</th>
-        <th class="text-center project-center">Loại nghỉ</th>
-        <th class="text-center project-center">Ghi chú</th>
-    </tr>
-    </thead>
-
-    <style type="text/css">
-        .list-project tr td {
-            vertical-align: middle !important;
-        }
-    </style>
-    <tbody class="context-menu list-project">
-
-    @foreach($list_holiday as $holiday)
-        <tr class="holiday-menu" id="holiday-id-{{$holiday['id']}}" data-employee-id="{{$holiday['id']}}">
-            <td>{{ $holiday['name']}}</td>
-            <td>{{ $holiday['date']->format('Y')}}</td>
-            <td>{{ $holiday['date']->format('m')}}</td>
-            <td>{{ $holiday['date']->format('d')}}</td>
-            <td>{{ $holiday['description']}}</td>
-            <td>{{ $holiday['description']}}</td>
-
-            {{--<input  type="hidden"--}}
-                    {{--name="absences[{{$employee['id']}}][{{ trans('employee.profile_info.email')}}]"--}}
-                    {{--value="{{$employee[trans('employee.profile_info.email')]}}">--}}
-
-            {{--<td>{{$employee[trans('absence.total_date_absences')] }}</td>--}}
-
-            {{--<input  type="hidden"--}}
-                    {{--name="absences[{{$employee['id']}}][{{ trans('absence.total_date_absences') }}]"--}}
-                    {{--value="{{$employee[trans('absence.total_date_absences')] }}">--}}
-
-            {{--<td>{{$employee[trans('absence.last_year_absences_date')]}}</td>--}}
-
-            {{--<input  type="hidden"--}}
-                    {{--name="absences[{{$employee['id']}}][{{trans('absence.last_year_absences_date')}}]"--}}
-                    {{--value="{{$employee[trans('absence.last_year_absences_date')]}}">--}}
-
-            {{--<td>{{$employee[trans('absence.absented_date')]}}</td>--}}
-
-            {{--<input  type="hidden"--}}
-                    {{--name="absences[{{$employee['id']}}][{{trans('absence.absented_date')}}]"--}}
-                    {{--value="{{$employee[trans('absence.absented_date')]}}">--}}
-
-            {{--<td>{{$employee[trans('absence.non_salary_date')]}}</td>--}}
-
-            {{--<input  type="hidden"--}}
-                    {{--name="absences[{{$employee['id']}}][{{trans('absence.non_salary_date')}}]"--}}
-                    {{--value="{{$employee[trans('absence.non_salary_date')]}}">--}}
-
-            {{--<td>{{$employee[trans('absence.insurance_date')]}}</td>--}}
-
-            {{--<input  type="hidden"--}}
-                    {{--name="absences[{{$employee['id']}}][{{trans('absence.insurance_date')}}]"--}}
-                    {{--value="{{$employee[trans('absence.insurance_date')]}}">--}}
-
-            {{--<td>{{$employee[trans('absence.subtract_salary_date')]}}</td>--}}
-
-            {{--<input  type="hidden"--}}
-                    {{--name="absences[{{$employee['id']}}][{{trans('absence.subtract_salary_date')}}]"--}}
-                    {{--value="{{$employee[trans('absence.subtract_salary_date')]}}">--}}
-
-            {{--<td>{{$employee[trans('absence.remaining_date')]}}</td>--}}
-
-            {{--<input  type="hidden"--}}
-                    {{--name="absences[{{$employee['id']}}][{{trans('absence.remaining_date')}}]"--}}
-                    {{--value="{{$employee[trans('absence.remaining_date')]}}">--}}
-
-            {{--<ul class="contextMenu" data-employee-id="{{$employee['id']}}" hidden>--}}
-                {{--<li><a href={{route('absences.show',$employee['id'])}}><i--}}
-                                {{--class="fa fa-id-card"></i> {{trans('common.action.view')}}--}}
-                    {{--</a></li>--}}
-            {{--</ul>--}}
+<div class="main-container container-fluid">
+    <!-- table -->
+    <table class="table table-striped table-bordered" id="myTable" cellspacing="0" width="100%">
+        <thead class="thead-dark">
+        <tr>
+            <th class="text-center project-center">STT</th>
+            <th class="text-center project-center">Tên ngày nghỉ</th>
+            <th class="text-center project-center">Năm</th>
+            <th class="text-center project-center">Tháng</th>
+            <th class="text-center project-center">Ngày</th>
+            <th class="text-center project-center">Loại nghỉ</th>
+            <th class="text-center project-center">Ghi chú</th>
+            <th class="text-center project-center" colspan="2">Action</th>
         </tr>
-    @endforeach
-    </tbody>
-</table>
-{{--@if($employees->hasPages())--}}
-    {{--<div class="col-sm-5">--}}
-        {{--<div class="dataTables_info" style="float:left" id="example2_info" role="status"--}}
-             {{--aria-live="polite">--}}
-            {{--{{getInformationDataTable($employees)}}--}}
-        {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="col-sm-7">--}}
-        {{--{{  $employees->appends($param)->render('vendor.pagination.custom') }}--}}
-    {{--</div>--}}
-{{--@endif--}}
+        </thead>
+        <tbody>
+        @foreach($list_holiday as $holiday)
+        <tr class="data-row">
+            <td class="align-middle id-holiday">{{ $holiday['id']}}</td>
+            <td class="align-middle name-holiday">{{ $holiday['name']}}</td>
+            <td class="align-middle year-holiday">{{ $holiday['date']->format('Y')}}</td>
+            <td class="align-middle month-holiday">{{ $holiday['date']->format('m')}}</td>
+            <td class="align-middle day-holiday">{{ $holiday['date']->format('d')}}</td>
+            <td class="align-middle type-holiday-id" style="display: none;">{{ $holiday['status']['id']}}</td>
+            <td class="align-middle type-holiday">{{ $holiday['status']['name']}}</td>
+            <td class="align-middle description-holiday">{{ $holiday['description']}}</td>
+            <td class="align-middle ">
+                <button type="button" class="btn btn-warning" id="edit-item" data-item-id="1"><i class="fa fa-edit"></i></button>
+            </td>
+            <td class="align-middle">
+                <form action="{{route('absences-holiday-delete',['id' => $holiday['id']])}}" method="post" class="holiday-delete">
+                    @csrf
+                    <input name="_method" type="hidden" value="DELETE">
+                    <button class="btn btn-danger" type="submit">
+                        <i class="fa fa-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+        </tbody>
+    </table>
+    <!-- /table -->
+</div>
+

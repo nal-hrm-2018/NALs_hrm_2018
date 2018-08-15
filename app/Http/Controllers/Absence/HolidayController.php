@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Absence;
 
+use App\Http\Requests\StoreHoliday;
+use App\Models\Holiday;
+use App\Models\HolidayStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,10 +17,11 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        $list_holiday = \App\Models\Holiday::with(['status'])->get();
-        echo ($list_holiday);
+        $list_holiday = Holiday::with('status')->get();
+        $holiday_type = HolidayStatus::all();
         return view('absences.hr_holiday', [
-            'list_holiday' => $list_holiday
+            'list_holiday' => $list_holiday,
+            'holiday_type' => $holiday_type
         ]);
     }
 
@@ -37,9 +41,16 @@ class HolidayController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreHoliday $request)
     {
-        echo 'abc';
+        $holiday = new Holiday([
+            'name' => $request['name'],
+            'date' => $request['holiday_date'],
+            'description' => $request['ghi_chu'],
+            'holiday_status_id' => $request['holiday_type_id']
+        ]);
+        $holiday->save();
+        return redirect('holiday');
     }
 
     /**
@@ -71,9 +82,17 @@ class HolidayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request['modal-input-id'];
+        $holiday = Holiday::find($id);
+        $holiday->name = $request['modal-input-name'];
+        $date = $request['modal-input-year'].'-'.$request['modal-input-month'].'-'.$request['modal-input-day'];
+        $holiday->date = $date;
+        $holiday->holiday_status_id = $request['modal-input-type'];
+        $holiday->description = $request['modal-input-description'];
+        $holiday->save();
+        return redirect('holiday');
     }
 
     /**
@@ -84,6 +103,8 @@ class HolidayController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $holiday = Holiday::find($id);
+        $holiday->delete();
+        return redirect('holiday');
     }
 }
