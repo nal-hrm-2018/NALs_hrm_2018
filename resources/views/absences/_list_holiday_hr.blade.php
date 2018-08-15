@@ -1,49 +1,21 @@
-<input id="number_record_per_page" type="hidden" name="number_record_per_page"
-       value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
-<div class="dataTables_length" id="project-list_length" style="float:right">
-    <label>{{trans('pagination.show.number_record_per_page')}}
-        {!! Form::select(
-            'select_length',
-            getArraySelectOption() ,
-            null ,
-            [
-            'id'=>'select_length',
-            'class' => 'form-control input-sm',
-            'aria-controls'=>"project-list"
-            ]
-            )
-         !!}
-    </label>
-</div>
-
-<script>
-    (function () {
-        $('#select_length').change(function () {
-            $("#number_record_per_page").val($(this).val());
-            $('#form_search_employee').submit()
-        });
-    })();
-</script>
-
 <div class="main-container container-fluid">
     <!-- table -->
     <table class="table table-striped table-bordered" id="myTable" cellspacing="0" width="100%">
         <thead class="thead-dark">
         <tr>
-            <th class="text-center project-center">STT</th>
-            <th class="text-center project-center">Tên ngày nghỉ</th>
-            <th class="text-center project-center">Năm</th>
-            <th class="text-center project-center">Tháng</th>
-            <th class="text-center project-center">Ngày</th>
-            <th class="text-center project-center">Loại nghỉ</th>
-            <th class="text-center project-center">Ghi chú</th>
-            <th class="text-center project-center" colspan="2">Action</th>
+            <th class="text-center project-center">{{trans('holiday.name')}}</th>
+            <th class="text-center project-center">{{trans('holiday.year')}}</th>
+            <th class="text-center project-center">{{trans('holiday.month')}}</th>
+            <th class="text-center project-center">{{trans('holiday.day')}}</th>
+            <th class="text-center project-center">{{trans('holiday.type')}}</th>
+            <th class="text-center project-center">{{trans('holiday.description')}}</th>
+            <th class="text-center project-center" colspan="2">{{trans('holiday.action')}}</th>
         </tr>
         </thead>
         <tbody>
         @foreach($list_holiday as $holiday)
         <tr class="data-row">
-            <td class="align-middle id-holiday">{{ $holiday['id']}}</td>
+            <td class="align-middle id-holiday" hidden>{{ $holiday['id']}}</td>
             <td class="align-middle name-holiday">{{ $holiday['name']}}</td>
             <td class="align-middle year-holiday">{{ $holiday['date']->format('Y')}}</td>
             <td class="align-middle month-holiday">{{ $holiday['date']->format('m')}}</td>

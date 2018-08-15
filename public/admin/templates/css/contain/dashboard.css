@@ -247,3 +247,9 @@ a:hover {
 .fullwidth {
     width: 100%;
 }
+.add-holiday-input{
+    display: inline-block;
+}
+.center-item{
+    margin: 0 auto;
+}
