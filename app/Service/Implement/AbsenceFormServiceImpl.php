@@ -23,22 +23,19 @@ class AbsenceFormServiceImpl implements AbsenceFormService
     public function addNewAbsenceForm(Request $request)
     {
         $id_employee = Auth::user()->id;
-
         $date = Carbon::now()->format('Y-m-d H:i:s');
-
         if (strtotime($request->get('from_date')) < strtotime($date)) {
             $is_late = 1;
         } else {
             $is_late = 0;
         }
-
         $objProcess = Process::select('*')
             ->where('employee_id', '=', $id_employee)
             ->whereDate('processes.end_date', '>=', $date)
             ->get()
             ->toArray();
-        //dd($objProcess);
         $employeeLogged = Employee::where('id', $id_employee)->first();
+        dd($employeeLogged);
         $poTeam = Employee::select('*')->where('is_manager', 1)
             ->where('team_id', $employeeLogged->team_id)->first();
         $arrayList = array();
@@ -115,9 +112,8 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                 ];
                 Confirm::create($dataPoTeamJustWatch);
             }
-
             \Session::flash('msg_success', 'Thêm mới Form thành công!!!');
-            return redirect('absences');
+            return redirect()->route('absences.index');
         }
     }
     public function editAbsenceForm(Request $request, $id)

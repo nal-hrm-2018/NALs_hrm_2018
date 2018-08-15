@@ -274,6 +274,7 @@
                                 <tr>
                                     <td hidden>{{$confirm->id}}</td>
                                     <td>{{isset($confirm->absence)?isset($confirm->absence->employee)?$confirm->absence->employee->name:'-':'-'}}</td>
+
                                     <td>{{isset($confirm->absence)?isset($confirm->absence->employee)?$confirm->absence->employee->email:'-':'-'}}</td>
                                     <td>{{isset($confirm->project)?$confirm->project->name:'-'}}</td>
                                     <td>{{isset($confirm->absence)?$confirm->absence->from_date:'-'}}</td>

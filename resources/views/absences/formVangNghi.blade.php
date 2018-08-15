@@ -39,7 +39,7 @@
                                           'class' => 'form-horizontal',
                                           'method'=>isset($objEmployee["id"])?'PUT':'POST',
                                           'onSubmit' => 'return confirmEmployee()'])}}--}}
-            <form action="{{asset('absences')}}" method="post" class="form-horizontal"
+            <form action="{{asset('absences/create')}}" method="post" class="form-horizontal"
                   onSubmit="return confirmAction()">
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -56,14 +56,24 @@
 
               <div class="form-group">
                 <label>Họ Tên<strong style="color: red">(*)</strong></label>
-                <input type="text" class="form-control" placeholder="Name"  name="name" id="name" readonly="readonly" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+                <input type="text" class="form-control" placeholder="Name"  name="name" id="name" readonly="readonly" value="{!! old('name', isset($objEmployee->name) ? $objEmployee->name : null) !!}">
                 <!-- /.input group -->
               </div>
 
               <div class="form-group">
-                <label>Team<strong style="color: red">(*)</strong></label>
-                <input type="text" readonly="readonly" class="form-control" placeholder="Team Name"  name="team_name" id="team_name" value="{{isset($objEmployee["team_name"]) ? $objEmployee["team_name"] : null}}">
-                <!-- /.input group -->
+                <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br />
+                {{--<select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">--}}
+                {{--<option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>--}}
+
+                  <?php
+                  foreach ($objEmployee->teams as $value) {
+                  ?>
+                <div style="display: inline-block;width: 130px;"><input checked type="checkbox" name="team_id[]" disabled  value="<?php echo $value["id"]; ?>">&ensp;<?php echo $value["name"];?></div>
+                  <?php
+                  }
+                  ?>
+                {{--</select>--}}
+                <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
               </div>
 
               <div class="form-group">

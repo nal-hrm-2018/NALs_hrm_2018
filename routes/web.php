@@ -146,6 +146,11 @@ Route::group(['middleware' => 'user'], function () {
         'as' => 'absences.create'
     ])->middleware('role:add_new_absence');
 
+    Route::post('absences/create',[
+        'uses' => 'Absence\AbsenceController@store',
+        'as' => 'absences.create'
+    ])->middleware('role:add_new_absence');
+
 
     Route::post('/absence', [
         'as' => 'cancel_request',

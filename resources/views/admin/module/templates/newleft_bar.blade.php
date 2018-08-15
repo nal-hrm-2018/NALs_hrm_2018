@@ -31,45 +31,45 @@
                 </li>
             @endif
         <!-- 1/8/hiddent_cmt-->
-            <li class="treeview">
-                <a href="#" class="nav-item">
-                    <img src="{!! asset('admin/templates/images/dist/img/menu-vendor.png') !!}" class="mg-right-10">
-                    <span>{{trans('leftbar.nav.vendor')}}</span>
+            {{--<li class="treeview">--}}
+                {{--<a href="#" class="nav-item">--}}
+                    {{--<img src="{!! asset('admin/templates/images/dist/img/menu-vendor.png') !!}" class="mg-right-10">--}}
+                    {{--<span>{{trans('leftbar.nav.vendor')}}</span>--}}
                     {{--<span class="pull-right-container">--}}
                     {{--<i class="fa fa-angle-left pull-right"></i>--}}
                     {{--</span>--}}
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.vendor')}}</a></li>
-                    <li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.vendor')}}</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#" class="nav-item">
-                    <img src="{!! asset('admin/templates/images/dist/img/menu-team.png') !!}" class="mg-right-10">
-                    <span>{{trans('leftbar.nav.team')}}</span>
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                    {{--<li><a href="{{ asset('vendors')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.vendor')}}</a></li>--}}
+                    {{--<li><a href="{{ asset('vendors/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.vendor')}}</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
+            {{--<li class="treeview">--}}
+                {{--<a href="#" class="nav-item">--}}
+                    {{--<img src="{!! asset('admin/templates/images/dist/img/menu-team.png') !!}" class="mg-right-10">--}}
+                    {{--<span>{{trans('leftbar.nav.team')}}</span>--}}
                     {{--<span class="pull-right-container">--}}
                     {{--<i class="fa fa-angle-left pull-right"></i>--}}
                     {{--</span>--}}
-                </a>
-                <ul class="treeview-menu">
-                <li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.team')}}</a></li>
-                <li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.team')}}</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#" class="nav-item">
-                    <img src="{!! asset('admin/templates/images/dist/img/menu-project.png') !!}" class="mg-right-10">
-                    <span>{{trans('leftbar.nav.project')}}</span>
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                {{--<li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.team')}}</a></li>--}}
+                {{--<li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.team')}}</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
+            {{--<li class="treeview">--}}
+                {{--<a href="#" class="nav-item">--}}
+                    {{--<img src="{!! asset('admin/templates/images/dist/img/menu-project.png') !!}" class="mg-right-10">--}}
+                    {{--<span>{{trans('leftbar.nav.project')}}</span>--}}
                     {{--<span class="pull-right-container">--}}
                         {{--<i class="fa fa-angle-left pull-right"></i>--}}
                     {{--</span>--}}
-                </a>
-                <ul class="treeview-menu">
-                <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.project')}}</a></li>
-                <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.project')}}</a></li>
-                </ul>
-            </li>
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                {{--<li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.list.project')}}</a></li>--}}
+                {{--<li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o"></i>{{trans('leftbar.nav.add.project')}}</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
             <li class="treeview">
                 <a href="#" class="nav-item">
                     <img src="{!! asset('admin/templates/images/dist/img/menu-absence.png') !!}" class="mg-right-10">
