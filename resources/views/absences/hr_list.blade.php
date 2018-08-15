@@ -33,9 +33,11 @@
             </div>
         </section>
         {{--table data project--}}
-        <div id="msg"></div>
+        <div id="msg">
+            <br><br><br>
+        </div>
         <section class="content">
-            <div class="row">
+            <div class="row fullwidth">
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->

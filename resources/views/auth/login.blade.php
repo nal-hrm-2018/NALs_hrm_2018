@@ -39,13 +39,17 @@
                             </div>
                         @endif
                     </div>
-                    <a href="#" class="forget-pass">Foget your password</a><br><br><br>
+                    {{--<a href="#" class="forget-pass">Foget your password</a><br><br><br>--}}
+                    <div class="checkbox" style="position: absolute;">
+                        <label><input type="checkbox" name="remember"> Remember me</label>
+                    </div>
+                    <br><br><br>
                     <button type="submit" class="btn btn-dark button-login">{{ __('Login') }}</button>
                 </form>
                 <!-- /.social-auth-links -->
-        
+
             </div>
-             
-    </div>   
+
+    </div>
 </div>
 @endsection
