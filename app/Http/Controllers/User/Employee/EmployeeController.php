@@ -65,6 +65,7 @@ class EmployeeController extends Controller
         $id=Auth::user()->id;
         $employee_permission=$this->objmEmployeePermission->permission_employee($id);
         return view('employee.list', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
+ //       return view('employee.newlist', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
     }
 
     public function create()
@@ -273,14 +274,13 @@ class EmployeeController extends Controller
 
     public function destroy($id, Request $request)
     {
-        if ($request->ajax()) {
             $employees = Employee::where('id', $id)->where('delete_flag', 0)->first();
             $employees->delete_flag = 1;
             $employees->save();
 
-            return response(['msg' => 'Product deleted', 'status' => trans('common.delete.success'), 'id' => $id]);
-        }
-        return response(['msg' => 'Failed deleting the product', 'status' => trans('common.delete.fail')]);
+            return redirect()->route('employee.index');
+//            return response(['msg' => 'Product deleted', 'status' => trans('common.delete.success'), 'id' => $id]);
+
     }
 
 

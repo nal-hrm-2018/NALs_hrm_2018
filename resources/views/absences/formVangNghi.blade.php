@@ -39,6 +39,7 @@
                                           'class' => 'form-horizontal',
                                           'method'=>isset($objEmployee["id"])?'PUT':'POST',
                                           'onSubmit' => 'return confirmEmployee()'])}}--}}
+            <form action="{{asset('absences/create')}}" method="post" class="form-horizontal"
             <form class="fullwidth" action="{{asset('absences')}}" method="post" class="form-horizontal"
                   onSubmit="return confirmAction()">
 
@@ -54,12 +55,12 @@
                   <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" readonly="readonly" />
                   <!-- /.input group -->
                 </div>
-
-                <div class="form-group">
-                  <label>Họ Tên<strong style="color: red">(*)</strong></label>
-                  <input type="text" class="form-control" placeholder="Name"  name="name" id="name" readonly="readonly" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
-                  <!-- /.input group -->
-                </div>
+              <div class="form-group">
+                <label>Họ Tên<strong style="color: red">(*)</strong></label>
+                <input type="text" class="form-control" placeholder="Name"  name="name" id="name" readonly="readonly" value="{!! old('name', isset($objEmployee->name) ? $objEmployee->name : null) !!}">
+                <!-- /.input group -->
+              </div>
+                
 
                 <div class="form-group">
                   <label>Team<strong style="color: red">(*)</strong></label>
@@ -78,7 +79,6 @@
                   <input type="text" readonly="readonly" class="form-control" placeholder="Team Name"  name="team_name" id="team_name" value="{{isset($string_team)? $string_team: Null}}">
                   <!-- /.input group -->
                 </div>
-
                 {{--<div class="form-group">--}}
                   {{--<label>PO Project<strong style="color: red">(*)</strong></label>--}}
                   {{--@if($objPO!=null)--}}

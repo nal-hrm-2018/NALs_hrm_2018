@@ -123,7 +123,6 @@ class AbsenceController extends Controller
         $listValueOnPage = $this->searchConfirmService->searchConfirm($request, $id)->get();
         $tempTableName = 'temp_list_confirm';
         $this->searchConfirmService->createTempTable($listValueOnPage, $tempTableName);
-
         $listConfirm = TempListConfirm::query()->paginate($request['number_record_per_page']);
         $listConfirm->setPath('');
         $param = (Input::except(['page', 'is_employee']));
@@ -337,12 +336,10 @@ class AbsenceController extends Controller
         $dayAfter = ($curDate)->modify('+15 day')->format('Y-m-d');
 
 //        $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
-//            ->join('teams', 'employees.team_id', '=', 'teams.id')
+//            ->join('employee_team', 'employees.id', '=', 'employee_team.employee_id')
+//            ->join('teams','employee_team.team_id','=','teams.id')
 //            ->where('employees.delete_flag', 0)->find($id_employee);
-        $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
-            ->join('employee_team', 'employees.id', '=', 'employee_team.employee_id')
-            ->join('teams','employee_team.team_id','=','teams.id')
-            ->where('employees.delete_flag', 0)->find($id_employee);
+        $objEmployee = Employee::find($id_employee);
         $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
             ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
             ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
@@ -360,7 +357,6 @@ class AbsenceController extends Controller
             ->get()->toArray();
 //        dd($objPO);
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
-
         return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee, 'Absence_type' => $Absence_type]);
     }
 
@@ -551,9 +547,7 @@ class AbsenceController extends Controller
     {
         $year = (int)$request->year;
         $dateNow = new DateTime;
-
-        $objEmployee = Employee::find($id);
-
+        $objEmployee = Employee::find(1);
         $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
         $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
         if((int)$dateNow->format("Y") <= $endwork_date){
