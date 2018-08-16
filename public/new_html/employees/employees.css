@@ -160,6 +160,19 @@ a:hover {
     width: 130px;
 }
 
+.form-search {
+    display: none;
+    margin-top: 20px;
+}
+
+.title-list {
+    margin-top: 20px;
+}
+
+.custom-select {
+    width: 111px !important;
+}
+
 .table-content {
     margin-top: 22px;
     margin-left: 13px;
