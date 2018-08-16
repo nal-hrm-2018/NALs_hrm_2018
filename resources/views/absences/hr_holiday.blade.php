@@ -167,7 +167,7 @@
                                 <!-- description -->
                                 <div class="form-group">
                                     <label class="col-form-label" for="modal-input-description">{{trans('holiday.description')}}</label>
-                                    <input type="text" name="modal-input-description" class="form-control" id="modal-input-description" required>
+                                    <input type="text" name="modal-input-description" class="form-control" id="modal-input-description">
                                 </div>
                                 <!-- /description -->
                             </div>
