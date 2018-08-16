@@ -53,7 +53,8 @@ return [
         'vendor_list'=>'Danh Sách Nhân Viên Ngoài',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Chi tiết dự án',
-        'absence_list'=>'Danh sách vắng nghỉ dành cho HR',
+        'absence_list'=>'Danh sách vắng nghỉ',
+        'absence_list_holiday'=>'Danh sách ngày nghỉ',
         'absence_detail'=>'Danh sách xin vắng làm'
     ],
     'path'=>[

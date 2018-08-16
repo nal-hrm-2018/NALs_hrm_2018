@@ -15,6 +15,7 @@ return[
         'team' => 'Team',
         'project' => 'Project',
         'absence' => 'Absence',
+        'absence_management' => 'Absence Management',
         'list'=>[
             'employee' => 'List Employee',
             'vendor' => 'List Vendor',
@@ -22,8 +23,10 @@ return[
             'project' => 'List Project',
             'absence_po'=>'List Absence for PO Team',
             'absence' => 'List Absence',
-            'absences_hr'=>'List Absence for HR',
-            'absences_po_project'=>'List Absence for PO Project',
+            'absences_hr'=>'List Absence',
+            'absences_holiday'=>'List Holiday',
+            'absences_po_project'=>'List Absence',
+            'history' => 'Absence history',
 
         ],
         'add'=>[

@@ -77,15 +77,28 @@
                     {{--</span>--}}
                 </a>
                 <ul class="treeview-menu">
-
                     @if(Auth::user()->hasPermission('view_absence_history'))
-                        <li><a class="nav-item-part" href="{{ asset('absences')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absence')}}</a></li>
+                        <li><a class="nav-item-part" href="{{ asset('absences')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.history')}}</a></li>
                     @endif
                     @if(Auth::user()->hasPermission('add_new_absence'))
                         <li><a class="nav-item-part" href="{{ asset('absences/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.absence')}}</a></li>
                     @endif
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#" class="nav-item">
+                    <img src="{!! asset('admin/templates/images/dist/img/menu-absence.png') !!}" class="mg-right-10">
+                    <span>{{trans('leftbar.nav.absence_management')}}</span>
+                    {{--<span class="pull-right-container">--}}
+                    {{--<i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--</span>--}}
+                </a>
+                <ul class="treeview-menu">
                     @if(Auth::user()->hasPermission('view_employee_absence_history'))
                         <li><a class="nav-item-part" href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>
+                    @endif
+                    @if(Auth::user()->hasPermission('view_holiday_list'))
+                        <li><a class="nav-item-part" href="{{ asset('holiday')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_holiday')}}</a></li>
                     @endif
                     @if(Auth::user()->hasPermission('view_project_absence_history'))
                         <li><a class="nav-item-part" href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>

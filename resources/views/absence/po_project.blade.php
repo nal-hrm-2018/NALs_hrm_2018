@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                <h4 class="modal-title">{{  trans('common.path.absence') }}</h4>
+                <h4 class="modal-title">{{  trans('common.path.absence_list') }}</h4>
             </h1>
 
             <ol class="breadcrumb">

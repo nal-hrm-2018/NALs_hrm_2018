@@ -241,3 +241,15 @@ a:hover {
         height: 250px;
     }
 }
+.content-wrapper {
+    flex-grow: 1;
+}
+.fullwidth {
+    width: 100%;
+}
+.add-holiday-input{
+    display: inline-block;
+}
+.center-item{
+    margin: 0 auto;
+}
