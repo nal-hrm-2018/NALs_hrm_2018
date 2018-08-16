@@ -55,7 +55,7 @@ return [
         'vendor_list'=>'Vendor List',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Project Detail',
-        'absence_list'=>'Absence list for HR view',
+        'absence_list'=>'Absence list',
         'absence_detail'=>'Absence List',
         'absence_list_holiday'=>'List Holiday'
     ],
