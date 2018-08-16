@@ -19,9 +19,15 @@ class HolidayController extends Controller
     {
         $list_holiday = Holiday::with('status')->get();
         $holiday_type = HolidayStatus::all();
+        $year_now = date("Y");
+        $min_year = Holiday::all('date')->min()->date->Format('Y');
+        $max_year = Holiday::all('date')->max()->date->Format('Y');
         return view('absences.hr_holiday', [
             'list_holiday' => $list_holiday,
-            'holiday_type' => $holiday_type
+            'holiday_type' => $holiday_type,
+            'year_now' => $year_now,
+            'min_year' => $min_year,
+            'max_year' => $max_year,
         ]);
     }
 

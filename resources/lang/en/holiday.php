@@ -14,4 +14,6 @@ return[
     'edit' => 'Edit',
     'update' => 'Update',
     'close' => 'Close',
+    'add-question' => 'Are you sure you want to submit ',
+    'add-question-end' => '?'
 ];
