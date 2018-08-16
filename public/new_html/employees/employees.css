@@ -37,9 +37,12 @@ body {
 .dropdown-user {
     display: flex !important;
     justify-content: space-between;
-    width: 150px;
     border-top: 1px solid #177c9c !important;
     border-radius: 25px !important; 
+}
+
+.margin-img-face {
+    margin-right: 15px;
 }
 
 .dropdown-notification {
@@ -128,14 +131,15 @@ a:hover {
 }
 
 .button-content-item {
+    display: flex;
+    align-items: center;
     margin-left: 14px;
     width: 158px;
+    background: #ededed;
     padding: 5px 0px;
     font-size: 18px;
     border: 2px solid #d1d8e2;
     border-radius: 4px;
-    display: flex;
-    align-items: center;
 }
 
 .button-content-item:hover {
@@ -190,6 +194,29 @@ a:hover {
 
 .custom-control {
     bottom: 10px;
+}
+
+.custom-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    text-align: left;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+.custom-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.custom-menu li:hover {
+    background-color: #DEF;
 }
 
 th>label {

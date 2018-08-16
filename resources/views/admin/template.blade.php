@@ -27,8 +27,14 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    @include('admin.module.templates.newheader')
-    @include('admin.module.templates.newleft_bar')
+    @include('admin.module.templates.header')
+     <div style="display: flex;">
+        @include('admin.module.templates.left_bar')
+        @yield('content')
+     </div>
+     <div style="padding-left: 230px; background: #222128;">
+        @include('admin.module.templates.footer')
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var ibackbutton = document.getElementById("backbuttonstate");
@@ -54,9 +60,7 @@
         }, false);
     </script>
     <input style="display:none;" type="text" id="backbuttonstate" value="0"/>
-   @yield('content')
-    @include('admin.module.templates.newfooter')
-    <div class="control-sidebar-bg"></div>
+    {{--<div class="control-sidebar-bg"></div>--}}
 </div>
 
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>

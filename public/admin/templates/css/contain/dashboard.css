@@ -63,12 +63,16 @@ body {
 .nav-item {
     display: flex;
     align-items: center;
-    width: 240px;
+    width: 230px;
     height: 73px;
     font-size: 22px;
     padding: 5px 10px;
     color: #dbdbdc;
     border-right: 3px solid #222128;
+}
+.nav-item-part{
+    color: #dbdbdc;
+    height: 40px ;
 }
 
 .nav-menu .nav-item:hover {
@@ -221,7 +225,7 @@ a:hover {
 
 @media (max-width: 1439.99px) {
     .nav-item {
-        width: 200px;
+        width: 230px;
         height: 55px;
         font-size: 18px;
     }

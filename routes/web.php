@@ -69,7 +69,7 @@ Route::group(['middleware' => 'user'], function () {
 
     Route::get('employee',[
         'uses'=> 'User\Employee\EmployeeController@index',
-        'as' => 'employee.index '
+        'as' => 'employee.index'
     ])->middleware('role:view_list_employee');
 
     Route::get('employee/create',[
@@ -77,7 +77,7 @@ Route::group(['middleware' => 'user'], function () {
         'as' => 'employee.create '
     ])->middleware('role:add_new_employee');
 
-    Route::delete('/employee/{employee}',[
+    Route::get('employee/delete/{id}',[
         'uses' => 'User\Employee\EmployeeController@destroy',
         'as' => 'employee.destroy'
     ])->middleware('role:delete_employee');

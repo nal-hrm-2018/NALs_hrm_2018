@@ -306,7 +306,8 @@
                                         @endif
                                     </td>
                                     <td id="status-confirm-{{$confirm->id}}">
-                                        @if($confirm->absence_status_id === $idWaiting)
+                                    @if($confirm->absence_status_id === $idWaiting)
+                                        @if(Auth::user()->hasRole('PO'))
                                             @if($confirm->absence->is_deny === 0)
                                                 <div class="btn-group-vertical">
                                                     <button class="btn btn-xs btn-primary button-confirm" id="button-absence-accept-{{$confirm->id}}">{{trans('absence_po.list_po.modal.done')}}</button>
@@ -321,12 +322,15 @@
                                                 </div>
                                             @endif
                                         @else
-                                            @if($confirm->absence_status_id === $idAccepted)
-                                                <span class="label label-success">{{trans('absence_po.list_po.status.absence_accepted')}}</span>
-                                            @elseif($confirm->absence_status_id === $idRejected)
-                                                <span class="label label-default">{{trans('absence_po.list_po.status.absence_rejected')}}</span>
-                                            @endif
+                                            -
                                         @endif
+                                    @else
+                                        @if($confirm->absence_status_id === $idAccepted)
+                                            <span class="label label-success">{{trans('absence_po.list_po.status.absence_accepted')}}</span>
+                                        @elseif($confirm->absence_status_id === $idRejected)
+                                            <span class="label label-default">{{trans('absence_po.list_po.status.absence_rejected')}}</span>
+                                        @endif
+                                    @endif
                                     </td>
                                     <td class="reason-confirm" id="reason-confirm-{{$confirm->id}}">
                                         {{isset($confirm->reason)?$confirm->reason:'-'}}

@@ -19,7 +19,7 @@ class TempListConfirm extends Model
     /**
      * @var array
      */
-    
+
     public $table = 'temp_list_confirm';
     protected $fillable = [
         'employee_id',

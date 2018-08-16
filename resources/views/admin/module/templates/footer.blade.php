@@ -1,8 +1,10 @@
-  <footer class="main-footer">
+<footer class="footer is-flex is-align-item-center">
     <div class="pull-right hidden-xs">
     </div>
-      <a href="javascript:history.back()" class="cd-back cd-is-visible">Back</a>
-    <strong>Copyright &copy; 2018<a href="https://nal.vn"> NAL Solution</a>.</strong> All rights
-    reserved.
-      <a href="#" class="cd-top">Back To Top</a>
-  </footer>
+    <a href="#">
+        <img src="{!! asset('admin/templates/images/dist/img/icon_logo.png') !!}">
+    </a>
+    <a href="javascript:history.back()" class="cd-back cd-is-visible">Back</a>
+    <span class="footer-text">Copyright©2018. All Right Reserved</span>
+    <a href="#" class="cd-top">Back To Top</a>
+</footer>
