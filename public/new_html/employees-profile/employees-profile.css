@@ -113,7 +113,6 @@ a:hover {
     margin-top: 40px;
     margin-left: 20px;
     margin-right: 28px;
-    border-bottom: 1px solid #222128;
 }
 
 .content a{
@@ -127,12 +126,19 @@ a:hover {
 .title-emp {
     padding: 10px;
     font-size: 24px;
+    border-bottom: 3px solid #222128;
 }
 
 .title-prof {
     padding: 10px;
     font-size: 24px;
+    border-bottom: 3px solid #3ab4db;
+}
+
+.empty {
     flex-grow: 1;
+    padding: 10px;
+    border-bottom: 3px solid #222128;
 }
 
 .title-edit {
@@ -148,16 +154,14 @@ a:hover {
 }
 
 .button-content-item {
-    display: flex;
-    align-items: center;
     margin-left: 14px;
     width: 158px;
-    background: #ededed;
     padding: 5px 0px;
     font-size: 18px;
     border: 2px solid #d1d8e2;
     border-radius: 4px;
-    
+    display: flex;
+    align-items: center;
 }
 
 .button-content-item:hover {
@@ -183,6 +187,7 @@ a:hover {
 
 .container-form {
     margin-top: 31px;
+    margin-bottom: 31px; 
     margin-left: 18px;
     margin-right: 28px;
     background: white;
@@ -192,10 +197,9 @@ a:hover {
 
 .first-item-form {
     display: flex;
-    justify-content: center;
     align-items: center;
     width: 100%;
-    margin: 40px 0px;
+    margin: 40px 20px;
 }
 
 .color {
@@ -256,7 +260,7 @@ a:hover {
 }
 
 .button-save {
-    width: 125px;
+    width: 150px;
     border-radius: 20px !important;
     margin-left: 20px;
 }
@@ -399,6 +403,49 @@ input[type="checkbox"]:checked + label:after {
 
 .margin-10 {
     margin-left: 10px;
+}
+
+.highcharts-exporting-group {
+  display: none;
+}
+
+.highcharts-credits {
+  display:none;
+}
+
+@import 'https://code.highcharts.com/css/highcharts.css';
+
+.container-column-chart {
+    width: 96%;
+    margin: 0 auto;
+    border-top: 1px solid #8899a9;
+}
+
+.column-chart {
+    min-width: 750px;
+    height: 300px;
+    margin: 20px;
+    box-shadow: 0 0 10px #cacaca;
+}
+
+.display-none {
+    display: none;
+}
+
+#container2 .highcharts-color-1>rect {
+    fill: #abe02a;
+}
+
+#container2 .highcharts-color-0>rect {
+    fill: #ededed;
+}
+
+.highcharts-title {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.width-label-modal-edit-password {
+    width: 175px;
 }
 
 .footer {
