@@ -8,12 +8,12 @@
                 <h4 class="modal-title">{{  trans('common.title_header.employee_detail') }}</h4>
             </h1>
 
-            <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>
-                </li>
-                <li><a href="{{asset('/employee')}}">{{trans('common.path.employee')}}</a></li>
-                <li class="active">{{trans('common.path.detail')}}</li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>--}}
+                {{--</li>--}}
+                {{--<li><a href="{{asset('/employee')}}">{{trans('common.path.employee')}}</a></li>--}}
+                {{--<li class="active">{{trans('common.path.detail')}}</li>--}}
+            {{--</ol>--}}
 
         </section>
         <section class="content">

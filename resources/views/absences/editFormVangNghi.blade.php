@@ -6,11 +6,11 @@
       <h1>
         <strong>Phiếu Vắng Nghỉ</strong>
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-        <li><a href="/absences">Vắng nghỉ</a></li>
-        <li class="active">Phiếu vắng nghỉ</li>
-      </ol>
+      {{--<ol class="breadcrumb">--}}
+        {{--<li><a href="/"><i class="fa fa-dashboard"></i> Trang chủ</a></li>--}}
+        {{--<li><a href="/absences">Vắng nghỉ</a></li>--}}
+        {{--<li class="active">Phiếu vắng nghỉ</li>--}}
+      {{--</ol>--}}
     </section>
     <style type="text/css">
       .form-horizontal .form-group {
