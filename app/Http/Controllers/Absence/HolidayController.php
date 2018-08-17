@@ -19,7 +19,7 @@ class HolidayController extends Controller
     public function index()
     {
         $list_holiday_default = HolidayDefault::with('status')->get();
-        $list_holiday = Holiday::with('status')->get();
+        $list_holiday = Holiday::with('status')->get()->sortBy('date');
         $holiday_type = HolidayStatus::all();
         $year_now = date("Y");
         $min_year = Holiday::all('date')->min()->date->Format('Y');
