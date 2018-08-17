@@ -76,8 +76,8 @@ return[
         'reset_success'=>'Thay đổi mật khẩu thành công!!!',
     ],
     'msg_edit'=>[
-        'success'=>'Chỉnh sửa Nhân viên thành công!!!',
-        'fail'=>'Chỉnh sửa Nhân viên không thành công!!!',
+        'success'=>'Chỉnh sửa thành công!!!',
+        'fail'=>'Chỉnh sửa không thành công!!!',
     ],
     'msg_add'=>[
         'success'=>'Thêm Nhân viên thành công!!!',
