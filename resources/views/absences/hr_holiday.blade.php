@@ -96,7 +96,7 @@
                     <div class="box">
                         <!-- /.box-header -->
                         <div class="box-body">
-                            @include('absences._list_holiday_hr',[$list_holiday, $year_now, $min_year, $max_year])
+                            @include('absences._list_holiday_hr',[$list_holiday_default,$list_holiday, $year_now, $min_year, $max_year])
                         </div>
                         <!-- /.box-body -->
                     </div>
