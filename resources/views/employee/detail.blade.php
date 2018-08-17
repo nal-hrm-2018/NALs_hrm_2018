@@ -19,7 +19,7 @@
         <section class="content">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li >
+                    <li style="margin:0 30px;" >
                         <a id="tab-basic" href="#basic" data-toggle="tab">{{trans('employee.basic')}}</a>
                     </li>
                     <li>
@@ -163,13 +163,15 @@
                                                                         data-widget="collapse"><i
                                                                             class="fa fa-minus"></i>
                                                                 </button>
-                                                                <button type="button" class="btn btn-box-tool"
-                                                                        data-widget="remove"><i class="fa fa-times"></i>
-                                                                </button>
+                                                                {{--<button type="button" class="btn btn-box-tool"--}}
+                                                                        {{--data-widget="remove"><i class="fa fa-times"></i>--}}
+                                                                {{--</button>--}}
                                                             </div>
                                                         </div>
                                                         <div class="box-body">
-                                                            <div id="bar-chart" style="height: 235px;"></div>
+                                                            <div id="bar-chart" style="height: 235px;">
+                                                                <img width="100%" src="{!! asset('admin/templates/images/temporary/chart.png') !!}">
+                                                            </div>
                                                         </div>
                                                         <!-- /.box-body-->
                                                     </div>
