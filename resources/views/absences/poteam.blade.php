@@ -15,12 +15,12 @@
                 {{trans('common.title_header.absence_detail')}}
                 <small>{{trans('common.title_header.nal_solution')}}</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}
-                    </a></li>
-                <li><a href="{{route('vendors.index')}}">{{trans('common.path.absence')}}</a></li>
-                <li class="active"><a href="javascript:void(0)">{{trans('absence_po.list_po.path')}}</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}--}}
+                    {{--</a></li>--}}
+                {{--<li><a href="{{route('vendors.index')}}">{{trans('common.path.absence')}}</a></li>--}}
+                {{--<li class="active"><a href="javascript:void(0)">{{trans('absence_po.list_po.path')}}</a></li>--}}
+            {{--</ol>--}}
         </section>
         <?php
         $exportId = null; $exportName = null; $exportEmail = null;  $exportStartDate = null;$exportNotePoTeam = null;

@@ -8,12 +8,12 @@
                 <h4 class="modal-title">{{  trans('common.path.absence_list') }}</h4>
             </h1>
 
-            <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>
-                </li>
-                <li><a href="{{asset('/employee')}}">{{trans('common.path.absence')}}</a></li>
-                <li class="active">{{trans('common.path.po_project')}}</li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>--}}
+                {{--</li>--}}
+                {{--<li><a href="{{asset('/employee')}}">{{trans('common.path.absence')}}</a></li>--}}
+                {{--<li class="active">{{trans('common.path.po_project')}}</li>--}}
+            {{--</ol>--}}
 
         </section>
 

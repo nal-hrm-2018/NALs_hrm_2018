@@ -6,11 +6,11 @@
             <h1>
                 {{trans('common.path.add_employee')}}
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="/employee">{{trans('common.path.employee')}}</a></li>
-                <li class="active">{{trans('common.path.add')}}</li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+                {{--<li><a href="/employee">{{trans('common.path.employee')}}</a></li>--}}
+                {{--<li class="active">{{trans('common.path.add')}}</li>--}}
+            {{--</ol>--}}
         </section>
 
         <!-- Main content -->

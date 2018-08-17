@@ -70,6 +70,7 @@ return [
         'detail'=>'Chi Tiết',
         'add'=>'Thêm',
         'edit'=>'Chỉnh Sửa',
+        'edit_info'=>'Chỉnh Sửa thông tin',
         'list_project'=>'Danh Sách Dự Án',
         'add_project'=>'Thêm Dự Án',
         'edit_project'=>'Chỉnh Sửa Dự Án',

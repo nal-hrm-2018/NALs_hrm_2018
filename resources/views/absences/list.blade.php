@@ -17,11 +17,11 @@
                 Absence List
                 <small>Nal solution</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{asset('/absences')}}"> Absance</a></li>
-                <li><a href="#">List</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>--}}
+                {{--<li><a href="{{asset('/absences')}}"> Absance</a></li>--}}
+                {{--<li><a href="#">List</a></li>--}}
+            {{--</ol>--}}
         </section>
         <section class="content-header">
             <div>

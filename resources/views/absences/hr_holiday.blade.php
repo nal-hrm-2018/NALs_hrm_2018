@@ -17,11 +17,11 @@
                 {{trans('common.title_header.absence_list_holiday')}}
                 <small>Nal solution</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{route('absences-hr')}}"> {{trans('common.path.absences')}}</a></li>
-                <li><a href="#">{{trans('common.title_header.absence_list_holiday')}}</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+                {{--<li><a href="{{route('absences-hr')}}"> {{trans('common.path.absences')}}</a></li>--}}
+                {{--<li><a href="#">{{trans('common.title_header.absence_list_holiday')}}</a></li>--}}
+            {{--</ol>--}}
 
         </section>
         {{--<section class="content-header">--}}
