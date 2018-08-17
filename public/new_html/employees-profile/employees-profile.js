@@ -21,3 +21,17 @@ Highcharts.chart('container2', {
     }
   }
 });
+
+$(document).ready(function(){
+            $(".btn-edit-password").click(function() {
+                var form = $(this).closest('.form-edit-password');
+                $('#myModal')
+                    .modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+                    .one('click', '.btn-edit-password-confirm', function() {
+                        form.submit();
+                    })
+            }); 
+        });
