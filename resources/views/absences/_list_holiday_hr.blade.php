@@ -1,5 +1,5 @@
 <div class="main-container container-fluid">
-    <div class="input-group">
+    <div class="input-group col-md-4">
         <input class="form-control" id="search" placeholder="Search name of holiday" name="s" autocomplete="off"
                autofocus>
         <div class="input-group-btn">
@@ -37,7 +37,7 @@
             <tr class="data-row default-year">
                 <td class="align-middle id-holiday" hidden>{{ $holiday['id']}}</td>
                 <td class="align-middle text-center name-holiday">{{ $holiday['name']}}</td>
-                <td class="align-middle text-center year-holiday">All</td>
+                <td class="align-middle text-center year-holiday">All year</td>
                 <td class="align-middle text-center month-holiday">{{ $holiday['date']->format('m')}}</td>
                 <td class="align-middle text-center day-holiday">{{ $holiday['date']->format('d')}}</td>
                 <td class="align-middle text-center type-holiday-id" style="display: none;">{{ $holiday['status']['id']}}</td>
@@ -102,7 +102,7 @@
         $rows.show().filter(function () {
             var text1 = $(this).find('td:nth-child(2)').text().replace(/\s+/g, ' ').toLowerCase();
             var text2 = $(this).find('td:nth-child(3)').text().replace(/\s+/g, ' ').toLowerCase();
-            return !~text1.indexOf(val1) || !~text2.indexOf(val2) && text2.indexOf('all');
+            return !~text1.indexOf(val1) || !~text2.indexOf(val2) && text2.indexOf('all year');
         }).hide();
     }
 
