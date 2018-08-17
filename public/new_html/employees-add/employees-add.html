@@ -113,6 +113,10 @@
                                     <input class="effect-2" type="Password" placeholder="Password">
                                     <span class="focus-border"></span>
                                 </div>
+                                <div class="colm-3">
+                                    <input class="effect-2" type="Password" placeholder="Password Confirm">
+                                    <span class="focus-border"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="colm-3">
@@ -129,12 +133,23 @@
                             <span class="focus-border"></span>
                         </div>
                         <div class="colm-3">
-                            <input class="effect-2" type="text" placeholder="Email">
-                            <span class="focus-border"></span>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>Marital status</option>
+                                <option value="1">Single</option>
+                                <option value="2">Married</option>
+                                <option value="3">Separated</option>
+                                <option value="4">Divorced</option>
+                            </select>
                         </div>
                         <div class="colm-3">
-                            <input class="effect-2" type="text" placeholder="Job title">
-                            <span class="focus-border"></span>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>Policy type</option>
+                                <option value="1">Internship</option>
+                                <option value="2">Fulltime</option>
+                                <option value="3">Parttime</option>
+                                <option value="4">Contractual Employee</option>
+                                <option value="5">Probationary</option>
+                            </select>
                         </div>
                         <div class="colm-3 d-flex is-align-item-flex-end">
                             <img src="./images/heart.png" class="img-bell">
@@ -147,71 +162,81 @@
                                 <input type="radio" id="radio02" name="radio" />
                                 <label for="radio02"><span></span>Female</label>
                             </div>
+                            <div class="position-lgbt">
+                                <input type="radio" id="radio03" name="radio" />
+                                <label for="radio03"><span></span>LGBT</label>
+                            </div>
                         </div>
-                         <div class="colm-3">
-                            <input class="effect-2" type="text" placeholder="Status">
-                            <span class="focus-border"></span>
+                        <div class="colm-3">
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>Position</option>
+                                <option value="1">Dev</option>
+                                <option value="2">Acountant</option>
+                                <option value="3">SM</option>
+                                <option value="4">PO</option>
+                                <option value="5">HR</option>
+                            </select>
                         </div>
-                         <div class="colm-3">
-                            <input class="effect-2" type="text" placeholder="Birthday">
-                            <span class="focus-border"></span>
+                        <div class="colm-3 d-flex">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <label class="margin-0">Birthday:</label>
+                                    </span>
+                                </div>
+                                <input type="date" class="custom-select input-date" aria-describedby="basic-addon1">
+                            </div>
                         </div>
-                        <div class="colm-3 d-flex is-align-item-flex-end">
-                            <img src="./images/address.png" class="img-bell">
+                        <div class="colm-3 d-flex">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2">
+                                        <label class="margin-0">Start Date:</label>
+                                    </span>
+                                </div>
+                                <input type="date" class="custom-select input-date" aria-describedby="basic-addon2">
+                            </div>
+                        </div>
+                        <div class="colm-3 d-flex">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon3">
+                                        <label class="margin-0">End Date:</label>
+                                    </span>
+                                </div>
+                                <input type="date" class="custom-select input-date" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                        <div class="container-checkbox-team d-flex is-align-item-flex-end">
                             <span>Team:</span>
-                            <div class="d-flex is-align-item-flex-end">
-                            <input type="checkbox" id="test1">
-                            <label for="test1" class="margin-15">Apple</label>
-                            <input type="checkbox" id="test2">
-                            <label for="test2" class="margin-15">Peach</label>
-                            <input type="checkbox" id="test3">
-                            <label for="test3" class="margin-15">Orange</label>
-                            <input type="checkbox" id="test4">
-                            <label for="test4" class="margin-15">Lemon</label>
-                            <input type="checkbox" id="test5">
-                            <label for="test5" class="margin-15">Apple</label>
-                            <input type="checkbox" id="test6">
-                            <label for="test6" class="margin-15">Peach</label>
-                            <input type="checkbox" id="test7">
-                            <label for="test7" class="margin-15">Orange</label>
-                            <input type="checkbox" id="test8">
-                            <label for="test8" class="margin-15">Lemon</label>
+                            <div>
+                                <input type="checkbox" id="test1">
+                                <label for="test1" class="margin-10">DOTNET</label>
+                                <input type="checkbox" id="test2">
+                                <label for="test2" class="margin-10">PHP</label>
+                                <input type="checkbox" id="test3">
+                                <label for="test3" class="margin-10">iOS</label>
+                                <input type="checkbox" id="test4">
+                                <label for="test4" class="margin-10">Android</label>
+                                <input type="checkbox" id="test5">
+                                <label for="test5" class="margin-10">Agile Leader</label>
+                                <input type="checkbox" id="test6">
+                                <label for="test6" class="margin-10">PMO</label>
+                                <input type="checkbox" id="test7">
+                                <label for="test7" class="margin-10">HD</label>
+                                <input type="checkbox" id="test8">
+                                <label for="test8" class="margin-10">SWAT</label>
+                                <input type="checkbox" id="test9">
+                                <label for="test9" class="margin-10">CLB CodeGym</label>
+                                <input type="checkbox" id="test10">
+                                <label for="test10" class="margin-10">Doraemon</label>
+                                <input type="checkbox" id="test11">
+                                <label for="test11" class="margin-10">Comtor</label>
                             </div>
                         </div>
                         <div class="container-button-save">
+                            <input type="reset" name="reset" value="Reset" class="btn btn-dark button-save">
                             <input type="submit" name="Submit" value="Save" class="btn btn-dark button-save">
-                        </div>
-                    </div>
-                </div>
-                <div class="info-personal d-flex">
-                    <div class="info-personal-item">
-                        <div class="d-flex position-relative">
-                            <h6 class="title-emp-info">Employee information</h6>
-                            <img src="./images/plus.png" class="position-plus">
-                        </div>
-                        <div class="toggle">
-                            <div class="colm-3">
-                                <input class="effect-2" type="text" placeholder="Job date">
-                                  <span class="focus-border"></span>
-                            </div>
-                            <div class="colm-3">
-                                <input class="effect-2" type="text" placeholder="Super visior">
-                                  <span class="focus-border"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="info-personal-item">
-                        <div class="d-flex position-relative">
-                            <h6 class="title-emp-info">Persional employee</h6>
-                            <img src="./images/plus.png" class="position-plus">
-                        </div>
-                        <div class="colm-3">
-                            <input class="effect-2" type="text" placeholder="Location">
-                              <span class="focus-border"></span>
-                        </div>
-                        <div class="colm-3">
-                            <input class="effect-2" type="text" placeholder="Identily Card">
-                              <span class="focus-border"></span>
                         </div>
                     </div>
                 </div>
