@@ -73,7 +73,7 @@
 
                 <div class="form-group">
                   <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
-                  <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+                  <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
                   <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
                   <!-- /.input group -->
                 </div>

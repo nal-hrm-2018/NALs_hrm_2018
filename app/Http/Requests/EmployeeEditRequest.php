@@ -26,7 +26,7 @@ class EmployeeEditRequest extends FormRequest
                 'email',
                 new ValidEmail(request()->get('email'), request()->route()->parameters())],
             'confirm_confirmation' => 'same:password',
-            'name' => 'required',
+  //          'name' => 'required',
             'address' => 'required',
             'gender' => [
                 'required',
