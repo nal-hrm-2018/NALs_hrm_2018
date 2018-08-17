@@ -244,7 +244,7 @@ a:hover {
 .content-wrapper {
     flex-grow: 1;
 }
-.fullwidth {
+.full-width {
     width: 100%;
 }
 .add-holiday-input{
