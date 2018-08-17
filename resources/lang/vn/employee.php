@@ -5,6 +5,7 @@ return[
         'placeholder-default' => 'Chọn'
     ],
     'basic'=>'Thông Tin Cơ Bản',
+    'info'=>'thông tin',
     'profile_info'=>[
         'id'=>'Mã Nhân Viên',
         'short_id'=>'ID',

@@ -4,7 +4,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      {{trans('common.path.edit_employee')}}
+      {{trans('common.path.edit_info')}}
     </h1>
     <ol class="breadcrumb">
       <li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
@@ -30,7 +30,8 @@
             function confirmEmployee() {
                 var name = $('#name').val();
                  var id = $('#id_employee').val();
-                return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', '{{trans("common.name_confirm.employee")}}', id, name));
+             //   return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', '{{trans("common.name_confirm.employee")}}', id, name));
+                return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', '{{trans("employee.info")}}', "", ""));
             }
         </SCRIPT>
         <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
