@@ -6,11 +6,11 @@
     <h1>
       {{trans('common.path.edit_info')}}
     </h1>
-    <ol class="breadcrumb">
-      <li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-      <li><a href="/employee">{{trans('common.path.employee')}}</a></li>
-      <li class="active">{{trans('common.path.edit')}}</li>
-    </ol>
+    {{--<ol class="breadcrumb">--}}
+      {{--<li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+      {{--<li><a href="/employee">{{trans('common.path.employee')}}</a></li>--}}
+      {{--<li class="active">{{trans('common.path.edit')}}</li>--}}
+    {{--</ol>--}}
   </section>
   <style type="text/css">
     .form-horizontal .form-group {
