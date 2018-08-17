@@ -39,30 +39,30 @@
                                           'class' => 'form-horizontal',
                                           'method'=>isset($objEmployee["id"])?'PUT':'POST',
                                           'onSubmit' => 'return confirmEmployee()'])}}--}}
-            <form action="{{asset('absences/create')}}" method="post" class="form-horizontal"
+            <form action="{{asset('absences/create')}}" method="post" class="form-horizontal">
             <form class="fullwidth" action="{{asset('absences')}}" method="post" class="form-horizontal"
                   onSubmit="return confirmAction()">
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
             <div class="row">
-              <div class="col-md-3"></div>
+              <div class="col-md-8"></div>
               <!-- /.col -->
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <!-- /.form-group -->
-                <div class="form-group">
+                <div class="form-group addab">
                   <label>Địa chỉ email<strong style="color: red">(*)</strong></label>
                   <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" readonly="readonly" />
                   <!-- /.input group -->
                 </div>
-              <div class="form-group">
+              <div class="form-group addab">
                 <label>Họ Tên<strong style="color: red">(*)</strong></label>
                 <input type="text" class="form-control" placeholder="Name"  name="name" id="name" readonly="readonly" value="{!! old('name', isset($objEmployee->name) ? $objEmployee->name : null) !!}">
                 <!-- /.input group -->
               </div>
                 
 
-                <div class="form-group">
+                <div class="form-group addab">
                   <label>Team<strong style="color: red">(*)</strong></label>
                   @php
                     $arr_team = $objEmployee->teams()->get();
@@ -90,10 +90,10 @@
                   {{--@endif--}}
                 {{--</div>--}}
 
-                <div class="form-group">
+                <div class="form-group addab">
                   <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date form_datetime'>
-                    <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
+                    <input name="from_date" type='datetime-local' value="{!! old('from_date') !!}" class="form-control" placeholder=""/>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -102,10 +102,10 @@
                   <!-- /.input group -->
                 </div>
 
-                <div class="form-group">
+                <div class="form-group addab">
                   <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date form_datetime'>
-                    <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" placeholder="yyyy-MM-dd HH:mm"/>
+                    <input name="to_date" type='datetime-local' class="form-control" value="{!! old('to_date') !!}" placeholder="yyyy-MM-dd HH:mm"/>
                     <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -114,7 +114,7 @@
                   <!-- /.input group -->
                 </div>
 
-                <div class="form-group">
+                <div class="form-group addab">
                   <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>
                   <select class="form-control select2" style="width: 100%;"  name="absence_type_id" id="absence_type_id">
                     <option value="" >---Chọn---</option>
@@ -149,14 +149,14 @@
                   <label id="lb_error_absence_type_id" style="color: red; ">{{$errors->first('absence_type_id')}}</label>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group addab">
                   <label>Lý do<strong style="color: red">(*)</strong></label>
                   <input type="text" class="form-control" placeholder="Câu trả lời của bạn" value="{!! old('reason') !!}"  name="reason" id="ly_do">
                   <label id="lb_error_reason" style="color: red;">{{$errors->first('reason')}}</label>
                   <!-- /.input group -->
                 </div>
 
-                <div class="form-group">
+                <div class="form-group addab">
                   <label>Ghi chú</label>
                   <input type="text" class="form-control" placeholder="Câu trả lời của bạn"{!! old('ghi_chu') !!}  name="ghi_chu" id="ghi_chu">
                   <!-- /.input group -->
@@ -164,12 +164,10 @@
 
                 <div class="row">
                   <br />
-                  <div class="col-md-3" style="margin-left: 100px;">
+                  <div class="col-md-4" style="margin-left: 100px;">
                     <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
                       RESET
                     </button>
-                  </div>
-                  <div class="col-md-4">
                     <button type="submit" class="btn btn-primary">
                       SAVE
                     </button>

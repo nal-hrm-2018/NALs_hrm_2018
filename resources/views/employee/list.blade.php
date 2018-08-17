@@ -9,14 +9,14 @@
 @section('content')
 
         <div class="content">
-            <div class="title-content d-flex">
-                <span class="title-emp">
-                    <a href="{{asset('/employee')}}"><?php echo strtoupper(trans('common.path.employee'));?></a>
-                </span>
-                <span class="title-prof">
-                    <a href="#">MY PROFILE</a>
-                </span>
-            </div>
+            {{--<div class="title-content d-flex">--}}
+                {{--<span class="title-emp">--}}
+                    {{--<a href=""></a>--}}
+                {{--</span>--}}
+                {{--<span class="title-prof">--}}
+                    {{--<a href="#">MY PROFILE</a>--}}
+                {{--</span>--}}
+            {{--</div>--}}
             <div class="d-flex button-content">
                 <?php
                 $id = null; $name = null; $team = null; $role = null; $email = null; $statusExport = null; $page=1;
@@ -151,113 +151,111 @@
                 <a href="{{ asset('employee/create')}}" class="button-content-item"><img src="{!! asset('admin/templates/images/employees/add.png') !!}" class="mg-img-button">&nbsp;{{trans('common.button.add')}}</a>
                 @endif
             </div>
-            <div class="d-flex is-space-between title-table">
-                <h4>List Employees</h4>
+            <div class=" title-table">
                 <div>
-                    <button type="button" class="btn btn-outline-info btn-search" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-outline-info btn-search">
                         Search&nbsp;<i class="fas fa-search"></i>
                     </button>
-                    <div class="modal" id="myModal" role="dialog">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Search Employees</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form class="form-search" method="get" role="form" id="form_search_employee">
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text width-label-input" id="basic-addon1">{{trans('employee.profile_info.id')}}</span>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="Employees ID" aria-label="Username" name="id" aria-describedby="basic-addon1">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text width-label-input" id="basic-addon2">{{trans('employee.profile_info.name')}}</span>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="Name" aria-label="Username" name="name" aria-describedby="basic-addon2">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text width-label-input" id="basic-addon3">{{trans('employee.profile_info.email')}}</span>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="Email" aria-label="Username" name="email" aria-describedby="basic-addon3">
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text width-label-input" for="inputGroupSelect01">{{trans('employee.profile_info.team')}}</label>
-                                            </div>
-                                            <select name="team" id="team_employee" class="form-control">
-                                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
-                                                    {{  trans('vendor.drop_box.placeholder-default') }}
-                                                </option>
-                                                @foreach($teams as $team)
-                                                    <option value="{{ $team->name}}" {{ (string)$team->name===request('team')?'selected="selected"':'' }}>
-                                                        {{ $team->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text width-label-input" for="inputGroupSelect01">{{trans('employee.profile_info.role')}}</label>
-                                            </div>
-                                            <select name="role" id="role_employee" class="form-control">
-                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
-                                                    {{  trans('vendor.drop_box.placeholder-default') }}
-                                                </option>
-                                                @foreach($roles as $role)
-                                                    <option value="{{ $role->name}}"{{ (string)$role->name===request('role')?'selected="selected"':'' }}>
-                                                        {{ $role ->name}}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text width-label-input" for="inputGroupSelect01">{{trans('employee.profile_info.status')}}</label>
-                                            </div>
-                                            <select name="status" id="status" class="form-control">
-                                                <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
-                                                    {{  trans('employee.drop_box.placeholder-default') }}
-                                                </option>
-
-                                                @foreach($status as $key => $value)
-                                                    <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
-                                                        {{ $value }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">
-                                                {{trans('common.button.reset')}}
-                                            </button>
-                                            <button type="submit" id="searchListEmployee" class="btn btn-primary btn-search-confirm">
-                                                {{trans('common.button.search')}}
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                    <form class="form-search" method="get" role="form" id="form_search_employee">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text width-label-input" id="basic-addon1">{{trans('employee.profile_info.id')}}</span>
                             </div>
+                            <input type="text" class="form-control" placeholder="Employees ID" aria-label="Username" name="id" aria-describedby="basic-addon1">
                         </div>
-                    </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text width-label-input" id="basic-addon2">{{trans('employee.profile_info.name')}}</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Name" aria-label="Username" name="name" aria-describedby="basic-addon2">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text width-label-input" id="basic-addon3">{{trans('employee.profile_info.email')}}</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Email" aria-label="Username" name="email" aria-describedby="basic-addon3">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text width-label-input" for="inputGroupSelect01">{{trans('employee.profile_info.team')}}</label>
+                            </div>
+                            <select name="team" id="team_employee" class="form-control">
+                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                </option>
+                                @foreach($teams as $team)
+                                    <option value="{{ $team->name}}" {{ (string)$team->name===request('team')?'selected="selected"':'' }}>
+                                        {{ $team->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text width-label-input" for="inputGroupSelect01">{{trans('employee.profile_info.role')}}</label>
+                            </div>
+                            <select name="role" id="role_employee" class="form-control">
+                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                </option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->name}}"{{ (string)$role->name===request('role')?'selected="selected"':'' }}>
+                                        {{ $role ->name}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text width-label-input" for="inputGroupSelect01">{{trans('employee.profile_info.status')}}</label>
+                            </div>
+                            <select name="status" id="status" class="form-control">
+                                <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
+                                    {{  trans('employee.drop_box.placeholder-default') }}
+                                </option>
+
+                                @foreach($status as $key => $value)
+                                    <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
+                                        {{ $value }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                               value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">
+                                {{trans('common.button.reset')}}
+                            </button>
+                            <button type="submit" id="searchListEmployee" class="btn btn-primary btn-search-confirm">
+                                {{trans('common.button.search')}}
+                            </button>
+                        </div>
+                    </form>
                 </div>
+                <div class="d-flex is-space-between title-list">
+                    <h4>List Employees</h4>
+                    <select id="mySelect" onchange="myFunction()">
+                        <option selected>Entries</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+                <script>
+                    function myFunction() {
+                        var x = document.getElementById("mySelect").value;
+                        console.log(x);
+                        $('#number_record_per_page').val(x);
+                        $('#form_search_employee').submit()
+                    }
+                </script>
             </div>
             <div class="table-content">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">
-                            <label>
-                                <input type="checkbox" id="checkAll" style="display: none;">
-                                <span class="chose-all">Chose all</span>
-                            </label>
-                        </th>
-                        <th class="small-row-id text-center">{{trans('employee.profile_info.id')}}</th>
+                        <th style="width: 100px;" class="small-row-id text-center">{{trans('employee.profile_info.id')}}</th>
                         <th>{{trans('employee.profile_info.name')}}</th>
                         <th>{{trans('employee.profile_info.team')}}</th>
                         <th>{{trans('employee.profile_info.role')}}</th>
@@ -272,12 +270,6 @@
 
                         <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                             data-employee-id="{{$employee->id}}">
-                            <td scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="{{$employee->id}}">
-                                    <label class="custom-control-label" for="{{$employee->id}}"></label>
-                                </div>
-                            </td>
                             <td  class="text-center"><p class="fix-center-employee" >{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                             <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
 
@@ -352,10 +344,23 @@
                 </table>
             </div>
             <div class="container-pagination pagina">
-                {{ $employees->links() }}
+
+                @if ($employees->onFirstPage())
+                    <li style="display: inline-block; float: left;" class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                @else
+                    <li style="display: inline-block; float: left;" class="page-item"><a class="page-link" href="{{ $employees->url(1) }}" rel="first">&laquo;</a></li>
+                @endif
+                <div class="paginat" style="float: left;">
+                    {{ $employees->links() }}
+                </div>
+                    {{-- Last Page Link --}}
+                @if ($employees->hasMorePages())
+                    <li style="display: inline-block; float: left;" class="page-item"><a class="page-link" href="{{ $employees->url($employees->lastPage()) }}" rel="last">&raquo;</a></li>
+                @else
+                    <li style="display: inline-block; float: left;" class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                @endif
             </div>
 
         </div>
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-
 @endsection

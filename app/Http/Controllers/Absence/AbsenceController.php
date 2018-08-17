@@ -360,6 +360,17 @@ class AbsenceController extends Controller
         return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee, 'Absence_type' => $Absence_type]);
     }
 
+    public function postCreate($id,$request){
+        $absence = Absence::find($id);
+        $absence->employee_id = $id;
+        $absence->absence_type_id = $request->absence_type_id;
+        $absence->absence_status_id = $request->absence_status_id;
+        $absence->from_date = $request->from_date;
+        $absence->to_date = $request->to_date;
+        $absence->save();
+        echo 'a'; die();
+        return redirect()->route('absence.index');
+    }
     public function store(AbsenceAddRequest $request){
         return $this->absenceFormService->addNewAbsenceForm($request);
     }
