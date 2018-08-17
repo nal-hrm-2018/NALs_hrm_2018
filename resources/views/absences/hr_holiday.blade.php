@@ -17,11 +17,11 @@
                 {{trans('common.title_header.absence_list_holiday')}}
                 <small>Nal solution</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{route('absences-hr')}}"> {{trans('common.path.absences')}}</a></li>
-                <li><a href="#">{{trans('common.title_header.absence_list_holiday')}}</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+                {{--<li><a href="{{route('absences-hr')}}"> {{trans('common.path.absences')}}</a></li>--}}
+                {{--<li><a href="#">{{trans('common.title_header.absence_list_holiday')}}</a></li>--}}
+            {{--</ol>--}}
 
         </section>
         {{--<section class="content-header">--}}
@@ -31,8 +31,14 @@
             {{--</ol>--}}
             {{--</div>--}}
         {{--</section>--}}
+        <script>
+            function confirmHoliday() {
+                var name = $('#name').val();
+                return confirm('{{trans("holiday.add-question")}}' +name+ '{{trans("holiday.add-question-end")}}');
+            }
+        </script>
         <form action="{{asset('holiday')}}" method="post" class="form-horizontal col-md-12"
-              onSubmit="return confirmAction()">
+              onSubmit="return confirmHoliday()">
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             {{--<input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>--}}
@@ -81,6 +87,7 @@
                 <button type="submit" class="btn btn-primary col-md-5 center-item">{{trans('holiday.add')}}</button>
             </div>
         </form>
+
         {{--table data project--}}
         <div id="msg"></div>
         <section class="content">
@@ -89,7 +96,7 @@
                     <div class="box">
                         <!-- /.box-header -->
                         <div class="box-body">
-                            @include('absences._list_holiday_hr',[$list_holiday])
+                            @include('absences._list_holiday_hr',[$list_holiday_default,$list_holiday, $year_now, $min_year, $max_year])
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -160,7 +167,7 @@
                                 <!-- description -->
                                 <div class="form-group">
                                     <label class="col-form-label" for="modal-input-description">{{trans('holiday.description')}}</label>
-                                    <input type="text" name="modal-input-description" class="form-control" id="modal-input-description" required>
+                                    <input type="text" name="modal-input-description" class="form-control" id="modal-input-description">
                                 </div>
                                 <!-- /description -->
                             </div>
@@ -177,7 +184,7 @@
     <!-- /Attachment Modal -->
     <script>
         $(".holiday-delete").on("submit", function(){
-            return confirm("Are you sure?");
+            return confirm("Are you sure you want to delete this holiday?");
         });
         $(document).ready(function() {
             /**
@@ -194,7 +201,7 @@
             })
 
             // on modal show
-            $('#edit-modal').on('show.bs.modal', function() {
+            $('#edit-modal').on("show.bs.modal", function() {
                 var el = $(".edit-item-trigger-clicked"); // See how its usefull right here?
                 var row = el.closest(".data-row");
 

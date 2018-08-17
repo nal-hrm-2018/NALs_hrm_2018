@@ -14,4 +14,6 @@ return[
     'edit' => 'Sửa',
     'update' => 'Cập nhật',
     'close' => 'Đóng',
+    'add-question' => 'Bạn có chắc chắn muốn tạo ngày nghỉ ',
+    'add-question-end' => '?'
 ];

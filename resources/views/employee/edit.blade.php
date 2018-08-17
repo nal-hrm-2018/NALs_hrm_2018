@@ -4,13 +4,13 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      {{trans('common.path.edit_employee')}}
+      {{trans('common.path.edit_info')}}
     </h1>
-    <ol class="breadcrumb">
-      <li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-      <li><a href="/employee">{{trans('common.path.employee')}}</a></li>
-      <li class="active">{{trans('common.path.edit')}}</li>
-    </ol>
+    {{--<ol class="breadcrumb">--}}
+      {{--<li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+      {{--<li><a href="/employee">{{trans('common.path.employee')}}</a></li>--}}
+      {{--<li class="active">{{trans('common.path.edit')}}</li>--}}
+    {{--</ol>--}}
   </section>
   <style type="text/css">
     .form-horizontal .form-group {
@@ -30,7 +30,8 @@
             function confirmEmployee() {
                 var name = $('#name').val();
                  var id = $('#id_employee').val();
-                return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', '{{trans("common.name_confirm.employee")}}', id, name));
+             //   return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', '{{trans("common.name_confirm.employee")}}', id, name));
+                return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', '{{trans("employee.info")}}', "", ""));
             }
         </SCRIPT>
         <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
@@ -72,7 +73,7 @@
 
                 <div class="form-group">
                   <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
-                  <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+                  <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
                   <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
                   <!-- /.input group -->
                 </div>

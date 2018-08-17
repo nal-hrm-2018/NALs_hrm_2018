@@ -17,11 +17,11 @@
                 Chi tiết vắng nghỉ
                 <small>Nal solution</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                <li><a href="{{asset('/absences')}}"> Vắng nghỉ</a></li>
-                <li><a href="#">Chi tiết</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Trang chủ</a></li>--}}
+                {{--<li><a href="{{asset('/absences')}}"> Vắng nghỉ</a></li>--}}
+                {{--<li><a href="#">Chi tiết</a></li>--}}
+            {{--</ol>--}}
         </section>       
 
         <div id="msg">

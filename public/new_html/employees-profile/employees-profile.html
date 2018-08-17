@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NALs</title>
+    <link rel="stylesheet" type="text/css" href="./employees-profile.css">
+    <link rel="stylesheet" type="text/css" href="./reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+</head>
+<body>
+    <header class="header is-flex is-align-item-center is-space-between">
+        <a href="#">
+            <img src="./images/icon_logo.png">
+            <img src="./images/icon_name.png">
+        </a>
+        <div class="is-flex">
+            <div class="dropdown mg-right-10">
+                <a href="#" data-toggle="dropdown" aria-labelledby="dropdownMenuLink">
+                    <img src="./images/dropdown.png">
+                </a>
+                <div class="dropdown-menu dropdown-notification">
+                    <a class="dropdown-item" href="#"><i class="fas fa-users"></i>&nbsp;5 new members joined today</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i>&nbsp;25 sales made</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-user"></i>&nbsp;You changed your username</a>
+                </div>
+            </div>
+            <div class="dropdown mg-right-56">
+                <a class="btn btn-info dropdown-user" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="./images/face.png" class="margin-img-face">
+                    <span>User Name</span>
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li></li>
+                    <li>
+                        <a class="dropdown-item" href="#"><i class="fas fa-info">&nbsp;</i>Update Profile</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt">&nbsp;</i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="is-flex">
+        <nav class="is-flex is-column nav-menu">
+            <a href="#" class="nav-item"><img src="./images/menu-dashboard.png" class="mg-right-10">Dashboard</a>
+            <a href="#" class="nav-item active-nav"><img src="./images/menu-employess.png" class="mg-right-10">Employess</a>
+            <a href="#" class="nav-item"><img src="./images/menu-vendor.png" class="mg-right-10">Vendor</a>
+            <a href="#" class="nav-item"><img src="./images/menu-team.png" class="mg-right-10">Team</a>
+            <a href="#" class="nav-item"><img src="./images/menu-project.png" class="mg-right-10">Project</a>
+            <a href="#" class="nav-item"><img src="./images/menu-absence.png" class="mg-right-10">Absence</a>
+        </nav>
+        <div class="content">
+            <div class="title-content d-flex">
+                <span class="title-emp">
+                    <a href="#">EMPLOYEES</a>
+                </span>
+                <span class="title-prof">
+                    <a href="#">MY PROFILE</a>
+                </span>
+                <span class="empty"></span>
+                <span class="title-edit">
+                    <a href="#"><img src="./images/edit.png"></a>
+                </span>
+            </div>
+             <div class="d-flex button-content is-space-between is-align-item-center">
+                <h6 class="title-create-member">VIEW AND EDIT PROFILE</h6>
+                <div class="d-flex flex-row-reverse">
+                    <a href="#" class="button-content-item"><img src="./images/template.png" class="mg-img-button">&nbsp;PROJECT</a>
+                    <a href="#" class="button-content-item active-button"><img src="./images/profile.png" class="mg-img-button">&nbsp;PROFILE</a>
+                </div>
+            </div>
+            <div class="container-form">
+                <form class="d-flex is-wrap is-space-evenly">
+                    <div class="first-item-form">
+                        <img src="./images/avatar.png" class="margin-img-form">
+                        <div>
+                            <div class="colm-3">
+                                <input class="effect-2" type="text" placeholder="User name" value="abc@nal.com" style="border:none;">
+                                <span class="focus-border"></span>
+                                <div style="height:2px; width:486px;" class="color"></div>
+                            </div>
+                            <div class="colm-3">
+                                <button type="button" class="btn btn-primary btn-edit-password" data-toggle="modal" data-target="#exampleModal">
+                                    Edit Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="colm-3">
+                        <input class="effect-2" type="text" placeholder="Employee name" value="Nguyễn Văn Dũng">
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="colm-3">
+                        <input class="effect-2" type="text" placeholder="Address" value="Đà Nẵng">
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="colm-3">
+                        <img src="./images/bell.png" class="img-bell">
+                        <input class="effect-2" type="text" placeholder="Phone" value="0123456789">
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="colm-3">
+                        <select class="custom-select" id="inputGroupSelect01">
+                            <option>Marital status</option>
+                            <option selected>Single</option>
+                            <option value="2">Married</option>
+                            <option value="3">Separated</option>
+                            <option value="4">Divorced</option>
+                        </select>
+                    </div>
+                    <div class="colm-3">
+                        <select class="custom-select" id="inputGroupSelect01">
+                            <option>Policy type</option>
+                            <option value="1">Internship</option>
+                            <option selected>Fulltime</option>
+                            <option value="3">Parttime</option>
+                            <option value="4">Contractual Employee</option>
+                            <option value="5">Probationary</option>
+                        </select>
+                    </div>
+                    <div class="colm-3 d-flex is-align-item-flex-end">
+                        <img src="./images/heart.png" class="img-bell">
+                        <span>Gender:</span>
+                        <div class="position-male">
+                            <input type="radio" id="radio01" name="radio" />
+                            <label for="radio01"><span></span>Male</label>
+                        </div>
+                        <div class="position-female">
+                            <input type="radio" id="radio02" name="radio" />
+                            <label for="radio02"><span></span>Female</label>
+                        </div>
+                        <div class="position-lgbt">
+                            <input type="radio" id="radio03" name="radio" checked/>
+                            <label for="radio03"><span></span>LGBT</label>
+                        </div>
+                    </div>
+                    <div class="colm-3">
+                        <select class="custom-select" id="inputGroupSelect01">
+                            <option>Position</option>
+                            <option selected>Dev</option>
+                            <option value="2">Acountant</option>
+                            <option value="3">SM</option>
+                            <option value="4">PO</option>
+                            <option value="5">HR</option>
+                        </select>
+                    </div>
+                    <div class="colm-3 d-flex">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <label class="margin-0">Birthday:</label>
+                                </span>
+                            </div>
+                            <input type="date" class="custom-select input-date" aria-describedby="basic-addon1" value="1985-01-08">
+                        </div>
+                    </div>
+                    <div class="colm-3 d-flex">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon2">
+                                    <label class="margin-0">Start Date:</label>
+                                </span>
+                            </div>
+                            <input type="date" class="custom-select input-date" aria-describedby="basic-addon2" value="2018-07-05">
+                        </div>
+                    </div>
+                    <div class="colm-3 d-flex">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">
+                                    <label class="margin-0">End Date:</label>
+                                </span>
+                            </div>
+                            <input type="date" class="custom-select input-date" aria-describedby="basic-addon3" value="2019-07-05">
+                        </div>
+                    </div>
+                    <div class="container-checkbox-team d-flex is-align-item-center">
+                        <span>Team:</span>
+                        <div>
+                            <input type="checkbox" id="test1" checked>
+                            <label for="test1" class="margin-10">DOTNET</label>
+                            <input type="checkbox" id="test2" checked>
+                            <label for="test2" class="margin-10">PHP</label>
+                            <input type="checkbox" id="test3">
+                            <label for="test3" class="margin-10">iOS</label>
+                            <input type="checkbox" id="test4" checked>
+                            <label for="test4" class="margin-10">Android</label>
+                            <input type="checkbox" id="test5">
+                            <label for="test5" class="margin-10">Agile Leader</label>
+                            <input type="checkbox" id="test6">
+                            <label for="test6" class="margin-10">PMO</label>
+                            <input type="checkbox" id="test7">
+                            <label for="test7" class="margin-10">HD</label>
+                            <input type="checkbox" id="test8" checked>
+                            <label for="test8" class="margin-10">SWAT</label>
+                            <input type="checkbox" id="test9">
+                            <label for="test9" class="margin-10">CLB CodeGym</label>
+                            <input type="checkbox" id="test10" checked>
+                            <label for="test10" class="margin-10">Doraemon</label>
+                            <input type="checkbox" id="test11" checked>
+                            <label for="test11" class="margin-10">Comtor</label>
+                        </div>
+                    </div>
+                    <div class="container-button-save">
+                        <input type="reset" name="reset" value="Reset" class="btn btn-dark button-save">
+                        <input type="submit" name="Submit" value="Save your change" class="btn btn-dark button-save">
+                    </div>
+                </form>
+                <div class="d-flex container-column-chart">
+                    <div id="container2" class="column-chart"></div>
+                    <table id="datatable" class="display-none">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Alpha</th>
+                                <th>Beta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Jan</th>
+                                <td>15</td>
+                                <td>18</td>
+                            </tr>
+                            <tr>
+                                <th>Feb</th>
+                                <td>17</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <th>Mar</th>
+                                <td>19</td>
+                                <td>25</td>
+                            </tr>
+                            <tr>
+                                <th>Apr</th>
+                                <td>17</td>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <th>May</th>
+                                <td>22</td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <th>Jun</th>
+                                <td>33</td>
+                                <td>50</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form class="form-edit-password">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit Password</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text width-label-modal-edit-password" id="basic-addon4">Enter your password</span>
+                                    </div>
+                                    <input type="Password" class="form-control" placeholder="Your Password" aria-label="Your Password" aria-describedby="basic-addon4">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text width-label-modal-edit-password" id="basic-addon5">New password</span>
+                                    </div>
+                                    <input type="Password" class="form-control" placeholder="New Password" aria-label="New Password" aria-describedby="basic-addon5">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text width-label-modal-edit-password" id="basic-addon6">Confirm password</span>
+                                    </div>
+                                    <input type="Password" class="form-control" placeholder="Password Confirm" aria-label="Confirm Password" aria-describedby="basic-addon6">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <input type="submit" name="submit" value="Save changes"  class="btn btn-primary">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <footer class="footer is-flex is-align-item-center">
+                <a href="#">
+                    <img src="./images/icon_logo.png">
+                </a>
+                <span class="footer-text">Copyright©2018. All Right Reserved</span>
+            </footer>
+        </div>
+    </div>
+    <script src="./employees-profile.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Absence;
 
 use App\Http\Requests\StoreHoliday;
 use App\Models\Holiday;
+use App\Models\HolidayDefault;
 use App\Models\HolidayStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,11 +18,19 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        $list_holiday = Holiday::with('status')->get();
+        $list_holiday_default = HolidayDefault::with('status')->get();
+        $list_holiday = Holiday::with('status')->get()->sortBy('date');
         $holiday_type = HolidayStatus::all();
+        $year_now = date("Y");
+        $min_year = Holiday::all('date')->min()->date->Format('Y');
+        $max_year = Holiday::all('date')->max()->date->Format('Y');
         return view('absences.hr_holiday', [
+            'list_holiday_default' => $list_holiday_default,
             'list_holiday' => $list_holiday,
-            'holiday_type' => $holiday_type
+            'holiday_type' => $holiday_type,
+            'year_now' => $year_now,
+            'min_year' => $min_year,
+            'max_year' => $max_year,
         ]);
     }
 

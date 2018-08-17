@@ -16,10 +16,10 @@
                 Employee List
                 <small>Nal solution</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Employee</a></li>
-                <li><a href="#">List</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="#"><i class="fa fa-dashboard"></i> Employee</a></li>--}}
+                {{--<li><a href="#">List</a></li>--}}
+            {{--</ol>--}}
         </section>
 
         <!-- Main content -->

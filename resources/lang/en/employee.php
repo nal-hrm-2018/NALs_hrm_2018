@@ -5,6 +5,7 @@ return[
         'placeholder-default' => 'Please Select'
     ],
     'basic'=>'Basic',
+    'info'=>'information',
     'profile_info'=>[
         'id'=>'Employee ID',
         'short_id'=>'ID',

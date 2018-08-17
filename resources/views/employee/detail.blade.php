@@ -8,18 +8,18 @@
                 <h4 class="modal-title">{{  trans('common.title_header.employee_detail') }}</h4>
             </h1>
 
-            <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>
-                </li>
-                <li><a href="{{asset('/employee')}}">{{trans('common.path.employee')}}</a></li>
-                <li class="active">{{trans('common.path.detail')}}</li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>--}}
+                {{--</li>--}}
+                {{--<li><a href="{{asset('/employee')}}">{{trans('common.path.employee')}}</a></li>--}}
+                {{--<li class="active">{{trans('common.path.detail')}}</li>--}}
+            {{--</ol>--}}
 
         </section>
         <section class="content">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li >
+                    <li style="margin:0 30px;" >
                         <a id="tab-basic" href="#basic" data-toggle="tab">{{trans('employee.basic')}}</a>
                     </li>
                     <li>
@@ -163,10 +163,18 @@
                                                                         data-widget="collapse"><i
                                                                             class="fa fa-minus"></i>
                                                                 </button>
+<<<<<<< HEAD
+=======
+                                                                {{--<button type="button" class="btn btn-box-tool"--}}
+                                                                        {{--data-widget="remove"><i class="fa fa-times"></i>--}}
+                                                                {{--</button>--}}
+>>>>>>> 911b4ff2d0a42bffccf45aadd6305f38079e9df0
                                                             </div>
                                                         </div>
                                                         <div class="box-body">
-                                                            <div id="bar-chart" style="height: 235px;"></div>
+                                                            <div id="bar-chart" style="height: 235px;">
+                                                                <img width="100%" src="{!! asset('admin/templates/images/temporary/chart.png') !!}">
+                                                            </div>
                                                         </div>
                                                         <!-- /.box-body-->
                                                     </div>
