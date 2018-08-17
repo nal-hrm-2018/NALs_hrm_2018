@@ -18,13 +18,10 @@
                 <small>Nal solution</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
-<<<<<<< HEAD
                 {{--<li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>--}}
                 {{--<li><a href=""> Absance</a></li>--}}
-=======
                 {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>--}}
                 {{--<li><a href="{{asset('/absences')}}"> Absance</a></li>--}}
->>>>>>> 911b4ff2d0a42bffccf45aadd6305f38079e9df0
                 {{--<li><a href="#">List</a></li>--}}
             {{--</ol>--}}
         </section>
