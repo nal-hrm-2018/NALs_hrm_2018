@@ -2,6 +2,14 @@ body {
     font-family: Arial, Helvetica, sans-serif !important;
 }
 
+th {
+    vertical-align: middle !important;
+}
+
+.addab {
+    width: 200px;
+    text-align: center;
+}
 .header{
     margin: 0 auto;
     width: 100%;
@@ -158,6 +166,19 @@ a:hover {
 
 .width-label-input {
     width: 130px;
+}
+
+.form-search {
+    display: none;
+    margin-top: 20px;
+}
+
+.title-list {
+    margin-top: 20px;
+}
+
+.custom-select {
+    width: 111px !important;
 }
 
 .table-content {

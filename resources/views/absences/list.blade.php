@@ -18,15 +18,20 @@
                 <small>Nal solution</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
+<<<<<<< HEAD
+                {{--<li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>--}}
+                {{--<li><a href=""> Absance</a></li>--}}
+=======
                 {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>--}}
                 {{--<li><a href="{{asset('/absences')}}"> Absance</a></li>--}}
+>>>>>>> 911b4ff2d0a42bffccf45aadd6305f38079e9df0
                 {{--<li><a href="#">List</a></li>--}}
             {{--</ol>--}}
         </section>
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-default">
-                    <a href=""><i class="fa fa-user-plus"></i>Đăng ký vắng nghỉ</a>
+                    <a href="{{route('absences.create')}}"><i class="fa fa-user-plus"></i>Đăng ký vắng nghỉ</a>
                 </button>
 
             </div>
@@ -43,21 +48,33 @@
                     <div class="box">
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <div class="row" style="margin-left: 10px; ">
-                                <div class="form-group">
-                                    <label>Chọn năm</label>
-                                    <select class="form-control" style="width: 30%;"  name="year" id="year" onchange="sendRequestAjax()">
-                                        @if($startwork_date == $endwork_date)
-                                            <option value="{{$startwork_date}}">{{$startwork_date}}</option>
-                                        @endif
-                                        @if($startwork_date < $endwork_date)
-                                            @for($i=$endwork_date; $i>=$startwork_date; $i--)
-                                                <option value="{{$i}}" >{{$i}}</option>
-                                            @endfor
-                                        @endif
-                                    </select>
+                            <form  method="get" role="form" id="form_search_employee">
+                                <div class="row" style="margin-left: 10px; ">
+                                    <div class="form-group">
+                                        <label>Chọn năm</label>
+                                        <select class="form-control" style="width: 100%;"  name="year" id="year" onchange="myFunction()">
+                                            @if($startwork_date == $endwork_date)
+                                                <option value="{{$startwork_date}}">{{$startwork_date}}</option>
+                                            @endif
+                                            @if($startwork_date < $endwork_date)
+                                                @for($i=$endwork_date; $i>=$startwork_date; $i--)
+                                                    <option value="{{$i}}" >{{$i}}</option>
+                                                @endfor
+                                            @endif
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                                <input id="number_year" type="hidden" name="number_year"
+                                       value="{{ isset($param['number_year'])?$param['number_year']:$startwork_date }}"/>
+                            </form>
+                            <script>
+                                function myFunction() {
+                                    var x = document.getElementById("year").value;
+                                    console.log(x);
+                                    $('#number_year').val(x);
+                                    $('#form_search_employee').submit()
+                                }
+                            </script>
                             <div class="row absence_head">
                                 <div class="col-md-6">
                                     <div>
@@ -73,7 +90,7 @@
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép dư: 
                                             <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
                                         </span>
-                                    </div>
+                                    </div><br />
                                     <div>
                                         <p>
                                             - Số ngày đã nghỉ: 
@@ -88,7 +105,7 @@
                                             <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
                                         </span>
                                         
-                                    </div>
+                                    </div><br />
                                     <div>
                                         <p>
                                             - Số ngày còn lại:
@@ -113,7 +130,7 @@
                                                 $("#hanphep").addClass("label-danger");
                                             </script>
                                         @endif
-                                    </div>
+                                    </div><br />
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">

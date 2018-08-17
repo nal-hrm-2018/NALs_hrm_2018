@@ -163,9 +163,12 @@
                                                                         data-widget="collapse"><i
                                                                             class="fa fa-minus"></i>
                                                                 </button>
+<<<<<<< HEAD
+=======
                                                                 {{--<button type="button" class="btn btn-box-tool"--}}
                                                                         {{--data-widget="remove"><i class="fa fa-times"></i>--}}
                                                                 {{--</button>--}}
+>>>>>>> 911b4ff2d0a42bffccf45aadd6305f38079e9df0
                                                             </div>
                                                         </div>
                                                         <div class="box-body">

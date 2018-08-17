@@ -420,8 +420,9 @@ class AbsenceService{
         $sumDate = 0;
         $year = (int)$year;
         $currentDate = new DateTime;
-
-        $objEmployee = Employee::find($id);
+//        echo $year; die();
+        $year=2018;
+        $objEmployee = Employee::find(1);
         $dateStart =  date_create($objEmployee->startwork_date);
         $startDate = (int)$dateStart->format('d');
         $startMonth = (int)$dateStart->format('m');

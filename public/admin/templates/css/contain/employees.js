@@ -2,6 +2,9 @@ $("#checkAll").change(function () {
     $("input:checkbox").prop('checked', $(this).prop("checked"));
 });
 
+$(".btn-search").click(function(){
+    $(".form-search").toggle(1000);
+});
 $(document).ready(function(){
     $(".btn-search").click(function() {
         var form = $(this).closest('.form-search');
