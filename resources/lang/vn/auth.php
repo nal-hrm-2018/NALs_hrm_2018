@@ -10,7 +10,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-    'failed'   => 'Thông tin tài khoản không tìm thấy trong hệ thống.',
+    'failed'   => 'Email hoặc mật khẩu không đúng!',
     'throttle' => 'Vượt quá số lần đăng nhập cho phép. Vui lòng thử lại sau :seconds giây.',
     'placeholder_email'=>'Email',
     'placeholder_password'=>'Mật Khẩu'
