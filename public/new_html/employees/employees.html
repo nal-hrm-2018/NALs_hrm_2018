@@ -94,68 +94,72 @@
             </div>
             <div class=" title-table">
                 <div>
-                    <button type="button" class="btn btn-outline-info btn-search">
+                    <button type="button" class="btn btn-outline-primary btn-search">
                         Search&nbsp;<i class="fas fa-search"></i>
                     </button>
                     <form class="form-search">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text width-label-input" id="basic-addon1">Employees ID</span>
+                        <div class="container-input-search-form">
+                            <div class="input-group mb-3 input-form-search">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text width-label-input" id="basic-addon1">Employees ID</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Employees ID" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
-                            <input type="text" class="form-control" placeholder="Employees ID" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text width-label-input" id="basic-addon2">Name</span>
+                            <div class="input-group mb-3 input-form-search">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text width-label-input" id="basic-addon2">Name</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon2">
                             </div>
-                            <input type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon2">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text width-label-input" id="basic-addon3">Email</span>
+                            <div class="input-group mb-3 input-form-search">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text width-label-input" id="basic-addon3">Email</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon3">
                             </div>
-                            <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon3">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text width-label-input" for="inputGroupSelect01">Team</label>
+                            <div class="input-group mb-3 input-form-search">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text width-label-input" for="inputGroupSelect01">Team</label>
+                                </div>
+                                <select class="custom-select" id="inputGroupSelect01">
+                                    <option selected>Choose...</option>
+                                    <option value="1">PHP</option>
+                                    <option value="2">IOS</option>
+                                    <option value="3">DOTNET</option>
+                                    <option value="4">Android</option>
+                                    <option value="5">PMO</option>
+                                    <option value="6">Agile leader/SM</option>
+                                </select>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01">
-                                <option selected>Choose...</option>
-                                <option value="1">PHP</option>
-                                <option value="2">IOS</option>
-                                <option value="3">DOTNET</option>
-                                <option value="4">Android</option>
-                                <option value="5">PMO</option>
-                                <option value="6">Agile leader/SM</option>
-                            </select>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text width-label-input" for="inputGroupSelect01">Position</label>
+                            <div class="input-group mb-3 input-form-search">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text width-label-input" for="inputGroupSelect01">Position</label>
+                                </div>
+                                <select class="custom-select" id="inputGroupSelect02">
+                                    <option selected>Choose...</option>
+                                    <option value="1">DEV</option>
+                                    <option value="2">ACOUNTANT</option>
+                                    <option value="3">SM</option>
+                                    <option value="4">PO</option>
+                                    <option value="5">HR</option>
+                                </select>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect02">
-                                <option selected>Choose...</option>
-                                <option value="1">DEV</option>
-                                <option value="2">ACOUNTANT</option>
-                                <option value="3">SM</option>
-                                <option value="4">PO</option>
-                                <option value="5">HR</option>
-                            </select>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text width-label-input" for="inputGroupSelect01">Status</label>
+                            <div class="input-group mb-3 input-form-search">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text width-label-input" for="inputGroupSelect01">Status</label>
+                                </div>
+                                <select class="custom-select" id="inputGroupSelect03">
+                                    <option selected>Choose...</option>
+                                    <option value="1">Active</option>
+                                    <option value="2">Quited</option>
+                                    <option value="3">Expired</option>
+                                </select>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect03">
-                                <option selected>Choose...</option>
-                                <option value="1">Active</option>
-                                <option value="2">Quited</option>
-                                <option value="3">Expired</option>
-                            </select>
                         </div>
-                        <input type="reset" value="Reset" class="btn btn-primary">
-                        <input type="submit" value="Search" class="btn btn-primary">
+                        <div class="container-button-form-search">
+                            <input type="reset" value="Reset" class="btn btn-outline-warning">
+                            <input type="submit" value="Search" class="btn btn-outline-primary">
+                        </div>
                     </form>         
                 </div>
                 <div class="d-flex is-space-between title-list">
@@ -169,22 +173,15 @@
                 </div>
             </div>
             <div class="table-content">
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">
-                                <label>
-                                    <input type="checkbox" id="checkAll" style="display: none;">
-                                    <span class="chose-all">Choseall</span>
-                                </label>
-                            </th>
-                            <th scope="col">EMPLOYEES NAME name name name</th>
-                            <th scope="col">CODE ID</th>
-                            <th scope="col">TEAM</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">EMPLOYEES NAME</th>
                             <th scope="col">POSITION</th>
-                            <th scope="col">EMAIL</th>
+                            <th scope="col">TEAM</th>
                             <th scope="col">STATUS</th>
-                            <th scope="col">CV</th>
+                            <th scope="col">EMAIL</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -194,139 +191,84 @@
                             <li class="btn-employees-remove"><i class="far fa-trash-alt"></i>&nbsp;Remove</li>
                         </ul>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label" for="customCheck1"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">1</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download1.png"></a></th>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                    <label class="custom-control-label" for="customCheck2"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">2</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download.png"></a></th>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                    <label class="custom-control-label" for="customCheck3"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">3</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download.png"></a></th>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck4">
-                                    <label class="custom-control-label" for="customCheck4"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">4</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download.png"></a></th>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck5">
-                                    <label class="custom-control-label" for="customCheck5"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">5</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download.png"></a></th>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck6">
-                                    <label class="custom-control-label" for="customCheck6"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">6</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download.png"></a></th>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck7">
-                                    <label class="custom-control-label" for="customCheck7"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">7</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download.png"></a></th>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                    <label class="custom-control-label" for="customCheck8"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">8</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download.png"></a></th>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck9">
-                                    <label class="custom-control-label" for="customCheck9"></label>
-                                </div>
-                            </th>
+                            <th scope="row"><span class="badge badge-danger">9</span></th>
                             <td>Employees's name</td>
-                            <td>ID123</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
                             <td>Name team</td>
-                            <td>Jobtitle</td>
+                            <td><span class="badge badge-warning">Status</span></td>
                             <td>Employees's email</td>
-                            <td>Status</td>
-                            <th><a href="#"><img src="./images/download.png"></a></th>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span class="badge badge-danger">10</span></th>
+                            <td>Employees's name</td>
+                            <td><span class="badge badge-primary">Jobtitle</span></td>
+                            <td>Name team</td>
+                            <td><span class="badge badge-warning">Status</span></td>
+                            <td>Employees's email</td>
                         </tr>
                     </tbody>
                 </table>
