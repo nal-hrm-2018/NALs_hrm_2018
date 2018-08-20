@@ -67,9 +67,10 @@
            @endif
            <div class="form-group">
              <label>{{trans('employee.profile_info.email')}}<strong style="color: red">(*)</strong></label>
-             <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.email')}}" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
-             readonly="readonly"
-                     @endif
+             <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.email')}}" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" readonly
+                {{--@if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])--}}
+               {{--readonly="readonly"--}}
+                {{--@endif--}}
              >
              <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
              <!-- /.input group -->
