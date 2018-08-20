@@ -78,6 +78,7 @@ return [
         'list_employee'=>'Danh Sách Nhân Viên',
         'add_employee'=>'Thêm Nhân Viên',
         'edit_employee'=>'Chỉnh Sửa Nhân Viên',
+        'edit_profile'=>'Chỉnh Sửa Thông Tin Cá Nhân',
         'list_vendor'=>'Danh Sách Nhân Viên Ngoài',
         'add_vendor'=>'Thêm Nhân Viên Ngoài',
         'edit_vendor'=>'Chỉnh Sửa Nhân Viên Ngoài',

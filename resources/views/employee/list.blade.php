@@ -261,7 +261,7 @@
                         <th>{{trans('employee.profile_info.role')}}</th>
                         <th>{{trans('employee.profile_info.email')}}</th>
                         <th>{{trans('employee.profile_info.status')}}</th>
-                        <th>CV</th>
+                        {{--<th>CV</th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -318,12 +318,12 @@
                                     @endif
                                 </p>
                             </td>
-                            <td style="text-align: center;width: 50px;">-
-                                <!-- 1/8/hiddent_cmt-->
+                            {{--<td style="text-align: center;width: 50px;">---}}
+                                {{--<!-- 1/8/hiddent_cmt-->--}}
                                 {{--<button type="button" class="btn btn-default cv-button">--}}
                                 {{--<a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>--}}
                                 {{--</button>--}}
-                            </td>
+                            {{--</td>--}}
                             <ul class='custom-menu' data-employee-id="{{$employee->id}}">
                                 @if(Auth::user()->hasPermission('view_employee_basic'))
                                     <li><a id="view" href="employee/{{$employee->id}}"><i class="fas fa-eye"></i>&nbsp;{{trans('common.action.view')}}</a></li>

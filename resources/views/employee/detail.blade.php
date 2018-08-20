@@ -133,53 +133,53 @@
                                             </p>
 
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="row">
+                                        {{--<div class="col-md-6">--}}
+                                            {{--<div class="row">--}}
                                                 {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
-                                                <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
-                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="row">
-                                                        <div class="col-md-3"></div>
-                                                        <div class="form-group col-md-6">
-                                                            <select class="form-control" id="sel1" name="year">
-                                                                @foreach($listYears as $year)
-                                                                    <option @if($year == $listValue[0]) selected
-                                                                            @endif value="{{$year}}">{{trans('employee.profile_info.year')}}: {{$year}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                {{--<h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>--}}
+                                                {{--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">--}}
+                                                    {{--<div class="row">--}}
+                                                        {{--<div class="col-md-3"></div>--}}
+                                                        {{--<div class="form-group col-md-6">--}}
+                                                            {{--<select class="form-control" id="sel1" name="year">--}}
+                                                                {{--@foreach($listYears as $year)--}}
+                                                                    {{--<option @if($year == $listValue[0]) selected--}}
+                                                                            {{--@endif value="{{$year}}">{{trans('employee.profile_info.year')}}: {{$year}}</option>--}}
+                                                                {{--@endforeach--}}
+                                                            {{--</select>--}}
+                                                        {{--</div>--}}
+                                                    {{--</div>--}}
 
-                                                    <div class="box box-primary">
-                                                        <div class="box-header with-border">
-                                                            <i class="fa fa-bar-chart-o"></i>
+                                                    {{--<div class="box box-primary">--}}
+                                                        {{--<div class="box-header with-border">--}}
+                                                            {{--<i class="fa fa-bar-chart-o"></i>--}}
 
-                                                            <h3 class="box-title">{{trans('chart.resource_chart.title')}}
-                                                                - <span
-                                                                        id="current-year">{{$listValue[0]}}</span></h3>
+                                                            {{--<h3 class="box-title">{{trans('chart.resource_chart.title')}}--}}
+                                                                {{--- <span--}}
+                                                                        {{--id="current-year">{{$listValue[0]}}</span></h3>--}}
 
-                                                            <div class="box-tools pull-right">
-                                                                <button type="button" class="btn btn-box-tool"
-                                                                        data-widget="collapse"><i
-                                                                            class="fa fa-minus"></i>
-                                                                </button>
+                                                            {{--<div class="box-tools pull-right">--}}
+                                                                {{--<button type="button" class="btn btn-box-tool"--}}
+                                                                        {{--data-widget="collapse"><i--}}
+                                                                            {{--class="fa fa-minus"></i>--}}
+                                                                {{--</button>--}}
                                                                 {{--<button type="button" class="btn btn-box-tool"--}}
                                                                         {{--data-widget="remove"><i class="fa fa-times"></i>--}}
                                                                 {{--</button>--}}
-                                                            </div>
-                                                        </div>
-                                                        <div class="box-body">
-                                                            <div id="bar-chart" style="height: 235px;">
-                                                                <img width="100%" src="{!! asset('admin/templates/images/temporary/chart.png') !!}">
-                                                            </div>
-                                                        </div>
-                                                        <!-- /.box-body-->
-                                                    </div>
-                                                    <!-- /.box -->
+                                                            {{--</div>--}}
+                                                        {{--</div>--}}
+                                                        {{--<div class="box-body">--}}
+                                                            {{--<div id="bar-chart" style="height: 235px;">--}}
+                                                                {{--<img width="100%" src="{!! asset('admin/templates/images/temporary/chart.png') !!}">--}}
+                                                            {{--</div>--}}
+                                                        {{--</div>--}}
+                                                        {{--<!-- /.box-body-->--}}
+                                                    {{--</div>--}}
+                                                    {{--<!-- /.box -->--}}
 
-                                                </div>
-                                            </div>
-                                        </div>
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
                                     </div>
                                 </div>
                             </div>
