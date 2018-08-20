@@ -113,7 +113,6 @@ a:hover {
     margin-top: 40px;
     margin-left: 20px;
     margin-right: 28px;
-    border-bottom: 1px solid #222128;
 }
 
 .content a{
@@ -127,12 +126,19 @@ a:hover {
 .title-emp {
     padding: 10px;
     font-size: 24px;
+    border-bottom: 3px solid #222128;
 }
 
 .title-prof {
     padding: 10px;
     font-size: 24px;
+    border-bottom: 3px solid #3ab4db;
+}
+
+.empty {
     flex-grow: 1;
+    padding: 10px;
+    border-bottom: 3px solid #222128;
 }
 
 .title-edit {
@@ -345,6 +351,11 @@ input[type="radio"]:checked + label span {
   -o-transition:background-color 0.4s linear;
   -moz-transition:background-color 0.4s linear;
   transition:background-color 0.4s linear;
+}
+
+.label-input {
+    color: white !important;
+    background: mediumpurple !important;
 }
 
 input[type="checkbox"]:checked, [type="checkbox"]:not(:checked) {
