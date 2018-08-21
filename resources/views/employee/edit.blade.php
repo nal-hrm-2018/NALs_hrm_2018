@@ -27,69 +27,9 @@
 <!-- Main content -->
 <section class="content">
 
-<<<<<<< HEAD
-        <div id="msg">
-        </div>
-        <SCRIPT LANGUAGE="JavaScript">
-            function confirmEmployee() {
-                var name = $('#name').val();
-                 var id = $('#id_employee').val();
-             //   return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', '{{trans("common.name_confirm.employee")}}', id, name));
-                return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', '{{trans("employee.info")}}', "", ""));
-            }
-        </SCRIPT>
-        <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-          <div class="row">
-            {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','enctype' => 'multipart/form-data','onSubmit' => 'return confirmEmployee()'])}}
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
-            <div class="row">
-              <div class="col-md-3">
-                <CENTER>
-                  <div>
-                    <img src="{{asset('/files/'.$objEmployee["avatar"])}}" width="200px" height="200px" onclick="myFunction()" alt="Chưa có ảnh đại diện" />
-                  </div>
-                  <script>
-                      function myFunction() {
-                          var x = document.getElementById("myDIV");
-                          if (x.style.display === "block") {
-                              x.style.display = "none";
-                          } else {
-                              x.style.display = "block";
-                          }
-                      }
-                  </script>
-                </CENTER>
-                <div style="margin-top: 20px;">
-                  <input style="font-size: 12px;width: 250px;margin-left: 8px;display: none;" type="file" name="picture" class="form-control" placeholder="Chọn ảnh" id="myDIV"/>
-                  <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
-                </div>
-              </div>
-              <!-- /.col -->
-              <div class="col-md-5">
-                <!-- /.form-group -->
-                @php
-                  $statusRole="disabled";
-                @endphp
-                @if(Auth::user()->hasRoleHR())
-                  @php
-                    $statusRole="";
-                  @endphp
-                @endif
-                <div class="form-group">
-                  <label>{{trans('employee.profile_info.email')}}<strong style="color: red">(*)</strong></label>
-                  <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.email')}}" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" @if(\Illuminate\Support\Facades\Auth::user()->email != $objEmployee["email"])
-                  readonly="readonly"
-                          @endif
-                  >
-                  <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
-                  <!-- /.input group -->
-                </div>
-=======
 <!-- SELECT2 EXAMPLE -->
 <div class="box box-default">
  <div class="box-body">
->>>>>>> 34c95deffc968d0aa7a0a3abdcd1424e631fd853
 
    <div id="msg">
    </div>
@@ -100,17 +40,28 @@
    </SCRIPT>
    <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
      <div class="row">
-       {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','onSubmit' => 'return confirmEmployee()'])}}
+       {{ Form::model($objEmployee, ['url' => ['/employee', $objEmployee["id"]],'class' => 'form-horizontal','method'=>isset($objEmployee["id"])?'PUT':'POST','enctype' => 'multipart/form-data','onSubmit' => 'return confirmEmployee()'])}}
        <input type="hidden" name="_token" value="{{ csrf_token() }}">
        <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
        <div class="row">
          <div class="col-md-3">
            <CENTER>
              <div>
-               <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" />
+               <img src="{{asset('/files/'.$objEmployee["avatar"])}}" width="200px" height="200px" onclick="myFunction()" alt="Chưa có ảnh đại diện" />
              </div>
+             <script>
+                 function myFunction() {
+                     var x = document.getElementById("myDIV");
+                     if (x.style.display === "block") {
+                         x.style.display = "none";
+                     } else {
+                         x.style.display = "block";
+                     }
+                 }
+             </script>
            </CENTER>
            <div style="margin-top: 20px;">
+             <input style="font-size: 12px;width: 250px;margin-left: 8px;display: none;" type="file" name="picture" class="form-control" placeholder="Chọn ảnh" id="myDIV"/>
              <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
            </div>
          </div>
