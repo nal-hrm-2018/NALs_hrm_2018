@@ -5,9 +5,8 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li>
-          <a href="{{route('dashboard-user')}}" class="nav-item">
-            <img src="{!! asset('admin/templates/images/dist/img/menu-dashboard.png') !!}" class="mg-right-10">
-            <span>{{trans('leftbar.nav.dashboard')}}</span>
+          <a href="{{route('dashboard-user')}}">
+            <i class="fa fa-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
           @if(Auth::user()->hasPermission('view_list_employee')||Auth::user()->hasPermission('add_new_employee'))
