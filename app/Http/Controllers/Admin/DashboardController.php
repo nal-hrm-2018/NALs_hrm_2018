@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Employee;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.module.index.index');
+        $projects = Project::all()->dd();
+        echo $projects;
+        return view('admin.module.index.index', [
+            'projects' => $projects,
+        ]);
     }
 
 
