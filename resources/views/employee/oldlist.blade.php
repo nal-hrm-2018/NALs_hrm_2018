@@ -207,7 +207,7 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
                                                             </div>
-                                                            {{--<input type="text" name="name" id="nameEmployee" class="form-control">--}}
+                                                            <input type="text" name="name" id="nameEmployee" class="form-control">
                                                             {{ Form::text('name', old('name'),
                                                                 ['class' => 'form-control',
                                                                 'id' => 'nameEmployee',
@@ -220,14 +220,14 @@
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
                                                             </div>
                                                             <select name="team" id="team_employee" class="form-control">
-                                                                {{--@if(!empty($_GET['team']))
+                                                                @if(!empty($_GET['team']))
                                                                     <option selected="selected" {{'hidden'}}  value="">
                                                                         {{$_GET['team']}}
                                                                     </option>
                                                                 @else
                                                                     <option selected="selected" value="">
                                                                     {{  trans('employee.drop_box.placeholder-default') }}
-                                                                @endif--}}
+                                                                @endif
                                                                     <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
@@ -244,7 +244,7 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.email')}}</button>
                                                             </div>
-                                                            {{--<input type="text" name="email" id="emailEmployee" class="form-control">--}}
+                                                            <input type="text" name="email" id="emailEmployee" class="form-control">
                                                             {{ Form::text('email', old('email'),
                                                                 ['class' => 'form-control',
                                                                 'id' => 'emailEmployee',
@@ -313,7 +313,7 @@
                                         ]
                                         )
                                      !!}
-                                    
+
                                 </div>
                             </div>
                             <script>
@@ -387,17 +387,18 @@
                                                 @else
                                                     <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
                                                 @endif
-                                            </p>  
+                                            </p>
                                         </td>
                                         <td style="text-align: center;width: 50px;">-
                                             <!-- 1/8/hiddent_cmt-->
-                                            {{--<button type="button" class="btn btn-default cv-button">--}}
-                                                {{--<a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>--}}
-                                            {{--</button>--}}
+                                            <button type="button" class="btn btn-default cv-button">
+                                                <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>
+                                            </button>
                                         </td>
 
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-                                            <li><a href="employee/{{$employee->id}}"><i
+                                            @if(Auth::user()->hasPermission('view_employee_basic'))
+                                                <li><a href="employee/{{$employee->id}}"><i
                                                             class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('edit_employee_basic'))
@@ -408,8 +409,7 @@
                                                 <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
                                                                 class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
-                                        </ul>     @if(Auth::user()->hasPermission('view_employee_basic'))
-
+                                        </ul>
                                     </tr>
                                 @endforeach
                                 </tbody>
