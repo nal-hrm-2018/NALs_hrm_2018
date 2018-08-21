@@ -41,6 +41,7 @@ class EmployeeAddRequest extends FormRequest
             'employee_type_id' => 'required',
             'team_id' => 'required',
             'role_id' => 'required',
+            'picture' => 'max:5000',
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
             'startwork_date' => 'required',
@@ -54,6 +55,7 @@ class EmployeeAddRequest extends FormRequest
             'email.required' => trans('validation.required', [
                 'attribute' => trans('employee.profile_info.email')
             ]),
+            'picture.max' => trans('validation.max.file'),
             'email.email' => trans('validation.email', [
                 'attribute' => trans('employee.profile_info.email')
             ]),
