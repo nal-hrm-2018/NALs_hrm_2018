@@ -12,8 +12,9 @@ a {
 
 .background-login {
     margin: 0 auto;
-    width: 992px;
-    background: url(../../../images/login/images/backgroundlogin.png);
+    width: 75%;
+    background: url(../../../images/login/images/background-login.png);
+    background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 
