@@ -19,7 +19,7 @@
           </a>
           <ul class="treeview-menu">
               @if(Auth::user()->hasPermission('view_list_employee'))
-            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o-notch-notch"></i>{{trans('leftbar.nav.list.employee')}}</a></li>
+            <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.employee')}}</a></li>
               @endif
 
               @if(Auth::user()->hasPermission('add_new_employee'))
