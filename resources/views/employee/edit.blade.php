@@ -87,9 +87,23 @@
                             {{asset('/files/'.$objEmployee["avatar"])}}
                         @else
                             {{asset('/files/default_avatar.png')}}
-                        @endif" class="image" onclick="myFunction()" alt="Chưa có ảnh đại diện" />
-               <input type="file" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV"/>
+                        @endif" class="image" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" />
+               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV" accept="image/*"/>
              </div>
+             <script type="text/javascript">
+                 var file = document.getElementById('chooseimg');
+                 var img = document.getElementById('image');
+                 file.addEventListener("change", function() {
+                     if (this.value) {
+                         var file = this.files[0];
+                         var reader = new FileReader();
+                         reader.onloadend = function () {
+                             img.src = reader.result;
+                         };
+                         reader.readAsDataURL(file);
+                     }
+                 });
+             </script>
              {{--<script>--}}
                  {{--function myFunction() {--}}
                      {{--var x = document.getElementById("myDIV");--}}
@@ -102,6 +116,7 @@
              {{--</script>--}}
            </CENTER>
            <div style="margin-top: 20px;">
+             <label style="margin-left: 23px;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
              <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
            </div>
          </div>

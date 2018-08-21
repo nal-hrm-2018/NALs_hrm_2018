@@ -68,11 +68,26 @@
                             <div class="col-md-3">
                                 <CENTER>
                                     <div class="container">
-                                        <img src="{!! asset('/files/default_avatar.png') !!}" class="image"/>
-                                        <input style="font-size: 12px;width: 220px;" type="file" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV"/>
+                                        <img src="{!! asset('/files/default_avatar.png') !!}" id="image" class="image"/>
+                                        <input style="font-size: 12px;width: 220px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
                                     </div>
                                 </CENTER>
+                                <script type="text/javascript">
+                                    var file = document.getElementById('chooseimg');
+                                    var img = document.getElementById('image');
+                                    file.addEventListener("change", function() {
+                                        if (this.value) {
+                                            var file = this.files[0];
+                                            var reader = new FileReader();
+                                            reader.onloadend = function () {
+                                                img.src = reader.result;
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    });
+                                </script>
                                 <div class="" style="margin-top: 20px;">
+                                    <label style="margin-left: 23px;color:red;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
                                     <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
                                 </div>
                             </div>
