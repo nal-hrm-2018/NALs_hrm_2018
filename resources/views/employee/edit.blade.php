@@ -88,7 +88,7 @@
                         @else
                             {{asset('/files/default_avatar.png')}}
                         @endif" class="image" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" />
-               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV"/>
+               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV" accept="image/*"/>
              </div>
              <script type="text/javascript">
                  var file = document.getElementById('chooseimg');
