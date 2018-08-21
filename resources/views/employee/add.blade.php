@@ -1,5 +1,39 @@
 @extends('admin.template')
 @section('content')
+    <style>
+        * {box-sizing: border-box;}
+
+        .container {
+            position: relative;
+            width: 50%;
+            max-width: 300px;
+        }
+
+        .image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            background: rgb(0, 0, 0);
+            background: rgba(0, 0, 0, 0.5); /* Black see-through */
+            color: #f1f1f1;
+            width: 100%;
+            transition: .5s ease;
+            opacity:0;
+            color: white;
+            font-size: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container:hover .overlay {
+            opacity: 1;
+        }
+    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -33,22 +67,12 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <CENTER>
-                                    <div>
-                                        <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" onclick="myFunction()"/>
+                                    <div class="container">
+                                        <img src="{!! asset('/files/default_avatar.png') !!}" class="image"/>
+                                        <input style="font-size: 12px;width: 220px;" type="file" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV"/>
                                     </div>
-                                    <script>
-                                        function myFunction() {
-                                            var x = document.getElementById("myDIV");
-                                            if (x.style.display === "block") {
-                                                x.style.display = "none";
-                                            } else {
-                                                x.style.display = "block";
-                                            }
-                                        }
-                                    </script>
                                 </CENTER>
                                 <div class="" style="margin-top: 20px;">
-                                    <input style="font-size: 12px;width: 250px;margin-left: 8px;display: none;" type="file" name="picture" class="form-control" placeholder="Chọn ảnh" id="myDIV"/>
                                     <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
                                 </div>
                             </div>

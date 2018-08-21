@@ -34,7 +34,11 @@
                                 <div class="box box-primary">
                                     <div class="box-body box-profile">
                                         <img class="profile-user-img img-responsive img-circle"
-                                             src="{!! asset('/files/'.$employee->avatar) !!}"
+                                             src="@if(isset($employee->avatar))
+                                             {{asset('/files/'.$employee->avatar)}}
+                                             @else
+                                             {{asset('/files/default_avatar.png')}}
+                                             @endif"
                                              alt="User profile picture">
 
                                         <h3 class="profile-username text-center">{{$employee->name}}</h3>
