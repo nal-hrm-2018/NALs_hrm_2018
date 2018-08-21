@@ -40,9 +40,9 @@
                                           'class' => 'form-horizontal',
                                           'method'=>isset($objEmployee["id"])?'PUT':'POST',
                                           'onSubmit' => 'return confirmEmployee()'])}}--}}
-            <form action="{{asset('absences/create')}}" method="post" class="full-width form-horizontal">
-            <form action="{{asset('absences')}}" method="post" class="form-horizontal"
-                  onSubmit="return confirmAction()">
+              <form action="{{asset('absences')}}" method="post" class="form-horizontal"
+                    onSubmit="return confirmAction()">
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>

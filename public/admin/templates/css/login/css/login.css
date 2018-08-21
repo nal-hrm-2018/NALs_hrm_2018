@@ -7,6 +7,8 @@ a {
 }
 
 .background-login {
+    margin: 0 auto;
+    width: 75%;
     background: url(../../../images/login/images/background-login.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;

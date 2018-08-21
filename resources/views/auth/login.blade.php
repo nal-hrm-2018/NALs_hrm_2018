@@ -2,6 +2,7 @@
 
 @extends('layouts.app')
 @section('content')
+<div class="background-black">
 <div class="con background-login">
     <header>
         <a href="#"><img src="{!! asset('admin/templates/images/login/images/logo-header.png') !!}"
@@ -55,5 +56,6 @@
             </div>
 
     </div>
+</div>
 </div>
 @endsection

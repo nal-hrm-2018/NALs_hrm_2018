@@ -1,5 +1,39 @@
 @extends('admin.template')
 @section('content')
+    <style>
+        * {box-sizing: border-box;}
+
+        .container {
+            position: relative;
+            width: 50%;
+            max-width: 300px;
+        }
+
+        .image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            background: rgb(0, 0, 0);
+            background: rgba(0, 0, 0, 0.5); /* Black see-through */
+            color: #f1f1f1;
+            width: 100%;
+            transition: .5s ease;
+            opacity:0;
+            color: white;
+            font-size: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container:hover .overlay {
+            opacity: 1;
+        }
+    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -27,14 +61,15 @@
                         }
                     </SCRIPT>
                     <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-                    <form action="{{asset('employee')}}" method="post" class="form-horizontal"
+                    <form action="{{asset('employee')}}" method="post" class="form-horizontal" enctype = 'multipart/form-data'
                           onSubmit="return confirmAction()">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row">
                             <div class="col-md-3">
                                 <CENTER>
-                                    <div>
-                                        <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}"/>
+                                    <div class="container">
+                                        <img src="{!! asset('/files/default_avatar.png') !!}" class="image"/>
+                                        <input style="font-size: 12px;width: 220px;" type="file" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV"/>
                                     </div>
                                 </CENTER>
                                 <div class="" style="margin-top: 20px;">

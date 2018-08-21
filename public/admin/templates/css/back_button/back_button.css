@@ -24,6 +24,7 @@ border-radius: 10px;
 a.cd-back, a.cd-back:visited, a.cd-back:hover {
 color: #CCCCCC;
 text-decoration: none;
+z-index: 1000;
 }
 .input-group{
     position: sticky;

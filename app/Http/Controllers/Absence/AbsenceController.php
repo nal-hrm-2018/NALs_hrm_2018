@@ -368,7 +368,6 @@ class AbsenceController extends Controller
         $absence->from_date = $request->from_date;
         $absence->to_date = $request->to_date;
         $absence->save();
-        echo 'a'; die();
         return redirect()->route('absence.index');
     }
     public function store(AbsenceAddRequest $request){
