@@ -67,7 +67,7 @@ class EmployeeController extends Controller
         $param = (Input::except(['page','is_employee']));
         $id=Auth::user()->id;
         $employee_permission=$this->objmEmployeePermission->permission_employee($id);
-        return view('employee.oldlist', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
+        return view('employee.list', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
  //       return view('employee.newlist', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
     }
 

@@ -15,8 +15,8 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    @include('admin.module.templates.oldheader')
-    @include('admin.module.templates.oldleft_bar')
+    @include('admin.module.templates.header')
+    @include('admin.module.templates.left_bar')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var ibackbutton = document.getElementById("backbuttonstate");
@@ -43,7 +43,7 @@
     </script>
     <input style="display:none;" type="text" id="backbuttonstate" value="0"/>
     @yield('content')
-    @include('admin.module.templates.oldfooter')
+    @include('admin.module.templates.footer')
     <div class="control-sidebar-bg"></div>
 </div>
 
