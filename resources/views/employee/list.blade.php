@@ -207,7 +207,7 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
                                                             </div>
-                                                            <input type="text" name="name" id="nameEmployee" class="form-control">
+                                                            {{--<input type="text" name="name" id="nameEmployee" class="form-control">--}}
                                                             {{ Form::text('name', old('name'),
                                                                 ['class' => 'form-control',
                                                                 'id' => 'nameEmployee',
@@ -245,12 +245,12 @@
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.email')}}</button>
                                                             </div>
                                                             <input type="text" name="email" id="emailEmployee" class="form-control">
-                                                            {{ Form::text('email', old('email'),
-                                                                ['class' => 'form-control',
-                                                                'id' => 'emailEmployee',
-                                                                'autofocus' => false,
-                                                                ])
-                                                            }}
+                                                            {{--{{ Form::text('email', old('email'),--}}
+                                                                {{--['class' => 'form-control',--}}
+                                                                {{--'id' => 'emailEmployee',--}}
+                                                                {{--'autofocus' => false,--}}
+                                                                {{--])--}}
+                                                            {{--}}--}}
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
