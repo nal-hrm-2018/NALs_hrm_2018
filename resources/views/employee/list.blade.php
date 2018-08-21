@@ -261,7 +261,7 @@
                         <th>{{trans('employee.profile_info.role')}}</th>
                         <th>{{trans('employee.profile_info.email')}}</th>
                         <th>{{trans('employee.profile_info.status')}}</th>
-                        <th>CV</th>
+                        {{--<th>CV</th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -292,13 +292,13 @@
                                     <?php
                                     if(isset($employee->role)){
                                         if($employee->role->name == "PO"){
-                                            echo "<span class='label label-primary'>". $employee->role->name ."</span>";
+                                            echo "<span class='badge badge-primary'>". $employee->role->name ."</span>";
                                         } else if($employee->role->name == "Dev"){
-                                            echo "<span class='label label-success'>". $employee->role->name ."</span>";
+                                            echo "<span class='badge badge-success'>". $employee->role->name ."</span>";
                                         } else if($employee->role->name == "BA"){
-                                            echo "<span class='label label-info'>". $employee->role->name ."</span>";
+                                            echo "<span class='badge badge-info'>". $employee->role->name ."</span>";
                                         } else if($employee->role->name == "ScrumMaster"){
-                                            echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                            echo "<span class='badge badge-warning'>". $employee->role->name ."</span>";
                                         }
                                     } else {
                                         echo "-";
@@ -309,21 +309,21 @@
                             <td><p class="fix-center-employee">
                                     @if($employee->work_status == 0)
                                         @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
-                                            <span class="label label-primary">{{trans('employee.profile_info.status_active')}}</span>
+                                            <span class="badge badge-primary">{{trans('employee.profile_info.status_active')}}</span>
                                         @else
-                                            <span class="label label-danger">{{trans('employee.profile_info.status_expired')}}</span>
+                                            <span class="badge badge-secondary">{{trans('employee.profile_info.status_expired')}}</span>
                                         @endif
                                     @else
-                                        <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
+                                        <span class="badge badge-secondary">{{trans('employee.profile_info.status_quited')}}</span>
                                     @endif
                                 </p>
                             </td>
-                            <td style="text-align: center;width: 50px;">-
-                                <!-- 1/8/hiddent_cmt-->
+                            {{--<td style="text-align: center;width: 50px;">---}}
+                                {{--<!-- 1/8/hiddent_cmt-->--}}
                                 {{--<button type="button" class="btn btn-default cv-button">--}}
                                 {{--<a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>--}}
                                 {{--</button>--}}
-                            </td>
+                            {{--</td>--}}
                             <ul class='custom-menu' data-employee-id="{{$employee->id}}">
                                 @if(Auth::user()->hasPermission('view_employee_basic'))
                                     <li><a id="view" href="employee/{{$employee->id}}"><i class="fas fa-eye"></i>&nbsp;{{trans('common.action.view')}}</a></li>
