@@ -92,14 +92,9 @@ img.thumbs {
 .error_msg {
     text-align: left;
     color: red;
+    font-size: 12px;
     font-weight: bold;
-    padding: 20px 5px 20px 60px;
-    border: 1px dotted #ccc;
-    background: #f7f7f7 url("../images/warning.png") no-repeat 15px center;
-    /** Thêm CSS 3.0 **/
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+    padding: 10px 0px 20px 0px;
 }
 .error_msg li{
     list-style: none;

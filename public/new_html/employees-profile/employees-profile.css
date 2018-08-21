@@ -351,6 +351,11 @@ input[type="radio"]:checked + label span {
   transition:background-color 0.4s linear;
 }
 
+.label-input {
+    color: white !important;
+    background: mediumpurple !important;
+}
+
 input[type="checkbox"]:checked, [type="checkbox"]:not(:checked) {
     position: absolute;
     left: -9999px;

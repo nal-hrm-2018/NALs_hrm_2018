@@ -1,21 +1,3 @@
-$("#checkAll").change(function () {
-            $("input:checkbox").prop('checked', $(this).prop("checked"));
-                });
-
-$(document).ready(function(){
-            $(".btn-search").click(function() {
-                var form = $(this).closest('.form-search');
-                $('#myModal')
-                    .modal({
-                        backdrop: 'static',
-                        keyboard: false
-                    })
-                    .one('click', '.btn-search-confirm', function() {
-                        form.submit();
-                    })
-            }); 
-        });
-
 $(document).ready(function(){ 
     document.oncontextmenu = function() {return false;};
 
@@ -43,7 +25,8 @@ $(".custom-menu li").click(function(){
     $(".custom-menu").hide(100);
 });
 
-$(".btn-search").click(function(){
-    $(".form-search").toggle(1000);
+$(document).ready(function(){
+    $(".btn-search").click(function(){
+        $(".form-search").toggle('1000');
+    });
 });
-
