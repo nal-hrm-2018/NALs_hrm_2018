@@ -34,10 +34,12 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             ->whereDate('processes.end_date', '>=', $date)
             ->get()
             ->toArray();
-        $employeeLogged = Employee::where('id', $id_employee)->first();
-        dd($employeeLogged);
-        $poTeam = Employee::select('*')->where('is_manager', 1)
-            ->where('team_id', $employeeLogged->team_id)->first();
+//        $employeeLogged = Employee::where('id', $id_employee)->first();
+//
+//        $poTeam = Employee::find($id_employee)
+//            ->where('is_manager', 1)
+//            ->where('team_id', $employeeLogged->team_id)->first();
+        $poTeam= Employee::find($id_employee)->teams();
         $arrayList = array();
 
         $data = [
@@ -61,57 +63,25 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             \Session::flash('msg_fail', 'Account failed created!!!');
             return back()->withInput(Input::all());
         } else {
-            if (empty($objProcess)) {
-//                $is_process = 0;
-                $data1 = [
-                    'created_at' => new \DateTime(),
-                    'delete_flag' => 0,
-                    'absence_status_id' => 1,
-                    'absence_id' => $objAbsence->id,
-                    'project_id' => null,
-                    'employee_id' => $poTeam->id
-                ];
-                Confirm::create($data1);
-            } else {
-//                $is_process = 1;
-                $getIdRolePo = Role::where('name','PO')->first();
-                $indexInLoop = 0;
-
-                foreach ($objProcess as $element){
-                    $arrayList[$indexInLoop] = Process::where('project_id',$element['project_id'])
-                        ->where('role_id',$getIdRolePo->id)
-                        ->whereDate('start_date','<=',$request->get('from_date'))
-                        ->whereDate('end_date','>=',$request->get('to_date'))
-                        ->first();
-                    $indexInLoop++;
-                }
-//                dd($arrayList);
-
-                    foreach ($arrayList as $key => $value){
-                        if(!empty($value)){
-                            $data1 = [
+                    $PO=Role::where('name','PO')->first();
+                    $objProcess = Process::where('employee_id',$id_employee)->get();
+                    foreach($objProcess as $objP){
+                        $project_id = $objP->project_id;
+                        $id_poTeam=Process::where('project_id',$project_id)
+                                            ->where('role_id',$PO->id)->first();
+                        dd($id_poTeam);
+                        $dataPoTeamJustWatch = [
                                 'created_at' => new \DateTime(),
                                 'delete_flag' => 0,
                                 'absence_status_id' => 1,
+                                'absence_type_id' => $request->get('absence_type_id'),
                                 'absence_id' => $objAbsence->id,
-                                'project_id' => $value['project_id'],
-                                'employee_id' => $value['employee_id']
+                                'project_id' => null,
+                                'employee_id' => $employee_id,
                             ];
-                            Confirm::create($data1);
-                        }
+                        Confirm::create($dataPoTeamJustWatch);
                     }
 
-                $dataPoTeamJustWatch = [
-                    'created_at' => new \DateTime(),
-                    'delete_flag' => 0,
-                    'absence_status_id' => 1,
-                    'absence_type_id' => $request->get('absence_type_id'),
-                    'absence_id' => $objAbsence->id,
-                    'project_id' => null,
-                    'employee_id' => $poTeam->id
-                ];
-                Confirm::create($dataPoTeamJustWatch);
-            }
             \Session::flash('msg_success', 'Thêm mới Form thành công!!!');
             return redirect()->route('absences.index');
         }
