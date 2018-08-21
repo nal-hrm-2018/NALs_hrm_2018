@@ -69,7 +69,7 @@
                                 <CENTER>
                                     <div class="container">
                                         <img src="{!! asset('/files/default_avatar.png') !!}" id="image" class="image"/>
-                                        <input style="font-size: 12px;width: 220px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV"/>
+                                        <input style="font-size: 12px;width: 220px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
                                     </div>
                                 </CENTER>
                                 <script type="text/javascript">
