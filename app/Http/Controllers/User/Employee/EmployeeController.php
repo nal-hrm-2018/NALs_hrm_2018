@@ -32,6 +32,8 @@ use App\Http\Requests\EmployeeEditRequest;
 use App\Import\ImportFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 class EmployeeController extends Controller
 {
     /**
@@ -90,6 +92,16 @@ class EmployeeController extends Controller
         $employee->marital_status = $request->marital_status;
         $employee->startwork_date = $request->startwork_date;
         $employee->endwork_date = $request->endwork_date;
+        //upload hinh from hunganh
+        if($request->file('picture')){
+            $file = Input::file('picture');
+            if(strlen($file) > 0){
+                $picture= $file->getClientOriginalName();
+                $file->move('files',$picture);
+                $employee->avatar = $picture;
+            }
+        }
+
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
         if(strtotime($employee->endwork_date) < strtotime($date)){
@@ -226,7 +238,15 @@ class EmployeeController extends Controller
         $employee->mobile = $request->mobile;
         $employee->address = $request->address;
         $employee->marital_status = $request->marital_status;
-
+        //upload hinh from hunganh
+        if($request->file('picture')){
+            $file = Input::file('picture');
+            if(strlen($file) > 0){
+                $picture= $file->getClientOriginalName();
+                $file->move('files',$picture);
+                $employee->avatar = $picture;
+            }
+        }
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
         if(strtotime($employee->endwork_date) < strtotime($date)){

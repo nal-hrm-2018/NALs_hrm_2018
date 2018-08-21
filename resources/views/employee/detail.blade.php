@@ -34,7 +34,7 @@
                                 <div class="box box-primary">
                                     <div class="box-body box-profile">
                                         <img class="profile-user-img img-responsive img-circle"
-                                             src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}"
+                                             src="{!! asset('/files/'.$employee->avatar) !!}"
                                              alt="User profile picture">
 
                                         <h3 class="profile-username text-center">{{$employee->name}}</h3>

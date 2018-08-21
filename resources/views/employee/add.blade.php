@@ -27,17 +27,28 @@
                         }
                     </SCRIPT>
                     <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-                    <form action="{{asset('employee')}}" method="post" class="form-horizontal"
+                    <form action="{{asset('employee')}}" method="post" class="form-horizontal" enctype = 'multipart/form-data'
                           onSubmit="return confirmAction()">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row">
                             <div class="col-md-3">
                                 <CENTER>
                                     <div>
-                                        <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}"/>
+                                        <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" onclick="myFunction()"/>
                                     </div>
+                                    <script>
+                                        function myFunction() {
+                                            var x = document.getElementById("myDIV");
+                                            if (x.style.display === "block") {
+                                                x.style.display = "none";
+                                            } else {
+                                                x.style.display = "block";
+                                            }
+                                        }
+                                    </script>
                                 </CENTER>
                                 <div class="" style="margin-top: 20px;">
+                                    <input style="font-size: 12px;width: 250px;margin-left: 8px;display: none;" type="file" name="picture" class="form-control" placeholder="Chọn ảnh" id="myDIV"/>
                                     <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
                                 </div>
                             </div>
