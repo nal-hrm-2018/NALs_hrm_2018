@@ -88,7 +88,8 @@
                         @else
                             {{asset('/files/default_avatar.png')}}
                         @endif" class="image" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" />
-               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV" accept="image/*"/>
+               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*"/>
+               {{--{{ Form::file('picture',['class'=> 'form-control overlay','id'=> 'chooseimg']) }}--}}
              </div>
              <script type="text/javascript">
                  var file = document.getElementById('chooseimg');
@@ -116,7 +117,7 @@
              {{--</script>--}}
            </CENTER>
            <div style="margin-top: 20px;">
-             <label style="margin-left: 23px;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
+             <label style="margin-left: 23px;color: red;" id="lb_error_name">{{$errors->first('picture')}}</label>
              <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
            </div>
          </div>
