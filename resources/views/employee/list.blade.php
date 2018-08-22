@@ -17,11 +17,11 @@
                 {{trans('common.path.list_employee')}}
                 <small>Nal solution</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{asset('/employee')}}"> {{trans('common.path.employee')}}</a></li>
-                <li><a href="#">{{trans('common.path.list')}}</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+                {{--<li><a href="{{asset('/employee')}}"> {{trans('common.path.employee')}}</a></li>--}}
+                {{--<li><a href="#">{{trans('common.path.list')}}</a></li>--}}
+            {{--</ol>--}}
         </section>
 
         <section class="content-header" style="display: flex;  flex-direction: row-reverse;">
