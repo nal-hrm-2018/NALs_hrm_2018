@@ -56,6 +56,12 @@ class Project extends Model
         'delete_flag'
     ];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'estimate_end_date' => 'date',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
