@@ -11,8 +11,8 @@
 
         .image {
             display: block;
-            width: 100%;
-            height: auto;
+            width: 150px;
+            height: 150px;
         }
 
         .overlay {
@@ -25,8 +25,7 @@
             transition: .5s ease;
             opacity:0;
             color: white;
-            font-size: 20px;
-            padding: 20px;
+            font-size: 12px;
             text-align: center;
         }
 
@@ -69,7 +68,7 @@
                                 <CENTER>
                                     <div class="container">
                                         <img src="{!! asset('/files/default_avatar.png') !!}" id="image" class="image"/>
-                                        <input style="font-size: 12px;width: 95px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
+                                        <input style="font-size: 12px;width: 150px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
                                     </div>
                                 </CENTER>
                                 <script type="text/javascript">

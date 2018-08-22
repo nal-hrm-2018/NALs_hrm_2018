@@ -359,6 +359,8 @@
                                                         echo "<span class='label label-info'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "ScrumMaster"){
                                                         echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "HR"){
+                                                        echo "<span class='badge bg-red'>". $employee->role->name ."</span>";
                                                     }
                                                 } else {
                                                     echo "-";

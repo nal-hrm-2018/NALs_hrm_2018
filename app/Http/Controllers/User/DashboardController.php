@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use Illuminate\Foundation\Console\EventMakeCommand;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -14,7 +17,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.module.index.index');
+        $objmEmployee = Employee::find(Auth::user()->id);
+        return view('admin.module.index.index',compact('objmEmployee'));
     }
 
     /**
