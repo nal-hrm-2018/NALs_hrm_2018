@@ -8,7 +8,19 @@
 @extends('admin.template')
 @section('content')
 
-
+<style>
+    .file-upload {
+        width: 100%;
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        margin:0;
+    }
+    .file-upload:hover {
+        background: white;
+    }
+</style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -38,7 +50,7 @@
                     </button>
                      @endif
                     <div id="import" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog" style="width: 50%">
                             <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <!-- Modal content-->
@@ -51,9 +63,12 @@
                                         <div class="row">
                                             <div class="input-group margin">
                                                 <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('employee.select_csv_file')}}</button>
+                                                    <button type="button" class="btn btn-info width-100">{{trans('employee.select_csv_file')}}</button>
                                                 </div>
-                                                <input type="file" id="myfile" name="myFile" class="form-control">
+                                                <label class="file-upload">
+                                                    <input type="file" id="myfile" name="myFile" class="form-control" style="display: none;">
+                                                    <i class="fa fa-cloud-upload"></i> Choose file
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
