@@ -9,6 +9,7 @@ return[
     'profile_info'=>[
         'id'=>'Employee ID',
         'short_id'=>'ID',
+        'picture'=>'Picture',
         'title'=>'Profile Information',
         'long_name'=>'Employee Name',
         'name'=>'Name',
@@ -27,6 +28,7 @@ return[
             'female'=>'Female',
             'na'=>'N/A'
         ],
+        'max'=> '2048',
         'birthday'=>'Birthday',
         'phone'=>'Phone',
         'address'=>'Address',

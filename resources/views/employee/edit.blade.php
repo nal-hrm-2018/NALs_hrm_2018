@@ -7,12 +7,13 @@
     position: relative;
     width: 50%;
     max-width: 300px;
+    margin-right: 98px;
   }
 
   .image {
     display: block;
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
   }
 
   .overlay {
@@ -33,7 +34,8 @@
 
   .container:hover .overlay {
     opacity: 1;
-    font-size: 12px;width: 200px;margin-left: 11px;
+    font-size: 12px;
+    width: 170px;
   }
 </style>
 <div class="content-wrapper">
@@ -88,7 +90,8 @@
                         @else
                             {{asset('/files/default_avatar.png')}}
                         @endif" class="image" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" />
-               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV" accept="image/*"/>
+               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*"/>
+               {{--{{ Form::file('picture',['class'=> 'form-control overlay','id'=> 'chooseimg']) }}--}}
              </div>
              <script type="text/javascript">
                  var file = document.getElementById('chooseimg');
@@ -104,19 +107,9 @@
                      }
                  });
              </script>
-             {{--<script>--}}
-                 {{--function myFunction() {--}}
-                     {{--var x = document.getElementById("myDIV");--}}
-                     {{--if (x.style.display === "block") {--}}
-                         {{--x.style.display = "none";--}}
-                     {{--} else {--}}
-                         {{--x.style.display = "block";--}}
-                     {{--}--}}
-                 {{--}--}}
-             {{--</script>--}}
            </CENTER>
            <div style="margin-top: 20px;">
-             <label style="margin-left: 23px;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
+             <label style="margin-left: 23px;color: red;" id="lb_error_name">{{$errors->first('picture')}}</label>
              <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
            </div>
          </div>

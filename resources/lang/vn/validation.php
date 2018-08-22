@@ -100,14 +100,13 @@ return [
     'same'                 => 'Trường :attribute và :other phải giống nhau.',
     'size'                 => [
         'numeric' => 'Trường :attribute phải bằng :size.',
-        'file'    => 'Dung lượng tập tin trong trường :attribute phải bằng :size kB.',
+        'file'    => 'Dung lượng tập tin trong trường :attribute phải bằng kB.',
         'string'  => 'Trường :attribute phải chứa :size ký tự.',
         'array'   => 'Trường :attribute phải chứa :size phần tử.',
     ],
     'string'               => 'Trường :attribute phải là một chuỗi ký tự.',
     'timezone'             => 'Trường :attribute phải là một múi giờ hợp lệ.',
     'unique'               => 'Trường :attribute đã có trong cơ sở dữ liệu.',
-    'uploaded'             => 'Trường :attribute tải lên thất bại.',
     'url'                  => 'Trường :attribute không giống với định dạng một URL.',
     /*
     |--------------------------------------------------------------------------

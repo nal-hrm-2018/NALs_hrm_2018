@@ -9,6 +9,7 @@ return[
     'profile_info'=>[
         'id'=>'Mã Nhân Viên',
         'short_id'=>'ID',
+        'picture'=>'Hình ảnh',
         'title'=>'Thông Tin Nhân Thân',
         'long_name'=>'Tên Nhân Viên',
         'name'=>'Họ tên',
@@ -27,6 +28,7 @@ return[
             'female'=>'Nữ',
             'na'=>'Khác'
         ],
+        'max'=> '2048',
         'birthday'=>'Ngày sinh',
         'phone'=>'Số điện thoại',
         'address'=>'Địa chỉ',

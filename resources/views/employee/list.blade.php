@@ -220,14 +220,6 @@
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
                                                             </div>
                                                             <select name="team" id="team_employee" class="form-control">
-                                                                @if(!empty($_GET['team']))
-                                                                    <option selected="selected" {{'hidden'}}  value="">
-                                                                        {{$_GET['team']}}
-                                                                    </option>
-                                                                @else
-                                                                    <option selected="selected" value="">
-                                                                    {{  trans('employee.drop_box.placeholder-default') }}
-                                                                @endif
                                                                     <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
@@ -313,7 +305,6 @@
                                         ]
                                         )
                                      !!}
-
                                 </div>
                             </div>
                             <script>
@@ -343,8 +334,6 @@
                                         data-employee-id="{{$employee->id}}">
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
-
-
                                         @php
                                             $arr_team = $employee->teams()->get();
                                             $string_team ="";
@@ -387,15 +376,14 @@
                                                 @else
                                                     <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
                                                 @endif
-                                            </p>
+                                            </p>  
                                         </td>
-                                        {{--<td style="text-align: center;width: 50px;">---}}
+                                        {{--<td style="text-align: center;width: 50px;">--}}
                                             {{--<!-- 1/8/hiddent_cmt-->--}}
                                             {{--<button type="button" class="btn btn-default cv-button">--}}
                                                 {{--<a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>--}}
                                             {{--</button>--}}
                                         {{--</td>--}}
-
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                                             @if(Auth::user()->hasPermission('view_employee_basic'))
                                                 <li><a href="employee/{{$employee->id}}"><i
