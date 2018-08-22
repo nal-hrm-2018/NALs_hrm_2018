@@ -180,7 +180,7 @@
                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                                     <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                                 </button>
-                                <div id="demo" class="collapse margin-form-search">
+                                <div id="demo" class margin-form-search">
                                     <form method="get" role="form" id="form_search_employee">
                                         <!-- Modal content-->
                                         <input id="number_record_per_page" type="hidden" name="number_record_per_page"
@@ -363,13 +363,13 @@
                                             <?php
                                                 if(isset($employee->role)){
                                                     if($employee->role->name == "PO"){
-                                                        echo "<span class='label label-primary'>". $employee->role->name ."</span>";
+                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "Dev"){
                                                         echo "<span class='label label-success'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "BA"){
                                                         echo "<span class='label label-info'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "ScrumMaster"){
-                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                        echo "<span class='label label-secondary'>". $employee->role->name ."</span>";
                                                     }
                                                 } else {
                                                     echo "-";
