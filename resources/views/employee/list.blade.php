@@ -359,7 +359,9 @@
                                                     } else if($employee->role->name == "BA"){
                                                         echo "<span class='label label-info'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "ScrumMaster"){
-                                                        echo "<span class='label label-secondary'>". $employee->role->name ."</span>";
+                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "HR"){
+                                                        echo "<span class='label label-danger'>". $employee->role->name ."</span>";
                                                     }
                                                 } else {
                                                     echo "-";

@@ -41,6 +41,58 @@
         <!-- Content Wrapper. Contains page content -->
 
         <!-- Content Header (Page header) -->
+        <!-- code from trinhhunganh -->
+        @if(Auth::user()->hasRole('Dev'))
+            <section>
+            <div class="row">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Project Developer</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th style="width: 10px">{{trans('dashboard.stt')}}</th>
+                                    <th>{{trans('dashboard.name.project')}}</th>
+                                    <th>{{trans('dashboard.position')}}</th>
+                                    <th>{{trans('dashboard.start_date')}}</th>
+                                    <th>{{trans('dashboard.end_date')}}</th>
+                                    <th>{{trans('dashboard.po_name')}}</th>
+                                    <th>{{trans('dashboard.status')}}</th>
+                                </tr>
+                                @foreach($objmEmployee->processes as $key => $process)
+                                    @php
+                                        $idPO=\App\Models\Role::where('name','PO')->first();
+                                        $project=\App\Models\Project::find($process->project_id);
+                                        $status=\App\Models\Status::find($project->status)->first();
+                                        $idEmpPo=\App\Models\Process::select('employee_id')
+                                                                    ->where('project_id',$process->project_id)
+                                                                    ->where('role_id',$idPO->id)
+                                                                    ->first();
+                                        $name_po=\App\Models\Employee::find($idEmpPo->employee_id);
+                                    @endphp
+                                    <tr>
+                                        <td>{{$key}}</td>
+                                        <td>{{$project->name}}</td>
+                                        <td>{{$objmEmployee->role->name}}</td>
+                                        <td><span class="badge bg-red">{{$process->start_date}}</span></td>
+                                        <td><span class="badge bg-yellow">{{$process->end_date}}</span></td>
+                                        <td><span class="badge bg-light-blue">{{$name_po->name}}</span></td>
+                                        <td><span class="badge bg-green">{{$status->name}}</span></td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </section>
+        @endif <!-- endcode from trinhhunganh . -->
        <section>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

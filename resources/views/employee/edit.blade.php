@@ -109,8 +109,8 @@
              </script>
            </CENTER>
            <div style="margin-top: 20px;">
-             <label style="margin-left: 23px;color: red;" id="lb_error_name">{{$errors->first('picture')}}</label>
              <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
+             <label style="margin-left: 23px;color: red;" id="lb_error_name">{{$errors->first('picture')}}</label>
            </div>
          </div>
          <!-- /.col -->
