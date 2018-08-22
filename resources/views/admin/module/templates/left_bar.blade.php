@@ -1,7 +1,7 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      
+
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li>
@@ -126,6 +126,17 @@
             </ul>
           </li>
         @endif
+          <li class="treeview">
+              <a href="#">
+                  <i class="fa  fa-calendar-minus-o"></i> <span> OT Management</span>
+                  <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+              </a>
+              <ul class="treeview-menu">
+                  <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>List OT</a></li>
+              </ul>
+          </li>
       </ul>
 
     </section>
