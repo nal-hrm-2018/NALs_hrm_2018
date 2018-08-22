@@ -220,14 +220,6 @@
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
                                                             </div>
                                                             <select name="team" id="team_employee" class="form-control">
-                                                                {{--@if(!empty($_GET['team']))
-                                                                    <option selected="selected" {{'hidden'}}  value="">
-                                                                        {{$_GET['team']}}
-                                                                    </option>
-                                                                @else
-                                                                    <option selected="selected" value="">
-                                                                    {{  trans('employee.drop_box.placeholder-default') }}
-                                                                @endif--}}
                                                                     <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
@@ -244,13 +236,13 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.email')}}</button>
                                                             </div>
-                                                            {{--<input type="text" name="email" id="emailEmployee" class="form-control">--}}
-                                                            {{ Form::text('email', old('email'),
-                                                                ['class' => 'form-control',
-                                                                'id' => 'emailEmployee',
-                                                                'autofocus' => false,
-                                                                ])
-                                                            }}
+                                                            <input type="text" name="email" id="emailEmployee" class="form-control">
+                                                            {{--{{ Form::text('email', old('email'),--}}
+                                                                {{--['class' => 'form-control',--}}
+                                                                {{--'id' => 'emailEmployee',--}}
+                                                                {{--'autofocus' => false,--}}
+                                                                {{--])--}}
+                                                            {{--}}--}}
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
@@ -313,7 +305,6 @@
                                         ]
                                         )
                                      !!}
-                                    
                                 </div>
                             </div>
                             <script>
@@ -334,7 +325,7 @@
                                     <th>{{trans('employee.profile_info.role')}}</th>
                                     <th>{{trans('employee.profile_info.email')}}</th>
                                     <th>{{trans('employee.profile_info.status')}}</th>
-                                    <th>CV</th>
+                                    {{--<th>CV</th>--}}
                                 </tr>
                                 </thead>
                                 <tbody class="context-menu">
@@ -343,8 +334,6 @@
                                         data-employee-id="{{$employee->id}}">
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
-
-
                                         @php
                                             $arr_team = $employee->teams()->get();
                                             $string_team ="";
@@ -389,15 +378,15 @@
                                                 @endif
                                             </p>  
                                         </td>
-                                        <td style="text-align: center;width: 50px;">-
-                                            <!-- 1/8/hiddent_cmt-->
+                                        {{--<td style="text-align: center;width: 50px;">--}}
+                                            {{--<!-- 1/8/hiddent_cmt-->--}}
                                             {{--<button type="button" class="btn btn-default cv-button">--}}
                                                 {{--<a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>--}}
                                             {{--</button>--}}
-                                        </td>
-
+                                        {{--</td>--}}
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-                                            <li><a href="employee/{{$employee->id}}"><i
+                                            @if(Auth::user()->hasPermission('view_employee_basic'))
+                                                <li><a href="employee/{{$employee->id}}"><i
                                                             class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('edit_employee_basic'))
@@ -408,8 +397,7 @@
                                                 <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
                                                                 class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
-                                        </ul>     @if(Auth::user()->hasPermission('view_employee_basic'))
-
+                                        </ul>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -7,12 +7,13 @@
     position: relative;
     width: 50%;
     max-width: 300px;
+    margin-right: 98px;
   }
 
   .image {
     display: block;
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
   }
 
   .overlay {
@@ -33,7 +34,8 @@
 
   .container:hover .overlay {
     opacity: 1;
-    font-size: 12px;width: 200px;margin-left: 11px;
+    font-size: 12px;
+    width: 170px;
   }
 </style>
 <div class="content-wrapper">
@@ -105,16 +107,6 @@
                      }
                  });
              </script>
-             {{--<script>--}}
-                 {{--function myFunction() {--}}
-                     {{--var x = document.getElementById("myDIV");--}}
-                     {{--if (x.style.display === "block") {--}}
-                         {{--x.style.display = "none";--}}
-                     {{--} else {--}}
-                         {{--x.style.display = "block";--}}
-                     {{--}--}}
-                 {{--}--}}
-             {{--</script>--}}
            </CENTER>
            <div style="margin-top: 20px;">
              <label style="margin-left: 23px;color: red;" id="lb_error_name">{{$errors->first('picture')}}</label>
