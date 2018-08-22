@@ -8,7 +8,19 @@
 @extends('admin.template')
 @section('content')
 
-
+<style>
+    .file-upload {
+        width: 100%;
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        margin:0;
+    }
+    .file-upload:hover {
+        background: white;
+    }
+</style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -53,13 +65,7 @@
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn btn-info width-100">{{trans('employee.select_csv_file')}}</button>
                                                 </div>
-                                                <label style="
-                                                            width: 100%;
-                                                            border: 1px solid #ccc;
-                                                            display: inline-block;
-                                                            padding: 6px 12px;
-                                                            cursor: pointer;
-                                                            margin:0;">
+                                                <label class="file-upload">
                                                     <input type="file" id="myfile" name="myFile" class="form-control" style="display: none;">
                                                     <i class="fa fa-cloud-upload"></i> Choose file
                                                 </label>
