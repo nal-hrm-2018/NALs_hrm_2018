@@ -1,3 +1,7 @@
+.nav-tabs-custom>.nav-tabs>li:first-of-type.active>a {
+    border-left-color: #f4f4f4 !important;
+}
+
 /*!
  *   AdminLTE v2.4.2
  *   Author: Almsaeed Studio
