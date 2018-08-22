@@ -180,7 +180,7 @@
                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                                     <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                                 </button>
-                                <div id="demo" class="collapse">
+                                <div id="demo" class="collapse margin-form-search">
                                     <form method="get" role="form" id="form_search_employee">
                                         <!-- Modal content-->
                                         <input id="number_record_per_page" type="hidden" name="number_record_per_page"
@@ -387,15 +387,14 @@
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                                             @if(Auth::user()->hasPermission('view_employee_basic'))
                                                 <li><a href="employee/{{$employee->id}}"><i
-                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
+                                                            class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('edit_employee_basic'))
-                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
+                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit width-icon-contextmenu"></i>
                                                         {{trans('common.action.edit')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('delete_employee'))
-                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
-                                                                class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
+                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
                                         </ul>
                                     </tr>
