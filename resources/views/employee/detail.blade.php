@@ -52,7 +52,7 @@
                             <div class="col-md-9">
                                 <div class="box box-primary">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" style="margin-left: 20px;">
                                             <h2 class="profile-username text-center">{{trans('employee.profile_info.title')}}</h2>
                                             <p>{{trans('employee.profile_info.name')}}:
                                                 <strong>{{$employee->name}}</strong></p>
