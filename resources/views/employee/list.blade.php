@@ -180,7 +180,7 @@
                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                                     <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                                 </button>
-                                <div id="demo" class margin-form-search">
+                                <div id="demo" class="collapse margin-form-search">
                                     <form method="get" role="form" id="form_search_employee">
                                         <!-- Modal content-->
                                         <input id="number_record_per_page" type="hidden" name="number_record_per_page"
@@ -599,6 +599,9 @@
             position: relative;
             left: 27px;
             margin-left: -20px;
+        }
+        .margin-form-search {
+            margin: 10px 0px;
         }
     </style>
 @endsection
