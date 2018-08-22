@@ -63,6 +63,14 @@ th.small-row-id {
     width: 73px;
 }
 
+.margin-form-search {
+    margin: 10px 0px !important;
+}
+
+.width-icon-contextmenu {
+    width: 18px;
+}
+
 /*
 table.dataTable{
     border-collapse:  collapse;

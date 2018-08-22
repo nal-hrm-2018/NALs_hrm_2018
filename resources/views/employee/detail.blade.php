@@ -53,7 +53,7 @@
                             <div class="col-md-7">
                                 <div class="box box-primary">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style="margin-left: 20px;>
                                             <h2 class="profile-username text-center">{{trans('employee.profile_info.title')}}</h2>
                                             <p>{{trans('employee.profile_info.name')}}:
                                                 <strong>{{$employee->name}}</strong></p>
@@ -191,6 +191,7 @@
                             <div class="col-md-1"></div>
                             <!-- /.col -->
                         </div>
+                            <div class="col-md-1"></div>
                         <!-- /.post -->
                     </div>
                     <div class="tab-pane" id="project">

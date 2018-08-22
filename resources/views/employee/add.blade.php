@@ -5,14 +5,14 @@
 
         .container {
             position: relative;
-            width: 50%;
-            max-width: 300px;
+            width: auto;
         }
 
         .image {
             display: block;
             width: 150px;
             height: 150px;
+            margin: 0 auto;
         }
 
         .overlay {
@@ -65,12 +65,10 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row">
                             <div class="col-md-3">
-                                <CENTER>
                                     <div class="container">
                                         <img src="{!! asset('/files/default_avatar.png') !!}" id="image" class="image"/>
-                                        <input style="font-size: 12px;width: 150px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
+                                        <input style="font-size: 12px;width: 150px;bottom: 0px;left: 50px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
                                     </div>
-                                </CENTER>
                                 <script type="text/javascript">
                                     var file = document.getElementById('chooseimg');
                                     var img = document.getElementById('image');

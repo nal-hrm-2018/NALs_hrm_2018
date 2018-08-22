@@ -29,12 +29,12 @@
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
                     @if(Auth::user()->hasPermission('add_new_employee'))
                     <button type="button" class="btn btn-default">
-                        <a href="{{ asset('employee/create')}}"><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
+                        <a href="{{ asset('employee/create')}}" style="color: darkviolet;"><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
                     </button>
                     @endif
                     @if(Auth::user()->hasRoleHR())
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
-                        <a><i class="fa fa-users"></i> {{trans('common.button.import')}}</a>
+                        <a style="color: darkviolet;"><i class="fa fa-users"></i> {{trans('common.button.import')}}</a>
                     </button>
                      @endif
                     <div id="import" class="modal fade" role="dialog">
@@ -81,7 +81,7 @@
                     </div>
                     @if(Auth::user()->hasRoleHR())
                     <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
-                        <a href="/download-template"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
+                        <a href="/download-template" style="color: darkviolet;"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
                     </button>
                     @endif
                     <?php
@@ -153,6 +153,7 @@
                     </SCRIPT>
                     <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                         <a id="export"
+                           style="color: darkviolet;"
                            href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">
                             <i class="fa fa-vcard"></i>
                             <span id="contain-canvas" style="">
@@ -180,7 +181,7 @@
                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                                     <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                                 </button>
-                                <div id="demo" class="collapse">
+                                <div id="demo" class="collapse margin-form-search">
                                     <form method="get" role="form" id="form_search_employee">
                                         <!-- Modal content-->
                                         <input id="number_record_per_page" type="hidden" name="number_record_per_page"
@@ -352,7 +353,7 @@
                                             <?php
                                                 if(isset($employee->role)){
                                                     if($employee->role->name == "PO"){
-                                                        echo "<span class='label label-primary'>". $employee->role->name ."</span>";
+                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "Dev"){
                                                         echo "<span class='label label-success'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "BA"){
@@ -360,7 +361,7 @@
                                                     } else if($employee->role->name == "ScrumMaster"){
                                                         echo "<span class='label label-warning'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "HR"){
-                                                        echo "<span class='badge bg-red'>". $employee->role->name ."</span>";
+                                                        echo "<span class='label label-danger'>". $employee->role->name ."</span>";
                                                     }
                                                 } else {
                                                     echo "-";
@@ -389,15 +390,14 @@
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                                             @if(Auth::user()->hasPermission('view_employee_basic'))
                                                 <li><a href="employee/{{$employee->id}}"><i
-                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
+                                                            class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('edit_employee_basic'))
-                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit"></i>
+                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit width-icon-contextmenu"></i>
                                                         {{trans('common.action.edit')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('delete_employee'))
-                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i
-                                                                class="fa fa-remove"></i> {{trans('common.action.remove')}}</a></li>
+                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
                                         </ul>
                                     </tr>
@@ -590,6 +590,9 @@
             position: relative;
             left: 27px;
             margin-left: -20px;
+        }
+        .margin-form-search {
+            margin: 10px 0px;
         }
     </style>
 @endsection
