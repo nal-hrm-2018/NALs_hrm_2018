@@ -1,9 +1,256 @@
 @extends('admin.template')
 @section('content')
 
+    {{--start code by Dung--}}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <style>
+        .container-donut-chart {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            margin: 20px;
+            padding: 20px 0px;
+            background: white;
+            box-shadow: 0 0 10px #cacaca;
+            border-radius: 5px;
+        }
+
+        .child {
+            padding-bottom: 40px;
+        }
+
+        .font-size-28 {
+            font-size: 28px;
+        }
+
+        .font-size-20 {
+            font-size: 20px;
+        }
+
+        .donut-chart {
+            width: 250px;
+            height: 250px;
+        }
+
+        .text-legend {
+            display: inline-block;
+            width: 150px;
+            line-height: 2.0;
+        }
+
+        .highcharts-exporting-group {
+            display: none;
+        }
+
+        .highcharts-credits {
+            display:none;
+        }
+    </style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        @if($role=='PO')
+        @if(Auth::user()->hasRole('HR'))
+            <section class="content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="box box-danger">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Total employees</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="child">
+                                        <div id="donut-chart1" class="donut-chart"></div>
+                                    <div>
+                                        <span class="text-legend">
+                                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                            Official employee
+                                        </span>
+                                        <span class="text-legend">
+                                            <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                           Probationary
+                                        </span><br>
+                                        <span class="text-legend">
+                                            <i class="fas fa-circle" style="color: #faa951;"></i>
+                                            Training employee
+                                        </span>
+                                        <span class="text-legend">
+                                            <i class="fas fa-circle" style="color: #e91d24;"></i>
+                                            Part-time employee
+                                        </span>
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                        {{--<div class="col-md-6">--}}
+                            {{--<div class="box box-danger">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title">Donut Chart</h3>--}}
+
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>--}}
+                                        {{--</button>--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="box-body">--}}
+                                    {{--<canvas id="pieChart" style="height: 267px; width: 534px;" width="534" height="267"></canvas>--}}
+                                    {{--<div class="child">--}}
+                                        {{--<span class="font-size-20"> New employee</span>--}}
+                                        {{--<div id="donut-chart2" class="donut-chart"></div>--}}
+                                        {{--<div>--}}
+                                {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #53cbf2;"></i>--}}
+                                    {{--5 PHP--}}
+                                {{--</span>--}}
+                                            {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #abe02a;"></i>--}}
+                                   {{--8 Java--}}
+                                {{--</span><br>--}}
+                                            {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #e91d24;"></i>--}}
+                                    {{--3 .NET--}}
+                                {{--</span>--}}
+                                            {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #faa951;"></i>--}}
+                                    {{--4 Python--}}
+                                {{--</span>--}}
+                                            {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #333;"></i>--}}
+                                   {{--10 Khac--}}
+                                    {{--</span>--}}
+
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<!-- /.box-body -->--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    </div>
+
+                </section>
+
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/data.js"></script>
+            <script>
+                Highcharts.chart('donut-chart1', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: '<span style="font-size: 45px; font-weight: bold;">{{$sum}}</span><br><span style="font-size: 20px;">people</span>',
+                        align: 'center',
+                        verticalAlign: 'middle'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            innerSize: 150,
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: false
+                        }
+                    },
+                    series: [{
+                        name: 'Values',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Full-time',
+                            y: {{$sumFullTime}},
+                            color:'#53cbf2'
+                        }, {
+                            name: 'Probationary',
+                            y: {{$sumProbationary}},
+                            color:'#abe02a'
+                        }, {
+                            name: 'Internship',
+                            y: {{$sumInternship}},
+                            color:'#faa951'
+                        }, {
+                            name: 'Part-time',
+                            y: {{$sumPartTime}},
+                            color:'#e91d24',
+                        }  ]
+                    }]
+                });
+                // Highcharts.chart('donut-chart2', {
+                //     chart: {
+                //         plotBackgroundColor: null,
+                //         plotBorderWidth: null,
+                //         plotShadow: false,
+                //         type: 'pie'
+                //     },
+                //     title: {
+                //         text: null
+                //     },
+                //     subtitle: {
+                //         text: '<span style="font-size: 45px; font-weight: bold;">30</span><br><span style="font-size: 20px;">people</span>',
+                //         align: 'center',
+                //         verticalAlign: 'middle'
+                //     },
+                //     tooltip: {
+                //         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                //     },
+                //     plotOptions: {
+                //         pie: {
+                //             innerSize: 150,
+                //             allowPointSelect: true,
+                //             cursor: 'pointer',
+                //             dataLabels: {
+                //                 enabled: false
+                //             },
+                //             showInLegend: false
+                //         }
+                //     },
+                //     series: [{
+                //         name: 'Values',
+                //         colorByPoint: true,
+                //         data: [{
+                //             name: 'php',
+                //             y: 5,
+                //             color:'#53cbf2'
+                //         }, {
+                //             name: 'Java',
+                //             y: 8,
+                //             color:'#abe02a'
+                //         }, {
+                //             name: '. NET',
+                //             y: 3,
+                //             color:'#faa951'
+                //         }, {
+                //             name: 'Python',
+                //             y: 4,
+                //             color:'#e91d24',
+                //         }
+                //             , {
+                //                 name: 'Khac',
+                //                 y: 10,
+                //                 color:'#333'
+                //             }
+                //         ]
+                //     }]
+                // });
+            </script>
+        @endif
+        {{--end code by Dung--}}
+
+        @if(Auth::user()->hasRole('PO'))
             <section>
                 <div class="box box-info">
                     <div class="box-header with-border">
@@ -57,9 +304,9 @@
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.box-body -->
-                {{--<div class="box-footer clearfix">--}}
-                {{--<a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Project</a>--}}
-                {{--</div>--}}
+                <div class="box-footer clearfix">
+                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Project</a>
+                </div>
                 <!-- /.box-footer -->
                 </div>
             </section>
@@ -156,14 +403,14 @@
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.box-body -->
-                {{--<div class="box-footer clearfix">--}}
-                {{--<a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Processes</a>--}}
-                {{--</div>--}}
+                <div class="box-footer clearfix">
+                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Processes</a>
+                </div>
                 <!-- /.box-footer -->
                 </div>
             </section>
         @endif
-        <!-- code from trinhhunganh -->
+        {{--<!-- code from trinhhunganh -->--}}
         @if(Auth::user()->hasRole('Dev'))
             <section>
             <div class="box box-info">
@@ -224,8 +471,8 @@
                         @endforeach
                     </table>
                 </div>
-            </div>
-        </section>
+            </section>
         @endif <!-- endcode from trinhhunganh . -->
     </div>
+
 @endsection
