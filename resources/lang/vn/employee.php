@@ -6,6 +6,20 @@ return[
     ],
     'basic'=>'Thông Tin Cơ Bản',
     'info'=>'thông tin',
+    'employee'=>'Nhân Viên',
+    'new'=> 'Nhân Viên Mới',
+    'status'=>[
+       'status'=>'Tình Trạng Nhân Viên',
+       'active'=>'Đang làm việc',
+       'leaved'=>'Đã nghỉ việc'
+    ],
+    'type'=>[
+        'type'=>'Loại Nhân Viên',
+        'official'=>'Chính thức ',
+        'probationary'=>'Thử việc',
+        'training'=>'Hoc việc',
+        'part-time'=>'Bán thời gian'
+    ],
     'profile_info'=>[
         'id'=>'Mã Nhân Viên',
         'short_id'=>'ID',

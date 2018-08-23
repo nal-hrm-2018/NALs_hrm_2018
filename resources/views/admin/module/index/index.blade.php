@@ -68,7 +68,7 @@
                         <div class="col-md-4">
                             <div class="box box-danger height-400">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Employee Type</h3>
+                                    <h3 class="box-title">{{trans('employee.type.type')}}</h3>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
@@ -81,19 +81,19 @@
                                     <div class="width-310">
                                         <span class="text-legend width-150">
                                             <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                            Official employee
+                                            {{trans('employee.type.official')}}
                                         </span>
                                         <span class="text-legend width-150">
                                             <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                           Probationary
+                                            {{trans('employee.type.probationary')}}
                                         </span><br>
                                         <span class="text-legend width-150">
                                             <i class="fas fa-circle" style="color: #faa951;"></i>
-                                            Training employee
+                                            {{trans('employee.type.training')}}
                                         </span>
                                         <span class="text-legend width-150">
                                             <i class="fas fa-circle" style="color: #00a65a;"></i>
-                                            Part-time employee
+                                            {{trans('employee.type.part-time')}}
                                         </span>
                                     </div>
                                     </div>
@@ -104,7 +104,7 @@
                         <div class="col-md-4">
                             <div class="box box-danger height-400">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Employee Status</h3>
+                                    <h3 class="box-title">{{trans('employee.status.status')}}</h3>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
@@ -113,16 +113,15 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="child">
-                                        {{--<span class="font-size-20"> New employee</span>--}}
                                         <div id="donut-chart2" class="donut-chart"></div>
                                         <div class="width-150">
                                             <span class="text-legend">
                                                 <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                                Active Employee
+                                                {{trans('employee.status.active')}}
                                             </span><br>
                                             <span class="text-legend">
                                                 <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                               Leaved Empoyee
+                                                {{trans('employee.status.leaved')}}
                                             </span>
                                         </div>
                                     </div>
@@ -133,7 +132,7 @@
                         <div class="col-md-4">
                             <div class="box box-danger height-400">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title"> New employee</h3>
+                                    <h3 class="box-title">{{trans('employee.new')}}</h3>
 
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -143,7 +142,6 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="child">
-                                        {{--<span class="font-size-20"> New employee</span>--}}
                                         <div id="donut-chart3" class="donut-chart"></div>
                                         <div  class="width-310">
                                         @if($new_PHP >0)
@@ -206,7 +204,7 @@
                         text: null
                     },
                     subtitle: {
-                        text: '<span style="font-size: 45px; font-weight: bold;">{{$sum}}</span><br><span style="font-size: 20px;">people</span>',
+                        text: '<span style="font-size: 45px; font-weight: bold;">{{$sum}}</span><br><span style="font-size: 20px;">{{trans('employee.employee')}}</span>',
                         align: 'center',
                         verticalAlign: 'middle'
                     },
@@ -257,7 +255,7 @@
                         text: null
                     },
                     subtitle: {
-                        text: '<span style="font-size: 45px; font-weight: bold;">{{$sum}}</span><br><span style="font-size: 20px;">people</span>',
+                        text: '<span style="font-size: 45px; font-weight: bold;">{{$sum}}</span><br><span style="font-size: 20px;">{{trans('employee.employee')}}</span>',
                         align: 'center',
                         verticalAlign: 'middle'
                     },
@@ -301,7 +299,7 @@
                         text: null
                     },
                     subtitle: {
-                        text: '<span style="font-size: 45px; font-weight: bold;">{{$sum_new}}</span><br><span style="font-size: 20px;">people</span>',
+                        text: '<span style="font-size: 45px; font-weight: bold;">{{$sum_new}}</span><br><span style="font-size: 20px;">{{trans('employee.employee')}}</span>',
                         align: 'center',
                         verticalAlign: 'middle'
                     },

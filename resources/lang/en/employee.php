@@ -6,6 +6,20 @@ return[
     ],
     'basic'=>'Basic',
     'info'=>'information',
+    'employee'=>'Employee',
+    'new'=>'New Employee',
+    'status'=>[
+        'status'=>'Employee Status',
+        'active'=>'Active employee',
+        'leaved'=>'Leaved employee'
+    ],
+    'type'=>[
+        'type'=>'Employee Type',
+        'official'=>'Official ',
+        'probationary'=>'Probationary',
+        'training'=>'Training',
+        'part-time'=>'Part-time'
+    ],
     'profile_info'=>[
         'id'=>'Employee ID',
         'short_id'=>'ID',
