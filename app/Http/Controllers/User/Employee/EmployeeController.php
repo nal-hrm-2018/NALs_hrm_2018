@@ -97,7 +97,7 @@ class EmployeeController extends Controller
             $file = Input::file('picture');
             if(strlen($file) > 0){
                 $picture= $file->getClientOriginalName();
-                $file->move('files',$picture);
+                $file->move('avatar',$picture);
                 $employee->avatar = $picture;
             }
         }
@@ -243,7 +243,7 @@ class EmployeeController extends Controller
             $file = Input::file('picture');
             if(strlen($file) > 0){
                 $picture= $file->getClientOriginalName();
-                $file->move('files',$picture);
+                $file->move('avatar',$picture);
                 $employee->avatar = $picture;
             }
         }

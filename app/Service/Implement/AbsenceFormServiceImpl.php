@@ -67,9 +67,8 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                     $objProcess = Process::where('employee_id',$id_employee)->get();
                     foreach($objProcess as $objP){
                         $project_id = $objP->project_id;
-                        $id_poTeam=Process::where('project_id',$project_id)
+                        $id_poTeam = Process::where('project_id',$project_id)
                                             ->where('role_id',$PO->id)->first();
-                        dd($id_poTeam);
                         $dataPoTeamJustWatch = [
                                 'created_at' => new \DateTime(),
                                 'delete_flag' => 0,

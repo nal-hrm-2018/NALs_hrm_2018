@@ -100,10 +100,9 @@
            <CENTER>
              <div class="container">
                <img src="@if(isset($objEmployee["avatar"]))
-                            {{asset('/files/'.$objEmployee["avatar"])}}
+                            {{asset('/avatar/'.$objEmployee["avatar"])}}
                         @else
-                            {{asset('/files/default_avatar.png')}}
-
+                            {{asset('/avatar/default_avatar.png')}}
                         @endif" class="image img-circle profile-user-img" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" /><br>
                 <label for="chooseimg" class="custom-file-upload">
                   <i class="fa fa-cloud-upload"></i>Upload avatar

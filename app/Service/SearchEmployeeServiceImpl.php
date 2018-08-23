@@ -65,7 +65,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         }
         if (!empty($team)) {
             $query
-                ->whereHas('team', function ($query) use ($team) {
+                ->whereHas('teams', function ($query) use ($team) {
                     $query->where("name", 'like', '%' . $team . '%');
                 });
         }
@@ -94,7 +94,6 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         
         $employeesSearch = $query
             ->where('delete_flag', '=', 0);
-
         return $employeesSearch;
     }
 }
