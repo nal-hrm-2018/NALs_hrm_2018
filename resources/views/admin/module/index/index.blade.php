@@ -204,8 +204,8 @@
                                 <td>{{$key}}</td>
                                 <td>{{$project->name}}</td>
                                 <td>{{$objmEmployee->role->name}}</td>
-                                <td><span class="">{{$process->start_date->format('d-m-Y')}}</span></td>
-                                <td><span class="">{{$process->end_date->format('d-m-Y')}}</span></td>
+                                <td><span class="">{{(isset($process->start_date))?$process->start_date->format('d-m-Y'):'-'}}</span></td>
+                                <td><span class="">{{(isset($process->end_date))?$process->end_date->format('d-m-Y'):'-'}}</span></td>
                                 <td><span class="">{{isset($name_po)?$name_po->name:'-'}}</span></td>
                                 <td>
                                 @if($status->name=='kick off')
