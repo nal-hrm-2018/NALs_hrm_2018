@@ -304,9 +304,9 @@
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.box-body -->
-                <div class="box-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Project</a>
-                </div>
+                {{--<div class="box-footer clearfix">--}}
+                {{--<a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Project</a>--}}
+                {{--</div>--}}
                 <!-- /.box-footer -->
                 </div>
             </section>
@@ -403,9 +403,9 @@
                         <!-- /.table-responsive -->
                     </div>
                     <!-- /.box-body -->
-                <div class="box-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Processes</a>
-                </div>
+                {{--<div class="box-footer clearfix">--}}
+                {{--<a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Processes</a>--}}
+                {{--</div>--}}
                 <!-- /.box-footer -->
                 </div>
             </section>

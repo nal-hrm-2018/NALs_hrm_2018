@@ -135,6 +135,7 @@
                                     <label id="lb_error_password_confirm" style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
                                     <!-- /.input group -->
                                 </div>
+                                
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.gender.title')}}<strong style="color: red">(*)</strong></label>
                                     <select id="gender" class="form-control select2" style="width: 100%;" name="gender">
@@ -220,6 +221,21 @@
                                     <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
                                 </div>
                                 <div class="form-group">
+                                    <label>{{trans('employee.profile_info.birthday')}}<strong style="color: red">(*)</strong></label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="date" class="form-control pull-right" id="birthday" name="birthday"
+                                               value="{{ old('birthday')}}<?php if (isset($employee)) {
+                                                   echo $employee->birthday;
+                                               }?>">
+                                    </div>
+                                    <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
+                                    <!-- /.input group -->
+                                </div>
+                                
+                                <div class="form-group">
                                     <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br>
                                     <?php
                                         foreach ($dataTeam as $val) {
@@ -238,20 +254,6 @@
                                         }
                                     ?>
                                     <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
-                                </div>
-                                <div class="form-group">
-                                    <label>{{trans('employee.profile_info.birthday')}}<strong style="color: red">(*)</strong></label>
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="date" class="form-control pull-right" id="birthday" name="birthday"
-                                               value="{{ old('birthday')}}<?php if (isset($employee)) {
-                                                   echo $employee->birthday;
-                                               }?>">
-                                    </div>
-                                    <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
-                                    <!-- /.input group -->
                                 </div>
                             </div>
                             <div class="col-md-4">

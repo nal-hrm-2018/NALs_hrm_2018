@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Models\EmployeeType;
 use App\Models\Process;
 use App\Models\Project;
+use App\Models\Role;
+use App\Models\Status;
 use Illuminate\Foundation\Console\EventMakeCommand;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -44,9 +46,10 @@ class DashboardController extends Controller
             ]);
         }
         if (Employee::find($id_emp)->hasRole('PO')){
-            $projects= Project::where('status_id', '!=', 5)->with('status')->orderBy('status_id', 'desc')->get();
+            $status_id = Status::select('id')->where('name', 'complete')->first();
+            $projects= Project::where('status_id', '!=', $status_id['id'])->with('status')->orderBy('status_id', 'desc')->get();
             $processes = Process::where('employee_id', $id_emp)->with('project','role','project.status')->get();
-            $processes = $processes->where('project.status_id', '!=', 5);
+            $processes = $processes->where('project.status_id', '!=', $status_id['id']);
 
 //            dd($processes[0]->project_id);
 
