@@ -15,7 +15,7 @@
         <section class="content-header">
             <h1>
                 Absence List
-                <small>Nal solution</small>
+                <small>Nal solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
                 {{--<li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>--}}
