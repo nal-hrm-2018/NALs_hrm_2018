@@ -3,6 +3,11 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+        {{--start code by Dung--}}
+        @if(Auth::user()->hasRole('HR'))
+        @endif
+        {{--end code by Dung--}}
+
         @if($role=='PO')
             <section>
                 <div class="box box-info">
