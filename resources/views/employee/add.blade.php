@@ -13,13 +13,16 @@
             width: 150px;
             height: 150px;
             margin: 0 auto;
+            border-radius: 50%;
+
         }
 
         .overlay {
             position: absolute;
             bottom: 0;
+            font-size: 12px;
             background: rgb(0, 0, 0);
-            background: rgba(0, 0, 0, 0.5); /* Black see-through */
+            background: rgba(0, 0, 0, 0.5); / Black see-through /
             color: #f1f1f1;
             width: 100%;
             transition: .5s ease;
@@ -29,8 +32,24 @@
             text-align: center;
         }
 
+        .form-group {
+            width: 90% !important;
+        }
+
         .container:hover .overlay {
             opacity: 1;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+        .custom-file-upload {
+            width: 150px !important;
+            max-width: unset !important;
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
         }
     </style>
     <div class="content-wrapper">
@@ -64,11 +83,16 @@
                           onSubmit="return confirmAction()">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
+                                <center>
                                     <div class="container">
-                                        <img src="{!! asset('/avatar/default_avatar.png') !!}" id="image" class="image"/>
-                                        <input style="font-size: 12px;width: 150px;bottom: 0px;left: 50px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
+                                        <img src="{!! asset('/avatar/default_avatar.png') !!}" id="image" class="image img-circle profile-user-img"/><br>
+                                        <label for="chooseimg" class="custom-file-upload">
+                                            <i class="fa fa-cloud-upload"></i>Upload avatar
+                                        </label>
+                                        <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
                                     </div>
+                                </center>
                                 <script type="text/javascript">
                                     var file = document.getElementById('chooseimg');
                                     var img = document.getElementById('image');
@@ -85,11 +109,10 @@
                                 </script>
                                 <div class="" style="margin-top: 20px;">
                                     <label style="margin-left: 23px;color:red;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
-                                    <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
                                 </div>
                             </div>
                             <!-- /.col -->
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <!-- /.form-group -->  
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.email')}}<strong style="color: red">(*)</strong></label>
@@ -110,34 +133,6 @@
                                     <input type="password" class="form-control" placeholder="{{trans('employee.profile_info.password_confirm')}}"
                                            name="confirm_confirmation" id="cfPass" value="{!! old('password') !!}">
                                     <label id="lb_error_password_confirm" style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
-                                    <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.name')}}" name="name" id="name"
-                                           value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
-                                    <label id="lb_error_name" style="color: red; ">{{$errors->first('name')}}</label>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>{{trans('employee.profile_info.address')}}<strong style="color: red">(*)</strong></label>
-                                    <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.address')}}" name="address"
-                                           id="address"
-                                           value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
-                                    <label id="lb_error_address" style="color: red; ">{{$errors->first('address')}}</label>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>{{trans('employee.profile_info.phone')}}<strong style="color: red">(*)</strong></label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-phone"></i>
-                                        </div>
-                                        <input type="number" class="form-control" placeholder="{{trans('employee.profile_info.phone')}}" name="mobile"
-                                               id="mobile"
-                                               value="{!! old('mobile') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
-                                    </div>
-                                    <label id="lb_error_mobile" style="color: red; ">{{$errors->first('mobile')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
@@ -258,6 +253,36 @@
                                     <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
                                     <!-- /.input group -->
                                 </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
+                                    <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.name')}}" name="name" id="name"
+                                           value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
+                                    <label id="lb_error_name" style="color: red; ">{{$errors->first('name')}}</label>
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.address')}}<strong style="color: red">(*)</strong></label>
+                                    <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.address')}}" name="address"
+                                           id="address"
+                                           value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
+                                    <label id="lb_error_address" style="color: red; ">{{$errors->first('address')}}</label>
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.phone')}}<strong style="color: red">(*)</strong></label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                        <input type="number" class="form-control" placeholder="{{trans('employee.profile_info.phone')}}" name="mobile"
+                                               id="mobile"
+                                               value="{!! old('mobile') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
+                                    </div>
+                                    <label id="lb_error_mobile" style="color: red; ">{{$errors->first('mobile')}}</label>
+                                    <!-- /.input group -->
+                                </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.position')}}<strong style="color: red">(*)</strong></label>
                                     <select id="position" class="form-control select2" style="width: 100%;" name="employee_type_id">
@@ -300,41 +325,36 @@
                                     </select>
                                     <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{trans('employee.profile_info.start_work')}}<strong style="color: red">(*)</strong></label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.start_work')}}<strong style="color: red">(*)</strong></label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
 
-                                                <input type="date" class="form-control pull-right" id="startwork_date"
-                                                       name="startwork_date"
-                                                       value="{{ old('startwork_date')}}<?php if (isset($employee)) {
-                                                           echo $employee->startwork_date;
-                                                       }?>">
-                                            </div>
-                                            <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
-                                        </div>
+                                        <input type="date" class="form-control pull-right" id="startwork_date"
+                                               name="startwork_date"
+                                               value="{{ old('startwork_date')}}<?php if (isset($employee)) {
+                                                   echo $employee->startwork_date;
+                                               }?>">
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{trans('employee.profile_info.end_work')}}<strong style="color: red">(*)</strong></label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="date" class="form-control pull-right" id="endwork_date"
-                                                       name="endwork_date"
-                                                       value="{{ old('endwork_date')}}<?php if (isset($employee)) {
-                                                           echo $employee->endwork_date;
-                                                       }?>">
-                                            </div>
-                                            <label id="lb_error_endwork_date" style="color: red; ">{{$errors->first('endwork_date')}}</label>
-                                            <!-- /.input group -->
+                                    <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.end_work')}}<strong style="color: red">(*)</strong></label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
                                         </div>
+                                        <input type="date" class="form-control pull-right" id="endwork_date"
+                                               name="endwork_date"
+                                               value="{{ old('endwork_date')}}<?php if (isset($employee)) {
+                                                   echo $employee->endwork_date;
+                                               }?>">
                                     </div>
+                                    <label id="lb_error_endwork_date" style="color: red; ">{{$errors->first('endwork_date')}}</label>
+                                    <!-- /.input group -->
                                 </div>
                             </div>
                             <!-- /.col -->
@@ -347,9 +367,9 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-md-2" style="display: inline;">
+                            <div class="col-md-1" style="display: inline;">
                                 <div style="float: right;">
-                                    <button type="submit" class="btn btn-info pull-left">{{ trans('common.button.add')}}</button>
+                                    <button type="submit" class="btn btn-info">{{ trans('common.button.add')}}</button>
                                 </div>
                             </div>
                         </div>
