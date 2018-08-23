@@ -82,7 +82,7 @@
                           onSubmit="return confirmAction()">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <center>
                                     <div class="container">
                                         <img src="{!! asset('/files/default_avatar.png') !!}" id="image" class="image img-circle profile-user-img"/><br>

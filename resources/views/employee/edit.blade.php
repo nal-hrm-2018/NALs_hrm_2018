@@ -95,7 +95,7 @@
        <input type="hidden" name="_token" value="{{ csrf_token() }}">
        <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
        <div class="row">
-         <div class="col-md-3">
+         <div class="col-md-4">
            <CENTER>
              <div class="container">
                <img src="@if(isset($objEmployee["avatar"]))
