@@ -28,7 +28,7 @@
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-default">
-                    <a href="{{route('absences.create')}}"><i class="fa fa-user-plus"></i>Đăng ký vắng nghỉ</a>
+                    <a href="{{route('absences.create')}}" style="color: darkviolet;"><i class="fa fa-user-plus"></i>Đăng ký vắng nghỉ</a>
                 </button>
 
             </div>
@@ -49,7 +49,7 @@
                                 <div class="row" style="margin-left: 10px; ">
                                     <div class="form-group">
                                         <label>Chọn năm</label>
-                                        <select class="form-control" style="width: 100%;"  name="year" id="year" onchange="myFunction()">
+                                        <select class="form-control" style="width: 150px;"  name="year" id="year" onchange="myFunction()">
                                             @if($startwork_date == $endwork_date)
                                                 <option value="{{$startwork_date}}">{{$startwork_date}}</option>
                                             @endif
@@ -73,7 +73,7 @@
                                 }
                             </script>
                             <div class="row absence_head">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div>
                                         <p>
                                             - Số ngày được nghỉ phép: 
@@ -82,12 +82,20 @@
                                         <span>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép cố định: 
                                             <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
-                                        </span>
+                                        </span><br>
                                         <span>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép dư: 
                                             <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
                                         </span>
                                     </div><br />
+                                    <div>
+                                        <p>
+                                            - Số ngày nghỉ không lương: 
+                                            <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div>
                                         <p>
                                             - Số ngày đã nghỉ: 
@@ -96,13 +104,21 @@
                                         <span>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép cố định: 
                                             <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
-                                        </span>
+                                        </span><br>
                                         <span>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép dư: 
                                             <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
                                         </span>
                                         
-                                    </div><br />
+                                    </div><br/>
+                                    <div >
+                                        <p>
+                                            - Số ngày nghỉ trừ lương: 
+                                            <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div>
                                         <p>
                                             - Số ngày còn lại:
@@ -112,7 +128,7 @@
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép cố định: 
                                             <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
                                         </span>
-                                        <span>
+                                        <span><br>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép dư:
                                             <span id="phepDu">{{$absences['phepDu']}}</span>
                                         </span>
@@ -127,22 +143,8 @@
                                                 $("#hanphep").addClass("label-danger");
                                             </script>
                                         @endif
-                                    </div><br />
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <p>
-                                            - Số ngày nghỉ không lương: 
-                                            <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
-                                        </p>
-                                    </div>
-                                    <div class="row">
-                                        <p>
-                                            - Số ngày nghỉ trừ lương: 
-                                            <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
-                                        </p>
-                                    </div>
-                                    <div class="row">
+                                    </div><br>
+                                    <div>
                                         <p>
                                             - Số ngày nghỉ chế độ bảo hiểm: 
                                             <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
@@ -158,7 +160,7 @@
                             $idAccept = \App\Models\AbsenceStatus::where('name', '=',
                                 config('settings.status_common.absence.accepted'))->first()->id;
                             ?>
-                            <table class="table table-bordered table-striped" id="absences-list">
+                            <table class="table table-bordered table-striped" id="absences-list" style="margin-top: 20px !important;">
                                 <thead>
                                     <tr>
                                         <th>Nghỉ từ ngày</th>
@@ -251,7 +253,7 @@
                                                     if($i == sizeof($obj->confirms)) {
                                                         echo '<div style="display: inline" id="div-edit-'. $obj->id .'">
                                                                 <button class="btn btn-default btn-edit" id="btn-edit-'. $obj->id .'">
-                                                                    <span style="color:blue"><i class="fa fa-edit"></i>Sửa</span>
+                                                                    <span style="color:darkviolet;"><i class="fa fa-edit"></i>Sửa</span>
                                                                 </button></div>';
                                                     } else {
                                                         echo '<div style="display: inline"><button class="btn btn-default disabled">
@@ -262,7 +264,7 @@
                                                     if($obj->is_deny == 0 && $obj->absence_status_id != $idReject){
                                                         echo '<div style="display: inline" id="div-cancel-'. $obj->id .'">
                                                                 <button class="btn btn-default btn-cancel" id="btn-cancel-'. $obj->id .'">
-                                                                    <span style="color:blue"><i class="fa fa-times"></i>Hủy</span>
+                                                                    <span style="color:darkviolet;"><i class="fa fa-times"></i>Hủy</span>
                                                                 </button></div>';
                                                     } else {
                                                         echo '<div style="display: inline"><button class="btn btn-default disabled">
@@ -532,9 +534,12 @@
         }
     </style>
     <style type="text/css">
-        .absence_head .col-md-6 div p{
+        .absence_head p{
             font-weight: bold;
             font-size: 15px;
+        }
+        .fa {
+            width: 20px;
         }
     </style>
 @endsection
