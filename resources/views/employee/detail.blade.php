@@ -35,9 +35,9 @@
                                     <div class="box-body box-profile">
                                         <img style="width: 130px;height: 130px;" class="profile-user-img img-responsive img-circle"
                                              src="@if(isset($employee->avatar))
-                                             {{asset('/files/'.$employee->avatar)}}
+                                             {{asset('/avatar/'.$employee->avatar)}}
                                              @else
-                                             {{asset('/files/default_avatar.png')}}
+                                             {{asset('/avatar/default_avatar.png')}}
                                              @endif"
                                              alt="User profile picture" style="width: 150px; height: 150px;">
 

@@ -413,51 +413,63 @@
         {{--<!-- code from trinhhunganh -->--}}
         @if(Auth::user()->hasRole('Dev'))
             <section>
-                <div class="row">
-                        <div class="box box-success">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Project Developer</h3>
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Project Developer</h3>
 
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                            <div class="box-body">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th style="width: 10px">{{trans('dashboard.stt')}}</th>
-                                        <th>{{trans('dashboard.name.project')}}</th>
-                                        <th>{{trans('dashboard.position')}}</th>
-                                        <th>{{trans('dashboard.start_date')}}</th>
-                                        <th>{{trans('dashboard.end_date')}}</th>
-                                        <th>{{trans('dashboard.po_name')}}</th>
-                                        <th>{{trans('dashboard.status')}}</th>
-                                    </tr>
-                                    @foreach($objmEmployee->processes as $key => $process)
-                                        @php
-                                            $idPO=\App\Models\Role::where('name','PO')->first();
-                                            $project=\App\Models\Project::find($process->project_id);
-                                            $status=\App\Models\Status::find($project->status)->first();
-                                            $idEmpPo=\App\Models\Process::select('employee_id')
-                                                                        ->where('project_id',$process->project_id)
-                                                                        ->where('role_id',$idPO->id)
-                                                                        ->first();
-                                        @endphp
-                                        <tr>
-                                            <td>{{$key}}</td>
-                                            <td>{{$project->name}}</td>
-                                            <td>{{$objmEmployee->role->name}}</td>
-                                            <td><span class="badge bg-red">{{$process->start_date}}</span></td>
-                                            <td><span class="badge bg-yellow">{{$process->end_date}}</span></td>
-                                            <td><span class="badge bg-light-blue">{{$name_po->name}}</span></td>
-                                            <td><span class="badge bg-green">{{$status->name}}</span></td>
-                                        </tr>
-                                    @endforeach
-                                </table>
-                            </div>
-                        </div>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 10px">{{trans('dashboard.stt')}}</th>
+                            <th>{{trans('dashboard.name.project')}}</th>
+                            <th>{{trans('dashboard.position')}}</th>
+                            <th>{{trans('dashboard.start_date')}}</th>
+                            <th>{{trans('dashboard.end_date')}}</th>
+                            <th>{{trans('dashboard.po_name')}}</th>
+                            <th>{{trans('dashboard.status')}}</th>
+                        </tr>
+                        @foreach($objmEmployee->processes as $key => $process)
+                            @php
+                                $idPO=\App\Models\Role::where('name','PO')->first();
+                                $project=\App\Models\Project::find($process->project_id);
+                                $status=\App\Models\Status::find($project->status)->first();
+                                $idEmpPo=\App\Models\Process::select('employee_id')
+                                                            ->where('project_id',$process->project_id)
+                                                            ->where('role_id',$idPO->id)
+                                                            ->first();
+                                if(isset($idEmpPo->employee_id)){
+                                    $name_po=\App\Models\Employee::find($idEmpPo->employee_id);
+                                }
+                            @endphp
+                            <tr>
+                                <td>{{$key}}</td>
+                                <td>{{$project->name}}</td>
+                                <td>{{$objmEmployee->role->name}}</td>
+                                <td><span class="">{{(isset($process->start_date))?$process->start_date->format('d-m-Y'):'-'}}</span></td>
+                                <td><span class="">{{(isset($process->end_date))?$process->end_date->format('d-m-Y'):'-'}}</span></td>
+                                <td><span class="">{{isset($name_po)?$name_po->name:'-'}}</span></td>
+                                <td>
+                                @if($status->name=='kick off')
+                                    <span class="label label-primary">{{$status->name}}</span>
+                                @elseif($status->name=='pending')
+                                    <span class="label label-success">{{$status->name}}</span>
+                                @elseif($status->name=='in-progress')
+                                    <span class="label label-info">{{$status->name}}</span>
+                                @elseif($status->name=='releasing')
+                                    <span class="label label-warning">{{$status->name}}</span>
+                                @elseif($status->name=='planning')
+                                    <span class="label label-danger">{{$status->name}}</span>
+                                @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </section>
         @endif <!-- endcode from trinhhunganh . -->

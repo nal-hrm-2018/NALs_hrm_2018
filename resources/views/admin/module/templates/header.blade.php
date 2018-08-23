@@ -99,9 +99,9 @@
               <li class="user-header">
 
                 <img src="@if(isset(Auth::user()->avatar))
-                {{asset('/files/'.Auth::user()->avatar)}}
+                {{asset('/avatar/'.Auth::user()->avatar)}}
                 @else
-                {{asset('/files/default_avatar.png')}}
+                {{asset('/avatar/default_avatar.png')}}
                 @endif" class="img-circle" alt="User Image">
 
                 <p>
