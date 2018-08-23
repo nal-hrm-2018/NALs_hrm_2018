@@ -76,6 +76,7 @@ return[
         'match_confirm_pass'=>'The confirm password and password must match.',
         'incorrect_old_pass'=>'Old password is incorrect!!!',
         'reset_success'=>'Password successfully edited!!!',
+        'repeat__pass'=>'Duplicate passwords with the password old!!!'
     ],
     'msg_edit'=>[
         'success'=>'Account successfully edited!!!',
