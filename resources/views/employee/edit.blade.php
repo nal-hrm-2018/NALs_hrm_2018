@@ -4,38 +4,52 @@
   * {box-sizing: border-box;}
 
   .container {
-    position: relative;
-    width: 50%;
-    max-width: 300px;
-    margin-right: 98px;
+      position: relative;
+      width: auto;
   }
 
   .image {
-    display: block;
-    width: 170px;
-    height: 170px;
+      display: block;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      border-radius: 50%;
   }
 
   .overlay {
-    position: absolute;
-    bottom: 0;
-    background: rgb(0, 0, 0);
-    background: rgba(0, 0, 0, 0.5); /* Black see-through */
-    color: #f1f1f1;
-    width: 100%;
-    transition: .5s ease;
-    opacity:0;
-    color: white;
-    font-size: 20px;
-    padding: 20px;
-    text-align: center;
+      position: absolute;
+      bottom: 0;
+      font-size: 12px;
+      background: rgb(0, 0, 0);
+      background: rgba(0, 0, 0, 0.5); / Black see-through /
+      color: #f1f1f1;
+      width: 100%;
+      transition: .5s ease;
+      opacity:0;
+      color: white;
+      font-size: 12px;
+      text-align: center;
   }
 
+  .form-group {
+      width: 90% !important;
+  }
 
   .container:hover .overlay {
-    opacity: 1;
-    font-size: 12px;
-    width: 170px;
+      opacity: 1;
+  }
+
+  input[type="file"] {
+      display: none;
+  }
+  .custom-file-upload {
+      width: 150px !important;
+      max-width: unset !important;
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 6px 12px;
+      cursor: pointer;
+
   }
 </style>
 <div class="content-wrapper">
@@ -82,16 +96,20 @@
        <input type="hidden" name="_token" value="{{ csrf_token() }}">
        <input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>
        <div class="row">
-         <div class="col-md-3">
+         <div class="col-md-4">
            <CENTER>
              <div class="container">
                <img src="@if(isset($objEmployee["avatar"]))
                             {{asset('/files/'.$objEmployee["avatar"])}}
                         @else
                             {{asset('/files/default_avatar.png')}}
-                        @endif" class="image" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" />
-               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*"/>
-               {{--{{ Form::file('picture',['class'=> 'form-control overlay','id'=> 'chooseimg']) }}--}}
+
+                        @endif" class="image img-circle profile-user-img" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" /><br>
+                <label for="chooseimg" class="custom-file-upload">
+                  <i class="fa fa-cloud-upload"></i>Upload avatar
+                </label>
+               <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV" accept="image/*"/>
+
              </div>
              <script type="text/javascript">
                  var file = document.getElementById('chooseimg');
@@ -109,12 +127,168 @@
              </script>
            </CENTER>
            <div style="margin-top: 20px;">
-             <CENTER><label>{{trans('employee.profile_info.avatar')}}</label></CENTER>
-             <label style="margin-left: 23px;color: red;" id="lb_error_name">{{$errors->first('picture')}}</label>
+             <label style="margin-left: 23px;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
+
            </div>
+          <center>
+            
+           <div>
+             @if(isset($objEmployee))
+               @if((\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"]) || (Auth::user()->hasRoleHR()))
+                 <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" style="margin-top:1.75em; color: white;">
+                   {{trans('common.button.edit_password')}}
+                 </button>
+                 <br />
+                 <label style="color: red;">
+                     <?php
+                     if (Session::has('error')){
+                         echo''.Session::get("error");
+                     }
+                     ?>
+                 </label>
+                 <div id="myModal" class="modal fade" role="dialog">
+                   <div class="modal-dialog">
+                     <form method="post" action="{{asset('employee/edit-password')}}" class="edit_pass" onsubmit="return validate();">
+                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                       <div class="modal-content">
+                         <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal">&times;</button>
+                           <h4 class="modal-title">{{trans('common.button.edit_password')}}</h4>
+                         </div>
+                         <div class="modal-body">
+                           <div class="row">
+                             <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                             </div>
+                             <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                               <div class="input-group margin">
+                                 <div class="input-group-btn">
+                                   <button type="button" class="btn width-130">{{trans('employee.profile_info.old_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;&ensp;</button>
+                                 </div>
+                                 <input type="password" name="old_pass" id="old_pass" class="form-control" onchange="oldPass()">
+                               </div>
+                               <label style="color: red; margin-left: 130px;" id="errorOldPass" style="display: inline;"></label>
+                               <div class="input-group margin">
+                                 <div class="input-group-btn">
+                                   <button type="button" class="btn width-130">{{trans('employee.profile_info.new_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;</button>
+                                 </div>
+                                 <input type="password" name="new_pass" id="new_pass" class="form-control"  onchange="newPass()">
+                               </div>
+                               <label style="color: red; margin-left: 130px;" id="errorNewPass"></label>
+                               <div class="input-group margin">
+                                 <div class="input-group-btn">
+                                   <button type="button" class="btn width-130">{{trans('employee.profile_info.password_confirm')}}<strong style="color: red">(*)</strong></button>
+                                 </div>
+                                 <input type="password" name="cf_pass" id="cf_pass" class="form-control" onchange="cfPass()">
+                               </div>
+                               <label style="color: red; margin-left: 130px;" id="errorCfPass"></label>
+                             </div>
+                           </div>
+                         </div>
+                         <div class="modal-footer center">
+                           <button id="btn_reset_edit_password" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                             {{trans('common.button.reset')}}
+                           </button>
+                           <button type="submit" id="searchListEmployee" class="btn btn-primary">
+                             {{trans('common.button.update')}}
+                           </button>
+                         </div>
+                       </div>
+                     </form>
+                     <script type="text/javascript">
+                         $(function () {
+                             $('#btn_reset_edit_password').click(function () {
+                                 $('#errorCfPass').empty();
+                                 $('#errorOldPass').empty();
+                                 $('#errorNewPass').empty();
+                             });
+                         })
+                         function validate(){
+                             var old_pass = document.getElementById("old_pass").value;
+                             var new_pass = document.getElementById("new_pass").value;
+                             var cf_pass = document.getElementById("cf_pass").value;
+                             var check = true;
+                             if(old_pass == ""){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
+                                 check =false;
+                             }else if(old_pass.length < 6){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
+                                 check = false;
+                             }else if(old_pass.length > 32){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.max_old_pass')}}";
+                                 check = false;
+                             }
+
+                             if(new_pass == ""){
+                                 document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.required_new_pass')}}";
+                                 check =false;
+                             }else if(new_pass.length < 6){
+                                 document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.min_new_pass')}}";
+                                 check = false;
+                             }else if(new_pass.length > 32){
+                                 document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.max_new_pass')}}";
+                                 check = false;
+                             }
+                             if(cf_pass == ""){
+                                 document.getElementById("errorCfPass").innerHTML = "{{trans('employee.valid_reset_password.required_confirm_pass')}}";
+                                 check =false;
+                             }else if(new_pass != cf_pass){
+                                 document.getElementById("errorCfPass").innerHTML = "{{trans('employee.valid_reset_password.match_confirm_pass')}}";
+                                 check = false;
+                             }
+                             return check;
+                         }
+                     </script>
+                     <script>
+                         function oldPass() {
+                             var x = document.getElementById("old_pass").value;
+                             if(x == ""){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
+                             } else if(x.length < 6){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
+                             }else{
+                                 document.getElementById("errorOldPass").innerHTML = "";
+                             }
+                         }
+                     </script>
+                     <script>
+                         function newPass() {
+                             var x = document.getElementById("new_pass").value;
+                             if(x == ""){
+                                 document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.required_new_pass')}}";
+                             } else
+                             if(x.length < 6){
+                                 document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.min_new_pass')}}";
+                             }else{
+                                 document.getElementById("errorNewPass").innerHTML = "";
+                             }
+                             var y = document.getElementById("cf_pass").value;
+                             if(x!=y){
+                                 document.getElementById("errorCfPass").innerHTML = "{{trans('employee.valid_reset_password.match_confirm_pass')}}";
+                             }else{
+                                 document.getElementById("errorCfPass").innerHTML = "";
+                             }
+                         }
+                     </script>
+                     <script>
+                         function cfPass() {
+                             var x = document.getElementById("new_pass").value;
+                             var y = document.getElementById("cf_pass").value;
+                             if(x != y){
+                                 document.getElementById("errorCfPass").innerHTML = "{{trans('employee.valid_reset_password.match_confirm_pass')}}";
+                             }else{
+                                 document.getElementById("errorCfPass").innerHTML = "";
+                             }
+                         }
+                     </script>
+                   </div>
+                 </div>
+               @endif
+             @endif
+            </div>
+          </center>
          </div>
          <!-- /.col -->
-         <div class="col-md-5">
+         <div class="col-md-4">
            <!-- /.form-group -->
            @php
              $statusRole="disabled";
@@ -134,19 +308,6 @@
              <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
              <!-- /.input group -->
            </div>
-
-           <div class="form-group">
-             <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
-             <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
-             <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
-             <!-- /.input group -->
-           </div>
-           <div class="form-group">
-             <label>{{trans('employee.profile_info.address')}}<strong style="color: red">(*)</strong></label>
-             <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.address')}}"  name="address" id="adress" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
-             <label id="lb_error_address" style="color: red;">{{$errors->first('address')}}</label>
-             <!-- /.input group -->
-           </div>
            <div class="form-group">
              <label>{{trans('employee.profile_info.phone')}}<strong style="color: red">(*)</strong></label>
              <div class="input-group">
@@ -159,15 +320,6 @@
              <!-- /.input group -->
            </div>
            <div class="form-group">
-             <label>{{trans('employee.profile_info.gender.title')}}<strong style="color: red">(*)</strong></label>
-             <select class="form-control select2" style="width: 100%;" name="gender" id="gender">
-               <option value="1" id="gender_1" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 1) echo'selected'; ?>>{{trans('employee.profile_info.gender.female')}}</option>
-               <option value="2" id="gender_2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>{{trans('employee.profile_info.gender.male')}}</option>
-               <option value="3" id="gender_3" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 3) echo'selected'; ?>>{{trans('employee.profile_info.gender.na')}}</option>
-             </select>
-             <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
-           </div>
-           <div class="form-group">
              <label>{{trans('employee.profile_info.marital_status.title')}}<strong style="color: red">(*)</strong></label>
              <select class="form-control select2" style="width: 100%;"  name="marital_status" id="marital_status">
                <option value="1" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 1) echo'selected'; ?>>{{trans('employee.profile_info.marital_status.single')}}</option>
@@ -176,6 +328,17 @@
                <option value="4" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 4) echo'selected'; ?>>{{trans('employee.profile_info.marital_status.divorced')}}</option>
              </select>
              <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
+           </div>
+           <div class="form-group">
+             <label>{{trans('employee.profile_info.birthday')}}<strong style="color: red">(*)</strong></label>
+             <div class="input-group date">
+               <div class="input-group-addon">
+                 <i class="fa fa-calendar"></i>
+               </div>
+               <input type="date" class="form-control pull-right" id="birthday" name="birthday" id="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
+             </div>
+             <label id="lb_error_birthday" style="color: red;">{{$errors->first('birthday')}}</label>
+             <!-- /.input group -->
            </div>
            <div class="form-group">
              <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br />
@@ -207,32 +370,28 @@
              {{--</select>--}}
              <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
            </div>
+         </div>
+         <div class="col-md-4">
            <div class="form-group">
-             <label>{{trans('employee.profile_info.birthday')}}<strong style="color: red">(*)</strong></label>
-             <div class="input-group date">
-               <div class="input-group-addon">
-                 <i class="fa fa-calendar"></i>
-               </div>
-               <input type="date" class="form-control pull-right" id="birthday" name="birthday" id="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
-             </div>
-             <label id="lb_error_birthday" style="color: red;">{{$errors->first('birthday')}}</label>
+             <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
+             <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+             <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
              <!-- /.input group -->
            </div>
            <div class="form-group">
-             <label>{{trans('employee.profile_info.position')}}<strong style="color: red">(*)</strong></label>
-             <select class="form-control select2" {{$statusRole}} style="width: 100%;" name="employee_type_id" id="employee_type_id">
-               <option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>
-                 <?php
-                 foreach($dataEmployeeTypes as $val){
-                     $selected = "";
-                     if($val["id"] == old('employee_type_id', isset($objEmployee["employee_type_id"]) ? $objEmployee["employee_type_id"] : null)){
-                         $selected = "selected";
-                     }
-                     echo'<option value="'.$val["id"].'" '.$selected.'>'.$val["name"].'</option>';
-                 }
-                 ?>
+             <label>{{trans('employee.profile_info.address')}}<strong style="color: red">(*)</strong></label>
+             <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.address')}}"  name="address" id="adress" value="{!! old('address', isset($objEmployee["address"]) ? $objEmployee["address"] : null) !!}">
+             <label id="lb_error_address" style="color: red;">{{$errors->first('address')}}</label>
+             <!-- /.input group -->
+           </div>
+           <div class="form-group">
+             <label>{{trans('employee.profile_info.gender.title')}}<strong style="color: red">(*)</strong></label>
+             <select class="form-control select2" style="width: 100%;" name="gender" id="gender">
+               <option value="1" id="gender_1" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 1) echo'selected'; ?>>{{trans('employee.profile_info.gender.female')}}</option>
+               <option value="2" id="gender_2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>{{trans('employee.profile_info.gender.male')}}</option>
+               <option value="3" id="gender_3" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 3) echo'selected'; ?>>{{trans('employee.profile_info.gender.na')}}</option>
              </select>
-             <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
+             <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
            </div>
            <div class="form-group">
              <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
@@ -250,205 +409,46 @@
              </select>
              <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
            </div>
-           <div class="row">
-             <div class="col-md-6">
-               <div class="form-group">
-                 <label>{{trans('employee.profile_info.start_work')}}<strong style="color: red">(*)</strong></label>
-                 <div class="input-group date">
-                   <div class="input-group-addon">
-                     <i class="fa fa-calendar"></i>
-                   </div>
-                   <input type="date" {{$statusRole}} class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
-                 </div>
-                 <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
+           <div class="form-group">
+             <label>{{trans('employee.profile_info.start_work')}}<strong style="color: red">(*)</strong></label>
+             <div class="input-group date">
+               <div class="input-group-addon">
+                 <i class="fa fa-calendar"></i>
                </div>
+               <input type="date" {{$statusRole}} class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
              </div>
-             <div class="col-md-6">
-               <div class="form-group">
-                 <label>{{trans('employee.profile_info.end_work')}}<strong style="color: red">(*)</strong></label>
-                 <div class="input-group date">
-                   <div class="input-group-addon">
-                     <i class="fa fa-calendar"></i>
-                   </div>
-                   <input type="date" {{$statusRole}} class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
-                 </div>
-                 <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
-                 <!-- /.input group -->
-               </div>
-             </div>
+             <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
            </div>
-           <div class="row">
-             <br />
-             <div class="col-md-3" style="margin-left: 100px;">
-               <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
-                 {{trans('common.button.reset')}}
-               </button>
+           <div class="form-group">
+             <label>{{trans('employee.profile_info.end_work')}}<strong style="color: red">(*)</strong></label>
+             <div class="input-group date">
+               <div class="input-group-addon">
+                 <i class="fa fa-calendar"></i>
+               </div>
+               <input type="date" {{$statusRole}} class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
              </div>
-             <div class="col-md-4">
-               <button type="submit" class="btn btn-primary">
-                 {{trans('common.button.save')}}
-               </button>
-             </div>
+             <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
+             <!-- /.input group -->
            </div>
          </div>
-         {{ Form::close() }}
-         <div class="col-md-4">
-           @if(isset($objEmployee))
-             @if((\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"]) || (Auth::user()->hasRoleHR()))
-               <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" style="margin-top:1.75em;">
-                 {{trans('common.button.edit_password')}}
-               </button>
-               <br />
-               <label style="color: red;">
-                   <?php
-                   if (Session::has('error')){
-                       echo''.Session::get("error");
-                   }
-                   ?>
-               </label>
-               <div id="myModal" class="modal fade" role="dialog">
-                 <div class="modal-dialog">
-                   <form method="post" action="{{asset('employee/edit-password')}}" class="edit_pass" onsubmit="return validate();">
-                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                     <div class="modal-content">
-                       <div class="modal-header">
-                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                         <h4 class="modal-title">{{trans('common.button.edit_password')}}</h4>
-                       </div>
-                       <div class="modal-body">
-                         <div class="row">
-                           <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                           </div>
-                           <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                             <div class="input-group margin">
-                               <div class="input-group-btn">
-                                 <button type="button" class="btn width-130">{{trans('employee.profile_info.old_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;&ensp;</button>
-                               </div>
-                               <input type="password" name="old_pass" id="old_pass" class="form-control" onchange="oldPass()">
-                             </div>
-                             <label style="color: red; margin-left: 130px;" id="errorOldPass" style="display: inline;"></label>
-                             <div class="input-group margin">
-                               <div class="input-group-btn">
-                                 <button type="button" class="btn width-130">{{trans('employee.profile_info.new_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;</button>
-                               </div>
-                               <input type="password" name="new_pass" id="new_pass" class="form-control"  onchange="newPass()">
-                             </div>
-                             <label style="color: red; margin-left: 130px;" id="errorNewPass"></label>
-                             <div class="input-group margin">
-                               <div class="input-group-btn">
-                                 <button type="button" class="btn width-130">{{trans('employee.profile_info.password_confirm')}}<strong style="color: red">(*)</strong></button>
-                               </div>
-                               <input type="password" name="cf_pass" id="cf_pass" class="form-control" onchange="cfPass()">
-                             </div>
-                             <label style="color: red; margin-left: 130px;" id="errorCfPass"></label>
-                           </div>
-                         </div>
-                       </div>
-                       <div class="modal-footer center">
-                         <button id="btn_reset_edit_password" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
-                           {{trans('common.button.reset')}}
-                         </button>
-                         <button type="submit" id="searchListEmployee" class="btn btn-primary">
-                           {{trans('common.button.update')}}
-                         </button>
-                       </div>
-                     </div>
-                   </form>
-                   <script type="text/javascript">
-                       $(function () {
-                           $('#btn_reset_edit_password').click(function () {
-                               $('#errorCfPass').empty();
-                               $('#errorOldPass').empty();
-                               $('#errorNewPass').empty();
-                           });
-                       })
-                       function validate(){
-                           var old_pass = document.getElementById("old_pass").value;
-                           var new_pass = document.getElementById("new_pass").value;
-                           var cf_pass = document.getElementById("cf_pass").value;
-                           var check = true;
-                           if(old_pass == ""){
-                               document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
-                               check =false;
-                           }else if(old_pass.length < 6){
-                               document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
-                               check = false;
-                           }else if(old_pass.length > 32){
-                               document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.max_old_pass')}}";
-                               check = false;
-                           }
-
-                           if(new_pass == ""){
-                               document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.required_new_pass')}}";
-                               check =false;
-                           }else if(new_pass.length < 6){
-                               document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.min_new_pass')}}";
-                               check = false;
-                           }else if(new_pass.length > 32){
-                               document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.max_new_pass')}}";
-                               check = false;
-                           }
-                           if(cf_pass == ""){
-                               document.getElementById("errorCfPass").innerHTML = "{{trans('employee.valid_reset_password.required_confirm_pass')}}";
-                               check =false;
-                           }else if(new_pass != cf_pass){
-                               document.getElementById("errorCfPass").innerHTML = "{{trans('employee.valid_reset_password.match_confirm_pass')}}";
-                               check = false;
-                           }
-                           return check;
-                       }
-                   </script>
-                   <script>
-                       function oldPass() {
-                           var x = document.getElementById("old_pass").value;
-                           if(x == ""){
-                               document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
-                           } else if(x.length < 6){
-                               document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
-                           }else{
-                               document.getElementById("errorOldPass").innerHTML = "";
-                           }
-                       }
-                   </script>
-                   <script>
-                       function newPass() {
-                           var x = document.getElementById("new_pass").value;
-                           if(x == ""){
-                               document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.required_new_pass')}}";
-                           } else
-                           if(x.length < 6){
-                               document.getElementById("errorNewPass").innerHTML = "{{trans('employee.valid_reset_password.min_new_pass')}}";
-                           }else{
-                               document.getElementById("errorNewPass").innerHTML = "";
-                           }
-                           var y = document.getElementById("cf_pass").value;
-                           if(x!=y){
-                               document.getElementById("errorCfPass").innerHTML = "{{trans('employee.valid_reset_password.match_confirm_pass')}}";
-                           }else{
-                               document.getElementById("errorCfPass").innerHTML = "";
-                           }
-                       }
-                   </script>
-                   <script>
-                       function cfPass() {
-                           var x = document.getElementById("new_pass").value;
-                           var y = document.getElementById("cf_pass").value;
-                           if(x != y){
-                               document.getElementById("errorCfPass").innerHTML = "{{trans('employee.valid_reset_password.match_confirm_pass')}}";
-                           }else{
-                               document.getElementById("errorCfPass").innerHTML = "";
-                           }
-                       }
-                   </script>
-                 </div>
-               </div>
-             @endif
-           @endif
-
-         </div>
+         
+         
        </div>
-
-     </div>
+       <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
+          <div class="col-md-6" style="display: inline; ">
+              <div style="float: right;">
+                  <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span
+                      class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
+                  </button>
+              </div>
+          </div>
+          <div class="col-md-1" style="display: inline;">
+              <div style="float: right;">
+                  <button type="submit" class="btn btn-info pull-left">{{ trans('common.button.save')}}</button>
+              </div>
+          </div>
+      </div>
+     {{ Form::close() }}
    <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
  </div>
  <!-- /.box-body -->
