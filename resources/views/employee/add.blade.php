@@ -230,6 +230,7 @@
                                     <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
                                     <!-- /.input group -->
                                 </div>
+                                
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br>
                                     {{--<select class="form-control select2" style="width: 100%;" name="team_id"--}}
