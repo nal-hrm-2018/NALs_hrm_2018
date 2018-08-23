@@ -185,8 +185,6 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <input id="number_record_per_page" type="hidden" name="number_record_per_page"
-                       value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
@@ -309,18 +307,20 @@
                                     </form>
                                 </div>
                                 <div class="dataTables_length" id="project-list_length" style="float:right">
-                                    <span>{{trans('pagination.show.number_record_per_page')}}</span>
-                                    {!! Form::select(
-                                        'select_length',
-                                        getArraySelectOption() ,
-                                        null ,
-                                        [
-                                        'id'=>'select_length',
-                                        'class' => 'form-control input-sm',
-                                        'aria-controls'=>"project-list"
-                                        ]
-                                        )
-                                     !!}
+                                    <select id="mySelect" onchange="myFunction()">
+                                        <option selected>Entries</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                    <script>
+                                        function myFunction() {
+                                            var x = document.getElementById("mySelect").value;
+                                            console.log(x);
+                                            $('#number_record_per_page').val(x);
+                                            $('#form_search_employee').submit()
+                                        }
+                                    </script>
                                 </div>
                             </div>
                             <script>
@@ -377,6 +377,8 @@
                                                         echo "<span class='label label-warning'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "HR"){
                                                         echo "<span class='label label-danger'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "ACCOUNTANT"){
+                                                        echo "<span class='label label-default'>". $employee->role->name ."</span>";
                                                     }
                                                 } else {
                                                     echo "-";
