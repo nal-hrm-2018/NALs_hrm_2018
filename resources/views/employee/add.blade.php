@@ -66,7 +66,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                     <div class="container">
-                                        <img src="{!! asset('/files/default_avatar.png') !!}" id="image" class="image"/>
+                                        <img src="{!! asset('/avatar/default_avatar.png') !!}" id="image" class="image"/>
                                         <input style="font-size: 12px;width: 150px;bottom: 0px;left: 50px;" type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
                                     </div>
                                 <script type="text/javascript">
@@ -143,6 +143,7 @@
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.gender.title')}}<strong style="color: red">(*)</strong></label>
                                     <select id="gender" class="form-control select2" style="width: 100%;" name="gender">
+                                        <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <option value="1"
                                         <?php
                                             if (old('gender') == 1) echo 'selected';
@@ -179,6 +180,7 @@
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.marital_status.title')}}<strong style="color: red">(*)</strong></label>
                                     <select id="married" class="form-control select2" style="width: 100%;" name="marital_status">
+                                        <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <option value="1"
                                         <?php
                                             if (old('marital_status') == 1) echo 'selected';
@@ -224,24 +226,6 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br>
-                                    {{--<select class="form-control select2" style="width: 100%;" name="team_id"--}}
-                                            {{--id="team_id">--}}
-                                        {{--<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>--}}
-<!--                                        --><?php
-//                                        foreach ($dataTeam as $val) {
-//                                            $selected = "";
-//                                            if ($val["id"] == old('team_id')) {
-//                                                $selected = "selected";
-//                                            }
-//                                            if (isset($employee)) {
-//                                                if ($employee->team_id == $val["id"]) {
-//                                                    $selected = "selected";
-//                                                }
-//                                            }
-//                                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . $val["name"] . '</option>';
-//                                        }
-//                                        ?>
-                                    {{--</select>--}}
                                     <?php
                                         foreach ($dataTeam as $val) {
                                             $selected = "";

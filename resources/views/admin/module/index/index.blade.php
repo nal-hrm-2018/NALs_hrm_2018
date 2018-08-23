@@ -192,7 +192,9 @@
                                                             ->where('project_id',$process->project_id)
                                                             ->where('role_id',$idPO->id)
                                                             ->first();
-                                $name_po=\App\Models\Employee::find($idEmpPo->employee_id);
+                                if(isset($idEmpPo->employee_id)){
+                                    $name_po=\App\Models\Employee::find($idEmpPo->employee_id);
+                                }
                             @endphp
                             <tr>
                                 <td>{{$key}}</td>
@@ -200,7 +202,7 @@
                                 <td>{{$objmEmployee->role->name}}</td>
                                 <td><span class="">{{$process->start_date->format('d-m-Y')}}</span></td>
                                 <td><span class="">{{$process->end_date->format('d-m-Y')}}</span></td>
-                                <td><span class="">{{$name_po->name}}</span></td>
+                                <td><span class="">{{isset($name_po)?$name_po->name:'-'}}</span></td>
                                 <td>
                                 @if($status->name=='kick off')
                                     <span class="label label-primary">{{$status->name}}</span>

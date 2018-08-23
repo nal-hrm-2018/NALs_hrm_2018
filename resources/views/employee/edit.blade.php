@@ -86,9 +86,9 @@
            <CENTER>
              <div class="container">
                <img src="@if(isset($objEmployee["avatar"]))
-                            {{asset('/files/'.$objEmployee["avatar"])}}
+                            {{asset('/avatar/'.$objEmployee["avatar"])}}
                         @else
-                            {{asset('/files/default_avatar.png')}}
+                            {{asset('/avatar/default_avatar.png')}}
                         @endif" class="image" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" />
                <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*"/>
                {{--{{ Form::file('picture',['class'=> 'form-control overlay','id'=> 'chooseimg']) }}--}}
