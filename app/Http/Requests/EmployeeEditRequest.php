@@ -45,7 +45,7 @@ class EmployeeEditRequest extends FormRequest
 //            'role_id' => 'required',
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
-            'picture' => 'max:5000'
+            'picture' => 'image|max:2048',
 //            'startwork_date' => 'required',
 //            'endwork_date' => 'required|after:startwork_date'
         ];
@@ -57,7 +57,10 @@ class EmployeeEditRequest extends FormRequest
             'email.required' => trans('validation.required', [
                 'attribute' => trans('employee.profile_info.email')
             ]),
-            'picture.max' => trans('validation.max.file'),
+            'picture.uploaded' => trans('validation.max.file',[
+                'attribute' => trans('employee.profile_info.picture'),
+                'max' => trans('employee.profile_info.max')
+            ]),
             'email.email' => trans('validation.email', [
                 'attribute' => trans('employee.profile_info.email')
             ]),

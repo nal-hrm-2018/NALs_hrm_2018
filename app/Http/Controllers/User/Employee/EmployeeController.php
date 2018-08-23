@@ -97,7 +97,7 @@ class EmployeeController extends Controller
             $file = Input::file('picture');
             if(strlen($file) > 0){
                 $picture= $file->getClientOriginalName();
-                $file->move('files',$picture);
+                $file->move('avatar',$picture);
                 $employee->avatar = $picture;
             }
         }
@@ -243,7 +243,7 @@ class EmployeeController extends Controller
             $file = Input::file('picture');
             if(strlen($file) > 0){
                 $picture= $file->getClientOriginalName();
-                $file->move('files',$picture);
+                $file->move('avatar',$picture);
                 $employee->avatar = $picture;
             }
         }
@@ -299,8 +299,9 @@ class EmployeeController extends Controller
             $employees->delete_flag = 1;
             $employees->save();
 
-            return redirect()->route('employee.index');
-//            return response(['msg' => 'Product deleted', 'status' => trans('common.delete.success'), 'id' => $id]);
+//          \Session::flash('msg_success', trans('employee.msg_add.success'));
+          //return redirect()->route('employee.index');
+          return response(['msg' => 'Product deleted', 'status' => trans('common.delete.success'), 'id' => $id]);
 
     }
 

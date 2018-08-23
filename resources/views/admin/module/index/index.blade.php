@@ -1,14 +1,421 @@
 @extends('admin.template')
 @section('content')
 
+    {{--start code by Dung--}}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <style>
+        .container-donut-chart {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            margin: 20px;
+            padding: 20px 0px;
+            background: white;
+            box-shadow: 0 0 10px #cacaca;
+            border-radius: 5px;
+        }
+
+        .child {
+            padding-bottom: 40px;
+        }
+
+        .font-size-28 {
+            font-size: 28px;
+        }
+
+        .font-size-20 {
+            font-size: 20px;
+        }
+
+        .donut-chart {
+            width: 250px;
+            height: 250px;
+        }
+
+        .text-legend {
+            display: inline-block;
+            width: 150px;
+            line-height: 2.0;
+        }
+
+        .highcharts-exporting-group {
+            display: none;
+        }
+
+        .highcharts-credits {
+            display:none;
+        }
+    </style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-         <section>
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <i class="fa fa-bar-chart-o"></i>
+        @if(Auth::user()->hasRole('HR'))
+            <section class="content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="box box-danger">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Total employees</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="child">
+                                        <div id="donut-chart1" class="donut-chart"></div>
+                                    <div>
+                                        <span class="text-legend">
+                                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                            Official employee
+                                        </span>
+                                        <span class="text-legend">
+                                            <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                           Probationary
+                                        </span><br>
+                                        <span class="text-legend">
+                                            <i class="fas fa-circle" style="color: #faa951;"></i>
+                                            Training employee
+                                        </span>
+                                        <span class="text-legend">
+                                            <i class="fas fa-circle" style="color: #e91d24;"></i>
+                                            Part-time employee
+                                        </span>
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                        {{--<div class="col-md-6">--}}
+                            {{--<div class="box box-danger">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title">Donut Chart</h3>--}}
 
-                    <h3 class="box-title">Donut Chart</h3>
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>--}}
+                                        {{--</button>--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="box-body">--}}
+                                    {{--<canvas id="pieChart" style="height: 267px; width: 534px;" width="534" height="267"></canvas>--}}
+                                    {{--<div class="child">--}}
+                                        {{--<span class="font-size-20"> New employee</span>--}}
+                                        {{--<div id="donut-chart2" class="donut-chart"></div>--}}
+                                        {{--<div>--}}
+                                {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #53cbf2;"></i>--}}
+                                    {{--5 PHP--}}
+                                {{--</span>--}}
+                                            {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #abe02a;"></i>--}}
+                                   {{--8 Java--}}
+                                {{--</span><br>--}}
+                                            {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #e91d24;"></i>--}}
+                                    {{--3 .NET--}}
+                                {{--</span>--}}
+                                            {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #faa951;"></i>--}}
+                                    {{--4 Python--}}
+                                {{--</span>--}}
+                                            {{--<span class="text-legend">--}}
+                                    {{--<i class="fas fa-circle" style="color: #333;"></i>--}}
+                                   {{--10 Khac--}}
+                                    {{--</span>--}}
+
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<!-- /.box-body -->--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    </div>
+
+                </section>
+
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/data.js"></script>
+            <script>
+                Highcharts.chart('donut-chart1', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: '<span style="font-size: 45px; font-weight: bold;">{{$sum}}</span><br><span style="font-size: 20px;">people</span>',
+                        align: 'center',
+                        verticalAlign: 'middle'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            innerSize: 150,
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: false
+                        }
+                    },
+                    series: [{
+                        name: 'Values',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Full-time',
+                            y: {{$sumFullTime}},
+                            color:'#53cbf2'
+                        }, {
+                            name: 'Probationary',
+                            y: {{$sumProbationary}},
+                            color:'#abe02a'
+                        }, {
+                            name: 'Internship',
+                            y: {{$sumInternship}},
+                            color:'#faa951'
+                        }, {
+                            name: 'Part-time',
+                            y: {{$sumPartTime}},
+                            color:'#e91d24',
+                        }  ]
+                    }]
+                });
+                // Highcharts.chart('donut-chart2', {
+                //     chart: {
+                //         plotBackgroundColor: null,
+                //         plotBorderWidth: null,
+                //         plotShadow: false,
+                //         type: 'pie'
+                //     },
+                //     title: {
+                //         text: null
+                //     },
+                //     subtitle: {
+                //         text: '<span style="font-size: 45px; font-weight: bold;">30</span><br><span style="font-size: 20px;">people</span>',
+                //         align: 'center',
+                //         verticalAlign: 'middle'
+                //     },
+                //     tooltip: {
+                //         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                //     },
+                //     plotOptions: {
+                //         pie: {
+                //             innerSize: 150,
+                //             allowPointSelect: true,
+                //             cursor: 'pointer',
+                //             dataLabels: {
+                //                 enabled: false
+                //             },
+                //             showInLegend: false
+                //         }
+                //     },
+                //     series: [{
+                //         name: 'Values',
+                //         colorByPoint: true,
+                //         data: [{
+                //             name: 'php',
+                //             y: 5,
+                //             color:'#53cbf2'
+                //         }, {
+                //             name: 'Java',
+                //             y: 8,
+                //             color:'#abe02a'
+                //         }, {
+                //             name: '. NET',
+                //             y: 3,
+                //             color:'#faa951'
+                //         }, {
+                //             name: 'Python',
+                //             y: 4,
+                //             color:'#e91d24',
+                //         }
+                //             , {
+                //                 name: 'Khac',
+                //                 y: 10,
+                //                 color:'#333'
+                //             }
+                //         ]
+                //     }]
+                // });
+            </script>
+        @endif
+        {{--end code by Dung--}}
+
+        @if(Auth::user()->hasRole('PO'))
+            <section>
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Project</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table no-margin">
+                                <thead>
+                                <tr>
+                                    <th>PROJECT ID</th>
+                                    <th>NAME</th>
+                                    <th>START DATE</th>
+                                    <th>ESTIMATE END DATE</th>
+                                    <th>STATUS</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($projects as $project)
+                                    <tr>
+                                        <td>{{$project->id}}</td>
+                                        <td>{{$project['name']}}</td>
+                                        <td>{{$project['start_date']->format('d-m-Y')}}</td>
+                                        @if($project['estimate_end_date']!=null)
+                                            <td>{{$project['estimate_end_date']->format('d-m-Y')}}</td>
+                                        @else
+                                            <td></td>
+                                        @endif
+                                        @if($project['status']['name']=='kick off')
+                                            <td><span class="label label-primary">{{$project['status']['name']}}</span></td>
+                                        @elseif($project['status']['name']=='pending')
+                                            <td><span class="label label-success">{{$project['status']['name']}}</span></td>
+                                        @elseif($project['status']['name']=='in-progress')
+                                            <td><span class="label label-info">{{$project['status']['name']}}</span></td>
+                                        @elseif($project['status']['name']=='releasing')
+                                            <td><span class="label label-warning">{{$project['status']['name']}}</span></td>
+                                        @elseif($project['status']['name']=='planning')
+                                            <td><span class="label label-danger">{{$project['status']['name']}}</span></td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Project</a>
+                </div>
+                <!-- /.box-footer -->
+                </div>
+            </section>
+            <section class="">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Processes</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table no-margin">
+                                <thead>
+                                <tr>
+                                    <th>PROJECT ID</th>
+                                    <th>NAME</th>
+                                    <th>ROLE</th>
+                                    <th>START DATE</th>
+                                    <th>ESTIMATE END DATE</th>
+                                    <th>STATUS</th>
+                                    <th>MEMBER<br>
+                                        <span class="label label-primary">PO</span>
+                                        <span class="label label-success">Dev</span>
+                                        <span class="label label-info">SM</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                $i=0;
+                                ?>
+                                @foreach($processes as $process)
+                                    <tr>
+                                        <td>{{$process['project_id']}}</td>
+                                        <td>{{$process['project']['name']}}</td>
+                                        @if($process['role']['name']=='Dev')
+                                            <td><span class="label label-success">{{$process['role']['name']}}</span></td>
+                                        @elseif($process['role']['name']=='ACCOUNTANT')
+                                            <td><span class="label label-danger">{{$process['role']['name']}}</span></td>
+                                        @elseif($process['role']['name']=='SM')
+                                            <td><span class="label label-info">{{$process['role']['name']}}</span></td>
+                                        @elseif($process['role']['name']=='PO')
+                                            <td><span class="label label-primary">{{$process['role']['name']}}</span></td>
+                                        @elseif($process['role']['name']=='HR')
+                                            <td><span class="label label-warnings">{{$process['role']['name']}}</span></td>
+                                        @endif
+                                        <td>{{$process['project']['start_date']->format('d-m-Y')}}</td>
+                                        @if($process['project']['estimate_end_date']!=null)
+                                            <td>{{$process['project']['estimate_end_date']->format('d-m-Y')}}</td>
+                                        @else
+                                            <td></td>
+                                        @endif
+                                        @if($process['project']['status']['name']=='kick off')
+                                            <td><span class="label label-primary">{{$process['project']['status']['name']}}</span></td>
+                                        @elseif($process['project']['status']['name']=='pending')
+                                            <td><span class="label label-success">{{$process['project']['status']['name']}}</span></td>
+                                        @elseif($process['project']['status']['name']=='in-progress')
+                                            <td><span class="label label-info">{{$process['project']['status']['name']}}</span></td>
+                                        @elseif($process['project']['status']['name']=='releasing')
+                                            <td><span class="label label-warning">{{$process['project']['status']['name']}}</span></td>
+                                        @elseif($process['project']['status']['name']=='planning')
+                                            <td><span class="label label-danger">{{$process['project']['status']['name']}}</span></td>
+                                        @endif
+                                        <td>
+                                            @foreach($projects_emp[$i] as $member)
+                                                @if($member->role->name =='Dev')
+                                                    <span class="label label-success">{{$member->employee->name}}</span>
+                                                @elseif($member->role->name =='ACCOUNTANT')
+                                                    <span class="label label-danger">{{$member->employee->name}}</span>
+                                                @elseif($member->role->name =='SM')
+                                                    <span class="label label-info">{{$member->employee->name}}</span>
+                                                @elseif($member->role->name =='PO')
+                                                    <span class="label label-primary">{{$member->employee->name}}</span>
+                                                @elseif($member->role->name =='HR')
+                                                    <span class="label label-warning">{{$member->employee->name}}</span>
+                                                @else
+                                                    <span class="label label-default">{{$member->employee->name}}</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $i++;
+                                    ?>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Processes</a>
+                </div>
+                <!-- /.box-footer -->
+                </div>
+            </section>
+        @endif
+        {{--<!-- code from trinhhunganh -->--}}
+        @if(Auth::user()->hasRole('Dev'))
+            <section>
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Project Developer</h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -16,511 +423,56 @@
                         <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                        <div id="donut-chart-1" style="height: 150px;"></div>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-                        <div id="donut-chart-2" style="height: 150px;"></div>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-                        <div id="donut-chart-3" style="height: 150px;"></div>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-                        <div id="donut-chart-4" style="height: 150px;"></div>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                        <div id="donut-chart-5" style="height: 150px;"></div>
-                    </div>
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 10px">{{trans('dashboard.stt')}}</th>
+                            <th>{{trans('dashboard.name.project')}}</th>
+                            <th>{{trans('dashboard.position')}}</th>
+                            <th>{{trans('dashboard.start_date')}}</th>
+                            <th>{{trans('dashboard.end_date')}}</th>
+                            <th>{{trans('dashboard.po_name')}}</th>
+                            <th>{{trans('dashboard.status')}}</th>
+                        </tr>
+                        @foreach($objmEmployee->processes as $key => $process)
+                            @php
+                                $idPO=\App\Models\Role::where('name','PO')->first();
+                                $project=\App\Models\Project::find($process->project_id);
+                                $status=\App\Models\Status::find($project->status)->first();
+                                $idEmpPo=\App\Models\Process::select('employee_id')
+                                                            ->where('project_id',$process->project_id)
+                                                            ->where('role_id',$idPO->id)
+                                                            ->first();
+                                if(isset($idEmpPo->employee_id)){
+                                    $name_po=\App\Models\Employee::find($idEmpPo->employee_id);
+                                }
+                            @endphp
+                            <tr>
+                                <td>{{$key}}</td>
+                                <td>{{$project->name}}</td>
+                                <td>{{$objmEmployee->role->name}}</td>
+                                <td><span class="">{{(isset($process->start_date))?$process->start_date->format('d-m-Y'):'-'}}</span></td>
+                                <td><span class="">{{(isset($process->end_date))?$process->end_date->format('d-m-Y'):'-'}}</span></td>
+                                <td><span class="">{{isset($name_po)?$name_po->name:'-'}}</span></td>
+                                <td>
+                                @if($status->name=='kick off')
+                                    <span class="label label-primary">{{$status->name}}</span>
+                                @elseif($status->name=='pending')
+                                    <span class="label label-success">{{$status->name}}</span>
+                                @elseif($status->name=='in-progress')
+                                    <span class="label label-info">{{$status->name}}</span>
+                                @elseif($status->name=='releasing')
+                                    <span class="label label-warning">{{$status->name}}</span>
+                                @elseif($status->name=='planning')
+                                    <span class="label label-danger">{{$status->name}}</span>
+                                @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
-
-            </div>
-        </section>
-        <!-- /.content -->
-
-        <!-- Content Wrapper. Contains page content -->
-
-        <!-- Content Header (Page header) -->
-       <section>
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                   
-                    <div class="box box-success">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Gender Chart</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="chart">
-                                <canvas id="barChart" style="height:230px"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <i class="fa fa-bar-chart-o"></i>
-
-                            <h3 class="box-title">Resource Chart</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div id="bar-chart" style="height: 235px;"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-         <section>
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
-                    <div class="box box-success">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Project Chart</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="chart">
-                                <canvas id="barChart-project" style="height:230px"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
-                    <div class="box box-success">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Total Cost Chart</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="chart">
-                                <canvas id="barChart-cost" style="height:230px"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-      <section>
-            <div class="row"  style="text-align: center;">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <i class="fa fa-bar-chart-o"></i>
-
-                            <h3 class="box-title">Recruitment Chart</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div id="bar-chart-recruitment" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
+        @endif <!-- endcode from trinhhunganh . -->
     </div>
-    <!-- /.content-wrapper -->
 
-    <!-- ./wrapper -->
-
-    <!-- jQuery 3 -->
-    <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="{!! asset('admin/templates/js/bower_components/jquery-ui/jquery-ui.min.js') !!}"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button);
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            var donutData = [
-                { label: 'Series2', data: 30, color: '#3c8dbc' },
-                { label: 'Series3', data: 20, color: '#0073b7' },
-                { label: 'Series4', data: 50, color: '#00c0ef' }
-            ]
-            $.plot('#donut-chart-1', donutData, {
-                series: {
-                    pie: {
-                        show       : true,
-                        radius     : 1,
-                        innerRadius: 0,
-                        label      : {
-                            show     : true,
-                            radius   : 2 / 3,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            })
-            $.plot('#donut-chart-2', donutData, {
-                series: {
-                    pie: {
-                        show       : true,
-                        radius     : 1,
-                        innerRadius: 0,
-                        label      : {
-                            show     : true,
-                            radius   : 2 / 3,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            })
-            $.plot('#donut-chart-3', donutData, {
-                series: {
-                    pie: {
-                        show       : true,
-                        radius     : 1,
-                        innerRadius: 0,
-                        label      : {
-                            show     : true,
-                            radius   : 2 / 3,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            })
-            $.plot('#donut-chart-4', donutData, {
-                series: {
-                    pie: {
-                        show       : true,
-                        radius     : 1,
-                        innerRadius: 0,
-                        label      : {
-                            show     : true,
-                            radius   : 2 / 3,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            })
-            $.plot('#donut-chart-5', donutData, {
-                series: {
-                    pie: {
-                        show       : true,
-                        radius     : 1,
-                        innerRadius: 0,
-                        label      : {
-                            show     : true,
-                            radius   : 2 / 3,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            })
-            /*
-               * project CHART
-               * ---------
-               */
-            var bar_data = {
-                data : [['Jan', 10], ['Feb', 8], ['Mar', 4], ['Apr', 13], ['May', 17], ['Jun', 9], ['Aug', 9], ['Sept', 2], ['Oct', 4], ['Nov', 5], ['Dec', 9]],
-                color: '#3c8dbc'
-            }
-            $.plot('#bar-chart', [bar_data], {
-                grid  : {
-                    borderWidth: 1,
-                    borderColor: '#f3f3f3',
-                    tickColor  : '#f3f3f3'
-                },
-                series: {
-                    bars: {
-                        show    : true,
-                        barWidth: 0.5,
-                        align   : 'center'
-                    }
-                },
-                xaxis : {
-                    mode      : 'categories',
-                    tickLength: 0
-                }
-            })
-            /* END project CHART */
-            /*
-            * recruitment CHART
-            * ---------
-            */
-            var bar_data = {
-                data : [['Jan', 10], ['Feb', 8], ['Mar', 4], ['Apr', 13], ['May', 17], ['Jun', 9], ['Aug', 9], ['Sept', 2], ['Oct', 4], ['Nov', 5], ['Dec', 9]],
-                color: '#3c8dbc'
-            }
-            $.plot('#bar-chart-recruitment', [bar_data], {
-                grid  : {
-                    borderWidth: 1,
-                    borderColor: '#f3f3f3',
-                    tickColor  : '#f3f3f3'
-                },
-                series: {
-                    bars: {
-                        show    : true,
-                        barWidth: 0.5,
-                        align   : 'center'
-                    }
-                },
-                xaxis : {
-                    mode      : 'categories',
-                    tickLength: 0
-                }
-            })
-            /* END project CHART */
-        })
-
-        function labelFormatter(label, series) {
-            return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
-                + label
-                + '<br>'
-                + Math.round(series.percent) + '%</div>'
-        }
-        /*chart bar*/
-        $(function () {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
-
-
-            var areaChartData = {
-                labels  : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sept','Oct','Nov','Dec'],
-                datasets: [
-                    {
-                        label               : 'Electronics',
-                        fillColor           : 'rgba(210, 214, 222, 1)',
-                        strokeColor         : 'rgba(210, 214, 222, 1)',
-                        pointColor          : 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor    : '#c1c7d1',
-                        pointHighlightFill  : '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data                : [65, 59, 80, 81, 56, 55, 40,10,50,70,20,40]
-                    },
-                    {
-                        label               : 'Digital Goods',
-                        fillColor           : 'rgba(60,141,188,0.9)',
-                        strokeColor         : 'rgba(60,141,188,0.8)',
-                        pointColor          : '#3b8bba',
-                        pointStrokeColor    : 'rgba(60,141,188,1)',
-                        pointHighlightFill  : '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : [28, 48, 40, 19, 86, 27, 90,80, 81, 56, 55, 20]
-                    }
-                ]
-            }
-
-            var areaChartOptions = {
-                //Boolean - If we should show the scale at all
-                showScale               : true,
-                //Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines      : false,
-                //String - Colour of the grid lines
-                scaleGridLineColor      : 'rgba(0,0,0,.05)',
-                //Number - Width of the grid lines
-                scaleGridLineWidth      : 1,
-                //Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-                //Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines  : true,
-                //Boolean - Whether the line is curved between points
-                bezierCurve             : true,
-                //Number - Tension of the bezier curve between points
-                bezierCurveTension      : 0.3,
-                //Boolean - Whether to show a dot for each point
-                pointDot                : false,
-                //Number - Radius of each point dot in pixels
-                pointDotRadius          : 4,
-                //Number - Pixel width of point dot stroke
-                pointDotStrokeWidth     : 1,
-                //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-                pointHitDetectionRadius : 20,
-                //Boolean - Whether to show a stroke for datasets
-                datasetStroke           : true,
-                //Number - Pixel width of dataset stroke
-                datasetStrokeWidth      : 2,
-                //Boolean - Whether to fill the dataset with a color
-                datasetFill             : true,
-                //String - A legend template
-                legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].lineColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-      //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-      maintainAspectRatio     : true,
-      //Boolean - whether to make the chart responsive to window resizing
-      responsive              : true
-    }
-    //-------------
-    //- SEX CHART -
-    //-------------
-    var barChartCanvas                   = $('#barChart').get(0).getContext('2d')
-    var barChart                         = new Chart(barChartCanvas)
-    var barChartData                     = areaChartData
-    barChartData.datasets[1].fillColor   = '#00a65a'
-    barChartData.datasets[1].strokeColor = '#00a65a'
-    barChartData.datasets[1].pointColor  = '#00a65a'
-    var barChartOptions                  = {
-      //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-      scaleBeginAtZero        : true,
-      //Boolean - Whether grid lines are shown across the chart
-      scaleShowGridLines      : true,
-      //String - Colour of the grid lines
-      scaleGridLineColor      : 'rgba(0,0,0,.05)',
-      //Number - Width of the grid lines
-      scaleGridLineWidth      : 1,
-      //Boolean - Whether to show horizontal lines (except X axis)
-      scaleShowHorizontalLines: true,
-      //Boolean - Whether to show vertical lines (except Y axis)
-      scaleShowVerticalLines  : true,
-      //Boolean - If there is a stroke on each bar
-      barShowStroke           : true,
-      //Number - Pixel width of the bar stroke
-      barStrokeWidth          : 2,
-      //Number - Spacing between each of the X value sets
-      barValueSpacing         : 5,
-      //Number - Spacing between data sets within X values
-      barDatasetSpacing       : 1,
-      //String - A legend template
-      legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-      //Boolean - whether to make the chart responsive
-      responsive              : true,
-      maintainAspectRatio     : true
-    }
-
-    barChartOptions.datasetFill = false
-    barChart.Bar(barChartData, barChartOptions)
-
-    //-------------
-    //- project CHART -
-    //-------------
-
-
-    var barChartCanvas                   = $('#barChart-project').get(0).getContext('2d')
-    var barChart                         = new Chart(barChartCanvas)
-    var barChartData                     = areaChartData
-    barChartData.datasets[1].fillColor   = '#00a65a'
-    barChartData.datasets[1].strokeColor = '#00a65a'
-    barChartData.datasets[1].pointColor  = '#00a65a'
-    var barChartOptions                  = {
-      //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-      scaleBeginAtZero        : true,
-      //Boolean - Whether grid lines are shown across the chart
-      scaleShowGridLines      : true,
-      //String - Colour of the grid lines
-      scaleGridLineColor      : 'rgba(0,0,0,.05)',
-      //Number - Width of the grid lines
-      scaleGridLineWidth      : 1,
-      //Boolean - Whether to show horizontal lines (except X axis)
-      scaleShowHorizontalLines: true,
-      //Boolean - Whether to show vertical lines (except Y axis)
-      scaleShowVerticalLines  : true,
-      //Boolean - If there is a stroke on each bar
-      barShowStroke           : true,
-      //Number - Pixel width of the bar stroke
-      barStrokeWidth          : 2,
-      //Number - Spacing between each of the X value sets
-      barValueSpacing         : 5,
-      //Number - Spacing between data sets within X values
-      barDatasetSpacing       : 1,
-      //String - A legend template
-      legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-      //Boolean - whether to make the chart responsive
-      responsive              : true,
-      maintainAspectRatio     : true
-    }
-
-    barChartOptions.datasetFill = false
-    barChart.Bar(barChartData, barChartOptions)
-    //-------------
-    //- cost CHART -
-    //-------------
-
-
-    var barChartCanvas                   = $('#barChart-cost').get(0).getContext('2d')
-    var barChart                         = new Chart(barChartCanvas)
-    var barChartData                     = areaChartData
-    barChartData.datasets[1].fillColor   = '#00a65a'
-    barChartData.datasets[1].strokeColor = '#00a65a'
-    barChartData.datasets[1].pointColor  = '#00a65a'
-    var barChartOptions                  = {
-      //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-      scaleBeginAtZero        : true,
-      //Boolean - Whether grid lines are shown across the chart
-      scaleShowGridLines      : true,
-      //String - Colour of the grid lines
-      scaleGridLineColor      : 'rgba(0,0,0,.05)',
-      //Number - Width of the grid lines
-      scaleGridLineWidth      : 1,
-      //Boolean - Whether to show horizontal lines (except X axis)
-      scaleShowHorizontalLines: true,
-      //Boolean - Whether to show vertical lines (except Y axis)
-      scaleShowVerticalLines  : true,
-      //Boolean - If there is a stroke on each bar
-      barShowStroke           : true,
-      //Number - Pixel width of the bar stroke
-      barStrokeWidth          : 2,
-      //Number - Spacing between each of the X value sets
-      barValueSpacing         : 5,
-      //Number - Spacing between data sets within X values
-      barDatasetSpacing       : 1,
-      //String - A legend template
-      legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-      //Boolean - whether to make the chart responsive
-      responsive              : true,
-      maintainAspectRatio     : true
-    }
-
-    barChartOptions.datasetFill = false
-    barChart.Bar(barChartData, barChartOptions)
-  })
-
-</script>
-<!-- Bootstrap 3.3.7 -->
 @endsection
