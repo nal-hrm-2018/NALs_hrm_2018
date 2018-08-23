@@ -85,7 +85,11 @@
                                     <th>START DATE</th>
                                     <th>ESTIMATE END DATE</th>
                                     <th>STATUS</th>
-                                    <th>MEMBER</th>
+                                    <th>MEMBER<br>
+                                        <span class="label label-primary">PO</span>
+                                        <span class="label label-success">Dev</span>
+                                        <span class="label label-info">SM</span>
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
