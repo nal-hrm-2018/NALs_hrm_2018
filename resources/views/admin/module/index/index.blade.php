@@ -444,7 +444,6 @@
                                                                         ->where('project_id',$process->project_id)
                                                                         ->where('role_id',$idPO->id)
                                                                         ->first();
-                                            $name_po=\App\Models\Employee::find($idEmpPo->employee_id);
                                         @endphp
                                         <tr>
                                             <td>{{$key}}</td>
