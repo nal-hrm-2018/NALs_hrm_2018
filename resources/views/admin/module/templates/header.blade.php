@@ -87,17 +87,22 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-
-
-              <img class="user-image" alt="User Image" src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" />
+              <img class="user-image" alt="User Image" src="@if(isset(Auth::user()->avatar))
+              {{asset('/files/'.Auth::user()->avatar)}}
+              @else
+              {{asset('/files/default_avatar.png')}}
+              @endif" />
               <span class="hidden-xs">{{trans('common.header.welcome')}} {{Auth::user()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
 
-                <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
+                <img src="@if(isset(Auth::user()->avatar))
+                {{asset('/files/'.Auth::user()->avatar)}}
+                @else
+                {{asset('/files/default_avatar.png')}}
+                @endif" class="img-circle" alt="User Image">
 
                 <p>
                   {{Auth::user()->name}} - {{isset(App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name)?App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name:"  "  }}

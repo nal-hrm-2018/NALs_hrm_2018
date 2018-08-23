@@ -49,6 +49,7 @@
       display: inline-block;
       padding: 6px 12px;
       cursor: pointer;
+
   }
 </style>
 <div class="content-wrapper">
@@ -102,11 +103,13 @@
                             {{asset('/files/'.$objEmployee["avatar"])}}
                         @else
                             {{asset('/files/default_avatar.png')}}
+
                         @endif" class="image img-circle profile-user-img" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" /><br>
                 <label for="chooseimg" class="custom-file-upload">
                   <i class="fa fa-cloud-upload"></i>Upload avatar
                 </label>
                <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV" accept="image/*"/>
+
              </div>
              <script type="text/javascript">
                  var file = document.getElementById('chooseimg');
@@ -122,19 +125,10 @@
                      }
                  });
              </script>
-             {{--<script>--}}
-                 {{--function myFunction() {--}}
-                     {{--var x = document.getElementById("myDIV");--}}
-                     {{--if (x.style.display === "block") {--}}
-                         {{--x.style.display = "none";--}}
-                     {{--} else {--}}
-                         {{--x.style.display = "block";--}}
-                     {{--}--}}
-                 {{--}--}}
-             {{--</script>--}}
            </CENTER>
            <div style="margin-top: 20px;">
              <label style="margin-left: 23px;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
+
            </div>
           <center>
             

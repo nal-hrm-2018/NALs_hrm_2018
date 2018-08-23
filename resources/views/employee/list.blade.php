@@ -29,11 +29,11 @@
                 {{trans('common.path.list_employee')}}
                 <small>Nal solution</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{asset('/employee')}}"> {{trans('common.path.employee')}}</a></li>
-                <li><a href="#">{{trans('common.path.list')}}</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+                {{--<li><a href="{{asset('/employee')}}"> {{trans('common.path.employee')}}</a></li>--}}
+                {{--<li><a href="#">{{trans('common.path.list')}}</a></li>--}}
+            {{--</ol>--}}
         </section>
 
         <section class="content-header" style="display: flex;  flex-direction: row-reverse;">
@@ -185,8 +185,6 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <input id="number_record_per_page" type="hidden" name="number_record_per_page"
-                       value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
@@ -236,14 +234,6 @@
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
                                                             </div>
                                                             <select name="team" id="team_employee" class="form-control">
-                                                                @if(!empty($_GET['team']))
-                                                                    <option selected="selected" {{'hidden'}}  value="">
-                                                                        {{$_GET['team']}}
-                                                                    </option>
-                                                                @else
-                                                                    <option selected="selected" value="">
-                                                                    {{  trans('employee.drop_box.placeholder-default') }}
-                                                                @endif
                                                                     <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
@@ -317,19 +307,20 @@
                                     </form>
                                 </div>
                                 <div class="dataTables_length" id="project-list_length" style="float:right">
-                                    <span>{{trans('pagination.show.number_record_per_page')}}</span>
-                                    {!! Form::select(
-                                        'select_length',
-                                        getArraySelectOption() ,
-                                        null ,
-                                        [
-                                        'id'=>'select_length',
-                                        'class' => 'form-control input-sm',
-                                        'aria-controls'=>"project-list"
-                                        ]
-                                        )
-                                     !!}
-
+                                    <select id="mySelect" onchange="myFunction()">
+                                        <option selected>Entries</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                    <script>
+                                        function myFunction() {
+                                            var x = document.getElementById("mySelect").value;
+                                            console.log(x);
+                                            $('#number_record_per_page').val(x);
+                                            $('#form_search_employee').submit()
+                                        }
+                                    </script>
                                 </div>
                             </div>
                             <script>
@@ -359,8 +350,6 @@
                                         data-employee-id="{{$employee->id}}">
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
-
-
                                         @php
                                             $arr_team = $employee->teams()->get();
                                             $string_team ="";
@@ -385,7 +374,11 @@
                                                     } else if($employee->role->name == "BA"){
                                                         echo "<span class='label label-info'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "ScrumMaster"){
-                                                        echo "<span class='label label-secondary'>". $employee->role->name ."</span>";
+                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "HR"){
+                                                        echo "<span class='label label-danger'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "ACCOUNTANT"){
+                                                        echo "<span class='label label-default'>". $employee->role->name ."</span>";
                                                     }
                                                 } else {
                                                     echo "-";
@@ -403,15 +396,14 @@
                                                 @else
                                                     <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
                                                 @endif
-                                            </p>
+                                            </p>  
                                         </td>
-                                        {{--<td style="text-align: center;width: 50px;">---}}
+                                        {{--<td style="text-align: center;width: 50px;">--}}
                                             {{--<!-- 1/8/hiddent_cmt-->--}}
                                             {{--<button type="button" class="btn btn-default cv-button">--}}
                                                 {{--<a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> CV</a>--}}
                                             {{--</button>--}}
                                         {{--</td>--}}
-
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                                             @if(Auth::user()->hasPermission('view_employee_basic'))
                                                 <li><a href="employee/{{$employee->id}}"><i

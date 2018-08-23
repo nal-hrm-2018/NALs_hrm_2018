@@ -24,6 +24,11 @@ class Process extends Model
         'delete_flag'
     ];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
+
     public function employee()
     {
         return $this->belongsTo('App\Models\Employee','employee_id');
