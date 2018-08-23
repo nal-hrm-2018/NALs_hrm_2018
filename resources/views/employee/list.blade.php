@@ -27,7 +27,7 @@
         <section class="content-header">
             <h1>
                 {{trans('common.path.list_employee')}}
-                <small>Nal solution</small>
+                <small>Nal solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
                 {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
