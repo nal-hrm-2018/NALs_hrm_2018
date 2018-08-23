@@ -49,6 +49,7 @@
             width: 310px;
         }
         .height-400{
+            border-top-color: #3c8dbc !important;
            height: 400px;
         }
         .highcharts-exporting-group {

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -35,13 +36,14 @@ class DashboardController extends Controller
             $leaved_employee = Employee::where('work_status','1')->get();
             $sum_leaved = count($leaved_employee);
 
-            $new_PHP = $this->countNewEmployeeTeam('PHP');
+//            this is the new employee in this month
+            $new_employee = Employee::WhereMonth(('startwork_date'),date('m'))
+                                    ->WhereYear(('startwork_date'),date('Y')) ->get();
+            $sum_new = count($new_employee);$new_PHP = $this->countNewEmployeeTeam('PHP');
             $new_DOTNET = $this->countNewEmployeeTeam('DOTNET');
             $new_iOS = $this->countNewEmployeeTeam('iOS');
             $new_Android = $this->countNewEmployeeTeam('Android');
             $new_Tester = $this->countNewEmployeeTeam('Tester');
-            $new_employee = Employee::Where('startwork_date','>','2018-07-30')->get();
-            $sum_new = count($new_employee);
             $new_others = $sum_new - $new_PHP - $new_DOTNET - $new_iOS - $new_Android - $new_Tester;
             return view('admin.module.index.index',[
                 'sumInternship' => $sumInternship,
@@ -166,7 +168,10 @@ class DashboardController extends Controller
     }
     public function countNewEmployeeTeam($team){
         $id_team = Team::select('id')->where('name',$team)->first();
-        $employee_team = Employee::where('employee_type_id',$id_team->id)->Where('startwork_date','>','2018-07-30')->get();
+        $employee_team = Employee::where('employee_type_id',$id_team->id)
+                ->WhereMonth(('startwork_date'),date('m'))
+                ->WhereYear(('startwork_date'),date('Y'))
+                ->get();
         $sum_team = count($employee_team);
         return $sum_team;
     }
