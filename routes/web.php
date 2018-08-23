@@ -191,6 +191,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
     Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');
     Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
+
+    Route::resource('ot', 'OT\OTController');
 });
 
 //cong list route cam pha'

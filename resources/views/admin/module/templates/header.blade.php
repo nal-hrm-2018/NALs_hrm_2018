@@ -13,10 +13,11 @@
         <span class="sr-only">Toggle navigation</span>
       </a>
 
+
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav" style="     flex-direction: row;">
           <li>
-            <div class="languages" style="margin-bottom:5px;">
+            <div class="languages" style="margin-top:12px;">
               <a href="{{route('setlanguaes','en')}}" lang="en" title="{{trans('common.language.en')}}">
                 {{ Html::image('admin/templates/images/Localization/en.png', 'a picture', [
               'class' => 'thumb',

@@ -39,7 +39,7 @@
                                              @else
                                              {{asset('/files/default_avatar.png')}}
                                              @endif"
-                                             alt="User profile picture">
+                                             alt="User profile picture" style="width: 150px; height: 150px;">
 
                                         <h3 class="profile-username text-center">{{$employee->name}}</h3>
 
