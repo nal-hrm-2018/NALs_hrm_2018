@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\EmployeeType;
 use App\Models\Process;
 use App\Models\Project;
 use Illuminate\Foundation\Console\EventMakeCommand;
@@ -17,9 +18,31 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function countEmployeeType($type){
+        $id_type = EmployeeType::select('id')->where('name',$type)->first();
+        $employee_type = Employee::where('employee_type_id',$id_type->id)->get();
+        $sum_type = count($employee_type);
+        return $sum_type;
+    }
     public function index()
     {
         $id_emp=Auth::user()->id;
+        if(Employee::find($id_emp)->hasRole('HR')){
+            $sumInternship = $this->countEmployeeType('Internship');
+            $sumFullTime = $this->countEmployeeType('FullTime');
+            $sumPartTime = $this->countEmployeeType('PartTime');
+//            $sumContractualEmp = $this->countEmployeeType('Contractual Employee');
+            $sumProbationary = $this->countEmployeeType('Probationary');
+            $sum = $sumInternship + $sumFullTime + $sumPartTime  + $sumProbationary;
+            return view('admin.module.index.index',[
+                'sumInternship' => $sumInternship,
+                'sumFullTime' => $sumFullTime,
+                'sumPartTime' => $sumPartTime,
+//                'sumContractualEmp' => $sumContractualEmp,
+                'sumProbationary' => $sumProbationary,
+                'sum' => $sum,
+            ]);
+        }
         if (Employee::find($id_emp)->hasRole('PO')){
             $projects= Project::where('status_id', '!=', 5)->with('status')->orderBy('status_id', 'desc')->get();
             $processes = Process::where('employee_id', $id_emp)->with('project','role','project.status')->get();
@@ -37,7 +60,6 @@ class DashboardController extends Controller
             return view('admin.module.index.index',[
                 'processes' => $processes,
                 'projects'=> $projects,
-                'role' => 'PO',
                 'projects_emp' => $projects_emp
             ]);
         }
@@ -118,5 +140,6 @@ class DashboardController extends Controller
     {
         return DB::table('employees')->where('id','=',$id)->first();
     }
+
 
 }
