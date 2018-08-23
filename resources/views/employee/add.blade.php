@@ -135,6 +135,7 @@
                                     <label id="lb_error_password_confirm" style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
                                     <!-- /.input group -->
                                 </div>
+                                
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.gender.title')}}<strong style="color: red">(*)</strong></label>
                                     <select id="gender" class="form-control select2" style="width: 100%;" name="gender">
