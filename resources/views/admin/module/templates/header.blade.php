@@ -88,9 +88,9 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img class="user-image" alt="User Image" src="@if(isset(Auth::user()->avatar))
-              {{asset('/files/'.Auth::user()->avatar)}}
+              {{asset('/avatar/'.Auth::user()->avatar)}}
               @else
-              {{asset('/files/default_avatar.png')}}
+              {{asset('/avatar/default_avatar.png')}}
               @endif" />
               <span class="hidden-xs">{{trans('common.header.welcome')}} {{Auth::user()->name}}</span>
             </a>
