@@ -277,6 +277,9 @@ class EmployeeController extends Controller
         if(!Hash::check($oldPass, $employee -> password)){
             return back()->with(['error' => trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $employee]);
         }else{
+            if($newPass == $oldPass){
+                return back()->with(['error' => trans('employee.valid_reset_password.repeat__pass'), 'employee' => $employee]);
+            }
             if($newPass != $cfPass){
                 return back()->with(['error' => trans('employee.valid_reset_password.match_confirm_pass'), 'employee' => $employee]);
             }else{
