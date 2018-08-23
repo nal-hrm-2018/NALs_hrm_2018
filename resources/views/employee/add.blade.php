@@ -85,7 +85,7 @@
                             <div class="col-md-3">
                                 <center>
                                     <div class="container">
-                                        <img src="{!! asset('/files/default_avatar.png') !!}" id="image" class="image"/><br>
+                                        <img src="{!! asset('/files/default_avatar.png') !!}" id="image" class="image img-circle profile-user-img"/><br>
                                         <label for="chooseimg" class="custom-file-upload">
                                             <i class="fa fa-cloud-upload"></i>Upload avatar
                                         </label>
@@ -382,9 +382,9 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-md-2" style="display: inline;">
+                            <div class="col-md-1" style="display: inline;">
                                 <div style="float: right;">
-                                    <button type="submit" class="btn btn-info pull-left">{{ trans('common.button.add')}}</button>
+                                    <button type="submit" class="btn btn-info">{{ trans('common.button.add')}}</button>
                                 </div>
                             </div>
                         </div>
