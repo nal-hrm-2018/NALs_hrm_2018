@@ -48,9 +48,8 @@
             margin: 0 auto;
             width: 310px;
         }
-        .height-400{
-            border-top-color: #3c8dbc !important;
-           height: 400px;
+        .height-350{
+           height: 350px;
         }
         .highcharts-exporting-group {
             display: none;
@@ -66,16 +65,16 @@
             <section class="content">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="box box-danger height-400">
+                            <div class="box box-danger">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">{{trans('employee.type.type')}}</h3>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
                                     </div>
                                 </div>
-                                <div class="box-body">
+                                <div class="box-body height-350">
                                     <div class="child">
                                         <div id="donut-chart1" class="donut-chart"></div>
                                     <div class="width-310">
@@ -108,10 +107,10 @@
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
                                     </div>
                                 </div>
-                                <div class="box-body">
+                                <div class="box-body height-350">
                                     <div class="child">
                                         <div id="donut-chart2" class="donut-chart"></div>
                                         <div class="width-150">
@@ -137,10 +136,10 @@
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
                                     </div>
                                 </div>
-                                <div class="box-body">
+                                <div class="box-body height-350">
                                     <div class="child">
                                         <div id="donut-chart3" class="donut-chart"></div>
                                         <div  class="width-310">
