@@ -62,12 +62,12 @@
   @if(\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"])
       <h1>
         {{trans('common.path.edit_profile')}}
-        <small>Nal Solutions</small>
+        <small>NAL Solutions</small>
       </h1>
     @else
       <h1>
         {{trans('common.path.edit_employee')}}
-        <small>Nal Solutions</small>
+        <small>NAL Solutions</small>
       </h1>
   @endif
 
