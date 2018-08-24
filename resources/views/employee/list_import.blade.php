@@ -14,7 +14,7 @@
         <section class="content-header">
             <h1>
                 Employee List
-                <small>Nal solution</small>
+                <small>Nal Solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
                 {{--<li><a href="#"><i class="fa fa-dashboard"></i> Employee</a></li>--}}
