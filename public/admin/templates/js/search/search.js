@@ -3,10 +3,10 @@ $(document).ready(function () {
     if(window.location.href.indexOf("?")== -1){
         $("#iconSearch").addClass("glyphicon-chevron-down");
     }
-    if(window.location.href.indexOf("?")!= -1){
-        $("#iconSearch").addClass("glyphicon-chevron-up");
-        $("#demo").addClass("in");
-    }
+    // if(window.location.href.indexOf("?")!= -1){
+    //     $("#iconSearch").addClass("glyphicon-chevron-up");
+    //     $("#demo").addClass("in");
+    // }
 });
 $(function () {
     $('#clickCollapse').click(function () {
