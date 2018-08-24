@@ -265,7 +265,6 @@
            <div class="form-group">
              <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
              <select class="form-control select2" {{$statusRole}} style="width: 100%;" name="role_id" id="role_id">
-               <option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>
                  <?php
                  foreach($dataRoles as $val){
                      $selected = "";
