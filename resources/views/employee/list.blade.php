@@ -123,6 +123,9 @@
                         if (!empty($value['page'])) {
                             $page = $value['page'];
                         }
+                        if (!empty($value['number_record_per_page'])) {
+                            $number_record_per_page = $value['number_record_per_page'];
+                        }
                     }
                     ?>
                     <SCRIPT LANGUAGE="JavaScript">
@@ -209,24 +212,25 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.id')}}</button>
                                                             </div>
-                                                            {{ Form::text('id', old('id'),
-                                                                ['class' => 'form-control',
-                                                                'id' => 'employeeId',
-                                                                'autofocus' => false,
-                                                                ])
-                                                            }}
+                                                            <input type="text" name="id" id="employeeId" class="form-control" value="{{$id}}">
+                                                            {{--{{ Form::text('id', old('id'),--}}
+                                                                {{--['class' => 'form-control',--}}
+                                                                {{--'id' => 'employeeId',--}}
+                                                                {{--'autofocus' => false,--}}
+                                                                {{--])--}}
+                                                            {{--}}--}}
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
                                                             </div>
-                                                            {{--<input type="text" name="name" id="nameEmployee" class="form-control">--}}
-                                                            {{ Form::text('name', old('name'),
-                                                                ['class' => 'form-control',
-                                                                'id' => 'nameEmployee',
-                                                                'autofocus' => false,
-                                                                ])
-                                                            }}
+                                                            <input type="text" name="name" id="nameEmployee" class="form-control" value="{{$name}}">
+                                                            {{--{{ Form::text('name', old('name'),--}}
+                                                                {{--['class' => 'form-control',--}}
+                                                                {{--'id' => 'nameEmployee',--}}
+                                                                {{--'autofocus' => false,--}}
+                                                                {{--])--}}
+                                                            {{--}}--}}
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
@@ -249,7 +253,7 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.email')}}</button>
                                                             </div>
-                                                            <input type="text" name="email" id="emailEmployee" class="form-control">
+                                                            <input type="text" name="email" id="emailEmployee" class="form-control" value="{{$email}}" >
                                                             {{--{{ Form::text('email', old('email'),--}}
                                                                 {{--['class' => 'form-control',--}}
                                                                 {{--'id' => 'emailEmployee',--}}
@@ -306,11 +310,11 @@
                                     </form>
                                 </div>
                                 <div class="dataTables_length" id="project-list_length" style="float:right">
-                                    <select id="mySelect" onchange="myFunction()">
-                                        <option selected>Entries</option>
-                                        <option value="20">20</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
+                                    <label class="lable-entries">{{trans('pagination.show.number_record_per_page')}}</label><br />
+                                    <select class="input-entries" id="mySelect" onchange="myFunction()">
+                                        <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
+                                        <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
+                                        <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
                                     </select>
                                     <script>
                                         function myFunction() {
