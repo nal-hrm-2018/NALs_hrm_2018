@@ -456,7 +456,10 @@ class EmployeeController extends Controller
                 $employee->employee_type_id = $objEmployeeType->id;
                 $c++;
                 $objTeam = Team::select('name', 'id')->where('name', 'like', $data[$c])->first();
-                $employee->team_id = $objTeam->id;
+
+
+
+//                $employee->team_id = $objTeam->id;
                 $c++;
                 $objRole = Role::select('name', 'id')->where('name', 'like', $data[$c])->first();
                 $employee->role_id = $objRole->id;
@@ -464,6 +467,10 @@ class EmployeeController extends Controller
                 $employee->created_at = new DateTime();
                 $employee->delete_flag = 0;
                 $employee->save();
+                $employeeteam = new EmployeeTeam;
+                $employeeteam->team_id=$objTeam->id;
+                $employeeteam->employee_id=$employee->id;
+                $employeeteam->save();
             }
         }
         if (file_exists($urlFile)) {
