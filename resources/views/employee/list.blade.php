@@ -311,8 +311,8 @@
                                     </form>
                                 </div>
                                 <div class="dataTables_length" id="project-list_length" style="float:right">
-                                    <label style="font-size: 13px;">Show entries</label><br />
-                                    <select id="mySelect" onchange="myFunction()">
+                                    <label class="lable-entries">{{trans('pagination.show.number_record_per_page')}}</label><br />
+                                    <select class="input-entries" id="mySelect" onchange="myFunction()">
                                         <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
                                         <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
                                         <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
