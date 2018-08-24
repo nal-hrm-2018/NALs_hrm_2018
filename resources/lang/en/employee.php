@@ -90,7 +90,7 @@ return[
         'match_confirm_pass'=>'The Confirm Password and New Password must match.',
         'incorrect_old_pass'=>'Old password is incorrect!!!',
         'reset_success'=>'Password successfully edited!!!',
-        'repeat__pass'=>'Duplicate passwords with the password old!!!'
+        'repeat__pass'=>'Your new password is too similar to your current password'
     ],
     'msg_edit'=>[
         'success'=>'Account successfully edited!!!',

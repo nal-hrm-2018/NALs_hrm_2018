@@ -90,7 +90,7 @@ return[
         'match_confirm_pass'=>'Mật khẩu nhập lại phải trùng với mật khẩu mới.',
         'incorrect_old_pass'=>'Mật khẩu cũ không đúng!!!',
         'reset_success'=>'Thay đổi mật khẩu thành công!!!',
-        'repeat__pass'=>'Mật khẩu trùng với mật khẩu củ'
+        'repeat__pass'=>'Mật khẩu mới trùng với mật khẩu cũ'
     ],
     'msg_edit'=>[
         'success'=>'Chỉnh sửa thành công!!!',
