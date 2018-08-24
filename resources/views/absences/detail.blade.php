@@ -15,7 +15,7 @@
         <section class="content-header">
             <h1>
                 Chi tiết vắng nghỉ
-                <small>Nal solutions</small>
+                <small>Nal Solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
                 {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Trang chủ</a></li>--}}

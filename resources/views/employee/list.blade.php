@@ -27,7 +27,7 @@
         <section class="content-header">
             <h1>
                 {{trans('common.path.list_employee')}}
-                <small>Nal solutions</small>
+                <small>Nal Solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
                 {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
@@ -311,11 +311,11 @@
                                     </form>
                                 </div>
                                 <div class="dataTables_length" id="project-list_length" style="float:right">
+                                    <label style="font-size: 13px;">Show entries</label><br />
                                     <select id="mySelect" onchange="myFunction()">
-                                        <option selected>Entries</option>
-                                        <option value="20">20</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
+                                        <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
+                                        <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
+                                        <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
                                     </select>
                                     <script>
                                         function myFunction() {
