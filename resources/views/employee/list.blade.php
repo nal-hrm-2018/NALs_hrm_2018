@@ -124,6 +124,9 @@
                         if (!empty($value['page'])) {
                             $page = $value['page'];
                         }
+                        if (!empty($value['number_record_per_page'])) {
+                            $number_record_per_page = $value['number_record_per_page'];
+                        }
                     }
                     ?>
                     <SCRIPT LANGUAGE="JavaScript">
@@ -210,24 +213,25 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.id')}}</button>
                                                             </div>
-                                                            {{ Form::text('id', old('id'),
-                                                                ['class' => 'form-control',
-                                                                'id' => 'employeeId',
-                                                                'autofocus' => false,
-                                                                ])
-                                                            }}
+                                                            <input type="text" name="id" id="employeeId" class="form-control" value="{{$id}}">
+                                                            {{--{{ Form::text('id', old('id'),--}}
+                                                                {{--['class' => 'form-control',--}}
+                                                                {{--'id' => 'employeeId',--}}
+                                                                {{--'autofocus' => false,--}}
+                                                                {{--])--}}
+                                                            {{--}}--}}
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
                                                             </div>
-                                                            {{--<input type="text" name="name" id="nameEmployee" class="form-control">--}}
-                                                            {{ Form::text('name', old('name'),
-                                                                ['class' => 'form-control',
-                                                                'id' => 'nameEmployee',
-                                                                'autofocus' => false,
-                                                                ])
-                                                            }}
+                                                            <input type="text" name="name" id="nameEmployee" class="form-control" value="{{$name}}">
+                                                            {{--{{ Form::text('name', old('name'),--}}
+                                                                {{--['class' => 'form-control',--}}
+                                                                {{--'id' => 'nameEmployee',--}}
+                                                                {{--'autofocus' => false,--}}
+                                                                {{--])--}}
+                                                            {{--}}--}}
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
@@ -250,7 +254,7 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.email')}}</button>
                                                             </div>
-                                                            <input type="text" name="email" id="emailEmployee" class="form-control">
+                                                            <input type="text" name="email" id="emailEmployee" class="form-control" value="{{$email}}" >
                                                             {{--{{ Form::text('email', old('email'),--}}
                                                                 {{--['class' => 'form-control',--}}
                                                                 {{--'id' => 'emailEmployee',--}}
