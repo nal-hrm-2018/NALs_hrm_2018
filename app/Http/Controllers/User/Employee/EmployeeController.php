@@ -84,7 +84,7 @@ class EmployeeController extends Controller
         $employee = new Employee;
         $employee->email = $request->email;
         $employee->password = bcrypt($request->password);
-        $employee->name = $request->name;
+        $employee->name = preg_replace('/\s+/', ' ',$request->name);
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
