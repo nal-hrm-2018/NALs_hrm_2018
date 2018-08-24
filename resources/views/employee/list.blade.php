@@ -99,6 +99,7 @@
                     @endif
                     <?php
                     $id = null; $name = null; $team = null; $role = null; $email = null; $statusExport = null; $page=1;
+                    $number_record_per_page = null;
                     $arrays[] = $_GET;
                     foreach ($arrays as $key => $value) {
                         if (!empty($value['id'])) {
@@ -170,7 +171,7 @@
                     <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                         <a id="export"
                            style="color: darkviolet;"
-                           href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">
+                           href="{{asset('export').'?'.'number_record_per_page='.$number_record_per_page.'&id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">
                             <i class="glyphicon glyphicon-export"></i>
                             <span id="contain-canvas" style="">
                                 <canvas id="my_canvas" width="16" height="16" style=""></canvas>
