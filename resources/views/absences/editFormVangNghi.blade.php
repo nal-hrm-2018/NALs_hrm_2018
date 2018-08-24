@@ -5,6 +5,7 @@
     <section class="content-header">
       <h1>
         <strong>Phiếu Vắng Nghỉ</strong>
+        <small>NAL Solutions</small>
       </h1>
       {{--<ol class="breadcrumb">--}}
         {{--<li><a href="/"><i class="fa fa-dashboard"></i> Trang chủ</a></li>--}}
