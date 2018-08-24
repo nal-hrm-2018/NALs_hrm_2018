@@ -5,7 +5,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                <h4 class="modal-title">{{  trans('common.title_header.employee_detail') }}</h4>
+                {{  trans('common.title_header.employee_detail') }}
+                <small>Nal Solutions</small>
             </h1>
 
             {{--<ol class="breadcrumb">--}}
