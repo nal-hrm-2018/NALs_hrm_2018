@@ -37,6 +37,7 @@ return [
         'import' => 'IMPORT',
         'export' => 'EXPORT',
         'template' => 'TEMPLATE',
+        'reset_password'=>'RESET PASSWORD',
         'edit_password'=>'EDIT PASSWORD',
         'reopen'=> 'Reopen',
         'back' => 'BACK',

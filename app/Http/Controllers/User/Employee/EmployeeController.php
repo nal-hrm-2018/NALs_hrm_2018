@@ -268,29 +268,31 @@ class EmployeeController extends Controller
             return back()->with(['employee' => $employee]);
         }
     }
-    public function editPass(Request $request)
+    public function editPass(Request $request, $id)
     {
         $employee = Employee::find(\Illuminate\Support\Facades\Auth::user()->id);
-        $oldPass = $request -> old_pass;
+        $ojbEmployee = Employee::Where('id',$id)->first();
         $newPass = $request -> new_pass;
         $cfPass = $request -> cf_pass;
-        if(!Hash::check($oldPass, $employee -> password)){
-            return back()->with(['error' => trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $employee]);
-        }else{
-            if($newPass == $oldPass){
-                return back()->with(['error' => trans('employee.valid_reset_password.repeat__pass'), 'employee' => $employee]);
+        if (!Auth::user()->hasRoleHR()) {
+            $oldPass = $request -> old_pass;
+            if (!Hash::check($oldPass, $ojbEmployee->password)) {
+                return back()->with(['error' => trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $ojbEmployee]);
             }
-            if($newPass != $cfPass){
-                return back()->with(['error' => trans('employee.valid_reset_password.match_confirm_pass'), 'employee' => $employee]);
-            }else{
-                if (strlen($newPass) < 6) {
-                    return back()->with(['error' => trans('employee.valid_reset_password.min_new_pass'), 'employee' => $employee]);
-                }else {
-                    $employee->password = bcrypt($newPass);
-                    $employee->save();
-                    \Session::flash('msg_success', trans('employee.valid_reset_password.reset_success'));
-                    return redirect('employee/'.$employee->id.'/edit');
-                }
+            if($newPass == $oldPass){
+                return back()->with(['error' => trans('employee.valid_reset_password.repeat__pass'), 'employee' => $ojbEmployee]);
+            }
+        }
+        if($newPass != $cfPass){
+            return back()->with(['error' => trans('employee.valid_reset_password.match_confirm_pass'), 'employee' => $ojbEmployee]);
+        }else{
+            if (strlen($newPass) < 6) {
+                return back()->with(['error' => trans('employee.valid_reset_password.min_new_pass'), 'employee' => $ojbEmployee]);
+            }else {
+                $ojbEmployee->password = bcrypt($newPass);
+                $ojbEmployee->save();
+                \Session::flash('msg_success', trans('employee.valid_reset_password.reset_success'));
+                return redirect('employee/'.$ojbEmployee->id.'/edit');
             }
         }
     }
