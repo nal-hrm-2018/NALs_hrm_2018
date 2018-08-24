@@ -45,7 +45,7 @@
                     @endif
                     @if(Auth::user()->hasRoleHR())
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
-                        <a style="color: darkviolet;"><i class="fa fa-users"></i> {{trans('common.button.import')}}</a>
+                        <a style="color: darkviolet;"><i class="glyphicon glyphicon-import"></i> {{trans('common.button.import')}}</a>
                     </button>
                      @endif
                     <div id="import" class="modal fade" role="dialog">
@@ -169,7 +169,7 @@
                         <a id="export"
                            style="color: darkviolet;"
                            href="{{asset('export').'?'.'id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">
-                            <i class="fa fa-vcard"></i>
+                            <i class="glyphicon glyphicon-export"></i>
                             <span id="contain-canvas" style="">
                                 <canvas id="my_canvas" width="16" height="16" style=""></canvas>
                             </span>
