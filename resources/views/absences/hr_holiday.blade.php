@@ -118,13 +118,13 @@
 
     <!-- Attachment Modal -->
     <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modal" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-sm" role="document" style="width: 50%;">
             <div class="modal-content">
                 <div class="modal-body" id="attachment-body-content">
                     <form id="edit-form" class="form-horizontal" method="POST" action="{{asset('holiday')}}">
                         @csrf
                         <input name="_method" value="PUT" type="hidden">
-                        <div class="card text-white bg-dark mb-0">
+                        <div class="card text-white bg-dark mb-0" style="margin: 20px;">
                             <div class="card-header">
                                 <h2 class="m-0">{{trans('holiday.edit')}}</h2>
                             </div>
@@ -180,7 +180,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            {!! Form::submit(trans('holiday.update'),['class'=> 'btn btn-primary form-control']) !!}
+                            {!! Form::submit(trans('holiday.update'),
+                            ['class'=> 'btn btn-info form-control submit-modal']) !!}
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans('holiday.close')}}</button>
                         </div>
                     </form>
@@ -188,6 +189,11 @@
             </div>
         </div>
     </div>
+    <style type="text/css">
+        .submit-modal {
+            width: fit-content;
+        }
+    </style>
     <!-- /Attachment Modal -->
     <script>
         $(".holiday-delete").on("submit", function(){
