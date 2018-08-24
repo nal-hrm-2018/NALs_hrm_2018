@@ -5,7 +5,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                <h4 class="modal-title">{{  trans('common.title_header.employee_detail') }}</h4>
+                {{  trans('common.title_header.employee_detail') }}
+                <small>Nal Solutions</small>
             </h1>
 
             {{--<ol class="breadcrumb">--}}
@@ -53,8 +54,8 @@
                             <div class="col-md-7">
                                 <div class="box box-primary">
                                     <div class="row">
-                                        <div class="col-md-12" style="margin-left: 20px;>
-                                            <h2 class="profile-username text-center">{{trans('employee.profile_info.title')}}</h2>
+                                        <div class="col-md-12" style="margin-left: 20px;">
+                                            <h2 class="profile-username">{{trans('employee.profile_info.title')}}</h2>
                                             <p>{{trans('employee.profile_info.name')}}:
                                                 <strong>{{$employee->name}}</strong></p>
                                             <p>{{trans('employee.profile_info.gender.title')}}:

@@ -51,6 +51,10 @@
       cursor: pointer;
 
   }
+
+  .width-165 {
+    width: 165px !important;
+  }
 </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -58,10 +62,12 @@
   @if(\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"])
       <h1>
         {{trans('common.path.edit_profile')}}
+        <small>Nal Solutions</small>
       </h1>
     @else
       <h1>
         {{trans('common.path.edit_employee')}}
+        <small>Nal Solutions</small>
       </h1>
   @endif
 
@@ -312,7 +318,7 @@
       </div>
      {{ Form::close() }}
          <div id="myModal" class="modal fade" role="dialog">
-             <div class="modal-dialog">
+             <div class="modal-dialog" style="width: 50%;">
                  <form method="post" action="{{asset('employee/edit-password')}}" class="edit_pass" onsubmit="return validate();">
                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
                      <div class="modal-content">
@@ -327,21 +333,21 @@
                                  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                      <div class="input-group margin">
                                          <div class="input-group-btn">
-                                             <button type="button" class="btn width-130">{{trans('employee.profile_info.old_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;&ensp;</button>
+                                             <button type="button" class="btn btn-default width-165">{{trans('employee.profile_info.old_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;&ensp;</button>
                                          </div>
                                          <input type="password" name="old_pass" id="old_pass" class="form-control" onchange="oldPass()">
                                      </div>
                                      <label style="color: red; margin-left: 130px;" id="errorOldPass" style="display: inline;"></label>
                                      <div class="input-group margin">
                                          <div class="input-group-btn">
-                                             <button type="button" class="btn width-130">{{trans('employee.profile_info.new_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;</button>
+                                             <button type="button" class="btn btn-default width-165">{{trans('employee.profile_info.new_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;</button>
                                          </div>
                                          <input type="password" name="new_pass" id="new_pass" class="form-control"  onchange="newPass()">
                                      </div>
                                      <label style="color: red; margin-left: 130px;" id="errorNewPass"></label>
                                      <div class="input-group margin">
                                          <div class="input-group-btn">
-                                             <button type="button" class="btn width-130">{{trans('employee.profile_info.password_confirm')}}<strong style="color: red">(*)</strong></button>
+                                             <button type="button" class="btn btn-default width-165">{{trans('employee.profile_info.password_confirm')}}<strong style="color: red">(*)</strong></button>
                                          </div>
                                          <input type="password" name="cf_pass" id="cf_pass" class="form-control" onchange="cfPass()">
                                      </div>
@@ -353,7 +359,7 @@
                              <button id="btn_reset_edit_password" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                  {{trans('common.button.reset')}}
                              </button>
-                             <button type="submit" id="searchListEmployee" class="btn btn-primary">
+                             <button type="submit" id="searchListEmployee" class="btn btn-info">
                                  {{trans('common.button.update')}}
                              </button>
                          </div>

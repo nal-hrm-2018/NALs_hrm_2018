@@ -9,10 +9,10 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 @for ($i = $min_year; $i <= $max_year+1; $i++)
-                    <a class="dropdown-item" href="javascript:void(0)" onclick="searchTableYear(this.innerHTML)">{{$i}}</a>
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="searchTableYear(this.innerHTML)" style="color: #333; display: block; background: #ededed;">{{$i}}</a>
                 @endfor
                 <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0)" onclick="searchTableYear('all')">All</a>
+                <a class="dropdown-item" style="color: #333; display: block; background: #ededed;" href="javascript:void(0)" onclick="searchTableYear('all')">All</a>
             </div>
         </div>
         <input id="year_now" value="{{$year_now}}" hidden>
