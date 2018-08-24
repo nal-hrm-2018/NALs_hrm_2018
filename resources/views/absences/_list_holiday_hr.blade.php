@@ -1,3 +1,13 @@
+<style type="text/css">
+    tr td {
+        vertical-align: middle !important; 
+    }
+
+    tr th {
+        vertical-align: middle !important; 
+    }
+</style>
+
 <div class="main-container container-fluid">
     <div class="input-group col-md-4">
         <input class="form-control" id="search" placeholder="Search name of holiday" name="s" autocomplete="off"
@@ -7,13 +17,24 @@
                     id="yearSelector">
                 Year
             </button>
-            <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-menu dropdown-menu-right" style="background: #ededed; min-width: unset;">
                 @for ($i = $min_year; $i <= $max_year+1; $i++)
-                    <a class="dropdown-item" href="javascript:void(0)" onclick="searchTableYear(this.innerHTML)" style="color: #333; display: block; background: #ededed;">{{$i}}</a>
+                    <a class="dropdown-item select-year" href="javascript:void(0)" onclick="searchTableYear(this.innerHTML)">{{$i}}</a>
                 @endfor
                 <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" style="color: #333; display: block; background: #ededed;" href="javascript:void(0)" onclick="searchTableYear('all')">All</a>
+                <a class="dropdown-item select-year" href="javascript:void(0)" onclick="searchTableYear('all')">All</a>
             </div>
+            <style type="text/css">
+                .select-year {
+                    color: #333; 
+                    display: block; 
+                    padding: 10px 20px;
+                }
+
+                .select-year:hover {
+                    background: white;
+                }
+            </style>
         </div>
         <input id="year_now" value="{{$year_now}}" hidden>
     </div>
