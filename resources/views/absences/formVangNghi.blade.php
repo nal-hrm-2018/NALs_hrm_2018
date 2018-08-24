@@ -4,8 +4,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <strong>Phiếu Vắng Nghỉ</strong>
-        <small>Nal Solutions</small>
+        Phiếu Vắng Nghỉ
+        <small>NAL Solutions</small>
       </h1>
       {{--<ol class="breadcrumb">--}}
         {{--<li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>--}}

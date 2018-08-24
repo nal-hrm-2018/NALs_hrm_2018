@@ -6,7 +6,7 @@
         <section class="content-header">
             <h1>
                 {{  trans('common.title_header.employee_detail') }}
-                <small>Nal Solutions</small>
+                <small>NAL Solutions</small>
             </h1>
 
             {{--<ol class="breadcrumb">--}}

@@ -6,13 +6,13 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li>
           <a href="{{route('dashboard-user')}}">
-            <i class="fa fa-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
+            <i class="glyphicon glyphicon-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
           @if(Auth::user()->hasPermission('view_list_employee')||Auth::user()->hasPermission('add_new_employee'))
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>{{trans('leftbar.nav.employee')}}</span>
+            <i class="glyphicon glyphicon-user"></i> <span>{{trans('leftbar.nav.employee')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -67,7 +67,7 @@
         {{--</li>--}}
         {{--<li class="treeview">--}}
           {{--<a href="#">--}}
-            {{--<i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.absence')}}</span>--}}
+            {{--<i class="glyphicon glyphicon-calendar"></i> <span>{{trans('leftbar.nav.absence')}}</span>--}}
             {{--<span class="pull-right-container">--}}
               {{--<i class="fa fa-angle-left pull-right"></i>--}}
             {{--</span>--}}
@@ -91,7 +91,7 @@
 
         <li class="treeview">
           <a href="#">
-            <i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.absence')}}</span>
+            <i class="glyphicon glyphicon-calendar"></i> <span>{{trans('leftbar.nav.absence')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

@@ -15,7 +15,7 @@
         <section class="content-header">
             <h1>
                 {{trans('common.title_header.absence_list')}}
-                <small>Nal Solutions</small>
+                <small>NAL Solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
                 {{--<li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
@@ -28,8 +28,8 @@
         <section class="content-header">
             <div style="float:right; background-color: #ECF0F5; height: 50px;">
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
-                @include("absences._export_hr_absence")
-            </ol>
+                    @include("absences._export_hr_absence")
+                </ol>
             </div>
         </section>
         {{--table data project--}}
