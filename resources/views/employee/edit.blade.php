@@ -250,7 +250,12 @@
          <div class="col-md-4">
            <div class="form-group">
              <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
+            @if($statusRole <> "")
              <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+            @endif
+           @if($statusRole == "")
+               <input type="text" class="form-control" required placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+           @endif
              <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
              <!-- /.input group -->
            </div>
@@ -290,7 +295,12 @@
                <div class="input-group-addon">
                  <i class="fa fa-calendar"></i>
                </div>
+              @if($statusRole <> "")
                <input type="date" {{$statusRole}} class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
+             @endif
+             @if($statusRole == "")
+                  <input type="date" required class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
+             @endif
              </div>
              <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
            </div>
@@ -300,8 +310,12 @@
                <div class="input-group-addon">
                  <i class="fa fa-calendar"></i>
                </div>
-               <input type="date" {{$statusRole}} class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
-             </div>
+                 @if($statusRole <> "")
+                   <input type="date" {{$statusRole}} class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
+                 @endif
+                 @if($statusRole == "")
+                   <input type="date" required class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
+                 @endif
              <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
              <!-- /.input group -->
            </div>
