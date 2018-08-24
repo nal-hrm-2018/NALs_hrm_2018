@@ -232,7 +232,7 @@ class EmployeeController extends Controller
             $employee->employee_type_id = $request->employee_type_id;
         }
 
-        $employee->name = $request->name;
+        $employee->name = preg_replace('/\s+/', ' ',$request->name);
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
