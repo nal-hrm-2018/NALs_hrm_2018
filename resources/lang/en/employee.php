@@ -17,7 +17,7 @@ return[
         'type'=>'Employee Type',
         'official'=>'Official ',
         'probationary'=>'Probationary',
-        'training'=>'Training',
+        'internship'=>'Internship',
         'part-time'=>'Part-time'
     ],
     'profile_info'=>[

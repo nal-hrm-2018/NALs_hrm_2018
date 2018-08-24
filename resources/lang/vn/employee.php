@@ -17,7 +17,7 @@ return[
         'type'=>'Loại Nhân Viên',
         'official'=>'Chính thức ',
         'probationary'=>'Thử việc',
-        'training'=>'Hoc việc',
+        'internship'=>'Hoc việc',
         'part-time'=>'Bán thời gian'
     ],
     'profile_info'=>[

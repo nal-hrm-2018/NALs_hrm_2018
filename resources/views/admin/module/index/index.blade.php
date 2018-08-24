@@ -88,7 +88,7 @@
                                         </span><br>
                                         <span class="text-legend width-150">
                                             <i class="fas fa-circle" style="color: #faa951;"></i>
-                                            {{trans('employee.type.training')}}
+                                            {{trans('employee.type.internship')}}
                                         </span>
                                         <span class="text-legend width-150">
                                             <i class="fas fa-circle" style="color: #00a65a;"></i>
@@ -225,19 +225,19 @@
                         name: 'Values',
                         colorByPoint: true,
                         data: [{
-                            name: 'Full-time',
+                            name: '{{trans('employee.type.official')}}',
                             y: {{$sumFullTime}},
                             color:'#53cbf2'
                         }, {
-                            name: 'Probationary',
+                            name: '{{trans('employee.type.probationary')}}',
                             y: {{$sumProbationary}},
                             color:'#abe02a'
                         }, {
-                            name: 'Internship',
+                            name: '{{trans('employee.type.internship')}}',
                             y: {{$sumInternship}},
                             color:'#faa951'
                         }, {
-                            name: 'Part-time',
+                            name: ' {{trans('employee.type.part-time')}}',
                             y: {{$sumPartTime}},
                             color:'#00a65a',
                         }  ]
@@ -276,11 +276,11 @@
                         name: 'Values',
                         colorByPoint: true,
                         data: [{
-                            name: 'Active',
+                            name: '{{trans('employee.status.active')}}',
                             y: {{$sum}}-{{$sum_leaved}},
                             color:'#53cbf2'
                         }, {
-                            name: 'Leaved',
+                            name: '{{trans('employee.status.leaved')}}',
                             y: {{$sum_leaved}},
                             color:'#abe02a'
                         }
