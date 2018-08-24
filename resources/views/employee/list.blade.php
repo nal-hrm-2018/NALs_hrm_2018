@@ -7,7 +7,6 @@
  */ ?>
 @extends('admin.template')
 @section('content')
-
 <style>
     .file-upload {
         width: 100%;
