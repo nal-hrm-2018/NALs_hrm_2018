@@ -15,7 +15,7 @@
         <section class="content-header">
             <h1>
                 {{trans('common.title_header.absence_list_holiday')}}
-                <small>Nal Solutions</small>
+                <small>NAL Solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
                 {{--<li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}

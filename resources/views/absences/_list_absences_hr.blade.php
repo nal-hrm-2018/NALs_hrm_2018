@@ -24,113 +24,112 @@
         });
     })();
 </script>
-
-<table id="hr-absence-list" class="table table-bordered table-striped">
-    <thead>
-    <style type="text/css">
-        .list-project tr td {
-            vertical-align: middle !important;
-        }
-    </style>
-    <tr class="list-project">
-        <th colspan="4"></th>
-        <th class="text-center project-center" colspan="3">{{trans('absence.number_of_days_off')}}</th>
-        <th colspan="2"></th>
-    </tr>
-    <tr class="list-project">
-        <th class="text-center project-center">{{trans('common.name.employee_name')}}</th>
-        <th class="text-center project-center">{{trans('employee.profile_info.email')}}</th>
-        <th class="text-center project-center">{{trans('absence.total_date_absences')}}</th>
-        <th class="text-center project-center">{{trans('absence.last_year_absences_date')}}</th>
-
-        <th class="text-center project-center">{{trans('absence.absented_date')}}</th>
-        <th class="text-center project-center">{{trans('absence.non_salary_date')}}</th>
-        <th class="text-center project-center">{{trans('absence.insurance_date')}}</th>
-
-        <th class="text-center project-center">{{trans('absence.subtract_salary_date')}}</th>
-        <th class="text-center project-center">{{trans('absence.remaining_date')}}</th>
-    </tr>
-    </thead>
-
-    <style type="text/css">
-        .list-project tr td {
-            vertical-align: middle !important;
-        }
-    </style>
-    <tbody class="context-menu list-project">
-
-    @foreach($list_absences as $employee)
-        <tr class="employee-menu" id="employee-id-{{$employee['id']}}" data-employee-id="{{$employee['id']}}">
-            <td
-                    {{checkExpiredPolicy(
-                                $employee['id'],
-                                empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
-                                empty(request()->get('month_absence'))?null:request()->get('month_absence')
-                            )?"style=background-color:red":''
-                    }}
-            >{{ $employee[trans('common.name.employee_name')]}}</td>
-
-            <input  type="hidden"
-                   name="absences[{{$employee['id']}}][{{ trans('common.name.employee_name')}}]"
-                   value="{{$employee[trans('common.name.employee_name')]}}">
-
-            <td>{{$employee[trans('employee.profile_info.email')]}}</td>
-
-            <input  type="hidden"
-                    name="absences[{{$employee['id']}}][{{ trans('employee.profile_info.email')}}]"
-                    value="{{$employee[trans('employee.profile_info.email')]}}">
-
-            <td>{{$employee[trans('absence.total_date_absences')] }}</td>
-
-            <input  type="hidden"
-                    name="absences[{{$employee['id']}}][{{ trans('absence.total_date_absences') }}]"
-                    value="{{$employee[trans('absence.total_date_absences')] }}">
-
-            <td>{{$employee[trans('absence.last_year_absences_date')]}}</td>
-
-            <input  type="hidden"
-                    name="absences[{{$employee['id']}}][{{trans('absence.last_year_absences_date')}}]"
-                    value="{{$employee[trans('absence.last_year_absences_date')]}}">
-
-            <td>{{$employee[trans('absence.absented_date')]}}</td>
-
-            <input  type="hidden"
-                    name="absences[{{$employee['id']}}][{{trans('absence.absented_date')}}]"
-                    value="{{$employee[trans('absence.absented_date')]}}">
-
-            <td>{{$employee[trans('absence.non_salary_date')]}}</td>
-
-            <input  type="hidden"
-                    name="absences[{{$employee['id']}}][{{trans('absence.non_salary_date')}}]"
-                    value="{{$employee[trans('absence.non_salary_date')]}}">
-
-            <td>{{$employee[trans('absence.insurance_date')]}}</td>
-
-            <input  type="hidden"
-                    name="absences[{{$employee['id']}}][{{trans('absence.insurance_date')}}]"
-                    value="{{$employee[trans('absence.insurance_date')]}}">
-
-            <td>{{$employee[trans('absence.subtract_salary_date')]}}</td>
-
-            <input  type="hidden"
-                    name="absences[{{$employee['id']}}][{{trans('absence.subtract_salary_date')}}]"
-                    value="{{$employee[trans('absence.subtract_salary_date')]}}">
-
-            <td>{{$employee[trans('absence.remaining_date')]}}</td>
-
-            <input  type="hidden"
-                    name="absences[{{$employee['id']}}][{{trans('absence.remaining_date')}}]"
-                    value="{{$employee[trans('absence.remaining_date')]}}">
-
-            <ul class="contextMenu" data-employee-id="{{$employee['id']}}" hidden>
-                <li><a href={{route('absences.show',$employee['id'])}}><i
-                                class="fa fa-id-card"></i> {{trans('common.action.view')}}
-                    </a></li>
-            </ul>
+    <table id="hr-absence-list" class="table table-bordered table-striped">
+        <thead>
+        <style type="text/css">
+            .list-project th {
+                vertical-align: middle !important;
+            }
+        </style>
+        <tr class="list-project">
+            <th colspan="4"></th>
+            <th class="text-center project-center" colspan="3">{{trans('absence.number_of_days_off')}}</th>
+            <th colspan="2"></th>
         </tr>
-    @endforeach
-    </tbody>
-</table>
-<div class="container-pagination pagina">
+        <tr class="list-project">
+            <th class="text-center project-center">{{trans('common.name.employee_name')}}</th>
+            <th class="text-center project-center">{{trans('employee.profile_info.email')}}</th>
+            <th class="text-center project-center">{{trans('absence.total_date_absences')}}</th>
+            <th class="text-center project-center">{{trans('absence.last_year_absences_date')}}</th>
+
+            <th class="text-center project-center">{{trans('absence.absented_date')}}</th>
+            <th class="text-center project-center">{{trans('absence.non_salary_date')}}</th>
+            <th class="text-center project-center">{{trans('absence.insurance_date')}}</th>
+
+            <th class="text-center project-center">{{trans('absence.subtract_salary_date')}}</th>
+            <th class="text-center project-center">{{trans('absence.remaining_date')}}</th>
+        </tr>
+        </thead>
+
+        <style type="text/css">
+            .list-project td {
+                vertical-align: middle !important;
+            }
+        </style>
+        <tbody class="context-menu list-project">
+
+        @foreach($list_absences as $employee)
+            <tr class="employee-menu" id="employee-id-{{$employee['id']}}" data-employee-id="{{$employee['id']}}">
+                <td
+                        {{checkExpiredPolicy(
+                                    $employee['id'],
+                                    empty(request()->get('year_absence'))?date('Y'):request()->get('year_absence'),
+                                    empty(request()->get('month_absence'))?null:request()->get('month_absence')
+                                )?"style=background-color:red":''
+                        }}
+                >{{ $employee[trans('common.name.employee_name')]}}</td>
+
+                <input  type="hidden"
+                       name="absences[{{$employee['id']}}][{{ trans('common.name.employee_name')}}]"
+                       value="{{$employee[trans('common.name.employee_name')]}}">
+
+                <td>{{$employee[trans('employee.profile_info.email')]}}</td>
+
+                <input  type="hidden"
+                        name="absences[{{$employee['id']}}][{{ trans('employee.profile_info.email')}}]"
+                        value="{{$employee[trans('employee.profile_info.email')]}}">
+
+                <td>{{$employee[trans('absence.total_date_absences')] }}</td>
+
+                <input  type="hidden"
+                        name="absences[{{$employee['id']}}][{{ trans('absence.total_date_absences') }}]"
+                        value="{{$employee[trans('absence.total_date_absences')] }}">
+
+                <td>{{$employee[trans('absence.last_year_absences_date')]}}</td>
+
+                <input  type="hidden"
+                        name="absences[{{$employee['id']}}][{{trans('absence.last_year_absences_date')}}]"
+                        value="{{$employee[trans('absence.last_year_absences_date')]}}">
+
+                <td>{{$employee[trans('absence.absented_date')]}}</td>
+
+                <input  type="hidden"
+                        name="absences[{{$employee['id']}}][{{trans('absence.absented_date')}}]"
+                        value="{{$employee[trans('absence.absented_date')]}}">
+
+                <td>{{$employee[trans('absence.non_salary_date')]}}</td>
+
+                <input  type="hidden"
+                        name="absences[{{$employee['id']}}][{{trans('absence.non_salary_date')}}]"
+                        value="{{$employee[trans('absence.non_salary_date')]}}">
+
+                <td>{{$employee[trans('absence.insurance_date')]}}</td>
+
+                <input  type="hidden"
+                        name="absences[{{$employee['id']}}][{{trans('absence.insurance_date')}}]"
+                        value="{{$employee[trans('absence.insurance_date')]}}">
+
+                <td>{{$employee[trans('absence.subtract_salary_date')]}}</td>
+
+                <input  type="hidden"
+                        name="absences[{{$employee['id']}}][{{trans('absence.subtract_salary_date')}}]"
+                        value="{{$employee[trans('absence.subtract_salary_date')]}}">
+
+                <td>{{$employee[trans('absence.remaining_date')]}}</td>
+
+                <input  type="hidden"
+                        name="absences[{{$employee['id']}}][{{trans('absence.remaining_date')}}]"
+                        value="{{$employee[trans('absence.remaining_date')]}}">
+
+                <ul class="contextMenu" data-employee-id="{{$employee['id']}}" hidden>
+                    <li><a href={{route('absences.show',$employee['id'])}}><i
+                                    class="fa fa-id-card"></i> {{trans('common.action.view')}}
+                        </a></li>
+                </ul>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+<div class="container-pagination pagina" style="float: right;">
     {{ $employees->links() }}
 </div>
