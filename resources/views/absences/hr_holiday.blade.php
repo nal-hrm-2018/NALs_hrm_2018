@@ -37,12 +37,13 @@
                 return confirm('{{trans("holiday.add-question")}}' +name+ '{{trans("holiday.add-question-end")}}');
             }
         </script>
-        <section class="content-header">
-            <h4>Thêm Ngày Nghỉ</h4>
-        </section>
-        <div style="margin: 15px; padding: 20px; width: 100%;">
+        <div>
+            <section class="content-header">
+                <h4>Thêm Ngày Nghỉ</h4>
+            </section>
             <form action="{{asset('holiday')}}" method="post" class="form-horizontal col-md-12"
-                  onSubmit="return confirmHoliday()">
+                  onSubmit="return confirmHoliday()"
+                  style="margin: 15px; padding: 20px; width: 100%;">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 {{--<input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>--}}
                 <div class="col-md-12">
@@ -92,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="display: flex; justify-content: center; margin-bottom: 20px;">
+                <div class="col-md-12" style="display: flex; justify-content: center;">
                     <button type="submit" class="btn btn-info col-md-5 center-item" style="width: fit-content;">{{trans('holiday.add')}}</button>
                 </div>
             </form>
