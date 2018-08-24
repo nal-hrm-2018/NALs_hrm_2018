@@ -37,64 +37,67 @@
                 return confirm('{{trans("holiday.add-question")}}' +name+ '{{trans("holiday.add-question-end")}}');
             }
         </script>
-        
-        <form action="{{asset('holiday')}}" method="post" class="form-horizontal col-md-12"
-              onSubmit="return confirmHoliday()"
-              style="margin: 15px; padding: 20px;">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            {{--<input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>--}}
-            <div class="col-md-12">
-                <div class="col-md-1"></div>
-                <div class="col-md-4 add-holiday-input">
-                    <div class="form-group">
-                        <label>{{trans('holiday.name')}}<strong class="text-danger">(*)</strong></label>
-                        <input type="text" class="form-control" placeholder="{{trans('holiday.name')}}" name="name" id="name" value="{{ old('name') }}"/>
-                        <label id="lb_error_name" class="text-danger">{{$errors->first('name')}}</label>
-                    </div>
-                </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-4 add-holiday-input">
-                    <div class="form-group">
-                        <label>{{trans('holiday.date')}}<strong class="text-danger">(*)</strong></label>
-                        <div class="input-group date" style="width: 100%;">
-                            <input type="date" class="form-control" id="holiday_date"
-                                   name="holiday_date"
-                                   value="{{ old('holiday_date') }}"
-                                   style="width: 100%;">
+        <div>
+            <section class="content-header">
+                <h4>Thêm Ngày Nghỉ</h4>
+            </section>
+            <form action="{{asset('holiday')}}" method="post" class="form-horizontal col-md-12"
+                  onSubmit="return confirmHoliday()"
+                  style="margin: 15px; padding: 20px; width: 100%;">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                {{--<input type="hidden" id="id_employee" value="{{$objEmployee["id"]}}"/>--}}
+                <div class="col-md-12">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4 add-holiday-input">
+                        <div class="form-group">
+                            <label>{{trans('holiday.name')}}<strong class="text-danger">(*)</strong></label>
+                            <input type="text" class="form-control" placeholder="{{trans('holiday.name')}}" name="name" id="name" value="{{ old('name') }}"/>
+                            <label id="lb_error_name" class="text-danger">{{$errors->first('name')}}</label>
                         </div>
-                        <label id="lb_error_holiday_date" class="text-danger">{{$errors->first('holiday_date')}}</label>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4 add-holiday-input">
+                        <div class="form-group">
+                            <label>{{trans('holiday.date')}}<strong class="text-danger">(*)</strong></label>
+                            <div class="input-group date" style="width: 100%;">
+                                <input type="date" class="form-control" id="holiday_date"
+                                       name="holiday_date"
+                                       value="{{ old('holiday_date') }}"
+                                       style="width: 100%;">
+                            </div>
+                            <label id="lb_error_holiday_date" class="text-danger">{{$errors->first('holiday_date')}}</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="col-md-1"></div>
-                <div class="col-md-4 add-holiday-input">
-                    <div class="form-group"">
-                        <label>{{trans('holiday.type')}}<strong class="text-danger">(*)</strong></label><br>
-                        <select class="form-control select2" class="text-danger"  name="holiday_type_id" id="holiday_type_id">
-                            <option value="" >{{trans('holiday.select')}}</option>
-                        <?php
-                            foreach ($holiday_type as $val) {
-                            echo '<option value='.$val['id'].'>' . $val['name'] . '</option>';
-                            }
-                        ?>
-                        </select>
-                        <label id="lb_error_holiday_type_id" class="text-danger">{{$errors->first('holiday_type_id')}}</label>
+                <div class="col-md-12">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4 add-holiday-input">
+                        <div class="form-group"">
+                            <label>{{trans('holiday.type')}}<strong class="text-danger">(*)</strong></label><br>
+                            <select class="form-control select2" class="text-danger"  name="holiday_type_id" id="holiday_type_id">
+                                <option value="" >{{trans('holiday.select')}}</option>
+                            <?php
+                                foreach ($holiday_type as $val) {
+                                echo '<option value='.$val['id'].'>' . $val['name'] . '</option>';
+                                }
+                            ?>
+                            </select>
+                            <label id="lb_error_holiday_type_id" class="text-danger">{{$errors->first('holiday_type_id')}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4 add-holiday-input">
+                        <div class="form-group">
+                            <label>{{trans('holiday.description')}}</label>
+                            <input type="text" class="form-control" placeholder="{{trans('holiday.answer')}}"{!! old('ghi_chu') !!}  name="ghi_chu" id="ghi_chu">
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-4 add-holiday-input">
-                    <div class="form-group">
-                        <label>{{trans('holiday.description')}}</label>
-                        <input type="text" class="form-control" placeholder="{{trans('holiday.answer')}}"{!! old('ghi_chu') !!}  name="ghi_chu" id="ghi_chu">
-                    </div>
+                <div class="col-md-12" style="display: flex; justify-content: center;">
+                    <button type="submit" class="btn btn-info col-md-5 center-item" style="width: fit-content;">{{trans('holiday.add')}}</button>
                 </div>
-            </div>
-            <div class="col-md-12" style="display: flex; justify-content: center; margin-bottom: 20px;">
-                <button type="submit" class="btn btn-info col-md-5 center-item" style="width: fit-content;">{{trans('holiday.add')}}</button>
-            </div>
-        </form>
-
+            </form>
+        </div>
         {{--table data project--}}
         <div id="msg"></div>
         <section class="content">
