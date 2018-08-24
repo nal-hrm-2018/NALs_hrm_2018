@@ -1,7 +1,7 @@
 a.cd-back {
 display: inline-block;
-height: 40px;
-width: 40px;
+height: 30px;
+width: 30px;
 position: fixed;
 bottom: 26px;
 left: 55%;
@@ -11,7 +11,7 @@ overflow: hidden;
 text-indent: 100%;
 white-space: nowrap;
 background: #CCCCCC url("https://upload.wikimedia.org/wikipedia/commons/3/33/Left_curve_arrow_back_-_black.svg") no-repeat center 50%;
-background-size: 40px 40px;
+background-size: 20px 20px;
 visibility: visible;
 opacity: 1;
 -webkit-transition: opacity .3s 0s, visibility 0s .3s;
