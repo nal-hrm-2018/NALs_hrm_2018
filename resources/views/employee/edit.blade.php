@@ -57,6 +57,7 @@
   }
 </style>
 <div class="content-wrapper">
+
   <!-- Content Header (Page header) -->
   <section class="content-header">
   @if(\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"])
@@ -136,21 +137,27 @@
 
            </div>
           <center>
-            
+
            <div>
              @if(isset($objEmployee))
                @if((\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"]) || (Auth::user()->hasRoleHR()))
                  <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" style="margin-top:1.75em; color: white;">
-                   {{trans('common.button.edit_password')}}
+                     {{--@if(!isset(Auth::user()->hasRoleHR()))--}}
+                        {{--{{trans('common.button.reset_password')}}--}}
+                     {{--@elseif--}}
+                        {{trans('common.button.edit_password')}}
+                     {{--@endif--}}
                  </button>
                  <br />
-                 <label style="color: red;">
-                     <?php
-                     if (Session::has('error')){
-                         echo''.Session::get("error");
-                     }
-                     ?>
-                 </label>
+                   @if(!(Auth::user()->hasRoleHR()))
+                      <label style="color: red;">
+                           <?php
+                           if (Session::has('error')){
+                               echo''.Session::get("error");
+                           }
+                           ?>
+                       </label>
+                   @endif
                @endif
              @endif
             </div>
@@ -319,7 +326,7 @@
      {{ Form::close() }}
          <div id="myModal" class="modal fade" role="dialog">
              <div class="modal-dialog" style="width: 50%;">
-                 <form method="post" action="{{asset('employee/edit-password')}}" class="edit_pass" onsubmit="return validate();">
+                 <form method="post" action="{{asset('employee/edit-password/'.$objEmployee->id)}}" class="edit_pass" onsubmit="return validate();">
                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
                      <div class="modal-content">
                          <div class="modal-header">
@@ -331,12 +338,14 @@
                                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                  </div>
                                  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                     @if(!(Auth::user()->hasRoleHR()))
                                      <div class="input-group margin">
                                          <div class="input-group-btn">
                                              <button type="button" class="btn btn-default width-165">{{trans('employee.profile_info.old_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;&ensp;</button>
                                          </div>
                                          <input type="password" name="old_pass" id="old_pass" class="form-control" onchange="oldPass()">
                                      </div>
+                                     @endif
                                      <label style="color: red; margin-left: 130px;" id="errorOldPass" style="display: inline;"></label>
                                      <div class="input-group margin">
                                          <div class="input-group-btn">
@@ -374,19 +383,22 @@
                          });
                      })
                      function validate(){
-                         var old_pass = document.getElementById("old_pass").value;
+                         var roleHR =  "<?php echo (Auth::user()->hasRoleHR()) ?>";
                          var new_pass = document.getElementById("new_pass").value;
                          var cf_pass = document.getElementById("cf_pass").value;
                          var check = true;
-                         if(old_pass == ""){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
-                             check =false;
-                         }else if(old_pass.length < 6){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
-                             check = false;
-                         }else if(old_pass.length > 32){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.max_old_pass')}}";
-                             check = false;
+                         if(!roleHR){
+                             var old_pass = document.getElementById("old_pass").value;
+                             if(old_pass == ""){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
+                                 check =false;
+                             }else if(old_pass.length < 6){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
+                                 check = false;
+                             }else if(old_pass.length > 32){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.max_old_pass')}}";
+                                 check = false;
+                             }
                          }
 
                          if(new_pass == ""){
@@ -410,14 +422,18 @@
                      }
                  </script>
                  <script>
-                     function oldPass() {
-                         var x = document.getElementById("old_pass").value;
-                         if(x == ""){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
-                         } else if(x.length < 6){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
-                         }else{
-                             document.getElementById("errorOldPass").innerHTML = "";
+                     var roleHR =  "<?php echo (Auth::user()->hasRoleHR()) ?>";
+                     if(!roleHR)
+                     {
+                         function oldPass() {
+                             var x = document.getElementById("old_pass").value;
+                             if (x == "") {
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
+                             } else if (x.length < 6) {
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
+                             } else {
+                                 document.getElementById("errorOldPass").innerHTML = "";
+                             }
                          }
                      }
                  </script>
