@@ -21,4 +21,9 @@
 @import "../back_button/back_button.css";
 @import "../projects/project_list.css";
 @import "../label/fix_label.css";
-@import "../label/number_page.css";
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+
+*{
+	font-family: 'Roboto Slab', serif;
+}
+
