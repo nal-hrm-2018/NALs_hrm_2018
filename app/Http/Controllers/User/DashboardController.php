@@ -12,6 +12,7 @@ use Illuminate\Foundation\Console\EventMakeCommand;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\Notifications;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -25,6 +26,7 @@ class DashboardController extends Controller
     public function index()
     {
         $id_emp=Auth::user()->id;
+        $notifications = Notifications::all();
         if(Employee::find($id_emp)->hasRole('HR')){
             $sumInternship = $this->countEmployeeType('Internship');
             $sumFullTime = $this->countEmployeeType('FullTime');
@@ -46,6 +48,7 @@ class DashboardController extends Controller
             $new_Tester = $this->countNewEmployeeTeam('Tester');
             $new_others = $sum_new - $new_PHP - $new_DOTNET - $new_iOS - $new_Android - $new_Tester;
             return view('admin.module.index.index',[
+                'notifications' => $notifications,
                 'sumInternship' => $sumInternship,
                 'sumFullTime' => $sumFullTime,
                 'sumPartTime' => $sumPartTime,
@@ -78,6 +81,7 @@ class DashboardController extends Controller
             }
 
             return view('admin.module.index.index',[
+                'notifications' => $notifications,
                 'processes' => $processes,
                 'projects'=> $projects,
                 'projects_emp' => $projects_emp
@@ -85,6 +89,7 @@ class DashboardController extends Controller
         }
         $objmEmployee = Employee::find(Auth::user()->id);
         return view('admin.module.index.index',[
+            'notifications' => $notifications,
             'objmEmployee' => $objmEmployee,
             'role' => '',
         ]);
