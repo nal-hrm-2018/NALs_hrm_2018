@@ -39,12 +39,12 @@
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
                     @if(Auth::user()->hasPermission('add_new_employee'))
                     <button type="button" class="btn btn-default">
-                        <a href="{{ asset('employee/create')}}" style="color: darkviolet;"><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
+                        <a href="{{ asset('employee/create')}}" ><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
                     </button>
                     @endif
                     @if(Auth::user()->hasRoleHR())
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
-                        <a style="color: darkviolet;"><i class="glyphicon glyphicon-import"></i> {{trans('common.button.import')}}</a>
+                        <a ><i class="glyphicon glyphicon-import"></i> {{trans('common.button.import')}}</a>
                     </button>
                      @endif
                     <div id="import" class="modal fade" role="dialog">
@@ -94,7 +94,7 @@
                     </div>
                     @if(Auth::user()->hasRoleHR())
                     <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
-                        <a href="/download-template" style="color: darkviolet;"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
+                        <a href="/download-template"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
                     </button>
                     @endif
                     <?php
@@ -170,9 +170,8 @@
                     </SCRIPT>
                     <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                         <a id="export"
-                           style="color: darkviolet;"
-                           href="{{asset('export').'?'.'number_record_per_page='.$number_record_per_page.'&id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">
-                            <i class="glyphicon glyphicon-export"></i>
+                           href="{{asset('export').'?'.'number_record_per_page='.$number_record_per_page.'&id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">  
+                        <i class="glyphicon glyphicon-export"></i>
                             <span id="contain-canvas" style="">
                                 <canvas id="my_canvas" width="16" height="16" style=""></canvas>
                             </span>
