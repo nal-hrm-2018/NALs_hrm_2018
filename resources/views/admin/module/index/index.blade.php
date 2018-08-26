@@ -370,11 +370,11 @@
                             <table class="table no-margin">
                                 <thead>
                                 <tr>
-                                    <th>PROJECT ID</th>
-                                    <th>NAME</th>
-                                    <th>START DATE</th>
-                                    <th>ESTIMATE END DATE</th>
-                                    <th>STATUS</th>
+                                    <th>{{trans('dashboard.project_id')}}</th>
+                                    <th>{{trans('dashboard.name.project')}}</th>
+                                    <th>{{trans('dashboard.start_date')}}</th>
+                                    <th>{{trans('dashboard.estimate_end_date')}}</th>
+                                    <th>{{trans('dashboard.status')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -429,13 +429,13 @@
                             <table class="table no-margin">
                                 <thead>
                                 <tr>
-                                    <th>PROJECT ID</th>
-                                    <th>NAME</th>
-                                    <th>ROLE</th>
-                                    <th>START DATE</th>
-                                    <th>ESTIMATE END DATE</th>
-                                    <th>STATUS</th>
-                                    <th>MEMBER<br>
+                                    <th>{{trans('dashboard.project_id')}}</th>
+                                    <th>{{trans('dashboard.name.project')}}</th>
+                                    <th>{{trans('dashboard.role')}}</th>
+                                    <th>{{trans('dashboard.start_date')}}</th>
+                                    <th>{{trans('dashboard.estimate_end_date')}}</th>
+                                    <th>{{trans('dashboard.status')}}</th>
+                                    <th>{{trans('dashboard.member')}}
                                         <span class="label label-primary">PO</span>
                                         <span class="label label-success">Dev</span>
                                         <span class="label label-info">SM</span>

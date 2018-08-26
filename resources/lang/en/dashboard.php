@@ -9,5 +9,9 @@ return [
     'end_date' => 'ESTIMATE END DATE ',
     'number_member' => 'Number member',
     'po_name' => 'PO NAME',
-    'status' => 'STATUS'
+    'status' => 'STATUS',
+    'estimate_end_date' => 'ESTIMATE END DATE',
+    'project_id' => 'PROJECT ID',
+    'role' => 'ROLE',
+    'member' => 'MEMBER'
 ];
