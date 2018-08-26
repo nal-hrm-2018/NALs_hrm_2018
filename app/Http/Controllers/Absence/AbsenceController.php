@@ -221,7 +221,7 @@ class AbsenceController extends Controller
         }
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
-        $type = AbsenceType::select()->where('name','salary_date')->first();
+        $type = AbsenceType::select()->where('name','annual_leave')->first();
 
         $year = 0;
         if((int)$dateNow->format('Y') < $endwork_date){
@@ -270,7 +270,7 @@ class AbsenceController extends Controller
         $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
         $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
-        $type = AbsenceType::select()->where('name','non_salary_date')->first();
+        $type = AbsenceType::select()->where('name','unpaid_leave')->first();
         $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
         $type = AbsenceType::select()->where('name','insurance_date')->first();

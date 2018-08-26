@@ -39,8 +39,8 @@ return [
             'rejected'=>'rejected'
         ],
         'absence_type'=>[
-            'non_salary_date'=>'non_salary_date',
-            'salary_date'=>'salary_date',
+            'non_salary_date'=>'unpaid_leave',
+            'salary_date'=>'annual_leave',
             'subtract_salary_date'=>'subtract_salary_date',
             'insurance_date'=>'insurance_date',
             'absented_date'=>'absented_date',
