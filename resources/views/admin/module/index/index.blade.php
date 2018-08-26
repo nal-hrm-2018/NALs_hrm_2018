@@ -367,7 +367,7 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive">
-                            <table class="table no-margin">
+                            <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
                                     <th>{{trans('dashboard.project_id')}}</th>
@@ -426,7 +426,7 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive">
-                            <table class="table no-margin">
+                            <table id="dtBasic" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
                                     <th>{{trans('dashboard.project_id')}}</th>
@@ -512,6 +512,16 @@
                 <!-- /.box-footer -->
                 </div>
             </section>
+            <script>
+                $(document).ready(function () {
+                    $('#dtBasicExample').DataTable();
+                    $('.dataTables_length').addClass('bs-select');
+                });
+                $(document).ready(function () {
+                    $('#dtBasic').DataTable();
+                    $('.dataTables_length').addClass('bs-select');
+                });
+            </script>
         @endif
         {{--<!-- code from trinhhunganh -->--}}
         @if(Auth::user()->hasRole('Dev'))
