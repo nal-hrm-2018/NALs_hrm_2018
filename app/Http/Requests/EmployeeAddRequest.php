@@ -44,7 +44,7 @@ class EmployeeAddRequest extends FormRequest
             'picture' => 'image|max:2048',
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
-            'startwork_date' => 'required',
+            'startwork_date' => 'required|after:birthday',
             'endwork_date' => 'required|after:startwork_date'
         ];
     }

@@ -84,7 +84,7 @@ class EmployeeController extends Controller
         $employee = new Employee;
         $employee->email = $request->email;
         $employee->password = bcrypt($request->password);
-        $employee->name = $request->name;
+        $employee->name = preg_replace('/\s+/', ' ',$request->name);
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
@@ -232,7 +232,7 @@ class EmployeeController extends Controller
             $employee->employee_type_id = $request->employee_type_id;
         }
 
-        $employee->name = $request->name;
+        $employee->name = preg_replace('/\s+/', ' ',$request->name);
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
@@ -268,26 +268,31 @@ class EmployeeController extends Controller
             return back()->with(['employee' => $employee]);
         }
     }
-    public function editPass(Request $request)
+    public function editPass(Request $request, $id)
     {
         $employee = Employee::find(\Illuminate\Support\Facades\Auth::user()->id);
-        $oldPass = $request -> old_pass;
+        $ojbEmployee = Employee::Where('id',$id)->first();
         $newPass = $request -> new_pass;
         $cfPass = $request -> cf_pass;
-        if(!Hash::check($oldPass, $employee -> password)){
-            return back()->with(['error' => trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $employee]);
+        if (!Auth::user()->hasRoleHR()) {
+            $oldPass = $request -> old_pass;
+            if (!Hash::check($oldPass, $ojbEmployee->password)) {
+                return back()->with(['error' => trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $ojbEmployee]);
+            }
+            if($newPass == $oldPass){
+                return back()->with(['error' => trans('employee.valid_reset_password.repeat__pass'), 'employee' => $ojbEmployee]);
+            }
+        }
+        if($newPass != $cfPass){
+            return back()->with(['error' => trans('employee.valid_reset_password.match_confirm_pass'), 'employee' => $ojbEmployee]);
         }else{
-            if($newPass != $cfPass){
-                return back()->with(['error' => trans('employee.valid_reset_password.match_confirm_pass'), 'employee' => $employee]);
-            }else{
-                if (strlen($newPass) < 6) {
-                    return back()->with(['error' => trans('employee.valid_reset_password.min_new_pass'), 'employee' => $employee]);
-                }else {
-                    $employee->password = bcrypt($newPass);
-                    $employee->save();
-                    \Session::flash('msg_success', trans('employee.valid_reset_password.reset_success'));
-                    return redirect('employee/'.$employee->id.'/edit');
-                }
+            if (strlen($newPass) < 6) {
+                return back()->with(['error' => trans('employee.valid_reset_password.min_new_pass'), 'employee' => $ojbEmployee]);
+            }else {
+                $ojbEmployee->password = bcrypt($newPass);
+                $ojbEmployee->save();
+                \Session::flash('msg_success', trans('employee.valid_reset_password.reset_success'));
+                return redirect('employee/'.$ojbEmployee->id.'/edit');
             }
         }
     }
@@ -451,7 +456,10 @@ class EmployeeController extends Controller
                 $employee->employee_type_id = $objEmployeeType->id;
                 $c++;
                 $objTeam = Team::select('name', 'id')->where('name', 'like', $data[$c])->first();
-                $employee->team_id = $objTeam->id;
+
+
+
+//                $employee->team_id = $objTeam->id;
                 $c++;
                 $objRole = Role::select('name', 'id')->where('name', 'like', $data[$c])->first();
                 $employee->role_id = $objRole->id;
@@ -459,6 +467,10 @@ class EmployeeController extends Controller
                 $employee->created_at = new DateTime();
                 $employee->delete_flag = 0;
                 $employee->save();
+                $employeeteam = new EmployeeTeam;
+                $employeeteam->team_id=$objTeam->id;
+                $employeeteam->employee_id=$employee->id;
+                $employeeteam->save();
             }
         }
         if (file_exists($urlFile)) {

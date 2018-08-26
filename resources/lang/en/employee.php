@@ -6,6 +6,20 @@ return[
     ],
     'basic'=>'Basic',
     'info'=>'information',
+    'employee'=>'Employee',
+    'new'=>'New Employee',
+    'status'=>[
+        'status'=>'Employee Status',
+        'active'=>'Active employee',
+        'leaved'=>'Leaved employee'
+    ],
+    'type'=>[
+        'type'=>'Employee Type',
+        'official'=>'Official ',
+        'probationary'=>'Probationary',
+        'internship'=>'Internship',
+        'part-time'=>'Part-time'
+    ],
     'profile_info'=>[
         'id'=>'Employee ID',
         'short_id'=>'ID',
@@ -73,9 +87,10 @@ return[
         'min_new_pass'=>'New password must be at least 6 characters.',
         'max_new_pass'=>'New password maximum 32 characters.',
         'required_confirm_pass'=>'Confirm password field is required.',
-        'match_confirm_pass'=>'The confirm password and password must match.',
+        'match_confirm_pass'=>'The Confirm Password and New Password must match.',
         'incorrect_old_pass'=>'Old password is incorrect!!!',
         'reset_success'=>'Password successfully edited!!!',
+        'repeat__pass'=>'Your new password is too similar to your current password'
     ],
     'msg_edit'=>[
         'success'=>'Account successfully edited!!!',
