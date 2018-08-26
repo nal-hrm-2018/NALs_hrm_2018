@@ -1,3 +1,4 @@
+    <div class="col-md-1"></div>
     <div class="form-group col-md-4">
         <label>{{trans('common.month.month')}}</label>
         <select name="month_absence" id="month-absence" class="form-control">
@@ -28,7 +29,8 @@
     <div class="form-group col-md-2">
         <br>
         <button style="margin-top: 5px !important" type="submit" id="btn_filter_hr"
-                class="form-control btn btn-primary ">
+                class="form-control btn btn-info ">
             <i class="glyphicon glyphicon-filter"></i> {{trans('common.button.filter')}}
         </button>
     </div>
+    
