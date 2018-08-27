@@ -13,5 +13,6 @@ return [
     'estimate_end_date' => 'Ngày kết thúc dự kiến',
     'project_id' => 'ID dự án',
     'role' => 'Vai trò',
-    'member' => 'Thành viên'
+    'member' => 'Thành viên',
+    'project' => 'Dự án'
 ];

@@ -13,5 +13,6 @@ return [
     'estimate_end_date' => 'ESTIMATE END DATE',
     'project_id' => 'PROJECT ID',
     'role' => 'ROLE',
-    'member' => 'MEMBER'
+    'member' => 'MEMBER',
+    'project' => 'Project'
 ];
