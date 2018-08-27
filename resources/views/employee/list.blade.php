@@ -296,7 +296,7 @@
                                                 <button id="btn_reset_employee" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
                                                     {{trans('common.button.reset')}}
                                                 </button>
-                                                <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
+                                                <button type="submit" id="searchListEmployee" class="btn btn-info"><span
                                                             class="fa fa-search"></span>
                                                     {{trans('common.button.search')}}
                                                 </button>

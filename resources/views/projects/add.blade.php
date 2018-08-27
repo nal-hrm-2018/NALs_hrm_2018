@@ -7,6 +7,7 @@
         <section class="content-header">
             <h1>
                 {{trans('common.path.add_project')}}
+                <small>NAL Solutions</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
