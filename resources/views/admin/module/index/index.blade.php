@@ -86,6 +86,15 @@
                             <ul data-widget="tree" style="list-style-type: none;">
                                 @foreach($notifications as $note)
                                 <li class="treeview">
+                                    @if($note->notification_type=='HR')
+                                        <label class="label bg-yellow">HR</label>
+                                    @endif
+                                    @if($note->notification_type=='HD')
+                                        <span class="label bg-red">HD</span>
+                                    @endif
+                                        @if($note->notification_type=='DOREMON')
+                                            <span class="label bg-green">DRM</span>
+                                        @endif
                                     <a href="#">
                                         <span>{{$note->content}}</span>
                                     </a>
