@@ -73,8 +73,8 @@
                                 }
                             </script>
                             <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
-                                <div class="style-box">
-                                    <div>
+                                <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày được nghỉ phép:
                                             <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
@@ -88,15 +88,15 @@
                                             <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
                                         </span>
                                     </div><br />
-                                    <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày nghỉ không lương:
                                             <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
                                         </p>
                                     </div>
                                 </div>
-                                <div class="style-box">
-                                    <div>
+                                <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày đã nghỉ:
                                             <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
@@ -111,15 +111,15 @@
                                         </span>
 
                                     </div><br/>
-                                    <div >
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày nghỉ trừ lương:
                                             <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
                                         </p>
                                     </div>
                                 </div>
-                                <div class="style-box">
-                                    <div>
+                                <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày còn lại:
                                             <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
@@ -144,7 +144,7 @@
                                             </script>
                                         @endif
                                     </div><br>
-                                    <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày nghỉ chế độ bảo hiểm:
                                             <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
