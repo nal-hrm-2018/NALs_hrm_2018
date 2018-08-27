@@ -79,7 +79,7 @@ class EmployeeEditRequest extends FormRequest
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
             'picture' => 'image|max:2048',
-          'startwork_date' => 'required',
+          'startwork_date' => 'required|after:birthday',
             'endwork_date' => 'required|after:startwork_date'
         ];
 
