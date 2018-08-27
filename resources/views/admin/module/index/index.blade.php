@@ -367,14 +367,14 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive">
-                            <table class="table no-margin">
+                            <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>PROJECT ID</th>
-                                    <th>NAME</th>
-                                    <th>START DATE</th>
-                                    <th>ESTIMATE END DATE</th>
-                                    <th>STATUS</th>
+                                    <th>{{trans('dashboard.project_id')}}</th>
+                                    <th>{{trans('dashboard.name.project')}}</th>
+                                    <th>{{trans('dashboard.start_date')}}</th>
+                                    <th>{{trans('dashboard.estimate_end_date')}}</th>
+                                    <th>{{trans('dashboard.status')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -426,16 +426,16 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive">
-                            <table class="table no-margin">
+                            <table id="dtBasic" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>PROJECT ID</th>
-                                    <th>NAME</th>
-                                    <th>ROLE</th>
-                                    <th>START DATE</th>
-                                    <th>ESTIMATE END DATE</th>
-                                    <th>STATUS</th>
-                                    <th>MEMBER<br>
+                                    <th>{{trans('dashboard.project_id')}}</th>
+                                    <th>{{trans('dashboard.name.project')}}</th>
+                                    <th>{{trans('dashboard.role')}}</th>
+                                    <th>{{trans('dashboard.start_date')}}</th>
+                                    <th>{{trans('dashboard.estimate_end_date')}}</th>
+                                    <th>{{trans('dashboard.status')}}</th>
+                                    <th>{{trans('dashboard.member')}}
                                         <span class="label label-primary">PO</span>
                                         <span class="label label-success">Dev</span>
                                         <span class="label label-info">SM</span>
@@ -465,7 +465,7 @@
                                         @if($process['project']['estimate_end_date']!=null)
                                             <td>{{$process['project']['estimate_end_date']->format('d-m-Y')}}</td>
                                         @else
-                                            <td></td>
+                                            <td>-</td>
                                         @endif
                                         @if($process['project']['status']['name']=='kick off')
                                             <td><span class="label label-primary">{{$process['project']['status']['name']}}</span></td>
@@ -512,6 +512,16 @@
                 <!-- /.box-footer -->
                 </div>
             </section>
+            <script>
+                $(document).ready(function () {
+                    $('#dtBasicExample').DataTable();
+                    $('.dataTables_length').addClass('bs-select');
+                });
+                $(document).ready(function () {
+                    $('#dtBasic').DataTable();
+                    $('.dataTables_length').addClass('bs-select');
+                });
+            </script>
         @endif
         {{--<!-- code from trinhhunganh -->--}}
         @if(Auth::user()->hasRole('Dev'))
