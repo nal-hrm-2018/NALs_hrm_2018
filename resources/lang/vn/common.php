@@ -35,6 +35,7 @@ return [
         'import' => 'NHẬP',
         'export' => 'XUẤT',
         'template' => 'FILE MẪU',
+        'reset_password'=>'ĐẶT LẠI MẬT KHẨU',
         'edit_password'=>'ĐỔI MẬT KHẨU',
         'reopen'=> 'Mở khóa',
         'back' => 'QUAY LẠI',
