@@ -102,54 +102,136 @@
                                 <a href="{{route('absences.create')}}" style="color: darkviolet;"><i class="fa fa-user-plus"></i>{{trans('absence.add')}}</a>
                             </button>
                         </div>
+                        <div style="margin: 30px 0 0;">
+                            <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                <div class="style-box">
+                                    <div>
+                                        <p>
+                                            - Số ngày được nghỉ phép:
+                                            <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
+                                        </p>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép cố định:
+                                            <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
+                                        </span><br>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép dư:
+                                            <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
+                                        </span>
+                                    </div><br />
+                                    <div>
+                                        <p>
+                                            - Số ngày nghỉ không lương:
+                                            <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="style-box">
+                                    <div>
+                                        <p>
+                                            - Số ngày đã nghỉ:
+                                            <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
+                                        </p>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép cố định:
+                                            <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
+                                        </span><br>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép dư:
+                                            <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
+                                        </span>
+
+                                    </div><br/>
+                                    <div >
+                                        <p>
+                                            - Số ngày nghỉ trừ lương:
+                                            <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="style-box">
+                                    <div>
+                                        <p>
+                                            - Số ngày còn lại:
+                                            <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
+                                        </p>
+                                        <span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép cố định:
+                                            <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
+                                        </span>
+                                        <span><br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép dư:
+                                            <span id="phepDu">{{$absences['phepDu']}}</span>
+                                        </span>
+                                        <span id='hanphep'>
+                                            @if($absences['checkMonth'] == 1 && $absences['phepDu'] > 0)
+                                                Đã hết hạn
+                                            @endif
+                                        </span>
+                                        @if($absences['checkMonth'] == 1 && $absences['phepDu'] > 0)
+                                            <script type="text/javascript">
+                                                $("#hanphep").addClass("label");
+                                                $("#hanphep").addClass("label-danger");
+                                            </script>
+                                        @endif
+                                    </div><br>
+                                    <div>
+                                        <p>
+                                            - Số ngày nghỉ chế độ bảo hiểm:
+                                            <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div>
-                            <table class="table table-bordered table-striped" id="absences-list" style="margin-top: 20px !important;">
-                                <thead>
-                                <tr>
-                                    <th>Nghỉ từ ngày</th>
-                                    <th>Nghỉ đến ngày</th>
-                                    <th>Loại nghỉ</th>
-                                    <th>Lý do</th>
-                                    <th>Ghi chú</th>
-                                    <th>Chức năng</th>
-                                </tr>
-                                </thead>
-                                <tbody class="context-menu" id="listAbsence">
-                                    <tr>
-                                        <td>25/08/2018</td>
-                                        <td>26/08/2018</td>
-                                        <td>Nghỉ không lương</td>
-                                        <td>Thích thì nghỉ thôi</td>
-                                        <td>Test</td>
-                                        <td>
-                                            <a href="#">sửa</a>
-                                            <a href="#">xóa</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>25/08/2018</td>
-                                        <td>26/08/2018</td>
-                                        <td>Nghỉ không lương</td>
-                                        <td>Thích thì nghỉ thôi</td>
-                                        <td>Test</td>
-                                        <td>
-                                            <a href="#">sửa</a>
-                                            <a href="#">xóa</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>25/08/2018</td>
-                                        <td>26/08/2018</td>
-                                        <td>Nghỉ không lương</td>
-                                        <td>Thích thì nghỉ thôi</td>
-                                        <td>Test</td>
-                                        <td>
-                                            <a href="#">sửa</a>
-                                            <a href="#">xóa</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            {{--<table class="table table-bordered table-striped" id="absences-list" style="margin-top: 20px !important;">--}}
+                                {{--<thead>--}}
+                                {{--<tr>--}}
+                                    {{--<th>Nghỉ từ ngày</th>--}}
+                                    {{--<th>Nghỉ đến ngày</th>--}}
+                                    {{--<th>Loại nghỉ</th>--}}
+                                    {{--<th>Lý do</th>--}}
+                                    {{--<th>Ghi chú</th>--}}
+                                    {{--<th>Chức năng</th>--}}
+                                {{--</tr>--}}
+                                {{--</thead>--}}
+                                {{--<tbody class="context-menu" id="listAbsence">--}}
+                                    {{--<tr>--}}
+                                        {{--<td>25/08/2018</td>--}}
+                                        {{--<td>26/08/2018</td>--}}
+                                        {{--<td>Nghỉ không lương</td>--}}
+                                        {{--<td>Thích thì nghỉ thôi</td>--}}
+                                        {{--<td>Test</td>--}}
+                                        {{--<td>--}}
+                                            {{--<a href="#">sửa</a>--}}
+                                            {{--<a href="#">xóa</a>--}}
+                                        {{--</td>--}}
+                                    {{--</tr>--}}
+                                    {{--<tr>--}}
+                                        {{--<td>25/08/2018</td>--}}
+                                        {{--<td>26/08/2018</td>--}}
+                                        {{--<td>Nghỉ không lương</td>--}}
+                                        {{--<td>Thích thì nghỉ thôi</td>--}}
+                                        {{--<td>Test</td>--}}
+                                        {{--<td>--}}
+                                            {{--<a href="#">sửa</a>--}}
+                                            {{--<a href="#">xóa</a>--}}
+                                        {{--</td>--}}
+                                    {{--</tr>--}}
+                                    {{--<tr>--}}
+                                        {{--<td>25/08/2018</td>--}}
+                                        {{--<td>26/08/2018</td>--}}
+                                        {{--<td>Nghỉ không lương</td>--}}
+                                        {{--<td>Thích thì nghỉ thôi</td>--}}
+                                        {{--<td>Test</td>--}}
+                                        {{--<td>--}}
+                                            {{--<a href="#">sửa</a>--}}
+                                            {{--<a href="#">xóa</a>--}}
+                                        {{--</td>--}}
+                                    {{--</tr>--}}
+                                {{--</tbody>--}}
+                            {{--</table>--}}
                         </div>
                     </div>
                 </div>
