@@ -562,21 +562,22 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="table-responsive">
-                                <table class="table no-margin">
-                                    <thead>
-                                    <tr>
-                                        <th>PROJECT ID</th>
-                                        <th>NAME</th>
-                                        <th>START DATE</th>
-                                        <th>ESTIMATE END DATE</th>
-                                        <th>STATUS</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($projects as $project)
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>{{trans('dashboard.project_id')}}</th>
+                                    <th>{{trans('dashboard.name.project')}}</th>
+                                    <th>{{trans('dashboard.start_date')}}</th>
+                                    <th>{{trans('dashboard.estimate_end_date')}}</th>
+                                    <th>{{trans('dashboard.status')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($projects as $project)
                                         <tr>
                                             <td>{{$project->id}}</td>
                                             <td>{{$project['name']}}</td>
@@ -621,6 +622,7 @@
                                 </button>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="table-responsive">
@@ -638,6 +640,81 @@
                                             <span class="label label-success">Dev</span>
                                             <span class="label label-info">SM</span>
                                         </th>
+=======
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="dtBasic" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>{{trans('dashboard.project_id')}}</th>
+                                    <th>{{trans('dashboard.name.project')}}</th>
+                                    <th>{{trans('dashboard.role')}}</th>
+                                    <th>{{trans('dashboard.start_date')}}</th>
+                                    <th>{{trans('dashboard.estimate_end_date')}}</th>
+                                    <th>{{trans('dashboard.status')}}</th>
+                                    <th>{{trans('dashboard.member')}}
+                                        <span class="label label-primary">PO</span>
+                                        <span class="label label-success">Dev</span>
+                                        <span class="label label-info">SM</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                $i=0;
+                                ?>
+                                @foreach($processes as $process)
+                                    <tr>
+                                        <td>{{$process['project_id']}}</td>
+                                        <td>{{$process['project']['name']}}</td>
+                                        @if($process['role']['name']=='Dev')
+                                            <td><span class="label label-success">{{$process['role']['name']}}</span></td>
+                                        @elseif($process['role']['name']=='ACCOUNTANT')
+                                            <td><span class="label label-danger">{{$process['role']['name']}}</span></td>
+                                        @elseif($process['role']['name']=='SM')
+                                            <td><span class="label label-info">{{$process['role']['name']}}</span></td>
+                                        @elseif($process['role']['name']=='PO')
+                                            <td><span class="label label-primary">{{$process['role']['name']}}</span></td>
+                                        @elseif($process['role']['name']=='HR')
+                                            <td><span class="label label-warnings">{{$process['role']['name']}}</span></td>
+                                        @endif
+                                        <td>{{$process['project']['start_date']->format('d-m-Y')}}</td>
+                                        @if($process['project']['estimate_end_date']!=null)
+                                            <td>{{$process['project']['estimate_end_date']->format('d-m-Y')}}</td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
+                                        @if($process['project']['status']['name']=='kick off')
+                                            <td><span class="label label-primary">{{$process['project']['status']['name']}}</span></td>
+                                        @elseif($process['project']['status']['name']=='pending')
+                                            <td><span class="label label-success">{{$process['project']['status']['name']}}</span></td>
+                                        @elseif($process['project']['status']['name']=='in-progress')
+                                            <td><span class="label label-info">{{$process['project']['status']['name']}}</span></td>
+                                        @elseif($process['project']['status']['name']=='releasing')
+                                            <td><span class="label label-warning">{{$process['project']['status']['name']}}</span></td>
+                                        @elseif($process['project']['status']['name']=='planning')
+                                            <td><span class="label label-danger">{{$process['project']['status']['name']}}</span></td>
+                                        @endif
+                                        <td>
+                                            @foreach($projects_emp[$i] as $member)
+                                                @if($member->role->name =='Dev')
+                                                    <span class="label label-success">{{$member->employee->name}}</span>
+                                                @elseif($member->role->name =='ACCOUNTANT')
+                                                    <span class="label label-danger">{{$member->employee->name}}</span>
+                                                @elseif($member->role->name =='SM')
+                                                    <span class="label label-info">{{$member->employee->name}}</span>
+                                                @elseif($member->role->name =='PO')
+                                                    <span class="label label-primary">{{$member->employee->name}}</span>
+                                                @elseif($member->role->name =='HR')
+                                                    <span class="label label-warning">{{$member->employee->name}}</span>
+                                                @else
+                                                    <span class="label label-default">{{$member->employee->name}}</span>
+                                                @endif
+                                            @endforeach
+                                        </td>
+>>>>>>> 3d6c0a8c3a99aae396020d0ab51a64be7f0cfeb5
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -709,6 +786,7 @@
                     {{--</div>--}}
                     <!-- /.box-footer -->
                     </div>
+<<<<<<< HEAD
                 </section>
             @endif
             {{--<!-- code from trinhhunganh -->--}}
@@ -717,6 +795,32 @@
                             <div class="box box-info">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Project Developer</h3>
+=======
+                    <!-- /.box-body -->
+                {{--<div class="box-footer clearfix">--}}
+                {{--<a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Processes</a>--}}
+                {{--</div>--}}
+                <!-- /.box-footer -->
+                </div>
+            </section>
+            <script>
+                $(document).ready(function () {
+                    $('#dtBasicExample').DataTable();
+                    $('.dataTables_length').addClass('bs-select');
+                });
+                $(document).ready(function () {
+                    $('#dtBasic').DataTable();
+                    $('.dataTables_length').addClass('bs-select');
+                });
+            </script>
+        @endif
+        {{--<!-- code from trinhhunganh -->--}}
+        @if(Auth::user()->hasRole('Dev'))
+            <section>
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Project Developer</h3>
+>>>>>>> 3d6c0a8c3a99aae396020d0ab51a64be7f0cfeb5
 
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>

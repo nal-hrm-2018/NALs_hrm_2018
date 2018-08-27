@@ -46,8 +46,8 @@
                             <div>
                                 <button type="button" class="btn btn-info" data-toggle="collapse"
                                         data-target="#demo" id="clickCollapse">
-                                    <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch"
-                                                                                              class="glyphicon"></span>
+                                    <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;
+                                    <span id="iconSearch" class="glyphicon"></span>
                                 </button>
                                 {!! Form::open(
                                 [

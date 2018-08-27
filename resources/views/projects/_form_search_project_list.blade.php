@@ -6,7 +6,7 @@
                            value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
                             <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
                         </div>
                         <div class="modal-body">
@@ -25,7 +25,7 @@
                                                     ])
                                                 }}
                                     </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_project_id"></label>
+                                    <!-- <label style="color: red; margin-left: 130px;" id="error_project_id"></label> -->
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.project_name')}}</button>
@@ -39,7 +39,7 @@
                                                     ])
                                                 }}
                                     </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_project_name"></label>
+                                    <!-- <label style="color: red; margin-left: 130px;" id="error_project_name"></label> -->
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.po')}}</button>
@@ -53,7 +53,7 @@
                                                     ])
                                                 }}
                                     </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_po_name"></label>
+                                    <!-- <label style="color: red; margin-left: 130px;" id="error_po_name"></label> -->
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                           <button type="button" class="btn width-100">{{trans('project.members')}}</button>
@@ -67,21 +67,21 @@
                                                     ])
                                                 }}
                                     </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_project_name_member"></label>
+                                    <!-- <label style="color: red; margin-left: 130px;" id="error_project_name_member"></label> -->
 
 
                                 </div>
 
-                                <span class="glyphicon glyphicon-arrow-right"></span>
-                                <span class="glyphicon glyphicon-arrow-right number-2"></span>
-                                <span class="glyphicon glyphicon-arrow-right number-3"></span>
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                
+                                <!-- <span class="glyphicon glyphicon-arrow-right number-2"></span>
+                                <span class="glyphicon glyphicon-arrow-right number-3"></span> -->
 
-                                    <div class="input-group margin">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="input-group margin" >
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.number_of_member')}}</button>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="position: relative;">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="number" name="number_from" id="project_number_from" class="form-control"--}}
                                                 {{--value="{{!empty(request('number_from'))?request('number_from'):null}}"/>--}}
@@ -92,6 +92,7 @@
                                                     ])
                                                 }}
                                             </div>
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="number" name="number_to" id="project_number_to" class="form-control"--}}
                                                 {{--value="{{!empty(request('number_to'))?request('number_to'):null}}"/>--}}
@@ -104,12 +105,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_number"></label>
+                                    <!-- <label style="color: red; margin-left: 130px;" id="error_number"></label> -->
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.estimate_date')}}</button>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="position: relative;">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="date" name="project_date_from" id="project_date_from" class="form-control"--}}
                                                        {{--value="{{!empty(request('project_date_from'))?request('project_date_from'):null}}"/>--}}
@@ -120,6 +121,7 @@
                                                     ])
                                                 }}
                                             </div>
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="date" name="project_date_to" id="project_date_to" class="form-control"--}}
                                                        {{--value="{{!empty(request('project_date_to'))?request('project_date_to'):null}}"/>--}}
@@ -132,12 +134,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_project_date"></label>
+                                    
+                                    <!-- <label style="color: red; margin-left: 130px;" id="error_project_date"></label> -->
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.real_date')}}</button>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="position: relative;">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="date" name="project_date_real_from" id="project_date_real_from" class="form-control"--}}
                                                        {{--value="{{!empty(request('project_date_real_from'))?request('project_date_real_from'):null}}"/>--}}
@@ -148,6 +151,7 @@
                                                     ])
                                                 }}
                                             </div>
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="date" name="project_date_real_to" id="project_date_real_to" class="form-control"--}}
                                                        {{--value="{{!empty(request('project_date_real_to'))?request('project_date_real_to'):null}}"/>--}}
@@ -160,7 +164,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_project_date_real"></label>
+                                    <!-- <label style="color: red; margin-left: 130px;" id="error_project_date_real"></label> -->
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.status')}}</button>
@@ -176,7 +180,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <label style="color: red; margin-left: 130px;" id="error_project_status"></label>
+                                    <!-- <label style="color: red; margin-left: 130px;" id="error_project_status"></label> -->
                                 </div>
                             </div>
 
@@ -186,7 +190,7 @@
                                         class="fa fa-refresh"></span>
                                 {{trans('common.button.reset')}}
                             </button>
-                            <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
+                            <button type="submit" id="searchListEmployee" class="btn btn-info"><span
                                         class="fa fa-search"></span>
                                 {{trans('common.button.search')}}
                             </button>

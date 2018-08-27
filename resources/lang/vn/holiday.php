@@ -15,5 +15,6 @@ return[
     'update' => 'Cập nhật',
     'close' => 'Đóng',
     'add-question' => 'Bạn có chắc chắn muốn tạo ngày nghỉ ',
-    'add-question-end' => '?'
+    'add-question-end' => '?',
+    'add_holiday' => 'Thêm Ngày Nghỉ',
 ];

@@ -48,7 +48,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             'from_date' => $request->get('from_date'),
             'to_date' => $request->get('to_date'),
             'reason' => $request->get('reason'),
-            'absence_status_id' => 1,
+            'absence_status_id' => 2,
             'created_at' => new \DateTime(),
             'delete_flag' => 0,
             'is_deny' => 0,
@@ -72,11 +72,11 @@ class AbsenceFormServiceImpl implements AbsenceFormService
                         $dataPoTeamJustWatch = [
                                 'created_at' => new \DateTime(),
                                 'delete_flag' => 0,
-                                'absence_status_id' => 1,
+                                'absence_status_id' => 2,
                                 'absence_type_id' => $request->get('absence_type_id'),
                                 'absence_id' => $objAbsence->id,
                                 'project_id' => null,
-                                'employee_id' => $employee_id,
+                                'employee_id' => $id_employee,
                             ];
                         Confirm::create($dataPoTeamJustWatch);
                     }

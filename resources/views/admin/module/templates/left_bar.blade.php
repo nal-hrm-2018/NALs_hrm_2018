@@ -52,19 +52,19 @@
             {{--<li><a href="{{ asset('teams')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.team')}}</a></li>--}}
             {{--<li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.team')}}</a></li>--}}
           {{--</ul>--}}
-        {{--</li>--}}
-        {{--<li class="treeview">--}}
-          {{--<a href="#">--}}
-            {{--<i class="fa fa-diamond"></i> <span>{{trans('leftbar.nav.project')}}</span>--}}
-            {{--<span class="pull-right-container">--}}
-              {{--<i class="fa fa-angle-left pull-right"></i>--}}
-            {{--</span>--}}
-          {{--</a>--}}
-          {{--<ul class="treeview-menu">--}}
-            {{--<li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.project')}}</a></li>--}}
-            {{--<li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.project')}}</a></li>--}}
-          {{--</ul>--}}
-        {{--</li>--}}
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="glyphicon glyphicon-globe"></i> <span>{{trans('leftbar.nav.project')}}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.project')}}</a></li>
+            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.project')}}</a></li>
+          </ul>
+        </li>
         {{--<li class="treeview">--}}
           {{--<a href="#">--}}
             {{--<i class="glyphicon glyphicon-calendar"></i> <span>{{trans('leftbar.nav.absence')}}</span>--}}

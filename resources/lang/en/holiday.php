@@ -15,5 +15,6 @@ return[
     'update' => 'Update',
     'close' => 'Close',
     'add-question' => 'Are you sure you want to submit ',
-    'add-question-end' => '?'
+    'add-question-end' => '?',
+    'add_holiday' => 'Add holiday',
 ];

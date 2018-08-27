@@ -1,15 +1,16 @@
 span.glyphicon.glyphicon-arrow-right {
-    position:  absolute;
-    top: 35px;
-    left: 79.8%;
+    position: absolute;
+    top: 10px;
+    left: 49%;
 }
+
 span.glyphicon.glyphicon-arrow-right.number-2 {
     position:  absolute;
-    top: 110px;
+    top: 78px;
     left: 79.8%;
 }
 span.glyphicon.glyphicon-arrow-right.number-3 {
-    top: 185px;
+    top: 122px;
     left: 79.8%;
     position:  absolute;
 }

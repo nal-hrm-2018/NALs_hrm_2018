@@ -72,8 +72,8 @@
                                     $('#form_search_employee').submit()
                                 }
                             </script>
-                            <div class="row absence_head">
-                                <div class="col-md-4">
+                            <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                <div class="style-box">
                                     <div>
                                         <p>
                                             - Số ngày được nghỉ phép:
@@ -95,7 +95,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="style-box">
                                     <div>
                                         <p>
                                             - Số ngày đã nghỉ:
@@ -118,7 +118,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="style-box">
                                     <div>
                                         <p>
                                             - Số ngày còn lại:
@@ -253,7 +253,7 @@
                                                     if($i == sizeof($obj->confirms)) {
                                                         echo '<div style="display: inline" id="div-edit-'. $obj->id .'">
                                                                 <button class="btn btn-default btn-edit" id="btn-edit-'. $obj->id .'">
-                                                                    <span style="color:darkviolet;"><i class="fa fa-edit"></i>Sửa</span>
+                                                                    <span><i class="fa fa-edit"></i>Sửa</span>
                                                                 </button></div>';
                                                     } else {
                                                         echo '<div style="display: inline"><button class="btn btn-default disabled">
@@ -264,7 +264,7 @@
                                                     if($obj->is_deny == 0 && $obj->absence_status_id != $idReject){
                                                         echo '<div style="display: inline" id="div-cancel-'. $obj->id .'">
                                                                 <button class="btn btn-default btn-cancel" id="btn-cancel-'. $obj->id .'">
-                                                                    <span style="color:darkviolet;"><i class="fa fa-times"></i>Hủy</span>
+                                                                    <span><i class="fa fa-times"></i>Hủy</span>
                                                                 </button></div>';
                                                     } else {
                                                         echo '<div style="display: inline"><button class="btn btn-default disabled">
@@ -540,6 +540,13 @@
         }
         .fa {
             width: 20px;
+        }
+        .style-box {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid;
+            border-radius: 5px;
+            min-width: 250px;
         }
     </style>
 @endsection

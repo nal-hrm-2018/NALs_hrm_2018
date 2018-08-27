@@ -14,7 +14,7 @@
         <section class="content-header">
             <h1>
                 {{trans('common.title_header.project_detail')}}
-                <small>{{trans('common.title_header.nal_solution')}}</small>
+                <small>NAL Solutions</small>
             </h1>
 
             <ol class="breadcrumb">
@@ -30,7 +30,8 @@
            <div class="row">
               <div class="box">
                  <!-- /.box-header -->
-                <div class="col-xs-12">
+                <div class="col-xs-12" style="display: flex; justify-content: space-around;">
+                    <div style="display: inline-block;">
                     <h2>{{trans('project.id')}}: <strong>{{$project->id}}</strong></h2>
                     <p>{{trans('project.project_name')}}:
                         <strong>{{$project->name}}</strong>
@@ -110,6 +111,7 @@
                         </strong>
                     </p>
                     <br>
+                    </div>
                 </div>
 
                     <div class="box-body">

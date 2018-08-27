@@ -15,7 +15,7 @@
         <section class="content-header">
             <h1>
                 {{trans('common.title_header.project_list')}}
-                <small>Nal solution</small>
+                <small>NAL Solutions</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
