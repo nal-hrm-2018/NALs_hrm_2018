@@ -55,7 +55,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-diamond"></i> <span>{{trans('leftbar.nav.project')}}</span>
+            <i class="glyphicon glyphicon-globe"></i> <span>{{trans('leftbar.nav.project')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
