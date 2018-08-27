@@ -62,93 +62,156 @@
         </button>
     </div>
 @endif
-
-<div class="col-md-6 col-md-offset-1">
-    <div>
-        <input type="hidden" id="project_id" name="project_id" value="{{old('id', $currentProject->id)}}">
-        <label>{{trans('project.id')}}<strong style="color: red">(*)</strong> </label>
-        {{ Form::text('id', old('id', $currentProject->id),
-            ['class' => 'form-control',
-            'id' => 'id',
-            'autofocus' => true,
-            'placeholder'=>trans('project.id'),
-            'disabled'=>'disabled'
-            ])
-        }}
-        {{--<label class="id" id="lb_error_project_id" style="color: red; ">{{$errors->first('id')}}</label>--}}
-    </div>
-    <div>
-        <label>{{trans('project.project_name')}}<strong style="color: red">(*)</strong> </label>
-        {{ Form::text('name', old('name', $currentProject->name),
-            ['class' => 'form-control',
-            'id' => 'name',
-            'autofocus' => true,
-            'placeholder'=>trans('project.project_name'),
-            ])
-        }}
-        {{--<label class="name" id="lb_error_project_name" style="color: red; ">{{$errors->first('name')}}</label>--}}
-    </div>
-    <div>
-        <label>{{trans('project.estimate_start_date')}}<strong style="color: red">(*)</strong> </label>
-        <div class="input-group date">
-            <div class="input-group-addon">
-                <i class="fa fa-calendar"></i>
-            </div>
-            <input type="date" class="form-control pull-right" name="estimate_start_date"
-                   id="estimate_start_date"
-                   value="{{ old('estimate_start_date', $currentProject->estimate_start_date)}}"/>
-
+<div class="col-md-12">
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <div>
+            <input type="hidden" id="project_id" name="project_id" value="{{old('id', $currentProject->id)}}">
+            <label>{{trans('project.id')}}<strong style="color: red">(*)</strong> </label>
+            {{ Form::text('id', old('id', $currentProject->id),
+                ['class' => 'form-control',
+                'id' => 'id',
+                'autofocus' => true,
+                'placeholder'=>trans('project.id'),
+                'disabled'=>'disabled'
+                ])
+            }}
+            {{--<label class="id" id="lb_error_project_id" style="color: red; ">{{$errors->first('id')}}</label>--}}
         </div>
-    {{--<label class="estimate_start_date" id="lb_error_estimate_start_date"--}}
-    {{--style="color: red; ">{{$errors->first('estimate_start_date')}}</label>--}}
-    <!-- /.input group -->
-    </div>
-    <div>
-        <label>{{trans('project.estimate_end_date')}}<strong style="color: red">(*)</strong> </label>
-        <div class="input-group date">
-            <div class="input-group-addon">
-                <i class="fa fa-calendar"></i>
-            </div>
-            <input type="date" class="form-control pull-right" name="estimate_end_date" id="estimate_end_date"
-                   value="{{ old('estimate_end_date',$currentProject->estimate_end_date)}}">
-
+        <div>
+            <label>{{trans('project.project_name')}}<strong style="color: red">(*)</strong> </label>
+            {{ Form::text('name', old('name', $currentProject->name),
+                ['class' => 'form-control',
+                'id' => 'name',
+                'autofocus' => true,
+                'placeholder'=>trans('project.project_name'),
+                ])
+            }}
+            {{--<label class="name" id="lb_error_project_name" style="color: red; ">{{$errors->first('name')}}</label>--}}
         </div>
-    {{--<label class="estimate_end_date" id="lb_error_estimate_end_date"--}}
-    {{--style="color: red; ">{{$errors->first('estimate_end_date')}}</label>--}}
-    <!-- /.input group -->
-    </div>
-    <div>
-        <label>{{trans('project.start_date_real')}}</label>
-        <div class="input-group date">
-            <div class="input-group-addon">
-                <i class="fa fa-calendar"></i>
-            </div>
-            <input type="date" class="form-control pull-right" name="start_date_project" id="start_date_project"
-                   value="{{ old('start_date_project',$currentProject->start_date)}}">
+        <div>
+            <label>{{trans('project.estimate_start_date')}}<strong style="color: red">(*)</strong> </label>
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="date" class="form-control pull-right" name="estimate_start_date"
+                       id="estimate_start_date"
+                       value="{{ old('estimate_start_date', $currentProject->estimate_start_date)}}"/>
 
-        </div>
-    {{--<label class="start_date_project" id="lb_error_start_date_project"--}}
-    {{--style="color: red; ">{{$errors->first('start_date_project')}}</label>--}}
-    <!-- /.input group -->
-    </div>
-    <div>
-        <label>{{trans('project.end_date_real')}}</label>
-        <div class="input-group date">
-            <div class="input-group-addon">
-                <i class="fa fa-calendar"></i>
             </div>
-            <input type="date" class="form-control pull-right" name="end_date_project" id="end_date_project"
-                   value="{{ old('end_date_project', $currentProject->end_date)}}">
+        {{--<label class="estimate_start_date" id="lb_error_estimate_start_date"--}}
+        {{--style="color: red; ">{{$errors->first('estimate_start_date')}}</label>--}}
+        <!-- /.input group -->
         </div>
-    {{--<label class="end_date_project" id="lb_error_end_date_project"--}}
-    {{--style="color: red; ">{{$errors->first('end_date_project')}}</label>--}}
-    <!-- /.input group -->
-    </div>
+        <div>
+            <label>{{trans('project.estimate_end_date')}}<strong style="color: red">(*)</strong> </label>
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="date" class="form-control pull-right" name="estimate_end_date" id="estimate_end_date"
+                       value="{{ old('estimate_end_date',$currentProject->estimate_end_date)}}">
 
+            </div>
+        {{--<label class="estimate_end_date" id="lb_error_estimate_end_date"--}}
+        {{--style="color: red; ">{{$errors->first('estimate_end_date')}}</label>--}}
+        <!-- /.input group -->
+        </div>
+        <div>
+            <label>{{trans('project.start_date_real')}}</label>
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="date" class="form-control pull-right" name="start_date_project" id="start_date_project"
+                       value="{{ old('start_date_project',$currentProject->start_date)}}">
+
+            </div>
+        {{--<label class="start_date_project" id="lb_error_start_date_project"--}}
+        {{--style="color: red; ">{{$errors->first('start_date_project')}}</label>--}}
+        <!-- /.input group -->
+        </div>
+        <div>
+            <label>{{trans('project.end_date_real')}}</label>
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="date" class="form-control pull-right" name="end_date_project" id="end_date_project"
+                       value="{{ old('end_date_project', $currentProject->end_date)}}">
+            </div>
+        {{--<label class="end_date_project" id="lb_error_end_date_project"--}}
+        {{--style="color: red; ">{{$errors->first('end_date_project')}}</label>--}}
+        <!-- /.input group -->
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <div>
+            <label>{{trans('project.income')}}<strong style="color: red">(*)</strong> </label>
+            {{ Form::number('income', old('income', $currentProject->income),
+                ['class' => 'form-control',
+                'id' => 'income',
+                'autofocus' => true,
+                'placeholder'=>trans('project.income'),
+                ])
+            }}
+            {{--<label id="lb_error_income" style="color: red;">{{$errors->first('income')}}</label>--}}
+        </div>
+        <div>
+            <label>{{trans('project.estimate_cost')}}</label>
+            {{ Form::Text('estimate_cost', old('estimate_cost'),
+                ['class' => 'form-control',
+                'id' => 'estimate_cost',
+                'autofocus' => true,
+                'placeholder'=>trans('project.estimate_cost'),
+                'readonly'=>'readonly',
+                ])
+            }}
+            {{--<label id="lb_error_estimate_cost" style="color: red;"></label>--}}
+        </div>
+        <div>
+            <label>{{trans('project.real_cost')}}</label>
+            {{ Form::number('real_cost', old('real_cost', $currentProject->real_cost),
+                ['class' => 'form-control',
+                'id' => 'real_cost',
+                'autofocus' => true,
+                'placeholder'=>trans('project.real_cost'),
+                ])
+            }}
+            {{--<label id="lb_error_real_cost" style="color: red;">{{$errors->first('real_cost')}}</label>--}}
+        </div>
+        <div>
+            <label>{{trans('project.description')}}</label>
+            {{ Form::textarea('description', old('description', $currentProject->description),
+                ['class' => 'form-control',
+                'id' => 'description',
+                'autofocus' => true,
+                'placeholder'=>trans('project.description'),
+                ])
+            }}
+            {{--<label id="lb_error_description" style="color: red;"></label>--}}
+        </div>
+        <div>
+            <label>{{trans('project.status')}}<strong style="color: red">(*)</strong> </label><br/>
+            <select name="status" id="status" class="form-control">
+                <option {{ (!empty(old('status')) || !empty($currentProject->status_id))?'':'selected="selected"' }} value="">
+                    {{  trans('vendor.drop_box.placeholder-default') }}
+                </option>
+                @foreach($project_status as $key=>$value)
+                    <option value="{{ $key }}" {{ ((string)$key===old('status') || $key==$currentProject->status_id)?'selected="selected"':'' }}>
+                        {{ $value }}
+                    </option>
+                @endforeach
+            </select>
+            {{--<label id="lb_error_project_status" style="color: red; ">{{$errors->first('status')}}</label>--}}
+        </div>
+    </div>
 </div>
-<div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
+
 <div class="col-md-2">
-    <button type="button" id="btn_add_process" class="btn btn-primary ">
+    <button type="button" id="btn_add_process" class="btn btn-info ">
         <i class="fa fa-user-plus"></i> {{trans('common.button.add')}}
     </button>
 </div>
@@ -214,10 +277,11 @@
     </div>
     <!-- /.input group -->
 </div>
+
 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
 {{--table--}}
 <div id="table_add" class="col-md-12" style="display: block">
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered table-striped">
         <thead>
         </thead>
         <tbody id="list_add">
@@ -354,74 +418,19 @@
         </tbody>
     </table>
 </div>
-<div class="col-md-6 col-md-offset-1">
-    <div>
-        <label>{{trans('project.income')}}<strong style="color: red">(*)</strong> </label>
-        {{ Form::number('income', old('income', $currentProject->income),
-            ['class' => 'form-control',
-            'id' => 'income',
-            'autofocus' => true,
-            'placeholder'=>trans('project.income'),
-            ])
-        }}
-        {{--<label id="lb_error_income" style="color: red;">{{$errors->first('income')}}</label>--}}
-    </div>
-    <div>
-        <label>{{trans('project.estimate_cost')}}</label>
-        {{ Form::Text('estimate_cost', old('estimate_cost'),
-            ['class' => 'form-control',
-            'id' => 'estimate_cost',
-            'autofocus' => true,
-            'placeholder'=>trans('project.estimate_cost'),
-            'readonly'=>'readonly',
-            ])
-        }}
-        {{--<label id="lb_error_estimate_cost" style="color: red;"></label>--}}
-    </div>
-    <div>
-        <label>{{trans('project.real_cost')}}</label>
-        {{ Form::number('real_cost', old('real_cost', $currentProject->real_cost),
-            ['class' => 'form-control',
-            'id' => 'real_cost',
-            'autofocus' => true,
-            'placeholder'=>trans('project.real_cost'),
-            ])
-        }}
-        {{--<label id="lb_error_real_cost" style="color: red;">{{$errors->first('real_cost')}}</label>--}}
-    </div>
-    <div>
-        <label>{{trans('project.description')}}</label>
-        {{ Form::textarea('description', old('description', $currentProject->description),
-            ['class' => 'form-control',
-            'id' => 'description',
-            'autofocus' => true,
-            'placeholder'=>trans('project.description'),
-            ])
-        }}
-        {{--<label id="lb_error_description" style="color: red;"></label>--}}
-    </div>
-    <div>
-        <label>{{trans('project.status')}}<strong style="color: red">(*)</strong> </label><br/>
-        <select name="status" id="status" class="form-control">
-            <option {{ (!empty(old('status')) || !empty($currentProject->status_id))?'':'selected="selected"' }} value="">
-                {{  trans('vendor.drop_box.placeholder-default') }}
-            </option>
-            @foreach($project_status as $key=>$value)
-                <option value="{{ $key }}" {{ ((string)$key===old('status') || $key==$currentProject->status_id)?'selected="selected"':'' }}>
-                    {{ $value }}
-                </option>
-            @endforeach
-        </select>
-        {{--<label id="lb_error_project_status" style="color: red; ">{{$errors->first('status')}}</label>--}}
-    </div>
-</div>
+
 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-<div class=" col-md-6 text-center col-md-offset-1" style="margin-top: 20px;">
-    <button id="btn_reset_form_project" type="button" class="btn btn-default" style="width: 150px"><span
+<div class=" col-md-12 text-center" style="margin-top: 20px;">
+    <div class="col-md-4"></div>
+    <div class="col-md-2">
+    <button id="btn_reset_form_project" type="button" class="btn btn-default"><span
                 class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
     </button>
-    <button id="btn_submit_form_edit_project" type="submit" class="btn btn-primary"
-            style="width: 150px">{{trans('common.button.update')}}</button>
+    </div>
+    <div class="col-md-2">
+    <button id="btn_submit_form_edit_project" type="submit" class="btn btn-info">{{trans('common.button.update')}}
+    </button>
+    </div>
 </div>
 
 {{-- nhan hien bang nhap form --}}
