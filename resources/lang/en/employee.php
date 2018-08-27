@@ -65,8 +65,8 @@ return[
         'avatar'=>'Avatar',
 
         'position'=>'Policy Type',
-        'start_work'=>'Start Work Date',
-        'end_work'=>'End Work Date',
+        'start_work'=>'Start Date',
+        'end_work'=>'End Date',
         'today'=>'Today',
         'year'=>'Year',
     ],
