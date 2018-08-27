@@ -274,7 +274,7 @@ class EmployeeController extends Controller
         $ojbEmployee = Employee::Where('id',$id)->first();
         $newPass = $request -> new_pass;
         $cfPass = $request -> cf_pass;
-        if (!Auth::user()->hasRoleHR()) {
+        if (\Illuminate\Support\Facades\Auth::user()->id == $id) {
             $oldPass = $request -> old_pass;
             if (!Hash::check($oldPass, $ojbEmployee->password)) {
                 return back()->with(['error' => trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $ojbEmployee]);
