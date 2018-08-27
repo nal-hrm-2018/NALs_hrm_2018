@@ -154,5 +154,7 @@ return [
         'november'=>'Tháng 11',
         'december'=>'Tháng 12'
     ],
-    'donut_chart' => 'Biểu đồ'
+    'donut_chart' => 'Biểu đồ',
+    'notifications' => 'Thông Báo',
+    'absences' => 'Vắng Nghỉ'
 ];
