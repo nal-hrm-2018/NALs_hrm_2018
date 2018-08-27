@@ -153,6 +153,6 @@ return [
         'october'=>'Tháng 10',
         'november'=>'Tháng 11',
         'december'=>'Tháng 12'
-    ]
-
+    ],
+    'donut_chart' => 'Biểu đồ'
 ];

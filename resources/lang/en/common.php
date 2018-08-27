@@ -158,5 +158,6 @@ return [
         'october'=>'October',
         'november'=>'November',
         'december'=>'December'
-    ]
+    ],
+    'donut_chart' => 'Donut Chart'
 ];
