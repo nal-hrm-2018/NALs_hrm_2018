@@ -80,11 +80,11 @@
                                             <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
                                         </p>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép cố định: 
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm nay: 
                                             <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
                                         </span><br>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép dư: 
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm trước: 
                                             <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
                                         </span>
                                     </div><br />
@@ -102,11 +102,11 @@
                                             <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
                                         </p>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép cố định: 
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép năm nay: 
                                             <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
                                         </span><br>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép dư: 
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép năm trước: 
                                             <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
                                         </span>
                                         
@@ -125,11 +125,11 @@
                                             <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
                                         </p>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép cố định: 
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép năm nay: 
                                             <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
                                         </span>
                                         <span><br>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép dư:
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép năm trước:
                                             <span id="phepDu">{{$absences['phepDu']}}</span>
                                         </span>
                                         <span id='hanphep'>
