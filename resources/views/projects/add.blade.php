@@ -9,11 +9,11 @@
                 {{trans('common.path.add_project')}}
                 <small>NAL Solutions</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{route('projects.index')}}">{{trans('common.title_header.project_list')}}</a></li>
-                <li class="active">{{trans('common.path.add_project')}}</li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{route('dashboard-user')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+                {{--<li><a href="{{route('projects.index')}}">{{trans('common.title_header.project_list')}}</a></li>--}}
+                {{--<li class="active">{{trans('common.path.add_project')}}</li>--}}
+            {{--</ol>--}}
         </section>
 
         <!-- Main content -->
