@@ -68,7 +68,7 @@
             <section>
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Notifications</h3>
+                        <h3 class="box-title">{{trans('common.notifications')}}</h3>
                     </div>
                     <div class="box-body">
                         <div class="news">
@@ -94,7 +94,7 @@
             <section>
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Absences</h3>
+                        <h3 class="box-title">{{trans('common.absences')}}</h3>
                     </div>
                     <div class="box-body">
                         <div>
@@ -279,7 +279,7 @@
                         <div class="col-md-4">
                             <div class="box box-danger height-400">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">{{trans('employee.new')}}</h3>
+                                    <h3 class="box-title">{{trans('employee.new')}}{{trans('employee.this_month')}}</h3>
 
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>

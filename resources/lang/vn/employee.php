@@ -8,6 +8,7 @@ return[
     'info'=>'thông tin',
     'employee'=>'Nhân Viên',
     'new'=> 'Nhân Viên Mới',
+    'this_month'=> ' Trong Tháng '.date('n'),
     'status'=>[
        'status'=>'Tình Trạng Nhân Viên',
        'active'=>'Đang làm việc',

@@ -43,7 +43,8 @@
       display: none;
   }
   .custom-file-upload {
-      width: 150px !important;
+      text-transform: uppercase !important;
+      width: 160px !important;
       max-width: unset !important;
       border: 1px solid #ccc;
       display: inline-block;
@@ -113,7 +114,7 @@
                             {{asset('/avatar/default_avatar.png')}}
                         @endif" class="image img-circle profile-user-img" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" /><br>
                 <label for="chooseimg" class="custom-file-upload">
-                  <i class="fa fa-cloud-upload"></i>Upload avatar
+                  <i class="fa fa-cloud-upload"></i>&nbsp;Upload avatar
                 </label>
                <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV" accept="image/*"/>
 
@@ -142,7 +143,8 @@
               <div>
              @if(isset($objEmployee))
                @if((\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"]) || (Auth::user()->hasRoleHR()))
-                 <button type="button" class="custom-file-upload" data-toggle="modal" data-target="#myModal" style="position: relative; left: 1px;">
+                 <button type="button" class="custom-file-upload" data-toggle="modal" data-target="#myModal" style="position: relative; left: 1px; font-weight: 700;">
+                  <i class="glyphicon glyphicon-edit"></i>&nbsp;
                    {{trans('common.button.edit_password')}}
 
                  </button>
@@ -350,7 +352,7 @@
                                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                  </div>
                                  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                     @if(!(Auth::user()->hasRoleHR()))
+                                     @if(\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"])
                                      <div class="input-group margin">
                                          <div class="input-group-btn">
                                              <button type="button" class="btn btn-default width-165">{{trans('employee.profile_info.old_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;&ensp;</button>
