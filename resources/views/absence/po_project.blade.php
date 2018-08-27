@@ -5,7 +5,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                <h4 class="modal-title">{{  trans('common.title_header.absence_list') }}</h4>
+                {{  trans('common.title_header.absence_list') }}
+                <small>NAL Solutions</small>
             </h1>
 
             {{--<ol class="breadcrumb">--}}
@@ -76,9 +77,6 @@
                                    .'&employee_name='.$employee_name.'&email='.$email.'&project_id='.$project_id.'&absence_type='.$absence_type
                                    .'&from_date='.$from_date.'&to_date='.$to_date.'&confirm_status='.$confirm_status.'&page='.$page}}">
                                     <i class="fa fa-vcard"></i>
-                                    <span id="contain-canvas" style="">
-                                <canvas id="my_canvas" width="16" height="16" style=""></canvas>
-                            </span>
                                     {{trans('common.button.export')}}</a>
                             </button>
                         </button>

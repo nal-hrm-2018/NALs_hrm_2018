@@ -43,7 +43,8 @@
       display: none;
   }
   .custom-file-upload {
-      width: 150px !important;
+      text-transform: uppercase !important;
+      width: 160px !important;
       max-width: unset !important;
       border: 1px solid #ccc;
       display: inline-block;
@@ -112,7 +113,7 @@
                             {{asset('/avatar/default_avatar.png')}}
                         @endif" class="image img-circle profile-user-img" onclick="myFunction()" id="image" alt="Chưa có ảnh đại diện" /><br>
                 <label for="chooseimg" class="custom-file-upload">
-                  <i class="fa fa-cloud-upload"></i>Upload avatar
+                  <i class="fa fa-cloud-upload"></i>&nbsp;Upload avatar
                 </label>
                <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" id="myDIV" accept="image/*"/>
 
@@ -141,7 +142,8 @@
               <div>
              @if(isset($objEmployee))
                @if((\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"]) || (Auth::user()->hasRoleHR()))
-                 <button type="button" class="custom-file-upload" data-toggle="modal" data-target="#myModal" style="position: relative; left: 1px;">
+                 <button type="button" class="custom-file-upload" data-toggle="modal" data-target="#myModal" style="position: relative; left: 1px; font-weight: 700;">
+                  <i class="glyphicon glyphicon-edit"></i>&nbsp;
                    {{trans('common.button.edit_password')}}
                  </button>
                  <br />
