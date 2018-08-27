@@ -47,10 +47,10 @@ class EmployeeEditRequest extends FormRequest
 //            'team_id' => 'required',
 //            'role_id' => 'required',
                 /*'avatar' => 'required',*/
-                'birthday' => 'required|before:today',
+                'birthday' => 'required|before:today|after:1900-01-01',
                 'picture' => 'image|max:2048',
-            'startwork_date' => 'required',
-            'endwork_date' => 'required|after:startwork_date'
+                'startwork_date' => 'required|after:birthday',
+            'endwork_date' => 'required|after:startwork_date|after:birthday'
             ];
         }
         return [
@@ -79,8 +79,8 @@ class EmployeeEditRequest extends FormRequest
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
             'picture' => 'image|max:2048',
-          'startwork_date' => 'required',
-            'endwork_date' => 'required|after:startwork_date'
+          'startwork_date' => 'required|after:birthday',
+            'endwork_date' => 'required|after:startwork_date|after:birthday'
         ];
 
     }
@@ -164,6 +164,10 @@ class EmployeeEditRequest extends FormRequest
             'birthday.before' => trans('validation.before', [
                 'attribute' => trans('employee.profile_info.birthday'),
                 'date' => trans('employee.profile_info.today')
+            ]),
+            'birthday.after' => trans('validation.after', [
+                'attribute' => trans('employee.profile_info.birthday'),
+                'date' => '01-01-1900'
             ]),
             'startwork_date.required' => trans('validation.required', [
                 'attribute' => trans('employee.profile_info.start_work')
