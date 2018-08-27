@@ -172,6 +172,7 @@
                 'id' => 'description',
                 'autofocus' => true,
                 'placeholder'=>trans('project.description'),
+                'rows' => '4',
                 ])
             }}
             {{--<label id="lb_error_description" style="color: red;"></label>--}}
