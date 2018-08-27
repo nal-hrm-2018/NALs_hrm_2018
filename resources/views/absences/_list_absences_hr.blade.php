@@ -31,11 +31,11 @@
                 vertical-align: middle !important;
             }
         </style>
-        <tr class="list-project">
+        <!-- <tr class="list-project">
             <th colspan="4"></th>
             <th class="text-center project-center" colspan="3">{{trans('absence.number_of_days_off')}}</th>
             <th colspan="2"></th>
-        </tr>
+        </tr> -->
         <tr class="list-project">
             <th class="text-center project-center">{{trans('common.name.employee_name')}}</th>
             <th class="text-center project-center">{{trans('employee.profile_info.email')}}</th>
