@@ -1,5 +1,6 @@
 <?php
 return [
+    'add'=> 'Tạo đơn xin vắng nghỉ',
     'total_date_absences' => 'Số ngày phép có thể nghỉ',
     'number_of_days_off'=>'Số ngày đã nghỉ',
     'absented_date'=>'Số ngày nghỉ phép',
