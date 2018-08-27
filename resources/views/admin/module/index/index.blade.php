@@ -465,7 +465,7 @@
                                         @if($process['project']['estimate_end_date']!=null)
                                             <td>{{$process['project']['estimate_end_date']->format('d-m-Y')}}</td>
                                         @else
-                                            <td></td>
+                                            <td>-</td>
                                         @endif
                                         @if($process['project']['status']['name']=='kick off')
                                             <td><span class="label label-primary">{{$process['project']['status']['name']}}</span></td>
