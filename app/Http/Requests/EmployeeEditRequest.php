@@ -33,7 +33,7 @@ class EmployeeEditRequest extends FormRequest
                 'integer',
                 'digits_between:1,3',
             ],
-            'mobile' => 'required|numeric|digits_between:10,11',
+            'mobile' => 'required|numeric|min:1|digits_between:10,11',
             'marital_status' =>  [
                 'required',
                 'integer',
@@ -96,6 +96,9 @@ class EmployeeEditRequest extends FormRequest
                 'attribute' => trans('employee.profile_info.phone'),
                 'min' => '10',
                 'max' => '11'
+            ]),
+            'mobile.min' => trans('validation.bigger_zero', [
+                'attribute' => trans('employee.profile_info.phone'),
             ]),
             'marital_status.required' => trans('validation.required', [
                 'attribute' => trans('employee.profile_info.marital_status.title')
