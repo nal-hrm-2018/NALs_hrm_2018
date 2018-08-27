@@ -73,16 +73,15 @@
                                 </div>
 
                                 
-                                <span class="glyphicon glyphicon-arrow-right number-2"></span>
-                                <span class="glyphicon glyphicon-arrow-right number-3"></span>
+                                <!-- <span class="glyphicon glyphicon-arrow-right number-2"></span>
+                                <span class="glyphicon glyphicon-arrow-right number-3"></span> -->
 
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    <div class="input-group margin" style="position: relative;">
+                                    <div class="input-group margin" >
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.number_of_member')}}</button>
                                         </div>
-                                        <span class="glyphicon glyphicon-arrow-right"></span>
-                                        <div class="row">
+                                        <div class="row" style="position: relative;">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="number" name="number_from" id="project_number_from" class="form-control"--}}
                                                 {{--value="{{!empty(request('number_from'))?request('number_from'):null}}"/>--}}
@@ -93,6 +92,7 @@
                                                     ])
                                                 }}
                                             </div>
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="number" name="number_to" id="project_number_to" class="form-control"--}}
                                                 {{--value="{{!empty(request('number_to'))?request('number_to'):null}}"/>--}}
@@ -110,7 +110,7 @@
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.estimate_date')}}</button>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="position: relative;">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="date" name="project_date_from" id="project_date_from" class="form-control"--}}
                                                        {{--value="{{!empty(request('project_date_from'))?request('project_date_from'):null}}"/>--}}
@@ -121,6 +121,7 @@
                                                     ])
                                                 }}
                                             </div>
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="date" name="project_date_to" id="project_date_to" class="form-control"--}}
                                                        {{--value="{{!empty(request('project_date_to'))?request('project_date_to'):null}}"/>--}}
@@ -133,12 +134,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <!-- <label style="color: red; margin-left: 130px;" id="error_project_date"></label> -->
                                     <div class="input-group margin">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn width-100">{{trans('project.real_date')}}</button>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="position: relative;">
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="date" name="project_date_real_from" id="project_date_real_from" class="form-control"--}}
                                                        {{--value="{{!empty(request('project_date_real_from'))?request('project_date_real_from'):null}}"/>--}}
@@ -149,6 +151,7 @@
                                                     ])
                                                 }}
                                             </div>
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
                                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                 {{--<input type="date" name="project_date_real_to" id="project_date_real_to" class="form-control"--}}
                                                        {{--value="{{!empty(request('project_date_real_to'))?request('project_date_real_to'):null}}"/>--}}
