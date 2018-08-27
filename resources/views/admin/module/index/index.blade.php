@@ -68,7 +68,7 @@
             <section>
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Notifications</h3>
+                        <h3 class="box-title">{{trans('common.notifications')}}</h3>
                     </div>
                     <div class="box-body">
                         <div class="news">
@@ -94,7 +94,7 @@
             <section>
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Absences</h3>
+                        <h3 class="box-title">{{trans('common.absences')}}</h3>
                     </div>
                     <div class="box-body">
                         <div>
