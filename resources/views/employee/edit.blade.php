@@ -47,6 +47,7 @@
       max-width: unset !important;
       border: 1px solid #ccc;
       display: inline-block;
+      background: white;
       padding: 6px 12px;
       cursor: pointer;
 
@@ -131,16 +132,16 @@
                  });
              </script>
            </CENTER>
-           <div style="margin-top: 20px;">
-             <label style="margin-left: 23px;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
-
-           </div>
-          <center>
-            
-           <div>
+           <center>
+             <label style="text-align: left;
+                            color: red;
+                            font-weight: bold;
+                            font-size: 12px;
+                            margin-bottom: 10px;" id="lb_error_name">{{$errors->first('picture')}}</label>
+              <div>
              @if(isset($objEmployee))
                @if((\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"]) || (Auth::user()->hasRoleHR()))
-                 <button type="button" class="btn btn-info btn-default" data-toggle="modal" data-target="#myModal" style="margin-top:1.75em; color: white;">
+                 <button type="button" class="custom-file-upload" data-toggle="modal" data-target="#myModal" style="position: relative; left: 1px;">
                    {{trans('common.button.edit_password')}}
                  </button>
                  <br />
@@ -154,7 +155,7 @@
                @endif
              @endif
             </div>
-          </center>
+           </center>
          </div>
          <!-- /.col -->
          <div class="col-md-4">
