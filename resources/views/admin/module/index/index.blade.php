@@ -685,16 +685,18 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <table class="table table-bordered">
+                                <table id="dtBasicPD" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                                    <thead>
                                     <tr>
-                                        <th style="width: 10px">{{trans('dashboard.stt')}}</th>
-                                        <th>{{trans('dashboard.name.project')}}</th>
-                                        <th>{{trans('dashboard.position')}}</th>
-                                        <th>{{trans('dashboard.start_date')}}</th>
-                                        <th>{{trans('dashboard.end_date')}}</th>
-                                        <th>{{trans('dashboard.po_name')}}</th>
-                                        <th>{{trans('dashboard.status')}}</th>
+                                        <th class="th-sm">{{trans('dashboard.stt')}}</th>
+                                        <th class="th-sm">{{trans('dashboard.name.project')}}</th>
+                                        <th class="th-sm">{{trans('dashboard.position')}}</th>
+                                        <th class="th-sm">{{trans('dashboard.start_date')}}</th>
+                                        <th class="th-sm">{{trans('dashboard.end_date')}}</th>
+                                        <th class="th-sm">{{trans('dashboard.po_name')}}</th>
+                                        <th class="th-sm">{{trans('dashboard.status')}}</th>
                                     </tr>
+                                    </thead>
                                     @foreach($objmEmployee->processes as $key => $process)
                                         @php
                                             $idPO=\App\Models\Role::where('name','PO')->first();
@@ -731,6 +733,12 @@
                                         </tr>
                                     @endforeach
                                 </table>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('#dtBasicPD').DataTable();
+                                        $('.dataTables_length').addClass('bs-select');
+                                    });
+                                </script>
                             </div>
                         </div>
                     </section>
