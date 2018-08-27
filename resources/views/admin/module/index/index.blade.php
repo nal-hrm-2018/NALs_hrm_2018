@@ -4,6 +4,17 @@
     {{--start code by Dung--}}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <style>
+        .style-box {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid;
+            border-radius: 5px;
+            min-width: 250px;
+        }
+        .absence_head p{
+            font-weight: bold;
+            font-size: 15px;
+        }
         .container-donut-chart {
             display: flex;
             flex-wrap: wrap;
@@ -99,13 +110,13 @@
                     <div class="box-body">
                         <div>
                             <button type="button" class="btn btn-default">
-                                <a href="{{route('absences.create')}}"><i class="fa fa-user-plus"></i>{{trans('absence.add')}}</a>
+                                <a href="{{route('absences.create')}}"><i class="fa fa-user-plus"></i>&nbsp;{{trans('absence.add')}}</a>
                             </button>
                         </div>
                         <div style="margin: 30px 0 0;">
                             <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
-                                <div class="style-box">
-                                    <div>
+                                <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày được nghỉ phép:
                                             <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
@@ -119,15 +130,15 @@
                                             <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
                                         </span>
                                     </div><br />
-                                    <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày nghỉ không lương:
                                             <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
                                         </p>
                                     </div>
                                 </div>
-                                <div class="style-box">
-                                    <div>
+                                <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày đã nghỉ:
                                             <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
@@ -142,15 +153,15 @@
                                         </span>
 
                                     </div><br/>
-                                    <div >
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày nghỉ trừ lương:
                                             <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
                                         </p>
                                     </div>
                                 </div>
-                                <div class="style-box">
-                                    <div>
+                                <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày còn lại:
                                             <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
@@ -175,7 +186,7 @@
                                             </script>
                                         @endif
                                     </div><br>
-                                    <div>
+                                    <div class="style-box">
                                         <p>
                                             - Số ngày nghỉ chế độ bảo hiểm:
                                             <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
@@ -745,5 +756,4 @@
             @endif <!-- endcode from trinhhunganh . -->
         </div>
     </div>
-
 @endsection
