@@ -338,12 +338,12 @@
 <div class=" col-md-12 text-center" style="margin-top: 20px;">
     <div class="col-md-4"></div>
     <div class="col-md-2">
-        <button id="btn_reset_form_project" type="button" class="btn btn-default"><span
+        <button id="btn_reset_form_project" type="button" class="btn btn-default" style="float: right;"><span
                     class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
         </button>
     </div>
     <div class="col-md-2">
-        <button id="btn_submit_form_add_project" type="submit" class="btn btn-info"
+        <button id="btn_submit_form_add_project" type="submit" class="btn btn-info" style="float: left;" 
                 >{{trans('common.button.add')}}</button>
     </div>
 {{-- nhan hien bang nhap form --}}
