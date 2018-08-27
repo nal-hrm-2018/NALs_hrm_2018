@@ -11,6 +11,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Rule\ValidEmail;
+use Illuminate\Support\Facades\Auth;
 class EmployeeEditRequest extends FormRequest
 {
     public function authorize()
@@ -20,13 +21,46 @@ class EmployeeEditRequest extends FormRequest
 
     public function rules()
     {
+        if (Auth::user()->hasRole('HR')){
+            return [
+                'email' =>[
+//                'required',
+                    'email',
+                    new ValidEmail(request()->get('email'), request()->route()->parameters())],
+                'confirm_confirmation' => 'same:password',
+
+                'name' => 'required',
+                'address' => 'required',
+                'gender' => [
+                    'required',
+                    'integer',
+                    'digits_between:1,3',
+                ],
+                'mobile' => 'required|numeric|min:1|digits_between:10,11',
+                'marital_status' =>  [
+                    'required',
+                    'integer',
+                    'digits_between:1,4',
+                ],
+                /*'curriculum_vitae' => 'required',*/
+//            'employee_type_id' => 'required',
+//            'team_id' => 'required',
+//            'role_id' => 'required',
+                /*'avatar' => 'required',*/
+                'birthday' => 'required|before:today',
+                'picture' => 'image|max:2048',
+//            'startwork_date' => 'required',
+//            'endwork_date' => 'required|after:startwork_date'
+            ];
+        }
         return [
             'email' =>[
 //                'required',
                 'email',
                 new ValidEmail(request()->get('email'), request()->route()->parameters())],
             'confirm_confirmation' => 'same:password',
-  //          'name' => 'required',
+
+          //'name' => 'required',
             'address' => 'required',
             'gender' => [
                 'required',
