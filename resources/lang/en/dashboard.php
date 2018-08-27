@@ -14,5 +14,6 @@ return [
     'project_id' => 'PROJECT ID',
     'role' => 'ROLE',
     'member' => 'MEMBER',
-    'project' => 'Project'
+    'project' => 'Project',
+    'project_dev' => 'Project Joined'
 ];
