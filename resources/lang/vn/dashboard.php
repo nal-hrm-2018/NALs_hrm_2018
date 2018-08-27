@@ -14,5 +14,6 @@ return [
     'project_id' => 'ID dự án',
     'role' => 'Vai trò',
     'member' => 'Thành viên',
-    'project' => 'Dự án'
+    'project' => 'Dự án',
+    'project_dev' => 'Dự Án Tham Gia'
 ];
