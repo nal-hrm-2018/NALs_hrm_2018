@@ -59,6 +59,7 @@
   }
 </style>
 <div class="content-wrapper">
+
   <!-- Content Header (Page header) -->
   <section class="content-header">
   @if(\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"])
@@ -145,15 +146,18 @@
                  <button type="button" class="custom-file-upload" data-toggle="modal" data-target="#myModal" style="position: relative; left: 1px; font-weight: 700;">
                   <i class="glyphicon glyphicon-edit"></i>&nbsp;
                    {{trans('common.button.edit_password')}}
+
                  </button>
                  <br />
-                 <label style="color: red;">
-                     <?php
-                     if (Session::has('error')){
-                         echo''.Session::get("error");
-                     }
-                     ?>
-                 </label>
+                   @if(!(Auth::user()->hasRoleHR()))
+                      <label style="color: red;">
+                           <?php
+                           if (Session::has('error')){
+                               echo''.Session::get("error");
+                           }
+                           ?>
+                       </label>
+                   @endif
                @endif
              @endif
             </div>
@@ -207,7 +211,7 @@
                <div class="input-group-addon">
                  <i class="fa fa-calendar"></i>
                </div>
-               <input type="date" class="form-control pull-right" id="birthday" name="birthday" id="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
+               <input type="date" class="form-control pull-right" id="birthday" name="birthday" id="birthday" min="1900-01-01" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
              </div>
              <label id="lb_error_birthday" style="color: red;">{{$errors->first('birthday')}}</label>
              <!-- /.input group -->
@@ -246,7 +250,12 @@
          <div class="col-md-4">
            <div class="form-group">
              <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
+            @if($statusRole <> "")
              <input type="text" class="form-control" {{$statusRole}} placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+            @endif
+           @if($statusRole == "")
+               <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.name')}}"  name="name" id="name" value="{!! old('name', isset($objEmployee["name"]) ? $objEmployee["name"] : null) !!}">
+           @endif
              <label id="lb_error_name" style="color: red;">{{$errors->first('name')}}</label>
              <!-- /.input group -->
            </div>
@@ -268,7 +277,6 @@
            <div class="form-group">
              <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
              <select class="form-control select2" {{$statusRole}} style="width: 100%;" name="role_id" id="role_id">
-               <option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>
                  <?php
                  foreach($dataRoles as $val){
                      $selected = "";
@@ -287,7 +295,12 @@
                <div class="input-group-addon">
                  <i class="fa fa-calendar"></i>
                </div>
+              @if($statusRole <> "")
                <input type="date" {{$statusRole}} class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
+             @endif
+             @if($statusRole == "")
+                  <input type="date" class="form-control pull-right" id="startwork_date" name="startwork_date" id="startwork_date" value="{!! old('startwork_date', isset($objEmployee["startwork_date"]) ? $objEmployee["startwork_date"] : null) !!}">
+             @endif
              </div>
              <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
            </div>
@@ -297,8 +310,12 @@
                <div class="input-group-addon">
                  <i class="fa fa-calendar"></i>
                </div>
-               <input type="date" {{$statusRole}} class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
-             </div>
+                 @if($statusRole <> "")
+                   <input type="date" {{$statusRole}} class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
+                 @endif
+                 @if($statusRole == "")
+                   <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
+                 @endif
              <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
              <!-- /.input group -->
            </div>
@@ -323,7 +340,7 @@
      {{ Form::close() }}
          <div id="myModal" class="modal fade" role="dialog">
              <div class="modal-dialog" style="width: 50%;">
-                 <form method="post" action="{{asset('employee/edit-password')}}" class="edit_pass" onsubmit="return validate();">
+                 <form method="post" action="{{asset('employee/edit-password/'.$objEmployee->id)}}" class="edit_pass" onsubmit="return validate();">
                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
                      <div class="modal-content">
                          <div class="modal-header">
@@ -335,12 +352,14 @@
                                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                  </div>
                                  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                     @if(\Illuminate\Support\Facades\Auth::user()->id == $objEmployee["id"])
                                      <div class="input-group margin">
                                          <div class="input-group-btn">
                                              <button type="button" class="btn btn-default width-165">{{trans('employee.profile_info.old_password')}}<strong style="color: red">(*)</strong>&ensp;&ensp;&ensp;&ensp;</button>
                                          </div>
                                          <input type="password" name="old_pass" id="old_pass" class="form-control" onchange="oldPass()">
                                      </div>
+                                     @endif
                                      <label style="color: red; margin-left: 130px;" id="errorOldPass" style="display: inline;"></label>
                                      <div class="input-group margin">
                                          <div class="input-group-btn">
@@ -378,19 +397,22 @@
                          });
                      })
                      function validate(){
-                         var old_pass = document.getElementById("old_pass").value;
+                         var roleHR =  "<?php echo (Auth::user()->hasRoleHR()) ?>";
                          var new_pass = document.getElementById("new_pass").value;
                          var cf_pass = document.getElementById("cf_pass").value;
                          var check = true;
-                         if(old_pass == ""){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
-                             check =false;
-                         }else if(old_pass.length < 6){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
-                             check = false;
-                         }else if(old_pass.length > 32){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.max_old_pass')}}";
-                             check = false;
+                         if(!roleHR){
+                             var old_pass = document.getElementById("old_pass").value;
+                             if(old_pass == ""){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
+                                 check =false;
+                             }else if(old_pass.length < 6){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
+                                 check = false;
+                             }else if(old_pass.length > 32){
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.max_old_pass')}}";
+                                 check = false;
+                             }
                          }
 
                          if(new_pass == ""){
@@ -414,14 +436,18 @@
                      }
                  </script>
                  <script>
-                     function oldPass() {
-                         var x = document.getElementById("old_pass").value;
-                         if(x == ""){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
-                         } else if(x.length < 6){
-                             document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
-                         }else{
-                             document.getElementById("errorOldPass").innerHTML = "";
+                     var roleHR =  "<?php echo (Auth::user()->hasRoleHR()) ?>";
+                     if(!roleHR)
+                     {
+                         function oldPass() {
+                             var x = document.getElementById("old_pass").value;
+                             if (x == "") {
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.required_old_pass')}}";
+                             } else if (x.length < 6) {
+                                 document.getElementById("errorOldPass").innerHTML = "{{trans('employee.valid_reset_password.min_old_pass')}}";
+                             } else {
+                                 document.getElementById("errorOldPass").innerHTML = "";
+                             }
                          }
                      }
                  </script>

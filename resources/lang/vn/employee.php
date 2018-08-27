@@ -6,6 +6,21 @@ return[
     ],
     'basic'=>'Thông Tin Cơ Bản',
     'info'=>'thông tin',
+    'employee'=>'Nhân Viên',
+    'new'=> 'Nhân Viên Mới',
+    'this_month'=> ' Trong Tháng '.date('n'),
+    'status'=>[
+       'status'=>'Tình Trạng Nhân Viên',
+       'active'=>'Đang làm việc',
+       'leaved'=>'Đã nghỉ việc'
+    ],
+    'type'=>[
+        'type'=>'Loại Nhân Viên',
+        'official'=>'Chính thức ',
+        'probationary'=>'Thử việc',
+        'internship'=>'Hoc việc',
+        'part-time'=>'Bán thời gian'
+    ],
     'profile_info'=>[
         'id'=>'Mã Nhân Viên',
         'short_id'=>'ID',
@@ -76,6 +91,7 @@ return[
         'match_confirm_pass'=>'Mật khẩu nhập lại phải trùng với mật khẩu mới.',
         'incorrect_old_pass'=>'Mật khẩu cũ không đúng!!!',
         'reset_success'=>'Thay đổi mật khẩu thành công!!!',
+        'repeat__pass'=>'Mật khẩu mới trùng với mật khẩu cũ'
     ],
     'msg_edit'=>[
         'success'=>'Chỉnh sửa thành công!!!',

@@ -1,14 +1,14 @@
 <input id="number_record_per_page" type="hidden" name="number_record_per_page"
        value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
 <div class="dataTables_length" id="project-list_length" style="float:right">
-    <label>{{trans('pagination.show.number_record_per_page')}}
+    <label class="lable-entries">{{trans('pagination.show.number_record_per_page')}}
         {!! Form::select(
             'select_length',
             getArraySelectOption() ,
             null ,
             [
             'id'=>'select_length',
-            'class' => 'form-control input-sm',
+            'class' => 'form-control input-sm input-entries',
             'aria-controls'=>"project-list"
             ]
             )

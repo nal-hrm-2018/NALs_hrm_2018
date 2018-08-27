@@ -37,6 +37,7 @@ return [
         'import' => 'IMPORT',
         'export' => 'EXPORT',
         'template' => 'TEMPLATE',
+        'reset_password'=>'RESET PASSWORD',
         'edit_password'=>'EDIT PASSWORD',
         'reopen'=> 'Reopen',
         'back' => 'BACK',
@@ -157,5 +158,8 @@ return [
         'october'=>'October',
         'november'=>'November',
         'december'=>'December'
-    ]
+    ],
+    'donut_chart' => 'Donut Chart',
+    'notifications' => 'Notifications',
+    'absences' => 'Absences'
 ];

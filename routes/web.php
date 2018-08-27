@@ -64,7 +64,7 @@ Route::group(['middleware' => 'user'], function () {
     ]);
     Route::post('employee/postFile', 'User\Employee\EmployeeController@postFile')->name('postFile');
     Route::get('employee/importEmployee', 'User\Employee\EmployeeController@importEmployee')->name('importEmployee');
-    Route::post('employee/edit-password', 'User\Employee\EmployeeController@editPass')->name('editPass');
+    Route::post('employee/edit-password/{id}', 'User\Employee\EmployeeController@editPass')->name('editPass');
     Route::resource('employee', 'User\Employee\EmployeeController');
 
     Route::get('employee',[

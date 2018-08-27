@@ -106,11 +106,13 @@
 
                 <p>
                   {{Auth::user()->name}} - {{isset(App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name)?App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name:"  "  }}
-                  <small>{{trans('common.header.member_since')}} {{Auth::user()->startwork_date}}</small>
-{{--                  {{Auth::user()->name}}--}}
-                  {{--<small>Member since {{Auth::user()->startwork_date}}</small>--}}
+                  <small>{{trans('common.header.member_since')}}
+                      <?php
+                      $date = new DateTime(Auth::user()->startwork_date);
+                      echo $date->format('d-m-Y');
+                      ?>
+                  </small>
                 </p>
-
               </li>
               <!-- Menu Footer-->
               <li class="user-footer" >

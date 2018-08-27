@@ -28,19 +28,19 @@
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-default">
-                    <a href="{{route('absences.create')}}"><i class="fa fa-user-plus"></i>Đăng ký vắng nghỉ</a>
+                    <a href="{{route('absences.create')}}" style="color: darkviolet;"><i class="fa fa-user-plus"></i>{{trans('absence.add')}}</a>
                 </button>
 
             </div>
-            
+
         </section>
-        
+
 
         <div id="msg">
         </div>
         <!-- Main content -->
         <section class="content">
-            <div class="row">     
+            <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
                         <!-- /.box-header -->
@@ -76,7 +76,7 @@
                                 <div>
                                     <div class="style-box">
                                         <p>
-                                            - Số ngày được nghỉ phép: 
+                                            - Số ngày được nghỉ phép:
                                             <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
                                         </p>
                                         <span>
@@ -85,12 +85,13 @@
                                         </span><br>
                                         <span>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm trước: 
+
                                             <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
                                         </span>
                                     </div><br />
                                     <div class="style-box">
                                         <p>
-                                            - Số ngày nghỉ không lương: 
+                                            - Số ngày nghỉ không lương:
                                             <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
                                         </p>
                                     </div>
@@ -98,7 +99,7 @@
                                 <div>
                                     <div class="style-box">
                                         <p>
-                                            - Số ngày đã nghỉ: 
+                                            - Số ngày đã nghỉ:
                                             <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
                                         </p>
                                         <span>
@@ -107,13 +108,14 @@
                                         </span><br>
                                         <span>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép năm trước: 
+
                                             <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
                                         </span>
-                                        
+
                                     </div><br/>
                                     <div class="style-box">
                                         <p>
-                                            - Số ngày nghỉ trừ lương: 
+                                            - Số ngày nghỉ trừ lương:
                                             <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
                                         </p>
                                     </div>
@@ -126,6 +128,7 @@
                                         </p>
                                         <span>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép năm nay: 
+
                                             <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
                                         </span>
                                         <span><br>
@@ -146,7 +149,7 @@
                                     </div><br>
                                     <div class="style-box">
                                         <p>
-                                            - Số ngày nghỉ chế độ bảo hiểm: 
+                                            - Số ngày nghỉ chế độ bảo hiểm:
                                             <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
                                         </p>
                                     </div>
@@ -188,12 +191,11 @@
                                                 @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.insurance_date'))
                                                     <span class="label label-default">
                                                 @else
-                                                    <span>
+                                                    <span>{{trans('absence_po.list_po.type.'.$obj->name_type)}}</span>
                                                 @endif
-                                                {{trans('absence_po.list_po.type.'.$obj->name_type)}}</span>
                                             </td>
-                                            <td>{{$obj->reason}}</td>
-                                            <td>{{$obj->description}}</td>
+                                            <td>{{$obj->reason ? $obj->reason : "-"}}</td>
+                                            <td>{{$obj->description ? $obj->description : "-"}}</td>
 
                                             <td class="td-absence-status" id="td-absence-status-{{$obj->id}}">
                                                 @if($obj->is_deny == 0)
@@ -381,7 +383,7 @@
                     document.getElementById("soNgayDaNghi").innerHTML = msg.aAbsences['soNgayDaNghi'];
                     document.getElementById("truVaoPhepCoDinh").innerHTML = msg.aAbsences['truVaoPhepCoDinh'];
                     document.getElementById("truVaoPhepDu").innerHTML = msg.aAbsences['truVaoPhepDu'];
-                    
+
                     document.getElementById("soNgayConLai").innerHTML = msg.aAbsences['soNgayConLai'];
                     document.getElementById("phepCoDinh").innerHTML = msg.aAbsences['phepCoDinh'];
                     document.getElementById("phepDu").innerHTML = msg.aAbsences['phepDu'];
@@ -398,7 +400,7 @@
                         }
                         document.getElementById("hanphep").innerHTML = "";
                     }
-        
+
                     document.getElementById("soNgayNghiKhongLuong").innerHTML = msg.aAbsences['soNgayNghiKhongLuong'];
                     document.getElementById("soNgayNghiTruLuong").innerHTML = msg.aAbsences['soNgayNghiTruLuong'];
                     document.getElementById("soNgayNghiBaoHiem").innerHTML = msg.aAbsences['soNgayNghiBaoHiem'];
@@ -464,9 +466,9 @@
                         }else{
                             reason = "-";
                         }
-                        
+
                         listAbsence += "<td>"+reason+"</td>";
-  
+
                         listAbsence +="<td>";
                         if(msg.aListAbsence[key].name_status == "{{trans('absence_po.list_po.status.waiting')}}"){
                             listAbsence +="<button type=\"button\" class=\"btn btn-default\">"+
@@ -481,11 +483,11 @@
                         }
                         listAbsence +="</td>";
                         listAbsence +="</tr>";
-                    }                    
+                    }
                     document.getElementById("listAbsence").innerHTML = listAbsence;
                 }
             });
-        } 
+        }
 
     </script>
     <script>
