@@ -262,7 +262,7 @@
 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
 {{--table--}}
 <div id="table_add" class="col-md-12" style="display: block">
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered table-striped">
         <thead>
         </thead>
         <tbody id="list_add">
@@ -337,13 +337,13 @@
 <div class=" col-md-12 text-center" style="margin-top: 20px;">
     <div class="col-md-4"></div>
     <div class="col-md-2">
-        <button id="btn_reset_form_project" type="button" class="btn btn-default" style="width: 150px"><span
+        <button id="btn_reset_form_project" type="button" class="btn btn-default"><span
                     class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
         </button>
     </div>
     <div class="col-md-2">
         <button id="btn_submit_form_add_project" type="submit" class="btn btn-info"
-                style="width: 150px">{{trans('common.button.add')}}</button>
+                >{{trans('common.button.add')}}</button>
     </div>
 {{-- nhan hien bang nhap form --}}
 {!! Form::close() !!}
