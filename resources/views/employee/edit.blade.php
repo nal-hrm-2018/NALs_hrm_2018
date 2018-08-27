@@ -211,7 +211,7 @@
                <div class="input-group-addon">
                  <i class="fa fa-calendar"></i>
                </div>
-               <input type="date" class="form-control pull-right" id="birthday" name="birthday" id="birthday" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
+               <input type="date" class="form-control pull-right" id="birthday" name="birthday" id="birthday" min="1900-01-01" value="{!! old('birthday', isset($objEmployee["birthday"]) ? $objEmployee["birthday"] : null) !!}">
              </div>
              <label id="lb_error_birthday" style="color: red;">{{$errors->first('birthday')}}</label>
              <!-- /.input group -->
