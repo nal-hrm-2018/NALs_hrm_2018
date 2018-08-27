@@ -8,6 +8,7 @@ return[
     'info'=>'information',
     'employee'=>'Employee',
     'new'=>'New Employee',
+    'this_month'=> ' In '.date('F'),
     'status'=>[
         'status'=>'Employee Status',
         'active'=>'Active employee',
