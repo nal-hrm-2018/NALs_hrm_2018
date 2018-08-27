@@ -49,8 +49,8 @@ class EmployeeEditRequest extends FormRequest
                 /*'avatar' => 'required',*/
                 'birthday' => 'required|before:today|after:1900-01-01',
                 'picture' => 'image|max:2048',
-            'startwork_date' => 'required',
-            'endwork_date' => 'required|after:startwork_date'
+                'startwork_date' => 'required|after:birthday',
+            'endwork_date' => 'required|after:startwork_date|after:birthday'
             ];
         }
         return [
@@ -80,7 +80,7 @@ class EmployeeEditRequest extends FormRequest
             'birthday' => 'required|before:today',
             'picture' => 'image|max:2048',
           'startwork_date' => 'required|after:birthday',
-            'endwork_date' => 'required|after:startwork_date'
+            'endwork_date' => 'required|after:startwork_date|after:birthday'
         ];
 
     }

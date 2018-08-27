@@ -45,7 +45,7 @@ class EmployeeAddRequest extends FormRequest
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today|after:1900-01-01',
             'startwork_date' => 'required|after:birthday',
-            'endwork_date' => 'required|after:startwork_date'
+            'endwork_date' => 'required|after:startwork_date|after:birthday'
         ];
     }
 
