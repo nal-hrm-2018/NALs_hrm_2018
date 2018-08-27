@@ -49,8 +49,8 @@ class EmployeeEditRequest extends FormRequest
                 /*'avatar' => 'required',*/
                 'birthday' => 'required|before:today',
                 'picture' => 'image|max:2048',
-//            'startwork_date' => 'required',
-//            'endwork_date' => 'required|after:startwork_date'
+            'startwork_date' => 'required',
+            'endwork_date' => 'required|after:startwork_date'
             ];
         }
         return [
@@ -59,8 +59,7 @@ class EmployeeEditRequest extends FormRequest
                 'email',
                 new ValidEmail(request()->get('email'), request()->route()->parameters())],
             'confirm_confirmation' => 'same:password',
-
-          //'name' => 'required',
+            //'name' => 'required',
             'address' => 'required',
             'gender' => [
                 'required',
@@ -80,9 +79,10 @@ class EmployeeEditRequest extends FormRequest
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today',
             'picture' => 'image|max:2048',
-//            'startwork_date' => 'required',
-//            'endwork_date' => 'required|after:startwork_date'
+          'startwork_date' => 'required',
+            'endwork_date' => 'required|after:startwork_date'
         ];
+
     }
 
     public function messages()
