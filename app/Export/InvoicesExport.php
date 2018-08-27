@@ -104,7 +104,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
         }
         if (!empty($team)) {
             $query
-                ->whereHas('team', function ($query) use ($team) {
+                ->whereHas('teams', function ($query) use ($team) {
                     $query->where("name", 'like', '%' . $team . '%');
                 });
         }
