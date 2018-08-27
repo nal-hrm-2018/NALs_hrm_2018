@@ -360,11 +360,11 @@
                                               if ($string_team){
                                               $string_team = $string_team.", ".$addteam;
                                               } else{
-                                              $string_team = $string_team."".$addteam;
+                                              $string_team = $string_team.$addteam;
                                               }
                                             }
                                         @endphp
-                                        <td><p class="fix-center-employee">{{ isset($string_team)? $string_team: "-"}}</p></td>
+                                        <td><p class="fix-center-employee">{{ $string_team? $string_team: "-"}}</p></td>
 
                                         <td><p class="fix-center-employee">
                                             <?php

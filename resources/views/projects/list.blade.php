@@ -17,11 +17,11 @@
                 {{trans('common.title_header.project_list')}}
                 <small>NAL Solutions</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
-                <li><a href="{{asset('/projects')}}"> {{trans('common.path.projects')}}</a></li>
-                <li><a href="#">{{trans('common.title_header.project_list')}}</a></li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+                {{--<li><a href="{{asset('/projects')}}"> {{trans('common.path.projects')}}</a></li>--}}
+                {{--<li><a href="#">{{trans('common.title_header.project_list')}}</a></li>--}}
+            {{--</ol>--}}
         </section>
         <section class="content-header">
             <div>

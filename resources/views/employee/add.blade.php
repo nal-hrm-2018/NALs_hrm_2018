@@ -227,7 +227,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" class="form-control pull-right" id="birthday" name="birthday"
+                                        <input type="date" class="form-control pull-right" id="birthday" min="1900-01-01" name="birthday"
                                                value="{{ old('birthday')}}<?php if (isset($employee)) {
                                                    echo $employee->birthday;
                                                }?>">
