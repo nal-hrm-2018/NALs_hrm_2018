@@ -189,6 +189,7 @@
                 'id' => 'description',
                 'autofocus' => true,
                 'placeholder'=>trans('project.description'),
+                'rows' => '4',
                 ])
             }}
             {{--<label id="lb_error_description" style="color: red;"></label>--}}
@@ -423,12 +424,12 @@
 <div class=" col-md-12 text-center" style="margin-top: 20px;">
     <div class="col-md-4"></div>
     <div class="col-md-2">
-    <button id="btn_reset_form_project" type="button" class="btn btn-default"><span
+    <button id="btn_reset_form_project" type="button" class="btn btn-default" style="float: right;"><span
                 class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
     </button>
     </div>
     <div class="col-md-2">
-    <button id="btn_submit_form_edit_project" type="submit" class="btn btn-info">{{trans('common.button.update')}}
+    <button id="btn_submit_form_edit_project" type="submit" class="btn btn-info" style="float: left;">{{trans('common.button.update')}}
     </button>
     </div>
 </div>
