@@ -508,7 +508,7 @@ class AbsenceService{
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
-        $type = AbsenceType::select()->where('name','salary_date')->first();
+        $type = AbsenceType::select()->where('name','annual_leave')->first();
         if($dateNow->year == $year && $dateNow->month < 7){
             $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, $type->id,$status->id);
             if($objAS->numberAbsenceRedundancyOfYearOld($id, $year-1) - $num >= 0){
@@ -534,7 +534,7 @@ class AbsenceService{
         $dateNow = Carbon::create($dateNow->format('Y'),$dateNow->format('m'),$dateNow->format('d'));
 
         $status = AbsenceStatus::select()->where('name','accepted')->first();
-        $type = AbsenceType::select()->where('name','salary_date')->first();
+        $type = AbsenceType::select()->where('name','annual_leave')->first();
 
         if($dateNow->year == $year && $dateNow->month < 7){
             $num = $objAS->numberOfDaysOffBeforeJuly($id, $year, $dateNow->month, $type->id,$status->id);
@@ -582,7 +582,7 @@ class AbsenceService{
     function subtractSalaryDate($id, $year){
         $objAS = new AbsenceService;
         $status = AbsenceStatus::select()->where('name','accepted')->first();
-        $type = AbsenceType::select()->where('name','salary_date')->first();
+        $type = AbsenceType::select()->where('name','annual_leave')->first();
 
         $num1 = $objAS->totalDateAbsences($id, $year);
         $num2 = $objAS->numberOfDaysOff($id, $year, 0, $type->id, $status->id);

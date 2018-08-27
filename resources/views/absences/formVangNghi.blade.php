@@ -143,14 +143,23 @@
                                       $selected = "selected";
                                   }
                               }
-                              if ($val["name"]=='non_salary_date'){
+                              if ($val["name"]=='unpaid_leave'){
                                   echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ không lương' . '</option>';
                               }
                               if ($val["name"]=='insurance_date'){
                                   echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ theo bảo hiểm' . '</option>';
                               }
-                              if ($val["name"]=='salary_date'){
-                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ có lương' . '</option>';
+                              if ($val["name"]=='annual_leave'){
+                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ phép năm' . '</option>';
+                              }
+                              if ($val["name"]=='maternity_leave'){
+                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ thai sản' . '</option>';
+                              }
+                              if ($val["name"]=='marriage_leave'){
+                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ cưới' . '</option>';
+                              }
+                              if ($val["name"]=='maternity_leave'){
+                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ tang' . '</option>';
                               }
 
                           }
