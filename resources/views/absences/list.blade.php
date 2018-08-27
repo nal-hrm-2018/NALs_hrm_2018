@@ -188,12 +188,11 @@
                                                 @elseif(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.insurance_date'))
                                                     <span class="label label-default">
                                                 @else
-                                                    <span>
+                                                    <span>{{trans('absence_po.list_po.type.'.$obj->name_type)}}</span>
                                                 @endif
-                                                {{trans('absence_po.list_po.type.'.$obj->name_type)}}</span>
                                             </td>
-                                            <td>{{$obj->reason}}</td>
-                                            <td>{{$obj->description}}</td>
+                                            <td>{{$obj->reason ? $obj->reason : "-"}}</td>
+                                            <td>{{$obj->description ? $obj->description : "-"}}</td>
 
                                             <td class="td-absence-status" id="td-absence-status-{{$obj->id}}">
                                                 @if($obj->is_deny == 0)
