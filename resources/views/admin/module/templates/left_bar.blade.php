@@ -29,7 +29,7 @@
         </li>
           @endif
         <!-- 1/8/hiddent_cmt-->
-        {{--<li class="treeview">--}}
+        <li class="treeview">
           {{--<a href="#">--}}
             {{--<i class="fa fa-handshake-o"></i> <span>{{trans('leftbar.nav.vendor')}}</span>--}}
             {{--<span class="pull-right-container">--}}
