@@ -62,33 +62,11 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.project')}}</a></li>
-            <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.project')}}</a></li>
+            @if(Auth::user()->hasRole('P0'))
+              <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.project')}}</a></li>
+            @endif
           </ul>
         </li>
-        {{--<li class="treeview">--}}
-          {{--<a href="#">--}}
-            {{--<i class="glyphicon glyphicon-calendar"></i> <span>{{trans('leftbar.nav.absence')}}</span>--}}
-            {{--<span class="pull-right-container">--}}
-              {{--<i class="fa fa-angle-left pull-right"></i>--}}
-            {{--</span>--}}
-          {{--</a>--}}
-          {{--<ul class="treeview-menu">--}}
-
-            {{--@if(Auth::user()->hasPermission('view_absence_history'))--}}
-            {{--<li><a href="{{ asset('absences')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absence')}}</a></li>--}}
-            {{--@endif--}}
-            {{--@if(Auth::user()->hasPermission('add_new_absence'))--}}
-            {{--<li><a href="{{ asset('absences/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.absence')}}</a></li>--}}
-            {{--@endif--}}
-            {{--@if(Auth::user()->hasPermission('view_employee_absence_history'))--}}
-            {{--<li><a href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_hr')}}</a></li>--}}
-            {{--@endif--}}
-            {{--@if(Auth::user()->hasPermission('view_project_absence_history'))--}}
-              {{--<li><a href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>--}}
-            {{--@endif--}}
-          {{--</ul>--}}
-        {{--</li>--}}
-
         <li class="treeview">
           <a href="#">
             <i class="glyphicon glyphicon-calendar"></i> <span>{{trans('leftbar.nav.absence')}}</span>
