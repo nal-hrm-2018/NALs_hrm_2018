@@ -22,6 +22,7 @@ return[
         'part-time'=>'Part-time'
     ],
     'profile_info'=>[
+        'the_rest_absence'=>'The rest of absences',
         'id'=>'Employee ID',
         'short_id'=>'ID',
         'picture'=>'Picture',
