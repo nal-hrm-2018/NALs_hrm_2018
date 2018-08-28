@@ -370,8 +370,8 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-md-1" style="display: inline;">
-                                <div style="float: right;">
+                            <div class="col-md-1">
+                                <div>
                                     <button type="submit" class="btn btn-info">{{ trans('common.button.add')}}</button>
                                 </div>
                             </div>

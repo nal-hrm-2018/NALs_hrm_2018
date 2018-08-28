@@ -324,16 +324,16 @@
          
        </div>
        <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
-          <div class="col-md-6" style="display: inline; ">
+          <div class="col-md-6">
               <div style="float: right;">
                   <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span
                       class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
                   </button>
               </div>
           </div>
-          <div class="col-md-1" style="display: inline;">
-              <div style="float: right;">
-                  <button type="submit" class="btn btn-info pull-left">{{ trans('common.button.save')}}</button>
+          <div class="col-md-1">
+              <div>
+                  <button type="submit" class="btn btn-info">{{ trans('common.button.save')}}</button>
               </div>
           </div>
       </div>

@@ -72,6 +72,7 @@
                                     $('#form_search_employee').submit()
                                 }
                             </script>
+                            
                             <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                 <div>
                                     <div class="style-box">
