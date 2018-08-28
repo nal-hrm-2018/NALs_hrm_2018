@@ -72,6 +72,10 @@
         .highcharts-credits {
             display:none;
         }
+        .middle{
+            width: 40px;
+            display: inline-block;
+        }
     </style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -87,13 +91,13 @@
                                 @foreach($notifications as $note)
                                 <li class="treeview">
                                     @if($note->notification_type=='HR')
-                                        <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
+                                        <label class="label bg-yellow middle">HR</label>
                                     @endif
                                     @if($note->notification_type=='HD')
-                                            <span class="label bg-red" style="width: 40px; display: inline-block;">HD</span>
+                                            <span class="label bg-red middle">HD</span>
                                     @endif
                                         @if($note->notification_type=='DOREMON')
-                                            <span class="label bg-green" style="width: 40px; display: inline-block;">DRM</span>
+                                            <span class="label bg-green middle">DRM</span>
                                         @endif
                                     <a href="#">
                                         <span style="vertical-align: middle;">{{$note->content}}</span>
