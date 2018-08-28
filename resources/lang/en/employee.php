@@ -105,4 +105,5 @@ return[
         'success'=>'Import Employees successfully!!!',
         'fail'=>'Import Employees failed!!!',
     ],
+    'upload_avatar' => 'UPLOAD AVATAR'
 ];
