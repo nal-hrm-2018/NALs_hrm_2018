@@ -36,7 +36,7 @@ function message_confirm_email(action, attr, email) {
         if(email == ""){
             return 'Do you want to '+ action +' this ' + attr + '?';
         } else {
-            return 'Do you want to '+ action +' this ' + attr + ' has email: ' + email + ' ?';
+            return 'Do you want to '+ action +' this ' + attr + ' has email ' + email + ' ?';
         }
     } else if(language == 'vn'){
         if(email == ""){
