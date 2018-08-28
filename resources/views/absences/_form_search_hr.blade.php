@@ -37,6 +37,42 @@
                             }}
                         </div>
                     </div>
+                    <!-- code by hunganh -->
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="input-group margin">
+                            <div class="input-group-btn">
+                                <button type="button"
+                                        class="btn width-100">{{trans('common.month.month')}}</button>
+                            </div>
+                            <select name="month_absence" id="month-absence" class="form-control">
+                                <option {{ !empty(request()->get('month_absence'))?'':'selected="selected"' }} value="">
+                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                </option>
+                                @foreach($month_absences as $key=>$value)
+                                    <option value="{{ $key }}" {{ (string)$key===request()->get('month_absence')?'selected="selected"':'' }}>
+                                        {{ $value }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <label id="lb_error_filter" style="color: red; ">{{$errors->first('month_absence')}}</label>
+                        </div>
+                        <div class="input-group margin">
+                            <div class="input-group-btn">
+                                <button type="button"
+                                        class="btn width-100">{{trans('common.year.year')}}</button>
+                            </div>
+                            <select name="year_absence" id="year-absence" class="form-control">
+                                <option {{ !empty(request()->get('year_absence'))?'':'selected="selected"' }} value="">
+                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                </option>
+                                @foreach($year_absences as $key=>$value)
+                                    <option value="{{ $key }}" {{ (string)$key===request()->get('year_absence')?'selected="selected"':'' }}>
+                                        {{ $value }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div><!-- end code by hunganh-->
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         <div class="input-group margin">
                             <div class="input-group-btn">

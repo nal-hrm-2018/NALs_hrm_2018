@@ -58,9 +58,9 @@
                                 ]) !!}
                                 @include("absences._form_search_hr")
                                 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-                                <div class="form-row">
-                                @include('absences._form_filter_hr')
-                                </div>
+                                {{--<div class="form-row">--}}
+                                {{--@include('absences._form_filter_hr')--}}
+                                {{--</div>--}}
                                 {!! Form::close() !!}
                             </div>
                             <div class="col-md-12" style="width: 100% ; margin-bottom: 1em"></div>
