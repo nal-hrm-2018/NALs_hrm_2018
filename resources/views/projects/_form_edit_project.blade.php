@@ -422,8 +422,7 @@
 
 <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
 <div class=" col-md-12 text-center" style="margin-top: 20px;">
-    <div class="col-md-4"></div>
-    <div class="col-md-2">
+    <div class="col-md-6">
     <button id="btn_reset_form_project" type="button" class="btn btn-default" style="float: right;"><span
                 class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
     </button>
