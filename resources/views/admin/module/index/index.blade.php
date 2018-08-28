@@ -87,16 +87,16 @@
                                 @foreach($notifications as $note)
                                 <li class="treeview">
                                     @if($note->notification_type=='HR')
-                                        <label class="label bg-yellow">HR</label>
+                                        <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
                                     @endif
                                     @if($note->notification_type=='HD')
-                                        <span class="label bg-red">HD</span>
+                                            <span class="label bg-red" style="width: 40px; display: inline-block;">HD</span>
                                     @endif
                                         @if($note->notification_type=='DOREMON')
-                                            <span class="label bg-green">DRM</span>
+                                            <span class="label bg-green" style="width: 40px; display: inline-block;">DRM</span>
                                         @endif
                                     <a href="#">
-                                        <span>{{$note->content}}</span>
+                                        <span style="vertical-align: middle;">{{$note->content}}</span>
                                     </a>
                                     <ul class="treeview-menu">
                                      <?php
@@ -131,11 +131,11 @@
                                             <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
                                         </p>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép cố định:
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm nay:
                                             <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
                                         </span><br>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép dư:
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm trước:
                                             <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
                                         </span>
                                     </div><br />
@@ -153,11 +153,11 @@
                                             <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
                                         </p>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép cố định:
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép năm nay:
                                             <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
                                         </span><br>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép dư:
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép năm trước:
                                             <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
                                         </span>
 
@@ -176,11 +176,11 @@
                                             <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
                                         </p>
                                         <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép cố định:
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm nay:
                                             <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
                                         </span>
                                         <span><br>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Phép dư:
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+Số ngày phép năm trước:
                                             <span id="phepDu">{{$absences['phepDu']}}</span>
                                         </span>
                                         <span id='hanphep'>
