@@ -105,4 +105,5 @@ return[
         'success'=>'Nhập danh sách nhân viên thành công',
         'fail'=>'Nhập danh sách nhân viên không thành công',
     ],
+    'upload_avatar' => 'CẬP NHẬT ẢNH'
 ];
