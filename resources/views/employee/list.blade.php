@@ -416,7 +416,7 @@
                                                         {{trans('common.action.edit')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('delete_employee'))
-                                                <li><a class="btn-employee-remove" data-employee-id="{{$employee->id}}" data-employee-name="{{$employee->name}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
+                                                <li><a class="btn-employee-remove" data-employee-email="{{$employee->email}}" data-employee-id="{{$employee->id}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
                                         </ul>
                                     </tr>
@@ -480,9 +480,9 @@
         $(function () {
             $('.btn-employee-remove').click(function () {
                 var elementRemove = $(this).data('employee-id');
-                var nameRemove = $(this).data('employee-name');
+                var emailRemove = $(this).data('employee-email');
                 console.log(elementRemove);
-                if (confirm(message_confirm('{{trans("common.action_confirm.delete")}}', '{{trans("common.name_confirm.employee")}}', elementRemove, nameRemove))) {
+                if (confirm(message_confirm_email('{{trans("common.action_confirm.delete")}}', '{{trans("common.name_confirm.employee")}}', emailRemove))) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/employee') }}' + '/' + elementRemove,

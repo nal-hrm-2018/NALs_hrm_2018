@@ -30,6 +30,22 @@ function message_confirm_add(action, attr, name) {
         }
     }
 }
+function message_confirm_email(action, attr, email) {
+    var language = $('#language_active').attr('lang');
+    if(language == 'en'){
+        if(email == ""){
+            return 'Do you want to '+ action +' this ' + attr + '?';
+        } else {
+            return 'Do you want to '+ action +' this ' + attr + ' has email ' + email + ' ?';
+        }
+    } else if(language == 'vn'){
+        if(email == ""){
+            return 'Bạn có muốn ' + action + ' ' + attr + ' này không?';
+        } else {
+            return 'Bạn có muốn ' + action + ' ' + attr + ' có email ' + email + ' không?';
+        }
+    }
+}
 
 function message_confirm_project(action, attr, id, name){
     if(id == "" || name == ""){

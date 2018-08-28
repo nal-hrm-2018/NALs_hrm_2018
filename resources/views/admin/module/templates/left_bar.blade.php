@@ -29,7 +29,7 @@
         </li>
           @endif
         <!-- 1/8/hiddent_cmt-->
-        {{--<li class="treeview">--}}
+        <li class="treeview">
           {{--<a href="#">--}}
             {{--<i class="fa fa-handshake-o"></i> <span>{{trans('leftbar.nav.vendor')}}</span>--}}
             {{--<span class="pull-right-container">--}}
@@ -62,7 +62,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ asset('projects')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.project')}}</a></li>
-            @if(Auth::user()->hasRole('P0'))
+            @if(Auth::user()->hasRole('PO'))
               <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.project')}}</a></li>
             @endif
           </ul>

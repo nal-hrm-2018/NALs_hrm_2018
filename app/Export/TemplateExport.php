@@ -32,7 +32,7 @@ class TemplateExport implements  WithHeadings
             'END WORK DATE',
             'EMPLOYEE TYPE',
             'TEAM',
-            'ROLE'
+            'POSITION'
         ];
     }
 
