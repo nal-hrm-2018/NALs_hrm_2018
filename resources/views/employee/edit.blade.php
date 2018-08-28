@@ -316,9 +316,9 @@
                  @if($statusRole == "")
                    <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}">
                  @endif
-             <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
-             <!-- /.input group -->
            </div>
+           <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
+             <!-- /.input group -->
          </div>
          
          
