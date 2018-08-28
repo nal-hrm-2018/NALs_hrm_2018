@@ -44,7 +44,7 @@
             display: none;
         }
         .custom-file-upload {
-            width: 150px !important;
+            width: 170px !important;
             max-width: unset !important;
             border: 1px solid #ccc;
             display: inline-block;
@@ -89,7 +89,7 @@
                                     <div class="container">
                                         <img src="{!! asset('/avatar/default_avatar.png') !!}" id="image" class="image img-circle profile-user-img"/><br>
                                         <label for="chooseimg" class="custom-file-upload">
-                                            <i class="fa fa-cloud-upload"></i>&nbsp;Upload avatar
+                                            <i class="fa fa-cloud-upload"></i> {{trans('employee.upload_avatar')}}
                                         </label>
                                         <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
                                     </div>
