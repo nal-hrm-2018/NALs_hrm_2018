@@ -65,7 +65,8 @@
                                                 </div>
                                                 <label class="file-upload">
                                                     <input type="file" id="myfile" name="myFile" class="form-control" style="display: none;">
-                                                    <i class="fa fa-cloud-upload"></i> Choose file
+                                                    <i class="fa fa-cloud-upload"></i>
+                                                    <span id="file_name">Choose file</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -86,6 +87,7 @@
                                     }
                                     var value = $('#myfile')[0].files[0];
                                     if(value != null){
+                                        $('#file_name').text(value.name);
                                         $('#i_submit').removeClass('disabled');
                                     }
                                 });
