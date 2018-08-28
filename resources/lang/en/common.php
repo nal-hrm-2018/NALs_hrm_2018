@@ -97,7 +97,7 @@ return [
     'action'=>[
         'view'=>'View',
         'edit'=>'Edit',
-        'remove'=>'Remove',
+        'remove'=>'Delete',
     ],
     'action_confirm'=>[
         'add'=>'add',
