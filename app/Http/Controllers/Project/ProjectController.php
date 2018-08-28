@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
 
 
 class ProjectController extends Controller
@@ -54,10 +55,10 @@ class ProjectController extends Controller
         $getAllStatusInStatusTable = Status::all();
 
         $param = (Input::except('page', 'is_employee'));
-
+        $objmEmployee = Employee::find(Auth::user()->id);
         $isEmployee = 1;
         $isVendor = 0;
-        return view('projects.list', compact('param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable', 'isEmployee', 'isVendor'));
+        return view('projects.list', compact('objmEmployee','param', 'allStatusValue', 'projects', 'poRole', 'getAllStatusInStatusTable', 'isEmployee', 'isVendor'));
     }
 
     public function checkProcessesAjax(Request $request)
