@@ -164,6 +164,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             if ($item->work_status == 1){
                 $item->work_status = 'Quited';
             }
+            unset($item->team_id);//trinhhunganh28082018
             unset($item->password); unset($item->remember_token);
             unset($item->birthday);unset($item->gender);
             unset($item->mobile);
@@ -177,7 +178,6 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             unset($item->updated_at);unset($item->last_updated_by_employee);
             unset($item->created_at);unset($item->created_by_employee);
             unset($item->delete_flag);
-
             return $item;
         });
     }
@@ -206,12 +206,20 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
      */
     public function headings(): array
     {
+//        return [
+//            'ID',
+//            'EMAIL',
+//            'NAME',
+//            'TEAM',
+//            'ROLE',
+//            'STATUS'
+//        ];
         return [
-            'ID',
+            'EMPLOYEE ID',
             'EMAIL',
             'NAME',
             'TEAM',
-            'ROLE',
+            'POSITION',
             'STATUS'
         ];
     }
