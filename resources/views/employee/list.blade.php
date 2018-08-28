@@ -119,8 +119,8 @@
                         if (!empty($value['email'])) {
                             $email = $value['email'];
                         }
-                        if (!empty($value['status'])) {
-                            $statusExport = $value['status'];
+                        if (!empty($value['status'] || $value['status'] == 0)) {
+                            $statusExport =  $value['status'];
                         }
                         if (!empty($value['page'])) {
                             $page = $value['page'];
