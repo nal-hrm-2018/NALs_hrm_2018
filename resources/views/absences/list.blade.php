@@ -65,13 +65,14 @@
                                        value="{{ isset($param['number_year'])?$param['number_year']:$startwork_date }}"/>
                             </form>
                             <script>
-                                function myFunction() {
+                                Số ngày phép năm nay   function myFunction() {
                                     var x = document.getElementById("year").value;
                                     console.log(x);
                                     $('#number_year').val(x);
                                     $('#form_search_employee').submit()
                                 }
                             </script>
+                            
                             <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                 <div>
                                     <div class="style-box">
