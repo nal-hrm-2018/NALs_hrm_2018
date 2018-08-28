@@ -340,10 +340,10 @@
                                 <thead>
                                 <tr>
                                     <th class="small-row-id text-center">{{trans('employee.profile_info.id')}}</th>
+                                    <th>{{trans('employee.profile_info.email')}}</th>
                                     <th>{{trans('employee.profile_info.name')}}</th>
                                     <th>{{trans('employee.profile_info.team')}}</th>
                                     <th>{{trans('employee.profile_info.role')}}</th>
-                                    <th>{{trans('employee.profile_info.email')}}</th>
                                     <th>{{trans('employee.profile_info.status')}}</th>
                                     {{--<th>CV</th>--}}
                                 </tr>
@@ -353,6 +353,7 @@
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
                                         <td  class="text-center"><p class="fix-center-employee">{{ isset($employee->id )? $employee->id : "-"}}</p></td>
+                                        <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">{{ isset($employee->name)? $employee->name: "-" }}</p></td>
                                         @php
                                             $arr_team = $employee->teams()->get();
@@ -389,7 +390,6 @@
                                                 }
                                                 ?>
                                             </p></td>
-                                        <td><p class="fix-center-employee">{{ isset($employee->email)? $employee->email: "-" }}</p></td>
                                         <td><p class="fix-center-employee">
                                                 @if($employee->work_status == 0)
                                                     @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
