@@ -138,6 +138,9 @@
                                                 @endif
                                             </p>
 
+                                            <p>{{trans('employee.profile_info.the_rest_absence')}}:
+                                                <strong> {{$rest_absence}}</strong></p>
+
                                         </div>
                                         {{--<div class="col-md-6">--}}
                                             {{--<div class="row">--}}

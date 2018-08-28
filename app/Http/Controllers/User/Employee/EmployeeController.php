@@ -146,7 +146,7 @@ class EmployeeController extends Controller
                 'is_employee' => $request->get('is_employee'),
             ]
         );
-
+        $rest_absence = Employee::emp_absence($id)['soNgayConLai'];
         $active = $request->get('number_record_per_page');
 
         if ($active) {
@@ -185,14 +185,16 @@ class EmployeeController extends Controller
         //set list years
         $listYears = $this->chartService->getListYear($employee);
 
-        return view('employee.detail', compact('employee',
+        return view('employee.detail', compact(
+            'employee',
             'processes',
             'listValue',
             'listYears',
             'roles',
             'param',
             'project_statuses',
-            'active'))
+            'active',
+            'rest_absence'))
             ->render();
     }
 
@@ -307,7 +309,6 @@ class EmployeeController extends Controller
 //          \Session::flash('msg_success', trans('employee.msg_add.success'));
           //return redirect()->route('employee.index');
           return response(['msg' => 'Product deleted', 'status' => trans('common.delete.success'), 'id' => $id]);
-
     }
 
 
