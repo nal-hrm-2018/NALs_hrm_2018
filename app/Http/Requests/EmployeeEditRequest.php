@@ -80,7 +80,7 @@ class EmployeeEditRequest extends FormRequest
             'birthday' => 'required|before:today',
             'picture' => 'image|max:2048',
           'startwork_date' => 'required|after:birthday',
-            'endwork_date' => 'required|after:startwork_date|after:birthday'
+            'endwork_date' => 'required|after:startwork_date'
         ];
 
     }
@@ -172,8 +172,20 @@ class EmployeeEditRequest extends FormRequest
             'startwork_date.required' => trans('validation.required', [
                 'attribute' => trans('employee.profile_info.start_work')
             ]),
+            'startwork_date.after' => trans('validation.after', [
+                'attribute' => trans('employee.profile_info.start_work'),
+                'date' => trans('employee.profile_info.birthday')
+            ]),
             'endwork_date.required' => trans('validation.required', [
                 'attribute' => trans('employee.profile_info.end_work')
+            ]),
+//            'endwork_date.after_b' => trans('validation.after', [
+//                'attribute' => trans('employee.profile_info.end_work'),
+//                'date' => trans('employee.profile_info.birthday'),
+//            ]),
+            'endwork_date.after' => trans('validation.after', [
+                'attribute' => trans('employee.profile_info.end_work'),
+                'date' => trans('employee.profile_info.start_work')
             ]),
             'endwork_date.date_format' => trans('validation.date_format', [
                 'attribute' => trans('employee.profile_info.end_work'),
