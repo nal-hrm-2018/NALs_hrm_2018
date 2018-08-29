@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Notification;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Notifications;
 
 class NotificationController extends Controller
 {
@@ -14,7 +15,12 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        //
+        $new_notifications = Notifications::Where('flag_delete','0')->get();
+        $old_notifications = Notifications::Where('flag_delete','1')->get();
+        return view('notification.list',[
+            'new_notifications' => $new_notifications,
+            'old_notifications' => $old_notifications,
+        ]);
     }
 
     /**

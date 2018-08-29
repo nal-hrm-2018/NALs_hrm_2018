@@ -29,7 +29,7 @@ class DashboardController extends Controller
     public function index()
     {
         $id_emp = Auth::user()->id;
-        $notifications = Notifications::all();
+        $notifications = Notifications::Where('flag_delete','0')->get();
         $absences = Employee::emp_absence($id_emp);
         if (Employee::find($id_emp)->hasRole('HR')) {
             $sumInternship = $this->countEmployeeType('Internship');
