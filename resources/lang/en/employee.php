@@ -22,12 +22,14 @@ return[
         'part-time'=>'Part-time'
     ],
     'profile_info'=>[
+        'the_rest_absence'=>'The remaining leave',
         'id'=>'Employee ID',
         'short_id'=>'ID',
         'picture'=>'Picture',
         'title'=>'Profile Information',
         'long_name'=>'Employee Name',
         'name'=>'Name',
+        'email'=>'Email',
         'email'=>'Email',
         'password'=>'Password',
         'password_confirm'=>'Password Confirm',
