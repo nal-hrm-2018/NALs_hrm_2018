@@ -9,6 +9,7 @@
 return[
 
     'nav'=>[
+        'notification'  => 'Notification',
         'dashboard' => 'Dashboard',
         'employee' => 'Employee',
         'vendor' => 'Vendor',
@@ -17,6 +18,7 @@ return[
         'absence' => 'Absence',
         'absence_management' => 'Absence Management',
         'list'=>[
+            'notification' => 'List Notification',
             'employee' => 'List Employee',
             'vendor' => 'List Vendor',
             'team' => 'List Team',
@@ -30,6 +32,7 @@ return[
 
         ],
         'add'=>[
+            'notification' => 'Add Notification',
             'employee' => 'Add Employee',
             'vendor' => 'Add Vendor',
             'team' => 'Add Team',

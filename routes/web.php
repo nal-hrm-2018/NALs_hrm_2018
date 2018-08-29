@@ -118,6 +118,7 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('vendors/edit-password', 'User\Vendor\VendorController@editPass')->name('editPass');
     Route::resource('vendors', 'User\Vendor\VendorController');
     Route::resource('projects', 'Project\ProjectController');
+
     Route::post('/absences/{id}', [
         'as' => 'show_absence',
         'uses' => 'Absence\AbsenceController@showAbsence',
@@ -193,6 +194,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
 
     Route::resource('ot', 'OT\OTController');
+
+    Route::resource('notification', 'Notification\NotificationController');
 });
 
 //cong list route cam pha'

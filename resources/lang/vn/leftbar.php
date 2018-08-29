@@ -10,6 +10,7 @@
 return[
 
     'nav'=>[
+        'notification'  => 'Thông báo',
         'dashboard' => 'Tổng quát',
         'employee' => 'Nhân Viên',
         'vendor' => 'Nhân viên ngoài',
@@ -18,6 +19,7 @@ return[
         'absence' => 'Xin vắng nghỉ',
         'absence_management' => 'Quản lý vắng nghỉ',
         'list'=>[
+            'notification' => 'Danh Sách Thông Báo',
             'employee' => 'Danh sách Nhân Viên',
             'vendor' => 'Danh sách Nhân Viên Ngoài',
             'team' => 'Danh sách Team',
@@ -31,6 +33,7 @@ return[
 
         ],
         'add'=>[
+            'notification' => 'Thêm Thông Báo',
             'employee' => 'Thêm Nhân Viên',
             'vendor' => 'Thêm Nhân Viên Ngoài',
             'team' => 'Thêm Team',
