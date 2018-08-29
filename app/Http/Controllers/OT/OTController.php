@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\OT;
 
 use App\Http\Controllers\Controller;
+use App\Models\Overtime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OTController extends Controller
 {
@@ -14,7 +16,11 @@ class OTController extends Controller
      */
     public function index()
     {
-        //
+        $id=Auth::user()->id;
+        $ot = Overtime::where('id', $id)->get();
+        return view('overtime.list', [
+            'ot' => $ot,
+        ]);
     }
 
     /**
