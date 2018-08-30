@@ -12,6 +12,7 @@ return [
     | you want to customize your views to better match your application.
     |
     */
+    'reset' => 'Do you want to reset?',
 	'pagination'=>[
 		'first'=>'← First',
 		'previous'=>'← Previous',
@@ -98,7 +99,9 @@ return [
     'action'=>[
         'view'=>'View',
         'edit'=>'Edit',
-        'remove'=>'Delete',
+        'remove'=>'delete',
+        'add'=>'Add',
+        'reset'=>'Reset'
     ],
     'action_confirm'=>[
         'add'=>'add',

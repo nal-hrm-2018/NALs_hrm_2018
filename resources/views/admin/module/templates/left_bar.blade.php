@@ -126,7 +126,8 @@
             </span>
               </a>
               <ul class="treeview-menu">
-                  <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>List OT</a></li>
+                  <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>My OT</a></li>
+                  <li><a class="nav-item-part" href="{{ asset('ot/po-ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.ot_list')}}</a></li>
               </ul>
           </li>
       </ul>
