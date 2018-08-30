@@ -44,7 +44,7 @@ class NotificationController extends Controller
         $count = Notifications::where('flag_delete','=','0')->count();
         if ($count>10)
         {
-            \Session::flash('msg_fail', trans('notification.msg_add.success'));
+            \Session::flash('msg_fail', trans('notification.msg_add.fail'));
         }
 
         $create_by_employee = Auth::user()->name;
@@ -53,7 +53,7 @@ class NotificationController extends Controller
         $notification->create_at = date('Y-m-d ');
         $notification->title = $request->title;
         $notification->content = $request->content;
-        $notification->notification_id = $request->notification_id;
+        $notification->notification_type_id = $request->notification_type_id;
         if ($notification->save())
         {
             \Session::flash('msg_success', trans('notification.msg_add.success'));
@@ -98,7 +98,7 @@ class NotificationController extends Controller
         $notification = Notifications::where('flag_delete', 0)->find($id);
         $notification->title = $request->title;
         $notification->content = $request->content;
-        $notification->notification_id = $request->notification_id;
+        $notification->notification_type_id = $request->notification_type_id;
         if($notification->save()){
             \Session::flash('msg_success', trans('notification.msg_edit.success'));
             return redirect()->route('notification.edit',compact('id'));

@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.notification_id')}}<strong style="color: red">(*)</strong></label>
-                                        <select class="form-control select2" style="width: 100%;"  name="notification_id" id="absence_type_id">
+                                        <select class="form-control select2" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
                                             <option value="" >---Chọn---</option>
                                             <?php
                                             foreach ($dataTeam as $val) {
@@ -62,7 +62,7 @@
                                             }
                                             ?>
                                         </select>
-                                        <label id="lb_error_notification_id" style="color: red; ">{{$errors->first('notification_id')}}</label>
+                                        <label id="lb_error_type_id" style="color: red; ">{{$errors->first('notification_type_id')}}</label>
                                     </div>
                                 </div>
                                 <!-- /.form-group -->
