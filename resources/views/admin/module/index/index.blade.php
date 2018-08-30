@@ -102,9 +102,9 @@
                                      <?php
                                         echo nl2br($note->detail);
                                      ?>
+                                        <hr>
                                     </ul>
                                 </li>
-                                <hr>
                                 @endforeach
                             </ul>
                         </div>
