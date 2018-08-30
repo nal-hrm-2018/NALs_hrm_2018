@@ -5,16 +5,9 @@
         <div class="content">
             <section class="content-header">
                 <h1>
-                    {{trans('common.notifications')}}
+                    {{trans('common.title_header.notification_list')}}
                     <small>NAL Solutions</small>
                 </h1>
-                {{--<ol class="breadcrumb">--}}
-                {{--<li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>--}}
-                {{--<li><a href=""> Absance</a></li>--}}
-                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>--}}
-                {{--<li><a href="{{asset('/absences')}}"> Absance</a></li>--}}
-                {{--<li><a href="#">List</a></li>--}}
-                {{--</ol>--}}
             </section>
             <div id="msg">
             </div>

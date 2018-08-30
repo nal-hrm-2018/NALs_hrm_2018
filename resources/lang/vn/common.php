@@ -56,7 +56,8 @@ return [
         'project_detail'=>'Chi tiết dự án',
         'absence_list'=>'Danh sách vắng nghỉ',
         'absence_list_holiday'=>'Danh sách ngày nghỉ',
-        'absence_detail'=>'Danh sách xin vắng làm'
+        'absence_detail'=>'Danh sách xin vắng làm',
+        'notification_list'=>'Danh sách thông báo'
     ],
     'path'=>[
         'dashboard'=>'Trang Chủ',
