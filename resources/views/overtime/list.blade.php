@@ -17,58 +17,9 @@
         </section>
         <section class="content-header">
             <div>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" style="color: blue;">
-                    <i class="glyphicon glyphicon-plus"></i>&nbsp;Add OT
+                <button type="button" class="btn btn-default">
+                    <a href=""><i class="glyphicon glyphicon-plus"></i>&nbsp;Add OT</a>
                 </button>
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document" style="width: 50%;">
-                        <div class="modal-content">
-                            <form id="form-add-overtime" action="">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Add overtime</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group col-md-12">
-                                        <label for="exdate">Date</label>
-                                        <input type="date" class="form-control" id="exdate">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="exfromtime">From time</label>
-                                        <input type="time" name="fromtime" id="exfromtime" class="form-control">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="extotime">To time</label>
-                                        <input type="time" name="totime" id="extotime" class="form-control">
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="exnumbertime">Number time</label>
-                                        <input type="text" class="form-control" id="exnumbertime"> 
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="exreason">Reason</label>
-                                        <input type="text" name="reason" id="exreason" class="form-control">
-                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="extypeday"></label>
-                                        <select id="extypeday" class="form-control">
-                                            <option selected>Select date type</option>
-                                            <option>Normal day</option>
-                                            <option>Day off</option>
-                                            <option>Holiday</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-info btn-confirm-add-overtime">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
         <section class="content">
             <div class="row">
@@ -102,8 +53,9 @@
                                         <td><span class="label label-danger">Reject</span></td>
                                         <td><span class="label label-success">1.5 hours</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-default width-90" data-toggle="modal" data-target="#myModal1" style="color: blue;">
-                                                <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
+                                            <button type="button" class="btn btn-default width-90">
+                                                <a href=""><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
+                                                </a>
                                             </button>
                                             <button type="button" class="btn btn-default width-90">
                                                 <a href=""><i class="glyphicon glyphicon-remove"></i>&nbsp;Delete</a>
@@ -113,66 +65,19 @@
                                     <tr>
                                         <td colspan="7" rowspan="3"></td>
                                         <td rowspan="3">Total</td>
-                                        <td>Normal day</td>
+                                        <td><span class="label" style="background: #76a4ef;">Normal day</span></td>
                                         <td><span class="label label-success">6 hours</span></td>
                                     </tr>
                                     <tr>
-                                        <td>Day off</td>
+                                        <td><span class="label" style="background: #7079ef;">Day off</span></td>
                                         <td><span class="label label-success">6 hours</span></td>
                                     </tr>
                                     <tr>
-                                        <td>Holiday</td>
+                                        <td><span class="label" style="background: #8b70ef;">Holiday</span></td>
                                         <td><span class="label label-success">6 hours</span></td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                <div class="modal-dialog" role="document" style="width: 50%;">
-                                    <div class="modal-content">
-                                        <form>
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group col-md-12">
-                                                    <label for="exdate">Date</label>
-                                                    <input type="date" class="form-control" id="exdate">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="exfromtime">From time</label>
-                                                    <input type="time" name="fromtime" id="exfromtime" class="form-control">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="extotime">To time</label>
-                                                    <input type="time" name="totime" id="extotime" class="form-control">
-                                                </div>
-                                                <div class="form-group col-md-12">
-                                                    <label for="exnumbertime">Number time</label>
-                                                    <input type="text" class="form-control" id="exnumbertime"> 
-                                                </div>
-                                                <div class="form-group col-md-12">
-                                                    <label for="exreason">Reason</label>
-                                                    <input type="text" name="reason" id="exreason" class="form-control">
-                                                 </div>
-                                                <div class="form-group col-md-12">
-                                                    <label for="extypeday"></label>
-                                                    <select id="extypeday" class="form-control">
-                                                        <option selected>Select date type</option>
-                                                        <option>Normal day</option>
-                                                        <option>Day off</option>
-                                                        <option>Holiday</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-info">Edit</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
