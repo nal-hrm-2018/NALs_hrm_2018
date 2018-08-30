@@ -6,6 +6,7 @@
  * Time: 8:55 AM
  */
 return[
+    'notification' =>'Thông báo',
     'delete'=> 'Xóa',
     'edit'=> 'Sửa',
     'add'=> 'Thêm',

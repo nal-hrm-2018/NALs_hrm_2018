@@ -6,6 +6,7 @@
  * Time: 8:55 AM
  */
 return[
+    'notification' =>'Notification',
     'delete'=> 'Delete',
     'edit'=> 'Edit',
     'add'=> 'Add',

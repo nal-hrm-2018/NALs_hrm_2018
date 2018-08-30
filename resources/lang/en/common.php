@@ -124,13 +124,15 @@ return [
         'welcome'=>'Welcome',
         'member_since'=>'Member since',
         'update_profile'=>'Update Profile',
-        'logout'=>'Logout'
+        'logout'=>'Logout',
+        'confirm_logout'=>'logout',
     ],
     'error'=>'Error',
     'warning' => 'Warning',
     'warning_content' => [
         'warning_reopen' => ' This Project finished !! if you want edit it ,please click button Reopen .'
     ],
+    'account'=>'account',
     'id'=>[
         'employee_id'=>'Employee Id',
         'role_id'=>'Role Id'

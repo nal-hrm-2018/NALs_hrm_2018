@@ -47,13 +47,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.content')}}<strong style="color: red">(*)</strong></label>
-                                        <textarea id="content" name="content" value="" placeholder="Nhập Nội Dung"></textarea>
+                                        <textarea id="content" name="content" value="" placeholder=""></textarea>
                                         <label id="lb_error_content" style="color: red; ">{{$errors->first('content')}}</label>
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.notification_id')}}<strong style="color: red">(*)</strong></label>
                                         <select class="form-control select2" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
-                                            <option value="" >---Chọn---</option>
+                                            <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                             <?php
                                             foreach ($dataTeam as $val) {
                                             ?>

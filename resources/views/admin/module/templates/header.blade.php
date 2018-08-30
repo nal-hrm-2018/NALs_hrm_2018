@@ -134,7 +134,7 @@
                       }
                   </SCRIPT>
 
-                  <form action="{{route('logout')}}" id="logout-employee" onSubmit="return confirmAction('Are you sure logout?')">
+                  <form action="{{route('logout')}}" id="logout-employee" onsubmit="return confirm_logout();">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __(trans('common.header.logout')) }}</button>
                   </form>
 
@@ -148,3 +148,8 @@
       </div>
     </nav>
   </header>
+  <script type="text/javascript">
+    function confirm_logout(){
+       return confirm(message_confirm('{{trans("common.header.confirm_logout")}}', '{{trans("common.account")}}', ""));
+    }
+  </script>

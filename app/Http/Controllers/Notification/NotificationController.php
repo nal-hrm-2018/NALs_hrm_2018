@@ -129,7 +129,7 @@ class NotificationController extends Controller
         $notification = Notifications::where('id', $id)->where('flag_delete', 0)->first();
         $notification->flag_delete = 1;
         $notification->save();
-        \Session::flash('msg_fail', trans('common.delete.success'));
+        \Session::flash('msg_success', trans('common.delete.success'));
         return redirect('notification');
     }
 }
