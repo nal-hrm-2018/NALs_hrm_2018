@@ -9,7 +9,8 @@
             <i class="glyphicon glyphicon-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
-        <li class="treeview">
+        @if(Auth::user()->hasRole('HR'))
+         <li class="treeview">
           <a href="#">
             <i class="glyphicon glyphicon-globe"></i> <span>{{trans('leftbar.nav.notification')}}</span>
             <span class="pull-right-container">
@@ -17,12 +18,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="{{ asset('employee')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.notification')}}</a></li>
-
+              <li><a href="{{ asset('notification')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.notification')}}</a></li>
               <li><a href="{{ asset('notification/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.notification')}}</a></li>
-          </ul>
+====    </ul>
         </li>
-          @if(Auth::user()->hasPermission('view_list_employee')||Auth::user()->hasPermission('add_new_employee'))
+        @endif
+        @if(Auth::user()->hasPermission('view_list_employee')||Auth::user()->hasPermission('add_new_employee'))
         <li class="treeview">
           <a href="#">
             <i class="glyphicon glyphicon-user"></i> <span>{{trans('leftbar.nav.employee')}}</span>
