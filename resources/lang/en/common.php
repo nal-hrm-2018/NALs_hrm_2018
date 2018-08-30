@@ -161,5 +161,6 @@ return [
     ],
     'donut_chart' => 'Donut Chart',
     'notifications' => 'Notifications',
+    'history_notifications' => 'History Notifications',
     'absences' => 'Absences'
 ];

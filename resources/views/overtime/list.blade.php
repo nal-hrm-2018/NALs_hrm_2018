@@ -49,7 +49,7 @@
                                         <td>17h30</td>
                                         <td>20h00</td>
                                         <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label" style="background: #76a4ef;">Normal day</span></td>
+                                        <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         <td><span class="label label-danger">Reject</span></td>
                                         <td><span class="label label-success">1.5 hours</span></td>
                                         <td>
@@ -65,15 +65,15 @@
                                     <tr>
                                         <td colspan="7" rowspan="3"></td>
                                         <td rowspan="3">Total</td>
-                                        <td><span class="label" style="background: #76a4ef;">Normal day</span></td>
+                                        <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         <td><span class="label label-success">6 hours</span></td>
                                     </tr>
                                     <tr>
-                                        <td><span class="label" style="background: #7079ef;">Day off</span></td>
+                                        <td><span class="label" style="background: #643aff;">Day off</span></td>
                                         <td><span class="label label-success">6 hours</span></td>
                                     </tr>
                                     <tr>
-                                        <td><span class="label" style="background: #8b70ef;">Holiday</span></td>
+                                        <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         <td><span class="label label-success">6 hours</span></td>
                                     </tr>
                                 </tbody>
