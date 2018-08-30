@@ -110,6 +110,20 @@
                                             </button>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="7" rowspan="3"></td>
+                                        <td rowspan="3">Total</td>
+                                        <td>Normal day</td>
+                                        <td><span class="label label-success">6 hours</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Day off</td>
+                                        <td><span class="label label-success">6 hours</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Holiday</td>
+                                        <td><span class="label label-success">6 hours</span></td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -175,6 +189,5 @@
         .width-90 {
             width: 90px;
         }
-        
     </style>
 @endsection
