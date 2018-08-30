@@ -120,13 +120,15 @@ return [
         'welcome'=>'Chào',
         'member_since'=>'Ngày Bắt Đầu',
         'update_profile'=>'Trang Cá Nhân',
-        'logout'=>'Đăng Xuất'
+        'logout'=>'Đăng Xuất',
+        'confirm_logout'=>'đăng xuất',
     ],
     'error'=>'Lỗi',
     'warning'=>'Cảnh báo',
     'warning_content'=>[
         'warning_reopen' => 'Dự án này đã kết thúc !! nếu bạn muốn chỉnh sửa nó thì ấn vào nút Mở khóa .'
     ],
+    'account'=>'tài khoản',
     'id' => [
         'employee_id' => 'Mã nhân viên',
         'role_id' => 'Chức vụ'
