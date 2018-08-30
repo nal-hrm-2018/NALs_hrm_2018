@@ -16,6 +16,7 @@ return[
     'msg_add'=>[
         'success'=>'Notification successfully created!!!',
         'fail'=>'Notification failed created!!!',
+        'fail_than_ten' =>'Notification failed created. You need to delete a new notification before adding it '
     ],
     'msg_edit'=>[
         'success'=>'Notification successfully edit!!!',

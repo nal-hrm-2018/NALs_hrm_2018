@@ -22,6 +22,8 @@
                 {{--<li><a href="#">List</a></li>--}}
                 {{--</ol>--}}
             </section>
+            <div id="msg">
+            </div>
             <section class="content-header">
                 <div>
                     <button type="button" class="btn btn-default">
@@ -52,8 +54,8 @@
                                             {{--@endif--}}
                                         {{--@endforeach--}}
                                         <span class="pull-right">
-                                            <a href="#">{{trans('notification.edit')}}</a>
-                                            <a href="#">{{trans('notification.delete')}}</a>
+                                            <a href="notification/{{$note->id}}/edit">{{trans('notification.edit')}}</a>
+                                            <a href="{{ route('notification.destroy',['notification' => $note->id]) }}">{{trans('notification.delete')}}</a>
                                          </span>
                                         <a href="#">
                                             <span style="vertical-align: middle;">{{$note->title}}</span>

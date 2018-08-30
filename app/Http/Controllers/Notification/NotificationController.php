@@ -51,7 +51,8 @@ class NotificationController extends Controller
         $count = Notifications::where('flag_delete','=','0')->count();
         if ($count>10)
         {
-            \Session::flash('msg_fail', trans('notification.msg_add.fail'));
+            \Session::flash('msg_fail', trans('notification.msg_add.fail_than_ten'));
+            return redirect('notification');
         }
 
         $create_by_employee = Auth::user()->name;
@@ -64,8 +65,10 @@ class NotificationController extends Controller
         if ($notification->save())
         {
             \Session::flash('msg_success', trans('notification.msg_add.success'));
+            return redirect('notification');
         } else {
             \Session::flash('msg_fail', trans('notification.msg_add.fail'));
+            return back()->with(['notification' => $notification]);
         }
     }
 
@@ -77,7 +80,7 @@ class NotificationController extends Controller
      */
     public function show($id)
     {
-        //
+        echo $id; die();
     }
 
     /**
@@ -123,9 +126,10 @@ class NotificationController extends Controller
      */
     public function destroy($id, Request $request)
     {
-        $notification = Notification::where('id', $id)->where('delete_flag', 0)->first();
+        $notification = Notifications::where('id', $id)->where('flag_delete', 0)->first();
         $notification->flag_delete = 1;
         $notification->save();
-        return response(['msg' => 'Product deleted', 'status' => trans('common.delete.success'), 'id' => $id]);
+        \Session::flash('msg_fail', trans('common.delete.success'));
+        return redirect('notification');
     }
 }
