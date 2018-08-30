@@ -22,7 +22,7 @@ class OTController extends Controller
     public function index()
     {
         $id=Auth::user()->id;
-        $ot = Overtime::where('id', $id)->get();
+        $ot = Overtime::where('id', $id)->with('status', 'type','process', 'employee')->get();
         return view('overtime.list', [
             'ot' => $ot,
         ]);

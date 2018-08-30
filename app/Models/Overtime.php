@@ -21,4 +21,20 @@ class Overtime extends Model
     protected $casts = [
         'date' => 'date',
     ];
+    public function status()
+    {
+        return $this->belongsTo('App\Models\OvertimeStatus', 'overtime_status_id');
+    }
+    public function type()
+    {
+        return $this->belongsTo('App\Models\OvertimeType', 'overtime_type_id');
+    }
+    public function process()
+    {
+        return $this->belongsTo('App\Models\Process', 'process_id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo('App\Models\EMployee', 'employee_id');
+    }
 }
