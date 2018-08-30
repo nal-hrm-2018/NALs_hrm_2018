@@ -39,6 +39,9 @@ return[
             'project' => 'Add Project',
             'absence' => 'Add Absence',
 
+        ],
+        'edit' => [
+            'notification' => 'Edit Notification',
         ]
     ]
 
