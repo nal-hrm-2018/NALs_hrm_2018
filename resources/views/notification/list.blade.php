@@ -40,25 +40,27 @@
                             <ul data-widget="tree" style="list-style-type: none;">
                                 @foreach($new_notifications as $note)
                                     <li class="treeview">
-                                        @if($note->notification_type=='HR')
-                                            <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
-                                        @endif
-                                        @if($note->notification_type=='HD')
-                                            <span class="label bg-red" style="width: 40px; display: inline-block;">HD</span>
-                                        @endif
-                                        @if($note->notification_type=='DOREMON')
-                                            <span class="label bg-green" style="width: 40px; display: inline-block;">DRM</span>
-                                        @endif
+                                        {{--@foreach($notification_type as $type)--}}
+                                            {{--@if($note->notification_type_id == $type->id)--}}
+                                                {{--<label class="label bg-yellow" style="width: 40px; display: inline-block;">{{$type->name}}</label>--}}
+                                            {{--@endif--}}
+                                            {{--@if($note->notification_type_id == $type->id)--}}
+                                                {{--<span class="label bg-red" style="width: 40px; display: inline-block;">{{$type->name}}</span>--}}
+                                            {{--@endif--}}
+                                            {{--@if($note->notification_type_id == $type->id)--}}
+                                                {{--<span class="label bg-green" style="width: 40px; display: inline-block;">{{$type->name}}</span>--}}
+                                            {{--@endif--}}
+                                        {{--@endforeach--}}
                                         <span class="pull-right">
                                             <a href="#">{{trans('notification.edit')}}</a>
                                             <a href="#">{{trans('notification.delete')}}</a>
                                          </span>
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->content}}</span>
+                                            <span style="vertical-align: middle;">{{$note->title}}</span>
                                         </a>
                                         <ul class="treeview-menu">
                                             <?php
-                                            echo nl2br($note->detail);
+                                            echo nl2br($note->content);
                                             ?>
                                             <hr>
                                         </ul>
@@ -96,11 +98,11 @@
                                             <a href="#">{{trans('notification.delete')}}</a>
                                          </span>
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->content}}</span>
+                                            {{--<span style="vertical-align: middle;">{{$note->title}}</span>--}}
                                         </a>
                                         <ul class="treeview-menu">
                                             <?php
-                                            echo nl2br($note->detail);
+//                                            echo nl2br($note->content);
                                             ?>
                                             <hr>
                                         </ul>

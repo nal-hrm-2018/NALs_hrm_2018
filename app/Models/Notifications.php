@@ -10,8 +10,8 @@ class Notifications extends Model
     public $timestamps = false;
     protected $fillable = [
         'id',
+        'title',
         'content',
-        'detail',
         'created_by_employee',
         'created_at',
         'updated_at',
