@@ -40,6 +40,9 @@ return[
             'project' => 'Thêm Dự Án',
             'absence' => 'Tạo đơn xin vắng nghỉ'
 
+        ],
+        'edit' => [
+            'notification' => 'Sữa Thông Báo',
         ]
     ]
 
