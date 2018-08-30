@@ -22,17 +22,16 @@
 
                     <div id="msg">
                     </div>
-                    <SCRIPT LANGUAGE="JavaScript">
-                        function confirmAction() {
-                            var name = $('#name').val();
-                            var id = $('#id_employee').val();
-                            return confirm(message_confirm('create', 'notification', id, name));
-                        }
-                    </SCRIPT>
+                    {{--<SCRIPT LANGUAGE="JavaScript">--}}
+                        {{--function confirmAction() {--}}
+                            {{--var name = $('#name').val();--}}
+                            {{--var id = $('#id_employee').val();--}}
+                            {{--return confirm(message_confirm('create', 'notification', id, name));--}}
+                        {{--}--}}
+                    {{--</SCRIPT>--}}
                     <div class="col-md-10" style="width: 100% ; margin-bottom: 2em"></div>
                     <div class="row">
-                        <form action="{{asset('notification')}}" method="post" class="form-horizontal"
-                              onSubmit="return confirmAction()">
+                        <form action="{{asset('notification')}}" method="post" class="form-horizontal" >
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="row">
                                 <div class="col-md-3"></div>
@@ -41,13 +40,13 @@
                                     <!-- /.form-group -->
                                     <div class="form-group">
                                         <label>{{trans('notification.title')}}<strong style="color: red">(*)</strong></label>
-                                        <input type="text" class="form-control" placeholder="" name="title" id="title" value="" />
+                                        <input type="text" class="form-control" placeholder="" name="title" id="title" value="{{ old('title') }}" />
                                         <label id="lb_error_title" style="color: red; ">{{$errors->first('title')}}</label>
                                         <!-- /.input group -->
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.content')}}<strong style="color: red">(*)</strong></label>
-                                        <textarea id="content" name="content" value="" placeholder=""></textarea>
+                                        <textarea id="content" name="content" value="" placeholder="">{{ old('content') }}</textarea>
                                         <label id="lb_error_content" style="color: red; ">{{$errors->first('content')}}</label>
                                     </div>
                                     <div class="form-group">
@@ -57,7 +56,7 @@
                                             <?php
                                             foreach ($dataTeam as $val) {
                                             ?>
-                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                            <option value="{{ old($val->id)}}">{{$val->name}}</option>
                                             <?php
                                             }
                                             ?>
@@ -72,15 +71,15 @@
                             <div class="row">
                                 <div class="col-md-6" style="display: inline;">
                                     <div style="float: right;">
-                                        <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
-                                            RESET
+                                        <button onclick="return confirm_reset();" type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                            {{ trans('common.button.reset')}}
                                         </button>
                                     </div>
                                 </div>
                                 <div class="col-md-1" style="display: inline;">
                                     <div style="float: right;">
-                                        <button type="submit" class="btn btn-info">
-                                            SAVE
+                                        <button onclick="return confirm_add();" type="submit" class="btn btn-info">
+                                            {{ trans('common.button.add')}}
                                         </button>
                                     </div>
                                 </div>
@@ -98,7 +97,7 @@
             <script>
                 $(function () {
                     $("#btn_reset_form_employee").bind("click", function () {
-                        if(confirmAction("Do you want to reset?"))
+                        if(confirmAction('{{trans('common.reset')}}'))
                             location.reload();
                     });
                 });
@@ -120,6 +119,10 @@
         </section>
         <!-- /.content -->
     </div>
-
+    <script>
+        function confirm_add(){
+            return confirm(message_confirm('{{trans('common.action.add')}}','{{trans('notification.notification')}}',''));
+        }
+    </script>
 
 @endsection
