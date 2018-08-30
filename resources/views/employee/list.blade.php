@@ -334,7 +334,6 @@
                                         $('#form_search_employee').submit()
                                     });
                                 })();
-
                             </script>
                             <table id="employee-list" class="table table-bordered table-striped">
                                 <thead>
