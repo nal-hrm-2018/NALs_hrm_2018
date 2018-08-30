@@ -12,7 +12,7 @@ return [
     | you want to customize your views to better match your application.
     |
     */
-
+    'reset' => 'Bạn có muốn làm mới không',
     'pagination'=>[
         'first'=>'← Trang đầu',
         'previous'=>'← Trước',
@@ -99,7 +99,8 @@ return [
     'action_confirm'=>[
         'add'=>'thêm',
         'edit'=>'chỉnh sửa',
-        'delete'=>'xóa'
+        'delete'=>'xóa',
+        'reset'=>'làm mới'
     ],
     'name_confirm'=>[
         'employee'=>'nhân viên',

@@ -29,7 +29,6 @@ return[
             'absences_holiday'=>'Holiday List',
             'absences_po_project'=>'Absence List',
             'history' => 'Absence History List',
-
         ],
         'add'=>[
             'notification' => 'Add Notification',

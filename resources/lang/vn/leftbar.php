@@ -30,7 +30,7 @@ return[
             'absences_holiday'=>'Danh sách ngày lễ',
             'absences_po_project'=>'Danh sách vắng nghỉ',
             'history' => 'Lịch sử vắng nghỉ',
-
+            'ot_list' => 'Danh sách tăng ca'
         ],
         'add'=>[
             'notification' => 'Thêm thông báo',
