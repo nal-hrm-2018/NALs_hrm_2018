@@ -47,13 +47,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.content')}}<strong style="color: red">(*)</strong></label>
-                                        <textarea id="content" name="content" value="" placeholder="Nhập Nội Dung"></textarea>
+                                        <textarea id="content" name="content" value="" placeholder=""></textarea>
                                         <label id="lb_error_content" style="color: red; ">{{$errors->first('content')}}</label>
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.notification_id')}}<strong style="color: red">(*)</strong></label>
-                                        <select class="form-control select2" style="width: 100%;"  name="notification_id" id="absence_type_id">
-                                            <option value="" >---Chọn---</option>
+                                        <select class="form-control select2" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
+                                            <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                             <?php
                                             foreach ($dataTeam as $val) {
                                             ?>
@@ -62,7 +62,7 @@
                                             }
                                             ?>
                                         </select>
-                                        <label id="lb_error_notification_id" style="color: red; ">{{$errors->first('notification_id')}}</label>
+                                        <label id="lb_error_type_id" style="color: red; ">{{$errors->first('notification_type_id')}}</label>
                                     </div>
                                 </div>
                                 <!-- /.form-group -->

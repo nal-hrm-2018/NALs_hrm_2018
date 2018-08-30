@@ -16,6 +16,8 @@
                 {{--<li><a href="#">List</a></li>--}}
                 {{--</ol>--}}
             </section>
+            <div id="msg">
+            </div>
             <section class="content-header">
                 <div>
                     <button type="button" class="btn btn-default">
@@ -48,11 +50,11 @@
                                             @endif
                                         @endforeach
                                         <span class="pull-right">
-                                            <a href="#">
+                                            <a href="notification/{{$note->id}}/edit">
                                                 <i class="fa fa-edit width-icon-contextmenu"></i>
                                                 {{--{{trans('notification.edit')}}--}}
                                             </a>
-                                            <a href="#">
+                                            <a onclick="return confirm_delete();" href="{{ route('notification.destroy',['notification' => $note->id]) }}">
                                                  <i class="fa fa-remove width-icon-contextmenu"></i>
                                                 {{--{{trans('notification.delete')}}--}}
                                             </a>
@@ -97,16 +99,7 @@
                                                 @endif
                                             @endif
                                         @endforeach
-                                            <span class="pull-right">
-                                            <a href="#">
-                                                <i class="fa fa-edit width-icon-contextmenu"></i>
-                                                {{--{{trans('notification.edit')}}--}}
-                                            </a>
-                                            <a href="#">
-                                                 <i class="fa fa-remove width-icon-contextmenu"></i>
-                                                {{--{{trans('notification.delete')}}--}}
-                                            </a>
-                                         </span>
+
                                         <a href="#">
                                             <span style="vertical-align: middle;">{{$note->title}}</span>
                                         </a>
@@ -126,4 +119,9 @@
             </section>
         </div>
     </div>
+    <script>
+        function confirm_delete(){
+            return confirm(message_confirm('{{trans('common.action.remove')}}','{{trans('notification.notification')}}',''));
+        }
+    </script>
 @endsection
