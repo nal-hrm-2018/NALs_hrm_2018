@@ -93,7 +93,7 @@
                                 <tbody>
                                     <tr>
                                         <td>1</td>
-                                        <th>02/08/2018</td>
+                                        <td>02/08/2018</td>
                                         <td>thích</td>
                                         <td>17h30</td>
                                         <td>20h00</td>
@@ -102,10 +102,10 @@
                                         <td><span class="label label-danger">Reject</span></td>
                                         <td><span class="label label-success">1.5 hours</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal1" style="color: blue;">
+                                            <button type="button" class="btn btn-default width-90" data-toggle="modal" data-target="#myModal1" style="color: blue;">
                                                 <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
                                             </button>
-                                            <button type="button" class="btn btn-default">
+                                            <button type="button" class="btn btn-default width-90">
                                                 <a href=""><i class="glyphicon glyphicon-remove"></i>&nbsp;Delete</a>
                                             </button>
                                         </td>
@@ -166,11 +166,15 @@
         </section>
 	</div>
     <style type="text/css">
-        .table tr td {
+        .table tbody tr td {
             vertical-align: middle;
         }
-        .table tr th {
+        .table thead tr th {
             vertical-align: middle;
         }
+        .width-90 {
+            width: 90px;
+        }
+        
     </style>
 @endsection
