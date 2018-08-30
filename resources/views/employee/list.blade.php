@@ -119,7 +119,7 @@
                         if (!empty($value['email'])) {
                             $email = $value['email'];
                         }
-                        if (!empty($value['status'] || $value['status'] == 0)) {
+                        if (isset($value['status'])) {
                             $statusExport =  $value['status'];
                         }
                         if (!empty($value['page'])) {
@@ -334,7 +334,6 @@
                                         $('#form_search_employee').submit()
                                     });
                                 })();
-
                             </script>
                             <table id="employee-list" class="table table-bordered table-striped">
                                 <thead>
