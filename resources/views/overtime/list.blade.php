@@ -1,10 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ngoc Quy
- * Date: 4/16/2018
- * Time: 11:00 AM
- */ ?>
 @extends('admin.template')
 @section('content')
  <!-- Content Wrapper. Contains page content -->
@@ -20,6 +13,7 @@
                 <button type="button" class="btn btn-default">
                     <a href=""><i class="glyphicon glyphicon-plus"></i>&nbsp;Add OT</a>
                 </button>
+            </div>
         </section>
         <section class="content">
             <div class="row">
