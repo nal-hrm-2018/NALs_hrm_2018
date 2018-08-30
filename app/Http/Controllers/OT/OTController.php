@@ -14,6 +14,10 @@ class OTController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function indexPO()
+    {
+        return view('overtime.po_list');
+    }
     public function index()
     {
         $id=Auth::user()->id;
@@ -30,7 +34,7 @@ class OTController extends Controller
      */
     public function create()
     {
-        //
+        return view('overtime.add');
     }
 
     /**
@@ -63,7 +67,7 @@ class OTController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('overtime.edit');
     }
 
     /**
