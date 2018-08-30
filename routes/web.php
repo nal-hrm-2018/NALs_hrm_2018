@@ -193,11 +193,13 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');
     Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
 
-    Route::resource('ot', 'OT\OTController');
-    Route::get('/ot/po-ot', [
+    Route::get('ot/po-ot', [
         'as' => 'po-ot',
         'uses' => 'OT\OTController@indexPO',
     ]);
+    Route::resource('ot', 'OT\OTController');
+
+
     Route::resource('notification', 'Notification\NotificationController');
     Route::get('notification/{notification}', [
         'uses' => 'Notification\NotificationController@destroy',
