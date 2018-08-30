@@ -19,9 +19,8 @@
           </a>
           <ul class="treeview-menu">
               <li><a href="{{ asset('notification')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.notification')}}</a></li>
-
               <li><a href="{{ asset('notification')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.notification')}}</a></li>
-          </ul>
+        </ul>
         </li>
         @endif
         @if(Auth::user()->hasPermission('view_list_employee')||Auth::user()->hasPermission('add_new_employee'))
