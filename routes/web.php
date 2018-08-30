@@ -194,7 +194,7 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
 
     Route::resource('ot', 'OT\OTController');
-    Route::get('/po-ot', [
+    Route::get('/ot/po-ot', [
         'as' => 'po-ot',
         'uses' => 'OT\OTController@indexPO',
     ]);
