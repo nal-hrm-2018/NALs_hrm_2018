@@ -16,5 +16,9 @@ class Overtime extends Model
         'total_time',
         'overtime_type_id',
         'overtime_status_id',
+        'reason'
+    ];
+    protected $casts = [
+        'date' => 'date',
     ];
 }
