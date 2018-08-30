@@ -9,10 +9,31 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <div class="content">
+            <section class="content-header">
+                <h1>
+                    {{trans('common.notifications')}}
+                    <small>NAL Solutions</small>
+                </h1>
+                {{--<ol class="breadcrumb">--}}
+                {{--<li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>--}}
+                {{--<li><a href=""> Absance</a></li>--}}
+                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>--}}
+                {{--<li><a href="{{asset('/absences')}}"> Absance</a></li>--}}
+                {{--<li><a href="#">List</a></li>--}}
+                {{--</ol>--}}
+            </section>
+            <section class="content-header">
+                <div>
+                    <button type="button" class="btn btn-default">
+                        <a href="{{route('notification.create')}}"><i class="fa fa-user-plus"></i>{{trans('notification.add')}}</a>
+                    </button>
+                </div>
+                <br>
+            </section>
             <section>
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{trans('common.notifications')}}</h3>
+                        <h3 class="box-title">{{trans('notification.new')}}</h3>
                     </div>
                     <div class="box-body">
                         <div class="news">
@@ -28,6 +49,10 @@
                                         @if($note->notification_type=='DOREMON')
                                             <span class="label bg-green" style="width: 40px; display: inline-block;">DRM</span>
                                         @endif
+                                        <span class="pull-right">
+                                            <a href="#">{{trans('notification.edit')}}</a>
+                                            <a href="#">{{trans('notification.delete')}}</a>
+                                         </span>
                                         <a href="#">
                                             <span style="vertical-align: middle;">{{$note->content}}</span>
                                         </a>
@@ -64,6 +89,10 @@
                                         @if($note->notification_type=='DOREMON')
                                             <span class="label bg-green" style="width: 40px; display: inline-block;">DRM</span>
                                         @endif
+                                        <span class="pull-right">
+                                            <a href="#">{{trans('notification.edit')}}</a>
+                                            <a href="#">{{trans('notification.delete')}}</a>
+                                         </span>
                                         <a href="#">
                                             <span style="vertical-align: middle;">{{$note->content}}</span>
                                         </a>
