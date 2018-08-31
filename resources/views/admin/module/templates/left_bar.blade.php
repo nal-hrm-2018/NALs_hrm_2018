@@ -12,7 +12,7 @@
         @if(Auth::user()->hasRole('HR'))
          <li class="treeview">
           <a href="#">
-            <i class="glyphicon glyphicon-globe"></i> <span>{{trans('leftbar.nav.notification')}}</span>
+            <i class="glyphicon glyphicon-blackboard"></i> <span>{{trans('leftbar.nav.notification')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -20,7 +20,7 @@
           <ul class="treeview-menu">
               <li><a href="{{ asset('notification')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.notification')}}</a></li>
               <li><a href="{{ asset('notification/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.notification')}}</a></li>
-====    </ul>
+          </ul>
         </li>
         @endif
         @if(Auth::user()->hasPermission('view_list_employee')||Auth::user()->hasPermission('add_new_employee'))
