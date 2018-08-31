@@ -25,15 +25,7 @@ class OTController extends Controller
     public function indexPO()
     {
         $id=Auth::user()->id;
-//        $process = Process::where('employee_id',$id)->get();
-//        $OT = [];
-//        foreach ($process as $proces){
-//            $OT[] = Process::where('employee_id',$id)->with('projects.overtime')->get();
-//        }
-
         $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();
-//        $OT = Process::where('project_id',$process->project_id)->with('projects.overtime')->get();
-//        echo $OT; die();
         return view('overtime.po_list',['OT'=>$OT]);
     }
 
@@ -44,7 +36,7 @@ class OTController extends Controller
         $overtime->save();
         $id=Auth::user()->id;
         $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();
-        return view('overtime.po_list',['OT'=>$OT]);
+        return redirect()->route('po-ot',['OT'=>$OT]);
     }
 
     public function rejectOT(Request $request,$id){
@@ -73,9 +65,25 @@ class OTController extends Controller
     public function index()
     {
         $id=Auth::user()->id;
-        $ot = Overtime::where('id', $id)->with('status', 'type', 'employee')->get();
+        $ot = Overtime::select()->where('employee_id', $id)->with('status', 'type', 'project', 'employee')->get();
+        $normal = 0;
+        $weekend = 0;
+        $holiday = 0;
+        foreach($ot as $val){
+            if($val->status->name = 'Accepted' || $val->status->name = 'Rejected'){
+                if($val->type->name == 'normal'){
+                    $normal += $val->correct_total_time;
+                }elseif($val->type->name == 'weekend'){
+                    $weekend += $val->correct_total_time;
+                }elseif($val->type->name == 'holiday'){
+                    $holiday += $val->correct_total_time;
+                }
+            }
+        }
+        $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
         return view('overtime.list', [
             'ot' => $ot,
+            'time' => $time,
         ]);
     }
 

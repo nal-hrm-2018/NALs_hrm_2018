@@ -204,7 +204,12 @@ Route::group(['middleware' => 'user'], function () {
         'as' => 'po-ot.reject',
         'uses' => 'OT\OTController@rejectOT',
     ]);
+    Route::get('/hr-ot', [
+        'as' => 'hr-ot',
+        'uses' => 'OT\OTController@indexHR',
+    ]);
     Route::resource('ot', 'OT\OTController');
+
     Route::resource('notification', 'Notification\NotificationController');
     Route::get('notification/{notification}', [
         'uses' => 'Notification\NotificationController@destroy',

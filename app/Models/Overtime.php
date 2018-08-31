@@ -11,14 +11,15 @@ class Overtime extends Model
     protected $fillable = [
         'id',
         'employee_id',
+        'project_id',
+        'reason',
         'date',
         'start_time',
         'end_time',
-        'total_time',
         'overtime_type_id',
         'overtime_status_id',
-        'reason',
-        'project_id'
+        'total_time',
+        'correct_total_time'
     ];
     protected $casts = [
         'date' => 'date',
@@ -37,6 +38,6 @@ class Overtime extends Model
     }
     public function employee()
     {
-        return $this->belongsTo('App\Models\EMployee', 'employee_id');
+        return $this->belongsTo('App\Models\Employee', 'employee_id');
     }
 }
