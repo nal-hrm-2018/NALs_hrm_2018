@@ -89,4 +89,8 @@ class Project extends Model
         return $this->belongsToMany('App\Models\Employee', 'processes', 'project_id', 'employee_id')
             ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'project_id', 'role_id');
     }
+    public function overtime()
+    {
+        return $this->hasMany('App\Models\Overtime', 'project_id');
+    }
 }

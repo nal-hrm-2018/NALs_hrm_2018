@@ -49,7 +49,8 @@ class NotificationController extends Controller
     public function store(NotificationAddRequest $request)
     {
         $count = Notifications::where('flag_delete','=','0')->count();
-        if ($count>10)
+
+        if ($count>=10)
         {
             \Session::flash('msg_fail', trans('notification.msg_add.fail_than_ten'));
             return redirect('notification');

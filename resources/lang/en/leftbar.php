@@ -21,6 +21,7 @@ return[
         'overtime' => 'Overtime',
 
         'list'=>[
+            'ot_list' => 'OT List',
             'notification' => 'Notification List',
             'employee' => 'Employee List',
             'vendor' => 'Vendor List',
