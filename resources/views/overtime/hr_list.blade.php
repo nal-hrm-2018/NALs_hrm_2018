@@ -115,7 +115,7 @@
                                 <thead>
                                     <tr>
                                         <th>Employee ID</th>
-                                        <th>Employee</th>
+                                        <th>Name</th>
                                         <th><span class="label" style="background: #9072ff;">Normal day</span></th>
                                         <th><span class="label" style="background: #643aff;">Day off</span></th>
                                         <th><span class="label" style="background: #3600ff;">Holiday</span></th>
