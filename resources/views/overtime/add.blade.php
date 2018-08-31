@@ -83,23 +83,11 @@
     	</section>
     </div>
     <script type="text/javascript">
-    	var timepicker = new TimePicker('example3', {
+    	var timepicker = new TimePicker(['example3','example4'], {
 		  	lang: 'en',
 		  	theme: 'dark'
 		});
-		var input = document.getElementById('example3');
-
-			timepicker.on('change', function(evt) {
-		  
-		  		var value = (evt.hour || '00') + ':' + (evt.minute || '00');
-		  		evt.element.value = value;
-		});
-
-		var timepicker = new TimePicker('example4', {
-		  	lang: 'en',
-		  	theme: 'dark'
-		});
-		var input = document.getElementById('example4');
+		var input = document.getElementById(['example3','example4']);
 
 			timepicker.on('change', function(evt) {
 		  
@@ -107,8 +95,4 @@
 		  		evt.element.value = value;
 		});
     </script>
-    <head>
-    	<script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
-		<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
-    </head>
 @endsection
