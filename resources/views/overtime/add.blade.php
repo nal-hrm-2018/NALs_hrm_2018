@@ -59,7 +59,7 @@
 	    						</div>
 	    						<div class="form-group">
 	    							<label for="example7">Reason<strong style="color: red">(*)</strong></label>
-	    							<textarea class="form-control" id="example7" rows="5"></textarea>
+	    							<textarea class="form-control" id="example7" rows="5" style="line-height: 1.36;"></textarea>
 	    						</div>
 	    					</div>
 	    				</div>
