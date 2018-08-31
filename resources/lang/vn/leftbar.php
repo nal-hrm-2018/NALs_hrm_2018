@@ -19,6 +19,7 @@ return[
         'absence' => 'Xin vắng nghỉ',
         'absence_management' => 'Quản lý vắng nghỉ',
         'list'=>[
+            'ot_list' => 'Danh sách tăng ca',
             'notification' => 'Danh sách thông báo',
             'employee' => 'Danh sách nhân viên',
             'vendor' => 'Danh sách nhân viên ngoài',

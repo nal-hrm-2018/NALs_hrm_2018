@@ -4,6 +4,7 @@ namespace App\Http\Controllers\OT;
 
 use App\Http\Controllers\Controller;
 use App\Models\Overtime;
+use App\Models\Process;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,15 +15,30 @@ class OTController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $objOT;
+    public function __construct (Overtime $objOT)
+    {
+        $this->objOT=$objOT;
+    }
+
     public function indexPO()
     {
+        $id=Auth::user()->id;
+//        $process = Process::where('employee_id',$id)->get();
+//        $OT = [];
+//        foreach ($process as $proces){
+//            $OT[] = Process::where('employee_id',$id)->with('projects.overtime')->get();
+//        }
 
-        return view('overtime.po_list');
+        $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();
+//        $OT = Process::where('project_id',$process->project_id)->with('projects.overtime')->get();
+//        echo $OT; die();
+        return view('overtime.po_list',['OT'=>$OT]);
     }
     public function index()
     {
         $id=Auth::user()->id;
-        $ot = Overtime::where('id', $id)->with('status', 'type','process', 'employee')->get();
+        $ot = Overtime::where('id', $id)->with('status', 'type', 'employee')->get();
         return view('overtime.list', [
             'ot' => $ot,
         ]);

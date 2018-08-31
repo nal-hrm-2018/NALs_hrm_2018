@@ -16,108 +16,57 @@
                             <table id="" class="table table-bordered table-striped text-center">
                                 <thead>
                                     <tr>
-                                        <th>STT</th>
-                                        <th>Project</th>
-                                        <th>Employee</th>
-                                        <th>Date</th>
-                                        <th>Reason</th>
-                                        <th>From time</th>
-                                        <th>To time</th>
-                                        <th>Number time</th>
-                                        <th>Date type</th>
-                                        <th>Action</th>
+                                        <th>{{ trans('overtime_po.stt') }}</th>
+                                        <th>{{ trans('overtime_po.project') }}</th>
+                                        <th>{{ trans('overtime_po.employee') }}</th>
+                                        <th>{{ trans('overtime_po.date') }}</th>
+                                        <th>{{ trans('overtime_po.reason') }}</th>
+                                        <th>{{ trans('overtime_po.from_time') }}</th>
+                                        <th>{{ trans('overtime_po.to_time') }}</th>
+                                        <th>{{ trans('overtime_po.number_time') }}</th>
+                                        <th>{{ trans('overtime_po.data_type') }}</th>
+                                        <th>{{ trans('overtime_po.action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @php
+                                    $i=0
+                                @endphp
+                                @foreach($OT[$i] as $value)
+                                    @foreach($value['project']['overtime'] as $va)
+
+
                                     <tr>
-                                        <td rowspan="3">1</td>
-                                        <td rowspan="3">Ecomer</td>
-                                        <td>Nguyễn Văn D</td>
-                                        <td>02/08/2018</td>
-                                        <td>thích</td>
-                                        <td>17h30</td>
-                                        <td>20h00</td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label" style="background: #3600ff;">Holiday</span></td>
+                                        <td rowspan="">{{$va->id}}</td>
+                                        <td rowspan="">{{ \App\Models\Project::find($va->project_id)->first()->name }}</td>
+                                        <td>{{ \App\Models\Employee::find($va->employee_id)->first()->name }}</td>
+                                        <td>{{ $va->date }}</td>
+                                        <td>{{ $va->reason }}</td>
+                                        <td>{{ $va->start_time }}</td>
+                                        <td>{{ $va->end_time }}</td>
+                                        @if(isset($va->total_time))
+                                        <td><span class="label label-success">{{ $va->total_time }}<span></td>
+                                        @else
+                                        <td><span>-<span></td>
+                                        @endif
+                                        <td><span class="label" style="background: #3600ff;">{{ \App\Models\OvertimeType::find($va->overtime_type_id)->name }}</span></td>
+                                        @if(isset($va->overtime_status_id))
+                                        <td><span class="label label-success">{{ \App\Models\OvertimeStatus::find($va->overtime_status_id)->name }}<span></td>
+                                        @else
                                         <td>
-                                            <button type="button" class="btn btn-primary width-90">
-                                                <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
-                                            </button>
-                                            <button type="button" class="btn btn-danger width-90">
-                                                <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
-                                            </button>
+                                            <div id="action_bt">
+                                                <button onclick="return confirm_accept();" type="button" class="btn btn-primary width-90">
+                                                    <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
+                                                </button>
+                                                <button onclick="return confirm_reject();" type="button" class="btn btn-danger width-90">
+                                                    <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
+                                                </button>
+                                            </div>
                                         </td>
+                                        @endif
                                     </tr>
-                                    <tr>
-                                    	<td>Nguyễn Văn D</td>
-                                        <td>02/08/2018</td>
-                                        <td>thích</td>
-                                        <td>17h30</td>
-                                        <td>20h00</td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label" style="background: #643aff;">Day off</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary width-90">
-                                                <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
-                                            </button>
-                                            <button type="button" class="btn btn-danger width-90">
-                                                <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                    	<td>Nguyễn Văn D</td>
-                                        <td>02/08/2018</td>
-                                        <td>thích</td>
-                                        <td>17h30</td>
-                                        <td>20h00</td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label" style="background: #9072ff;">Normal day</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary width-90">
-                                                <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
-                                            </button>
-                                            <button type="button" class="btn btn-danger width-90">
-                                                <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="3">2</td>
-                                        <td rowspan="3">Ecomer2</td>
-                                        <td>Nguyễn Văn D</td>
-                                        <td>02/08/2018</td>
-                                        <td>thích</td>
-                                        <td>17h30</td>
-                                        <td>20h00</td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label" style="background: #3600ff;">Holiday</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary width-90">
-                                                <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
-                                            </button>
-                                            <button type="button" class="btn btn-danger width-90">
-                                                <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                    	<td>Nguyễn Văn D</td>
-                                        <td>02/08/2018</td>
-                                        <td>thích</td>
-                                        <td>17h30</td>
-                                        <td>20h00</td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label" style="background: #9072ff;">Normal day</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary width-90">
-                                                <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
-                                            </button>
-                                            <button type="button" class="btn btn-danger width-90">
-                                                <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @endforeach
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -126,6 +75,14 @@
             </div>
         </section>
 	</div>
+     <script>
+         function confirm_accept() {
+             document.getElementById("action_bt").style.visibility = "hidden";
+         }
+         function confirm_reject() {
+             document.getElementById("action_bt").style.visibility = "hidden";
+         }
+     </script>
     <style type="text/css">
         .table tbody tr td {
             vertical-align: middle;

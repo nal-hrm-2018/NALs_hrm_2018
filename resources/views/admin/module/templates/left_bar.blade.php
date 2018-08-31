@@ -127,7 +127,9 @@
               </a>
               <ul class="treeview-menu">
                   <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>My OT</a></li>
+                  @if(Auth::user()->hasRole('PO'))
                   <li><a class="nav-item-part" href="{{ asset('ot/po-ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.ot_list')}}</a></li>
+                  @endif
               </ul>
           </li>
       </ul>

@@ -18,6 +18,7 @@ return[
         'absence' => 'Absences',
         'absence_management' => 'Absence Management',
         'list'=>[
+            'ot_list' => 'OT List',
             'notification' => 'Notification List',
             'employee' => 'Employee List',
             'vendor' => 'Vendor List',

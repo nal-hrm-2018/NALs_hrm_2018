@@ -47,4 +47,7 @@ class Process extends Model
     {
         return $this->hasMany('App\Models\Performance', 'process_id')->where('delete_flag', '=', 0);
     }
+//    public function overtimes(){
+//        return $this->hasMany('App\Models\Overtime','process_id');
+//    }
 }
