@@ -97,6 +97,21 @@
             @endif
           </ul>
         </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.overtime')}}</span>
+                <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.overtime')}}</a></li>
+                <li><a class="nav-item-part" href="{{ asset('ot/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.overtime')}}</a></li>
+                @if(Auth::user()->hasRole('PO'))
+                    <li><a class="nav-item-part" href="{{ asset('ot/po-ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.overtime_management')}}</a></li>
+                @endif
+            </ul>
+        </li>
         @if((Auth::user()->hasPermission('view_employee_absence_history')) || (Auth::user()->hasPermission('view_holiday_list')) || (Auth::user()->hasPermission('view_project_absence_history')) )
           <li class="treeview">
             <a href="#">
@@ -118,31 +133,6 @@
             </ul>
           </li>
         @endif
-        <li class="treeview">
-            <a href="#">
-                <i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.overtime_management')}}</span>
-                <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-            </a>
-            <ul class="treeview-menu">
-                @if(Auth::user()->hasRole('PO'))
-                    <li><a class="nav-item-part" href="{{ asset('ot/po-ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.overtime')}}</a></li>
-                @endif
-            </ul>
-        </li>
-        <li class="treeview">
-            <a href="#">
-                <i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.overtime')}}</span>
-                <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.overtime')}}</a></li>
-                <li><a class="nav-item-part" href="{{ asset('ot/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.overtime')}}</a></li>
-            </ul>
-        </li>
       </ul>
 
     </section>

@@ -65,7 +65,9 @@ class OTController extends Controller
     public function index()
     {
         $id=Auth::user()->id;
-        $ot = Overtime::select()->where('employee_id', $id)->with('status', 'type', 'project', 'employee')->get();
+        $newmonth = date('d');
+        $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
+        $ot = Overtime::select()->where('employee_id', $id)->where('date', '>', $newmonth)->with('status', 'type', 'project', 'employee')->get()->sortBy('date');
         $normal = 0;
         $weekend = 0;
         $holiday = 0;
