@@ -66,7 +66,7 @@
 	    				<div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
                             <div class="col-md-6" style="display: inline; ">
                                 <div style="float: right;">
-                                    <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span
+                                    <button id="btn_reset_form_employee" type="reset" class="btn btn-default"><span
                                         class="fa fa-refresh"></span>&nbsp;RESET
                                     </button>
                                 </div>
