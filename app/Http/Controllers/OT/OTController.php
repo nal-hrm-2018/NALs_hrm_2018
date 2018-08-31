@@ -21,9 +21,25 @@ class OTController extends Controller
     public function index()
     {
         $id=Auth::user()->id;
-        $ot = Overtime::where('id', $id)->with('status', 'type','process', 'employee')->get();
+        $ot = Overtime::select()->where('employee_id', $id)->with('status', 'type', 'project', 'employee')->get();
+        $normal = 0;
+        $weekend = 0;
+        $holiday = 0;
+        foreach($ot as $val){
+            if($val->status->name = 'Accepted' || $val->status->name = 'Rejected'){
+                if($val->type->name == 'normal'){
+                    $normal += $val->correct_total_time;
+                }elseif($val->type->name == 'weekend'){
+                    $weekend += $val->correct_total_time;
+                }elseif($val->type->name == 'holiday'){
+                    $holiday += $val->correct_total_time;
+                }
+            }
+            $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
+        }
         return view('overtime.list', [
             'ot' => $ot,
+            'time' => $time,
         ]);
     }
 

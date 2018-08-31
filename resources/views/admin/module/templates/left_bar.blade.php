@@ -120,13 +120,13 @@
         @endif
           <li class="treeview">
               <a href="#">
-                  <i class="fa  fa-calendar-minus-o"></i> <span> OT Management</span>
+                  <i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.overtime_management')}}</span>
                   <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
               </a>
               <ul class="treeview-menu">
-                  <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>List OT</a></li>
+                  <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.overtime')}}</a></li>
               </ul>
           </li>
       </ul>

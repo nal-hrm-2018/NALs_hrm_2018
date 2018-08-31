@@ -18,6 +18,7 @@ return[
         'project' => 'Dự án',
         'absence' => 'Xin vắng nghỉ',
         'absence_management' => 'Quản lý vắng nghỉ',
+        'overtime_management' => 'Quản lý làm ngoài giờ',
         'list'=>[
             'notification' => 'Danh Sách Thông Báo',
             'employee' => 'Danh sách Nhân Viên',
@@ -30,6 +31,7 @@ return[
             'absences_holiday'=>'Danh sách ngày lễ',
             'absences_po_project'=>'Danh sách vắng nghỉ',
             'history' => 'Lịch sử vắng nghỉ',
+            'overtime' => 'Danh sách làm ngoài giờ'
 
         ],
         'add'=>[

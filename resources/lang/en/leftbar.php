@@ -17,6 +17,8 @@ return[
         'project' => 'Project',
         'absence' => 'Absence',
         'absence_management' => 'Absence Management',
+        'overtime_management' => 'Overtime Management',
+
         'list'=>[
             'notification' => 'List Notification',
             'employee' => 'List Employee',
@@ -29,6 +31,7 @@ return[
             'absences_holiday'=>'List Holiday',
             'absences_po_project'=>'List Absence',
             'history' => 'Absence history',
+            'overtime' => 'Overtime list'
 
         ],
         'add'=>[
