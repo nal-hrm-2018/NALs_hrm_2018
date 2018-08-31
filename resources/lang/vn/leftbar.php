@@ -21,6 +21,7 @@ return[
         'overtime_management' => 'Quản lý làm ngoài giờ',
         'overtime' => 'Làm Ngoài giờ',
         'list'=>[
+            'ot_list' => 'Danh sách tăng ca',
             'notification' => 'Danh sách thông báo',
             'employee' => 'Danh sách nhân viên',
             'vendor' => 'Danh sách nhân viên ngoài',
