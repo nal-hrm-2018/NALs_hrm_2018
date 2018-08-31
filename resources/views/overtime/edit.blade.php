@@ -20,10 +20,6 @@
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
 	    					<div class="col-md-4">
-	    						<div class="form-group">
-								    <label for="example1">Date<strong style="color: red">(*)</strong></label>
-								    <input type="date" class="form-control" id="example1">
-								</div>
 								<div class="form-group">
 								    <label for="example2">Project<strong style="color: red">(*)</strong></label>
 								    <select class="form-control" id="example2">
@@ -32,6 +28,10 @@
 								    	<option>project b</option>
 								    	<option>project c</option>
 								    </select>
+								</div>
+								<div class="form-group">
+								    <label for="example1">Date<strong style="color: red">(*)</strong></label>
+								    <input type="date" class="form-control" id="example1">
 								</div>
 								<div class="form-group">
 									<label for="example3">From time<strong style="color: red">(*)</strong></label>
