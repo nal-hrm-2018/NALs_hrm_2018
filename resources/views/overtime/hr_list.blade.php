@@ -137,4 +137,15 @@
             </div>
         </section>
     </div>
+    <style type="text/css">
+        .table tbody tr td {
+            vertical-align: middle;
+        }
+        .table thead tr th {
+            vertical-align: middle;
+        }
+        .width-90 {
+            width: 90px;
+        }
+    </style>
 @endsection

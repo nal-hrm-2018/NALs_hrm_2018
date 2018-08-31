@@ -40,7 +40,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         <td>
-                                            <a class="btn btn-warning"><em class="glyphicon glyphicon-ok"></em></a>
+                                            <a class="btn btn-success"><em class="glyphicon glyphicon-ok"></em></a>
                                             <a class="btn btn-danger"><em class="glyphicon glyphicon-remove"></em></a>
                                             <!-- <button type="button" class="btn btn-info width-90">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
@@ -82,7 +82,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>
                                         <td>
-                                            <a class="btn btn-warning"><em class="glyphicon glyphicon-ok"></em></a>
+                                            <a class="btn btn-success"><em class="glyphicon glyphicon-ok"></em></a>
                                             <a class="btn btn-danger"><em class="glyphicon glyphicon-remove"></em></a>
                                             <!-- <button type="button" class="btn btn-info width-90">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
@@ -101,7 +101,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         <td>
-                                            <a class="btn btn-warning"><em class="glyphicon glyphicon-ok"></em></a>
+                                            <a class="btn btn-success"><em class="glyphicon glyphicon-ok"></em></a>
                                             <a class="btn btn-danger"><em class="glyphicon glyphicon-remove"></em></a>
                                             <!-- <button type="button" class="btn btn-info width-90">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
@@ -122,7 +122,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         <td>
-                                            <a class="btn btn-warning"><em class="glyphicon glyphicon-ok"></em></a>
+                                            <a class="btn btn-success"><em class="glyphicon glyphicon-ok"></em></a>
                                             <a class="btn btn-danger"><em class="glyphicon glyphicon-remove"></em></a>
                                             <!-- <button type="button" class="btn btn-info width-90">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
@@ -141,7 +141,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         <td>
-                                            <a class="btn btn-warning"><em class="glyphicon glyphicon-ok"></em></a>
+                                            <a class="btn btn-success"><em class="glyphicon glyphicon-ok"></em></a>
                                             <a class="btn btn-danger"><em class="glyphicon glyphicon-remove"></em></a>
                                             <!-- <button type="button" class="btn btn-info">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
