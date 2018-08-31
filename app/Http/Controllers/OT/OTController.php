@@ -42,8 +42,8 @@ class OTController extends Controller
                     $holiday += $val->correct_total_time;
                 }
             }
-            $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
         }
+        $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
         return view('overtime.list', [
             'ot' => $ot,
             'time' => $time,
