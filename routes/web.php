@@ -192,17 +192,16 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/absence-po', 'Absence\AbsenceController@showListAbsence')->name('absence-po');
     Route::post('/deny-po-team', 'Absence\AbsenceController@denyPOTeam');
     Route::post('/done-confirm', 'Absence\AbsenceController@doneConfirm');
-
-    Route::resource('ot', 'OT\OTController');
-    Route::get('/po-ot', [
+    Route::get('ot/po-ot', [
         'as' => 'po-ot',
         'uses' => 'OT\OTController@indexPO',
     ]);
-    Route::get('/hr-ot', [
-        'as' => 'hr-ot',
-        'uses' => 'OT\OTController@indexHR',
-    ]);
+    Route::resource('ot', 'OT\OTController');
     Route::resource('notification', 'Notification\NotificationController');
+    Route::get('notification/{notification}', [
+        'uses' => 'Notification\NotificationController@destroy',
+        'as' => 'notification.destroy'
+    ]);
 });
 
 //cong list route cam pha'

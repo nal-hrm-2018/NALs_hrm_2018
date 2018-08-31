@@ -12,7 +12,7 @@ return [
     | you want to customize your views to better match your application.
     |
     */
-
+    'reset' => 'Bạn có muốn làm mới không',
     'pagination'=>[
         'first'=>'← Trang đầu',
         'previous'=>'← Trước',
@@ -56,7 +56,8 @@ return [
         'project_detail'=>'Chi tiết dự án',
         'absence_list'=>'Danh sách vắng nghỉ',
         'absence_list_holiday'=>'Danh sách ngày nghỉ',
-        'absence_detail'=>'Danh sách xin vắng làm'
+        'absence_detail'=>'Danh sách xin vắng làm',
+        'notification_list'=>'Danh sách thông báo'
     ],
     'path'=>[
         'dashboard'=>'Trang Chủ',
@@ -98,7 +99,8 @@ return [
     'action_confirm'=>[
         'add'=>'thêm',
         'edit'=>'chỉnh sửa',
-        'delete'=>'xóa'
+        'delete'=>'xóa',
+        'reset'=>'làm mới'
     ],
     'name_confirm'=>[
         'employee'=>'nhân viên',
@@ -120,13 +122,15 @@ return [
         'welcome'=>'Chào',
         'member_since'=>'Ngày Bắt Đầu',
         'update_profile'=>'Trang Cá Nhân',
-        'logout'=>'Đăng Xuất'
+        'logout'=>'Đăng Xuất',
+        'confirm_logout'=>'đăng xuất',
     ],
     'error'=>'Lỗi',
     'warning'=>'Cảnh báo',
     'warning_content'=>[
         'warning_reopen' => 'Dự án này đã kết thúc !! nếu bạn muốn chỉnh sửa nó thì ấn vào nút Mở khóa .'
     ],
+    'account'=>'tài khoản',
     'id' => [
         'employee_id' => 'Mã nhân viên',
         'role_id' => 'Chức vụ'
