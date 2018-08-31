@@ -61,11 +61,11 @@
                                         <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
                                         <td><span class="label label-primary">{{$val->total_time}} hours<span></td>
                                         @if ($val->Type->name == 'normal')
-                                            <td><span class="label" style="background: #9072ff;">{{$val->type->name}}</span></td>
+                                            <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @elseif($val->Type->name == 'weekend')
-                                            <td><span class="label" style="background: #643aff;">{{$val->type->name}}</span></td>
+                                            <td><span class="label" style="background: #643aff;">Day off</span></td>
                                         @elseif($val->Type->name == 'holiday')
-                                            <td><span class="label" style="background: #3600ff;">{{$val->type->name}}</span></td>
+                                            <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         @else
                                             <td></td>
                                         @endif
