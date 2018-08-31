@@ -23,7 +23,7 @@
             return [
                 'title' => 'required' ,
                 'content' => 'required',
-                'notification_id' => 'required',
+                'notification_type_id' => 'required',
             ];
         }
 
@@ -36,7 +36,7 @@
                 'content.required' => trans('validation.required', [
                     'attribute' => trans('notification.content')
                 ]),
-                'notification_id.required' => trans('validation.required', [
+                'notification_type_id.required' => trans('validation.required', [
                     'attribute' => trans('notification.notification_id')
                 ]),
             ];

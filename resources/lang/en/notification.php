@@ -6,7 +6,8 @@
  * Time: 8:55 AM
  */
 return[
-    'delete'=> 'Delete',
+    'notification' =>'notification',
+    'delete'=> 'delete',
     'edit'=> 'Edit',
     'add'=> 'Add',
     'new'=> 'New Notifications',
@@ -14,8 +15,9 @@ return[
     'content' => 'Content',
     'notification_id' => 'Notification Type',
     'msg_add'=>[
-        'success'=>'Notification successfully created!!!',
+        'success'=>'Notification is successfully created !!!',
         'fail'=>'Notification failed created!!!',
+        'fail_than_ten' =>'Notification failed created. You need to delete a new notification before adding it '
     ],
     'msg_edit'=>[
         'success'=>'Notification successfully edit!!!',

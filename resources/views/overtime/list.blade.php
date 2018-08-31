@@ -31,7 +31,7 @@
                             <table id="" class="table table-bordered table-striped text-center">
                                 <thead>
                                     <tr>
-                                        <th>STT</th>
+                                        <th>ID</th>
                                         <th>Date</th>
                                         <th>Reasons</th>
                                         <th>From time</th>
@@ -45,11 +45,12 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
-                                        <td>02/08/2018</td>
-                                        <td>thích</td>
-                                        <td>17h30</td>
-                                        <td>20h00</td>
+                                    @foreach($ot as $val)
+                                        <td>{{$val->id}}</td>
+                                        <td>{{$val->date->format('d/m/Y')}}</td>
+                                        <td>{{$val->reason}}</td>
+                                        <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
+                                        <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         <td><span class="label label-danger">Reject</span></td>
@@ -78,6 +79,7 @@
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         <td><span class="label label-success">6 hours</span></td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
