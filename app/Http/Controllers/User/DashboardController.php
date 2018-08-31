@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\EmployeeType;
+use App\Models\NotificationType;
 use App\Models\Process;
 use App\Models\Project;
 use App\Models\Role;
@@ -29,8 +30,9 @@ class DashboardController extends Controller
     public function index()
     {
         $id_emp = Auth::user()->id;
-        $notifications = Notifications::Where('flag_delete','0')->get();
+        $notifications = Notifications::Where('flag_delete','0')->orderBy('id', 'desc')->get();
         $absences = Employee::emp_absence($id_emp);
+        $notification_type = NotificationType::Where('delete_flag','0')->get();
         if (Employee::find($id_emp)->hasRole('HR')) {
             $sumInternship = $this->countEmployeeType('Internship');
             $sumFullTime = $this->countEmployeeType('FullTime');
@@ -53,6 +55,7 @@ class DashboardController extends Controller
             $new_Tester = $this->countNewEmployeeTeam('Tester');
             $new_others = $sum_new - $new_PHP - $new_DOTNET - $new_iOS - $new_Android - $new_Tester;
             return view('admin.module.index.index', [
+                'notification_type' => $notification_type,
                 'absences' => $absences,
                 'notifications' => $notifications,
                 'sumInternship' => $sumInternship,
@@ -87,6 +90,7 @@ class DashboardController extends Controller
             }
 
             return view('admin.module.index.index', [
+                'notification_type' => $notification_type,
                 'absences' => $absences,
                 'notifications' => $notifications,
                 'processes' => $processes,
@@ -96,6 +100,7 @@ class DashboardController extends Controller
         }
         $objmEmployee = Employee::find(Auth::user()->id);
         return view('admin.module.index.index', [
+            'notification_type' => $notification_type,
             'absences' => $absences,
             'notifications' => $notifications,
             'objmEmployee' => $objmEmployee,

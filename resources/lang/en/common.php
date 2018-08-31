@@ -12,6 +12,7 @@ return [
     | you want to customize your views to better match your application.
     |
     */
+    'reset' => 'Do you want to reset?',
 	'pagination'=>[
 		'first'=>'← First',
 		'previous'=>'← Previous',
@@ -58,16 +59,18 @@ return [
         'project_detail'=>'Project Detail',
         'absence_list'=>'Absence list',
         'absence_detail'=>'Absence List',
-        'absence_list_holiday'=>'List Holiday'
+        'absence_list_holiday'=>'Holiday List',
+        'notification_list'=>'Notification List'
     ],
     'path'=>[
         'dashboard'=>'Dashboard',
+        'notification'=>'Notifications',
         'project'=>'Project',
         'home'=>'Home',
-        'employee'=>'Employee',
+        'employee'=>'Employees',
         'vendor'=>'Vendor',
         'vendors'=>'Vendors',
-        'team' => 'Team',
+        'team' => 'Teams',
         'projects'=>'Projects',
         'absence'=>'Absence',
         'list' => 'List',
@@ -77,14 +80,14 @@ return [
         'absences'=>'Absences',
         'add'=>'Add',
         'edit'=>'Edit',
-        'list_project'=>'List Project',
+        'list_project'=>'Project List',
         'add_project'=>'Add Project',
         'edit_project'=>'Edit Project',
-        'list_employee'=>'List Employee',
+        'list_employee'=>'Employee List',
         'add_employee'=>'Add Employee',
         'edit_employee'=>'Edit Employee Information',
         'edit_profile'=>'Edit Personal Information',
-        'list_vendor'=>'List Vendor',
+        'list_vendor'=>'Vendor List',
         'add_vendor'=>'Add Vendor',
         'edit_vendor'=>'Edit Vendor',
         'list_team'=>'List Team',
@@ -97,7 +100,9 @@ return [
     'action'=>[
         'view'=>'View',
         'edit'=>'Edit',
-        'remove'=>'Delete',
+        'remove'=>'delete',
+        'add'=>'Add',
+        'reset'=>'Reset'
     ],
     'action_confirm'=>[
         'add'=>'add',
@@ -124,13 +129,15 @@ return [
         'welcome'=>'Welcome',
         'member_since'=>'Member since',
         'update_profile'=>'Update Profile',
-        'logout'=>'Logout'
+        'logout'=>'Logout',
+        'confirm_logout'=>'logout',
     ],
     'error'=>'Error',
     'warning' => 'Warning',
     'warning_content' => [
         'warning_reopen' => ' This Project finished !! if you want edit it ,please click button Reopen .'
     ],
+    'account'=>'account',
     'id'=>[
         'employee_id'=>'Employee Id',
         'role_id'=>'Role Id'
