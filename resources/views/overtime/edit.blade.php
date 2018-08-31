@@ -1,6 +1,10 @@
 @extends('admin.template')
 @section('content')
     <!-- Content Wrapper. Contains page content -->
+    <head>
+    	<script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+		<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+    </head>
     <div class="content-wrapper">
     	<section class="content-header">
     		<h1>
@@ -31,11 +35,11 @@
 								</div>
 								<div class="form-group">
 									<label for="example3">From time<strong style="color: red">(*)</strong></label>
-									<input type="time" class="form-control" id="example3">
+									<input type="text" class="form-control" id="example3">
 								</div>
 								<div class="form-group">
 									<label for="example4">To time<strong style="color: red">(*)</strong></label>
-									<input type="time" class="form-control" id="example4">
+									<input type="text" class="form-control" id="example4">
 								</div>
 	    					</div>
 	    					<div class="col-md-2"></div>
@@ -78,4 +82,29 @@
     		</div>
     	</section>
     </div>
+    <script type="text/javascript">
+    	var timepicker = new TimePicker('example3', {
+		  	lang: 'en',
+		  	theme: 'dark'
+		});
+		var input = document.getElementById('example3');
+
+			timepicker.on('change', function(evt) {
+		  
+		  		var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+		  		evt.element.value = value;
+		});
+
+		var timepicker = new TimePicker('example4', {
+		  	lang: 'en',
+		  	theme: 'dark'
+		});
+		var input = document.getElementById('example4');
+
+			timepicker.on('change', function(evt) {
+		  
+		  		var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+		  		evt.element.value = value;
+		});
+    </script>
 @endsection

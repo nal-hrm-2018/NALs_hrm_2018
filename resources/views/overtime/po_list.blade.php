@@ -20,12 +20,12 @@
                                         <th>Project</th>
                                         <th>Employee</th>
                                         <th>Date</th>
-                                        <th>Reason</th>
+                                        <th>Reasons</th>
                                         <th>From time</th>
                                         <th>To time</th>
                                         <th>Number time</th>
                                         <th>Date type</th>
-                                        <th>Action</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -40,7 +40,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary width-90">
+                                            <button type="button" class="btn btn-info width-90">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
                                             </button>
                                             <button type="button" class="btn btn-danger width-90">
@@ -57,7 +57,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary width-90">
+                                            <button type="button" class="btn btn-info width-90">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
                                             </button>
                                             <button type="button" class="btn btn-danger width-90">
@@ -74,7 +74,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary width-90">
+                                            <button type="button" class="btn btn-info width-90">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
                                             </button>
                                             <button type="button" class="btn btn-danger width-90">
@@ -93,7 +93,7 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary width-90">
+                                            <button type="button" class="btn btn-info width-90">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
                                             </button>
                                             <button type="button" class="btn btn-danger width-90">
@@ -110,10 +110,10 @@
                                         <td><span class="label label-success">2.5 hours<span></td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary width-90">
+                                            <button type="button" class="btn btn-info">
                                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
                                             </button>
-                                            <button type="button" class="btn btn-danger width-90">
+                                            <button type="button" class="btn btn-danger">
                                                 <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
                                             </button>
                                         </td>
