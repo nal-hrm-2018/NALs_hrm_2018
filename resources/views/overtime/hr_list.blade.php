@@ -8,6 +8,15 @@
                 <small>NAL Solutions</small>
             </h1>
         </section>
+        <section class="content-header">
+            <div style="display: flex; flex-direction: row-reverse;">
+                <button class="btn btn-default">
+                    <a href="">
+                        <i class="glyphicon glyphicon-export"></i>&nbsp;{{trans('common.button.export')}}
+                    </a>
+                </button>
+            </div>
+        </section>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
