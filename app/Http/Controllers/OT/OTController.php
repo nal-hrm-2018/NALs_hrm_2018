@@ -74,7 +74,13 @@ class OTController extends Controller
      */
     public function edit($id)
     {
-        return view('overtime.edit');
+        $ot_history = Overtime::where('delete_flag', 0)->where('id',1)->find($id);
+        if ($ot_history == null) {
+            return abort(404);
+        }
+        return view('overtime.edit',[
+            'ot_history'=> $ot_history,
+        ]);
     }
 
     /**

@@ -49,7 +49,7 @@
                                         <td><span class="label label-success">1.5 hours</span></td>
                                         <td>
                                             <button type="button" class="btn btn-default width-90">
-                                                <a href=""><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
+                                                <a href="ot/1/edit"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
                                                 </a>
                                             </button>
                                             <button type="button" class="btn btn-default width-90">
