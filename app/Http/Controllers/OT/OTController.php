@@ -18,6 +18,12 @@ class OTController extends Controller
     {
         return view('overtime.po_list');
     }
+
+    public function indexHR()
+    {
+        return view('overtime.hr_list');
+    }
+
     public function index()
     {
         $id=Auth::user()->id;

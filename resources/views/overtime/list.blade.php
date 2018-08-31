@@ -25,14 +25,14 @@
                                     <tr>
                                         <th>STT</th>
                                         <th>Date</th>
-                                        <th>Reason</th>
+                                        <th>Reasons</th>
                                         <th>From time</th>
                                         <th>To time</th>
                                         <th>Number time</th>
                                         <th>Date type</th>
                                         <th>Status</th>
-                                        <th>Verify number</th>
-                                        <th>Edit/Delete</th>
+                                        <th>Accept time</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
