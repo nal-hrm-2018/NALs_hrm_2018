@@ -133,7 +133,6 @@
                           return confirm(msg);
                       }
                   </SCRIPT>
-
                   <form action="{{route('logout')}}" id="logout-employee" onsubmit="return confirm_logout();">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __(trans('common.header.logout')) }}</button>
                   </form>
@@ -142,8 +141,7 @@
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button -->
-          
+          <!-- Control Sidebar Toggle Button -->          
         </ul>
       </div>
     </nav>

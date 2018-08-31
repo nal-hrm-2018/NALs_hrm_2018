@@ -99,16 +99,6 @@
                                                 @endif
                                             @endif
                                         @endforeach
-                                        <span class="pull-right">
-                                            <a href="#">
-                                                <i class="fa fa-edit width-icon-contextmenu"></i>
-                                                {{--{{trans('notification.edit')}}--}}
-                                            </a>
-                                            <a href="#">
-                                                 <i class="fa fa-remove width-icon-contextmenu"></i>
-                                                {{--{{trans('notification.delete')}}--}}
-                                            </a>
-                                         </span>
                                         <a href="#">
                                             <span style="vertical-align: middle;">{{$note->title}}</span>
                                         </a>

@@ -20,20 +20,28 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body">
+                            <div style="float: right; margin-bottom: 15px;">
+                                <label class="lable-entries" style="float: right;">{{trans('pagination.show.number_record_per_page')}}</label><br />
+                                <select class="input-entries" style="float: right;">
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>30</option>
+                                </select>
+                            </div>
                             <table id="" class="table table-bordered table-striped text-center">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Name of Project</th>
                                         <th>Date</th>
-                                        <th>Reason</th>
+                                        <th>Reasons</th>
                                         <th>From time</th>
                                         <th>To time</th>
                                         <th>Total time</th>
                                         <th>Date type</th>
                                         <th>Status</th>
-                                        <th>Verify total time</th>
-                                        <th>Action</th>
+                                        <th>Accept time</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,13 +86,8 @@
                                             <td>-</td>
                                         @endif
                                         <td>
-                                            <button type="button" class="btn btn-default width-90">
-                                                <a href="ot/{{$val->id}}/edit"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
-                                                </a>
-                                            </button>
-                                            <button type="button" class="btn btn-default width-90">
-                                                <a href="ot/{{$val->id}}"><i class="glyphicon glyphicon-remove"></i>&nbsp;Delete</a>
-                                            </button>
+                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
+                                            <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>
                                         </td>
                                     </tr>
                                     @endforeach

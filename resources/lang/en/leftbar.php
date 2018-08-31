@@ -9,30 +9,30 @@
 return[
 
     'nav'=>[
-        'notification'  => 'Notification',
+        'notification'  => 'Notifications',
         'dashboard' => 'Dashboard',
-        'employee' => 'Employee',
-        'vendor' => 'Vendor',
-        'team' => 'Team',
-        'project' => 'Project',
-        'absence' => 'Absence',
+        'employee' => 'Employees',
+        'vendor' => 'Vendors',
+        'team' => 'Teams',
+        'project' => 'Projects',
+        'absence' => 'Absences',
         'absence_management' => 'Absence Management',
         'overtime_management' => 'Overtime Management',
+        'overtime' => 'Overtime',
 
         'list'=>[
-            'notification' => 'List Notification',
-            'employee' => 'List Employee',
-            'vendor' => 'List Vendor',
-            'team' => 'List Team',
-            'project' => 'List Project',
-            'absence_po'=>'List Absence for PO Team',
-            'absence' => 'List Absence',
-            'absences_hr'=>'List Absence',
-            'absences_holiday'=>'List Holiday',
-            'absences_po_project'=>'List Absence',
-            'history' => 'Absence history',
-            'overtime' => 'Overtime list'
-
+            'notification' => 'Notification List',
+            'employee' => 'Employee List',
+            'vendor' => 'Vendor List',
+            'team' => 'Team List',
+            'project' => 'Project List',
+            'absence_po'=>'Absence List for PO Team',
+            'absence' => 'Absence List',
+            'absences_hr'=>'Absence List',
+            'absences_holiday'=>'Holiday List',
+            'absences_po_project'=>'Absence List',
+            'history' => 'Absence History',
+            'overtime' => 'Overtime List',
         ],
         'add'=>[
             'notification' => 'Add Notification',
@@ -41,7 +41,7 @@ return[
             'team' => 'Add Team',
             'project' => 'Add Project',
             'absence' => 'Add Absence',
-
+            'overtime' => 'Add Overtime'
         ],
         'edit' => [
             'notification' => 'Edit Notification',
