@@ -56,7 +56,7 @@
                                         <td><span class="label label-danger">Reject</span></td>
                                         <td><span class="label label-success">1.5 hours</span></td>
                                         <td>
-                                            <a class="btn btn-warning"><em class="fa fa-pencil"></em></a>
+                                            <a class="btn btn-warning"><em class="fa fa-edit"></em></a>
                                             <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
                                         </td>
                                     </tr>
