@@ -198,6 +198,10 @@ Route::group(['middleware' => 'user'], function () {
         'as' => 'po-ot',
         'uses' => 'OT\OTController@indexPO',
     ]);
+    Route::get('/hr-ot', [
+        'as' => 'hr-ot',
+        'uses' => 'OT\OTController@indexHR',
+    ]);
     Route::resource('notification', 'Notification\NotificationController');
 });
 

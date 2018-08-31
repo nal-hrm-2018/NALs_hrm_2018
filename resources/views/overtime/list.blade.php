@@ -55,13 +55,8 @@
                                         <td><span class="label label-danger">Reject</span></td>
                                         <td><span class="label label-success">1.5 hours</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-default width-90">
-                                                <a href=""><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
-                                                </a>
-                                            </button>
-                                            <button type="button" class="btn btn-default width-90">
-                                                <a href=""><i class="glyphicon glyphicon-remove"></i>&nbsp;Delete</a>
-                                            </button>
+                                            <a class="btn btn-warning"><em class="fa fa-pencil"></em></a>
+                                            <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
                                         </td>
                                     </tr>
                                     <tr>
