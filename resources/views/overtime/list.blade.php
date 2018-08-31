@@ -11,7 +11,7 @@
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-default">
-                    <a href=""><i class="glyphicon glyphicon-plus"></i>&nbsp;Add OT</a>
+                    <a href="{{asset('ot/create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add OT</a>
                 </button>
             </div>
         </section>
@@ -31,12 +31,13 @@
                             <table id="" class="table table-bordered table-striped text-center">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>No.</th>
+                                        <th>Name of Project</th>
                                         <th>Date</th>
                                         <th>Reasons</th>
                                         <th>From time</th>
                                         <th>To time</th>
-                                        <th>Number time</th>
+                                        <th>Total time</th>
                                         <th>Date type</th>
                                         <th>Status</th>
                                         <th>Accept time</th>
@@ -45,36 +46,77 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        @php
+                                            $i = 0;    
+                                        @endphp
                                     @foreach($ot as $val)
-                                        <td>{{$val->id}}</td>
+                                        @php
+                                            $i+=1;
+                                        @endphp
+                                        <td>{{$i}}</td>
+                                        <td>{{$val->project->name}}</td>
                                         <td>{{$val->date->format('d/m/Y')}}</td>
                                         <td>{{$val->reason}}</td>
                                         <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
                                         <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label" style="background: #9072ff;">Normal day</span></td>
-                                        <td><span class="label label-danger">Reject</span></td>
-                                        <td><span class="label label-success">1.5 hours</span></td>
+                                        <td><span class="label label-primary">{{$val->total_time}} hours<span></td>
+                                        @if ($val->Type->name == 'normal')
+                                            <td><span class="label" style="background: #9072ff;">{{$val->type->name}}</span></td>
+                                        @elseif($val->Type->name == 'weekend')
+                                            <td><span class="label" style="background: #643aff;">{{$val->type->name}}</span></td>
+                                        @elseif($val->Type->name == 'holiday')
+                                            <td><span class="label" style="background: #3600ff;">{{$val->type->name}}</span></td>
+                                        @else
+                                            <td></td>
+                                        @endif
+                                        @if ($val->Status->name == 'Not yet')
+                                            <td><span class="label label-default">{{$val->Status->name}}</span></td>
+                                        @elseif($val->Status->name == 'Reviewing')
+                                            <td><span class="label label-info">{{$val->Status->name}}</span></td>
+                                        @elseif($val->Status->name == 'Accepted')
+                                            <td><span class="label label-success">{{$val->Status->name}}</span></td>
+                                        @elseif($val->Status->name == 'Rejected')
+                                            <td><span class="label label-warning">{{$val->Status->name}}</span></td>
+                                        @else
+                                            <td></td>
+                                        @endif
+                                        @if ($val->correct_total_time)
+                                            <td><span class="label label-primary">{{$val->correct_total_time}} hours</span></td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                         <td>
-                                            <a class="btn btn-warning"><em class="fa fa-edit"></em></a>
-                                            <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-edit"></em></a>
+                                            <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>
                                         </td>
                                     </tr>
+                                    @endforeach
                                     <tr>
                                         <td colspan="7" rowspan="3"></td>
                                         <td rowspan="3">Total</td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
-                                        <td><span class="label label-success">6 hours</span></td>
+                                        @if ($time['normal'])
+                                            <td><span class="label label-primary">{{$time['normal']}} hours</span></td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>
-                                        <td><span class="label label-success">6 hours</span></td>
+                                        @if ($time['weekend'])
+                                            <td><span class="label label-primary">{{$time['weekend']}} hours</span></td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
-                                        <td><span class="label label-success">6 hours</span></td>
+                                        @if ($time['holiday'])
+                                            <td><span class="label label-primary">{{$time['holiday']}} hours</span></td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                     </tr>
-                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
