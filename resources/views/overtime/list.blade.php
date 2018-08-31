@@ -20,19 +20,27 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body">
+                            <div style="float: right; margin-bottom: 15px;">
+                                <label class="lable-entries" style="float: right;">{{trans('pagination.show.number_record_per_page')}}</label><br />
+                                <select class="input-entries" style="float: right;">
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>30</option>
+                                </select>
+                            </div>
                             <table id="" class="table table-bordered table-striped text-center">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Date</th>
-                                        <th>Reason</th>
+                                        <th>Reasons</th>
                                         <th>From time</th>
                                         <th>To time</th>
                                         <th>Number time</th>
                                         <th>Date type</th>
                                         <th>Status</th>
-                                        <th>Verify number</th>
-                                        <th>Edit/Delete</th>
+                                        <th>Accept time</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -59,7 +59,8 @@ return [
         'project_detail'=>'Project Detail',
         'absence_list'=>'Absence list',
         'absence_detail'=>'Absence List',
-        'absence_list_holiday'=>'Holiday List'
+        'absence_list_holiday'=>'Holiday List',
+        'notification_list'=>'Notification List'
     ],
     'path'=>[
         'dashboard'=>'Dashboard',

@@ -15,5 +15,8 @@
         'to_time' => 'To time',
         'number_time' => 'Number time',
         'data_type' => 'Data type',
-        'action' => 'Action'
+        'action' => 'Action',
+        'reject' => [
+            'fail' => 'Reject is fail. Field reject lesthan total time'
+        ]
     ];

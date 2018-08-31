@@ -8,6 +8,8 @@
                 <small>NAL Solutions</small>
             </h1>
         </section>
+        <div id="msg">
+        </div>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -36,10 +38,10 @@
                                     @foreach($value['project']['overtime'] as $va)
 
 
-                                    <tr>
+                                    <tr class="overtime-menu" >
                                         <td rowspan="">{{$va->id}}</td>
-                                        <td rowspan="">{{ \App\Models\Project::find($va->project_id)->first()->name }}</td>
-                                        <td>{{ \App\Models\Employee::find($va->employee_id)->first()->name }}</td>
+                                        <td rowspan="">{{ \App\Models\Project::where('id',$va->project_id)->first()->name }}</td>
+                                        <td>{{ \App\Models\Employee::where('id',$va->employee_id)->first()->name }}</td>
                                         <td>{{ $va->date }}</td>
                                         <td>{{ $va->reason }}</td>
                                         <td>{{ $va->start_time }}</td>
@@ -50,21 +52,50 @@
                                         <td><span>-<span></td>
                                         @endif
                                         <td><span class="label" style="background: #3600ff;">{{ \App\Models\OvertimeType::find($va->overtime_type_id)->name }}</span></td>
-                                        @if(isset($va->overtime_status_id))
-                                        <td><span class="label label-success">{{ \App\Models\OvertimeStatus::find($va->overtime_status_id)->name }}<span></td>
+                                        @php
+                                            $name_overtime_status = \App\Models\OvertimeStatus::find($va->overtime_status_id)->name;
+                                        @endphp
+                                        @if( $name_overtime_status == "Accepted")
+                                        <td><span class="label label-success">{{ $name_overtime_status }}<span></td>
+                                        @elseif($name_overtime_status == "Rejected" )
+                                        <td><span class="label label-danger">{{ $name_overtime_status }}<span></td>
                                         @else
                                         <td>
                                             <div id="action_bt">
-                                                <button onclick="return confirm_accept();" type="button" class="btn btn-primary width-90">
+                                                <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-info width-90">
                                                     <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
-                                                </button>
-                                                <button onclick="return confirm_reject();" type="button" class="btn btn-danger width-90">
+                                                </a>
+                                                <button  type="button" class="btn btn-danger width-90" data-toggle="modal" data-target="#myModal-{{$va->id}}">
                                                     <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
                                                 </button>
                                             </div>
                                         </td>
                                         @endif
                                     </tr>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal-{{$va->id}}"   tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document" style="width: 25%;">
+                                            <form action="/ot/po-ot/reject/{{$va->id}}" method="get">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Do you want to reject this form?</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="verify">Accept time</label>
+                                                            <input type="text" class="form-control" name="correct_total_time" id="correct_total_time">
+                                                            <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        <button type="submit" class="btn btn-danger">Reject request</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                     @endforeach
                                 @endforeach
                                 </tbody>
@@ -77,9 +108,6 @@
 	</div>
      <script>
          function confirm_accept() {
-             document.getElementById("action_bt").style.visibility = "hidden";
-         }
-         function confirm_reject() {
              document.getElementById("action_bt").style.visibility = "hidden";
          }
      </script>
