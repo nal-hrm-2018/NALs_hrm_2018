@@ -50,8 +50,9 @@ class OTController extends Controller
             return redirect()->route('po-ot',['OT'=>$OT]);
         }elseif($total_time==0){
             $overtime->overtime_status_id = OvertimeStatus::where('name','Rejected')->first()->id;
+            $overtime->correct_total_time = 0;
         }else{
-            $overtime->overtime_status_id = OvertimeStatus::where('name','Accepted')->first()->id;
+            $overtime->overtime_status_id = OvertimeStatus::where('name','Rejected')->first()->id;
             $overtime->correct_total_time = $correct_total_time;
         }
         $overtime->save();
