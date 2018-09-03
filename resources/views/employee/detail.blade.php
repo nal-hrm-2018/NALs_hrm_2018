@@ -306,7 +306,8 @@
                                             <table id="" class="table table-bordered table-striped text-center">
                                                 <thead>
                                                     <tr>
-                                                        <th>No.0</th>
+                                                        <th>No.</th>
+                                                        <th>Name of Project</th>
                                                         <th>Date</th>
                                                         <th>Reasons</th>
                                                         <th>From time</th>
@@ -320,6 +321,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>1</td>
+                                                        <td>EM</td>
                                                         <td>02/08/2018</td>
                                                         <td>thích</td>
                                                         <td>17h30</td>
