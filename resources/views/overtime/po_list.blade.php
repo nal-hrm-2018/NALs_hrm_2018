@@ -61,7 +61,6 @@
                                         <td><span class="label label-danger">{{ $name_overtime_status }}<span></td>
                                         @else
                                         <td>
-{{--<<<<<<< HEAD--}}
                                             <div id="action_bt">
                                                 <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success width-90">
                                                     <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
@@ -70,7 +69,6 @@
                                                     <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
                                                 </button>
                                             </div>
-{{--=======--}}
                                             {{--<a href="/ot/po-ot/{{$va->id}}" class="btn btn-success"><em class="glyphicon glyphicon-ok"></em></a>--}}
                                             {{--<a class="btn btn-danger"><em class="glyphicon glyphicon-remove"></em></a>--}}
                                             <!-- <button type="button" class="btn btn-info width-90">
