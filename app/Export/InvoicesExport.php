@@ -65,6 +65,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             'email' => !empty($this->request->email) ? $this->request->email : '',
             'role' => !empty($this->request->role) ? $this->request->role : '',
         ];
+        
         foreach ($params as $key => $value) {
             $id = $value['id'];
             $name = $value['name'];
@@ -133,9 +134,20 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
         $employeesSearch = $query
             ->where('delete_flag', '=', 0)
             ->where('is_employee',1)->paginate($this->request['number_record_per_page']);
-
+        foreach($employeesSearch as $val){
+            $arr_team = $val->teams()->get();
+            $string_team ="";
+            foreach ($arr_team as $team){
+                $addteam=  (string)$team->name;
+                if ($string_team){
+                $string_team = $string_team.", ".$addteam;
+                } else{
+                $string_team = $string_team.$addteam;
+                }
+            }
+            $val->avatar = $string_team;
+        }
         return $employeesSearch->map(function(Employee $item) {
-
             if ($item->team_id == null){
                 $item->team_id = "-";
             }
@@ -150,7 +162,9 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
                 $roleFindId = Role::where('id',$item->role_id)->first();
                 $item->role_id = $roleFindId->name;
             }
-//
+            if ($item->avatar == null){
+                $item->avatar = "-";
+            }
 //            $item->work_status = $item->work_status?'Inactive':'Active';
             $dateNow = date('Y-m-d');
             $dateEndWork = Employee::find($item->id);
@@ -174,10 +188,13 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             unset($item->startwork_date);
             unset($item->endwork_date);unset($item->curriculum_vitae);
             unset($item->is_employee);unset($item->company);
-            unset($item->avatar);unset($item->employee_type_id);unset($item->salary_id);
+            unset($item->is_manager);
+            unset($item->salary_id);unset($item->employee_type_id);
             unset($item->updated_at);unset($item->last_updated_by_employee);
             unset($item->created_at);unset($item->created_by_employee);
             unset($item->delete_flag);
+            unset($item->updated_by_employee);
+            unset($item->remaining_absence_days);
             return $item;
         });
     }
