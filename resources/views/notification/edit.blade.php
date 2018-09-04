@@ -48,12 +48,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.content')}}<strong style="color: red">(*)</strong></label>
-                                        <textarea id="content" name="content" value="<?php echo isset($notification->content)?$notification->content:' ' ?>" placeholder="Nhập Nội Dung"><?php echo isset($notification->content)?$notification->content:' ' ?></textarea>
+                                        <textarea id="content" rows="4" name="content" value="<?php echo isset($notification->content)?$notification->content:' ' ?>" placeholder="Nhập Nội Dung"><?php echo isset($notification->content)?$notification->content:' ' ?></textarea>
                                         <label id="lb_error_content" style="color: red; ">{{$errors->first('content')}}</label>
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.notification_id')}}<strong style="color: red">(*)</strong></label>
-                                        <select class="form-control select2" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
+                                        <select class="form-control" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
                                             <option value="" >---Chọn---</option>
                                             <?php
                                             foreach ($notificationType as $val) {

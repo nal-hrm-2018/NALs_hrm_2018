@@ -2,23 +2,23 @@
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div class="content">
-            <section class="content-header">
-                <h1>
-                    {{trans('common.title_header.notification_list')}}
-                    <small>NAL Solutions</small>
-                </h1>
-            </section>
-            <div id="msg">
+        <section class="content-header">
+            <h1>
+                {{trans('common.title_header.notification_list')}}
+                <small>NAL Solutions</small>
+            </h1>
+        </section>
+        <div id="msg">
+        </div>
+        <section class="content-header">
+            <div>
+                <button type="button" class="btn btn-default">
+                    <a href="{{route('notification.create')}}"><i class="fa fa-user-plus"></i>{{trans('notification.add')}}</a>
+                </button>
             </div>
-            <section class="content-header">
-                <div>
-                    <button type="button" class="btn btn-default">
-                        <a href="{{route('notification.create')}}"><i class="fa fa-user-plus"></i>{{trans('notification.add')}}</a>
-                    </button>
-                </div>
-                <br>
-            </section>
+            <br>
+        </section>
+        <div class="content">
             <section>
                 <div class="box">
                     <div class="box-header with-border">
