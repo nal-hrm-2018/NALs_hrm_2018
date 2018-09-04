@@ -10,7 +10,9 @@ use App\Models\Project;
 use App\Models\Process;
 use App\Models\OvertimeStatus;
 use Illuminate\Http\Request;
+use App\Models\OvertimeType;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\OvertimeAddRequest;
 
 class OTController extends Controller
 {
@@ -42,7 +44,7 @@ class OTController extends Controller
         return redirect()->route('po-ot',['OT'=>$OT]);
     }
 
-    public function rejectOT(Request $request,$id){
+    public function rejectOT(OvertimeAddRequest $request,$id){
         $id_emp = Auth::user()->id;
         $OT[] = Process::where('employee_id',$id_emp)->with('project.overtime')->get();
         $correct_total_time = $request->correct_total_time;
@@ -100,7 +102,10 @@ class OTController extends Controller
      */
     public function create()
     {
-        return view('overtime.add');
+        $id=Auth::user()->id;
+        $objProject = Process::where('employee_id',$id)->get();
+        $objOvertimeType = OvertimeType::all();
+        return view('overtime.add',compact('objProject','objOvertimeType'));
     }
 
     /**
@@ -109,9 +114,26 @@ class OTController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OvertimeAddRequest $request)
     {
-        //
+        $id = $id=Auth::user()->id;
+        $overtime = new Overtime();
+        $overtime->employee_id = $id;
+        $overtime->project_id = $request->project_id;
+        $overtime->date = $request->date;
+        $overtime->start_time = $request->start_time;
+        $overtime->end_time = $request->end_time;
+        $overtime->total_time = $request->total_time;
+        $overtime->overtime_type_id = $request->overtime_type_id;
+        $overtime->reason = $request->reason;
+        if($overtime->save()){
+            \Session::flash('msg_success', trans('overtime.msg_add.success'));
+            return redirect('ot');
+        }else{
+            \Session::flash('msg_fail', trans('overtime.msg_add.fail'));
+            return back()->with(['overtime' => $overtime]);
+        }
+
     }
 
     /**

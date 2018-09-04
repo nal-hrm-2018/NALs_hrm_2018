@@ -77,13 +77,13 @@
     <div class="content-wrapper">
         <div class="content">
             <section>
-                <div class="box box-info">
+                <div class="box box-info" style="width: 50%;">
                     <div class="box-header with-border">
                         <h3 class="box-title">{{trans('common.notifications')}}</h3>
                     </div>
                     <div class="box-body">
                         <div class="news">
-                            <ul data-widget="tree" style="list-style-type: none;">
+                            <ul data-widget="tree" style="list-style-type: none; width: fit-content; margin: 0 auto;">
                                 @foreach($notifications as $note)
                                     <li class="treeview">
                                         @foreach($notification_type as $type)
@@ -100,14 +100,38 @@
                                             @endif
                                         @endforeach
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->title}}</span>
+                                            <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
                                         <ul class="treeview-menu">
+                                            @foreach($notification_type as $type)
+                                                @if($note->notification_type_id == $type->id)
+                                                    @if($type->name == 'HD')
+                                                        <hr style="border-color: red;">
+                                                    @endif
+                                                    @if($type->name == 'HR')
+                                                        <hr style="border-color: #f39c12;">
+                                                    @endif
+                                                    @if($type->name == 'DOREMON')
+                                                        <hr style="border-color: green;">
+                                                    @endif
+                                                @endif
+                                            @endforeach
                                             <?php
                                             echo nl2br($note->content);
                                             ?>
-                                            <hr>
-                                            
+                                            @foreach($notification_type as $type)
+                                                @if($note->notification_type_id == $type->id)
+                                                    @if($type->name == 'HD')
+                                                        <hr style="border-color: red;">
+                                                    @endif
+                                                    @if($type->name == 'HR')
+                                                        <hr style="border-color: #f39c12;">
+                                                    @endif
+                                                    @if($type->name == 'DOREMON')
+                                                        <hr style="border-color: green;">
+                                                    @endif
+                                                @endif
+                                            @endforeach
                                         </ul>
                                     </li>
                                 @endforeach
