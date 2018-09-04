@@ -15,6 +15,8 @@
                 </button>
             </div>
         </section>
+        <div id="msg">
+        </div>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -171,7 +173,7 @@
                                             <td>-</td>
                                         @endif
                                         <td>
-                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-edit"></em></a>
+                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
                                             <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>
                                         </td>
                                     </tr>
