@@ -116,20 +116,6 @@
     		</div>
     	</section>
     </div>
-	<script>
-		function confirmTime(){
-            var start_time = document.getElementById("start_time");
-            var end_time = document.getElementById("end_time");
-            var check = true;
-            if (start_time->format('H:i') > "09:00" && end_time->format('H:i') < "22:00"){
-				if (start_time->format('H:i') < end_time->format('H:i') < "22:00") {
-				    check = true;
-				}else{
-
-				}
-			}
-		}
-	</script>
     <script type="text/javascript">
     	var timepicker = new TimePicker(['start_time','end_time'], {
 		  	lang: 'en',
