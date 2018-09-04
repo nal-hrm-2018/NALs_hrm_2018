@@ -167,18 +167,27 @@
                                             <td>-</td>
                                         @endif
                                         <td>
-<<<<<<< HEAD
-                                            <button type="button" class="btn btn-default width-90">
-                                                <a href="ot/1/edit"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
-                                                </a>
-                                            </button>
-                                            <button type="button" class="btn btn-default width-90">
-                                                <a href=""><i class="glyphicon glyphicon-remove"></i>&nbsp;Delete</a>
-                                            </button>
-=======
                                             <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-edit"></em></a>
-                                            <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>
->>>>>>> f9e39f59c092eee55226b401f00d9097f6425103
+                                            <button class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                              <div class="modal-dialog" role="document" style="width: 50%; text-align: left;">
+                                                <div class="modal-content">
+                                                  <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    ...
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach

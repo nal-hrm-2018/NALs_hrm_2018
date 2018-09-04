@@ -133,13 +133,13 @@ class OTController extends Controller
      */
     public function edit($id)
     {
-        $ot_history = Overtime::with('project')->where('delete_flag', 0)->where('id',1)->find($id);
-        $projects = Project::whereHas('processes',  function($q){
-            $q->where('employee_id', '1');
+        $ot_history = Overtime::where('delete_flag', 0)->find($id);
+        // dd($ot_history-> employee_id); die();
+
+        $projects = Project::whereHas('processes',  function($q) use($ot_history){
+            $q->where('employee_id', $ot_history->employee_id );
         })->get();
         $overtime_type = OvertimeType::all();
-        // dd($projects); die();
-
         if ($ot_history == null) {
             return abort(404);
         }
