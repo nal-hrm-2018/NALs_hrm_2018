@@ -107,6 +107,7 @@
                                             echo nl2br($note->content);
                                             ?>
                                             <hr>
+                                            
                                         </ul>
                                     </li>
                                 @endforeach

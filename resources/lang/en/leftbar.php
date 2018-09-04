@@ -17,7 +17,11 @@ return[
         'project' => 'Projects',
         'absence' => 'Absences',
         'absence_management' => 'Absence Management',
+        'overtime_management' => 'Overtime Management',
+        'overtime' => 'Overtime',
+
         'list'=>[
+            'ot_list' => 'OT List',
             'notification' => 'Notification List',
             'employee' => 'Employee List',
             'vendor' => 'Vendor List',
@@ -29,6 +33,7 @@ return[
             'absences_holiday'=>'Holiday List',
             'absences_po_project'=>'Absence List',
             'history' => 'Absence History',
+            'overtime' => 'Overtime List',
         ],
         'add'=>[
             'notification' => 'Add Notification',
@@ -37,7 +42,7 @@ return[
             'team' => 'Add Team',
             'project' => 'Add Project',
             'absence' => 'Add Absence',
-
+            'overtime' => 'Add Overtime'
         ],
         'edit' => [
             'notification' => 'Edit Notification',

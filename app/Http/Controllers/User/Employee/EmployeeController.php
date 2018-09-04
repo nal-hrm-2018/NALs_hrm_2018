@@ -279,7 +279,7 @@ class EmployeeController extends Controller
         if (\Illuminate\Support\Facades\Auth::user()->id == $id) {
             $oldPass = $request -> old_pass;
             if (!Hash::check($oldPass, $ojbEmployee->password)) {
-                return back()->with(['error' => trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $ojbEmployee]);
+                return back()->with(['error'=> trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $ojbEmployee]);
             }
             if($newPass == $oldPass){
                 return back()->with(['error' => trans('employee.valid_reset_password.repeat__pass'), 'employee' => $ojbEmployee]);

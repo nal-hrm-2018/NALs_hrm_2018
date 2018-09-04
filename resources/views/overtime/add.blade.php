@@ -20,18 +20,21 @@
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
 	    					<div class="col-md-4">
-	    						<div class="form-group">
-								    <label for="example1">Date<strong style="color: red">(*)</strong></label>
-								    <input type="date" class="form-control" id="example1">
-								</div>
 								<div class="form-group">
-								    <label for="example2">Project<strong style="color: red">(*)</strong></label>
-								    <select class="form-control" id="example2">
+								    <label for="">Project<strong style="color: red">(*)</strong></label>
+								    <select class="form-control" id="">
 								    	<option selected>Choose Project</option>
 								    	<option>project a</option>
 								    	<option>project b</option>
 								    	<option>project c</option>
 								    </select>
+								</div>
+								<label for="">Date<strong style="color: red">(*)</strong></label>
+								<div class="form-group input-group">
+									<div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+								    <input type="date" class="form-control" id="">
 								</div>
 								<div class="form-group">
 									<label for="example3">From time<strong style="color: red">(*)</strong></label>
@@ -45,12 +48,12 @@
 	    					<div class="col-md-2"></div>
 	    					<div class="col-md-4">
 	    						<div class="form-group">
-	    							<label for="example5">Number time<strong style="color: red">(*)</strong></label>
-	    							<input type="text" class="form-control" id="example5">
+	    							<label for="">Number time<strong style="color: red">(*)</strong></label>
+	    							<input type="text" class="form-control" id="">
 	    						</div>
 	    						<div class="form-group">
-	    							<label for="example6">Date Type<strong style="color: red">(*)</strong></label>
-	    							<select class="form-control" id="example6">
+	    							<label for="">Date Type<strong style="color: red">(*)</strong></label>
+	    							<select class="form-control" id="">
 	    								<option selected>Choose date type</option>
 	    								<option>Normal day</option>
 	    								<option>Day off</option>
@@ -58,15 +61,15 @@
 	    							</select>
 	    						</div>
 	    						<div class="form-group">
-	    							<label for="example7">Reason<strong style="color: red">(*)</strong></label>
-	    							<textarea class="form-control" id="example7" rows="5"></textarea>
+	    							<label for="">Reason<strong style="color: red">(*)</strong></label>
+	    							<textarea class="form-control" id="" rows="5" style="line-height: 1.36;"></textarea>
 	    						</div>
 	    					</div>
 	    				</div>
 	    				<div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
                             <div class="col-md-6" style="display: inline; ">
                                 <div style="float: right;">
-                                    <button id="btn_reset_form_employee" type="button" class="btn btn-default"><span
+                                    <button id="btn_reset_form_employee" type="reset" class="btn btn-default"><span
                                         class="fa fa-refresh"></span>&nbsp;RESET
                                     </button>
                                 </div>
@@ -83,23 +86,11 @@
     	</section>
     </div>
     <script type="text/javascript">
-    	var timepicker = new TimePicker('example3', {
+    	var timepicker = new TimePicker(['example3','example4'], {
 		  	lang: 'en',
 		  	theme: 'dark'
 		});
-		var input = document.getElementById('example3');
-
-			timepicker.on('change', function(evt) {
-		  
-		  		var value = (evt.hour || '00') + ':' + (evt.minute || '00');
-		  		evt.element.value = value;
-		});
-
-		var timepicker = new TimePicker('example4', {
-		  	lang: 'en',
-		  	theme: 'dark'
-		});
-		var input = document.getElementById('example4');
+		var input = document.getElementById(['example3','example4']);
 
 			timepicker.on('change', function(evt) {
 		  
@@ -107,8 +98,4 @@
 		  		evt.element.value = value;
 		});
     </script>
-    <head>
-    	<script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
-		<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
-    </head>
 @endsection

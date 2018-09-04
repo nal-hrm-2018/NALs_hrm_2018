@@ -11,13 +11,15 @@ class Overtime extends Model
     protected $fillable = [
         'id',
         'employee_id',
+        'project_id',
+        'reason',
         'date',
         'start_time',
         'end_time',
-        'total_time',
         'overtime_type_id',
         'overtime_status_id',
-        'reason'
+        'total_time',
+        'correct_total_time'
     ];
     protected $casts = [
         'date' => 'date',
@@ -30,12 +32,12 @@ class Overtime extends Model
     {
         return $this->belongsTo('App\Models\OvertimeType', 'overtime_type_id');
     }
-    public function process()
+    public function project()
     {
-        return $this->belongsTo('App\Models\Process', 'process_id');
+        return $this->belongsTo('App\Models\Project','project_id');
     }
     public function employee()
     {
-        return $this->belongsTo('App\Models\EMployee', 'employee_id');
+        return $this->belongsTo('App\Models\Employee', 'employee_id');
     }
 }

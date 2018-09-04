@@ -345,6 +345,7 @@
                                     <th>{{trans('employee.profile_info.role')}}</th>
                                     <th>{{trans('employee.profile_info.status')}}</th>
                                     {{--<th>CV</th>--}}
+                                    <th>Total Overtime</th>
                                 </tr>
                                 </thead>
                                 <tbody class="context-menu">
@@ -420,6 +421,7 @@
                                                 <li><a class="btn-employee-remove" data-employee-email="{{$employee->email}}" data-employee-id="{{$employee->id}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
                                         </ul>
+                                        <td style="vertical-align: middle;"><span class="label label-success">18 hours</span></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
