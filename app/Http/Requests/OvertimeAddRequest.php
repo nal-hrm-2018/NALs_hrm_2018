@@ -29,7 +29,7 @@
                     'project_id' => 'required' ,
                     'date' => 'required',
                     'start_time' => 'required',
-                    'end_time' => 'required' ,
+                    'end_time' => 'required|after:start_time',
                     'total_time' => 'required|numeric|min:0',
                     'reason' => 'required',
 //                    'overtime_type_id' => 'required',
@@ -64,6 +64,10 @@
 //                ]),
                 'end_time.required' => trans('validation.required', [
                     'attribute' => trans('overtime.end_time')
+                ]),
+                'end_time.after' => trans('validation.after_hours', [
+                    'attribute' => trans('overtime.end_time'),
+                    'date' => trans('overtime.start_time'),
                 ]),
                 'total_time.required' => trans('validation.required', [
                     'attribute' => trans('overtime.total_time')
