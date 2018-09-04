@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Process extends Model
 {
@@ -50,4 +51,9 @@ class Process extends Model
 //    public function overtimes(){
 //        return $this->hasMany('App\Models\Overtime','process_id');
 //    }
+    public function countProcess(){
+        $id = Auth::user()->id;
+        $project = Process::where('employee_id',$id)->count();
+        return $project;
+    }
 }

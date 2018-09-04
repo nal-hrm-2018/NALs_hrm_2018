@@ -8,8 +8,8 @@
 return[
     'project' =>'Project',
     'date'=> 'Date',
-    'start_time'=> 'From time',
-    'end_time'=> 'To time',
+    'start_time'=> 'Start time',
+    'end_time'=> 'End time',
     'total_time'=> 'Number time',
     'reason' => 'Title',
     'overtime_type_id' => 'Date type',
