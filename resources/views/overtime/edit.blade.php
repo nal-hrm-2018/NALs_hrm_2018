@@ -14,9 +14,10 @@
     	</section>
     	<section class="content">
     		<div class="box box-default">
+    			<div id="msg"></div>
     			<div class="box-body">
 	    			<div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-	    			<form>
+	    			 {{Form::model($ot_history,array('url' => ['/ot', $ot_history->id], 'method' => 'PUT', 'id' => 'form_edit_overtime', 'onSubmit' => 'return confirm_edit_overtime()'))}}
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
 	    					<div class="col-md-4">								
@@ -84,7 +85,7 @@
                                 </div>
                             </div>
                         </div>
-	    			</form>
+	    			 {{ Form::close() }}
     			</div>
     		</div>
     	</section>
@@ -102,4 +103,9 @@
 		  		evt.element.value = value;
 		});
     </script>
+    <SCRIPT LANGUAGE="JavaScript">
+       function confirm_edit_overtime() {
+             return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', 'form', "", ""));
+       }
+   </SCRIPT>
 @endsection

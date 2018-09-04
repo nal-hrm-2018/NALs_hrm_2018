@@ -18,4 +18,8 @@ return[
         'success'=>'Overtime is successfully created !!!',
         'fail'=>'Overtime failed created!!!',
     ],
+    'msg_edit'=>[
+        'success'=>'Overtime form successfully edited!!!',
+        'fail'=>'Overtime form failed edited!!!',
+    ]
 ];

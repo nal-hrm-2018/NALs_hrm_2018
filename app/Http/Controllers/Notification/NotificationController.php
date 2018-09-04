@@ -98,13 +98,13 @@ class NotificationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storNotificationAddRequestage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(NotificationAddRequest $request, $id)
+    public function update( $request, $id)
     {
         $notification = Notifications::where('flag_delete', 0)->find($id);
         $notification->title = $request->title;
