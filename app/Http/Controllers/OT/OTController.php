@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\OT;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\Overtime;
+use App\Models\OvertimeType;
+use App\Models\Project;
 use App\Models\Process;
 use App\Models\OvertimeStatus;
 use Illuminate\Http\Request;
@@ -130,12 +133,20 @@ class OTController extends Controller
      */
     public function edit($id)
     {
-        $ot_history = Overtime::where('delete_flag', 0)->where('id',1)->find($id);
+        $ot_history = Overtime::with('project')->where('delete_flag', 0)->where('id',1)->find($id);
+        $projects = Project::whereHas('processes',  function($q){
+            $q->where('employee_id', '1');
+        })->get();
+        $overtime_type = OvertimeType::all();
+        // dd($projects); die();
+
         if ($ot_history == null) {
             return abort(404);
         }
         return view('overtime.edit',[
             'ot_history'=> $ot_history,
+            'projects' => $projects,
+            'overtime_type'=> $overtime_type,
         ]);
     }
 

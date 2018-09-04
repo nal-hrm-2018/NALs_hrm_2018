@@ -19,31 +19,28 @@
 	    			<form>
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
-	    					<div class="col-md-4">
-								<div class="form-group">
-								    <label for="example1">Date<strong style="color: red">(*)</strong></label>
-								    <input type="date" class="form-control" id="ot_date" name="ot_date" value="{!! old('ot_date', isset($ot_history->date) ? $ot_history->date->format("Y-m-d") : null) !!}">
-								</div>
+	    					<div class="col-md-4">								
 								<div class="form-group">
 								    <label for="">Project<strong style="color: red">(*)</strong></label>
 								    <select class="form-control" id="">
-								    	<option selected>Choose Project</option>
-								    	<option>project a</option>
-								    	<option>project b</option>
-								    	<option>project c</option>
+								    	<option selected>{{$ot_history->project->name}}</option>
+								    	@foreach($projects as $pro)
+								    		@if($pro->name <> $ot_history->project->name)
+								    			<option>{{$pro->name}}</option>
+								    		@endif
+								    	@endforeach
 								    </select>
 								</div>
 								<label for="">Date<strong style="color: red">(*)</strong></label>
-								<div class="form-group input-group">
-								    
+								<div class="form-group input-group">								    
 								    <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-								    <input type="date" class="form-control" id="">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+								    <input type="date" class="form-control" id="ot_date" name="ot_date" value="{!! old('ot_date', isset($ot_history->date) ? $ot_history->date->format("Y-m-d") : null) !!}">
 								</div>
 								<div class="form-group">
 									<label for="example3">From time<strong style="color: red">(*)</strong></label>
-									<input type="time" class="form-control" name="start_time" id="start_time" value="{!! old('start_time', isset($ot_history->date) ? $ot_history->start_time : null) !!}">
+									<input type="time" class="form-control" name="start_time" id="start_time" value="{!! old('start_time', isset($ot_history->start_time) ? $ot_history->start_time: null) !!}">
 								</div>
 								<div class="form-group">
 									<label for="example4">To time<strong style="color: red">(*)</strong></label>
@@ -57,12 +54,14 @@
 	    							<input type="text" class="form-control" id="total_time" name="total_time" value="{!! old('total_time', isset($ot_history->total_time) ? $ot_history->total_time : null) !!}" >
 	    						</div>
 	    						<div class="form-group">
-	    							<label for="">Date Type<strong style="color: red">(*)</strong></label>
+	    							<label for="">Overtime Type<strong style="color: red">(*)</strong></label>
 	    							<select class="form-control" id="">
-	    								<option selected>Choose date type</option>
-	    								<option>Normal day</option>
-	    								<option>Day off</option>
-	    								<option>Holiday</option>
+	    								<option selected>{{$ot_history->type->name}}</option>
+	    								@foreach($overtime_type as $type)
+	    									@if($type->name <> $ot_history->type->name)
+	    										<option>{{$type->name}}</option>
+								    		@endif
+	    								@endforeach
 	    							</select>
 	    						</div>
 	    						<div class="form-group">
