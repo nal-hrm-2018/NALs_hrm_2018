@@ -10,6 +10,7 @@ return [
     | as the size rules. Feel free to tweak each of these messages.
     |
     */
+    'correct_total_time'   => 'Trường :attribute phải là số dương.',
     'accepted'             => 'Trường :attribute phải được chấp nhận.',
     'active_url'           => 'Trường :attribute không phải là một URL hợp lệ.',
     'after'                => 'Trường :attribute phải là một ngày sau :date.',

@@ -15,6 +15,8 @@
                 </button>
             </div>
         </section>
+        <div id="msg">
+        </div>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
