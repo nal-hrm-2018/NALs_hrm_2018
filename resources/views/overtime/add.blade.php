@@ -29,8 +29,11 @@
 								    	<option>project c</option>
 								    </select>
 								</div>
-								<div class="form-group">
-								    <label for="">Date<strong style="color: red">(*)</strong></label>
+								<label for="">Date<strong style="color: red">(*)</strong></label>
+								<div class="form-group input-group">
+									<div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
 								    <input type="date" class="form-control" id="">
 								</div>
 								<div class="form-group">
