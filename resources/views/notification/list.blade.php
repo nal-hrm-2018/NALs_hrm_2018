@@ -44,7 +44,7 @@
                                         @endforeach
                                         <span class="pull-right">
                                             <a href="notification/{{$note->id}}/edit">
-                                                <i class="fa fa-edit width-icon-contextmenu"></i>
+                                                <i class="fa fa-pencil width-icon-contextmenu"></i>
                                                 {{--{{trans('notification.edit')}}--}}
                                             </a>
                                             <a onclick="return confirm_delete();" href="{{ route('notification.destroy',['notification' => $note->id]) }}">

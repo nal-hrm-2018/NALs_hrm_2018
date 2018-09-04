@@ -186,7 +186,7 @@
                                         @endif
                                         <td>
                                             @if ($val->Status->name == 'Not yet')
-                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
+                                            <a class="btn btn-default" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
                                             {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
                                                 <button type="submit" onclick="return confirm_delete();" class="btn btn-danger">
                                                     <em class="fa fa-trash"></em>
