@@ -30,6 +30,7 @@ return [
         'reset' => 'LÀM MỚI',
         'search' => 'TÌM KIẾM',
         'add' => "THÊM",
+        'edit' => 'SỬA',
         'save' => 'LƯU',
         'update' => 'CẬP NHẬT',
         'import' => 'NHẬP',

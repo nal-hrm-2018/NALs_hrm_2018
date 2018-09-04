@@ -33,6 +33,7 @@ return [
         'reset' => 'RESET',
         'search' => 'SEARCH',
         'add' => 'ADD',
+        'edit' => 'EDIT',
         'save' => 'SAVE',
         'update' => 'UPDATE',
         'import' => 'IMPORT',

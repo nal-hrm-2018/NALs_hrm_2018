@@ -20,13 +20,22 @@
 	    			 {{Form::model($ot_history,array('url' => ['/ot', $ot_history->id], 'method' => 'PUT', 'id' => 'form_edit_overtime', 'onSubmit' => 'return confirm_edit_overtime()'))}}
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
-	    					<div class="col-md-4">								
+	    					<div class="col-md-4">	
+		    					@if($ot_history->project)						
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
-								    <select class="form-control" id="">
-
+								    <select class="form-control" id="project_id" name="project_id"
+								    	value="{!!
+								    	 old('project_id', isset($pro->project_id) ? $pro->project_id: $ot_history->project->project_id )
+								    	  !!}">
+										<option value="{{$ot_history->project->project_id}}" selected >{{$ot_history->project->name}}</option>				@foreach($projects as $pro)
+											@if($pro->name <> $ot_history->project->name)
+											<option  value="{{$pro->project_id}}">{{$pro->name}}</option>
+											@endif
+										@endforeach
 								    </select>
 								</div>
+		    					@endif	
 								<label for="">{{trans('overtime.date')}}<strong style="color: red">(*)</strong></label>
 								<div class="form-group input-group">								    
 								    <div class="input-group-addon">
@@ -69,7 +78,7 @@
                             </div>
                             <div class="col-md-1">
                                 <div>
-                                    <button type="submit" class="btn btn-info">{{ trans('common.button.add')}}</button>
+                                    <button type="submit" class="btn btn-info">{{ trans('common.button.edit')}}</button>
                                 </div>
                             </div>
                         </div>

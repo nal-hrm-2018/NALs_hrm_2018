@@ -193,8 +193,6 @@ class OTController extends Controller
     public function edit($id)
     {
         $ot_history = Overtime::where('delete_flag', 0)->find($id);
-        // dd($ot_history-> employee_id); die();
-
         $projects = Project::whereHas('processes',  function($q) use($ot_history){
             $q->where('employee_id', $ot_history->employee_id );
         })->get();
