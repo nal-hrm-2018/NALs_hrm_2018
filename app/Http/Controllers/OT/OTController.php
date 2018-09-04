@@ -224,12 +224,12 @@ class OTController extends Controller
             return abort(404);
         }
         // $overtime->project_id = $request->project_id;
-        // $overtime->date = $request->ot_date;
+        $overtime->date = $request->ot_date;
         $overtime->start_time = $request->start_time;
         $overtime->end_time = $request->end_time;
         // $overtime->overtime_type_id = $request->overtime_type_id;
         $overtime->total_time = $request->total_time;
-        // $overtime->reason = $request->reason;
+        $overtime->reason = $request->reason;
         if($overtime->save()){
             \Session::flash('msg_success', trans('overtime.msg_edit.success'));
             return redirect()->route('ot.edit',compact('id'));

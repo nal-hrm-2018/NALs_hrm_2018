@@ -24,12 +24,7 @@
 								<div class="form-group">
 								    <label for="">Project<strong style="color: red">(*)</strong></label>
 								    <select class="form-control" id="">
-								    	<option selected>{{$ot_history->project->name}}</option>
-								    	@foreach($projects as $pro)
-								    		@if($pro->name <> $ot_history->project->name)
-								    			<option>{{$pro->name}}</option>
-								    		@endif
-								    	@endforeach
+								    	
 								    </select>
 								</div>
 								<label for="">Date<strong style="color: red">(*)</strong></label>
@@ -54,7 +49,7 @@
 	    							<label for="example5">Number time<strong style="color: red">(*)</strong></label>
 	    							<input type="text" class="form-control" id="total_time" name="total_time" value="{!! old('total_time', isset($ot_history->total_time) ? $ot_history->total_time : null) !!}" >
 	    						</div>
-	    						<div class="form-group">
+	    						<!-- <div class="form-group">
 	    							<label for="">Overtime Type<strong style="color: red">(*)</strong></label>
 	    							<select class="form-control" id="">
 	    								<option selected>{{$ot_history->type->name}}</option>
@@ -64,10 +59,10 @@
 								    		@endif
 	    								@endforeach
 	    							</select>
-	    						</div>
+	    						</div> -->
 	    						<div class="form-group">
 	    							<label for="example7">Reason<strong style="color: red">(*)</strong></label>
-	    							<textarea class="form-control" id="example7" name="reason" rows="5">{{ old('reason', isset($ot_history->reason) ? $ot_history->reason : null) }}</textarea>
+	    							<textarea class="form-control" id="example7" name="reason" rows="11">{{ old('reason', isset($ot_history->reason) ? $ot_history->reason : null) }}</textarea>
 	    						</div>
 	    					</div>
 	    				</div>
