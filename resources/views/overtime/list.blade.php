@@ -44,13 +44,17 @@
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
+                                                                <button type="button" class="btn width-100">Date type</button>
                                                             </div>
-                                                            <input type="text" name="name" id="nameEmployee" class="form-control">
+                                                            <select name="team" id="team_employee" class="form-control">
+                                                                <option></option>
+                                                                <option></option>
+                                                                <option></option>
+                                                            </select>
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
+                                                                <button type="button" class="btn width-100">Status</button>
                                                             </div>
                                                             <select name="team" id="team_employee" class="form-control">
                                                                 <option></option>
@@ -79,7 +83,7 @@
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button"
-                                                                        class="btn width-100"> Year</button>
+                                                                        class="btn width-100">Year</button>
                                                             </div>
                                                             <select name="year" class="form-control">
                                                                 <option></option>
