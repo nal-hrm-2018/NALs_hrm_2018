@@ -20,13 +20,10 @@
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
 	    					<div class="col-md-4">
-<<<<<<< HEAD
 								<div class="form-group">
 								    <label for="example1">Date<strong style="color: red">(*)</strong></label>
 								    <input type="date" class="form-control" id="ot_date" name="ot_date" value="{!! old('ot_date', isset($ot_history->date) ? $ot_history->date->format("Y-m-d") : null) !!}">
 								</div>
-=======
->>>>>>> f9e39f59c092eee55226b401f00d9097f6425103
 								<div class="form-group">
 								    <label for="">Project<strong style="color: red">(*)</strong></label>
 								    <select class="form-control" id="">
@@ -56,13 +53,8 @@
 	    					<div class="col-md-2"></div>
 	    					<div class="col-md-4">
 	    						<div class="form-group">
-<<<<<<< HEAD
 	    							<label for="example5">Number time<strong style="color: red">(*)</strong></label>
 	    							<input type="text" class="form-control" id="total_time" name="total_time" value="{!! old('total_time', isset($ot_history->total_time) ? $ot_history->total_time : null) !!}" >
-=======
-	    							<label for="">Number time<strong style="color: red">(*)</strong></label>
-	    							<input type="text" class="form-control" id="">
->>>>>>> f9e39f59c092eee55226b401f00d9097f6425103
 	    						</div>
 	    						<div class="form-group">
 	    							<label for="">Date Type<strong style="color: red">(*)</strong></label>
@@ -74,13 +66,8 @@
 	    							</select>
 	    						</div>
 	    						<div class="form-group">
-<<<<<<< HEAD
 	    							<label for="example7">Reason<strong style="color: red">(*)</strong></label>
 	    							<textarea class="form-control" id="example7" name="reason" rows="5">{{ old('reason', isset($ot_history->reason) ? $ot_history->reason : null) }}</textarea>
-=======
-	    							<label for="">Reason<strong style="color: red">(*)</strong></label>
-	    							<textarea class="form-control" id="" rows="5" style="line-height: 1.36;"></textarea>
->>>>>>> f9e39f59c092eee55226b401f00d9097f6425103
 	    						</div>
 	    					</div>
 	    				</div>
