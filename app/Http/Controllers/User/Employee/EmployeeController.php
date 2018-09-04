@@ -22,6 +22,8 @@ use App\Models\Role;
 use App\Models\EmployeeType;
 use App\Models\EmployeeTeam;
 use App\Models\PermissionEmployee;
+use App\Models\Overtime;
+use App\Models\OvertimeStatus;
 use DateTime;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
@@ -62,10 +64,17 @@ class EmployeeController extends Controller
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime');
+        // foreach($employees->get() as $val){
+        //     echo($val);
+        // }
+        // dd($employees);
+        $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
+        
         $param = (Input::except(['page','is_employee']));
         $id=Auth::user()->id;
+        $overtime_status = OvertimeStatus::select('id')->where('name', 'Not yet')->first();
         $employee_permission=$this->objmEmployeePermission->permission_employee($id);
         return view('employee.list', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
  //       return view('employee.newlist', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));

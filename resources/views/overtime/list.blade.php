@@ -1,5 +1,17 @@
 @extends('admin.template')
 @section('content')
+    <style type="text/css">
+        .table tbody tr td {
+            vertical-align: middle;
+        }
+        .table thead tr th {
+            vertical-align: middle;
+        }
+        .width-90 {
+            width: 90px;
+        }
+    </style>
+
  <!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
 		<section class="content-header">
@@ -15,6 +27,8 @@
                 </button>
             </div>
         </section>
+        <div id="msg">
+        </div>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -42,13 +56,17 @@
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
+                                                                <button type="button" class="btn width-100">Date type</button>
                                                             </div>
-                                                            <input type="text" name="name" id="nameEmployee" class="form-control">
+                                                            <select name="team" id="team_employee" class="form-control">
+                                                                <option></option>
+                                                                <option></option>
+                                                                <option></option>
+                                                            </select>
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
+                                                                <button type="button" class="btn width-100">Status</button>
                                                             </div>
                                                             <select name="team" id="team_employee" class="form-control">
                                                                 <option></option>
@@ -77,7 +95,7 @@
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button"
-                                                                        class="btn width-100"> Year</button>
+                                                                        class="btn width-100">Year</button>
                                                             </div>
                                                             <select name="year" class="form-control">
                                                                 <option></option>
@@ -135,7 +153,7 @@
                                             $i+=1;
                                         @endphp
                                         <td>{{$i}}</td>
-                                        <td>{{$val->project->name}}</td>
+                                        <td>{{ isset($val->project->name)?$val->project->name:'-'}}</td>
                                         <td>{{$val->date->format('d/m/Y')}}</td>
                                         <td>{{$val->reason}}</td>
                                         <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
@@ -167,8 +185,14 @@
                                             <td>-</td>
                                         @endif
                                         <td>
+                                            @if ($val->Status->name == 'Not yet')
                                             <a class="btn btn-default" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
-                                            <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>
+                                            {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
+                                                <button type="submit" onclick="return confirm_delete();" class="btn btn-danger">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            {{ Form::close() }}                                            
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
@@ -206,15 +230,39 @@
             </div>
         </section>
 	</div>
-    <style type="text/css">
-        .table tbody tr td {
-            vertical-align: middle;
+    <script>
+        function confirm_delete(){
+            return confirm(message_confirm('{{trans('common.action.remove')}}','form',''));
         }
-        .table thead tr th {
-            vertical-align: middle;
-        }
-        .width-90 {
-            width: 90px;
-        }
-    </style>
+    </script>
+  <script type="text/javascript">
+        $(function () {
+            $('.btn-overtime-remove').click(function () {
+                var elementRemove = $(this).data('overtime-id');
+                console.log(elementRemove);
+                if (confirm(message_confirm('{{trans("common.action_confirm.delete")}}', 'form', ""))) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: '{{ url('/ot') }}' + '/' + elementRemove,
+                        data: {
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            "id": elementRemove,
+                            '_method': 'DELETE',
+                            _token: '{{csrf_token()}}',
+                        },
+                        success: function (msg) {
+                            alert(msg.status);
+                            var fade = "overtime-id-" + msg.id;
+                            $('ul.contextMenu[data-overtime-id="' + msg.id + '"').hide();
+                            var fadeElement = $('#' + fade);
+                            console.log(fade);
+                            fadeElement.fadeOut("fast");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection
