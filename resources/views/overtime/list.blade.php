@@ -153,7 +153,7 @@
                                             $i+=1;
                                         @endphp
                                         <td>{{$i}}</td>
-                                        <td>{{$val->project->name}}</td>
+                                        <td>{{ isset($val->project->name)?$val->project->name:'-'}}</td>
                                         <td>{{$val->date->format('d/m/Y')}}</td>
                                         <td>{{$val->reason}}</td>
                                         <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>

@@ -10,6 +10,8 @@
 
 
     use Illuminate\Foundation\Http\FormRequest;
+    use Illuminate\Support\Facades\Auth;
+    use App\Models\Process;
 
     class OvertimeAddRequest extends FormRequest
     {
@@ -20,27 +22,34 @@
 
         public function rules()
         {
-            return [
-                'project_id' => 'required' ,
-                'date' => 'required',
-                'start_time' => 'required',
-                'end_time' => 'required' ,
-                'total_time' => 'required',
-                'reason' => 'required',
-                'overtime_type_id' => 'required',
-                'correct_total_time' => 'required|numeric|min:0'
-            ];
+            $project = new Process();
+            $countProject = $project->countProcess();
+            if($countProject > 0){
+                return [
+                    'project_id' => 'required' ,
+                    'date' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'required' ,
+                    'total_time' => 'required|numeric|min:0',
+                    'reason' => 'required',
+//                    'overtime_type_id' => 'required',
+                ];
+            }else{
+                return [
+                    'date' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'required' ,
+                    'total_time' => 'required|numeric|min:0',
+                    'reason' => 'required',
+//                    'overtime_type_id' => 'required',
+                ];
+            }
+
         }
 
         public function messages()
         {
             return [
-                'correct_total_time.min' => trans('validation.correct_total_time', [
-                    'attribute' => trans('overtime.correct_total_time')
-                ]),
-                'correct_total_time.required' => trans('validation.required', [
-                    'attribute' => trans('overtime.correct_total_time')
-                ]),
                 'project_id.required' => trans('validation.required', [
                     'attribute' => trans('overtime.project')
                 ]),
@@ -50,13 +59,16 @@
                 'start_time.required' => trans('validation.required', [
                     'attribute' => trans('overtime.start_time')
                 ]),
-                'overtime_type_id.required' => trans('validation.required', [
-                    'attribute' => trans('overtime.overtime_type_id')
-                ]),
+//                'overtime_type_id.required' => trans('validation.required', [
+//                    'attribute' => trans('overtime.overtime_type_id')
+//                ]),
                 'end_time.required' => trans('validation.required', [
                     'attribute' => trans('overtime.end_time')
                 ]),
-                'total_time.total_time' => trans('validation.required', [
+                'total_time.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.total_time')
+                ]),
+                'total_time.min' => trans('validation.min_total_time', [
                     'attribute' => trans('overtime.total_time')
                 ]),
                 'reason.required' => trans('validation.required', [
