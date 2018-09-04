@@ -90,6 +90,7 @@ return [
         'po_project'=>'PO dự án',
         'confirmation'=>'Xác nhận',
         'statistic'=>'Thống kê',
+        'edit_overtime'=>'Chỉnh sửa đơn làm ngoài giờ',
     ],
     'action'=>[
         'view'=>'Chi tiết',

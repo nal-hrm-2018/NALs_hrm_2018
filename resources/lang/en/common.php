@@ -96,6 +96,7 @@ return [
         'po_project'=>'PO Project',
         'confirmation'=>'Confirmation',
         'statistic'=>'Statistic',
+        'edit_overtime'=>'Edit overtime form',
     ],
     'action'=>[
         'view'=>'View',
