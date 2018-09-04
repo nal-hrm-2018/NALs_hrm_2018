@@ -16,6 +16,7 @@
         'number_time' => 'Tổng số giờ',
         'data_type' => 'Loại tăng ca',
         'action' => 'Chức năng',
+        'correct_total_time' => 'Thơi gian chấp nhận',
         'reject' => [
             'fail' => 'Thay đổi thất bại. Phải nhập giá trị bé hơn tổng thơi gian tăng ca'
         ]

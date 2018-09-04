@@ -10,9 +10,13 @@ return [
     | as the size rules. Feel free to tweak each of these messages.
     |
     */
+
+    'min_total_time'       => 'Trường :attribute phải là số dương.',
+    'correct_total_time'   => 'Trường :attribute phải là số dương.',
     'accepted'             => 'Trường :attribute phải được chấp nhận.',
     'active_url'           => 'Trường :attribute không phải là một URL hợp lệ.',
     'after'                => 'Trường :attribute phải là một ngày sau :date.',
+    'after_hours'                => 'Trường :attribute phải lớn hơn :date.',
     'after_or_equal'       => 'Trường :attribute phải là thời gian bắt đầu sau :date.',
     'alpha'                => 'Trường :attribute chỉ có thể chứa các chữ cái.',
     'alpha_dash'           => 'Trường :attribute chỉ có thể chứa chữ cái, số và dấu gạch ngang.',
