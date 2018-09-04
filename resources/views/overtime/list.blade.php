@@ -178,6 +178,7 @@
                                             {{ Form::close() }}
                                         </td>
                                         @endif
+                                        
                                     </tr>
                                     @endforeach
                                     <tr>
