@@ -122,7 +122,7 @@
                                         <th>Date type</th>
                                         <th>Status</th>
                                         <th>Accept time</th>
-                                        <th>Actions</th>
+                                        <th colspan="2">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,10 +166,18 @@
                                         @else
                                             <td>-</td>
                                         @endif
+                                        @if ($val->Status->name == 'Not yet')
                                         <td>
                                             <a class="btn btn-default" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
-                                            <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>
                                         </td>
+                                        <td>
+                                             {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
+                                                <button type="submit" onclick="return confirm_delete();" class="btn btn-danger">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            {{ Form::close() }}
+                                        </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                     <tr>
