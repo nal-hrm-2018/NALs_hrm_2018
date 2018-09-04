@@ -140,7 +140,7 @@
                                         <th>Date type</th>
                                         <th>Status</th>
                                         <th>Accept time</th>
-                                        <th>Actions</th>
+                                        <th colspan="2">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -184,16 +184,18 @@
                                         @else
                                             <td>-</td>
                                         @endif
+                                        @if ($val->Status->name == 'Not yet')
                                         <td>
-                                            @if ($val->Status->name == 'Not yet')
-                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
-                                            {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
-                                                <button type="submit" onsubmit="return confirm_delete();" class="btn btn-danger">
+                                            <a class="btn btn-default" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
+                                        </td>
+                                        <td>
+                                             {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
+                                                <button type="submit" onclick="return confirm_delete();" class="btn btn-danger">
                                                     <em class="fa fa-trash"></em>
                                                 </button>
-                                            {{ Form::close() }}                                            
-                                            @endif
+                                            {{ Form::close() }}
                                         </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                     <tr>

@@ -77,7 +77,7 @@ class OTController extends Controller
         $id=Auth::user()->id;
         $newmonth = date('d');
         $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
-        $ot = Overtime::select()->where('employee_id', $id)->where('date', '>', $newmonth)->with('status', 'type', 'project', 'employee')->get()->sortBy('date');
+        $ot = Overtime::select()->where('employee_id', $id)->where('date', '>', $newmonth)->where('delete_flag', '=', 0)->with('status', 'type', 'project', 'employee')->get()->sortBy('date');
         $normal = 0;
         $weekend = 0;
         $holiday = 0;
