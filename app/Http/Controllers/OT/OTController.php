@@ -175,6 +175,11 @@ class OTController extends Controller
      */
     public function destroy($id)
     {
-        //
+        echo "Hello world!";
+        $overtime = Overtime::where('id', $id)->where('delete_flag', 0)->first();
+        $overtime->delete_flag = 1;
+        $overtime->save();
+        \Session::flash('msg_success', trans('common.delete.success'));
+        return redirect('ot');
     }
 }

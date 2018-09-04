@@ -209,7 +209,10 @@ Route::group(['middleware' => 'user'], function () {
         'uses' => 'OT\OTController@indexHR',
     ]);
     Route::resource('ot', 'OT\OTController');
-
+    // Route::get('ot/{id}', [
+    //     'uses' => 'OT\OTController@destroy',
+    //     'as' => 'ot.destroy'
+    // ]);
     Route::resource('notification', 'Notification\NotificationController');
     Route::get('notification/{notification}', [
         'uses' => 'Notification\NotificationController@destroy',

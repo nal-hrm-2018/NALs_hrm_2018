@@ -1,5 +1,17 @@
 @extends('admin.template')
 @section('content')
+    <style type="text/css">
+        .table tbody tr td {
+            vertical-align: middle;
+        }
+        .table thead tr th {
+            vertical-align: middle;
+        }
+        .width-90 {
+            width: 90px;
+        }
+    </style>
+
  <!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
 		<section class="content-header">
@@ -175,7 +187,11 @@
                                         <td>
                                             @if ($val->Status->name == 'Not yet')
                                             <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
-                                            <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>  
+                                            {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
+                                                <button type="submit" onsubmit="return confirm_delete();" class="btn btn-danger">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            {{ Form::close() }}                                            
                                             @endif
                                         </td>
                                     </tr>
@@ -214,15 +230,39 @@
             </div>
         </section>
 	</div>
-    <style type="text/css">
-        .table tbody tr td {
-            vertical-align: middle;
+    <script>
+        function confirm_delete(){
+            return confirm(message_confirm('{{trans('common.action.remove')}}','form',''));
         }
-        .table thead tr th {
-            vertical-align: middle;
-        }
-        .width-90 {
-            width: 90px;
-        }
-    </style>
+    </script>
+  <script type="text/javascript">
+        $(function () {
+            $('.btn-overtime-remove').click(function () {
+                var elementRemove = $(this).data('overtime-id');
+                console.log(elementRemove);
+                if (confirm(message_confirm('{{trans("common.action_confirm.delete")}}', 'form', ""))) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: '{{ url('/ot') }}' + '/' + elementRemove,
+                        data: {
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            "id": elementRemove,
+                            '_method': 'DELETE',
+                            _token: '{{csrf_token()}}',
+                        },
+                        success: function (msg) {
+                            alert(msg.status);
+                            var fade = "overtime-id-" + msg.id;
+                            $('ul.contextMenu[data-overtime-id="' + msg.id + '"').hide();
+                            var fadeElement = $('#' + fade);
+                            console.log(fade);
+                            fadeElement.fadeOut("fast");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection
