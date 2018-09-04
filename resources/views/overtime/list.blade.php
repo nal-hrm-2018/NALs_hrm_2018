@@ -83,7 +83,7 @@
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button"
-                                                                        class="btn width-100"> Year</button>
+                                                                        class="btn width-100">Year</button>
                                                             </div>
                                                             <select name="year" class="form-control">
                                                                 <option></option>
@@ -173,8 +173,10 @@
                                             <td>-</td>
                                         @endif
                                         <td>
+                                            @if ($val->Status->name == 'Not yet')
                                             <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
-                                            <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>
+                                            <a class="btn btn-danger" href="ot/{{$val->id}}"><em class="fa fa-trash"></em></a>  
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
