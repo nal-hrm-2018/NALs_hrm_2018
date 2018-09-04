@@ -1,5 +1,17 @@
 @extends('admin.template')
 @section('content')
+    <style type="text/css">
+        .table tbody tr td {
+            vertical-align: middle;
+        }
+        .table thead tr th {
+            vertical-align: middle;
+        }
+        .width-90 {
+            width: 90px;
+        }
+    </style>
+
  <!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
 		<section class="content-header">
@@ -141,7 +153,7 @@
                                             $i+=1;
                                         @endphp
                                         <td>{{$i}}</td>
-                                        <td>{{$val->project->name}}</td>
+                                        <td>{{ isset($val->project->name)?$val->project->name:'-'}}</td>
                                         <td>{{$val->date->format('d/m/Y')}}</td>
                                         <td>{{$val->reason}}</td>
                                         <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
@@ -173,27 +185,14 @@
                                             <td>-</td>
                                         @endif
                                         <td>
-                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-edit"></em></a>
-                                            <button class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                              <div class="modal-dialog" role="document" style="width: 50%; text-align: left;">
-                                                <div class="modal-content">
-                                                  <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                                                  </div>
-                                                  <div class="modal-body">
-                                                    ...
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
+                                            @if ($val->Status->name == 'Not yet')
+                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
+                                            {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
+                                                <button type="submit" onsubmit="return confirm_delete();" class="btn btn-danger">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            {{ Form::close() }}                                            
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
@@ -231,15 +230,39 @@
             </div>
         </section>
 	</div>
-    <style type="text/css">
-        .table tbody tr td {
-            vertical-align: middle;
+    <script>
+        function confirm_delete(){
+            return confirm(message_confirm('{{trans('common.action.remove')}}','form',''));
         }
-        .table thead tr th {
-            vertical-align: middle;
-        }
-        .width-90 {
-            width: 90px;
-        }
-    </style>
+    </script>
+  <script type="text/javascript">
+        $(function () {
+            $('.btn-overtime-remove').click(function () {
+                var elementRemove = $(this).data('overtime-id');
+                console.log(elementRemove);
+                if (confirm(message_confirm('{{trans("common.action_confirm.delete")}}', 'form', ""))) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: '{{ url('/ot') }}' + '/' + elementRemove,
+                        data: {
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            "id": elementRemove,
+                            '_method': 'DELETE',
+                            _token: '{{csrf_token()}}',
+                        },
+                        success: function (msg) {
+                            alert(msg.status);
+                            var fade = "overtime-id-" + msg.id;
+                            $('ul.contextMenu[data-overtime-id="' + msg.id + '"').hide();
+                            var fadeElement = $('#' + fade);
+                            console.log(fade);
+                            fadeElement.fadeOut("fast");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

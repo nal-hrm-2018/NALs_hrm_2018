@@ -10,8 +10,11 @@ use App\Models\Process;
 use App\Models\OvertimeStatus;
 use Illuminate\Http\Request;
 use App\Models\OvertimeType;
+use App\Models\HolidayDefault;
+use App\Models\Holiday;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\OvertimeAddRequest;
+use App\Http\Requests\OvertimeRequest;
 
 class OTController extends Controller
 {
@@ -21,9 +24,11 @@ class OTController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $objOT;
-    public function __construct (Overtime $objOT)
+    protected $objProcess;
+    public function __construct (Overtime $objOT,Process $objProcess)
     {
         $this->objOT=$objOT;
+        $this->objProcess = $objProcess;
     }
 
     public function indexPO()
@@ -43,7 +48,7 @@ class OTController extends Controller
         return redirect()->route('po-ot',['OT'=>$OT]);
     }
 
-    public function rejectOT(OvertimeAddRequest $request,$id){
+    public function rejectOT(OvertimeRequest $request,$id){
         $id_emp = Auth::user()->id;
         $OT[] = Process::where('employee_id',$id_emp)->with('project.overtime')->get();
         $correct_total_time = $request->correct_total_time;
@@ -103,7 +108,7 @@ class OTController extends Controller
     {
         $id=Auth::user()->id;
         $objProject = Process::where('employee_id',$id)->get();
-        $objOvertimeType = OvertimeType::all();
+//        $objOvertimeType = OvertimeType::all();
         return view('overtime.add',compact('objProject','objOvertimeType'));
     }
 
@@ -115,15 +120,48 @@ class OTController extends Controller
      */
     public function store(OvertimeAddRequest $request)
     {
-        $id = $id=Auth::user()->id;
+        $id=Auth::user()->id;
         $overtime = new Overtime();
         $overtime->employee_id = $id;
-        $overtime->project_id = $request->project_id;
+        $project = $this->objProcess->countProcess();
+        if($project > 0){
+            $overtime->project_id = $request->project_id;
+        }else{
+            $overtime->project_id = null;
+        }
+        //kiểm tra co phải ngày nghĩ lễ không.
+        $holiday = HolidayDefault::all();
+        $sttHoliday = "";
+        foreach ($holiday as $holiday){
+            $holidayDefault = date_format($holiday->date,"m-d");
+            $holidayRequest = date('m-d', strtotime($request->date));
+            if($holidayDefault == $holidayRequest){
+                $sttHoliday = 1;
+            }
+        }
+        //Kiểm tra co phải ngày nghĩ lễ đột xuất k
+        if ($sttHoliday == ""){
+            $holiday = Holiday::all();
+            foreach ($holiday as $holiday){
+                $holidayDefault = date_format($holiday->date,"y-m-d");
+                $holidayRequest = date('y-m-d', strtotime($request->date));
+                if($holidayDefault == $holidayRequest){
+                    $sttHoliday = 1;
+                }
+            }
+        }
         $overtime->date = $request->date;
+        if ($sttHoliday == 1){
+            $overtime->overtime_type_id = 3;
+        }elseif(date('N', strtotime($request->date)) >= 6){
+            $overtime->overtime_type_id = 2;
+        }else{
+            $overtime->overtime_type_id = 1;
+        }
         $overtime->start_time = $request->start_time;
         $overtime->end_time = $request->end_time;
         $overtime->total_time = $request->total_time;
-        $overtime->overtime_type_id = $request->overtime_type_id;
+//        $overtime->overtime_type_id = $request->overtime_type_id;
         $overtime->reason = $request->reason;
         if($overtime->save()){
             \Session::flash('msg_success', trans('overtime.msg_add.success'));
@@ -209,6 +247,10 @@ class OTController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $overtime = Overtime::where('id', $id)->where('delete_flag', 0)->first();
+        $overtime->delete_flag = 1;
+        $overtime->save();
+        \Session::flash('msg_success', trans('common.delete.success'));
+        return redirect('ot');
     }
 }
