@@ -16,57 +16,66 @@
     		<div class="box box-default">
     			<div class="box-body">
 	    			<div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-	    			<form>
+	    			<form action="{{asset('ot')}}" method="post">
+	    				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
 	    					<div class="col-md-4">
 								<div class="form-group">
-								    <label for="">Project<strong style="color: red">(*)</strong></label>
-								    <select class="form-control" id="">
-								    	<option selected>Choose Project</option>
-								    	<option>project a</option>
-								    	<option>project b</option>
-								    	<option>project c</option>
+								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
+								    <select class="form-control" id="project_id" name="project_id">
+								    	<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
+								    	@foreach($objProject as $typeProject)
+								    	<option value="{{$typeProject->project_id}}">{{ \App\Models\Project::where('id',$typeProject->project_id)->first()->name }}
+								    	</option>
+								    	@endforeach
 								    </select>
+									<label id="lb_error_project_id" style="color: red; ">{{$errors->first('project_id')}}</label>
 								</div>
 								<div class="form-group">
-								    <label for="">Date<strong style="color: red">(*)</strong></label>
-								    <input type="date" class="form-control" id="">
+								    <label for="">{{trans('overtime.date')}}<strong style="color: red">(*)</strong></label>
+								    <input type="date" class="form-control" id="date" name="date">
+									<label id="lb_error_date" style="color: red; ">{{$errors->first('date')}}</label>
 								</div>
 								<div class="form-group">
-									<label for="example3">From time<strong style="color: red">(*)</strong></label>
-									<input type="text" class="form-control" id="example3">
+									<label for="example3">{{trans('overtime.start_time')}}<strong style="color: red">(*)</strong></label>
+									<input type="text" class="form-control" id="start_time" name="start_time">
+									<label id="lb_error_start_time" style="color: red; ">{{$errors->first('start_time')}}</label>
 								</div>
 								<div class="form-group">
-									<label for="example4">To time<strong style="color: red">(*)</strong></label>
-									<input type="text" class="form-control" id="example4">
+									<label for="example4">{{trans('overtime.end_time')}}<strong style="color: red">(*)</strong></label>
+									<input type="text" class="form-control" id="end_time" name="end_time">
+									<label id="lb_error_end_time" style="color: red; ">{{$errors->first('end_time')}}</label>
 								</div>
 	    					</div>
 	    					<div class="col-md-2"></div>
 	    					<div class="col-md-4">
 	    						<div class="form-group">
-	    							<label for="">Number time<strong style="color: red">(*)</strong></label>
-	    							<input type="text" class="form-control" id="">
+	    							<label for="">{{trans('overtime.total_time')}}<strong style="color: red">(*)</strong></label>
+	    							<input type="text" class="form-control" id="total_time" name="total_time">
+									<label id="lb_error_total_time" style="color: red; ">{{$errors->first('total_time')}}</label>
 	    						</div>
 	    						<div class="form-group">
-	    							<label for="">Date Type<strong style="color: red">(*)</strong></label>
-	    							<select class="form-control" id="">
-	    								<option selected>Choose date type</option>
-	    								<option>Normal day</option>
-	    								<option>Day off</option>
-	    								<option>Holiday</option>
-	    							</select>
+	    							<label for="">{{trans('overtime.overtime_type_id')}}<strong style="color: red">(*)</strong></label>
+	    							<select class="form-control" id="overtime_type_id" name="overtime_type_id">
+								    	<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
+								    	@foreach($objOvertimeType as $typeTime)
+								    	<option value="{{$typeTime->id}}">{{$typeTime->name}}</option>
+								    	@endforeach
+								    </select>
+									<label id="lb_error_overtime_type_id" style="color: red; ">{{$errors->first('overtime_type_id')}}</label>
 	    						</div>
 	    						<div class="form-group">
-	    							<label for="">Reason<strong style="color: red">(*)</strong></label>
-	    							<textarea class="form-control" id="" rows="5" style="line-height: 1.36;"></textarea>
+	    							<label for="">{{trans('overtime.reason')}}<strong style="color: red">(*)</strong></label>
+	    							<textarea class="form-control" id="" rows="6" style="line-height: 1.36;" name="reason"></textarea>
+									<label id="lb_error_reason" style="color: red; ">{{$errors->first('reason')}}</label>
 	    						</div>
 	    					</div>
 	    				</div>
 	    				<div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
                             <div class="col-md-6" style="display: inline; ">
                                 <div style="float: right;">
-                                    <button id="btn_reset_form_employee" type="reset" class="btn btn-default"><span
+                                    <button id="btn_reset_form_overtime" type="reset" class="btn btn-default"><span
                                         class="fa fa-refresh"></span>&nbsp;RESET
                                     </button>
                                 </div>
@@ -83,11 +92,11 @@
     	</section>
     </div>
     <script type="text/javascript">
-    	var timepicker = new TimePicker(['example3','example4'], {
+    	var timepicker = new TimePicker(['start_time','end_time'], {
 		  	lang: 'en',
 		  	theme: 'dark'
 		});
-		var input = document.getElementById(['example3','example4']);
+		var input = document.getElementById(['start_time','end_time']);
 
 			timepicker.on('change', function(evt) {
 		  

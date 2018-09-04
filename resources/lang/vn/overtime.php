@@ -6,16 +6,16 @@
  * Time: 8:55 AM
  */
 return[
-    'project' =>'Project',
-    'date'=> 'Date',
-    'start_time'=> 'From time',
-    'end_time'=> 'To time',
-    'total_time'=> 'Number time',
-    'reason' => 'Title',
-    'overtime_type_id' => 'Date type',
-    'notification_id' => 'Notification Type',
+    'project' =>'Dự án',
+    'date'=> 'Ngày tăng ca',
+    'start_time'=> 'Thời gian bắt đầu',
+    'end_time'=> 'Thời gian kết thúc',
+    'total_time'=> 'Tổng thời gian',
+    'reason' => 'Lý do',
+    'overtime_type_id' => 'Loại ngày',
+    'correct_total_time' => 'Thời gian chấp nhận',
     'msg_add'=>[
-        'success'=>'Overtime is successfully created !!!',
-        'fail'=>'Overtime failed created!!!',
+        'success'=>'Thêm đơn tăng ca thành công!!!',
+        'fail'=>'Thêm đơn tăng ca thất bại!!!',
     ],
 ];

@@ -11,7 +11,7 @@
 
     use Illuminate\Foundation\Http\FormRequest;
 
-    class NotificationAddRequest extends FormRequest
+    class OvertimeAddRequest extends FormRequest
     {
         public function authorize()
         {
@@ -21,24 +21,47 @@
         public function rules()
         {
             return [
-                'title' => 'required' ,
-                'content' => 'required',
-                'notification_type_id' => 'required',
+                'project_id' => 'required' ,
+                'date' => 'required',
+                'start_time' => 'required',
+                'end_time' => 'required' ,
+                'total_time' => 'required',
+                'reason' => 'required',
+                'overtime_type_id' => 'required',
+                'correct_total_time' => 'required|numeric|min:0'
             ];
         }
 
         public function messages()
         {
             return [
-                'title.required' => trans('validation.required', [
-                    'attribute' => trans('notification.title')
+                'correct_total_time.min' => trans('validation.correct_total_time', [
+                    'attribute' => trans('overtime.correct_total_time')
                 ]),
-                'content.required' => trans('validation.required', [
-                    'attribute' => trans('notification.content')
+                'correct_total_time.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.correct_total_time')
                 ]),
-                'notification_type_id.required' => trans('validation.required', [
-                    'attribute' => trans('notification.notification_id')
+                'project_id.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.project')
                 ]),
+                'date.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.date')
+                ]),
+                'start_time.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.start_time')
+                ]),
+                'overtime_type_id.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.overtime_type_id')
+                ]),
+                'end_time.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.end_time')
+                ]),
+                'total_time.total_time' => trans('validation.required', [
+                    'attribute' => trans('overtime.total_time')
+                ]),
+                'reason.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.reason')
+                ])
             ];
         }
     }

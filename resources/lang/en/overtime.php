@@ -6,21 +6,16 @@
  * Time: 8:55 AM
  */
 return[
-    'notification' =>'notification',
-    'delete'=> 'delete',
-    'edit'=> 'Edit',
-    'add'=> 'Add',
-    'new'=> 'New Notifications',
-    'title' => 'Title',
-    'content' => 'Content',
-    'notification_id' => 'Notification Type',
+    'project' =>'Project',
+    'date'=> 'Date',
+    'start_time'=> 'From time',
+    'end_time'=> 'To time',
+    'total_time'=> 'Number time',
+    'reason' => 'Title',
+    'overtime_type_id' => 'Date type',
+    'correct_total_time' => 'correct total time',
     'msg_add'=>[
-        'success'=>'Notification is successfully created !!!',
-        'fail'=>'Notification failed created!!!',
-        'fail_than_ten' =>'Notification failed created. You need to delete a new notification before adding it '
+        'success'=>'Overtime is successfully created !!!',
+        'fail'=>'Overtime failed created!!!',
     ],
-    'msg_edit'=>[
-        'success'=>'Notification successfully edit!!!',
-        'fail'=>'Notification failed edit!!!',
-    ]
 ];
