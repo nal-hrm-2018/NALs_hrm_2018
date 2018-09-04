@@ -32,9 +32,12 @@
 								    </select>
 									<label id="lb_error_project_id" style="color: red; ">{{$errors->first('project_id')}}</label>
 								</div>
-								<div class="form-group">
-								    <label for="">{{trans('overtime.date')}}<strong style="color: red">(*)</strong></label>
-								    <input type="date" class="form-control" id="date" name="date">
+								<label for="">{{trans('overtime.date')}}<strong style="color: red">(*)</strong></label>
+								<div class="form-group input-group">
+									<div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+									<input type="date" class="form-control" id="date" name="date">
 									<label id="lb_error_date" style="color: red; ">{{$errors->first('date')}}</label>
 								</div>
 								<div class="form-group">
