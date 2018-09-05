@@ -20,8 +20,8 @@ class NotificationController extends Controller
     public function index()
     {
         $notification_type = NotificationType::Where('delete_flag','0')->get();
-        $new_notifications = Notifications::Where('flag_delete','0')->get();
-        $old_notifications = Notifications::Where('flag_delete','1')->get();
+        $new_notifications = Notifications::Where('flag_delete','0')->orderBy('id','desc')->get();
+        $old_notifications = Notifications::Where('flag_delete','1')->orderBy('id','desc')->get();
         return view('notification.list',[
             'notification_type' => $notification_type,
             'new_notifications' => $new_notifications,
