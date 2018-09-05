@@ -104,7 +104,7 @@ class NotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update( $request, $id)
+    public function update(NotificationAddRequest $request, $id)
     {
         $notification = Notifications::where('flag_delete', 0)->find($id);
         $notification->title = $request->title;
