@@ -177,6 +177,9 @@
                                                 </button>
                                             {{ Form::close() }}
                                         </td>
+                                        @else
+                                            <td>-</td>
+                                            <td>-</td>
                                         @endif
                                         
                                     </tr>
@@ -190,6 +193,7 @@
                                         @else
                                             <td>-</td>
                                         @endif
+                                        <td colspan="2" rowspan="3"></td>
                                     </tr>
                                     <tr>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>
