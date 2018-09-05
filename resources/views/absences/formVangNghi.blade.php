@@ -182,7 +182,7 @@
                 </div>
               </div>
               <div class="col-md-1" style="display: inline;">
-                <div style="float: right;">
+                <div>
                   <button type="submit" class="btn btn-info">
                     SAVE
                   </button>

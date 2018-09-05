@@ -1,8 +1,8 @@
 @extends('admin.template')
 @section('content')
  <!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<section class="content-header">
+    <div class="content-wrapper">
+        <section class="content-header">
             <h1>
                 List OT
                 <small>NAL Solutions</small>
@@ -26,6 +26,7 @@
                                         <th>{{ trans('overtime_po.from_time') }}</th>
                                         <th>{{ trans('overtime_po.to_time') }}</th>
                                         <th>{{ trans('overtime_po.number_time') }}</th>
+                                        <th>{{ trans('overtime_po.correct_total_time') }}</th>
                                         <th>{{ trans('overtime_po.data_type') }}</th>
                                         <th>{{ trans('overtime_po.action') }}</th>
                                     </tr>
@@ -47,11 +48,27 @@
                                         <td>{{ $va->start_time }}</td>
                                         <td>{{ $va->end_time }}</td>
                                         @if(isset($va->total_time))
-                                        <td><span class="label label-success">{{ $va->total_time }}<span></td>
+                                            <td><span class="label label-primary">{{ $va->total_time }}<span></td>
                                         @else
-                                        <td><span>-<span></td>
+                                            <td><span>-<span></td>
                                         @endif
-                                        <td><span class="label" style="background: #3600ff;">{{ \App\Models\OvertimeType::find($va->overtime_type_id)->name }}</span></td>
+                                        @if(isset($va->correct_total_time))
+                                            <td><span class="label label-success">{{ $va->correct_total_time }}<span></td>
+                                        @else
+                                            <td><span>-<span></td>
+                                        @endif
+                                        @php
+                                            $name_overtime_type = \App\Models\OvertimeType::find($va->overtime_type_id)->name;
+                                        @endphp
+                                        @if ($name_overtime_type == 'normal')
+                                            <td><span class="label" style="background: #9072ff;">Normal day</span></td>
+                                        @elseif($name_overtime_type == 'weekend')
+                                            <td><span class="label" style="background: #643aff;">Day off</span></td>
+                                        @elseif($name_overtime_type == 'holiday')
+                                            <td><span class="label" style="background: #3600ff;">Holiday</span></td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                         @php
                                             $name_overtime_status = \App\Models\OvertimeStatus::find($va->overtime_status_id)->name;
                                         @endphp
@@ -61,31 +78,21 @@
                                         <td><span class="label label-danger">{{ $name_overtime_status }}<span></td>
                                         @else
                                         <td>
-{{--<<<<<<< HEAD--}}
                                             <div id="action_bt">
-                                                <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success width-90">
-                                                    <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
+                                                <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success">
+                                                    <i class="glyphicon glyphicon-ok"></i>&nbsp;
                                                 </a>
-                                                <button  type="button" class="btn btn-danger width-90" data-toggle="modal" data-target="#myModal-{{$va->id}}">
-                                                    <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
+                                                <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal-{{$va->id}}">
+                                                    <i class="glyphicon glyphicon-remove"></i>&nbsp;
                                                 </button>
                                             </div>
-{{--=======--}}
-                                            {{--<a href="/ot/po-ot/{{$va->id}}" class="btn btn-success"><em class="glyphicon glyphicon-ok"></em></a>--}}
-                                            {{--<a class="btn btn-danger"><em class="glyphicon glyphicon-remove"></em></a>--}}
-                                            <!-- <button type="button" class="btn btn-info width-90">
-                                                <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
-                                            </button>
-                                            <button type="button" class="btn btn-danger width-90" data-toggle="modal" data-target="#myModal">
-                                                <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
-                                            </button> -->
                                         </td>
                                         @endif
                                     </tr>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModal-{{$va->id}}"   tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document" style="width: 25%;">
-                                            <form action="/ot/po-ot/reject/{{$va->id}}" method="get">
+                                            <form action="/ot/po-ot/reject/{{$va->id}}" method="get" onsubmit="return validate();">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -94,13 +101,13 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="verify">Accept time</label>
-                                                            <input type="text" class="form-control" name="correct_total_time" id="correct_total_time">
+                                                            <input type="number" class="form-control" name="correct_total_time" id="correct_total_time">
                                                             <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                        <button type="submit" class="btn btn-danger">Reject request</button>
+                                                        <button type="submit" class="btn btn-danger" >Reject request</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -115,7 +122,7 @@
                 </div>
             </div>
         </section>
-	</div>
+    </div>
      <script>
          function confirm_accept() {
              document.getElementById("action_bt").style.visibility = "hidden";
