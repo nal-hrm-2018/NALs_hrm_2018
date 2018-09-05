@@ -25,11 +25,12 @@
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
 								    <select class="form-control" id="project_id" name="project_id">
-										<option value="{{$ot_history->project->project_id}}" selected >{{$ot_history->project->name}}</option>				@foreach($projects as $pro)
-											@if($pro->name <> $ot_history->project->name)
-											<option  value="{{$pro->project_id}}">{{$pro->name}}</option>
-											@endif
-										@endforeach
+										<option value="{{$ot_history->project->project_id}}" selected >{{$ot_history->project->name}}</option>
+										{{--@foreach($projects as $pro)--}}
+											{{--@if($pro->name <> $ot_history->project->name)--}}
+											{{--<option  value="{{$pro->project_id}}">{{$pro->name}}</option>--}}
+											{{--@endif--}}
+										{{--@endforeach--}}
 								    </select>
 								</div>
 		    					@endif	
