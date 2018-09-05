@@ -26,7 +26,7 @@
                     </div>
                     <div class="box-body">
                         <div class="news">
-                            <ul data-widget="tree" style="list-style-type: none;">
+                            <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($new_notifications as $note)
                                     <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
@@ -77,7 +77,7 @@
                     </div>
                     <div class="box-body">
                         <div class="news">
-                            <ul data-widget="tree" style="list-style-type: none;">
+                            <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($old_notifications as $note)
                                     <li class="treeview" style="margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
