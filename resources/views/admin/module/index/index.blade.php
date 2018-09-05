@@ -102,7 +102,7 @@
                                         <a href="#">
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu">
+                                        <ul class="treeview-menu" style="color: #777;">
                                             @foreach($notification_type as $type)
                                                 @if($note->notification_type_id == $type->id)
                                                     @if($type->name == 'HD')

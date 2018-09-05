@@ -53,9 +53,10 @@
                                             </a>
                                          </span>
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->title}}</span>
+                                            <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu">
+                                        <ul class="treeview-menu" style="color: #777;">
+                                            <hr>
                                             <?php
                                             echo nl2br($note->content);
                                             ?>
@@ -94,9 +95,10 @@
                                         @endforeach
 
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->title}}</span>
+                                            <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu">
+                                        <ul class="treeview-menu" style="color: #777;">
+                                            <hr>
                                             <?php
                                             echo nl2br($note->content);
                                             ?>
