@@ -112,7 +112,7 @@ class NotificationController extends Controller
         $notification->notification_type_id = $request->notification_type_id;
         if($notification->save()){
             \Session::flash('msg_success', trans('notification.msg_edit.success'));
-            return redirect()->route('notification.edit',compact('id'));
+            return redirect('notification');
         }else{
             \Session::flash('msg_fail', trans('notification.msg_edit.fail'));
             return back()->with(['notification' => $notification]);
