@@ -24,10 +24,7 @@
 		    					@if($ot_history->project)						
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
-								    <select class="form-control" id="project_id" name="project_id"
-								    	value="{!!
-								    	 old('project_id', isset($pro->project_id) ? $pro->project_id: $ot_history->project->project_id )
-								    	  !!}">
+								    <select class="form-control" id="project_id" name="project_id">
 										<option value="{{$ot_history->project->project_id}}" selected >{{$ot_history->project->name}}</option>				@foreach($projects as $pro)
 											@if($pro->name <> $ot_history->project->name)
 											<option  value="{{$pro->project_id}}">{{$pro->name}}</option>
@@ -41,9 +38,9 @@
 								    <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-								    <input type="date" class="form-control" id="ot_date" name="ot_date" value="{!! old('ot_date', isset($ot_history->date) ? $ot_history->date->format("Y-m-d") : null) !!}">
-									<label id="lb_error_date" style="color: red; ">{{$errors->first('date')}}</label>
+								    <input type="date" class="form-control" id="date" name="date" value="{!! old('date', isset($ot_history->date) ? $ot_history->date->format('Y-m-d') : null) !!}">
 								</div>
+								<label id="lb_error_date" style="color: red; ">{{$errors->first('date')}}</label>
 								<div class="form-group">
 									<label for="example3">{{trans('overtime.start_time')}}<strong style="color: red">(*)</strong></label>
 									<input type="time" class="form-control" name="start_time" id="start_time" value="{!! old('start_time', isset($ot_history->start_time) ? $ot_history->start_time: null) !!}">
