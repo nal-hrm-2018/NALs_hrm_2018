@@ -77,13 +77,13 @@
     <div class="content-wrapper">
         <div class="content">
             <section>
-                <div class="box box-info" style="width: 50%;">
+                <div class="box box-info" >
                     <div class="box-header with-border">
                         <h3 class="box-title">{{trans('common.notifications')}}</h3>
                     </div>
                     <div class="box-body">
                         <div class="news">
-                            <ul data-widget="tree" style="list-style-type: none; width: fit-content; margin: 0 auto;">
+                            <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($notifications as $note)
                                     <li class="treeview" style="margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
@@ -102,7 +102,7 @@
                                         <a href="#">
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu">
+                                        <ul class="treeview-menu" style="color: #777;">
                                             @foreach($notification_type as $type)
                                                 @if($note->notification_type_id == $type->id)
                                                     @if($type->name == 'HD')
@@ -116,9 +116,11 @@
                                                     @endif
                                                 @endif
                                             @endforeach
-                                            <?php
-                                            echo nl2br($note->content);
-                                            ?>
+                                            <div style="padding-left: 0px 20px;">
+                                                <?php
+                                                echo nl2br($note->content);
+                                                ?>
+                                            </div>
                                             @foreach($notification_type as $type)
                                                 @if($note->notification_type_id == $type->id)
                                                     @if($type->name == 'HD')

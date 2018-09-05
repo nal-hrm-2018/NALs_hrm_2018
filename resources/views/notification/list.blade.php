@@ -26,7 +26,7 @@
                     </div>
                     <div class="box-body">
                         <div class="news">
-                            <ul data-widget="tree" style="list-style-type: none;">
+                            <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($new_notifications as $note)
                                     <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
@@ -53,9 +53,10 @@
                                             </a>
                                          </span>
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->title}}</span>
+                                            <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu">
+                                        <ul class="treeview-menu" style="color: #777;">
+                                            <hr>
                                             <?php
                                             echo nl2br($note->content);
                                             ?>
@@ -76,7 +77,7 @@
                     </div>
                     <div class="box-body">
                         <div class="news">
-                            <ul data-widget="tree" style="list-style-type: none;">
+                            <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($old_notifications as $note)
                                     <li class="treeview" style="margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
@@ -94,9 +95,10 @@
                                         @endforeach
 
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->title}}</span>
+                                            <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu">
+                                        <ul class="treeview-menu" style="color: #777;">
+                                            <hr>
                                             <?php
                                             echo nl2br($note->content);
                                             ?>
