@@ -360,6 +360,7 @@
                                          </div>
                                          <input type="password" name="old_pass" id="old_pass" class="form-control" onchange="oldPass()">
                                      </div>
+
                                      @endif
                                      <label style="color: red; margin-left: 130px;" id="errorOldPass" style="display: inline;"></label>
                                      <div class="input-group margin">

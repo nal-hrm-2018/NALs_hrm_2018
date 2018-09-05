@@ -20,8 +20,8 @@ class NotificationController extends Controller
     public function index()
     {
         $notification_type = NotificationType::Where('delete_flag','0')->get();
-        $new_notifications = Notifications::Where('flag_delete','0')->get();
-        $old_notifications = Notifications::Where('flag_delete','1')->get();
+        $new_notifications = Notifications::Where('flag_delete','0')->orderBy('id','desc')->get();
+        $old_notifications = Notifications::Where('flag_delete','1')->orderBy('id','desc')->get();
         return view('notification.list',[
             'notification_type' => $notification_type,
             'new_notifications' => $new_notifications,
@@ -98,7 +98,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storNotificationAddRequestage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -112,7 +112,7 @@ class NotificationController extends Controller
         $notification->notification_type_id = $request->notification_type_id;
         if($notification->save()){
             \Session::flash('msg_success', trans('notification.msg_edit.success'));
-            return redirect()->route('notification.edit',compact('id'));
+            return redirect('notification');
         }else{
             \Session::flash('msg_fail', trans('notification.msg_edit.fail'));
             return back()->with(['notification' => $notification]);

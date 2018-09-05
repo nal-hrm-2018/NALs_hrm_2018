@@ -8,62 +8,61 @@
     <div class="content-wrapper">
     	<section class="content-header">
     		<h1>
-    			Edit overtime
+    			{{trans('common.path.edit_overtime')}}
     			<small>NAL Solutions</small>
     		</h1>
     	</section>
     	<section class="content">
     		<div class="box box-default">
+    			<div id="msg"></div>
     			<div class="box-body">
 	    			<div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
-	    			<form>
+	    			 {{Form::model($ot_history,array('url' => ['/ot', $ot_history->id], 'method' => 'PUT', 'id' => 'form_edit_overtime', 'onSubmit' => 'return confirm_edit_overtime()'))}}
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
-	    					<div class="col-md-4">
+	    					<div class="col-md-4">	
+		    					@if($ot_history->project)						
 								<div class="form-group">
-								    <label for="">Project<strong style="color: red">(*)</strong></label>
-								    <select class="form-control" id="">
-								    	<option selected>Choose Project</option>
-								    	<option>project a</option>
-								    	<option>project b</option>
-								    	<option>project c</option>
+								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
+								    <select class="form-control" id="project_id" name="project_id">
+										<option value="{{$ot_history->project->project_id}}" selected >{{$ot_history->project->name}}</option>
+										{{--@foreach($projects as $pro)--}}
+											{{--@if($pro->name <> $ot_history->project->name)--}}
+											{{--<option  value="{{$pro->project_id}}">{{$pro->name}}</option>--}}
+											{{--@endif--}}
+										{{--@endforeach--}}
 								    </select>
 								</div>
-								<label for="">Date<strong style="color: red">(*)</strong></label>
-								<div class="form-group input-group">
-								    
+		    					@endif	
+								<label for="">{{trans('overtime.date')}}<strong style="color: red">(*)</strong></label>
+								<div class="form-group input-group">								    
 								    <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-								    <input type="date" class="form-control" id="">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+								    <input type="date" class="form-control" id="date" name="date" value="{!! old('date', isset($ot_history->date) ? $ot_history->date->format('Y-m-d') : null) !!}">
+								</div>
+								<label id="lb_error_date" style="color: red; ">{{$errors->first('date')}}</label>
+								<div class="form-group">
+									<label for="example3">{{trans('overtime.start_time')}}<strong style="color: red">(*)</strong></label>
+									<input type="time" class="form-control" name="start_time" id="start_time" value="{!! old('start_time', isset($ot_history->start_time) ? $ot_history->start_time: null) !!}">
+									<label id="lb_error_start_time" style="color: red; ">{{$errors->first('start_time')}}</label>
 								</div>
 								<div class="form-group">
-									<label for="example3">From time<strong style="color: red">(*)</strong></label>
-									<input type="text" class="form-control" id="example3">
-								</div>
-								<div class="form-group">
-									<label for="example4">To time<strong style="color: red">(*)</strong></label>
-									<input type="text" class="form-control" id="example4">
+									<label for="example4">{{trans('overtime.end_time')}}<strong style="color: red">(*)</strong></label>
+									<input type="time" class="form-control" id="end_time" name="end_time" value="{!! old('end_time', isset($ot_history->end_time) ? $ot_history->end_time : null) !!}">
+									<label id="lb_error_end_time" style="color: red; ">{{$errors->first('end_time')}}</label>
 								</div>
 	    					</div>
 	    					<div class="col-md-2"></div>
 	    					<div class="col-md-4">
 	    						<div class="form-group">
-	    							<label for="">Number time<strong style="color: red">(*)</strong></label>
-	    							<input type="text" class="form-control" id="">
+	    							<label for="example5">{{trans('overtime.total_time')}}<strong style="color: red">(*)</strong></label>
+	    							<input type="text" class="form-control" id="total_time" name="total_time" value="{!! old('total_time', isset($ot_history->total_time) ? $ot_history->total_time : null) !!}" >
+									<label id="lb_error_total_time" style="color: red; ">{{$errors->first('total_time')}}</label>
 	    						</div>
 	    						<div class="form-group">
-	    							<label for="">Date Type<strong style="color: red">(*)</strong></label>
-	    							<select class="form-control" id="">
-	    								<option selected>Choose date type</option>
-	    								<option>Normal day</option>
-	    								<option>Day off</option>
-	    								<option>Holiday</option>
-	    							</select>
-	    						</div>
-	    						<div class="form-group">
-	    							<label for="">Reason<strong style="color: red">(*)</strong></label>
-	    							<textarea class="form-control" id="" rows="5" style="line-height: 1.36;"></textarea>
+	    							<label for="example7">{{trans('overtime.reason')}}<strong style="color: red">(*)</strong></label>
+	    							<textarea class="form-control" id="example7" name="reason" rows="11">{{ old('reason', isset($ot_history->reason) ? $ot_history->reason : null) }}</textarea>
 	    						</div>
 	    					</div>
 	    				</div>
@@ -71,17 +70,17 @@
                             <div class="col-md-6" style="display: inline; ">
                                 <div style="float: right;">
                                     <button id="btn_reset_form_employee" type="reset" class="btn btn-default"><span
-                                        class="fa fa-refresh"></span>&nbsp;RESET
+                                        class="fa fa-refresh"></span>&nbsp;{{ trans('common.button.reset')}}
                                     </button>
                                 </div>
                             </div>
                             <div class="col-md-1">
                                 <div>
-                                    <button type="submit" class="btn btn-info">EDIT</button>
+                                    <button type="submit" class="btn btn-info">{{ trans('common.button.edit')}}</button>
                                 </div>
                             </div>
                         </div>
-	    			</form>
+	    			 {{ Form::close() }}
     			</div>
     		</div>
     	</section>
@@ -99,4 +98,9 @@
 		  		evt.element.value = value;
 		});
     </script>
+    <SCRIPT LANGUAGE="JavaScript">
+       function confirm_edit_overtime() {
+             return confirm(message_confirm('{{trans("common.action_confirm.edit")}}', 'form', "", ""));
+       }
+   </SCRIPT>
 @endsection

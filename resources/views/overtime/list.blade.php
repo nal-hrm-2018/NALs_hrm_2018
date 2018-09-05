@@ -236,6 +236,7 @@
             </div>
         </section>
     </div>
+    
     <script>
         function confirm_delete(){
             return confirm(message_confirm('{{trans('common.action.remove')}}','form',''));

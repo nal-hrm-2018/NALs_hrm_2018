@@ -127,6 +127,10 @@ class Employee extends Model implements
     {
         return $this->hasMany('App\Models\Absence')->where('delete_flag', '=', 0);
     }
+    public function overtime()
+    {
+        return $this->hasMany('App\Models\Overtime')->where('delete_flag', '=', 0);
+    }
     public function confirms()
     {
         return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);

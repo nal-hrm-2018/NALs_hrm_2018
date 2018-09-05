@@ -33,7 +33,7 @@
                     <div class="row">
                         {{--<form action="" method="post" class="form-horizontal"--}}
                               {{--onSubmit="return confirmAction()">--}}
-                        {{Form::model($notification,array('url' => ['/notification', $notification->id], 'method' => 'PUT', 'id' => 'form_edit_notification'))}}
+                        {{Form::model($notification,array('url' => ['/notification', $notification->id], 'method'=>isset($notification["id"])?'PUT':'POST', 'id' => 'form_edit_notification'))}}
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="row">
                                 <div class="col-md-3"></div>
