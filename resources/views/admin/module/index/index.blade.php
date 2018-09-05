@@ -85,7 +85,7 @@
                         <div class="news">
                             <ul data-widget="tree" style="list-style-type: none; width: fit-content; margin: 0 auto;">
                                 @foreach($notifications as $note)
-                                    <li class="treeview">
+                                    <li class="treeview" style="margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
                                             @if($note->notification_type_id == $type->id)
                                                 @if($type->name == 'HD')

@@ -28,7 +28,7 @@
                         <div class="news">
                             <ul data-widget="tree" style="list-style-type: none;">
                                 @foreach($new_notifications as $note)
-                                    <li class="treeview">
+                                    <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
                                             @if($note->notification_type_id == $type->id)
                                                 @if($type->name == 'HD')
@@ -43,11 +43,11 @@
                                             @endif
                                         @endforeach
                                         <span class="pull-right">
-                                            <a href="notification/{{$note->id}}/edit">
+                                            <a href="notification/{{$note->id}}/edit" class="btn btn-default">
                                                 <i class="fa fa-pencil width-icon-contextmenu"></i>
                                                 {{--{{trans('notification.edit')}}--}}
                                             </a>
-                                            <a onclick="return confirm_delete();" href="{{ route('notification.destroy',['notification' => $note->id]) }}">
+                                            <a onclick="return confirm_delete();" class="btn btn-danger" href="{{ route('notification.destroy',['notification' => $note->id]) }}">
                                                  <i class="fa fa-remove width-icon-contextmenu"></i>
                                                 {{--{{trans('notification.delete')}}--}}
                                             </a>
