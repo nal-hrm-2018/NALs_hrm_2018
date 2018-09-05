@@ -139,7 +139,7 @@ class OTController extends Controller
                 $sttHoliday = 1;
             }
         }
-        //Kiểm tra co phải ngày nghĩ lễ đột xuất k
+        //Kiểm tra co phải ngày nghĩ lễ đột xuất không
         if ($sttHoliday == ""){
             $holiday = Holiday::all();
             foreach ($holiday as $holiday){
