@@ -56,10 +56,13 @@
         <a href="#" style="text-decoration:none" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>{{trans('common.warning')}}!</strong> {{trans('common.warning_content.warning_reopen')}}
     </div>
-    <div class="col-md-6 col-md-offset-1">
-        <button type="button" id="btn_reopen_project" class=" btn btn-primary ">
-            <i class="fa fa-refresh"></i> {{trans('common.button.reopen')}}
-        </button>
+    <div class="col-md-12" style="margin-bottom: 20px;">
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+            <button type="button" id="btn_reopen_project" class=" btn btn-warning ">
+                <i class="fa fa-key"></i> {{trans('common.button.reopen')}}
+            </button>
+        </div>
     </div>
 @endif
 <div class="col-md-12">
@@ -211,7 +214,7 @@
     </div>
 </div>
 
-<div class="col-md-2">
+<div class="col-md-2" style="margin-top: 20px;">
     <button type="button" id="btn_add_process" class="btn btn-info ">
         <i class="fa fa-user-plus"></i> {{trans('common.button.add')}}
     </button>

@@ -400,5 +400,8 @@
             font-family: 'Glyphicons Halflings';
             opacity: 0.5;
         }
+        thead tr th {
+            vertical-align: middle !important;
+        }
     </style>
 @endsection

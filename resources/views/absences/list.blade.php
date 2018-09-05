@@ -256,22 +256,22 @@
                                                     if($i == sizeof($obj->confirms)) {
                                                         echo '<div style="display: inline" id="div-edit-'. $obj->id .'">
                                                                 <button class="btn btn-default btn-edit" id="btn-edit-'. $obj->id .'">
-                                                                    <span><i class="fa fa-edit"></i>Sửa</span>
+                                                                    <span><i class="fa fa-pencil"></i></span>
                                                                 </button></div>';
                                                     } else {
                                                         echo '<div style="display: inline"><button class="btn btn-default disabled">
-                                                                    <span><i class="fa fa-edit"></i>Sửa</span>
+                                                                    <span><i class="fa fa-pencil"></i></span>
                                                                 </button></div>';
                                                     }
 
                                                     if($obj->is_deny == 0 && $obj->absence_status_id != $idReject){
                                                         echo '<div style="display: inline" id="div-cancel-'. $obj->id .'">
-                                                                <button class="btn btn-default btn-cancel" id="btn-cancel-'. $obj->id .'">
-                                                                    <span><i class="fa fa-times"></i>Hủy</span>
+                                                                <button class="btn btn-danger btn-cancel" id="btn-cancel-'. $obj->id .'">
+                                                                    <span><i class="fa fa-times"></i></span>
                                                                 </button></div>';
                                                     } else {
-                                                        echo '<div style="display: inline"><button class="btn btn-default disabled">
-                                                                    <span><i class="fa fa-times"></i>Hủy</span>
+                                                        echo '<div style="display: inline"><button class="btn btn-danger disabled">
+                                                                    <span><i class="fa fa-times"></i></span>
                                                                 </button></div>';
                                                     }
 
