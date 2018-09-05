@@ -69,6 +69,9 @@
                     'attribute' => trans('overtime.end_time'),
                     'date' => trans('overtime.start_time'),
                 ]),
+                'total_time.numeric' => trans('validation.numeric', [
+                    'attribute' => trans('overtime.total_time')
+                ]),
                 'total_time.required' => trans('validation.required', [
                     'attribute' => trans('overtime.total_time')
                 ]),
