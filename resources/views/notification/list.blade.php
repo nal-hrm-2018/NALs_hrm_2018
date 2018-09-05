@@ -57,9 +57,11 @@
                                         </a>
                                         <ul class="treeview-menu" style="color: #777;">
                                             <hr>
-                                            <?php
-                                            echo nl2br($note->content);
-                                            ?>
+                                            <div style="padding: 0px 20px;">
+                                                <?php
+                                                echo nl2br($note->content);
+                                                ?>
+                                            </div>
                                             <hr>
                                         </ul>
                                     </li>
@@ -99,9 +101,11 @@
                                         </a>
                                         <ul class="treeview-menu" style="color: #777;">
                                             <hr>
-                                            <?php
-                                            echo nl2br($note->content);
-                                            ?>
+                                            <div style="padding: 0px 20px;">
+                                                <?php
+                                                echo nl2br($note->content);
+                                                ?>
+                                            </div>
                                             <hr>
                                         </ul>
                                     </li>
