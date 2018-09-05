@@ -104,7 +104,7 @@ class NotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update( $request, $id)
+    public function update(NotificationAddRequest $request, $id)
     {
         $notification = Notifications::where('flag_delete', 0)->find($id);
         $notification->title = $request->title;
@@ -112,7 +112,7 @@ class NotificationController extends Controller
         $notification->notification_type_id = $request->notification_type_id;
         if($notification->save()){
             \Session::flash('msg_success', trans('notification.msg_edit.success'));
-            return redirect()->route('notification.edit',compact('id'));
+            return redirect('notification');
         }else{
             \Session::flash('msg_fail', trans('notification.msg_edit.fail'));
             return back()->with(['notification' => $notification]);

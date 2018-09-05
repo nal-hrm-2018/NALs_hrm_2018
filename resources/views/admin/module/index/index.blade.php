@@ -116,7 +116,7 @@
                                                     @endif
                                                 @endif
                                             @endforeach
-                                            <div style="padding-left: 0px 20px;">
+                                            <div style="padding: 0px 20px;">
                                                 <?php
                                                 echo nl2br($note->content);
                                                 ?>
