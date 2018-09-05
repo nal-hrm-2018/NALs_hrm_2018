@@ -79,11 +79,11 @@
                                         @else
                                         <td>
                                             <div id="action_bt">
-                                                <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success width-90">
-                                                    <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
+                                                <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success">
+                                                    <i class="glyphicon glyphicon-ok"></i>&nbsp;
                                                 </a>
-                                                <button  type="button" class="btn btn-danger width-90" data-toggle="modal" data-target="#myModal-{{$va->id}}">
-                                                    <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
+                                                <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal-{{$va->id}}">
+                                                    <i class="glyphicon glyphicon-remove"></i>&nbsp;
                                                 </button>
                                             </div>
                                         </td>
