@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\OT;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\Overtime;
+use App\Models\Project;
 use App\Models\Process;
 use App\Models\OvertimeStatus;
 use Illuminate\Http\Request;
@@ -190,7 +192,19 @@ class OTController extends Controller
      */
     public function edit($id)
     {
-        return view('overtime.edit');
+        $ot_history = Overtime::where('delete_flag', 0)->find($id);
+        $projects = Project::whereHas('processes',  function($q) use($ot_history){
+            $q->where('employee_id', $ot_history->employee_id );
+        })->get();
+        $overtime_type = OvertimeType::all();
+        if ($ot_history == null) {
+            return abort(404);
+        }
+        return view('overtime.edit',[
+            'ot_history'=> $ot_history,
+            'projects' => $projects,
+            'overtime_type'=> $overtime_type,
+        ]);
     }
 
     /**
@@ -202,7 +216,25 @@ class OTController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $overtime = Overtime::where('delete_flag',0)->find($id);
+        if ($overtime == null) {
+            return abort(404);
+        }
+        // $overtime->project_id = $request->project_id;
+        $overtime->date = $request->ot_date;
+        $overtime->start_time = $request->start_time;
+        $overtime->end_time = $request->end_time;
+        // $overtime->overtime_type_id = $request->overtime_type_id;
+        $overtime->total_time = $request->total_time;
+        $overtime->reason = $request->reason;
+        if($overtime->save()){
+            \Session::flash('msg_success', trans('overtime.msg_edit.success'));
+            return redirect()->route('ot.edit',compact('id'));
+        }else{
+            \Session::flash('msg_fail', trans('overtime.msg_edit.fail'));
+            return back()->with(['ot' => $overtime]);
+        }
     }
 
     /**
