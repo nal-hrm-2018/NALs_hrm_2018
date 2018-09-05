@@ -337,6 +337,7 @@
               </div>
           </div>
       </div>
+      
      {{ Form::close() }}
          <div id="myModal" class="modal fade" role="dialog">
              <div class="modal-dialog" style="width: 50%;">
