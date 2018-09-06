@@ -133,7 +133,7 @@
                                                 @if($type->name == 'HR')
                                                     <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
                                                 @endif
-                                                @if($type->name == 'DOREMON')
+                                                @if($type->name == 'DORAEMON')
                                                     <label class="label bg-green" style="width: 40px; display: inline-block;">DRM</label>
                                                 @endif
                                             @endif
