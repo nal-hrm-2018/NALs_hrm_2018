@@ -32,7 +32,7 @@ return[
             'absences_hr'=>'Absence List',
             'absences_holiday'=>'Holiday List',
             'absences_po_project'=>'Absence List',
-            'history' => 'Absence History',
+            'history' => 'Absence List',
             'overtime' => 'Overtime List',
         ],
         'add'=>[

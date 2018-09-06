@@ -14,7 +14,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Absence List
+                {{trans('common.title_header.absence_list')}}
                 <small>NAL Solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}

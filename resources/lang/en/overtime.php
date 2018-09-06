@@ -13,7 +13,7 @@ return[
     'total_time'=> 'Number time',
     'reason' => 'Reason',
     'overtime_type_id' => 'Date type',
-    'correct_total_time' => 'correct total time',
+    'correct_total_time' => 'Correct total time',
     'msg_add'=>[
         'success'=>'Overtime is successfully created !!!',
         'fail'=>'Overtime failed created!!!',

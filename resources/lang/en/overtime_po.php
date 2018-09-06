@@ -16,7 +16,7 @@
         'number_time' => 'Number time',
         'data_type' => 'Data type',
         'action' => 'Action',
-        'correct_total_time' => 'Accept time',
+        'correct_total_time' => 'Accepted time',
         'reject' => [
             'fail' => 'Reject is fail. Field reject lesthan total time'
         ]

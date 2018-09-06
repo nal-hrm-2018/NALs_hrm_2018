@@ -16,5 +16,5 @@ return[
     'close' => 'Đóng',
     'add-question' => 'Bạn có chắc chắn muốn tạo ngày nghỉ ',
     'add-question-end' => '?',
-    'add_holiday' => 'Thêm Ngày Nghỉ',
+    'add_holiday' => 'Thêm ngày nghỉ',
 ];
