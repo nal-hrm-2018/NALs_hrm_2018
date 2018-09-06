@@ -10,6 +10,9 @@
         .width-90 {
             width: 90px;
         }
+        .form-inline {
+            display: inline;
+        }
     </style>
 
  <!-- Content Wrapper. Contains page content -->
@@ -140,7 +143,7 @@
                                         <th>Date type</th>
                                         <th>Status</th>
                                         <th>Accept time</th>
-                                        <th colspan="2">Actions</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -187,16 +190,13 @@
                                         @if ($val->Status->name == 'Not yet')
                                         <td>
                                             <a class="btn btn-default" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
-                                        </td>
-                                        <td>
-                                             {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
+                                             {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete', ['class' => 'form-inline'])) }}
                                                 <button type="submit" onclick="return confirm_delete();" class="btn btn-danger">
                                                     <em class="fa fa-trash"></em>
                                                 </button>
                                             {{ Form::close() }}
                                         </td>
                                         @else
-                                            <td>-</td>
                                             <td>-</td>
                                         @endif
                                     </tr>
@@ -236,7 +236,6 @@
             </div>
         </section>
     </div>
-    
     <script>
         function confirm_delete(){
             return confirm(message_confirm('{{trans('common.action.remove')}}','form',''));
