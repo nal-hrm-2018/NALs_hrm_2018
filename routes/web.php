@@ -204,7 +204,7 @@ Route::group(['middleware' => 'user'], function () {
         'as' => 'po-ot.reject',
         'uses' => 'OT\OTController@rejectOT',
     ]);
-    Route::get('/hr-ot', [
+    Route::get('ot/hr-ot', [
         'as' => 'hr-ot',
         'uses' => 'OT\OTController@indexHR',
     ]);

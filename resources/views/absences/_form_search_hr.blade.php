@@ -36,6 +36,19 @@
                                 ])
                             }}
                         </div>
+                        <div class="input-group margin">
+                            <div class="input-group-btn">
+                                <button type="button"
+                                        class="btn width-100">{{trans('employee.profile_info.email')}}</button>
+                            </div>
+                            {{--<input type="text" name="email" id="emailEmployee" class="form-control">--}}
+                            {{ Form::text('email', request()->get('email'),
+                                ['class' => 'form-control',
+                                'id' => 'emailEmployee',
+                                'autofocus' => false,
+                                ])
+                            }}
+                        </div>
                     </div>
                     <!-- code by hunganh -->
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -73,21 +86,9 @@
                             </select>
                         </div>
                     </div><!-- end code by hunganh-->
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div class="input-group margin">
-                            <div class="input-group-btn">
-                                <button type="button"
-                                        class="btn width-100">{{trans('employee.profile_info.email')}}</button>
-                            </div>
-                            {{--<input type="text" name="email" id="emailEmployee" class="form-control">--}}
-                            {{ Form::text('email', request()->get('email'),
-                                ['class' => 'form-control',
-                                'id' => 'emailEmployee',
-                                'autofocus' => false,
-                                ])
-                            }}
-                        </div>
-                    </div>
+                    <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        
+                    </div> -->
                 </div>
 
             </div>

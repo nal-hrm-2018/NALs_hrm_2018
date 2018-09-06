@@ -69,7 +69,7 @@
 	    					<div class="col-md-4">
 	    						<div class="form-group">
 	    							<label for="">{{trans('overtime.total_time')}}<strong style="color: red">(*)</strong></label>
-	    							<input type="number" class="form-control" id="total_time" name="total_time" value="{{ old('total_time') }}">
+	    							<input type="text" class="form-control" id="total_time" name="total_time" value="{{ old('total_time') }}">
 									<label id="lb_error_total_time" style="color: red; ">{{$errors->first('total_time')}}</label>
 	    						</div>
 								{{--@php--}}

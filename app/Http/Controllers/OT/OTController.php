@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\OT;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\Overtime;
+use App\Models\Project;
 use App\Models\Process;
+use App\Models\Team;
 use App\Models\OvertimeStatus;
 use Illuminate\Http\Request;
 use App\Models\OvertimeType;
@@ -13,6 +16,8 @@ use App\Models\Holiday;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\OvertimeAddRequest;
 use App\Http\Requests\OvertimeRequest;
+use App\Service\SearchEmployeeService;
+use Illuminate\Support\Facades\Input;
 
 class OTController extends Controller
 {
@@ -23,10 +28,12 @@ class OTController extends Controller
      */
     protected $objOT;
     protected $objProcess;
-    public function __construct (Overtime $objOT,Process $objProcess)
+    protected $searchEmployeeService;
+    public function __construct (Overtime $objOT,Process $objProcess,SearchEmployeeService $searchEmployeeService)
     {
         $this->objOT=$objOT;
         $this->objProcess = $objProcess;
+        $this->searchEmployeeService = $searchEmployeeService;
     }
 
     public function indexPO()
@@ -48,7 +55,7 @@ class OTController extends Controller
 
     public function rejectOT(OvertimeRequest $request,$id){
         $id_emp = Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id_emp)->with('project.overtime')->get();
+        $OT[] = Process::where('employee_id',$id_emp)->orderBy('overtime.id','desc')->with('project.overtime')->get();
         $correct_total_time = $request->correct_total_time;
         $overtime = Overtime::where('id',$id)->first();
         $total_time = $overtime->total_time;
@@ -65,9 +72,17 @@ class OTController extends Controller
         $overtime->save();
         return redirect()->route('po-ot',['OT'=>$OT]);
     }
-    public function indexHR()
+    public function indexHR(Request $request)
     {
-        return view('overtime.hr_list');
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime');
+        $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
+        $employees = $employees->paginate($request['number_record_per_page']);
+        $employees->setPath('');
+        $param = (Input::except(['page','is_employee']));
+        return view('overtime.hr_list',compact('employees','param','teams'));
     }
 
     public function index()
@@ -190,7 +205,19 @@ class OTController extends Controller
      */
     public function edit($id)
     {
-        return view('overtime.edit');
+        $ot_history = Overtime::where('delete_flag', 0)->find($id);
+        $projects = Project::whereHas('processes',  function($q) use($ot_history){
+            $q->where('employee_id', $ot_history->employee_id );
+        })->get();
+        $overtime_type = OvertimeType::all();
+        if ($ot_history == null) {
+            return abort(404);
+        }
+        return view('overtime.edit',[
+            'ot_history'=> $ot_history,
+            'projects' => $projects,
+            'overtime_type'=> $overtime_type,
+        ]);
     }
 
     /**
@@ -202,7 +229,25 @@ class OTController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $overtime = Overtime::where('delete_flag',0)->find($id);
+        if ($overtime == null) {
+            return abort(404);
+        }
+        $overtime->project_id = $request->project_id;
+        $overtime->date = $request->ot_date;
+        $overtime->start_time = $request->start_time;
+        $overtime->end_time = $request->end_time;
+        // $overtime->overtime_type_id = $request->overtime_type_id;
+        $overtime->total_time = $request->total_time;
+        $overtime->reason = $request->reason;
+        if($overtime->save()){
+            \Session::flash('msg_success', trans('overtime.msg_edit.success'));
+            return redirect('ot');
+        }else{
+            \Session::flash('msg_fail', trans('overtime.msg_edit.fail'));
+            return back()->with(['ot' => $overtime]);
+        }
     }
 
     /**

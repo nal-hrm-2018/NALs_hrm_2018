@@ -26,9 +26,9 @@
                     </div>
                     <div class="box-body">
                         <div class="news">
-                            <ul data-widget="tree" style="list-style-type: none;">
+                            <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($new_notifications as $note)
-                                    <li class="treeview">
+                                    <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
                                             @if($note->notification_type_id == $type->id)
                                                 @if($type->name == 'HD')
@@ -37,30 +37,55 @@
                                                 @if($type->name == 'HR')
                                                     <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
                                                 @endif
-                                                @if($type->name == 'DOREMON')
+                                                @if($type->name == 'DORAEMON')
                                                     <label class="label bg-green" style="width: 40px; display: inline-block;">DRM</label>
                                                 @endif
                                             @endif
                                         @endforeach
                                         <span class="pull-right">
-                                            <a href="notification/{{$note->id}}/edit">
-                                                <i class="fa fa-edit width-icon-contextmenu"></i>
+                                            <a href="notification/{{$note->id}}/edit" class="btn btn-default">
+                                                <i class="fa fa-pencil width-icon-contextmenu"></i>
                                                 {{--{{trans('notification.edit')}}--}}
                                             </a>
-                                            <a onclick="return confirm_delete();" href="{{ route('notification.destroy',['notification' => $note->id]) }}">
+                                            <a onclick="return confirm_delete();" class="btn btn-danger" href="{{ route('notification.destroy',['notification' => $note->id]) }}">
                                                  <i class="fa fa-remove width-icon-contextmenu"></i>
                                                 {{--{{trans('notification.delete')}}--}}
                                             </a>
                                          </span>
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->title}}</span>
+                                            <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu">
-                                            <?php
-                                            echo nl2br($note->content);
-                                            ?>
-                                            <hr>
-                                        </ul>
+                                        @foreach($notification_type as $type)
+                                            @if($note->notification_type_id == $type->id)
+                                                @if($type->name == 'HD')
+                                                    <ul class="treeview-menu box-notification-red">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
+                                                @endif
+                                                @if($type->name == 'HR')
+                                                    <ul class="treeview-menu box-notification-yellow">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
+                                                @endif
+                                                @if($type->name == 'DORAEMON')
+                                                    <ul class="treeview-menu box-notification-green">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
+                                                @endif
+                                            @endif
+                                        @endforeach
                                     </li>
                                 @endforeach
                             </ul>
@@ -76,9 +101,9 @@
                     </div>
                     <div class="box-body">
                         <div class="news">
-                            <ul data-widget="tree" style="list-style-type: none;">
+                            <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($old_notifications as $note)
-                                    <li class="treeview">
+                                    <li class="treeview" style="margin-bottom: 10px;">
                                         @foreach($notification_type as $type)
                                             @if($note->notification_type_id == $type->id)
                                                 @if($type->name == 'HD')
@@ -87,21 +112,46 @@
                                                 @if($type->name == 'HR')
                                                     <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
                                                 @endif
-                                                @if($type->name == 'DOREMON')
+                                                @if($type->name == 'DORAEMON')
                                                     <label class="label bg-green" style="width: 40px; display: inline-block;">DRM</label>
                                                 @endif
                                             @endif
                                         @endforeach
 
                                         <a href="#">
-                                            <span style="vertical-align: middle;">{{$note->title}}</span>
+                                            <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu">
-                                            <?php
-                                            echo nl2br($note->content);
-                                            ?>
-                                            <hr>
-                                        </ul>
+                                        @foreach($notification_type as $type)
+                                            @if($note->notification_type_id == $type->id)
+                                                @if($type->name == 'HD')
+                                                    <ul class="treeview-menu box-notification-red">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
+                                                @endif
+                                                @if($type->name == 'HR')
+                                                    <ul class="treeview-menu box-notification-yellow">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
+                                                @endif
+                                                @if($type->name == 'DORAEMON')
+                                                    <ul class="treeview-menu box-notification-green">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
+                                                @endif
+                                            @endif
+                                        @endforeach
                                     </li>
                                 @endforeach
                             </ul>
@@ -117,4 +167,41 @@
             return confirm(message_confirm('{{trans('common.action.remove')}}','{{trans('notification.notification')}}',''));
         }
     </script>
+    <style type="text/css">
+        .box-notification-red {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: red;
+            color: #777;
+        }
+
+        .box-notification-yellow {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: #f39c12;
+            color: #777;
+        }
+
+        .box-notification-green {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: green;
+            color: #777;
+        }
+    </style>
 @endsection

@@ -19,6 +19,9 @@
     .file-upload:hover {
         background: white;
     }
+    thead tr th {
+        vertical-align: middle !important;
+    }
 </style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

@@ -10,6 +10,7 @@
 
 
     use Illuminate\Foundation\Http\FormRequest;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use App\Models\Process;
 
@@ -20,8 +21,11 @@
             return true;
         }
 
-        public function rules()
+        public function rules(Request $request)
         {
+            $start_time = date('H', strtotime($request->start_time));
+            $end_time = date('H', strtotime($request->end_time));
+            $max_time = $end_time - $start_time;
             $project = new Process();
             $countProject = $project->countProcess();
             if($countProject > 0){
@@ -30,7 +34,7 @@
                     'date' => 'required',
                     'start_time' => 'required',
                     'end_time' => 'required|after:start_time',
-                    'total_time' => 'required|numeric|min:0',
+                    'total_time' => 'required|numeric|min:0|max:'.$max_time,
                     'reason' => 'required',
 //                    'overtime_type_id' => 'required',
                 ];
@@ -69,11 +73,17 @@
                     'attribute' => trans('overtime.end_time'),
                     'date' => trans('overtime.start_time'),
                 ]),
+                'total_time.numeric' => trans('validation.numeric', [
+                    'attribute' => trans('overtime.total_time')
+                ]),
                 'total_time.required' => trans('validation.required', [
                     'attribute' => trans('overtime.total_time')
                 ]),
                 'total_time.min' => trans('validation.min_total_time', [
                     'attribute' => trans('overtime.total_time')
+                ]),
+                'total_time.max' => trans('validation.max.numeric', [
+                    'attribute' => trans('overtime.total_time'),
                 ]),
                 'reason.required' => trans('validation.required', [
                     'attribute' => trans('overtime.reason')

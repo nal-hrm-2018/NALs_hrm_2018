@@ -193,7 +193,7 @@
         </div>
         </div>
 </div>
-<div class="col-md-2">
+<div class="col-md-2" style="margin-top: 20px;">
     <button type="button" id="btn_add_process" class="btn btn-info ">
         <i class="fa fa-user-plus"></i> {{trans('common.button.add')}}
     </button>

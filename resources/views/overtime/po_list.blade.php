@@ -1,8 +1,8 @@
 @extends('admin.template')
 @section('content')
  <!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<section class="content-header">
+    <div class="content-wrapper">
+        <section class="content-header">
             <h1>
                 List OT
                 <small>NAL Solutions</small>
@@ -37,10 +37,8 @@
                                 @endphp
                                 @foreach($OT[$i] as $value)
                                     @foreach($value['project']['overtime'] as $va)
-
-
                                     <tr class="overtime-menu" >
-                                        <td rowspan="">{{$va->id}}</td>
+                                        <td rowspan="">{{$i+1}}</td>
                                         <td rowspan="">{{ \App\Models\Project::where('id',$va->project_id)->first()->name }}</td>
                                         <td>{{ \App\Models\Employee::where('id',$va->employee_id)->first()->name }}</td>
                                         <td>{{ $va->date }}</td>
@@ -48,12 +46,12 @@
                                         <td>{{ $va->start_time }}</td>
                                         <td>{{ $va->end_time }}</td>
                                         @if(isset($va->total_time))
-                                            <td><span class="label label-success">{{ $va->total_time }}<span></td>
+                                            <td><span class="label label-primary">{{ $va->total_time }}<span></td>
                                         @else
                                             <td><span>-<span></td>
                                         @endif
                                         @if(isset($va->correct_total_time))
-                                            <td><span class="label label-warning">{{ $va->correct_total_time }}<span></td>
+                                            <td><span class="label label-success">{{ $va->correct_total_time }}<span></td>
                                         @else
                                             <td><span>-<span></td>
                                         @endif
@@ -79,11 +77,11 @@
                                         @else
                                         <td>
                                             <div id="action_bt">
-                                                <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success width-90">
-                                                    <i class="glyphicon glyphicon-ok"></i>&nbsp;Accept
+                                                <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success">
+                                                    <i class="glyphicon glyphicon-ok"></i>&nbsp;
                                                 </a>
-                                                <button  type="button" class="btn btn-danger width-90" data-toggle="modal" data-target="#myModal-{{$va->id}}">
-                                                    <i class="glyphicon glyphicon-remove"></i>&nbsp;Reject
+                                                <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal-{{$va->id}}">
+                                                    <i class="glyphicon glyphicon-remove"></i>&nbsp;
                                                 </button>
                                             </div>
                                         </td>
@@ -113,6 +111,9 @@
                                             </form>
                                         </div>
                                     </div>
+                                        @php
+                                            $i++;
+                                        @endphp
                                     @endforeach
                                 @endforeach
                                 </tbody>
@@ -122,7 +123,7 @@
                 </div>
             </div>
         </section>
-	</div>
+    </div>
      <script>
          function confirm_accept() {
              document.getElementById("action_bt").style.visibility = "hidden";

@@ -140,7 +140,7 @@
                                         <th>Date type</th>
                                         <th>Status</th>
                                         <th>Accept time</th>
-                                        <th>Actions</th>
+                                        <th colspan="2">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -180,20 +180,25 @@
                                             <td></td>
                                         @endif
                                         @if ($val->correct_total_time)
-                                            <td><span class="label label-primary">{{$val->correct_total_time}} hours</span></td>
+                                            <td><span class="label label-success">{{$val->correct_total_time}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
+                                        @if ($val->Status->name == 'Not yet')
                                         <td>
-                                            @if ($val->Status->name == 'Not yet')
-                                            <a class="btn btn-warning" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
-                                            {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
+                                            <a class="btn btn-default" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
+                                        </td>
+                                        <td>
+                                             {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
                                                 <button type="submit" onclick="return confirm_delete();" class="btn btn-danger">
                                                     <em class="fa fa-trash"></em>
                                                 </button>
-                                            {{ Form::close() }}                                            
-                                            @endif
+                                            {{ Form::close() }}
                                         </td>
+                                        @else
+                                            <td>-</td>
+                                            <td>-</td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                     <tr>
@@ -205,6 +210,7 @@
                                         @else
                                             <td>-</td>
                                         @endif
+                                        <td colspan="2" rowspan="3"></td>
                                     </tr>
                                     <tr>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>

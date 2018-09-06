@@ -228,9 +228,11 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="date" class="form-control pull-right" id="birthday" name="birthday"
+
                                                value="{{ old('birthday')}}<?php if (isset($employee)) {
                                                    echo $employee->birthday;
-                                               }?>">
+                                               }?>"
+                                               style="height: 33px;">
                                     </div>
                                     <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
                                     <!-- /.input group -->
@@ -337,6 +339,7 @@
 
                                         <input type="date" class="form-control pull-right" id="startwork_date"
                                                name="startwork_date"
+                                               style="height: 33px;"
                                                value="{{ old('startwork_date')}}<?php if (isset($employee)) {
                                                    echo $employee->startwork_date;
                                                }?>">
@@ -352,6 +355,7 @@
                                         </div>
                                         <input type="date" class="form-control pull-right" id="endwork_date"
                                                name="endwork_date"
+                                               style="height: 33px;"
                                                value="{{ old('endwork_date')}}<?php if (isset($employee)) {
                                                    echo $employee->endwork_date;
                                                }?>">

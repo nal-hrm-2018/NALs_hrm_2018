@@ -69,6 +69,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
                     $query->where("name", 'like', '%' . $team . '%');
                 });
         }
+
         if (!empty($email)) {
             $query->Where('email', 'like', '%' . $email . '%');
         }
@@ -91,7 +92,27 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             $year=$request['year_absence'];
             $query->whereYear('endwork_date','>=',$year);
         }
-        
+        $date_ot = $request['date_ot'];
+        if (!empty($date_ot)) {
+            $query
+                ->whereHas('overtime', function ($query) use ($date_ot) {
+                    $query->where("date", 'like', '%' . $date_ot . '%');
+                });
+        }
+        $date_ot = $request['year_ot'];
+        if (!empty($date_ot)) {
+            $query
+                ->whereHas('overtime', function ($query) use ($date_ot) {
+                    $query->whereYear("date", 'like', '%' . $date_ot . '%');
+                });
+        }
+        $date_ot =$request['month_ot'];
+        if (!empty($date_ot)) {
+            $query
+                ->whereHas('overtime', function ($query) use ($date_ot) {
+                    $query->whereMonth('date','=',$date_ot);
+                });
+        }
         $employeesSearch = $query
             ->where('delete_flag', '=', 0);
         return $employeesSearch;
