@@ -37,10 +37,8 @@
                                 @endphp
                                 @foreach($OT[$i] as $value)
                                     @foreach($value['project']['overtime'] as $va)
-
-
                                     <tr class="overtime-menu" >
-                                        <td rowspan="">{{$va->id}}</td>
+                                        <td rowspan="">{{$i+1}}</td>
                                         <td rowspan="">{{ \App\Models\Project::where('id',$va->project_id)->first()->name }}</td>
                                         <td>{{ \App\Models\Employee::where('id',$va->employee_id)->first()->name }}</td>
                                         <td>{{ $va->date }}</td>
@@ -113,6 +111,9 @@
                                             </form>
                                         </div>
                                     </div>
+                                        @php
+                                            $i++;
+                                        @endphp
                                     @endforeach
                                 @endforeach
                                 </tbody>

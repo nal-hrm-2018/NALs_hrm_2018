@@ -10,11 +10,12 @@
         </section>
         <section class="content-header">
             <div style="display: flex; flex-direction: row-reverse;">
-                <button class="btn btn-default">
-                    <a href="">
-                        <i class="glyphicon glyphicon-export"></i>&nbsp;{{trans('common.button.export')}}
-                    </a>
-                </button>
+                {{--<button class="btn btn-default">--}}
+                    {{--<a href="">--}}
+                        {{--<i class="glyphicon glyphicon-export"></i>&nbsp;--}}
+                    {{--</a>--}}
+                {{--</button>--}}
+                {{--{{trans('common.button.export')}}--}}
             </div>
         </section>
         <section class="content">
@@ -27,7 +28,9 @@
                                     <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                                 </button>
                                 <div id="demo" class="collapse margin-form-search">
-                                    <form method="get" role="form">
+                                    <form method="get" role="form" id="form_search_employee">
+                                        <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                                               value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -53,9 +56,14 @@
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
                                                             </div>
                                                             <select name="team" id="team_employee" class="form-control">
-                                                            	<option></option>
-                                                            	<option></option>
-                                                            	<option></option>
+                                                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                </option>
+                                                                @foreach($teams as $team)
+                                                                    <option value="{{ $team->name}}" {{ (string)$team->name===request('team')?'selected="selected"':'' }}>
+                                                                        {{ $team->name }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -64,16 +72,28 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Date</button>
                                                             </div>
-                                                            <input type="date" name="date" class="form-control">
+                                                            <input type="date" name="date_ot" class="form-control">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Month</button>
                                                             </div>
-                                                            <select name="month" class="form-control">
-                                                                <option></option>
-                                                                <option></option>
-                                                                <option></option>
+                                                            <select name="month_ot" class="form-control">
+                                                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                </option>
+                                                                @php
+                                                                $dataMonth = [1,2,3,4,5,6,7,8,9,10,11,12];
+                                                                @endphp
+                                                                @foreach($dataMonth as $month)
+                                                                <?php
+                                                                    $selected="";
+                                                                    if ($month == request()->get('month_ot')) {
+                                                                        $selected = "selected";
+                                                                    }
+                                                                ?>
+                                                                <option value="{{$month}}" <?php echo $selected;?>>{{$month}}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="input-group margin">
@@ -81,10 +101,21 @@
                                                                 <button type="button"
                                                                         class="btn width-100"> Year</button>
                                                             </div>
-                                                            <select name="year" class="form-control">
-                                                                <option></option>
-                                                                <option></option>
-                                                                <option></option>
+                                                            <select name="year_ot" class="form-control">
+                                                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                </option>
+                                                                <?php
+                                                                $selectedNow = ""; $selectedLessThanNow = "";
+                                                                    if(request()->get('year_ot')==date("Y")){
+                                                                        $selectedNow = "selected";
+                                                                    }
+                                                                if(request()->get('year_ot')==date("Y")-1){
+                                                                    $selectedLessThanNow = "selected";
+                                                                }
+                                                                ?>
+                                                                <option value="{{ date("Y") }}" <?php echo $selectedNow; ?>>{{ date("Y") }}</option>
+                                                                <option value="{{ date("Y")-1 }}" <?php echo $selectedLessThanNow; ?>>{{ date("Y")-1 }}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -104,33 +135,105 @@
                                 </div>
                                 <div style="float: right; margin-bottom: 15px;">
 	                                <label class="lable-entries" style="float: right;">{{trans('pagination.show.number_record_per_page')}}</label><br />
-	                                <select class="input-entries" style="float: right;">
-	                                    <option>10</option>
-	                                    <option>20</option>
-	                                    <option>30</option>
-	                                </select>
+                                    <select class="input-entries" id="mySelect" onchange="myFunction()">
+                                        <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
+                                        <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
+                                        <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
+                                    </select>
+                                    <script>
+                                        function myFunction() {
+                                            var x = document.getElementById("mySelect").value;
+                                            console.log(x);
+                                            $('#number_record_per_page').val(x);
+                                            $('#form_search_employee').submit()
+                                        }
+                                    </script>
 	                            </div>
                         	</div>
-                            <table id="" class="table table-bordered table-striped text-center">
+                            <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>Employee ID</th>
                                         <th>Name</th>
+                                        <th>Project</th>
                                         <th><span class="label" style="background: #9072ff;">Normal day</span></th>
                                         <th><span class="label" style="background: #643aff;">Day off</span></th>
                                         <th><span class="label" style="background: #3600ff;">Holiday</span></th>
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Nguyễn Văn D</td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
-                                        <td><span class="label label-success">2.5 hours<span></td>
+                                @foreach($employees as $employee)
+                                    <tr class="employee-menu" id="employee-id-{{$employee->id}}"
+                                        data-employee-id="{{$employee->id}}">
+                                        <td>{{ isset($employee->id)?$employee->id:'-' }}</td>
+                                        <td>{{ isset($employee->name)?$employee->name:'-' }}</td>
+                                        <td>
+                                            @foreach($employee->projects as $process)
+                                                @php
+                                                    echo $process->name.',';
+                                                @endphp
+                                            @endforeach
+                                        </td>
+                                        <?php
+                                        $date_ot = ""; $year_ot="";
+                                        if(request()->get('date_ot') !== null){
+                                            $date_ot= request()->get('date_ot');
+                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereDate('date', '=', $date_ot)->sum('total_time');
+                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereDate('date', '=', $date_ot)->sum('total_time');
+                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereDate('date', '=', $date_ot)->sum('total_time');
+                                        }elseif(request()->get('year_ot') !== null){
+                                            $year_ot= request()->get('year_ot');
+                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereYear('date', $year_ot)->sum('total_time');
+                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereYear('date', $year_ot)->sum('total_time');
+                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereYear('date', $year_ot)->sum('total_time');
+                                        }elseif(request()->get('month_ot') !== null){
+                                            $month_ot= request()->get('month_ot');
+                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereMonth('date', $month_ot)->sum('total_time');
+                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereMonth('date', $month_ot)->sum('total_time');
+                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereMonth('date', $month_ot)->sum('total_time');
+                                        }else{
+                                            $year_ot= request()->get('year_ot');
+                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereMonth('date', date('m'))->sum('total_time');
+                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereMonth('date', date('m'))->sum('total_time');
+                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereMonth('date', date('m'))->sum('total_time');
+                                        }
+                                        ?>
+                                        @if($sumNomarday > 0)
+                                        <td><span class="label label-success">{{ isset($sumNomarday)?$sumNomarday:'-' }}</span></td>
+                                        @else
+                                        <td><span class="">-</span></td>
+                                        @endif
+                                        @if($sumWeekend > 0)
+                                            <td><span class="label label-success">{{ isset($sumWeekend)?$sumWeekend:'-' }}</span></td>
+                                        @else
+                                            <td><span class="">-</span></td>
+                                        @endif
+                                        @if($sumHoliday > 0)
+                                            <td><span class="label label-success">{{ isset($sumHoliday)?$sumHoliday:'-' }}</span></td>
+                                        @else
+                                            <td><span class="">-</span></td>
+                                        @endif
+                                        <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
+                                            <li><a href="employee/{{$employee->id}}">
+                                                    <i class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a>
+                                            </li>
+                                        </ul>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
+                            <div class="row">
+                                @if($employees->hasPages())
+                                    <div class="col-sm-5">
+                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                            {{getInformationDataTable($employees)}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{  $employees->appends($param)->render('vendor.pagination.custom') }}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -148,4 +251,24 @@
             width: 90px;
         }
     </style>
+ <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
+ <script type="text/javascript">
+     $(function () {
+         $('tr.employee-menu').on('contextmenu', function (event) {
+             event.preventDefault();
+             $('ul.contextMenu').fadeOut("fast");
+             var eId = $(this).data('employee-id');
+             $('ul.contextMenu[data-employee-id="' + eId + '"]')
+                 .show()
+                 .css({top: event.pageY - 170, left: event.pageX - 250, 'z-index': 300});
+
+         });
+         $(document).click(function () {
+             if ($('ul.contextMenu:hover').length === 0) {
+                 $('ul.contextMenu').fadeOut("fast");
+             }
+         });
+     });
+
+ </script>
 @endsection
