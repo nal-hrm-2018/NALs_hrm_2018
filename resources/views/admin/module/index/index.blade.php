@@ -7,9 +7,12 @@
         .style-box {
             margin: 10px;
             padding: 10px;
-            border: 1px solid;
+            border-top: 3px solid #d2d6de;
             border-radius: 5px;
+            border-right: 3px solid #d2d6de;
             min-width: 250px;
+            color: white;
+            background: cornflowerblue;
         }
         .absence_head p{
             font-weight: bold;
@@ -72,6 +75,42 @@
         .highcharts-credits {
             display:none;
         }
+
+        .box-notification-red {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: red;
+            color: #777;
+        }
+
+        .box-notification-yellow {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: #f39c12;
+            color: #777;
+        }
+
+        .box-notification-green {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: green;
+            color: #777;
+        }
     </style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -94,7 +133,7 @@
                                                 @if($type->name == 'HR')
                                                     <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
                                                 @endif
-                                                @if($type->name == 'DOREMON')
+                                                @if($type->name == 'DORAEMON')
                                                     <label class="label bg-green" style="width: 40px; display: inline-block;">DRM</label>
                                                 @endif
                                             @endif
@@ -102,39 +141,37 @@
                                         <a href="#">
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu" style="color: #777;">
-                                            @foreach($notification_type as $type)
-                                                @if($note->notification_type_id == $type->id)
-                                                    @if($type->name == 'HD')
-                                                        <hr style="border-color: red;">
-                                                    @endif
-                                                    @if($type->name == 'HR')
-                                                        <hr style="border-color: #f39c12;">
-                                                    @endif
-                                                    @if($type->name == 'DOREMON')
-                                                        <hr style="border-color: green;">
-                                                    @endif
+                                        @foreach($notification_type as $type)
+                                            @if($note->notification_type_id == $type->id)
+                                                @if($type->name == 'HD')
+                                                    <ul class="treeview-menu box-notification-red">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
                                                 @endif
-                                            @endforeach
-                                            <div style="padding: 0px 20px;">
-                                                <?php
-                                                echo nl2br($note->content);
-                                                ?>
-                                            </div>
-                                            @foreach($notification_type as $type)
-                                                @if($note->notification_type_id == $type->id)
-                                                    @if($type->name == 'HD')
-                                                        <hr style="border-color: red;">
-                                                    @endif
-                                                    @if($type->name == 'HR')
-                                                        <hr style="border-color: #f39c12;">
-                                                    @endif
-                                                    @if($type->name == 'DOREMON')
-                                                        <hr style="border-color: green;">
-                                                    @endif
+                                                @if($type->name == 'HR')
+                                                    <ul class="treeview-menu box-notification-yellow">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
                                                 @endif
-                                            @endforeach
-                                        </ul>
+                                                @if($type->name == 'DORAEMON')
+                                                    <ul class="treeview-menu box-notification-green">
+                                                        <div style="padding: 0px 20px;">
+                                                            <?php
+                                                            echo nl2br($note->content);
+                                                            ?>
+                                                        </div>
+                                                    </ul>
+                                                @endif
+                                            @endif
+                                        @endforeach
                                     </li>
                                 @endforeach
                             </ul>

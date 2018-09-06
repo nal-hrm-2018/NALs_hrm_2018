@@ -152,7 +152,7 @@ class OTController extends Controller
                 $sttHoliday = 1;
             }
         }
-        //Kiểm tra co phải ngày nghĩ lễ đột xuất không
+        //Kiểm tra co phải ngày nghĩ lễ đột xuất k
         if ($sttHoliday == ""){
             $holiday = Holiday::all();
             foreach ($holiday as $holiday){
@@ -227,14 +227,15 @@ class OTController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OvertimeAddRequest $request, $id)
+    public function update(Request $request, $id)
     {
+
         $overtime = Overtime::where('delete_flag',0)->find($id);
         if ($overtime == null) {
             return abort(404);
         }
-        // $overtime->project_id = $request->project_id;
-        $overtime->date = $request->date;
+        $overtime->project_id = $request->project_id;
+        $overtime->date = $request->ot_date;
         $overtime->start_time = $request->start_time;
         $overtime->end_time = $request->end_time;
         // $overtime->overtime_type_id = $request->overtime_type_id;
@@ -242,7 +243,7 @@ class OTController extends Controller
         $overtime->reason = $request->reason;
         if($overtime->save()){
             \Session::flash('msg_success', trans('overtime.msg_edit.success'));
-            return redirect()->route('ot.edit',compact('id'));
+            return redirect('ot');
         }else{
             \Session::flash('msg_fail', trans('overtime.msg_edit.fail'));
             return back()->with(['ot' => $overtime]);

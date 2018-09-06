@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1" style="display: inline;">
-                                    <div style="float: right;">
+                                    <div>
                                         <button onclick="return confirm_add();" type="submit" class="btn btn-info">
                                             {{ trans('common.button.add')}}
                                         </button>

@@ -1,8 +1,8 @@
 @extends('admin.template')
 @section('content')
  <!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<section class="content-header">
+    <div class="content-wrapper">
+        <section class="content-header">
             <h1>
                 List OT
                 <small>NAL Solutions</small>
@@ -46,12 +46,12 @@
                                         <td>{{ $va->start_time }}</td>
                                         <td>{{ $va->end_time }}</td>
                                         @if(isset($va->total_time))
-                                            <td><span class="label label-success">{{ $va->total_time }}<span></td>
+                                            <td><span class="label label-primary">{{ $va->total_time }}<span></td>
                                         @else
                                             <td><span>-<span></td>
                                         @endif
                                         @if(isset($va->correct_total_time))
-                                            <td><span class="label label-warning">{{ $va->correct_total_time }}<span></td>
+                                            <td><span class="label label-success">{{ $va->correct_total_time }}<span></td>
                                         @else
                                             <td><span>-<span></td>
                                         @endif
@@ -123,7 +123,7 @@
                 </div>
             </div>
         </section>
-	</div>
+    </div>
      <script>
          function confirm_accept() {
              document.getElementById("action_bt").style.visibility = "hidden";
