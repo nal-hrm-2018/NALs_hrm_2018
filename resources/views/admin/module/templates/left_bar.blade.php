@@ -110,6 +110,9 @@
                 @if(Auth::user()->hasRole('PO'))
                     <li><a class="nav-item-part" href="{{ asset('ot/po-ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.overtime_management')}}</a></li>
                 @endif
+                @if(Auth::user()->hasRole('HR'))
+                    <li><a class="nav-item-part" href="{{ asset('ot/hr-ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.overtime_management')}}</a></li>
+                @endif
             </ul>
         </li>
         @if((Auth::user()->hasPermission('view_employee_absence_history')) || (Auth::user()->hasPermission('view_holiday_list')) || (Auth::user()->hasPermission('view_project_absence_history')) )
