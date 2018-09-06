@@ -180,7 +180,7 @@
                                             <td></td>
                                         @endif
                                         @if ($val->correct_total_time)
-                                            <td><span class="label label-primary">{{$val->correct_total_time}} hours</span></td>
+                                            <td><span class="label label-success">{{$val->correct_total_time}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
