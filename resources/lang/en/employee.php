@@ -72,6 +72,7 @@ return[
         'end_work'=>'End Date',
         'today'=>'Today',
         'year'=>'Year',
+        'total_ot' => 'Total Overtime'
     ],
     'msg_content'=>[
         'msg_download_employee_template'=>'Do you want to download the Employee Template?',
