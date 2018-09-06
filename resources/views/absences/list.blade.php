@@ -547,9 +547,12 @@
         .style-box {
             margin: 10px;
             padding: 10px;
-            border: 1px solid;
+            border-top: 3px solid #d2d6de;
             border-radius: 5px;
+            border-right: 3px solid #d2d6de;
             min-width: 250px;
+            color: white;
+            background: cornflowerblue;
         }
     </style>
 @endsection
