@@ -13,8 +13,8 @@
     </style>
 
  <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <section class="content-header">
+	<div class="content-wrapper">
+		<section class="content-header">
             <h1>
                 My overtime
                 <small>NAL Solutions</small>
@@ -180,7 +180,7 @@
                                             <td></td>
                                         @endif
                                         @if ($val->correct_total_time)
-                                            <td><span class="label label-primary">{{$val->correct_total_time}} hours</span></td>
+                                            <td><span class="label label-success">{{$val->correct_total_time}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
@@ -195,6 +195,9 @@
                                                 </button>
                                             {{ Form::close() }}
                                         </td>
+                                        @else
+                                            <td>-</td>
+                                            <td>-</td>
                                         @endif
                                     </tr>
                                     @endforeach
@@ -207,6 +210,7 @@
                                         @else
                                             <td>-</td>
                                         @endif
+                                        <td colspan="2" rowspan="3"></td>
                                     </tr>
                                     <tr>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>
@@ -231,7 +235,7 @@
                 </div>
             </div>
         </section>
-    </div>
+	</div>
     <script>
         function confirm_delete(){
             return confirm(message_confirm('{{trans('common.action.remove')}}','form',''));
