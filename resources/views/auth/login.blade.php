@@ -49,7 +49,7 @@
                             </label>
                         </div>
                         <br><br><br>
-                        <button type="submit" class="btn btn-dark button-login" style="outline: none;">{{ __('Login') }}</button>
+                        <button type="submit" class="btn btn-dark button-login" style="outline: none; color:white;">{{ __('Login') }}</button>
                     </form>
                     <!-- /.social-auth-links -->
 
