@@ -65,9 +65,19 @@ class EmployeeController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime');
-        // foreach($employees->get() as $val){
-        //     echo($val);
-        // }
+        foreach($employees->get() as $val){
+            $s = 0;
+            if(count($val->overtime)){
+                foreach($val->overtime as $v){
+                    $s += $v->correct_total_time;
+                }
+            }
+            // $data = json_decode($data,true); 
+            $val->overtime = $s;
+        }
+        foreach($employees->get() as $val){
+            echo $val;
+        }
         // dd($employees);
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
