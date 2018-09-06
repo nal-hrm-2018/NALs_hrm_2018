@@ -75,7 +75,7 @@
                                                         </div>
                                                     </ul>
                                                 @endif
-                                                @if($type->name == 'DOREMON')
+                                                @if($type->name == 'DORAEMON')
                                                     <ul class="treeview-menu box-notification-green">
                                                         <div style="padding: 0px 20px;">
                                                             <?php
@@ -112,7 +112,7 @@
                                                 @if($type->name == 'HR')
                                                     <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
                                                 @endif
-                                                @if($type->name == 'DOREMON')
+                                                @if($type->name == 'DORAEMON')
                                                     <label class="label bg-green" style="width: 40px; display: inline-block;">DRM</label>
                                                 @endif
                                             @endif
@@ -141,7 +141,7 @@
                                                         </div>
                                                     </ul>
                                                 @endif
-                                                @if($type->name == 'DOREMON')
+                                                @if($type->name == 'DORAEMON')
                                                     <ul class="treeview-menu box-notification-green">
                                                         <div style="padding: 0px 20px;">
                                                             <?php

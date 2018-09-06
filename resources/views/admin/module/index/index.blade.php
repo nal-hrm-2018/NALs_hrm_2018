@@ -161,7 +161,7 @@
                                                         </div>
                                                     </ul>
                                                 @endif
-                                                @if($type->name == 'DOREMON')
+                                                @if($type->name == 'DORAEMON')
                                                     <ul class="treeview-menu box-notification-green">
                                                         <div style="padding: 0px 20px;">
                                                             <?php
