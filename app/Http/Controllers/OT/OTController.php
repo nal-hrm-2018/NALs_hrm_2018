@@ -221,7 +221,7 @@ class OTController extends Controller
         if ($overtime == null) {
             return abort(404);
         }
-        // $overtime->project_id = $request->project_id;
+        $overtime->project_id = $request->project_id;
         $overtime->date = $request->ot_date;
         $overtime->start_time = $request->start_time;
         $overtime->end_time = $request->end_time;

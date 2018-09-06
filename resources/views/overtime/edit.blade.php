@@ -21,18 +21,19 @@
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
 	    					<div class="col-md-4">	
-		    					@if($ot_history->project)						
+		    					@if($projects)						
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
-								    <select class="form-control" id="project_id" name="project_id"
-								    	value="{!!
-								    	 old('project_id', isset($pro->project_id) ? $pro->project_id: $ot_history->project->project_id )
-								    	  !!}">
-										<option value="{{$ot_history->project->project_id}}" selected >{{$ot_history->project->name}}</option>				@foreach($projects as $pro)
-											@if($pro->name <> $ot_history->project->name)
-											<option  value="{{$pro->project_id}}">{{$pro->name}}</option>
-											@endif
-										@endforeach
+								    <select class="form-control" id="project_id" name="project_id">
+							    		@foreach($projects as $pro)
+							    			@php
+							    				$selected = "";
+								    			if($pro->id == old('project_id', isset($ot_history->project_id) ? $ot_history->project_id : null)){
+								    				$selected = "selected";
+								    			}
+							    			@endphp
+											<option  value="{{$pro->id}}" {{$selected}}>{{$pro->name}}</option>
+							    		@endforeach
 								    </select>
 								</div>
 		    					@endif	
