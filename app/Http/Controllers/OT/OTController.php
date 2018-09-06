@@ -230,7 +230,7 @@ class OTController extends Controller
         $overtime->reason = $request->reason;
         if($overtime->save()){
             \Session::flash('msg_success', trans('overtime.msg_edit.success'));
-            return redirect()->route('ot.edit',compact('id'));
+            return redirect('ot');
         }else{
             \Session::flash('msg_fail', trans('overtime.msg_edit.fail'));
             return back()->with(['ot' => $overtime]);
