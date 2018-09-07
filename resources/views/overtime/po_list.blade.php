@@ -36,15 +36,15 @@
                                     $i=0
                                 @endphp
                                 @foreach($OT[$i] as $value)
-                                    @foreach($value['project']['overtime'] as $va)
+                                    @foreach($value['project']['overtimeMonthNow'] as $va)
                                     <tr class="overtime-menu" >
                                         <td class="text-center" rowspan="">{{$i+1}}</td>
                                         <td rowspan="">{{ \App\Models\Project::where('id',$va->project_id)->first()->name }}</td>
                                         <td>{{ \App\Models\Employee::where('id',$va->employee_id)->first()->name }}</td>
-                                        <td class="text-center">{{ $va->date }}</td>
-                                        <td>{{ $va->reason }}</td>
-                                        <td class="text-center">{{ $va->start_time }}</td>
-                                        <td class="text-center">{{ $va->end_time }}</td>
+                                        <td class="text-center">{{ isset($va->date)?$va->date->format('d-m-Y'):'-' }}</td>
+                                        <td>{{ isset($va->reason)?$va->reason:'-' }}</td>
+                                        <td>{{ isset($va->start_time)?$va->start_time:'-' }}</td>
+                                        <td>{{ isset($va->end_time)?$va->end_time:'-' }}</td>
                                         @if(isset($va->total_time))
                                             <td class="text-center"><span class="label label-primary">{{ $va->total_time }} hours<span></td>
                                         @else

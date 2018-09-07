@@ -93,4 +93,8 @@ class Project extends Model
     {
         return $this->hasMany('App\Models\Overtime', 'project_id');
     }
+    public function overtimeMonthNow()
+    {
+        return $this->hasMany('App\Models\Overtime', 'project_id')->whereMonth('date',date('m'));
+    }
 }
