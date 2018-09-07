@@ -178,7 +178,7 @@
                                         @elseif($val->Status->name == 'Accepted')
                                             <td><span class="label label-success">{{$val->Status->name}}</span></td>
                                         @elseif($val->Status->name == 'Rejected')
-                                            <td><span class="label label-warning">{{$val->Status->name}}</span></td>
+                                            <td><span class="label label-danger">{{$val->Status->name}}</span></td>
                                         @else
                                             <td></td>
                                         @endif
