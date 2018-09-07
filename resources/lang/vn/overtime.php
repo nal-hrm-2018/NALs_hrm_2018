@@ -6,13 +6,19 @@
  * Time: 8:55 AM
  */
 return[
+    'number' => 'STT',
     'project' =>'Dự án',
     'date'=> 'Ngày tăng ca',
     'start_time'=> 'Thời gian bắt đầu',
     'end_time'=> 'Thời gian kết thúc',
     'total_time'=> 'Tổng thời gian',
     'reason' => 'Lý do',
-    'overtime_type_id' => 'Loại ngày',
+    'type' => 'Loại ngày',
+    'normal' => 'Ngày thường',
+    'day_off' => 'Ngày nghỉ',
+    'holiday' => 'Ngày lễ',
+    'total' => 'Tổng',
+    'hours' => 'Giờ',
     'correct_total_time' => 'Thời gian chấp nhận',
     'msg_add'=>[
         'success'=>'Thêm đơn tăng ca thành công!!!',

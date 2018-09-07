@@ -10,6 +10,9 @@
         .width-90 {
             width: 90px;
         }
+	.form-inline {
+	    display: inline;
+	}
     </style>
 
  <!-- Content Wrapper. Contains page content -->
@@ -140,7 +143,7 @@
                                         <th>Date type</th>
                                         <th>Status</th>
                                         <th>Accept time</th>
-                                        <th colspan="2">Actions</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -187,16 +190,13 @@
                                         @if ($val->Status->name == 'Not yet')
                                         <td>
                                             <a class="btn btn-default" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
-                                        </td>
-                                        <td>
-                                             {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete')) }}
+                                            {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete', 'class' => 'form-inline')) }}
                                                 <button type="submit" onclick="return confirm_delete();" class="btn btn-danger">
                                                     <em class="fa fa-trash"></em>
                                                 </button>
                                             {{ Form::close() }}
                                         </td>
                                         @else
-                                            <td>-</td>
                                             <td>-</td>
                                         @endif
                                     </tr>
@@ -206,7 +206,7 @@
                                         <td rowspan="3">Total</td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @if ($time['normal'])
-                                            <td><span class="label label-primary">{{$time['normal']}} hours</span></td>
+                                            <td><span class="label label-success">{{$time['normal']}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
@@ -215,7 +215,7 @@
                                     <tr>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>
                                         @if ($time['weekend'])
-                                            <td><span class="label label-primary">{{$time['weekend']}} hours</span></td>
+                                            <td><span class="label label-success">{{$time['weekend']}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
@@ -223,7 +223,7 @@
                                     <tr>
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         @if ($time['holiday'])
-                                            <td><span class="label label-primary">{{$time['holiday']}} hours</span></td>
+                                            <td><span class="label label-success">{{$time['holiday']}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
