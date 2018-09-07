@@ -12,12 +12,12 @@ return [
     | you want to customize your views to better match your application.
     |
     */
-    'title'=>'Danh sách Team',
+    'title'=>'Danh sách team',
     'id'=>'ID',
-    'name'=>'Tên Team',
+    'name'=>'Tên team',
     'po'=>'Tên PO',
-    'members'=>'Tên Thành Viên',
-    'number_of_member'=>'Số Lượng Thành Viên',
+    'members'=>'Tên thành viên',
+    'number_of_member'=>'Số lượng thành viên',
     'msg_fails' => 'msg_fail',
     'msg_success' => 'msg_success',
     'msg_error' => 'msg_error',
