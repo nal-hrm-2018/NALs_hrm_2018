@@ -75,7 +75,7 @@
                                         @elseif($name_overtime_status == "Rejected" )
                                         <td class="text-center"><span class="label label-danger">{{ $name_overtime_status }}<span></td>
                                         @else
-                                        <td >
+                                        <td class="text-center">
                                             <div id="action_bt">
                                                 <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success">
                                                     <i class="glyphicon glyphicon-ok"></i>&nbsp;
