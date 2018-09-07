@@ -153,19 +153,19 @@
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Employee ID</th>
+                                        <th class="text-center">Employee ID</th>
                                         <th>Name</th>
                                         <th>Project</th>
-                                        <th><span class="label" style="background: #9072ff;">Normal day</span></th>
-                                        <th><span class="label" style="background: #643aff;">Day off</span></th>
-                                        <th><span class="label" style="background: #3600ff;">Holiday</span></th>
+                                        <th class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></th>
+                                        <th class="text-center"><span class="label" style="background: #643aff;">Day off</span></th>
+                                        <th class="text-center"><span class="label" style="background: #3600ff;">Holiday</span></th>
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu">
                                 @foreach($employees as $employee)
                                     <tr class="employee-menu" id="employee-id-{{$employee->id}}"
                                         data-employee-id="{{$employee->id}}">
-                                        <td>{{ isset($employee->id)?$employee->id:'-' }}</td>
+                                        <td class="text-center">{{ isset($employee->id)?$employee->id:'-' }}</td>
                                         <td>{{ isset($employee->name)?$employee->name:'-' }}</td>
                                         <td>
                                             @foreach($employee->projects as $process)
@@ -199,19 +199,19 @@
                                         }
                                         ?>
                                         @if($sumNomarday > 0)
-                                        <td><span class="label label-success">{{ isset($sumNomarday)?$sumNomarday:'-' }}</span></td>
+                                        <td class="text-center"><span class="label label-success">{{ isset($sumNomarday)?$sumNomarday:'-' }}</span></td>
                                         @else
-                                        <td><span class="">-</span></td>
+                                        <td class="text-center"><span class="">-</span></td>
                                         @endif
                                         @if($sumWeekend > 0)
-                                            <td><span class="label label-success">{{ isset($sumWeekend)?$sumWeekend:'-' }}</span></td>
+                                            <td class="text-center"><span class="label label-success">{{ isset($sumWeekend)?$sumWeekend:'-' }}</span></td>
                                         @else
-                                            <td><span class="">-</span></td>
+                                            <td class="text-center"><span class="">-</span></td>
                                         @endif
                                         @if($sumHoliday > 0)
-                                            <td><span class="label label-success">{{ isset($sumHoliday)?$sumHoliday:'-' }}</span></td>
+                                            <td class="text-center"><span class="label label-success">{{ isset($sumHoliday)?$sumHoliday:'-' }}</span></td>
                                         @else
-                                            <td><span class="">-</span></td>
+                                            <td class="text-center"><span class="">-</span></td>
                                         @endif
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                                             <li><a href="{{ route('employee.show',['employee'=> $employee->id]) }}">
