@@ -7,6 +7,7 @@ use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Models\Employee;
+use App\Models\Overtime;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -57,7 +58,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
         if (!isset($this->request['number_record_per_page'])) {
             $this->request['number_record_per_page'] = config('settings.paginate');
         }
-
+        echo $this->request['number_record_per_page'];
         $params['search'] = [
             'id' => !empty($this->request->id) ? $this->request->id : '',
             'name' => !empty($this->request->name) ? $this->request->name : '',
@@ -108,7 +109,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
                 ->whereHas('teams', function ($query) use ($team) {
                     $query->where("name", 'like', '%' . $team . '%');
                 });
-        }
+        }        
         if (!empty($email)) {
             $query->Where('email', 'like', '%' . $email . '%');
         }
@@ -134,6 +135,12 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
         $employeesSearch = $query
             ->where('delete_flag', '=', 0)
             ->where('is_employee',1)->paginate($this->request['number_record_per_page']);
+
+            
+        foreach($employeesSearch as $val){
+            echo $val.'<br>';
+        }
+        die();
         foreach($employeesSearch as $val){
             $arr_team = $val->teams()->get();
             $string_team ="";
@@ -146,6 +153,22 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
                 }
             }
             $val->avatar = $string_team;
+        }
+        $newmonth = date('d');
+        $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
+        foreach($employeesSearch as $val){
+            $ots = $val->overtime()->get();
+            $s = 0;
+            foreach ($ots as $ot){
+                if(($ot->overtime_status_id == 3 || $ot->overtime_status_id == 4) && strtotime($ot->date) > strtotime($newmonth)){
+                    $s += $ot->correct_total_time;
+                }
+            }
+            if($s){
+                $val->updated_at = $s.' hours';
+            }else{
+                $val->updated_at  = '-';
+            }
         }
         return $employeesSearch->map(function(Employee $item) {
             if ($item->team_id == null){
@@ -190,7 +213,8 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             unset($item->is_employee);unset($item->company);
             unset($item->is_manager);
             unset($item->salary_id);unset($item->employee_type_id);
-            unset($item->updated_at);unset($item->last_updated_by_employee);
+            // unset($item->updated_at);
+            unset($item->last_updated_by_employee);
             unset($item->created_at);unset($item->created_by_employee);
             unset($item->delete_flag);
             unset($item->updated_by_employee);
@@ -237,7 +261,8 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             'NAME',
             'TEAM',
             'POSITION',
-            'STATUS'
+            'STATUS',
+            'OVERTIME'
         ];
     }
 
