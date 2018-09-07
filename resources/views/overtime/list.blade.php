@@ -130,20 +130,20 @@
                                     </select>
                                 </div>
                             </div>
-                            <table id="" class="table table-bordered table-striped text-center">
+                            <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>No.</th>
+                                        <th class="text-center">No.</th>
                                         <th>Name of Project</th>
-                                        <th>Date</th>
+                                        <th class="text-center">Date</th>
                                         <th>Reasons</th>
-                                        <th>From time</th>
-                                        <th>To time</th>
-                                        <th>Total time</th>
-                                        <th>Date type</th>
-                                        <th>Status</th>
-                                        <th>Accept time</th>
-                                        <th>Actions</th>
+                                        <th class="text-center">From time</th>
+                                        <th class="text-center">To time</th>
+                                        <th class="text-center">Total time</th>
+                                        <th class="text-center">Date type</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Accept time</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -155,40 +155,40 @@
                                         @php
                                             $i+=1;
                                         @endphp
-                                        <td>{{$i}}</td>
+                                        <td class="text-center">{{$i}}</td>
                                         <td>{{ isset($val->project->name)?$val->project->name:'-'}}</td>
-                                        <td>{{$val->date->format('d/m/Y')}}</td>
+                                        <td class="text-center">{{$val->date->format('d/m/Y')}}</td>
                                         <td>{{$val->reason}}</td>
-                                        <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
-                                        <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
-                                        <td><span class="label label-primary">{{$val->total_time}} hours<span></td>
+                                        <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
+                                        <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
+                                        <td class="text-center"><span class="label label-primary">{{$val->total_time}} hours<span></td>
                                         @if ($val->Type->name == 'normal')
-                                            <td><span class="label" style="background: #9072ff;">Normal day</span></td>
+                                            <td class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @elseif($val->Type->name == 'weekend')
-                                            <td><span class="label" style="background: #643aff;">Day off</span></td>
+                                            <td class="text-center"><span class="label" style="background: #643aff;">Day off</span></td>
                                         @elseif($val->Type->name == 'holiday')
-                                            <td><span class="label" style="background: #3600ff;">Holiday</span></td>
+                                            <td class="text-center"><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         @else
-                                            <td></td>
+                                            <td class="text-center"></td>
                                         @endif
                                         @if ($val->Status->name == 'Not yet')
-                                            <td><span class="label label-default">{{$val->Status->name}}</span></td>
+                                            <td class="text-center"><span class="label label-default">{{$val->Status->name}}</span></td>
                                         @elseif($val->Status->name == 'Reviewing')
-                                            <td><span class="label label-info">{{$val->Status->name}}</span></td>
+                                            <td class="text-center"><span class="label label-info">{{$val->Status->name}}</span></td>
                                         @elseif($val->Status->name == 'Accepted')
-                                            <td><span class="label label-success">{{$val->Status->name}}</span></td>
+                                            <td class="text-center"><span class="label label-success">{{$val->Status->name}}</span></td>
                                         @elseif($val->Status->name == 'Rejected')
-                                            <td><span class="label label-warning">{{$val->Status->name}}</span></td>
+                                            <td class="text-center"><span class="label label-danger">{{$val->Status->name}}</span></td>
                                         @else
-                                            <td></td>
+                                            <td class="text-center"></td>
                                         @endif
                                         @if ($val->correct_total_time)
-                                            <td><span class="label label-success">{{$val->correct_total_time}} hours</span></td>
+                                            <td class="text-center"><span class="label label-success">{{$val->correct_total_time}} hours</span></td>
                                         @else
-                                            <td>-</td>
+                                            <td class="text-center">-</td>
                                         @endif
                                         @if ($val->Status->name == 'Not yet')
-                                        <td>
+                                        <td class="text-center">
                                             <a class="btn btn-default" href="ot/{{$val->id}}/edit"><em class="fa fa-pencil"></em></a>
                                             {{ Form::open(array('url' => ['/ot', $val["id"]], 'method' => 'delete', 'class' => 'form-inline')) }}
                                                 <button type="submit" onclick="return confirm_delete();" class="btn btn-danger">
@@ -197,7 +197,7 @@
                                             {{ Form::close() }}
                                         </td>
                                         @else
-                                            <td>-</td>
+                                            <td class="text-center">-</td>
                                         @endif
                                     </tr>
                                     @endforeach
@@ -206,26 +206,26 @@
                                         <td rowspan="3">Total</td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @if ($time['normal'])
-                                            <td><span class="label label-success">{{$time['normal']}} hours</span></td>
+                                            <td class="text-center"><span class="label label-success">{{$time['normal']}} hours</span></td>
                                         @else
-                                            <td>-</td>
+                                            <td class="text-center">-</td>
                                         @endif
                                         <td colspan="2" rowspan="3"></td>
                                     </tr>
                                     <tr>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>
                                         @if ($time['weekend'])
-                                            <td><span class="label label-success">{{$time['weekend']}} hours</span></td>
+                                            <td class="text-center"><span class="label label-success">{{$time['weekend']}} hours</span></td>
                                         @else
-                                            <td>-</td>
+                                            <td class="text-center">-</td>
                                         @endif
                                     </tr>
                                     <tr>
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         @if ($time['holiday'])
-                                            <td><span class="label label-success">{{$time['holiday']}} hours</span></td>
+                                            <td class="text-center"><span class="label label-success">{{$time['holiday']}} hours</span></td>
                                         @else
-                                            <td>-</td>
+                                            <td class="text-center">-</td>
                                         @endif
                                     </tr>
                                 </tbody>
