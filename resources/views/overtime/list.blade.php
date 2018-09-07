@@ -206,7 +206,7 @@
                                         <td rowspan="3">Total</td>
                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @if ($time['normal'])
-                                            <td><span class="label label-primary">{{$time['normal']}} hours</span></td>
+                                            <td><span class="label label-success">{{$time['normal']}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
@@ -215,7 +215,7 @@
                                     <tr>
                                         <td><span class="label" style="background: #643aff;">Day off</span></td>
                                         @if ($time['weekend'])
-                                            <td><span class="label label-primary">{{$time['weekend']}} hours</span></td>
+                                            <td><span class="label label-success">{{$time['weekend']}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
@@ -223,7 +223,7 @@
                                     <tr>
                                         <td><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         @if ($time['holiday'])
-                                            <td><span class="label label-primary">{{$time['holiday']}} hours</span></td>
+                                            <td><span class="label label-success">{{$time['holiday']}} hours</span></td>
                                         @else
                                             <td>-</td>
                                         @endif
