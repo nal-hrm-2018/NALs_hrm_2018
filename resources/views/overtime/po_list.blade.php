@@ -99,7 +99,7 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="verify">Accept time</label>
-                                                            <input type="number" class="form-control" name="correct_total_time" id="correct_total_time">
+                                                            <input type="text" class="form-control" id="correct_total_time" name="correct_total_time">
                                                             <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label>
                                                         </div>
                                                     </div>
