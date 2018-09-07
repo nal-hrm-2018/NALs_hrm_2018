@@ -140,7 +140,7 @@
                                         <th>Date type</th>
                                         <th>Status</th>
                                         <th>Accept time</th>
-                                        <th colspan="2">Actions</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -194,7 +194,6 @@
                                             {{ Form::close() }}
                                         </td>
                                         @else
-                                            <td>-</td>
                                             <td>-</td>
                                         @endif
                                     </tr>
