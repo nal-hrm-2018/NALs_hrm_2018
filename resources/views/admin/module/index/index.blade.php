@@ -7,12 +7,14 @@
         .style-box {
             margin: 10px;
             padding: 10px;
-            border-top: 3px solid #d2d6de;
+            border: 3px solid #d2d6de;
             border-radius: 5px;
-            border-right: 3px solid #d2d6de;
             min-width: 250px;
-            color: white;
-            background: cornflowerblue;
+            color: black;
+            background: white;
+        }
+        .padding-20 {
+            padding: 0px 20px;
         }
         .absence_head p{
             font-weight: bold;
@@ -191,19 +193,19 @@
                             </button>
                         </div>
                         <div style="margin: 30px 0 0;">
-                            <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                            <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap; padding: 20px 0px;">
                                 <div>
                                     <div class="style-box">
                                         <p>
                                             - Số ngày được nghỉ phép:
                                             <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
                                         </p>
-                                        <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm nay:
+                                        <span class="padding-20">
+                                            + Số ngày phép năm nay:
                                             <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
                                         </span><br>
-                                        <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm trước:
+                                        <span class="padding-20">
+                                            + Số ngày phép năm trước:
                                             <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
                                         </span>
                                     </div><br />
@@ -220,12 +222,12 @@
                                             - Số ngày đã nghỉ:
                                             <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
                                         </p>
-                                        <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép năm nay:
+                                        <span class="padding-20">
+                                            + Trừ vào phép năm nay:
                                             <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
                                         </span><br>
-                                        <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Trừ vào phép năm trước:
+                                        <span class="padding-20">
+                                            + Trừ vào phép năm trước:
                                             <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
                                         </span>
 
@@ -243,12 +245,12 @@
                                             - Số ngày còn lại:
                                             <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
                                         </p>
-                                        <span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Số ngày phép năm nay:
+                                        <span class="padding-20">
+                                            + Số ngày phép năm nay:
                                             <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
                                         </span>
-                                        <span><br>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+Số ngày phép năm trước:
+                                        <span class="padding-20"><br>
+                                            + Số ngày phép năm trước:
                                             <span id="phepDu">{{$absences['phepDu']}}</span>
                                         </span>
                                         <span id='hanphep'>
