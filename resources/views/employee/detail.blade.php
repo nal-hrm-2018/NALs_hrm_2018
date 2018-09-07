@@ -343,7 +343,7 @@
                                                             <td>{{$val->reason}}</td>
                                                             <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
                                                             <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
-                                                            <td><span class="label label-primary">{{$val->total_time}}{{trans('overtime.hours')}}<span></td>
+                                                            <td><span class="label label-primary">{{$val->total_time}} {{trans('overtime.hours')}}<span></td>
                                                             @if ($val->type->name == 'normal')
                                                                 <td><span class="label" style="background: #9072ff;">{{trans('overtime.normal')}}</span></td>
                                                             @elseif($val->type->name == 'weekend')
