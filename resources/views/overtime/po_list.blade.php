@@ -18,17 +18,17 @@
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>{{ trans('overtime_po.stt') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.stt') }}</th>
                                         <th>{{ trans('overtime_po.project') }}</th>
                                         <th>{{ trans('overtime_po.employee') }}</th>
-                                        <th>{{ trans('overtime_po.date') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.date') }}</th>
                                         <th>{{ trans('overtime_po.reason') }}</th>
-                                        <th>{{ trans('overtime_po.from_time') }}</th>
-                                        <th>{{ trans('overtime_po.to_time') }}</th>
-                                        <th>{{ trans('overtime_po.number_time') }}</th>
-                                        <th>{{ trans('overtime_po.correct_total_time') }}</th>
-                                        <th>{{ trans('overtime_po.data_type') }}</th>
-                                        <th>{{ trans('overtime_po.action') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.from_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.to_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.number_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.data_type') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -38,44 +38,44 @@
                                 @foreach($OT[$i] as $value)
                                     @foreach($value['project']['overtimeMonthNow'] as $va)
                                     <tr class="overtime-menu" >
-                                        <td rowspan="">{{$i+1}}</td>
+                                        <td class="text-center" rowspan="">{{$i+1}}</td>
                                         <td rowspan="">{{ \App\Models\Project::where('id',$va->project_id)->first()->name }}</td>
                                         <td>{{ \App\Models\Employee::where('id',$va->employee_id)->first()->name }}</td>
-                                        <td>{{ isset($va->date)?$va->date->format('d-m-Y'):'-' }}</td>
+                                        <td class="text-center">{{ isset($va->date)?$va->date->format('d-m-Y'):'-' }}</td>
                                         <td>{{ isset($va->reason)?$va->reason:'-' }}</td>
                                         <td>{{ isset($va->start_time)?$va->start_time:'-' }}</td>
                                         <td>{{ isset($va->end_time)?$va->end_time:'-' }}</td>
                                         @if(isset($va->total_time))
-                                            <td><span class="label label-primary">{{ $va->total_time }} hours<span></td>
+                                            <td class="text-center"><span class="label label-primary">{{ $va->total_time }} hours<span></td>
                                         @else
-                                            <td><span>-<span></td>
+                                            <td class="text-center"><span>-<span></td>
                                         @endif
                                         @if(isset($va->correct_total_time))
-                                            <td><span class="label label-success">{{ $va->correct_total_time }} hours<span></td>
+                                            <td class="text-center"><span class="label label-success">{{ $va->correct_total_time }} hours<span></td>
                                         @else
-                                            <td><span>-<span></td>
+                                            <td class="text-center"><span>-<span></td>
                                         @endif
                                         @php
                                             $name_overtime_type = \App\Models\OvertimeType::find($va->overtime_type_id)->name;
                                         @endphp
                                         @if ($name_overtime_type == 'normal')
-                                            <td><span class="label" style="background: #9072ff;">Normal day</span></td>
+                                            <td class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @elseif($name_overtime_type == 'weekend')
-                                            <td><span class="label" style="background: #643aff;">Day off</span></td>
+                                            <td class="text-center"><span class="label" style="background: #643aff;">Day off</span></td>
                                         @elseif($name_overtime_type == 'holiday')
-                                            <td><span class="label" style="background: #3600ff;">Holiday</span></td>
+                                            <td class="text-center"><span class="label" style="background: #3600ff;">Holiday</span></td>
                                         @else
-                                            <td>-</td>
+                                            <td class="text-center">-</td>
                                         @endif
                                         @php
                                             $name_overtime_status = \App\Models\OvertimeStatus::find($va->overtime_status_id)->name;
                                         @endphp
                                         @if( $name_overtime_status == "Accepted")
-                                        <td><span class="label label-success">{{ $name_overtime_status }}<span></td>
+                                        <td class="text-center"><span class="label label-success">{{ $name_overtime_status }}<span></td>
                                         @elseif($name_overtime_status == "Rejected" )
-                                        <td><span class="label label-danger">{{ $name_overtime_status }}<span></td>
+                                        <td class="text-center"><span class="label label-danger">{{ $name_overtime_status }}<span></td>
                                         @else
-                                        <td>
+                                        <td >
                                             <div id="action_bt">
                                                 <a href="/ot/po-ot/{{$va->id}}"  class="btn btn-success">
                                                     <i class="glyphicon glyphicon-ok"></i>&nbsp;
