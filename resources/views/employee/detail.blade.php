@@ -326,7 +326,7 @@
                                                         <td>thích</td>
                                                         <td>17h30</td>
                                                         <td>20h00</td>
-                                                        <td><span class="label label-success">2.5 hours<span></td>
+                                                        <td><span class="label label-primary">2.5 hours<span></td>
                                                         <td><span class="label" style="background: #9072ff;">Normal day</span></td>
                                                         <td><span class="label label-danger">Reject</span></td>
                                                         <td><span class="label label-success">1.5 hours</span></td>
