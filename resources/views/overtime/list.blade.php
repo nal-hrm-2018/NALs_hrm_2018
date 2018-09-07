@@ -10,6 +10,9 @@
         .width-90 {
             width: 90px;
         }
+	.form-inline {
+	    display: inline;
+	}
     </style>
 
  <!-- Content Wrapper. Contains page content -->
