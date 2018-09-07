@@ -257,7 +257,7 @@ class EmployeeController extends Controller
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
-        $employee->address = $request->address;
+        $employee->address = preg_replace('/\s+/', ' ',$request->address);
         $employee->marital_status = $request->marital_status;
         //upload hinh from hunganh
         if($request->file('picture')){
