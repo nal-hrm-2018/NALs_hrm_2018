@@ -12,6 +12,7 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
+    'max_totaltime'        => 'You have entered wrong number time. Please try again!',
     'min_total_time'       => 'The :attribute must be an integer ',
     'correct_total_time'   => 'The :attribute must be an integer ',
     'accepted'             => 'The :attribute must be accepted.',

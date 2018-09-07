@@ -16,7 +16,7 @@ opacity: 0;
 -webkit-transition: opacity .3s 0s, visibility 0s .3s;
 -moz-transition: opacity .3s 0s, visibility 0s .3s;
 transition: opacity .3s 0s, visibility 0s .3s;
-border-radius: 10px;
+border-radius: 50%;
 }
 a.cd-top.cd-is-visible, a.cd-top.cd-fade-out, .no-touch a.cd-top:hover {
 -webkit-transition: opacity .3s 0s, visibility 0s 0s;

@@ -6,14 +6,20 @@
  * Time: 8:55 AM
  */
 return[
+    'number' => 'No.',
     'project' =>'Project',
     'date'=> 'Date',
     'start_time'=> 'Start time',
     'end_time'=> 'End time',
     'total_time'=> 'Number time',
     'reason' => 'Reason',
-    'overtime_type_id' => 'Date type',
-    'correct_total_time' => 'correct total time',
+    'type' => 'Date type',
+    'normal' => 'Normal day',
+    'day_off' => 'Day off',
+    'holiday' => 'Holiday',
+    'total' => 'Total',
+    'hours' => 'Hours',
+    'correct_total_time' => 'Accepted time',
     'msg_add'=>[
         'success'=>'Overtime is successfully created !!!',
         'fail'=>'Overtime failed created!!!',

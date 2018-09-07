@@ -11,9 +11,9 @@ return[
     'edit'=> 'Sửa',
     'add'=> 'Thêm',
     'new'=> 'Thông báo mới',
-    'title' => 'Tiêu Đề',
-    'content' => 'Nội Dung',
-    'notification_id' => 'Loại Thông Báo',
+    'title' => 'Tiêu đề',
+    'content' => 'Nộidung',
+    'notification_id' => 'Loại thông báo',
     'msg_add'=>[
         'success'=>'Thêm thông báo thành công!!!',
         'fail'=>'Thêm thông báo không thành công!!!',

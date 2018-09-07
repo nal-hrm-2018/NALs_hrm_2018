@@ -15,5 +15,5 @@ return [
     'role' => 'ROLE',
     'member' => 'MEMBER',
     'project' => 'Projects',
-    'project_dev' => 'Joined Projects'
+    'project_dev' => 'Joined projects'
 ];

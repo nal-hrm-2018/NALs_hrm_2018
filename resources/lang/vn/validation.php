@@ -10,7 +10,7 @@ return [
     | as the size rules. Feel free to tweak each of these messages.
     |
     */
-
+    'max_totaltime'        => 'Bạn đã nhập sai số thời gian. Vui lòng thử lại!',
     'min_total_time'       => 'Trường :attribute phải là số dương.',
     'correct_total_time'   => 'Trường :attribute phải là số dương.',
     'accepted'             => 'Trường :attribute phải được chấp nhận.',

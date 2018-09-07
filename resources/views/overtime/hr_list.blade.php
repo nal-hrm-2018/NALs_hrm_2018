@@ -214,7 +214,7 @@
                                             <td><span class="">-</span></td>
                                         @endif
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
-                                            <li><a href="employee/{{$employee->id}}">
+                                            <li><a href="{{ route('employee.show',['employee'=> $employee->id]) }}">
                                                     <i class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a>
                                             </li>
                                         </ul>

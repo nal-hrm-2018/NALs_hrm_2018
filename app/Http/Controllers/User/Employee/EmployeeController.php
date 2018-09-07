@@ -204,7 +204,30 @@ class EmployeeController extends Controller
         //set list years
         $listYears = $this->chartService->getListYear($employee);
 
+        $overtime = Overtime::select()
+                    ->where('employee_id', $id)
+                    ->WhereMonth(('date'), date('m'))
+                    ->where('delete_flag', '=', 0)
+                    ->whereHas('status',function($query) {
+                        $query->where('name','Accepted')->orWhere('name','Rejected');
+                    })
+                    ->get()->sortBy('date');
+        $normal = 0;
+        $weekend = 0;
+        $holiday = 0;
+        foreach($overtime as $val){
+            if($val->type->name == 'normal'){
+                $normal += $val->correct_total_time;
+            }elseif($val->type->name == 'weekend'){
+                $weekend += $val->correct_total_time;
+            }elseif($val->type->name == 'holiday'){
+                $holiday += $val->correct_total_time;
+            }
+        }
+        $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
         return view('employee.detail', compact(
+            'overtime',
+            'time',
             'employee',
             'processes',
             'listValue',
@@ -257,7 +280,7 @@ class EmployeeController extends Controller
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
-        $employee->address = $request->address;
+        $employee->address = preg_replace('/\s+/', ' ',$request->address);
         $employee->marital_status = $request->marital_status;
         //upload hinh from hunganh
         if($request->file('picture')){
