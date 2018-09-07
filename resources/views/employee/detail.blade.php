@@ -363,7 +363,7 @@
                                                         <td rowspan="3">{{trans('overtime.total')}}</td>
                                                         <td><span class="label" style="background: #9072ff;">{{trans('overtime.normal')}}</span></td>
                                                          @if ($time['normal'])
-                                                            <td class="text-center"><span class="label label-primary">{{$time['normal']}} {{trans('overtime.hours')}}</span></td>
+                                                            <td class="text-center"><span class="label label-success">{{$time['normal']}} {{trans('overtime.hours')}}</span></td>
                                                         @else
                                                             <td class="text-center">-</td>
                                                         @endif
@@ -371,7 +371,7 @@
                                                     <tr>
                                                         <td><span class="label" style="background: #643aff;">{{trans('overtime.day_off')}}</span></td>
                                                         @if ($time['weekend'])
-                                                            <td class="text-center"><span class="label label-primary">{{$time['weekend']}} {{trans('overtime.hours')}}</span></td>
+                                                            <td class="text-center"><span class="label label-success">{{$time['weekend']}} {{trans('overtime.hours')}}</span></td>
                                                         @else
                                                             <td class="text-center">-</td>
                                                         @endif
@@ -379,10 +379,10 @@
                                                     <tr>
                                                         <td><span class="label" style="background: #3600ff;">{{trans('overtime.holiday')}}</span></td>
                                                         @if ($time['holiday'])
-                                                            <td class="text-center"><span class="label label-primary">{{$time['holiday']}} {{trans('overtime.hours')}}</span></td>
+                                                            <td class="text-center"><span class="label label-success">{{$time['holiday']}} {{trans('overtime.hours')}}</span></td>
                                                         @else
                                                             <td class="text-center">-</td>
-                                                            
+
                                                         @endif
                                                     </tr>
                                                 </tbody>
