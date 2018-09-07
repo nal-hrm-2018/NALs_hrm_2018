@@ -1,5 +1,16 @@
 @extends('admin.template')
 @section('content')
+    <style type="text/css">
+        .table tbody tr td {
+            vertical-align: middle;
+        }
+        .table thead tr th {
+            vertical-align: middle;
+        }
+        .width-90 {
+            width: 90px;
+        }
+    </style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -27,7 +38,7 @@
                         <a id="tab-project" href="#project" data-toggle="tab">{{trans('project.title')}}</a>
                     </li>
                     <li>
-                        <a id="tab-overtime" href="#overtime" data-toggle="tab">Overtime</a>
+                        <a id="tab-overtime" href="#overtime" data-toggle="tab">{{trans('common.title_header.overtime')}}</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -214,7 +225,7 @@
                                 <div class="col-xs-12">
                                     <div class="box">
                                         <div class="box-body">
-                                            <div>
+                                            {{-- <div>
                                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demooo" id="clickCollapse">
                                                     <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                                                 </button>
@@ -302,48 +313,76 @@
                                                         <option>30</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <table id="" class="table table-bordered table-striped text-center">
                                                 <thead>
                                                     <tr>
-                                                        <th>No.</th>
-                                                        <th>Name of Project</th>
-                                                        <th>Date</th>
-                                                        <th>Reasons</th>
-                                                        <th>From time</th>
-                                                        <th>To time</th>
-                                                        <th>Number time</th>
-                                                        <th>Date type</th>
-                                                        <th>Status</th>
-                                                        <th>Accept time</th>
+                                                        <th>{{trans('overtime.number')}}</th>
+                                                        <th>{{trans('overtime.project')}}</th>
+                                                        <th>{{trans('overtime.date')}}</th>
+                                                        <th>{{trans('overtime.reason')}}</th>
+                                                        <th>{{trans('overtime.start_time')}}</th>
+                                                        <th>{{trans('overtime.end_time')}}</th>
+                                                        <th>{{trans('overtime.total_time')}}</th>
+                                                        <th>{{trans('overtime.type')}}</th>
+                                                        <th>{{trans('overtime.correct_total_time')}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>EM</td>
-                                                        <td>02/08/2018</td>
-                                                        <td>thích</td>
-                                                        <td>17h30</td>
-                                                        <td>20h00</td>
-                                                        <td><span class="label label-success">2.5 hours<span></td>
-                                                        <td><span class="label" style="background: #9072ff;">Normal day</span></td>
-                                                        <td><span class="label label-danger">Reject</span></td>
-                                                        <td><span class="label label-success">1.5 hours</span></td>
-                                                    </tr>
+                                                    @php
+                                                        $count =0;
+                                                    @endphp
+                                                    @foreach($overtime as $val)
+                                                        @php
+                                                            $count++;
+                                                        @endphp
+                                                        <tr>
+                                                            <td>{{$count}}</td>
+                                                            <td>{{ isset($val->project->name)?$val->project->name:'-'}}</td>
+                                                            <td>{{$val->date->format('d/m/Y')}}</td>
+                                                            <td>{{$val->reason}}</td>
+                                                            <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
+                                                            <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
+                                                            <td><span class="label label-primary">{{$val->total_time}}{{trans('overtime.hours')}}<span></td>
+                                                            @if ($val->type->name == 'normal')
+                                                                <td><span class="label" style="background: #9072ff;">{{trans('overtime.normal')}}</span></td>
+                                                            @elseif($val->type->name == 'weekend')
+                                                                <td><span class="label" style="background: #643aff;">{{trans('overtime.day_off')}}</span></td>
+                                                            @else($val->type->name == 'holiday')
+                                                                <td><span class="label" style="background: #3600ff;">{{trans('overtime.holiday')}}</span></td>
+                                                            @endif    
+                                                            @if ($val->correct_total_time)
+                                                                <td><span class="label label-success">{{$val->correct_total_time}} {{trans('overtime.hours')}}</span></td>
+                                                            @else
+                                                                <td>-</td>
+                                                            @endif
+                                                        </tr>
+                                                    @endforeach
                                                     <tr>
                                                         <td colspan="6" rowspan="3"></td>
-                                                        <td rowspan="3">Total</td>
-                                                        <td><span class="label" style="background: #9072ff;">Normal day</span></td>
-                                                        <td><span class="label label-success">6 hours</span></td>
+                                                        <td rowspan="3">{{trans('overtime.total')}}</td>
+                                                        <td><span class="label" style="background: #9072ff;">{{trans('overtime.normal')}}</span></td>
+                                                         @if ($time['normal'])
+                                                            <td><span class="label label-primary">{{$time['normal']}} {{trans('overtime.hours')}}</span></td>
+                                                        @else
+                                                            <td>-</td>
+                                                        @endif
                                                     </tr>
                                                     <tr>
-                                                        <td><span class="label" style="background: #643aff;">Day off</span></td>
-                                                        <td><span class="label label-success">6 hours</span></td>
+                                                        <td><span class="label" style="background: #643aff;">{{trans('overtime.day_off')}}</span></td>
+                                                        @if ($time['weekend'])
+                                                            <td><span class="label label-primary">{{$time['weekend']}} {{trans('overtime.hours')}}</span></td>
+                                                        @else
+                                                            <td>-</td>
+                                                        @endif
                                                     </tr>
                                                     <tr>
-                                                        <td><span class="label" style="background: #3600ff;">Holiday</span></td>
-                                                        <td><span class="label label-success">6 hours</span></td>
+                                                        <td><span class="label" style="background: #3600ff;">{{trans('overtime.holiday')}}</span></td>
+                                                        @if ($time['holiday'])
+                                                            <td><span class="label label-primary">{{$time['holiday']}} {{trans('overtime.hours')}}</span></td>
+                                                        @else
+                                                            <td>-</td>
+                                                        @endif
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -490,15 +529,4 @@
             $('#form_search_process').trigger("reset");
         });
     </script>
-    <style type="text/css">
-        .table tbody tr td {
-            vertical-align: middle;
-        }
-        .table thead tr th {
-            vertical-align: middle;
-        }
-        .width-90 {
-            width: 90px;
-        }
-    </style>
 @endsection

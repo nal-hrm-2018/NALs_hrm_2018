@@ -10,13 +10,13 @@ box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 overflow: hidden;
 text-indent: 100%;
 white-space: nowrap;
-background: #3097D1 url("https://thinhweb.com/wp-content/themes/thinhweb/images/cd-top-arrow.svg") no-repeat center 50%;
+background: #721799 url("https://thinhweb.com/wp-content/themes/thinhweb/images/cd-top-arrow.svg") no-repeat center 50%;
 visibility: hidden;
 opacity: 0;
 -webkit-transition: opacity .3s 0s, visibility 0s .3s;
 -moz-transition: opacity .3s 0s, visibility 0s .3s;
 transition: opacity .3s 0s, visibility 0s .3s;
-border-radius: 10px;
+border-radius: 50%;
 }
 a.cd-top.cd-is-visible, a.cd-top.cd-fade-out, .no-touch a.cd-top:hover {
 -webkit-transition: opacity .3s 0s, visibility 0s 0s;

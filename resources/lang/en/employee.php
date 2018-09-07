@@ -2,7 +2,7 @@
 return[
 
     'drop_box'=>[
-        'placeholder-default' => 'Please Select'
+        'placeholder-default' => 'Please select'
     ],
     'basic'=>'Basic',
     'info'=>'information',
@@ -10,12 +10,12 @@ return[
     'new'=>'New Employee',
     'this_month'=> ' In '.date('F'),
     'status'=>[
-        'status'=>'Employee Status',
+        'status'=>'Employee status',
         'active'=>'Active employee',
         'leaved'=>'Leaved employee'
     ],
     'type'=>[
-        'type'=>'Employee Type',
+        'type'=>'Employee type',
         'official'=>'Official ',
         'probationary'=>'Probationary',
         'internship'=>'Internship',
@@ -26,13 +26,13 @@ return[
         'id'=>'Employee ID',
         'short_id'=>'ID',
         'picture'=>'Picture',
-        'title'=>'Profile Information',
+        'title'=>'Profile information',
         'long_name'=>'Employee Name',
         'name'=>'Name',
         'email'=>'Email',
         'email'=>'Email',
         'password'=>'Password',
-        'password_confirm'=>'Password Confirm',
+        'password_confirm'=>'Confirm password',
         'old_password'=>'Old Password',
         'new_password'=>'New Password',
         'status'=>'Status',
@@ -50,7 +50,7 @@ return[
         'phone'=>'Phone',
         'address'=>'Address',
         'marital_status'=>[
-            'title'=>'Marital Status',
+            'title'=>'Marital status',
             'single'=>'Single',
             'married'=>'Married',
             'separated'=>'Separated',
@@ -58,18 +58,18 @@ return[
         ],
         'team'=>'Team',
         'role'=>'Position',
-        'policy_date'=>'Policy Date',
+        'policy_date'=>'Policy date',
         'policy_status'=>[
-            'title'=>'Policy Status',
+            'title'=>'Policy status',
             'active'=>'Active',
             'expired'=>'Expired',
             'quited'=>'Quited',
         ],
         'avatar'=>'Avatar',
 
-        'position'=>'Policy Type',
-        'start_work'=>'Start Date',
-        'end_work'=>'End Date',
+        'position'=>'Policy type',
+        'start_work'=>'Start date',
+        'end_work'=>'End date',
         'today'=>'Today',
         'year'=>'Year',
         'total_ot' => 'Total Overtime'

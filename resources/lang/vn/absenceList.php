@@ -22,15 +22,15 @@ return [
         
         'status'=>[
             config('settings.status_common.absence.waiting')=>'Đang xử lý',
-            config('settings.status_common.absence.accepted')=>'Được Nghỉ',
-            config('settings.status_common.absence.rejected')=>'Không Được Nghỉ',
+            config('settings.status_common.absence.accepted')=>'Được nghỉ',
+            config('settings.status_common.absence.rejected')=>'Không được nghỉ',
             'accepted_done'=>'Đồng ý nghỉ',
 //            'accepted_deny'=>'Đồng ý hủy',
             'no_accepted_done'=>'Không được nghỉ',
             'no_accepted_deny'=>'Không được hủy',
             'just_watching'=>'Chỉ được xem',
-            'absence_accepted'=>'Được Nghỉ',
-            'absence_rejected'=>'Không Được Nghỉ',
+            'absence_accepted'=>'Được nghỉ',
+            'absence_rejected'=>'Không được nghỉ',
 //            'no_accepted_deny'=>'Không được hủy',
             'just_watching'=>'Chỉ được xem'
         ],

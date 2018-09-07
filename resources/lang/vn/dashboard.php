@@ -15,5 +15,5 @@ return [
     'role' => 'Vai trò',
     'member' => 'Thành viên',
     'project' => 'Dự án',
-    'project_dev' => 'Dự Án Tham Gia'
+    'project_dev' => 'Dự án tham gia'
 ];
