@@ -50,13 +50,14 @@ return [
         'form_search' => 'Form Tìm Kiếm'
     ],
     'title_header'=>[
+        'overtime'=> 'Tăng ca',
         'project_list'=>'Danh sách dự án',
         'employee_detail'=>'Thông tin nhân viên',
         'vendor_list'=>'Danh sách nhân viên ngoài',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Chi tiết dự án',
         'absence_list'=>'Danh sách vắng nghỉ',
-        'absence_list_holiday'=>'Danh sách ngày nghỉ',
+        'absence_list_holiday'=>'Danh sách ngày lễ',
         'absence_detail'=>'Danh sách xin vắng làm',
         'notification_list'=>'Danh sách thông báo'
     ],
@@ -91,7 +92,7 @@ return [
         'po_project'=>'PO dự án',
         'confirmation'=>'Xác nhận',
         'statistic'=>'Thống kê',
-        'edit_overtime'=>'Chỉnh sửa đơn làm ngoài giờ',
+        'edit_overtime'=>'Chỉnh sửa đơn tăng ca',
     ],
     'action'=>[
         'view'=>'Chi tiết',
@@ -122,8 +123,8 @@ return [
     ],
     'header'=>[
         'welcome'=>'Chào',
-        'member_since'=>'Ngày Bắt Đầu',
-        'update_profile'=>'Trang Cá Nhân',
+        'member_since'=>'Ngày bắt đầu',
+        'update_profile'=>'Trang cá nhân',
         'logout'=>'Đăng Xuất',
         'confirm_logout'=>'đăng xuất',
     ],
@@ -161,7 +162,7 @@ return [
         'december'=>'Tháng 12'
     ],
     'donut_chart' => 'Biểu đồ',
-    'notifications' => 'Thông Báo',
+    'notifications' => 'Thông báo',
     'history_notifications' => 'Lịch sử thông báo',
-    'absences' => 'Vắng Nghỉ'
+    'absences' => 'Vắng nghỉ'
 ];
