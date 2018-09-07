@@ -53,12 +53,13 @@ return [
         'form_search' => 'Search Form'
     ],
     'title_header'=>[
+        'overtime'=> 'Overtime',
         'project_list'=> 'Project List',
         'employee_detail'=>'Employee Detail',
         'vendor_list'=>'Vendor List',
         'nal_solution' =>'Nal solutions',
         'project_detail'=>'Project Detail',
-        'absence_list'=>'Absence list',
+        'absence_list'=>'Absence List',
         'absence_detail'=>'Absence List',
         'absence_list_holiday'=>'Holiday List',
         'notification_list'=>'Notification List'
@@ -91,7 +92,7 @@ return [
         'list_vendor'=>'Vendor List',
         'add_vendor'=>'Add Vendor',
         'edit_vendor'=>'Edit Vendor',
-        'list_team'=>'List Team',
+        'list_team'=>'Team List',
         'add_team'=>'Add Team',
         'edit_team'=>'Edit Team',
         'po_project'=>'PO Project',
@@ -102,7 +103,7 @@ return [
     'action'=>[
         'view'=>'View',
         'edit'=>'Edit',
-        'remove'=>'delete',
+        'remove'=>'Delete',
         'add'=>'Add',
         'reset'=>'Reset'
     ],
@@ -168,8 +169,8 @@ return [
         'november'=>'November',
         'december'=>'December'
     ],
-    'donut_chart' => 'Donut Chart',
+    'donut_chart' => 'Donut chart',
     'notifications' => 'Notifications',
-    'history_notifications' => 'History Notifications',
+    'history_notifications' => 'Notification History',
     'absences' => 'Absences'
 ];

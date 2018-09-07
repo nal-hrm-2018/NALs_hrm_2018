@@ -65,13 +65,23 @@ class EmployeeController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime');
-        // foreach($employees->get() as $val){
-        //     echo($val);
-        // }
-        // dd($employees);
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
-        
+        $newmonth = date('d');
+        $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
+        foreach($employees as $val){
+            $s = 0;
+            if(count($val->overtime)){
+                foreach($val->overtime as $ot){
+                    if(($ot->overtime_status_id == 3 || $ot->overtime_status_id == 4) && strtotime($ot->date) > strtotime($newmonth)){
+                        $s += $ot->correct_total_time;
+                    }
+                }
+            }
+            // $data = json_decode($data,true); 
+            unset($val->overtime );
+            $val->overtime = $s;
+        }
         $param = (Input::except(['page','is_employee']));
         $id=Auth::user()->id;
         $overtime_status = OvertimeStatus::select('id')->where('name', 'Not yet')->first();
@@ -247,7 +257,7 @@ class EmployeeController extends Controller
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
-        $employee->address = $request->address;
+        $employee->address = preg_replace('/\s+/', ' ',$request->address);
         $employee->marital_status = $request->marital_status;
         //upload hinh from hunganh
         if($request->file('picture')){

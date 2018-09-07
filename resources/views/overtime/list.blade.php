@@ -10,14 +10,11 @@
         .width-90 {
             width: 90px;
         }
-        .form-inline {
-            display: inline;
-        }
     </style>
 
  <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <section class="content-header">
+	<div class="content-wrapper">
+		<section class="content-header">
             <h1>
                 My overtime
                 <small>NAL Solutions</small>
@@ -143,7 +140,7 @@
                                         <th>Date type</th>
                                         <th>Status</th>
                                         <th>Accept time</th>
-                                        <th>Actions</th>
+                                        <th colspan="2">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -198,6 +195,7 @@
                                         </td>
                                         @else
                                             <td>-</td>
+                                            <td>-</td>
                                         @endif
                                     </tr>
                                     @endforeach
@@ -235,7 +233,7 @@
                 </div>
             </div>
         </section>
-    </div>
+	</div>
     <script>
         function confirm_delete(){
             return confirm(message_confirm('{{trans('common.action.remove')}}','form',''));

@@ -23,9 +23,11 @@
 
         public function rules(Request $request)
         {
-            $start_time = date('H', strtotime($request->start_time));
-            $end_time = date('H', strtotime($request->end_time));
-            $max_time = $end_time - $start_time;
+            $start_time_H = date('H', strtotime($request->start_time));
+            $start_time_I = date('i', strtotime($request->start_time));
+            $end_time_H = date('H', strtotime($request->end_time));
+            $end_time_I = date('i', strtotime($request->end_time));
+            $max_time = ($end_time_H*60+$end_time_I)/60 - ($start_time_H*60+$start_time_I)/60;
             $project = new Process();
             $countProject = $project->countProcess();
             if($countProject > 0){
@@ -82,9 +84,7 @@
                 'total_time.min' => trans('validation.min_total_time', [
                     'attribute' => trans('overtime.total_time')
                 ]),
-                'total_time.max' => trans('validation.max.numeric', [
-                    'attribute' => trans('overtime.total_time'),
-                ]),
+                'total_time.max' => trans('validation.max_totaltime'),
                 'reason.required' => trans('validation.required', [
                     'attribute' => trans('overtime.reason')
                 ])

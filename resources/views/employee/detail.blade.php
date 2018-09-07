@@ -27,7 +27,7 @@
                         <a id="tab-project" href="#project" data-toggle="tab">{{trans('project.title')}}</a>
                     </li>
                     <li>
-                        <a id="tab-overtime" href="#overtime" data-toggle="tab">Overtime</a>
+                        <a id="tab-overtime" href="#overtime" data-toggle="tab">{{trans('common.title_header.overtime')}}</a>
                     </li>
                 </ul>
                 <div class="tab-content">

@@ -4,13 +4,13 @@ return[
     'drop_box'=>[
         'placeholder-default' => 'Chọn'
     ],
-    'basic'=>'Thông Tin Cơ Bản',
+    'basic'=>'Thông tin cơ bản',
     'info'=>'thông tin',
     'employee'=>'Nhân Viên',
     'new'=> 'Nhân Viên Mới',
     'this_month'=> ' Trong Tháng '.date('n'),
     'status'=>[
-       'status'=>'Tình Trạng Nhân Viên',
+       'status'=>'Tình trạng nhân viên',
        'active'=>'Đang làm việc',
        'leaved'=>'Đã nghỉ việc'
     ],
@@ -66,11 +66,12 @@ return[
         ],
         'avatar'=>'Ảnh đại diện',
 
-        'position'=>'Loại Hợp đồng',
-        'start_work'=>'Ngày Bắt Đầu Làm',
-        'end_work'=>'Ngày Kết Thúc Làm',
-        'today'=>'Ngày Hiện Tại',
+        'position'=>'Loại hợp đồng',
+        'start_work'=>'Ngày bắt đầu làm',
+        'end_work'=>'Ngày kết thúc làm',
+        'today'=>'Ngày hiện tại',
         'year'=>'Năm',
+        'total_ot' => 'Tổng Làm Ngoài Giờ'
     ],
     'msg_content'=>[
         'msg_download_employee_template'=>'Bạn có muốn tải về mẫu danh sách nhân viên không?',

@@ -104,7 +104,7 @@
                     @endif
                     <?php
                     $id = null; $name = null; $team = null; $role = null; $email = null; $statusExport = null; $page=1;
-                    $number_record_per_page = null;
+                    $number_record_per_page = 20;
                     $arrays[] = $_GET;
                     foreach ($arrays as $key => $value) {
                         if (!empty($value['id'])) {
@@ -175,7 +175,7 @@
                     </SCRIPT>
                     <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                         <a id="export"
-                           href="{{asset('export').'?'.'number_record_per_page='.$number_record_per_page.'&id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&email='.$email.'&status='.$statusExport.'&page='.$page}}">  
+                           href="{{asset('export').'?'.'number_record_per_page='.$number_record_per_page.'&id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&status='.$statusExport.'&page='.$page}}">  
                         <i class="glyphicon glyphicon-export"></i>
                             <span id="contain-canvas" style="">
                                 <canvas id="my_canvas" width="16" height="16" style=""></canvas>
@@ -347,8 +347,8 @@
                                     <th>{{trans('employee.profile_info.team')}}</th>
                                     <th>{{trans('employee.profile_info.role')}}</th>
                                     <th>{{trans('employee.profile_info.status')}}</th>
+                                    <th>{{trans('employee.profile_info.total_ot')}}</th>
                                     {{--<th>CV</th>--}}
-                                    <th>Total Overtime</th>
                                 </tr>
                                 </thead>
                                 <tbody class="context-menu">
@@ -405,6 +405,11 @@
                                                 @endif
                                             </p>  
                                         </td>
+                                        @if ($employee->overtime)
+                                        <td style="vertical-align: middle;"><span class="label label-success">{{$employee->overtime}} hours</span></td>
+                                        @else
+                                        <td style="vertical-align: middle;"><span>-</span></td>
+                                        @endif
                                         {{--<td style="text-align: center;width: 50px;">--}}
                                             {{--<!-- 1/8/hiddent_cmt-->--}}
                                             {{--<button type="button" class="btn btn-default cv-button">--}}
@@ -424,7 +429,7 @@
                                                 <li><a class="btn-employee-remove" data-employee-email="{{$employee->email}}" data-employee-id="{{$employee->id}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
                                         </ul>
-                                        <td style="vertical-align: middle;"><span class="label label-success">18 hours</span></td>
+                                        
                                     </tr>
                                 @endforeach
                                 </tbody>
