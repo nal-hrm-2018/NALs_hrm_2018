@@ -267,11 +267,11 @@
                                                     if($obj->is_deny == 0 && $obj->absence_status_id != $idReject){
                                                         echo '<div style="display: inline" id="div-cancel-'. $obj->id .'">
                                                                 <button class="btn btn-danger btn-cancel" id="btn-cancel-'. $obj->id .'">
-                                                                    <span><i class="fa fa-times"></i></span>
+                                                                    <span><i class="fa fa-trash"></i></span>
                                                                 </button></div>';
                                                     } else {
                                                         echo '<div style="display: inline"><button class="btn btn-danger disabled">
-                                                                    <span><i class="fa fa-times"></i></span>
+                                                                    <span><i class="fa fa-trash"></i></span>
                                                                 </button></div>';
                                                     }
 
