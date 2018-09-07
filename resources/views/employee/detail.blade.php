@@ -382,6 +382,7 @@
                                                             <td class="text-center"><span class="label label-primary">{{$time['holiday']}} {{trans('overtime.hours')}}</span></td>
                                                         @else
                                                             <td class="text-center">-</td>
+                                                            
                                                         @endif
                                                     </tr>
                                                 </tbody>
