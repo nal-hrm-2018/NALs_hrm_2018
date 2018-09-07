@@ -95,6 +95,15 @@
             @if(Auth::user()->hasPermission('add_new_absence'))
               <li><a class="nav-item-part" href="{{ asset('absences/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.absence')}}</a></li>
             @endif
+            @if(Auth::user()->hasPermission('view_employee_absence_history'))
+                <li><a class="nav-item-part" href="{{ asset('absences/hr')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.absence_management')}}</a></li>
+              @endif
+              @if(Auth::user()->hasPermission('view_holiday_list'))
+                <li><a class="nav-item-part" href="{{ asset('holiday')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_holiday')}}</a></li>
+              @endif
+              @if(Auth::user()->hasPermission('view_project_absence_history'))
+                <li><a class="nav-item-part" href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>
+              @endif
           </ul>
         </li>
         <li class="treeview">
@@ -113,7 +122,7 @@
             </ul>
         </li>
         @if((Auth::user()->hasPermission('view_employee_absence_history')) || (Auth::user()->hasPermission('view_holiday_list')) || (Auth::user()->hasPermission('view_project_absence_history')) )
-          <li class="treeview">
+          <!-- <li class="treeview">
             <a href="#">
               <i class="fa  fa-calendar-minus-o"></i> <span>{{trans('leftbar.nav.absence_management')}}</span>
               <span class="pull-right-container">
@@ -131,7 +140,7 @@
                 <li><a class="nav-item-part" href="{{ asset('absence/po-project')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.absences_po_project')}}</a></li>
               @endif
             </ul>
-          </li>
+          </li> -->
         @endif
       </ul>
 
