@@ -130,7 +130,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <table id="" class="table table-bordered table-striped text-center">
+                            <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>No.</th>

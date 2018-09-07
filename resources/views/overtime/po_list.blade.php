@@ -15,7 +15,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body">
-                            <table id="" class="table table-bordered table-striped text-center">
+                            <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>{{ trans('overtime_po.stt') }}</th>
