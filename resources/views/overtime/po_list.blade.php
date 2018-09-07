@@ -46,12 +46,12 @@
                                         <td>{{ $va->start_time }}</td>
                                         <td>{{ $va->end_time }}</td>
                                         @if(isset($va->total_time))
-                                            <td><span class="label label-primary">{{ $va->total_time }}<span></td>
+                                            <td><span class="label label-primary">{{ $va->total_time }} hours<span></td>
                                         @else
                                             <td><span>-<span></td>
                                         @endif
                                         @if(isset($va->correct_total_time))
-                                            <td><span class="label label-success">{{ $va->correct_total_time }}<span></td>
+                                            <td><span class="label label-success">{{ $va->correct_total_time }} hours<span></td>
                                         @else
                                             <td><span>-<span></td>
                                         @endif
