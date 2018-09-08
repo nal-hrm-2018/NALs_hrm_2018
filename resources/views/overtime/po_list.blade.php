@@ -43,8 +43,8 @@
                                         <td>{{ \App\Models\Employee::where('id',$va->employee_id)->first()->name }}</td>
                                         <td class="text-center">{{ isset($va->date)?$va->date->format('d-m-Y'):'-' }}</td>
                                         <td>{{ isset($va->reason)?$va->reason:'-' }}</td>
-                                        <td>{{ isset($va->start_time)?$va->start_time:'-' }}</td>
-                                        <td>{{ isset($va->end_time)?$va->end_time:'-' }}</td>
+                                        <td class="text-center">{{ isset($va->start_time)?$va->start_time:'-' }}</td>
+                                        <td class="text-center">{{ isset($va->end_time)?$va->end_time:'-' }}</td>
                                         @if(isset($va->total_time))
                                             <td class="text-center"><span class="label label-primary">{{ $va->total_time }} hours<span></td>
                                         @else
