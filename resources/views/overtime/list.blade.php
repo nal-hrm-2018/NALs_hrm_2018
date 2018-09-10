@@ -187,7 +187,7 @@
                                     });
                                 })();
                             </script>
-                            <table id="" class="table table-bordered table-striped text-center">
+                            <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No.</th>
