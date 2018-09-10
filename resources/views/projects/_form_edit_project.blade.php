@@ -222,7 +222,7 @@
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
 <div class="col-md-2">
     <label>{{trans('project.members')}}<strong style="color: red">(*)</strong> </label><br/>
-    <select name="employee_id" id="employee_id" class="form-control select2">
+    <select name="employee_id" id="employee_id" class="form-control">
         <option {{ !empty(old('employees'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
         </option>
