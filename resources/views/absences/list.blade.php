@@ -48,24 +48,22 @@
                             <form  method="get" role="form" id="form_search_employee">
                                 <div class="row" style="margin-left: 10px; ">
                                     <div class="form-group">
-                                        <label>Chọn năm</label>
+                                        <label>{{trans('absence.select_year')}}</label>
                                         <select class="form-control" style="width: 150px;"  name="year" id="year" onchange="myFunction()">
                                             @if($startwork_date == $endwork_date)
                                                 <option value="{{$startwork_date}}">{{$startwork_date}}</option>
                                             @endif
                                             @if($startwork_date < $endwork_date)
                                                 @for($i=$endwork_date; $i>=$startwork_date; $i--)
-                                                    <option value="{{$i}}" >{{$i}}</option>
+                                                    <option value="{{$i}}" <?php echo request()->get('year')==$i?'selected':''; ?>>{{$i}}</option>
                                                 @endfor
                                             @endif
                                         </select>
                                     </div>
                                 </div>
-                                <input id="number_year" type="hidden" name="number_year"
-                                       value="{{ isset($param['number_year'])?$param['number_year']:$startwork_date }}"/>
                             </form>
                             <script>
-                                Số ngày phép năm nay   function myFunction() {
+                                function myFunction() {
                                     var x = document.getElementById("year").value;
                                     console.log(x);
                                     $('#number_year').val(x);
@@ -167,15 +165,12 @@
                             <table class="table table-bordered table-striped" id="absences-list" style="margin-top: 20px !important;">
                                 <thead>
                                     <tr>
-                                        <th>Nghỉ từ ngày</th>
-                                        <th>Nghỉ đến ngày</th>
-                                        <th>Loại nghỉ</th>
-                                        <th>Loại thời gian nghỉ</th>
-                                        <th>Lý do</th>
-                                        <th>Ghi chú</th>
-                                        {{--<th>Trạng thái</th>--}}
-                                        {{--<th>Lý do từ chối</th>--}}
-                                        {{--<th>Chức năng</th>--}}
+                                        <th>{{trans('absence.start_date')}}</th>
+                                        <th>{{trans('absence.end_date')}}</th>
+                                        <th>{{trans('absence.absence_type')}}</th>
+                                        <th>{{trans('absence.absence_time')}}</th>
+                                        <th>{{trans('absence.reason')}}</th>
+                                        <th>{{trans('absence.description')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu" id="listAbsence">

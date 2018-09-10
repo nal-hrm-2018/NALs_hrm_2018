@@ -290,6 +290,9 @@ class AbsenceController extends Controller
                         "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
+        if(isset($request->year)){
+            $year = $request->year;
+        }
         $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
             'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
             'absences.absence_status_id', 'absence_time.name AS name_time')

@@ -1,5 +1,12 @@
 <?php
 return [
+    'start_date' => 'Nghỉ từ ngày',
+    'end_date' => 'Nghĩ đến ngày',
+    'absence_type' => 'Loại nghĩ',
+    'absence_time' => 'Loại thời gian nghĩ',
+    'reason' => 'Lý do',
+    'description' => 'Ghi chú',
+    'select_year' => 'Chọn năm',
     'all' => 'Cả ngày',
     'morning' => 'Buổi sáng',
     'afternoon' => 'Buổi chiều',
