@@ -90,4 +90,9 @@ class Absence extends Model
     {
         return $this->belongsTo('App\Models\AbsenceType', 'absence_type_id');
     }
+
+    public function absenceTime()
+    {
+        return $this->belongsTo('App\Models\AbsenceTime', 'absence_time_id');
+    }
 }

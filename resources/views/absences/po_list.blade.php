@@ -8,30 +8,14 @@
                 {{  trans('common.title_header.absence_list') }}
                 <small>NAL Solutions</small>
             </h1>
-
-            {{--<ol class="breadcrumb">--}}
-                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>--}}
-                {{--</li>--}}
-                {{--<li><a href="{{asset('/employee')}}">{{trans('common.path.absence')}}</a></li>--}}
-                {{--<li class="active">{{trans('common.path.po_project')}}</li>--}}
-            {{--</ol>--}}
-
         </section>
 
         <section class="content">
             <div class="nav-tabs-custom">
-                {{--<ul class="nav nav-tabs">--}}
-                    {{--<li>--}}
-                        {{--<a id="tab-confirmation" href="#confirmation" data-toggle="tab">{{trans('common.path.confirmation')}}</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<a id="tab-statistic" href="#statistic" data-toggle="tab">{{trans('common.path.statistic')}}</a>--}}
-                    {{--</li>--}}
-                {{--</ul>--}}
                 <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
                 <?php
                 $number_record_per_page = null; $employee_name = null; $email = null; $project_id = null; $absence_type = null;
-                $from_date = null; $to_date = null; $confirm_status = null; $page=1;
+                $from_date = null; $to_date = null; $time_type = null; $page=1;
                 $arrays[] = $_GET;
                 foreach ($arrays as $key => $value) {
                     if (!empty($value['number_record_per_page'])) {
@@ -55,8 +39,8 @@
                     if (!empty($value['to_date'])) {
                         $to_date = $value['to_date'];
                     }
-                    if (!empty($value['confirm_status'])) {
-                        $confirm_status = $value['confirm_status'];
+                    if (!empty($value['time_type'])) {
+                        $time_type = $value['time_type'];
                     }
                     if (!empty($value['page'])) {
                         $page = $value['page'];
@@ -73,9 +57,7 @@
                             <button  type="button" class="btn btn-default export-confirm-list" id="click-here" style="float: right"
                                      onclick="return confirmExport('{{trans('absence_po.list_po.msg.confirm_export')}}')">
                                 <a id="export"
-                                   href="{{asset('export-confirm-list').'?'.'po_id='.$id.'&number_record_per_page='.$number_record_per_page
-                                   .'&employee_name='.$employee_name.'&email='.$email.'&project_id='.$project_id.'&absence_type='.$absence_type
-                                   .'&from_date='.$from_date.'&to_date='.$to_date.'&confirm_status='.$confirm_status.'&page='.$page}}">
+                                   href="#">
                                     <i class="fa fa-vcard"></i>
                                     {{trans('common.button.export')}}</a>
                             </button>
@@ -127,12 +109,7 @@
                                                         <option {{!empty(request('project_id'))?'':'selected="selected"'}} value="">
                                                             {{trans('employee.drop_box.placeholder-default')}}
                                                         </option>
-                                                        @foreach($projects as $project)
-                                                            <option value="{{$project->project_id}}"
-                                                                    {{ (string)$project->project_id===request('project_id')?'selected="selected"':'' }}>
-                                                                {{$project->name}}
-                                                            </option>
-                                                        @endforeach
+                                                        <p>option1 ???</p>
                                                     </select>
                                                 </div>
                                                 <div class="input-group margin">
@@ -143,12 +120,7 @@
                                                         <option {{!empty(request('absence_type'))?'':'selected="selected"'}} value="">
                                                             {{trans('employee.drop_box.placeholder-default')}}
                                                         </option>
-                                                        @foreach($absenceType as $item)
-                                                            <option value="{{$item->id}}"
-                                                                    {{ (string)$item->id===request('absence_type')?'selected="selected"':'' }}>
-                                                                {{trans('absence_po.list_po.type.'.$item->name)}}
-                                                            </option>
-                                                        @endforeach
+                                                       <p>option2 ???</p>
                                                     </select>
                                                 </div>
                                             </div>
@@ -196,18 +168,13 @@
                                                     </div>
                                                 <div class="input-group margin">
                                                     <div class="input-group-btn">
-                                                        <button type="button" class="btn width-100">{{trans('absence.confirmation.status')}}</button>
+                                                        <button type="button" class="btn width-100">{{trans('absence.absence_time')}}</button>
                                                     </div>
-                                                    <select name="confirm_status" id="confirm_status" class="form-control">
-                                                        <option {{!empty(request('confirm_status'))?'':'selected="selected"'}} value="">
+                                                    <select name="time_type" id="time_type" class="form-control">
+                                                        <option {{!empty(request('time_type'))?'':'selected="selected"'}} value="">
                                                             {{trans('employee.drop_box.placeholder-default')}}
                                                         </option>
-                                                        @foreach($absenceStatus as $item)
-                                                            <option value="{{$item->id}}"
-                                                                    {{ (string)$item->id===request('confirm_status')?'selected="selected"':'' }}>
-                                                                {{trans('absence_po.list_po.status.'.$item->name )}}
-                                                            </option>
-                                                        @endforeach
+                                                        <p>option3 ???</p>
                                                     </select>
                                                 </div>
                                                 </div>
@@ -248,7 +215,7 @@
                             <table id="confirm-po-list" class="table table-bordered table-striped">
                             <thead class="list-confirm">
                             <tr>
-                                <th hidden>ID</th>
+                                <th>{{trans('overtime.number')}} </th>
                                 <th>{{trans('absence.confirmation.employee_name')}}</th>
                                 <th>{{trans('absence.confirmation.email')}}</th>
                                 <th>{{trans('absence.confirmation.project_name')}}</th>
@@ -261,103 +228,66 @@
                             </tr>
                             </thead>
                             <tbody class="list-confirm">
-                            <?php
-                                $idWaiting = $absenceStatus->where('name', '=', 'waiting')->first()->id;
-                                $idAccepted = $absenceStatus->where('name', '=', 'accepted')->first()->id;
-                                $idRejected = $absenceStatus->where('name', '=', 'rejected')->first()->id;
-                            ?>
-                            @foreach($listConfirm as $confirm)
-                                <tr>
-                                    <td hidden>{{$confirm->id}}</td>
-                                    <td>{{isset($confirm->absence)?isset($confirm->absence->employee)?$confirm->absence->employee->name:'-':'-'}}</td>
-
-                                    <td>{{isset($confirm->absence)?isset($confirm->absence->employee)?$confirm->absence->employee->email:'-':'-'}}</td>
-                                    <td>{{isset($confirm->project)?$confirm->project->name:'-'}}</td>
-                                    <td>{{isset($confirm->absence)?$confirm->absence->from_date:'-'}}</td>
-                                    <td>{{isset($confirm->absence)?$confirm->absence->to_date:'-'}}</td>
-                                   <td>
-                                        @if(trans('absence_po.list_po.type.'.$confirm->name_type) == trans('absence_po.list_po.type.salary_date'))
-                                            <span class="label label-primary">
-                                        @elseif(trans('absence_po.list_po.type.'.$confirm->name_type) == trans('absence_po.list_po.type.non_salary_date'))
-                                            <span class="label label-info">
-                                        @elseif(trans('absence_po.list_po.type.'.$confirm->name_type) == trans('absence_po.list_po.type.subtract_salary_date'))
-                                            <span class="label label-danger">
-                                        @elseif(trans('absence_po.list_po.type.'.$confirm->name_type) == trans('absence_po.list_po.type.insurance_date'))
-                                            <span class="label label-default">
+                                    @php
+                                        $count = 0
+                                    @endphp
+                                    @foreach($absences as $val)
+                                    <tr>
+                                        @php
+                                            $count++;
+                                        @endphp
+                                        <td>{{$count}}</td>
+                                        <td>{{$val->employee->name}}</td>
+                                        <td>{{$val->employee->email}}</td>
+                                        <td>project name</td>
+                                        <td>{{$val->from_date}}</td>
+                                        <td>{{$val->to_date}}</td>
+                                        @if(isset($val->absenceType->name))
+                                            @if($val->absenceType->name == 'annual_leave')
+                                                <td>{{trans('absence.type.annual_leave')}}</td>
+                                            @endif 
+                                            @if($val->absenceType->name == 'unpaid_leave')
+                                                <td>{{trans('absence.type.annual_leave')}}</td>
+                                            @endif 
+                                            @if($val->absenceType->name == 'maternity_leave')
+                                                <td>{{trans('absence.type.maternity_leave')}}</td>
+                                            @endif  
+                                            @if($val->absenceType->name == 'marriage_leave')
+                                                <td>{{trans('absence.type.marriage_leave')}}</td>
+                                            @endif  
+                                            @if($val->absenceType->name == 'bereavement_leave')
+                                                <td>{{trans('absence.type.bereavement_leave')}}</td>
+                                            @endif  
+                                            @if($val->absenceType->name == 'sick_leave')
+                                                <td>{{trans('absence.type.sick_leave')}}</td>
+                                            @endif  
+                                            @if($val->absenceType->name == 'subtract_salary_date')
+                                                <td>{{trans('absence.type.subtract_salary_date')}}</td>
+                                            @endif  
+                                            @if($val->absenceType->name == 'insurance_date')
+                                                <td>{{trans('absence.type.insurance_date')}}</td>
+                                            @endif  
                                         @else
-                                            <span>{{trans('absence_po.list_po.type.'.$confirm->name_type)}}</span>
+                                            <td>-</td>
                                         @endif
-                                    </td>
-                                    @if(isset($confirm->name_time))
-                                        @if($confirm->name_time == 'all')
-                                            <td>{{trans('absence.all')}}</td>
-                                        @elseif($confirm->name_time == 'morning')
-                                            <td>{{trans('absence.morning')}}</td>
-                                        @else
-                                            <td>{{trans('absence.afternoon')}}</td>
-                                        @endif
-                                    @else
-                                    <td>-</td>
-                                    @endif
-                                    <td>{{isset($confirm->absence)?$confirm->absence->reason:'-'}}</td>
-                                    <td>{{isset($confirm->absence)?isset($confirm->absence->description)?$confirm->absence->description:'-':'-'}}</td>                                   {{--  <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
-                                        @if($confirm->absence_status_id === $idWaiting)
-                                            @if($confirm->absence->is_deny === 0)
-                                                <span class="label label-primary">{{trans('absence.confirmation.absence_request')}}</span>
-                                            @elseif($confirm->absence->is_deny === 1)
-                                                <span class="label label-warning">{{trans('absence.confirmation.cancel_request')}}</span>
+                                    </span>
+                                        @if(isset($val->absenceTime->name))
+                                            @if($val->absenceTime->name == 'all')
+                                                <td>{{trans('absence.all')}}</td>
+                                            @elseif($val->absenceTime->name == 'morning')
+                                                <td>{{trans('absence.morning')}}</td>
+                                            @else
+                                                <td>{{trans('absence.afternoon')}}</td>
                                             @endif
                                         @else
-                                            -
+                                        <td>-</td>
                                         @endif
-                                    </td>
-                                    <td id="status-confirm-{{$confirm->id}}">
-                                    @if($confirm->absence_status_id === $idWaiting)
-                                        @if(Auth::user()->hasRole('PO'))
-                                            @if($confirm->absence->is_deny === 0)
-                                                <div class="btn-group-vertical">
-                                                    <button class="btn btn-xs btn-primary button-confirm" id="button-absence-accept-{{$confirm->id}}">{{trans('absence_po.list_po.modal.done')}}</button>
-                                                    <button class="btn btn-xs btn-danger button-confirm" id="button-absence-reject-{{$confirm->id}}" data-toggle="modal"
-                                                            data-target="#show-modal-confirm">{{trans('absence_po.list_po.modal.cancel')}}</button>
-                                                </div>
-                                            @elseif($confirm->absence->is_deny === 1)
-                                                <div class="btn-group-vertical">
-                                                    <button class="btn btn-xs btn-primary button-confirm" id="button-cancel-accept-{{$confirm->id}}">{{trans('absence_po.list_po.modal.done')}}</button>
-                                                    <button class="btn btn-xs btn-danger button-confirm" id="button-cancel-reject-{{$confirm->id}}" data-toggle="modal"
-                                                            data-target="#show-modal-confirm">{{trans('absence_po.list_po.modal.cancel')}}</button>
-                                                </div>
-                                            @endif
-                                        @else
-                                            -
-                                        @endif
-                                    @else
-                                        @if($confirm->absence_status_id === $idAccepted)
-                                            <span class="label label-success">{{trans('absence_po.list_po.status.absence_accepted')}}</span>
-                                        @elseif($confirm->absence_status_id === $idRejected)
-                                            <span class="label label-default">{{trans('absence_po.list_po.status.absence_rejected')}}</span>
-                                        @endif
-                                    @endif
-                                    </td>
-                                    <td class="reason-confirm" id="reason-confirm-{{$confirm->id}}">
-                                        {{isset($confirm->reason)?$confirm->reason:'-'}}
-                                    </td> --}}
-                                </tr>
-                            @endforeach
-                            </tbody>
+                                        <td>{{$val->reason}}</td>
+                                        <td>{{$val->description}}</td>
+                                    </tr>          
+                                    @endforeach                  
+                                </tbody>
                         </table>
-                            <div class="row">
-                                @if($listConfirm->hasPages())
-                                    <div class="col-sm-4">
-                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
-                                            {{getInformationDataTable($listConfirm)}}
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{  $listConfirm->appends($param)->render('vendor.pagination.custom') }}
-                                    </div>
-                                @endif
-                            </div>
-
                             <div id="show-modal-confirm" class="modal fade" role="dialog">
                                 <div class="modal-dialog" style="width: 400px">
                                     <!-- Modal content-->
@@ -395,75 +325,8 @@
     <!-- jQuery UI 1.11.4 -->
     <script src="{!! asset('admin/templates/js/bower_components/jquery-ui/jquery-ui.min.js') !!}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $(document).ready(function () {
-                $('#tab-confirmation').tab('show');
-
-                $('#confirm-po-list').DataTable({
-                    'paging': false,
-                    'lengthChange': false,
-                    'searching': false,
-                    'ordering': true,
-                    'info': false,
-                    'autoWidth': false,
-                    "aaSorting": [
-                        [0, 'DESC'],
-                    ],
-                });
-
-                $('.button-confirm').click(function(){
-                    var id_element = $(this).attr('id');
-                    var id_td_button = $(this).parent().parent().attr('id');
-                    var id_td_description = $(this).parent().parent().parent().find('td.description-confirm').attr('id');
-                    var id_td_reason = $(this).parent().parent().parent().find('td.reason-confirm').attr('id');
-                    var type_confirm = id_element.split('-')[1];
-                    var action_confirm = id_element.split('-')[2];
-                    var id_confirm = id_element.split('-')[3];
-                    if(action_confirm == 'reject'){
-                        $('#btn-submit-form-reject-reason').click(function(){
-                            var reason = $('#reason-content').val();
-                            if(reason != "") {
-                                ajaxConfirm(type_confirm, action_confirm, id_confirm, reason, id_td_button, id_td_description, id_td_reason);
-                            }
-                            $('#btn-submit-form-reject-reason').off();
-                        });
-                    } else {
-                        ajaxConfirm(type_confirm, action_confirm, id_confirm, "", id_td_button, id_td_description, id_td_reason)
-                    }
-                });
-
-                select_length_page();
-            });
-        });
-    </script>
-    <script>
-        function ajaxConfirm(type_confirm, action_confirm, id_confirm, reason, id_td_button, id_td_description, id_td_reason) {
-            $.ajax({
-                type: "POST",
-                url: '{{ url('/absence/po-project/' . $id) }}',
-                data: {
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    'type_confirm': type_confirm,
-                    'action_confirm': action_confirm,
-                    'id_confirm': id_confirm,
-                    'reason': reason,
-                    '_method': 'POST',
-                    _token: '{{csrf_token()}}',
-                },
-                success: function (msg) {
-                    $('#' + id_td_button).html(msg.msg);
-                    $('#' + id_td_description).html('-');
-                    if(reason != ""){
-                        $('#' + id_td_reason).html(reason);
-                    }
-                    $('#reason-content').val("");
-                }
-            });
-        }
-    </script>
+    
+    
     <script type="text/javascript">
         $(function () {
             $("#btn_reset").on("click", function () {
@@ -473,7 +336,6 @@
                 $("#absence_type").val('').change();
                 $("#from_date").val('');
                 $("#to_date").val('');
-                $("#confirm_status").val('').change();
             });
         });
     </script>

@@ -10,6 +10,7 @@ namespace App\Service\Implement;
 
 
 use App\Models\Confirm;
+use App\Models\Process;
 use App\Models\TempListConfirm;
 use App\Service\SearchConfirmService;
 use App\Service\CommonService;
@@ -21,9 +22,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
 
     public function searchConfirm($request, $id)
     {
-        $query = Confirm::select('confirms.*')->distinct('confirms.id');
-
-
+        $query = Process::select('processes.*')->distinct('processes.id');
 
         $params['search'] = [
             'employee_name' => !empty($request->employee_name) ? $request->employee_name : '',
@@ -32,7 +31,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             'absence_type' => !empty($request->absence_type) ? $request->absence_type : '',
             'from_date' => !empty($request->from_date) ? $request->from_date : '',
             'to_date' => !empty($request->to_date) ? $request->to_date : '',
-            'confirm_status' => !empty($request->confirm_status) ? $request->confirm_status : '',
+            'absence_time' => !empty($request->absence_time) ? $request->absence_time : '',
         ];
         foreach ($params as $key => $value) {
             $employee_name = $value['employee_name'];
@@ -41,10 +40,10 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $absence_type = $value['absence_type'];
             $from_date = $value['from_date'];
             $to_date = $value['to_date'];
-            $confirm_status = $value['confirm_status'];
+            $absence_time = $value['absence_time'];
         }
-        $query->join('absences', 'absences.id', '=', 'confirms.absence_id')
-            ->join('employees', 'employees.id', '=', 'absences.employee_id');
+        // $query->join('absences', 'absences.id', '=', 'processes.absence_id')
+        //     ->join('employees', 'employees.id', '=', 'absences.employee_id');
 //            ->join('processes', 'processes.employee_id', '=', 'employees.id')
 //            ->join('projects', 'projects.id', '=', 'processes.project_id');
         if (!empty($employee_name)) {
@@ -55,7 +54,7 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
 
         }
         if (!empty($project_id)) {
-            $query->where('confirms.project_id', '=', $project_id);
+            $query->where('processes.project_id', '=', $project_id);
 
         }
         if (!empty($absence_type)) {
@@ -74,19 +73,19 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $to_date .= ':00';
             $query->where('absences.to_date', '<=', $to_date);
         }
-        if (!empty($confirm_status)) {
-            $query->where('confirms.absence_status_id', '=', $confirm_status);
+        if (!empty($absence_time)) {
+            $query->where('absence.absence_time_id', '=', $absence_time);
         }
-        $query = $query->where('confirms.employee_id', '=', $id)
-            ->where('confirms.project_id', '!=', null)
-            ->where('confirms.delete_flag', '=', 0)
-            ->orderBy('confirms.id', 'desc');
+        $query = $query->where('processes.employee_id', '=', $id)
+            ->where('processes.project_id', '!=', null)
+            ->where('processes.delete_flag', '=', 0)
+            ->orderBy('processes.id', 'desc');
         return $query;
     }
 
     public function createTempTable($listValueOnPage, $tempTableName)
     {
-        DB::unprepared(DB::raw("CREATE TEMPORARY TABLE ". $tempTableName ." AS(select * from confirms where id=0)"));
+        DB::unprepared(DB::raw("CREATE TEMPORARY TABLE ". $tempTableName ." AS(select * from processes where id=0)"));
 
         foreach ($listValueOnPage as $item){
             $temp_list = new TempListConfirm();
@@ -97,7 +96,6 @@ class SearchConfirmServiceImpl extends CommonService implements SearchConfirmSer
             $temp_list->created_at = $item->created_at;
             $temp_list->created_by_employee = $item->created_by_employee;
             $temp_list->delete_flag = $item->delete_flag;
-            $temp_list->absence_status_id = $item->absence_status_id;
             $temp_list->absence_id = $item->absence_id;
             $temp_list->employee_id = $item->employee_id;
             $temp_list->project_id = $item->project_id;

@@ -24,9 +24,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\AbsenceAddRequest;
 use App\Service\AbsencePoTeamService;
 use Carbon\Carbon;
-use App\Models\Confirm;
 use DateTime;
 use App\Models\Process;
+use App\Models\Project;
 use App\Models\Role;
 use App\Service\SearchConfirmService;
 
@@ -98,8 +98,63 @@ class AbsenceController extends Controller
     }
 
 
-    public function confirmRequest(Request $request)
-    {
+    // public function confirmRequest(Request $request)
+    // {
+    //     $id = Auth::user()->id;
+    //     $absenceType = AbsenceType::where('name', '!=',
+    //         config('settings.status_common.absence_type.subtract_salary_date'))->get();
+
+    //     $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
+    //     //dd($idPO);
+    //     $absenceStatus = AbsenceStatus::all();
+    //     if (!isset($request['number_record_per_page'])) {
+    //         $request['number_record_per_page'] = config('settings.paginate');
+    //     }
+
+    //     $projects = Confirm::select('confirms.project_id', 'projects.name')
+    //         ->distinct('confirms.project_id')
+    //         ->join('projects', 'projects.id', '=', 'confirms.project_id')
+    //         ->where('confirms.project_id', '!=', null)
+    //         ->where('confirms.employee_id', '=', $id)
+    //         ->where('confirms.delete_flag', '=', 0)
+    //         ->where('projects.delete_flag', '=', 0)
+    //         ->orderBy('confirms.project_id', 'desc')
+    //         ->get();
+    //     $listValueOnPage = $this->searchConfirmService->searchConfirm($request, $id)->get();
+    //     $tempTableName = 'temp_list_confirm';
+    //     $this->searchConfirmService->createTempTable($listValueOnPage, $tempTableName);
+    //     $listConfirm = TempListConfirm::query()->paginate($request['number_record_per_page']);
+    //     $listConfirm->setPath('');
+    //     $param = (Input::except(['page', 'is_employee']));
+    //     DB::unprepared(DB::raw("DROP TEMPORARY TABLE " . $tempTableName));
+    //     return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO',
+    //         'id', 'absenceStatus', 'param'));
+    // }
+    public function showListPO(Request $request){
+        // $id = Auth::user()->id;
+        //  $projects = Project::join('processes', 'processes.project_id', '=', 'projects.id')
+        //     ->where('processes.project_id', '!=', null)
+        //     ->where('processes.employee_id', '=', $id)
+        //     ->join('roles', 'processes.role_id', '=', 'roles.id')
+        //     ->where('processes.delete_flag', '=', 0)
+        //     ->where('projects.delete_flag', '=', 0)
+        //     ->orderBy('projects.id', 'desc')
+        //     ->whereIn('processes.project_id', function ($query) use ($id) {
+        //         $query->select('project_id')
+        //             ->from('processes')
+        //             ->where('employee_id', '=', $id)
+        //             ->whereDate('processes.end_date', '>', date('d')
+        //         );
+        //     })
+        //     ->WHERE('roles.name', 'like', 'po')
+        //     ->get();
+        // dd($projects);
+        // die();
+        // $absences = Absence::whereHas('employee',function($query) use($id) {
+        //                 $query->where('id',$id);
+        //             })->get();
+        // return view('absences.po_list', compact('absences'));
+
         $id = Auth::user()->id;
         $absenceType = AbsenceType::where('name', '!=',
             config('settings.status_common.absence_type.subtract_salary_date'))->get();
@@ -111,14 +166,14 @@ class AbsenceController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
 
-        $projects = Confirm::select('confirms.project_id', 'projects.name')
-            ->distinct('confirms.project_id')
-            ->join('projects', 'projects.id', '=', 'confirms.project_id')
-            ->where('confirms.project_id', '!=', null)
-            ->where('confirms.employee_id', '=', $id)
-            ->where('confirms.delete_flag', '=', 0)
+        $projects = Project::select('projects.id', 'projects.name')
             ->where('projects.delete_flag', '=', 0)
-            ->orderBy('confirms.project_id', 'desc')
+            ->join('processes', 'projects.id', '=', 'processes.project_id')
+            ->where('processes.employee_id', '=', $id)
+            ->where('processes.delete_flag', '=', 0)
+            ->join('roles', 'processes.role_id', '=', 'roles.id')
+            ->where('roles.name', 'like', 'PO')
+            ->orderBy('projects.id', 'desc')
             ->get();
         $listValueOnPage = $this->searchConfirmService->searchConfirm($request, $id)->get();
         $tempTableName = 'temp_list_confirm';

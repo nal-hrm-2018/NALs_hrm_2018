@@ -23,7 +23,8 @@ class TempListConfirm extends Model
     public $table = 'temp_list_confirm';
     protected $fillable = [
         'employee_id',
-        'absence_status_id',
+        'absence_type_id',
+        'absence_time_id',
         'absence_id',
         'reason',
         'project_id',
@@ -38,9 +39,13 @@ class TempListConfirm extends Model
     {
         return $this->belongsTo('App\Models\Employee','employee_id');
     }
-    public function absenceStatus()
+    public function absenceType()
     {
-        return $this->belongsTo('App\Models\AbsenceStatus','absence_status_id');
+        return $this->belongsTo('App\Models\AbsenceType','absence_type_id');
+    }
+    public function absenceTime()
+    {
+        return $this->belongsTo('App\Models\AbsenceTime','absence_time_id');
     }
     public function project()
     {
