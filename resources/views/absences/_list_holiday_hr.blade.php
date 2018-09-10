@@ -64,7 +64,7 @@
                 <td class="align-middle text-center type-holiday-id" style="display: none;">{{ $holiday['status']['id']}}</td>
                 <td class="align-middle text-center type-holiday">{{ $holiday['status']['name']}}</td>
                 <td class="align-middle description-holiday">{{ $holiday['description']}}</td>
-                <td class="align-middle text-center">
+                <!-- <td class="align-middle text-center">
                     {{--<button type="button" class="btn btn-warning" id="edit-item" data-item-id="1"><i class="fa fa-edit"></i></button>--}}
                 </td>
                 <td class="align-middle text-center">
@@ -74,7 +74,8 @@
                         {{--<button class="btn btn-danger" type="submit">--}}
                             {{--<i class="fa fa-trash"></i></button>--}}
                     {{--</form>--}}
-                </td>
+                </td> -->
+                <td class="align-middle text-center">-</td>
             </tr>
         @endforeach
         @foreach($list_holiday as $holiday)
@@ -89,9 +90,8 @@
                 <td class="align-middle description-holiday">{{ $holiday['description']}}</td>
                 <td class="align-middle text-center">
                     <button type="button" class="btn btn-default" id="edit-item" data-item-id="1"><i class="fa fa-pencil"></i></button>
-                </td>
-                <td class="align-middle text-center">
-                    <form action="{{route('absences-holiday-delete',['id' => $holiday['id']])}}" method="post" class="holiday-delete">
+                
+                    <form action="{{route('absences-holiday-delete',['id' => $holiday['id']])}}" method="post" class="holiday-delete" style="display: inline;">
                         @csrf
                         <input name="_method" type="hidden" value="DELETE">
                         <button class="btn btn-danger" type="submit">
