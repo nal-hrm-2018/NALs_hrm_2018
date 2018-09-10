@@ -527,10 +527,12 @@
             <?php
                 $overtime = $_GET['overtime'];
                 $basic = $_GET['basic'];
+                $absence = $_GET['absence'];
             ?>
 
             var basic = <?php echo json_encode($basic); ?>;
             var overtime = <?php echo json_encode($overtime); ?>;
+            var absence = <?php echo json_encode($absence); ?>;
 
             if (project == 1) {
                 activaTab('project');
