@@ -39,22 +39,7 @@ class OTController extends Controller
     public function indexPO()
     {
         $id=Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id)->with('project.overtimeMonthNow')->get();
-        $i=0;
-        $status_rv = OvertimeStatus::where('name','Reviewing')->first();
-        $status_ny = OvertimeStatus::where('name','Not yet')->first();
-        foreach ($OT[$i] as $overtime){
-            foreach ($overtime['project']['overtime'] as $ot){
-                if($ot->overtime_status_id == $status_ny->id){
-                    $overtime = Overtime::find($ot->id);
-                    $overtime->overtime_status_id = $status_rv->id;
-                    $overtime->save();
-                }
-                $i++;
-
-
-            }
-        }
+        $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();
         return view('overtime.po_list',['OT'=>$OT]);
     }
 
@@ -62,7 +47,6 @@ class OTController extends Controller
         $overtime = Overtime::find($id);
         $status_ot = OvertimeStatus::where('name','Accepted')->first();
         $overtime->overtime_status_id = $status_ot->id;
-        $overtime->correct_total_time = $overtime->total_time;
         $overtime->save();
         $id=Auth::user()->id;
         $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();
@@ -71,7 +55,7 @@ class OTController extends Controller
 
     public function rejectOT(OvertimeRequest $request,$id){
         $id_emp = Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id_emp)->with('project.overtime')->get();
+        $OT[] = Process::where('employee_id',$id_emp)->orderBy('overtime.id','desc')->with('project.overtime')->get();
         $correct_total_time = $request->correct_total_time;
         $overtime = Overtime::where('id',$id)->first();
         $total_time = $overtime->total_time;
@@ -101,11 +85,14 @@ class OTController extends Controller
         return view('overtime.hr_list',compact('employees','param','teams'));
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $id=Auth::user()->id;
         $newmonth = date('d');
         $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
+        $ot_status = OvertimeStatus::all();
+        $ot_type = OvertimeType::all();
+
         $ot = Overtime::select()->where('employee_id', $id)->where('date', '>', $newmonth)->where('delete_flag', '=', 0)->with('status', 'type', 'project', 'employee')->get()->sortBy('date');
         $normal = 0;
         $weekend = 0;
@@ -125,6 +112,8 @@ class OTController extends Controller
         return view('overtime.list', [
             'ot' => $ot,
             'time' => $time,
+            'ot_status' => $ot_status,
+            'ot_type' => $ot_type,
         ]);
     }
 
