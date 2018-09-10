@@ -150,4 +150,24 @@
             });
         });
     </script>
+    <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('tr.employee-menu').on('contextmenu', function (event) {
+                event.preventDefault();
+                $('ul.contextMenu').fadeOut("fast");
+                var eId = $(this).data('employee-id');
+                $('ul.contextMenu[data-employee-id="' + eId + '"]')
+                    .show()
+                    .css({top: event.pageY - 170, left: event.pageX - 250, 'z-index': 300});
+
+            });
+            $(document).click(function () {
+                if ($('ul.contextMenu:hover').length === 0) {
+                    $('ul.contextMenu').fadeOut("fast");
+                }
+            });
+        });
+
+    </script>
 @endsection

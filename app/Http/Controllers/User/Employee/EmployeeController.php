@@ -24,6 +24,7 @@ use App\Models\EmployeeTeam;
 use App\Models\PermissionEmployee;
 use App\Models\Overtime;
 use App\Models\OvertimeStatus;
+use App\Models\Absence;
 use DateTime;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
@@ -225,6 +226,20 @@ class EmployeeController extends Controller
             }
         }
         $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
+        //create by trinhhunganh
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
+            'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
+            'absences.absence_status_id')
+            ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+            ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+            ->where('absences.delete_flag', 0)
+            ->where('absences.employee_id',$id)
+            ->where(function($listAbsence)use($year){
+                $listAbsence->whereYear('absences.from_date', $year)
+                    ->orWhereYear('absences.to_date', $year);
+            })
+            ->get();
+        //end by trinhhunganh
         return view('employee.detail', compact(
             'overtime',
             'time',
@@ -236,7 +251,8 @@ class EmployeeController extends Controller
             'param',
             'project_statuses',
             'active',
-            'rest_absence'))
+            'rest_absence',
+            'listAbsence'))
             ->render();
     }
 
