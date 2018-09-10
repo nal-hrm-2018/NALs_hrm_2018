@@ -1,6 +1,16 @@
 <?php
 
 return [
+    'start_date' => 'Start date',
+    'end_date' => 'End date',
+    'absence_type' => 'Absence type',
+    'absence_time' => 'Absence time',
+    'reason' => 'Reason',
+    'description' => 'Description',
+    'select_year' => 'Select year',
+    'all' => 'All',
+    'morning' => 'Morning',
+    'afternoon' => 'Afternoon',
     'add'=> 'Add absence',
     'total_date_absences' => 'Total date absences',
     'number_of_days_off'=>'Number of days off',
