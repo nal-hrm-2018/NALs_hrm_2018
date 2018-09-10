@@ -524,23 +524,35 @@
                 });
             });
 
-            if ('project' === "{{$active}}") {
-                activaTab('project');
-            } else {
-                $(function () {
-                    activaTab('basic');
-                    var bar_data = {
-                        data: [["{{trans('chart.resource_chart.jan')}}", {{$listValue[1]}}], ["{{trans('chart.resource_chart.feb')}}", {{$listValue[2]}}],
-                            ["{{trans('chart.resource_chart.mar')}}", {{$listValue[3]}}], ["{{trans('chart.resource_chart.apr')}}", {{$listValue[4]}}],
-                            ["{{trans('chart.resource_chart.may')}}", {{$listValue[5]}}], ["{{trans('chart.resource_chart.jun')}}", {{$listValue[6]}}],
-                            ["{{trans('chart.resource_chart.jul')}}", {{$listValue[7]}}], ["{{trans('chart.resource_chart.aug')}}", {{$listValue[8]}}],
-                            ["{{trans('chart.resource_chart.sep')}}", {{$listValue[9]}}], ["{{trans('chart.resource_chart.oct')}}", {{$listValue[10]}}],
-                            ["{{trans('chart.resource_chart.nov')}}", {{$listValue[11]}}], ["{{trans('chart.resource_chart.dec')}}", {{$listValue[12]}}]],
-                        color: '#3c8dbc'
-                    }
-                    showChart(bar_data);
+            <?php
+                $overtime = $_GET['overtime'];
+                $basic = $_GET['basic'];
+            ?>
 
-                });
+            var basic = <?php echo json_encode($basic); ?>;
+            var overtime = <?php echo json_encode($overtime); ?>;
+
+            if (project == 1) {
+                activaTab('project');
+            } else if (overtime == 1) {
+                activaTab('overtime');
+            } else if (absence == 1) {
+                activaTab('absence');
+            } else if (basic == 1) {
+                activaTab('basic')
+                // $(function () {
+                //     activaTab('basic');
+                //     var bar_data = {
+                //         data: [["{{trans('chart.resource_chart.jan')}}", {{$listValue[1]}}], ["{{trans('chart.resource_chart.feb')}}", {{$listValue[2]}}],
+                //             ["{{trans('chart.resource_chart.mar')}}", {{$listValue[3]}}], ["{{trans('chart.resource_chart.apr')}}", {{$listValue[4]}}],
+                //             ["{{trans('chart.resource_chart.may')}}", {{$listValue[5]}}], ["{{trans('chart.resource_chart.jun')}}", {{$listValue[6]}}],
+                //             ["{{trans('chart.resource_chart.jul')}}", {{$listValue[7]}}], ["{{trans('chart.resource_chart.aug')}}", {{$listValue[8]}}],
+                //             ["{{trans('chart.resource_chart.sep')}}", {{$listValue[9]}}], ["{{trans('chart.resource_chart.oct')}}", {{$listValue[10]}}],
+                //             ["{{trans('chart.resource_chart.nov')}}", {{$listValue[11]}}], ["{{trans('chart.resource_chart.dec')}}", {{$listValue[12]}}]],
+                //         color: '#3c8dbc'
+                //     }
+                //     showChart(bar_data);
+                // });
             }
 
             function activaTab(tab) {
