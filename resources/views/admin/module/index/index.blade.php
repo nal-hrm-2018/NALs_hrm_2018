@@ -189,7 +189,7 @@
                     <div class="box-body">
                         <div>
                             <button type="button" class="btn btn-default">
-                                <a href="{{route('absences.create')}}"><i class="fa fa-user-plus"></i>&nbsp;{{trans('absence.add')}}</a>
+                                <a href="{{route('absences.create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{trans('absence.add')}}</a>
                             </button>
                         </div>
                         <div style="margin: 30px 0 0;">
