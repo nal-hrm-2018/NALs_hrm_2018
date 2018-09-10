@@ -38,12 +38,14 @@
                     <div class="box">
                         <div class="box-body">
                             <div>
-                                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demooo" id="clickCollapse">
+                                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                                     <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                                 </button>
-                                <div id="demooo" class="collapse margin-form-search">
-                                    <form method="get" role="form">
+                                <div id="demo" class="collapse margin-form-search">
+                                    <form method="get" role="form" id="form_search_overtime">
                                         <!-- Modal content-->
+                                        <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                                               value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
@@ -53,18 +55,23 @@
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.id')}}</button>
+                                                                <button type="button" class="btn width-100">Name of Project</button>
                                                             </div>
-                                                            <input type="text" name="id" id="employeeId" class="form-control">
+                                                            <input type="text" name="id" id="employeeId" class="form-control" value="">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Date type</button>
                                                             </div>
-                                                            <select name="team" id="team_employee" class="form-control">
-                                                                <option></option>
-                                                                <option></option>
-                                                                <option></option>
+                                                            <select name="role" id="role_employee" class="form-control">
+                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                </option>
+                                                                @foreach($ot_type as $type)
+                                                                    <option value="{{ $type->name}}"{{ (string)$type->name===request('role')?'selected="selected"':'' }}>
+                                                                        {{ $type ->name}}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="input-group margin">
@@ -72,38 +79,46 @@
                                                                 <button type="button" class="btn width-100">Status</button>
                                                             </div>
                                                             <select name="team" id="team_employee" class="form-control">
-                                                                <option></option>
-                                                                <option></option>
-                                                                <option></option>
+                                                                    <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                    </option>
+                                                                @foreach($ot_status as $status)
+                                                                    <option value="{{ $status->name}}" {{ (string)$status->name===request('team')?'selected="selected"':'' }}>
+                                                                        {{ $status->name }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Date</button>
+                                                                <button type="button" class="btn width-100">Day</button>
                                                             </div>
-                                                            <input type="date" name="date" class="form-control">
+                                                            <select name="days" id="days" class="form-control">
+                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                </option>
+                                                            </select>
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Month</button>
                                                             </div>
-                                                            <select name="month" class="form-control">
-                                                                <option></option>
-                                                                <option></option>
-                                                                <option></option>
+                                                            <select name="months" id="months" class="form-control">
+                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                </option>
                                                             </select>
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button"
-                                                                        class="btn width-100">Year</button>
+                                                                <button type="button" class="btn width-100">Year</button>
                                                             </div>
-                                                            <select name="year" class="form-control">
-                                                                <option></option>
-                                                                <option></option>
-                                                                <option></option>
+                                                            <select name="years" id="years" class="form-control">
+                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
+                                                                </option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -121,16 +136,62 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div style="float: right; margin-bottom: 15px;">
-                                    <label class="lable-entries" style="float: right;">{{trans('pagination.show.number_record_per_page')}}</label><br />
-                                    <select class="input-entries" style="float: right;">
-                                        <option>10</option>
-                                        <option>20</option>
-                                        <option>30</option>
+                                <script>
+                                    for (i = new Date().getFullYear()+1; i > 2000; i--){
+                                        $('#years').append($('<option />').val(i).html(i));
+                                    }
+                                    for (i = 1; i < 13; i++){
+                                        $('#months').append($('<option />').val(i).html(i));
+                                    }
+                                    updateNumberOfDays(); 
+    
+                                    $('#years, #months').on("change", function(){
+                                        updateNumberOfDays(); 
+                                    });
+                                    function updateNumberOfDays(){
+                                        $('#days').html('');
+                                        month=$('#months').val();
+                                        year=$('#years').val();
+                                        days=daysInMonth(month, year);
+
+                                        for(i=1; i < days+1 ; i++){
+                                                $('#days').append($('<option />').val(i).html(i));
+                                        }
+                                    }
+                                    function daysInMonth(month, year) {
+                                        return new Date(year, month, 0).getDate();
+                                    }
+                                </script>
+                                <div class="dataTables_length" id="project-list_length" style="float:right">
+                                    <label class="lable-entries">{{trans('pagination.show.number_record_per_page')}}</label><br />
+                                    <select class="input-entries" id="mySelect" onchange="myFunction()">
+                                        <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
+                                        <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
+                                        <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
                                     </select>
+                                    <script>
+                                        function myFunction() {
+                                            var x = document.getElementById("mySelect").value;
+                                            console.log(x);
+                                            $('#number_record_per_page').val(x);
+                                            $('#form_search_overtime').submit()
+                                        }
+                                    </script>
                                 </div>
                             </div>
+<<<<<<< HEAD
+                            <script>
+                                (function () {
+                                    $('#select_length').change(function () {
+                                        $("#number_record_per_page").val($(this).val());
+                                        $('#form_search_overtime').submit()
+                                    });
+                                })();
+                            </script>
+                            <table id="" class="table table-bordered table-striped text-center">
+=======
                             <table id="" class="table table-bordered table-striped">
+>>>>>>> 73562f719842e231eab93cff30f039d0f3262b83
                                 <thead>
                                     <tr>
                                         <th class="text-center">No.</th>
