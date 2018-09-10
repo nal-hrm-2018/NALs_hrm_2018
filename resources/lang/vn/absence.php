@@ -7,6 +7,7 @@ return [
     'reason' => 'Lý do',
     'description' => 'Ghi chú',
     'select_year' => 'Chọn năm',
+    'action' => 'Chức năng',
     'all' => 'Cả ngày',
     'morning' => 'Buổi sáng',
     'afternoon' => 'Buổi chiều',

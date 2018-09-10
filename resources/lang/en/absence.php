@@ -8,6 +8,7 @@ return [
     'reason' => 'Reason',
     'description' => 'Description',
     'select_year' => 'Select year',
+    'action' => 'Action',
     'all' => 'All',
     'morning' => 'Morning',
     'afternoon' => 'Afternoon',

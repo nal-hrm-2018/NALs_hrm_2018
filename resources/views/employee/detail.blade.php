@@ -405,23 +405,34 @@
                                             <table id="" class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th class="align-middle">Nghỉ từ ngày</th>
-                                                        <th class="align-middle">Nghỉ đến ngày</th>
-                                                        <th class="align-middle">Loại nghỉ</th>
-                                                        <th class="align-middle">Lý do</th>
-                                                        <th class="align-middle">Ghi chú</th>
-                                                        <th class="align-middle">Lý do từ chối</th>
-                                                        <th class="align-middle text-center">Chức năng</th>
+                                                        <th class="align-middle">{{trans('absence.start_date')}}</th>
+                                                        <th class="align-middle">{{trans('absence.end_date')}}</th>
+                                                        <th class="align-middle">{{trans('absence.absence_type')}}</th>
+                                                        <th class="align-middle">{{trans('absence.reason')}}</th>
+                                                        <th class="align-middle">{{trans('absence.description')}}</th>
+                                                        <th class="align-middle text-center">{{trans('absence.action')}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach($listAbsence as $absence)
                                                     <tr>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
+                                                        <td class="align-middle">{{ isset($absence->from_date)?$absence->from_date:'-' }}</td>
+                                                        <td class="align-middle">{{ isset($absence->to_date)?$absence->to_date:'-' }}</td>
+                                                        <td>
+                                                            @if(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.salary_date'))
+                                                                <span class="label label-primary">
+                                                            @elseif(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.non_salary_date'))
+                                                                <span class="label label-info">
+                                                            @elseif(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.subtract_salary_date'))
+                                                                <span class="label label-danger">
+                                                            @elseif(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.insurance_date'))
+                                                                <span class="label label-default">
+                                                            @else
+                                                                <span>{{trans('absence_po.list_po.type.'.$absence->name_type)}}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{$absence->reason ? $absence->reason : "-"}}</td>
+                                                        <td>{{$absence->description ? $absence->description : "-"}}</td>
                                                         <td class="align-middle text-center">
                                                             <button class="btn btn-default"><i class="fa fa-pencil"></i></button>
                                                             <form style="display: inline;">
@@ -429,6 +440,7 @@
                                                             </form>
                                                         </td>
                                                     </tr>
+                                                     @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
