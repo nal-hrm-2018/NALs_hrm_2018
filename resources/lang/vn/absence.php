@@ -1,5 +1,8 @@
 <?php
 return [
+    'all' => 'Cả ngày',
+    'morning' => 'Buổi sáng',
+    'afternoon' => 'Buổi chiều',
     'add'=> 'Tạo đơn xin vắng nghỉ',
     'total_date_absences' => 'Số ngày phép có thể nghỉ',
     'number_of_days_off'=>'Số ngày đã nghỉ',

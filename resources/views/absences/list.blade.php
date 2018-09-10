@@ -170,11 +170,12 @@
                                         <th>Nghỉ từ ngày</th>
                                         <th>Nghỉ đến ngày</th>
                                         <th>Loại nghỉ</th>
+                                        <th>Loại thời gian nghỉ</th>
                                         <th>Lý do</th>
                                         <th>Ghi chú</th>
-                                        <th>Trạng thái</th>
-                                        <th>Lý do từ chối</th>
-                                        <th>Chức năng</th>
+                                        {{--<th>Trạng thái</th>--}}
+                                        {{--<th>Lý do từ chối</th>--}}
+                                        {{--<th>Chức năng</th>--}}
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu" id="listAbsence">
@@ -195,88 +196,104 @@
                                                     <span>{{trans('absence_po.list_po.type.'.$obj->name_type)}}</span>
                                                 @endif
                                             </td>
+                                            @if(isset($obj->name_time))
+                                                @if($obj->name_time == 'all')
+                                                    <td>{{trans('absence.all')}}</td>
+                                                @elseif($obj->name_time == 'morning')
+                                                    <td>{{trans('absence.morning')}}</td>
+                                                @else
+                                                    <td>{{trans('absence.afternoon')}}</td>
+                                                @endif
+                                            @else
+                                            <td>-</td>
+                                            @endif
                                             <td>{{$obj->reason ? $obj->reason : "-"}}</td>
                                             <td>{{$obj->description ? $obj->description : "-"}}</td>
+                                            {{--@php--}}
+                                            {{--<td class="td-absence-status" id="td-absence-status-{{$obj->id}}">--}}
+                                                {{--@if($obj->is_deny == 0)--}}
+                                                    {{--@if($obj->absence_status_id == $idWaiting)--}}
+                                                        {{--<span class="label label-primary">{{trans('absence.employee_status.absence_waiting')}}</span>--}}
+                                                    {{--@elseif($obj->absence_status_id == $idAccept)--}}
+                                                        {{--<span class="label label-success">{{trans('absence.employee_status.absence_accept')}}</span>--}}
+                                                    {{--@elseif($obj->absence_status_id == $idReject)--}}
+                                                        {{--<span class="label label-default">{{trans('absence.employee_status.absence_reject')}}</span>--}}
+                                                    {{--@endif--}}
+                                                {{--@else--}}
+                                                    {{--@if($obj->absence_status_id == $idWaiting)--}}
+                                                        {{--<span class="label label-warning">{{trans('absence.employee_status.cancel_waiting')}}</span>--}}
+                                                    {{--@elseif($obj->absence_status_id == $idAccept)--}}
+                                                        {{--<span class="label label-info">{{trans('absence.employee_status.cancel_accept')}}</span>--}}
+                                                    {{--@elseif($obj->absence_status_id == $idReject)--}}
+                                                        {{--<span class="label label-danger">{{trans('absence.employee_status.cancel_reject')}}</span>--}}
+                                                    {{--@endif--}}
+                                                {{--@endif--}}
+                                            {{--</td>--}}
+                                            {{--@endphp--}}
+                                            {{--@php--}}
+                                            {{--<td>--}}
 
-                                            <td class="td-absence-status" id="td-absence-status-{{$obj->id}}">
-                                                @if($obj->is_deny == 0)
-                                                    @if($obj->absence_status_id == $idWaiting)
-                                                        <span class="label label-primary">{{trans('absence.employee_status.absence_waiting')}}</span>
-                                                    @elseif($obj->absence_status_id == $idAccept)
-                                                        <span class="label label-success">{{trans('absence.employee_status.absence_accept')}}</span>
-                                                    @elseif($obj->absence_status_id == $idReject)
-                                                        <span class="label label-default">{{trans('absence.employee_status.absence_reject')}}</span>
-                                                    @endif
-                                                @else
-                                                    @if($obj->absence_status_id == $idWaiting)
-                                                        <span class="label label-warning">{{trans('absence.employee_status.cancel_waiting')}}</span>
-                                                    @elseif($obj->absence_status_id == $idAccept)
-                                                        <span class="label label-info">{{trans('absence.employee_status.cancel_accept')}}</span>
-                                                    @elseif($obj->absence_status_id == $idReject)
-                                                        <span class="label label-danger">{{trans('absence.employee_status.cancel_reject')}}</span>
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td>
+                                                {{--<?php--}}
+                                                    {{--$count = 0;--}}
+                                                    {{--$listConfirm = selectConfirm($obj->id);--}}
+                                                    {{--if(count($listConfirm) > 0){--}}
+                                                        {{--foreach ($listConfirm as $objConfirm){--}}
+                                                            {{--if(sizeof($listConfirm)>0 && sizeof($listConfirm)<=2){--}}
+                                                                {{--echo '<p>PO '.$objConfirm->nameEmployee.': '.$objConfirm->reasonAbsence.'</p>';--}}
+                                                            {{--} else if(sizeof($listConfirm)>2){--}}
+                                                                {{--echo '<p>PO '.$objConfirm->nameEmployee.': '.$objConfirm->reasonAbsence;--}}
+                                                                {{--if($count == 1){--}}
+                                                                    {{--echo '<a href="#" class="show-list-confirms"--}}
+                                                                {{--id="show-list-confirms-'. $obj->id .'" data-toggle="modal"--}}
+                                                                {{--data-target="#show-list-confirms" style="color: red"> [...]</a></p>';--}}
+                                                                    {{--break;--}}
+                                                                {{--}--}}
+                                                                {{--$count++;--}}
+                                                            {{--} else {--}}
+                                                                {{--echo '-';--}}
+                                                            {{--}--}}
+                                                        {{--}--}}
+                                                    {{--} else{--}}
+                                                        {{--echo "-";--}}
+                                                    {{--}--}}
 
-                                                <?php
-                                                    $count = 0;
-                                                    $listConfirm = selectConfirm($obj->id);
-                                                    if(count($listConfirm) > 0){
-                                                        foreach ($listConfirm as $objConfirm){
-                                                            if(sizeof($listConfirm)>0 && sizeof($listConfirm)<=2){
-                                                                echo '<p>PO '.$objConfirm->nameEmployee.': '.$objConfirm->reasonAbsence.'</p>';
-                                                            } else if(sizeof($listConfirm)>2){
-                                                                echo '<p>PO '.$objConfirm->nameEmployee.': '.$objConfirm->reasonAbsence;
-                                                                if($count == 1){
-                                                                    echo '<a href="#" class="show-list-confirms"
-                                                                id="show-list-confirms-'. $obj->id .'" data-toggle="modal"
-                                                                data-target="#show-list-confirms" style="color: red"> [...]</a></p>';
-                                                                    break;
-                                                                }
-                                                                $count++;
-                                                            } else {
-                                                                echo '-';
-                                                            }
-                                                        }
-                                                    } else{
-                                                        echo "-";
-                                                    }
+                                                {{--?>--}}
+                                            {{--</td>--}}
+                                            {{--@endphp--}}
+                                            {{--@php--}}
+                                            {{--<td>--}}
+                                                {{--<?php--}}
+                                                    {{--$i = 0;--}}
+                                                    {{--foreach($obj->confirms as $confirm){--}}
+                                                        {{--if($confirm->absence_status_id == $idWaiting && $obj->is_deny == 0){--}}
+                                                            {{--$i++;--}}
+                                                        {{--}--}}
+                                                    {{--}--}}
+                                                    {{--if($i == sizeof($obj->confirms)) {--}}
+                                                        {{--echo '<div style="display: inline" id="div-edit-'. $obj->id .'">--}}
+                                                                {{--<button class="btn btn-default btn-edit" id="btn-edit-'. $obj->id .'">--}}
+                                                                    {{--<span><i class="fa fa-pencil"></i></span>--}}
+                                                                {{--</button></div>';--}}
+                                                    {{--} else {--}}
+                                                        {{--echo '<div style="display: inline"><button class="btn btn-default disabled">--}}
+                                                                    {{--<span><i class="fa fa-pencil"></i></span>--}}
+                                                                {{--</button></div>';--}}
+                                                    {{--}--}}
 
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    $i = 0;
-                                                    foreach($obj->confirms as $confirm){
-                                                        if($confirm->absence_status_id == $idWaiting && $obj->is_deny == 0){
-                                                            $i++;
-                                                        }
-                                                    }
-                                                    if($i == sizeof($obj->confirms)) {
-                                                        echo '<div style="display: inline" id="div-edit-'. $obj->id .'">
-                                                                <button class="btn btn-default btn-edit" id="btn-edit-'. $obj->id .'">
-                                                                    <span><i class="fa fa-pencil"></i></span>
-                                                                </button></div>';
-                                                    } else {
-                                                        echo '<div style="display: inline"><button class="btn btn-default disabled">
-                                                                    <span><i class="fa fa-pencil"></i></span>
-                                                                </button></div>';
-                                                    }
+                                                    {{--if($obj->is_deny == 0 && $obj->absence_status_id != $idReject){--}}
+                                                        {{--echo '<div style="display: inline" id="div-cancel-'. $obj->id .'">--}}
+                                                                {{--<button class="btn btn-danger btn-cancel" id="btn-cancel-'. $obj->id .'">--}}
+                                                                    {{--<span><i class="fa fa-trash"></i></span>--}}
+                                                                {{--</button></div>';--}}
+                                                    {{--} else {--}}
+                                                        {{--echo '<div style="display: inline"><button class="btn btn-danger disabled">--}}
+                                                                    {{--<span><i class="fa fa-trash"></i></span>--}}
+                                                                {{--</button></div>';--}}
+                                                    {{--}--}}
 
-                                                    if($obj->is_deny == 0 && $obj->absence_status_id != $idReject){
-                                                        echo '<div style="display: inline" id="div-cancel-'. $obj->id .'">
-                                                                <button class="btn btn-danger btn-cancel" id="btn-cancel-'. $obj->id .'">
-                                                                    <span><i class="fa fa-trash"></i></span>
-                                                                </button></div>';
-                                                    } else {
-                                                        echo '<div style="display: inline"><button class="btn btn-danger disabled">
-                                                                    <span><i class="fa fa-trash"></i></span>
-                                                                </button></div>';
-                                                    }
-
-                                                ?>
-                                            </td>
+                                                {{--?>--}}
+                                            {{--</td>--}}
+                                            {{--@endphp--}}
                                         </tr>
                                     @endforeach
                                 </tbody>

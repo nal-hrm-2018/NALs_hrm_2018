@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'all' => 'All',
+    'morning' => 'Morning',
+    'afternoon' => 'Afternoon',
     'add'=> 'Add absence',
     'total_date_absences' => 'Total date absences',
     'number_of_days_off'=>'Number of days off',
