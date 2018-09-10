@@ -40,6 +40,9 @@
                     <li>
                         <a id="tab-overtime" href="#overtime" data-toggle="tab">{{trans('common.title_header.overtime')}}</a>
                     </li>
+                    <li>
+                        <a id="tab-absence" href="#absence" data-toggle="tab">Absence</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane" id="basic">
@@ -393,6 +396,47 @@
                             </div>
                         </section>
                     </div>
+                    <div class="tab-pane" id="absence">
+                        <section class="content">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <table id="" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="align-middle">Nghỉ từ ngày</th>
+                                                        <th class="align-middle">Nghỉ đến ngày</th>
+                                                        <th class="align-middle">Loại nghỉ</th>
+                                                        <th class="align-middle">Lý do</th>
+                                                        <th class="align-middle">Ghi chú</th>
+                                                        <th class="align-middle">Lý do từ chối</th>
+                                                        <th class="align-middle text-center">Chức năng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="align-middle">-</td>
+                                                        <td class="align-middle">-</td>
+                                                        <td class="align-middle">-</td>
+                                                        <td class="align-middle">-</td>
+                                                        <td class="align-middle">-</td>
+                                                        <td class="align-middle">-</td>
+                                                        <td class="align-middle text-center">
+                                                            <button class="btn btn-default"><i class="fa fa-pencil"></i></button>
+                                                            <form style="display: inline;">
+                                                                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
             <!-- /.nav-tabs-custom -->
@@ -459,6 +503,12 @@
             $(function () {
                 $("#tab-overtime").bind("click", function () {
                     activaTab('overtime');
+                });
+            });
+
+            $(function () {
+                $("#tab-absence").bind("click", function () {
+                    activaTab('absence');
                 });
             });
 
