@@ -314,18 +314,18 @@
                                                     </select>
                                                 </div>
                                             </div> --}}
-                                            <table id="" class="table table-bordered table-striped text-center">
+                                            <table id="" class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th>{{trans('overtime.number')}}</th>
+                                                        <th class="text-center">{{trans('overtime.number')}}</th>
                                                         <th>{{trans('overtime.project')}}</th>
                                                         <th>{{trans('overtime.date')}}</th>
                                                         <th>{{trans('overtime.reason')}}</th>
-                                                        <th>{{trans('overtime.start_time')}}</th>
-                                                        <th>{{trans('overtime.end_time')}}</th>
-                                                        <th>{{trans('overtime.total_time')}}</th>
-                                                        <th>{{trans('overtime.type')}}</th>
-                                                        <th>{{trans('overtime.correct_total_time')}}</th>
+                                                        <th class="text-center">{{trans('overtime.start_time')}}</th>
+                                                        <th class="text-center">{{trans('overtime.end_time')}}</th>
+                                                        <th class="text-center">{{trans('overtime.total_time')}}</th>
+                                                        <th class="text-center">{{trans('overtime.type')}}</th>
+                                                        <th class="text-center">{{trans('overtime.correct_total_time')}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -337,24 +337,24 @@
                                                             $count++;
                                                         @endphp
                                                         <tr>
-                                                            <td>{{$count}}</td>
+                                                            <td class="text-center">{{$count}}</td>
                                                             <td>{{ isset($val->project->name)?$val->project->name:'-'}}</td>
                                                             <td>{{$val->date->format('d/m/Y')}}</td>
                                                             <td>{{$val->reason}}</td>
-                                                            <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
-                                                            <td>{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
-                                                            <td><span class="label label-primary">{{$val->total_time}} {{trans('overtime.hours')}}<span></td>
+                                                            <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
+                                                            <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
+                                                            <td class="text-center"><span class="label label-primary">{{$val->total_time}} {{trans('overtime.hours')}}<span></td>
                                                             @if ($val->type->name == 'normal')
-                                                                <td><span class="label" style="background: #9072ff;">{{trans('overtime.normal')}}</span></td>
+                                                                <td class="text-center"><span class="label" style="background: #9072ff;">{{trans('overtime.normal')}}</span></td>
                                                             @elseif($val->type->name == 'weekend')
-                                                                <td><span class="label" style="background: #643aff;">{{trans('overtime.day_off')}}</span></td>
+                                                                <td class="text-center"><span class="label" style="background: #643aff;">{{trans('overtime.day_off')}}</span></td>
                                                             @else($val->type->name == 'holiday')
-                                                                <td><span class="label" style="background: #3600ff;">{{trans('overtime.holiday')}}</span></td>
+                                                                <td class="text-center"><span class="label" style="background: #3600ff;">{{trans('overtime.holiday')}}</span></td>
                                                             @endif    
                                                             @if ($val->correct_total_time)
-                                                                <td><span class="label label-success">{{$val->correct_total_time}} {{trans('overtime.hours')}}</span></td>
+                                                                <td class="text-center"><span class="label label-success">{{$val->correct_total_time}} {{trans('overtime.hours')}}</span></td>
                                                             @else
-                                                                <td>-</td>
+                                                                <td class="text-center">-</td>
                                                             @endif
                                                         </tr>
                                                     @endforeach
@@ -363,25 +363,26 @@
                                                         <td rowspan="3">{{trans('overtime.total')}}</td>
                                                         <td><span class="label" style="background: #9072ff;">{{trans('overtime.normal')}}</span></td>
                                                          @if ($time['normal'])
-                                                            <td><span class="label label-primary">{{$time['normal']}} {{trans('overtime.hours')}}</span></td>
+                                                            <td class="text-center"><span class="label label-success">{{$time['normal']}} {{trans('overtime.hours')}}</span></td>
                                                         @else
-                                                            <td>-</td>
+                                                            <td class="text-center">-</td>
                                                         @endif
                                                     </tr>
                                                     <tr>
                                                         <td><span class="label" style="background: #643aff;">{{trans('overtime.day_off')}}</span></td>
                                                         @if ($time['weekend'])
-                                                            <td><span class="label label-primary">{{$time['weekend']}} {{trans('overtime.hours')}}</span></td>
+                                                            <td class="text-center"><span class="label label-success">{{$time['weekend']}} {{trans('overtime.hours')}}</span></td>
                                                         @else
-                                                            <td>-</td>
+                                                            <td class="text-center">-</td>
                                                         @endif
                                                     </tr>
                                                     <tr>
                                                         <td><span class="label" style="background: #3600ff;">{{trans('overtime.holiday')}}</span></td>
                                                         @if ($time['holiday'])
-                                                            <td><span class="label label-primary">{{$time['holiday']}} {{trans('overtime.hours')}}</span></td>
+                                                            <td class="text-center"><span class="label label-success">{{$time['holiday']}} {{trans('overtime.hours')}}</span></td>
                                                         @else
-                                                            <td>-</td>
+                                                            <td class="text-center">-</td>
+
                                                         @endif
                                                     </tr>
                                                 </tbody>
