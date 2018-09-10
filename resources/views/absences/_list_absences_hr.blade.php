@@ -56,7 +56,7 @@
                 vertical-align: middle !important;
             }
         </style>
-        <tbody class="context-menu list-project">
+        <tbody class="context-menu">
 
         @foreach($list_absences as $employee)
             <tr class="employee-menu" id="employee-id-{{$employee['id']}}" data-employee-id="{{$employee['id']}}">
@@ -122,14 +122,23 @@
                         value="{{$employee[trans('absence.remaining_date')]}}">
 
                 <ul class="contextMenu" data-employee-id="{{$employee['id']}}" hidden>
-                    <li><a href={{route('absences.show',$employee['id'])}}><i
-                                    class="fa fa-id-card"></i> {{trans('common.action.view')}}
+                    <li><a href="{{ route('employee.show',['employee'=> $employee['id']]) }}?basic=0&project=0&overtime=0&absence=1"><i
+                                    class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}
                         </a></li>
                 </ul>
             </tr>
         @endforeach
         </tbody>
     </table>
-<div class="container-pagination pagina" style="float: right;">
-    {{ $employees->links() }}
-</div>
+    <div class="row">
+        @if($employees->hasPages())
+            <div class="col-sm-5">
+                <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                    {{getInformationDataTable($employees)}}
+                </div>
+            </div>
+            <div class="col-sm-7">
+                {{  $employees->appends($param)->render('vendor.pagination.custom') }}
+            </div>
+        @endif
+    </div>

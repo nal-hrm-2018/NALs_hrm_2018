@@ -145,7 +145,7 @@
                                 <script>
                                     
                                 </script>
-                                <div class="dataTables_length" id="project-list_length" style="float:right">
+                                <div class="dataTables_length" id="project-list_length" style="float:right; margin-bottom: 20px;">
                                     <label class="lable-entries">{{trans('pagination.show.number_record_per_page')}}</label><br />
                                     <select class="input-entries" id="mySelect" onchange="myFunction()">
                                         <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
@@ -170,7 +170,7 @@
                                     });
                                 })();
                             </script>
-                            <table id="" class="table table-bordered table-striped text-center">
+                            <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No.</th>

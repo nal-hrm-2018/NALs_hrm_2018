@@ -400,7 +400,7 @@
                                         {{--</td>--}}
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                                             @if(Auth::user()->hasPermission('view_employee_basic'))
-                                                <li><a href="employee/{{$employee->id}}"><i
+                                                <li><a href="employee/{{$employee->id}}?basic=1&project=0&overtime=0&absence=0"><i
                                                             class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('edit_employee_basic'))

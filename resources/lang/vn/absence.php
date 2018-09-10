@@ -1,5 +1,16 @@
 <?php
 return [
+    'start_date' => 'Nghỉ từ ngày',
+    'end_date' => 'Nghĩ đến ngày',
+    'absence_type' => 'Loại nghĩ',
+    'absence_time' => 'Loại thời gian nghĩ',
+    'reason' => 'Lý do',
+    'description' => 'Ghi chú',
+    'select_year' => 'Chọn năm',
+    'action' => 'Chức năng',
+    'all' => 'Cả ngày',
+    'morning' => 'Buổi sáng',
+    'afternoon' => 'Buổi chiều',
     'add'=> 'Tạo đơn xin vắng nghỉ',
     'total_date_absences' => 'Số ngày phép có thể nghỉ',
     'number_of_days_off'=>'Số ngày đã nghỉ',

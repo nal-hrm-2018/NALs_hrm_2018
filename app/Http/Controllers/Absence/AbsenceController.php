@@ -290,11 +290,15 @@ class AbsenceController extends Controller
                         "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
                         "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
                     ];
+        if(isset($request->year)){
+            $year = $request->year;
+        }
         $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
             'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
-            'absences.absence_status_id')
+            'absences.absence_status_id', 'absence_time.name AS name_time')
                 ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
                 ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+                ->join('absence_time', 'absences.absence_time_id', '=' ,'absence_time.id')
                 ->where('absences.delete_flag', 0)
                 ->where('absences.employee_id',$id)
                 ->where(function($listAbsence)use($year){
