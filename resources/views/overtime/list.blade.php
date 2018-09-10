@@ -57,18 +57,18 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Name of Project</button>
                                                             </div>
-                                                            <input type="text" name="id" id="employeeId" class="form-control" value="">
+                                                            <input type="text" name="id" id="project_name" class="form-control" value="">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Date type</button>
                                                             </div>
-                                                            <select name="role" id="role_employee" class="form-control">
-                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                            <select name="type" id="ot_type" class="form-control">
+                                                                <option {{ !empty(request('type'))?'':'selected="selected"' }} value="">
                                                                     {{  trans('vendor.drop_box.placeholder-default') }}
                                                                 </option>
                                                                 @foreach($ot_type as $type)
-                                                                    <option value="{{ $type->name}}"{{ (string)$type->name===request('role')?'selected="selected"':'' }}>
+                                                                    <option value="{{ $type->name}}"{{ (string)$type->name===request('type')?'selected="selected"':'' }}>
                                                                         {{ $type ->name}}
                                                                     </option>
                                                                 @endforeach
@@ -78,12 +78,12 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Status</button>
                                                             </div>
-                                                            <select name="team" id="team_employee" class="form-control">
-                                                                    <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                            <select name="status" id="ot_status" class="form-control">
+                                                                    <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
                                                                 @foreach($ot_status as $status)
-                                                                    <option value="{{ $status->name}}" {{ (string)$status->name===request('team')?'selected="selected"':'' }}>
+                                                                    <option value="{{ $status->name}}" {{ (string)$status->name===request('status')?'selected="selected"':'' }}>
                                                                         {{ $status->name }}
                                                                     </option>
                                                                 @endforeach
@@ -96,7 +96,7 @@
                                                                 <button type="button" class="btn width-100">Day</button>
                                                             </div>
                                                             <select name="days" id="days" class="form-control">
-                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                                <option {{ !empty(request('day'))?'':'selected="selected"' }} value="">
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                 </option>
                                                             </select>
@@ -106,7 +106,7 @@
                                                                 <button type="button" class="btn width-100">Month</button>
                                                             </div>
                                                             <select name="months" id="months" class="form-control">
-                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                                <option {{ !empty(request('month'))?'':'selected="selected"' }} value="">
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                 </option>
                                                             </select>
@@ -116,7 +116,7 @@
                                                                 <button type="button" class="btn width-100">Year</button>
                                                             </div>
                                                             <select name="years" id="years" class="form-control">
-                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
+                                                                <option {{ !empty(request('year'))?'':'selected="selected"' }} value="">
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                 </option>
                                                             </select>
@@ -179,7 +179,6 @@
                                     </script>
                                 </div>
                             </div>
-<<<<<<< HEAD
                             <script>
                                 (function () {
                                     $('#select_length').change(function () {
@@ -189,9 +188,6 @@
                                 })();
                             </script>
                             <table id="" class="table table-bordered table-striped text-center">
-=======
-                            <table id="" class="table table-bordered table-striped">
->>>>>>> 73562f719842e231eab93cff30f039d0f3262b83
                                 <thead>
                                     <tr>
                                         <th class="text-center">No.</th>
