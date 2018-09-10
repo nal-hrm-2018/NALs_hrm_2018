@@ -76,7 +76,7 @@
                     <div class="col-md-4 add-holiday-input">
                         <div class="form-group">
                             <label>{{trans('holiday.type')}}<strong class="text-danger">(*)</strong></label><br>
-                            <select class="form-control select2" class="text-danger"  name="holiday_type_id" id="holiday_type_id">
+                            <select class="form-control" class="text-danger"  name="holiday_type_id" id="holiday_type_id">
                                 <option value="" >{{trans('holiday.select')}}</option>
                             <?php
                                 foreach ($holiday_type as $val) {

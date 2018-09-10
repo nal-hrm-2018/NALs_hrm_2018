@@ -13,7 +13,7 @@
         <section class="content-header">
             <div>
                 <button type="button" class="btn btn-default">
-                    <a href="{{route('notification.create')}}"><i class="fa fa-user-plus"></i>{{trans('notification.add')}}</a>
+                    <a href="{{route('notification.create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{trans('notification.add')}}</a>
                 </button>
             </div>
             <br>

@@ -197,7 +197,7 @@
            </div>
            <div class="form-group">
              <label>{{trans('employee.profile_info.marital_status.title')}}<strong style="color: red">(*)</strong></label>
-             <select class="form-control select2" style="width: 100%;"  name="marital_status" id="marital_status">
+             <select class="form-control" style="width: 100%;"  name="marital_status" id="marital_status">
                <option value="1" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 1) echo'selected'; ?>>{{trans('employee.profile_info.marital_status.single')}}</option>
                <option value="2" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 2) echo'selected'; ?>>{{trans('employee.profile_info.marital_status.married')}}</option>
                <option value="3" <?php if( old('marital_status', isset($objEmployee["marital_status"]) ? $objEmployee["marital_status"] : null) == 3) echo'selected'; ?>>{{trans('employee.profile_info.marital_status.separated')}}</option>
@@ -218,7 +218,7 @@
            </div>
            <div class="form-group">
              <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br />
-             {{--<select class="form-control select2" style="width: 100%;"  name="team_id" id="team_id">--}}
+             {{--<select class="form-control" style="width: 100%;"  name="team_id" id="team_id">--}}
              {{--<option value="" >---{{trans('employee.drop_box.placeholder-default')}}---</option>--}}
 
                <?php
@@ -267,7 +267,7 @@
            </div>
            <div class="form-group">
              <label>{{trans('employee.profile_info.gender.title')}}<strong style="color: red">(*)</strong></label>
-             <select class="form-control select2" style="width: 100%;" name="gender" id="gender">
+             <select class="form-control" style="width: 100%;" name="gender" id="gender">
                <option value="1" id="gender_1" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 1) echo'selected'; ?>>{{trans('employee.profile_info.gender.female')}}</option>
                <option value="2" id="gender_2" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 2) echo'selected'; ?>>{{trans('employee.profile_info.gender.male')}}</option>
                <option value="3" id="gender_3" <?php if( old('gender', isset($objEmployee["gender"]) ? $objEmployee["gender"] : null) == 3) echo'selected'; ?>>{{trans('employee.profile_info.gender.na')}}</option>
@@ -276,7 +276,7 @@
            </div>
            <div class="form-group">
              <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
-             <select class="form-control select2" {{$statusRole}} style="width: 100%;" name="role_id" id="role_id">
+             <select class="form-control" {{$statusRole}} style="width: 100%;" name="role_id" id="role_id">
                  <?php
                  foreach($dataRoles as $val){
                      $selected = "";
