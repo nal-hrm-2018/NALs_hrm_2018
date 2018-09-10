@@ -257,9 +257,9 @@
                                 <th>{{trans('absence.confirmation.type')}}</th>
                                 <th>{{trans('absence.confirmation.cause')}}</th>
                                 <th>{{trans('absence.confirmation.description')}}</th>
-                                <th>{{trans('absence.confirmation.action')}}</th>
+                                {{-- <th>{{trans('absence.confirmation.action')}}</th>
                                 <th>{{trans('absence.confirmation.status')}}</th>
-                                <th>{{trans('absence.confirmation.reject_cause')}}</th>
+                                <th>{{trans('absence.confirmation.reject_cause')}}</th> --}}
                             </tr>
                             </thead>
                             <tbody class="list-confirm">
@@ -292,7 +292,7 @@
                                         >{{$absenceTypeName === '-' ? '-' : trans('absence_po.list_po.type.'.$absenceTypeName)}}</span></td>
                                     <td>{{isset($confirm->absence)?$confirm->absence->reason:'-'}}</td>
                                     <td>{{isset($confirm->absence)?isset($confirm->absence->description)?$confirm->absence->description:'-':'-'}}</td>
-                                    <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
+                                   {{--  <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)
                                             @if($confirm->absence->is_deny === 0)
                                                 <span class="label label-primary">{{trans('absence.confirmation.absence_request')}}</span>
@@ -332,7 +332,7 @@
                                     </td>
                                     <td class="reason-confirm" id="reason-confirm-{{$confirm->id}}">
                                         {{isset($confirm->reason)?$confirm->reason:'-'}}
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                             </tbody>
