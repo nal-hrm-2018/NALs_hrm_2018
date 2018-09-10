@@ -27,12 +27,12 @@
         <!-- Main content -->
       <div id="msg"></div>
         <section class="content">
-           <div class="row">
+           <div class="">
               <div class="box">
                  <!-- /.box-header -->
                 <div class="col-xs-12" style="display: flex; justify-content: space-around;">
-                    <div style="display: inline-block;">
-                    <h2>{{trans('project.id')}}: <strong>{{$project->id}}</strong></h2>
+                    <div style="display: inline-block; padding: 20px; margin-top: 20px; border-radius: 5px; border: 1px solid #d2d6de; border-top: 3px solid #00c0ef;">
+                    <h2 class="text-center">{{trans('project.id')}}: <strong>{{$project->id}}</strong></h2>
                     <p>{{trans('project.project_name')}}:
                         <strong>{{$project->name}}</strong>
                     </p>
