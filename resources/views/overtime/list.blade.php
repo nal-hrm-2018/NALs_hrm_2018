@@ -83,7 +83,7 @@
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Name of Project</button>
+                                                                <button type="button" class="btn width-100">Name of Project </button>
                                                             </div>
                                                             <input type="text" name="name" id="project_name" class="form-control" value="{{$name}}">
                                                         </div>
@@ -92,10 +92,16 @@
                                                                 <button type="button" class="btn width-100">Date type</button>
                                                             </div>
                                                             <select name="type" id="ot_type" class="form-control">
-                                                                <option {{ !empty(request('type'))?'':'selected="selected"' }} value=""></option>
+                                                                <option {{ !empty(request('type'))?'':'selected="selected"' }} value="">{{  trans('vendor.drop_box.placeholder-default') }}</option>
                                                                 @foreach($ot_type as $type)
                                                                     <option value="{{$type->name}}"{{ (string)$type->name===request('type')?'selected="selected"':'' }}>
-                                                                        {{$type ->name}}
+                                                                        @if ($type->name == 'normal')
+                                                                            Normal day
+                                                                        @elseif($type->name == 'weekend')
+                                                                            Day off
+                                                                        @elseif($type->name == 'holiday')
+                                                                            Holiday
+                                                                        @endif  
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -105,7 +111,7 @@
                                                                 <button type="button" class="btn width-100">Status</button>
                                                             </div>
                                                             <select name="status" id="ot_status" class="form-control">
-                                                            <option {{ !empty(request('status'))?'':'selected="selected"' }} value=""></option>
+                                                            <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">{{  trans('vendor.drop_box.placeholder-default') }}</option>
                                                                 @foreach($ot_status as $status)
                                                                     <option value="{{ $status->name}}" {{ (string)$status->name===request('status')?'selected="selected"':'' }}>
                                                                         {{ $status->name }}
@@ -119,7 +125,7 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">From Date</button>
                                                             </div>
-                                                        <input type="date" name="from_date" class="form-control" value="{{$from_date}}">
+                                                            <input type="date" name="from_date" class="form-control" value="{{$from_date}}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">

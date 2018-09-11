@@ -120,7 +120,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
     }
     public function searchOvertime(Request $request)
     {       
-        echo $number_record_per_page = !empty($request->number_record_per_page) ? $request->number_record_per_page : '';
+        $number_record_per_page = !empty($request->number_record_per_page) ? $request->number_record_per_page : '';
         $name = !empty($request->name) ? $request->name : '';
         $type = !empty($request->type) ? $request->type : '';
         $status = !empty($request->status) ? $request->status : '';
