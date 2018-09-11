@@ -28,8 +28,8 @@ class OTController extends Controller
      */
     protected $objOT;
     protected $objProcess;
-    protected $searchEmployeeService;
-    public function __construct (Overtime $objOT,Process $objProcess,SearchEmployeeService $searchEmployeeService)
+    protected $searchOvertimeService;
+    public function __construct (Overtime $objOT,Process $objProcess, SearchEmployeeService $searchEmployeeService)
     {
         $this->objOT=$objOT;
         $this->objProcess = $objProcess;
@@ -88,16 +88,22 @@ class OTController extends Controller
     public function index(Request $request)
     {
         $id=Auth::user()->id;
-        $newmonth = date('d');
-        $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
+        $oldmonth = date('d');
+        $oldmonth = date("Y-m-d", strtotime('-'.$oldmonth.' day'));
         $ot_status = OvertimeStatus::all();
         $ot_type = OvertimeType::all();
-
-        $ot = Overtime::select()->where('employee_id', $id)->where('date', '>', $newmonth)->where('delete_flag', '=', 0)->with('status', 'type', 'project', 'employee')->get()->sortBy('date');
+        $request['user_id'] = $id;
+        $request['oldmonth'] = $oldmonth;
+        $overtime = $this->searchEmployeeService->searchOvertime($request);
+        $overtime = $overtime->paginate($request['number_record_per_page']);
+        $overtime->setPath('');
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
         $normal = 0;
         $weekend = 0;
         $holiday = 0;
-        foreach($ot as $val){
+        foreach($overtime as $val){
             if($val->status->name = 'Accepted' || $val->status->name = 'Rejected'){
                 if($val->type->name == 'normal'){
                     $normal += $val->correct_total_time;
@@ -110,7 +116,7 @@ class OTController extends Controller
         }
         $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
         return view('overtime.list', [
-            'ot' => $ot,
+            'ot' => $overtime,
             'time' => $time,
             'ot_status' => $ot_status,
             'ot_type' => $ot_type,
