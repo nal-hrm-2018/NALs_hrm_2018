@@ -34,8 +34,6 @@
             </div>
 
         </section>
-
-
         <div id="msg">
         </div>
         <!-- Main content -->
