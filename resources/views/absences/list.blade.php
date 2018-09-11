@@ -163,6 +163,7 @@
                             <table class="table table-bordered table-striped" id="absences-list" style="margin-top: 20px !important;">
                                 <thead>
                                     <tr>
+                                        <th>{{trans('absence.stt')}}</th>
                                         <th>{{trans('absence.start_date')}}</th>
                                         <th>{{trans('absence.end_date')}}</th>
                                         <th>{{trans('absence.absence_type')}}</th>
@@ -172,8 +173,9 @@
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu" id="listAbsence">
-                                    @foreach($listAbsence AS $obj)
+                                    @foreach($listAbsence AS $key => $obj)
                                         <tr>
+                                            <td>{{$key+1}}</td>
                                             <td>{{$obj->from_date}}</td>
                                             <td>{{$obj->to_date}}</td>
                                             <td>

@@ -1,13 +1,15 @@
 <?php
 
 return [
-    'start_date' => 'Start date',
-    'end_date' => 'End date',
-    'absence_type' => 'Absence type',
-    'absence_time' => 'Absence time',
-    'reason' => 'Reason',
-    'description' => 'Description',
+    'stt' => 'No.',
+    'start_date' => 'From Date',
+    'end_date' => 'To Date',
+    'absence_type' => 'Absence Type',
+    'absence_time' => 'Absence Time',
+    'reason' => 'Reasons',
+    'description' => 'Notes',
     'select_year' => 'Select year',
+    'action' => 'Action',
     'all' => 'All',
     'morning' => 'Morning',
     'afternoon' => 'Afternoon',

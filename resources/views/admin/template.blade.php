@@ -10,6 +10,7 @@
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/contain/common-dashboard.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/bower_components/font-awesome/css/font-awesome.min.css') !!}">
+    <link rel="stylesheet" type="text/css" href="{!! asset('admin/templates/css/datepicker/css/bootstrap-datetimepicker.min.css') !!}">
 
     <!-- Google Font -->
     {{--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">--}}
@@ -47,7 +48,8 @@
     @include('admin.module.templates.footer')
     <div class="control-sidebar-bg"></div>
 </div>
-
+<script src="{!! asset('admin/templates/js/datepicker/js/bootstrap-datetimepicker.min.js') !!}"></script>
+<!-- Date-picker -->
 <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{!! asset('admin/templates/js/bower_components/bootstrap/dist/js/bootstrap.min.js') !!}"></script>

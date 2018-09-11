@@ -153,6 +153,10 @@ Route::group(['middleware' => 'user'], function () {
     ]);
     // Route::get('absence/po-project', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
     Route::get('absence/po-project', 'Absence\AbsenceController@showListPO')->name('showListPO');
+    Route::get('absence/{id}', [
+        'uses' => 'Absence\AbsenceController@destroy',
+        'as' => 'absences.destroy'
+    ]);
     Route::post('absence/po-project/{id}', 'Absence\AbsenceController@confirmRequestAjax')->name('confirmRequestAjax');
     Route::get('/export-confirm-list', 'Absence\AbsenceController@exportConfirmList')->name('exportConfirmList');
     Route::resource('absences', 'Absence\AbsenceController');

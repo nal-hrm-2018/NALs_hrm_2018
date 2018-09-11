@@ -1,5 +1,6 @@
 <?php
 return [
+    'stt' => 'STT',
     'start_date' => 'Nghỉ từ ngày',
     'end_date' => 'Nghĩ đến ngày',
     'absence_type' => 'Loại nghĩ',
@@ -7,6 +8,7 @@ return [
     'reason' => 'Lý do',
     'description' => 'Ghi chú',
     'select_year' => 'Chọn năm',
+    'action' => 'Chức năng',
     'all' => 'Cả ngày',
     'morning' => 'Buổi sáng',
     'afternoon' => 'Buổi chiều',

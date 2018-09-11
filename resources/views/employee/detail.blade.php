@@ -28,6 +28,8 @@
             {{--</ol>--}}
 
         </section>
+        <div id="msg">
+        </div>
         <section class="content">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -405,30 +407,44 @@
                                             <table id="" class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th class="align-middle">Nghỉ từ ngày</th>
-                                                        <th class="align-middle">Nghỉ đến ngày</th>
-                                                        <th class="align-middle">Loại nghỉ</th>
-                                                        <th class="align-middle">Lý do</th>
-                                                        <th class="align-middle">Ghi chú</th>
-                                                        <th class="align-middle">Lý do từ chối</th>
-                                                        <th class="align-middle text-center">Chức năng</th>
+                                                        <th class="align-middle">{{trans('absence.start_date')}}</th>
+                                                        <th class="align-middle">{{trans('absence.end_date')}}</th>
+                                                        <th class="align-middle">{{trans('absence.absence_type')}}</th>
+                                                        <th class="align-middle">{{trans('absence.reason')}}</th>
+                                                        <th class="align-middle">{{trans('absence.description')}}</th>
+                                                        <th class="align-middle text-center">{{trans('absence.action')}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach($listAbsence as $absence)
                                                     <tr>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
-                                                        <td class="align-middle">-</td>
+                                                        <td class="align-middle">{{ isset($absence->from_date)?$absence->from_date:'-' }}</td>
+                                                        <td class="align-middle">{{ isset($absence->to_date)?$absence->to_date:'-' }}</td>
+                                                        <td>
+                                                            @if(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.salary_date'))
+                                                                <span class="label label-primary">
+                                                            @elseif(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.non_salary_date'))
+                                                                <span class="label label-info">
+                                                            @elseif(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.subtract_salary_date'))
+                                                                <span class="label label-danger">
+                                                            @elseif(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.insurance_date'))
+                                                                <span class="label label-default">
+                                                            @else
+                                                                <span>{{trans('absence_po.list_po.type.'.$absence->name_type)}}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{$absence->reason ? $absence->reason : "-"}}</td>
+                                                        <td>{{$absence->description ? $absence->description : "-"}}</td>
                                                         <td class="align-middle text-center">
+                                                            @if(Auth::user()->hasRole('HR'))
                                                             <button class="btn btn-default"><i class="fa fa-pencil"></i></button>
                                                             <form style="display: inline;">
-                                                                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                                <a href="{{ route('absences.destroy',['id'=>$absence->id]) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                                             </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
+                                                     @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
@@ -512,25 +528,60 @@
                 });
             });
 
-            if ('project' === "{{$active}}") {
-                activaTab('project');
-            } else {
-                $(function () {
-                    activaTab('basic');
-                    var bar_data = {
-                        data: [["{{trans('chart.resource_chart.jan')}}", {{$listValue[1]}}], ["{{trans('chart.resource_chart.feb')}}", {{$listValue[2]}}],
-                            ["{{trans('chart.resource_chart.mar')}}", {{$listValue[3]}}], ["{{trans('chart.resource_chart.apr')}}", {{$listValue[4]}}],
-                            ["{{trans('chart.resource_chart.may')}}", {{$listValue[5]}}], ["{{trans('chart.resource_chart.jun')}}", {{$listValue[6]}}],
-                            ["{{trans('chart.resource_chart.jul')}}", {{$listValue[7]}}], ["{{trans('chart.resource_chart.aug')}}", {{$listValue[8]}}],
-                            ["{{trans('chart.resource_chart.sep')}}", {{$listValue[9]}}], ["{{trans('chart.resource_chart.oct')}}", {{$listValue[10]}}],
-                            ["{{trans('chart.resource_chart.nov')}}", {{$listValue[11]}}], ["{{trans('chart.resource_chart.dec')}}", {{$listValue[12]}}]],
-                        color: '#3c8dbc'
-                    }
-                    showChart(bar_data);
+            <?php
+                if(isset($_GET['overtime'])){
+                $overtime = $_GET['overtime'];
+                $basic = $_GET['basic'];
+                $absence = $_GET['absence'];
+            ?>
 
-                });
+            var basic = <?php echo json_encode($basic); ?>;
+            var overtime = <?php echo json_encode($overtime); ?>;
+            var absence = <?php echo json_encode($absence); ?>;
+
+            if (project == 1) {
+                activaTab('project');
+            } else if (overtime == 1) {
+                activaTab('overtime');
+            } else if (absence == 1) {
+                activaTab('absence');
+            } else if (basic == 1) {
+                activaTab('basic')
+                // $(function () {
+                //     activaTab('basic');
+                //     var bar_data = {
+                //         data: [["{{trans('chart.resource_chart.jan')}}", {{$listValue[1]}}], ["{{trans('chart.resource_chart.feb')}}", {{$listValue[2]}}],
+                //             ["{{trans('chart.resource_chart.mar')}}", {{$listValue[3]}}], ["{{trans('chart.resource_chart.apr')}}", {{$listValue[4]}}],
+                //             ["{{trans('chart.resource_chart.may')}}", {{$listValue[5]}}], ["{{trans('chart.resource_chart.jun')}}", {{$listValue[6]}}],
+                //             ["{{trans('chart.resource_chart.jul')}}", {{$listValue[7]}}], ["{{trans('chart.resource_chart.aug')}}", {{$listValue[8]}}],
+                //             ["{{trans('chart.resource_chart.sep')}}", {{$listValue[9]}}], ["{{trans('chart.resource_chart.oct')}}", {{$listValue[10]}}],
+                //             ["{{trans('chart.resource_chart.nov')}}", {{$listValue[11]}}], ["{{trans('chart.resource_chart.dec')}}", {{$listValue[12]}}]],
+                //         color: '#3c8dbc'
+                //     }
+                //     showChart(bar_data);
+                // });
             }
 
+            <?php
+                }else{
+            ?>
+            activaTab('basic')
+            // $(function () {
+            //     activaTab('basic');
+            //     var bar_data = {
+            //         data: [["{{trans('chart.resource_chart.jan')}}", {{$listValue[1]}}], ["{{trans('chart.resource_chart.feb')}}", {{$listValue[2]}}],
+            //             ["{{trans('chart.resource_chart.mar')}}", {{$listValue[3]}}], ["{{trans('chart.resource_chart.apr')}}", {{$listValue[4]}}],
+            //             ["{{trans('chart.resource_chart.may')}}", {{$listValue[5]}}], ["{{trans('chart.resource_chart.jun')}}", {{$listValue[6]}}],
+            //             ["{{trans('chart.resource_chart.jul')}}", {{$listValue[7]}}], ["{{trans('chart.resource_chart.aug')}}", {{$listValue[8]}}],
+            //             ["{{trans('chart.resource_chart.sep')}}", {{$listValue[9]}}], ["{{trans('chart.resource_chart.oct')}}", {{$listValue[10]}}],
+            //             ["{{trans('chart.resource_chart.nov')}}", {{$listValue[11]}}], ["{{trans('chart.resource_chart.dec')}}", {{$listValue[12]}}]],
+            //         color: '#3c8dbc'
+            //     }
+            //     showChart(bar_data);
+            // });
+            <?php
+                }
+            ?>
             function activaTab(tab) {
                 $('.nav-tabs a[href="#' + tab + '"]').tab('show');
             };

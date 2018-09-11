@@ -400,7 +400,7 @@
                                         {{--</td>--}}
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
                                             @if(Auth::user()->hasPermission('view_employee_basic'))
-                                                <li><a href="employee/{{$employee->id}}"><i
+                                                <li><a href="employee/{{$employee->id}}?basic=1&project=0&overtime=0&absence=0"><i
                                                             class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('edit_employee_basic'))
@@ -408,8 +408,13 @@
                                                         {{trans('common.action.edit')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('delete_employee'))
-                                                <li><a class="btn-employee-remove" data-employee-email="{{$employee->email}}" data-employee-id="{{$employee->id}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
+                                                <li><a href="" class="btn-employee-remove" data-employee-email="{{$employee->email}}" data-employee-id="{{$employee->id}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
+                                            <script type="text/javascript">
+                                                $(".btn-employee-remove").click(function(event){
+                                                    event.preventDefault();
+                                                });
+                                            </script>
                                         </ul>
                                         
                                     </tr>

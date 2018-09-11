@@ -32,6 +32,34 @@
         </section>
         <div id="msg">
         </div>
+        <?php
+            $name = null; $type = null; $status = null; $from_date = null; $to_date = null; $page=1;
+            $number_record_per_page = 20;
+            $arrays[] = $_GET;
+            foreach ($arrays as $key => $value) {
+                if (!empty($value['name'])) {
+                    $name = $value['name'];
+                }
+                if (!empty($value['type'])) {
+                    $type = $value['type'];
+                }
+                if (!empty($value['status'])) {
+                    $status = $value['status'];
+                }
+                if (!empty($value['from_date'])) {
+                    $from_date = $value['from_date'];
+                }
+                if (!empty($value['to_date'])) {
+                    $to_date = $value['to_date'];
+                }
+                if (!empty($value['page'])) {
+                    $page = $value['page'];
+                }
+                if (!empty($value['number_record_per_page'])) {
+                    $number_record_per_page = $value['number_record_per_page'];
+                }
+            }
+        ?>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -55,21 +83,25 @@
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Name of Project</button>
+                                                                <button type="button" class="btn width-100">Name of Project </button>
                                                             </div>
-                                                            <input type="text" name="id" id="project_name" class="form-control" value="">
+                                                            <input type="text" name="name" id="project_name" class="form-control" value="{{$name}}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Date type</button>
                                                             </div>
                                                             <select name="type" id="ot_type" class="form-control">
-                                                                <option {{ !empty(request('type'))?'':'selected="selected"' }} value="">
-                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                </option>
+                                                                <option {{ !empty(request('type'))?'':'selected="selected"' }} value="">{{  trans('vendor.drop_box.placeholder-default') }}</option>
                                                                 @foreach($ot_type as $type)
-                                                                    <option value="{{ $type->name}}"{{ (string)$type->name===request('type')?'selected="selected"':'' }}>
-                                                                        {{ $type ->name}}
+                                                                    <option value="{{$type->name}}"{{ (string)$type->name===request('type')?'selected="selected"':'' }}>
+                                                                        @if ($type->name == 'normal')
+                                                                            Normal day
+                                                                        @elseif($type->name == 'weekend')
+                                                                            Day off
+                                                                        @elseif($type->name == 'holiday')
+                                                                            Holiday
+                                                                        @endif  
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -79,9 +111,7 @@
                                                                 <button type="button" class="btn width-100">Status</button>
                                                             </div>
                                                             <select name="status" id="ot_status" class="form-control">
-                                                                    <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
-                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                    </option>
+                                                            <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">{{  trans('vendor.drop_box.placeholder-default') }}</option>
                                                                 @foreach($ot_status as $status)
                                                                     <option value="{{ $status->name}}" {{ (string)$status->name===request('status')?'selected="selected"':'' }}>
                                                                         {{ $status->name }}
@@ -93,42 +123,24 @@
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Day</button>
+                                                                <button type="button" class="btn width-100">From Date</button>
                                                             </div>
-                                                            <select name="days" id="days" class="form-control">
-                                                                <option {{ !empty(request('day'))?'':'selected="selected"' }} value="">
-                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                </option>
-                                                            </select>
+                                                            <input type="date" name="from_date" class="form-control" value="{{$from_date}}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Month</button>
+                                                                <button type="button" class="btn width-100">To Date</button>
                                                             </div>
-                                                            <select name="months" id="months" class="form-control">
-                                                                <option {{ !empty(request('month'))?'':'selected="selected"' }} value="">
-                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="input-group margin">
-                                                            <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Year</button>
-                                                            </div>
-                                                            <select name="years" id="years" class="form-control">
-                                                                <option {{ !empty(request('year'))?'':'selected="selected"' }} value="">
-                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                </option>
-                                                            </select>
+                                                        <input type="date" name="to_date" class="form-control" value="{{$to_date}}">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer center">
-                                                <button id="btn_reset_employee" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                                <button id="btn_reset_overtime" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                                     {{trans('common.button.reset')}}
                                                 </button>
-                                                <button type="submit" id="searchListEmployee" class="btn btn-info"><span
+                                                <button type="submit" id="searchListOvertime" class="btn btn-info"><span
                                                             class="fa fa-search"></span>
                                                     {{trans('common.button.search')}}
                                                 </button>
@@ -137,32 +149,9 @@
                                     </form>
                                 </div>
                                 <script>
-                                    for (i = new Date().getFullYear()+1; i > 2000; i--){
-                                        $('#years').append($('<option />').val(i).html(i));
-                                    }
-                                    for (i = 1; i < 13; i++){
-                                        $('#months').append($('<option />').val(i).html(i));
-                                    }
-                                    updateNumberOfDays(); 
-    
-                                    $('#years, #months').on("change", function(){
-                                        updateNumberOfDays(); 
-                                    });
-                                    function updateNumberOfDays(){
-                                        $('#days').html('');
-                                        month=$('#months').val();
-                                        year=$('#years').val();
-                                        days=daysInMonth(month, year);
-
-                                        for(i=1; i < days+1 ; i++){
-                                                $('#days').append($('<option />').val(i).html(i));
-                                        }
-                                    }
-                                    function daysInMonth(month, year) {
-                                        return new Date(year, month, 0).getDate();
-                                    }
+                                    
                                 </script>
-                                <div class="dataTables_length" id="project-list_length" style="float:right">
+                                <div class="dataTables_length" id="project-list_length" style="float:right; margin-bottom: 20px;">
                                     <label class="lable-entries">{{trans('pagination.show.number_record_per_page')}}</label><br />
                                     <select class="input-entries" id="mySelect" onchange="myFunction()">
                                         <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
@@ -187,7 +176,7 @@
                                     });
                                 })();
                             </script>
-                            <table id="" class="table table-bordered table-striped text-center">
+                            <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No.</th>
@@ -287,6 +276,18 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="row">
+                                @if($ot->hasPages())
+                                    <div class="col-sm-5">
+                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                            {{getInformationDataTable($ot)}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{  $ot->appends($param)->render('vendor.pagination.custom') }}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

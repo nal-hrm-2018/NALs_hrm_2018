@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.notification_id')}}<strong style="color: red">(*)</strong></label>
-                                        <select class="form-control" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
+                                        <select class="form-control select2" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
                                             <option value="" >---Chọn---</option>
                                             <?php
                                             foreach ($notificationType as $val) {

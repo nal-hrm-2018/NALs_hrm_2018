@@ -590,7 +590,11 @@ class AbsenceController extends Controller
 
     public function destroy($id, Request $request)
     {
-
+        $absence = Absence::where('id', $id)->where('delete_flag', 0)->first();
+        $absence->delete_flag = 1;
+        $absence->save();
+        \Session::flash('msg_success', trans('common.delete.success'));
+        return redirect('absences');
     }
 
     // function create by Quy.

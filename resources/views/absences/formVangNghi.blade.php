@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Phiếu Vắng Nghỉ
+        Tạo đơn xin vắng nghỉ
         <small>NAL Solutions</small>
       </h1>
       {{--<ol class="breadcrumb">--}}
@@ -128,7 +128,7 @@
                 </div>
                 <div class="form-group">
                   <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>
-                  <select class="form-control" style="width: 100%;"  name="absence_type_id" id="absence_type_id">
+                  <select class="form-control select2" style="width: 100%;"  name="absence_type_id" id="absence_type_id">
                     <option value="" >---Chọn---</option>
                       <?php
                       foreach ($Absence_type as $val) {
@@ -177,14 +177,14 @@
               <div class="col-md-6" style="display: inline;">
                 <div style="float: right;">
                   <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
-                    RESET
+                    {{ trans('common.button.reset')}}
                   </button>
                 </div>
               </div>
               <div class="col-md-1" style="display: inline;">
                 <div>
                   <button type="submit" class="btn btn-info">
-                    SAVE
+                    {{ trans('common.button.add')}}
                   </button>
                 </div>
               </div>
