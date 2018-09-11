@@ -18,7 +18,7 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        $list_holiday_default = HolidayDefault::with('status')->sortBy('date')->get();
+        $list_holiday_default = HolidayDefault::with('status')->get()->sortBy('date');
         $list_holiday = Holiday::with('status')->get()->sortBy('date');
         $holiday_type = HolidayStatus::all();
         $year_now = date("Y");
