@@ -46,7 +46,7 @@
                             <div class="box-body">
                                 <div>
                                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
-                                        <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
+                                        <span class="fa fa-search"></span>&nbsp;Search
                                     </button>
                                     @include("projects._form_search_project_list")
                                     <div class="dataTables_length" id="project-list_length" style="float:right">
