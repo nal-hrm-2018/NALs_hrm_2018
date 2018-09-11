@@ -89,7 +89,7 @@
                 <td class="align-middle type-holiday">{{ $holiday['status']['name']}}</td>
                 <td class="align-middle description-holiday">{{ $holiday['description']}}</td>
                 <td class="align-middle text-center">
-                    <button type="button" class="btn btn-default" id="edit-item" data-item-id="1"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-default" id="edit-item" data-item-id="1" data-toggle="modal" data-target="#edit-modal"><i class="fa fa-pencil"></i></button>
                 
                     <form action="{{route('absences-holiday-delete',['id' => $holiday['id']])}}" method="post" class="holiday-delete" style="display: inline;">
                         @csrf
