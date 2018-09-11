@@ -32,7 +32,7 @@ return[
             'absences_hr'=>'Danh sách vắng nghỉ',
             'absences_holiday'=>'Danh sách ngày lễ',
             'absences_po_project'=>'Danh sách vắng nghỉ',
-            'history' => 'Lịch sử vắng nghỉ',
+            'history' => 'Danh sách vắng nghỉ',
             'overtime' => 'Danh sách tăng ca',
         ],
         'add'=>[
