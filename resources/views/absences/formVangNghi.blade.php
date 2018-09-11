@@ -128,7 +128,7 @@
                 </div>
                 <div class="form-group">
                   <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>
-                  <select class="form-control" style="width: 100%;"  name="absence_type_id" id="absence_type_id">
+                  <select class="form-control select2" style="width: 100%;"  name="absence_type_id" id="absence_type_id">
                     <option value="" >---Chọn---</option>
                       <?php
                       foreach ($Absence_type as $val) {
