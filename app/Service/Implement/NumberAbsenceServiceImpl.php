@@ -10,7 +10,11 @@ namespace App\Service\Implement;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\Role;
+use App\Models\Employee;
+use App\Models\Absence;
+use App\Models\AbsenceType;
+use App\Models\AbsenceStatus;
+use App\Models\AbsenceService;
 use Exception;
 
 class NumberAbsenceServiceImpl extends CommonService implements NumberAbsenceService

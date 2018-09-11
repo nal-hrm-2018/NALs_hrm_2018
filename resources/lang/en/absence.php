@@ -27,6 +27,7 @@ return [
         'msg_export_fails' => 'Export fails !!',
     ],
     'type'=>[
+        'total_annual_leave'=> 'Total annual leave',
         'annual_leave'=> 'Annual leave',
         'unpaid_leave'=> 'Unpaid leave',
         'maternity_leave'=> 'Maternity leave',
@@ -35,6 +36,7 @@ return [
         'sick_leave'=> 'Sick leave',
         'subtract_salary_date'=> 'Subtract salary',
         'insurance_date' => 'Insurance leave',
+        'remaining_leave' => 'Remaining leave'
     ],
     'confirmation'=>[
         'employee_name'=>'Name',

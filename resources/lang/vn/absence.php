@@ -26,6 +26,7 @@ return [
         'msg_export_fails' => 'Kết xuất file lỗi !!',
     ],
     'type'=>[
+        'total_annual_leave'=> 'Tổng số phép năm',
         'annual_leave'=> 'Nghỉ phép năm',
         'unpaid_leave'=> 'Nghỉ không lương',
         'maternity_leave'=> 'Nghỉ thai sản',
@@ -34,6 +35,7 @@ return [
         'sick_leave'=> 'Nghỉ ốm',
         'subtract_salary_date'=> 'Nghỉ trừ lương',
         'insurance_date' => 'Nghỉ bảo hiểm',
+        'remaining_leave' => 'Số phép còn lại'
     ],
     'confirmation'=>[
         'employee_name'=>'Tên',

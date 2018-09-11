@@ -75,6 +75,7 @@
                                 'id'=>'form_list_absences',
                                 'role'=>'form'
                                 ]) !!}
+                                @dd($absenceService);
                             @include('absences._list_absences_hr',[$list_absences])
                             {!! Form::close() !!}
                         </div>
@@ -86,7 +87,6 @@
             </div>
             <!-- /.row -->
         </section>
-
     </div>
     <script type="text/javascript">
         $(document).ready(function () {

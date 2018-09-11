@@ -39,15 +39,13 @@
         <tr class="list-project">
             <th class="text-center project-center">{{trans('common.name.employee_name')}}</th>
             <th class="text-center project-center">{{trans('employee.profile_info.email')}}</th>
-            <th class="text-center project-center">{{trans('absence.total_date_absences')}}</th>
-            <th class="text-center project-center">{{trans('absence.last_year_absences_date')}}</th>
-
-            <th class="text-center project-center">{{trans('absence.absented_date')}}</th>
-            <th class="text-center project-center">{{trans('absence.non_salary_date')}}</th>
-            <th class="text-center project-center">{{trans('absence.insurance_date')}}</th>
-
-            <th class="text-center project-center">{{trans('absence.subtract_salary_date')}}</th>
-            <th class="text-center project-center">{{trans('absence.remaining_date')}}</th>
+            <th class="text-center project-center">{{trans('absence.type.total_annual_leave')}}</th>
+            <th class="text-center project-center">{{trans('absence.type.unpaid_leave')}}</th>
+            <th class="text-center project-center">{{trans('absence.type.maternity_leave')}}</th>
+            <th class="text-center project-center">{{trans('absence.type.marriage_leave')}}</th>
+            <th class="text-center project-center">{{trans('absence.type.bereavement_leave')}}</th>
+            <th class="text-center project-center">{{trans('absence.type.sick_leave')}}</th>
+            <th class="text-center project-center">{{trans('absence.type.remaining_leave')}}</th>
         </tr>
         </thead>
 
