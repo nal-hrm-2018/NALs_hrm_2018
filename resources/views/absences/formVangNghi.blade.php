@@ -75,7 +75,7 @@
                 <div class="form-group">
                   <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date' id='datetimepicker1'>
-                    <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" readonly placeholder="From Date"/>
+                    <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" readonly placeholder="From Date"  style="background: white;"/>
                     <span class="input-group-addon">
                       <span class="fa fa-calendar">
                     </span>
@@ -86,7 +86,7 @@
                 <div class="form-group">
                   <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date' id='datetimepicker2'>
-                    <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" readonly placeholder="To Date"/>
+                    <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" readonly placeholder="To Date" style="background: white;"/>
                     <span class="input-group-addon">
                       <span class="fa fa-calendar">
                     </span>
