@@ -179,7 +179,7 @@
         </div>
         <div>
             <label>{{trans('project.status')}}<strong style="color: red">(*)</strong> </label><br/>
-            <select name="status" id="status" class="form-control">
+            <select name="status" id="status" class="form-control select2">
                 <option {{ !empty(old('status'))?'':'selected="selected"' }} value="">
                     {{  trans('vendor.drop_box.placeholder-default') }}
                 </option>
@@ -201,7 +201,7 @@
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
 <div class="col-md-2">
     <label>{{trans('project.members')}} <strong style="color: red">(*)</strong> </label><br/>
-    <select name="employee_id" id="employee_id" class="form-control">
+    <select name="employee_id" id="employee_id" class="form-control select2">
         <option {{ !empty(old('employee_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
         </option>
@@ -214,7 +214,7 @@
 </div>
 <div class="col-md-2">
     <label>{{trans('project.man_power')}} <strong style="color: red">(*)</strong> </label><br/>
-    <select name="man_power" id="man_power" class="form-control">
+    <select name="man_power" id="man_power" class="form-control select2">
         <option {{ !empty(old('man_power'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
         </option>
@@ -227,7 +227,7 @@
 </div>
 <div class="col-md-2">
     <label>{{trans('project.role')}} <strong style="color: red">(*)</strong> </label><br/>
-    <select name="role_id" id="role" class="form-control">
+    <select name="role_id" id="role" class="form-control select2">
         <option {{ !empty(old('role_id'))?'':'selected="selected"' }} value="">
             {{  trans('vendor.drop_box.placeholder-default') }}
         </option>

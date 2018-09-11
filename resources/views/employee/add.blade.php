@@ -139,7 +139,7 @@
                                 
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.gender.title')}}<strong style="color: red">(*)</strong></label>
-                                    <select id="gender" class="form-control" style="width: 100%;" name="gender">
+                                    <select id="gender" class="form-control select2" style="width: 100%;" name="gender">
                                         <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <option value="1"
                                         <?php
@@ -176,7 +176,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.marital_status.title')}}<strong style="color: red">(*)</strong></label>
-                                    <select id="married" class="form-control" style="width: 100%;" name="marital_status">
+                                    <select id="married" class="form-control select2" style="width: 100%;" name="marital_status">
                                         <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <option value="1"
                                         <?php
@@ -290,7 +290,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.position')}}<strong style="color: red">(*)</strong></label>
-                                    <select id="position" class="form-control" style="width: 100%;" name="employee_type_id">
+                                    <select id="position" class="form-control select2" style="width: 100%;" name="employee_type_id">
                                         <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <?php
                                         foreach ($dataEmployeeTypes as $val) {
@@ -311,7 +311,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
-                                    <select id="role_team" class="form-control" style="width: 100%;" name="role_id">
+                                    <select id="role_team" class="form-control select2" style="width: 100%;" name="role_id">
                                         <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <?php
                                         foreach ($dataRoles as $val) {
