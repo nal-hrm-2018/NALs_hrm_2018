@@ -24,7 +24,7 @@
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
 									@if($objProject->count() > 0)
-									<select class="form-control" value="{{ old('project_id') }}" id="project_id" name="project_id">
+									<select class="form-control select2" value="{{ old('project_id') }}" id="project_id" name="project_id">
 										<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
 										@foreach($objProject as $typeProject)
 											<?php
@@ -38,7 +38,7 @@
 										@endforeach
 									</select>
 									@else
-									<select class="form-control" id="project_id" name="project_id" disabled>
+									<select class="form-control select2" id="project_id" name="project_id" disabled>
 										<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
 										@foreach($objProject as $typeProject)
 											<option value="{{$typeProject->project_id}}">{{ \App\Models\Project::where('id',$typeProject->project_id)->first()->name }}

@@ -24,7 +24,7 @@
 		    					@if($projects)						
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
-								    <select class="form-control" id="project_id" name="project_id">
+								    <select class="form-control select2" id="project_id" name="project_id">
 							    		@foreach($projects as $pro)
 							    			@php
 							    				$selected = "";
