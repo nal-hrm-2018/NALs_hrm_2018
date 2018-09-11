@@ -44,6 +44,9 @@ return [
             'subtract_salary_date'=>'subtract_salary_date',
             'insurance_date'=>'insurance_date',
             'absented_date'=>'absented_date',
+            'maternity_leave'=>'maternity_leave',
+            'marriage_leave'=>'marriage_leave',
+
         ]
     ],
     'Roles'=>[
