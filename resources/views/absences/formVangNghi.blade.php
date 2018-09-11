@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Phiếu Vắng Nghỉ
+        Tạo đơn xin vắng nghỉ
         <small>NAL Solutions</small>
       </h1>
       {{--<ol class="breadcrumb">--}}
@@ -177,14 +177,14 @@
               <div class="col-md-6" style="display: inline;">
                 <div style="float: right;">
                   <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
-                    RESET
+                    {{ trans('common.button.reset')}}
                   </button>
                 </div>
               </div>
               <div class="col-md-1" style="display: inline;">
                 <div>
                   <button type="submit" class="btn btn-info">
-                    SAVE
+                    {{ trans('common.button.add')}}
                   </button>
                 </div>
               </div>

@@ -57,12 +57,12 @@
         @foreach($list_holiday_default as $holiday)
             <tr class="data-row default-year">
                 <td class="align-middle id-holiday" hidden>{{ $holiday['id']}}</td>
-                <td class="align-middle text-center name-holiday">{{ $holiday['name']}}</td>
+                <td class="align-middle name-holiday">{{ $holiday['name']}}</td>
                 <td class="align-middle text-center year-holiday">All year</td>
                 <td class="align-middle text-center month-holiday">{{ $holiday['date']->format('m')}}</td>
                 <td class="align-middle text-center day-holiday">{{ $holiday['date']->format('d')}}</td>
                 <td class="align-middle text-center type-holiday-id" style="display: none;">{{ $holiday['status']['id']}}</td>
-                <td class="align-middle text-center type-holiday">{{ $holiday['status']['name']}}</td>
+                <td class="align-middle  type-holiday">{{ $holiday['status']['name']}}</td>
                 <td class="align-middle description-holiday">{{ $holiday['description']}}</td>
                 <!-- <td class="align-middle text-center">
                     {{--<button type="button" class="btn btn-warning" id="edit-item" data-item-id="1"><i class="fa fa-edit"></i></button>--}}
@@ -81,12 +81,12 @@
         @foreach($list_holiday as $holiday)
             <tr class="data-row">
                 <td class="align-middle id-holiday" hidden>{{ $holiday['id']}}</td>
-                <td class="align-middle text-center name-holiday">{{ $holiday['name']}}</td>
+                <td class="align-middle name-holiday">{{ $holiday['name']}}</td>
                 <td class="align-middle text-center year-holiday">{{ $holiday['date']->format('Y')}}</td>
                 <td class="align-middle text-center month-holiday">{{ $holiday['date']->format('m')}}</td>
                 <td class="align-middle text-center day-holiday">{{ $holiday['date']->format('d')}}</td>
                 <td class="align-middle text-center type-holiday-id" style="display: none;">{{ $holiday['status']['id']}}</td>
-                <td class="align-middle text-center type-holiday">{{ $holiday['status']['name']}}</td>
+                <td class="align-middle type-holiday">{{ $holiday['status']['name']}}</td>
                 <td class="align-middle description-holiday">{{ $holiday['description']}}</td>
                 <td class="align-middle text-center">
                     <button type="button" class="btn btn-default" id="edit-item" data-item-id="1"><i class="fa fa-pencil"></i></button>
