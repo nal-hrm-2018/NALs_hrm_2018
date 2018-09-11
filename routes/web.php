@@ -151,7 +151,7 @@ Route::group(['middleware' => 'user'], function () {
         'uses'=>'Absence\HolidayController@update',
         'as'=>'absences-holiday-update'
     ]);
-    Route::get('absences/{id}', [
+    Route::get('absence/{id}', [
         'uses' => 'Absence\AbsenceController@destroy',
         'as' => 'absences.destroy'
     ]);
