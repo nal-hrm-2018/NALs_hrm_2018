@@ -14,4 +14,5 @@ use Illuminate\Http\Request;
 interface SearchEmployeeService
 {
     public function searchEmployee( Request $params);
+    public function searchOvertime( Request $params);
 }
