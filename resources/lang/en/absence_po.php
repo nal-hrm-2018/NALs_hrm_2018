@@ -48,6 +48,8 @@ return [
             config('settings.status_common.absence_type.subtract_salary_date')=>'Subtract salary date',
             config('settings.status_common.absence_type.insurance_date')=>'Insurance date',
             config('settings.status_common.absence_type.absented_date')=>'Absented date',
+            config('settings.status_common.absence_type.marriage_leave')=>'Marriage leave',
+            config('settings.status_common.absence_type.maternity_leave')=>'Maternity leave',
         ],
         'msg'=>[
             'confirm_export'=>'Do you want to export this confirmation list?'
