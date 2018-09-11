@@ -83,7 +83,7 @@
                         <div id="demo" class="collapse">
                             <div class="modal-dialog">
                             {!! Form::open(
-                                ['url' =>route('confirmRequest'),
+                                ['url' =>route('showListPO'),
                                 'method'=>'GET',
                                 'id'=>'form_search_confirm'
                                 ]) !!}
@@ -244,6 +244,9 @@
                                 .list-confirm tr td {
                                     vertical-align: middle !important;
                                 }
+                                .list-confirm tr th {
+                                    vertical-align: middle !important;
+                                }
                             </style>
                             <table id="confirm-po-list" class="table table-bordered table-striped">
                             <thead class="list-confirm">
@@ -254,12 +257,10 @@
                                 <th>{{trans('absence.confirmation.project_name')}}</th>
                                 <th>{{trans('absence.confirmation.from')}}</th>
                                 <th>{{trans('absence.confirmation.to')}}</th>
-                                <th>{{trans('absence.confirmation.type')}}</th>
-                                <th>{{trans('absence.confirmation.cause')}}</th>
-                                <th>{{trans('absence.confirmation.description')}}</th>
-                                <th>{{trans('absence.confirmation.action')}}</th>
-                                <th>{{trans('absence.confirmation.status')}}</th>
-                                <th>{{trans('absence.confirmation.reject_cause')}}</th>
+                                <th>{{trans('absence.absence_type')}}</th>
+                                <th>{{trans('absence.absence_time')}}</th>
+                                <th>{{trans('absence.reason')}}</th>
+                                <th>{{trans('absence.description')}}</th>
                             </tr>
                             </thead>
                             <tbody class="list-confirm">
@@ -277,22 +278,32 @@
                                     <td>{{isset($confirm->project)?$confirm->project->name:'-'}}</td>
                                     <td>{{isset($confirm->absence)?$confirm->absence->from_date:'-'}}</td>
                                     <td>{{isset($confirm->absence)?$confirm->absence->to_date:'-'}}</td>
-                                    <td><span
-                                        <?php
-                                            $absenceTypeName = isset($confirm->absence)?isset($confirm->absence->absenceType)?
-                                                                $confirm->absence->absenceType->name:'-':'-';
-                                        ?>
-                                        @if($absenceTypeName === config('settings.status_common.absence_type.salary_date'))
-                                            class="label label-success"
-                                        @elseif($absenceTypeName === config('settings.status_common.absence_type.insurance_date'))
-                                            class="label label-primary"
-                                        @elseif($absenceTypeName === config('settings.status_common.absence_type.non_salary_date'))
-                                            class="label label-warning"
+                                   <td>
+                                        @if(trans('absence_po.list_po.type.'.$confirm->name_type) == trans('absence_po.list_po.type.salary_date'))
+                                            <span class="label label-primary">
+                                        @elseif(trans('absence_po.list_po.type.'.$confirm->name_type) == trans('absence_po.list_po.type.non_salary_date'))
+                                            <span class="label label-info">
+                                        @elseif(trans('absence_po.list_po.type.'.$confirm->name_type) == trans('absence_po.list_po.type.subtract_salary_date'))
+                                            <span class="label label-danger">
+                                        @elseif(trans('absence_po.list_po.type.'.$confirm->name_type) == trans('absence_po.list_po.type.insurance_date'))
+                                            <span class="label label-default">
+                                        @else
+                                            <span>{{trans('absence_po.list_po.type.'.$confirm->name_type)}}</span>
                                         @endif
-                                        >{{$absenceTypeName === '-' ? '-' : trans('absence_po.list_po.type.'.$absenceTypeName)}}</span></td>
+                                    </td>
+                                    @if(isset($confirm->name_time))
+                                        @if($confirm->name_time == 'all')
+                                            <td>{{trans('absence.all')}}</td>
+                                        @elseif($confirm->name_time == 'morning')
+                                            <td>{{trans('absence.morning')}}</td>
+                                        @else
+                                            <td>{{trans('absence.afternoon')}}</td>
+                                        @endif
+                                    @else
+                                    <td>-</td>
+                                    @endif
                                     <td>{{isset($confirm->absence)?$confirm->absence->reason:'-'}}</td>
-                                    <td>{{isset($confirm->absence)?isset($confirm->absence->description)?$confirm->absence->description:'-':'-'}}</td>
-                                    <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
+                                    <td>{{isset($confirm->absence)?isset($confirm->absence->description)?$confirm->absence->description:'-':'-'}}</td>                                   {{--  <td class="description-confirm" id="description-confirm-{{$confirm->id}}">
                                         @if($confirm->absence_status_id === $idWaiting)
                                             @if($confirm->absence->is_deny === 0)
                                                 <span class="label label-primary">{{trans('absence.confirmation.absence_request')}}</span>
@@ -332,7 +343,7 @@
                                     </td>
                                     <td class="reason-confirm" id="reason-confirm-{{$confirm->id}}">
                                         {{isset($confirm->reason)?$confirm->reason:'-'}}
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                             </tbody>

@@ -26,6 +26,16 @@ return [
         'msg_filter_invalid' => 'Please choose year !!',
         'msg_export_fails' => 'Export fails !!',
     ],
+    'type'=>[
+        'annual_leave'=> 'Annual leave',
+        'unpaid_leave'=> 'Unpaid leave',
+        'maternity_leave'=> 'Maternity leave',
+        'marriage_leave'=>'Marriage leave',
+        'bereavement_leave'=> 'Bereavement leave',
+        'sick_leave'=> 'Sick leave',
+        'subtract_salary_date'=> 'Subtract salary',
+        'insurance_date' => 'Insurance leave',
+    ],
     'confirmation'=>[
         'employee_name'=>'Name',
         'email'=>'Email',

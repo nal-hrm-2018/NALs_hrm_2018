@@ -24,9 +24,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\AbsenceAddRequest;
 use App\Service\AbsencePoTeamService;
 use Carbon\Carbon;
-use App\Models\Confirm;
 use DateTime;
 use App\Models\Process;
+use App\Models\Project;
 use App\Models\Role;
 use App\Service\SearchConfirmService;
 
@@ -129,6 +129,75 @@ class AbsenceController extends Controller
         DB::unprepared(DB::raw("DROP TEMPORARY TABLE " . $tempTableName));
         return view('absence.po_project', compact('absenceType', 'projects', 'listConfirm', 'idPO',
             'id', 'absenceStatus', 'param'));
+    }
+    public function showListPO(Request $request){
+        $id = Auth::user()->id;
+        $absenceType = AbsenceType::where('name', '!=',
+            config('settings.status_common.absence_type.subtract_salary_date'))->get();
+        $absenceTime = Absence::all();
+        $idPO = Role::where('name', '=', config('settings.Roles.PO'))->first()->id;
+
+        $projects = Project::join('processes', 'processes.project_id', '=', 'projects.id')
+            ->where('processes.project_id', '!=', null)
+            ->where('processes.employee_id', '=', $id)
+            ->join('roles', 'processes.role_id', '=', 'roles.id')
+            ->where('processes.delete_flag', '=', 0)
+            ->where('projects.delete_flag', '=', 0)
+            ->orderBy('projects.id', 'desc')
+            ->whereIn('processes.project_id', function ($query) use ($id) {
+                $query->select('project_id')
+                    ->from('processes')
+                    ->where('employee_id', '=', $id)
+                    ->whereDate('processes.end_date', '>', date('d')
+                );
+            })
+            ->WHERE('roles.name', 'like', 'po')
+            ->get();
+        $absence_list = [];
+
+        foreach ($projects as $pro) {  
+            $joined_project = Project::where('id',$pro->project_id)->first();
+            if($joined_project->start_date){
+                if($joined_project->end_date){
+                    $absences = Absence::whereDate('from_date','>=',  $joined_project->start_date)
+                        ->whereDate('to_date','<=', $joined_project->end_date)
+                        ->whereHas('employee',function($query) use($pro){
+                        $query->join('processes','processes.employee_id','=','employees.id')
+                            -> join('projects', 'projects.id','=','processes.project_id')
+                            ->where('projects.id',$pro->project_id);
+                        })->get();
+                }
+                else{
+                    $absences = Absence::whereDate('from_date','>=',  $joined_project->start_date)
+                        ->whereHas('employee',function($query) use($pro){
+                        $query->join('processes','processes.employee_id','=','employees.id')
+                            -> join('projects', 'projects.id','=','processes.project_id')
+                            ->where('projects.id',$pro->project_id);
+                        })->get();
+                }                
+                foreach ($absences as $val) {
+                    $absence_list = array_prepend($absence_list, [
+                        'name'=> $val->employee->name,
+                        'email'=>$val->employee->email,
+                        'project'=>$joined_project->name,
+                        'from_date'=>$val->from_date,
+                        'end_date'=>$val->to_date,
+                        'absence_type'=>$val->absenceType->name,
+                        'absence_time'=>$val->absenceTime->name,
+                        'reason'=>$val->reason,
+                        'description'=>$val->description
+                    ]);   
+                }            
+            }
+
+         } 
+         $param = (Input::except(['page', 'is_employee']));
+         // $project_name = Project::select('name')->where('id',$projects[0]->project_id)->first();
+         // dd($absence_list);
+        return view('absences.po_list', compact('absenceType', 'projects', 'absences', 'idPO',
+            'id', 'absenceTime', 'param'));
+
+        // return view('absences.po_list', compact('absences'));
     }
 
     public function confirmRequestAjax(Request $request)

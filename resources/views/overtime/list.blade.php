@@ -19,7 +19,7 @@
 	<div class="content-wrapper">
 		<section class="content-header">
             <h1>
-                My overtime
+                My Overtime
                 <small>NAL Solutions</small>
             </h1>
         </section>

@@ -25,6 +25,16 @@ return [
         'msg_filter_invalid' => 'Xin hãy chọn năm !!',
         'msg_export_fails' => 'Kết xuất file lỗi !!',
     ],
+    'type'=>[
+        'annual_leave'=> 'Nghỉ phép năm',
+        'unpaid_leave'=> 'Nghỉ không lương',
+        'maternity_leave'=> 'Nghỉ thai sản',
+        'marriage_leave'=>'Nghỉ cưới hỏi',
+        'bereavement_leave'=> 'Nghỉ tang',
+        'sick_leave'=> 'Nghỉ ốm',
+        'subtract_salary_date'=> 'Nghỉ trừ lương',
+        'insurance_date' => 'Nghỉ bảo hiểm',
+    ],
     'confirmation'=>[
         'employee_name'=>'Tên',
         'email'=>'Email',

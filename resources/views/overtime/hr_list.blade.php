@@ -4,7 +4,7 @@
 	<div class="content-wrapper">
 		<section class="content-header">
             <h1>
-                List OT
+                Overtime Management
                 <small>NAL Solutions</small>
             </h1>
         </section>
