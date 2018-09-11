@@ -194,10 +194,10 @@ class AbsenceController extends Controller
          $param = (Input::except(['page', 'is_employee']));
          // $project_name = Project::select('name')->where('id',$projects[0]->project_id)->first();
          // dd($absence_list);
-        // return view('absence.po_project', compact('absenceType', 'projects', 'absences', 'idPO',
-        //     'id', 'absenceStatus', 'param'));
+        return view('absences.po_list', compact('absenceType', 'projects', 'absences', 'idPO',
+            'id', 'absenceTime', 'param'));
 
-        return view('absences.po_list', compact('absences'));
+        // return view('absences.po_list', compact('absences'));
     }
 
     public function confirmRequestAjax(Request $request)
