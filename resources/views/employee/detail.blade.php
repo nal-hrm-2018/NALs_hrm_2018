@@ -28,6 +28,8 @@
             {{--</ol>--}}
 
         </section>
+        <div id="msg">
+        </div>
         <section class="content">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -434,10 +436,12 @@
                                                         <td>{{$absence->reason ? $absence->reason : "-"}}</td>
                                                         <td>{{$absence->description ? $absence->description : "-"}}</td>
                                                         <td class="align-middle text-center">
+                                                            @if(Auth::user()->hasRole('HR'))
                                                             <button class="btn btn-default"><i class="fa fa-pencil"></i></button>
                                                             <form style="display: inline;">
-                                                                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                                <a href="{{ route('absences.destroy',['id'=>$absence->id]) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                                             </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                      @endforeach
@@ -525,6 +529,7 @@
             });
 
             <?php
+                if(isset($_GET['overtime'])){
                 $overtime = $_GET['overtime'];
                 $basic = $_GET['basic'];
                 $absence = $_GET['absence'];
@@ -557,6 +562,26 @@
                 // });
             }
 
+            <?php
+                }else{
+            ?>
+            activaTab('basic')
+            // $(function () {
+            //     activaTab('basic');
+            //     var bar_data = {
+            //         data: [["{{trans('chart.resource_chart.jan')}}", {{$listValue[1]}}], ["{{trans('chart.resource_chart.feb')}}", {{$listValue[2]}}],
+            //             ["{{trans('chart.resource_chart.mar')}}", {{$listValue[3]}}], ["{{trans('chart.resource_chart.apr')}}", {{$listValue[4]}}],
+            //             ["{{trans('chart.resource_chart.may')}}", {{$listValue[5]}}], ["{{trans('chart.resource_chart.jun')}}", {{$listValue[6]}}],
+            //             ["{{trans('chart.resource_chart.jul')}}", {{$listValue[7]}}], ["{{trans('chart.resource_chart.aug')}}", {{$listValue[8]}}],
+            //             ["{{trans('chart.resource_chart.sep')}}", {{$listValue[9]}}], ["{{trans('chart.resource_chart.oct')}}", {{$listValue[10]}}],
+            //             ["{{trans('chart.resource_chart.nov')}}", {{$listValue[11]}}], ["{{trans('chart.resource_chart.dec')}}", {{$listValue[12]}}]],
+            //         color: '#3c8dbc'
+            //     }
+            //     showChart(bar_data);
+            // });
+            <?php
+                }
+            ?>
             function activaTab(tab) {
                 $('.nav-tabs a[href="#' + tab + '"]').tab('show');
             };

@@ -408,8 +408,13 @@
                                                         {{trans('common.action.edit')}}</a></li>
                                             @endif
                                             @if(Auth::user()->hasPermission('delete_employee'))
-                                                <li><a class="btn-employee-remove" data-employee-email="{{$employee->email}}" data-employee-id="{{$employee->id}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
+                                                <li><a href="" class="btn-employee-remove" data-employee-email="{{$employee->email}}" data-employee-id="{{$employee->id}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
                                             @endif
+                                            <script type="text/javascript">
+                                                $(".btn-employee-remove").click(function(event){
+                                                    event.preventDefault();
+                                                });
+                                            </script>
                                         </ul>
                                         
                                     </tr>
