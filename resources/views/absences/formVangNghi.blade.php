@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Tạo đơn xin vắng nghỉ
+        {{trans('leftbar.nav.add.absence')}}
         <small>NAL Solutions</small>
       </h1>
       {{--<ol class="breadcrumb">--}}
