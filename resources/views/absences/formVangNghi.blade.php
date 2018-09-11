@@ -74,22 +74,22 @@
                 {{--</div>--}}
                 <div class="form-group">
                   <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
-                  <div class='input-group date form_datetime'>
-                    <input name="from_date" type='datetime-local' value="{!! old('from_date') !!}" class="form-control" placeholder=""/>
+                  <div class='input-group date' id='datetimepicker1'>
+                    <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" readonly placeholder="From Date"/>
                     <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
+                      <span class="fa fa-calendar">
+                    </span>
                   </div>
                   <label id="lb_error_from_date" style="color: red;">{{$errors->first('from_date')}}</label>
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
                   <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
-                  <div class='input-group date form_datetime'>
-                    <input name="to_date" type='datetime-local' class="form-control" value="{!! old('to_date') !!}" placeholder="yyyy-MM-dd HH:mm"/>
+                  <div class='input-group date' id='datetimepicker2'>
+                    <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" readonly placeholder="To Date"/>
                     <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
+                      <span class="fa fa-calendar">
+                    </span>
                   </div>
                   <label id="lb_error_to_date" style="color: red;">{{$errors->first('to_date')}}</label>
                   <!-- /.input group -->
@@ -127,45 +127,63 @@
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
-                  <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>
-                  <select class="form-control select2" style="width: 100%;"  name="absence_type_id" id="absence_type_id">
-                    <option value="" >---Chọn---</option>
-                      <?php
-                      foreach ($Absence_type as $val) {
-                          $selected = "";
-                          $name="";
-                          if($val["name"]!="subtract_salary_date"){
-                              if ($val["id"] == old('absence_type_id')) {
-                                  $selected = "selected";
-                              }
-                              if (isset($Absence_employee)) {
-                                  if ($absences->absence_type_id == $val["id"]) {
-                                      $selected = "selected";
-                                  }
-                              }
-                              if ($val["name"]=='unpaid_leave'){
-                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ không lương' . '</option>';
-                              }
-                              if ($val["name"]=='insurance_date'){
-                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ theo bảo hiểm' . '</option>';
-                              }
-                              if ($val["name"]=='annual_leave'){
-                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ phép năm' . '</option>';
-                              }
-                              if ($val["name"]=='maternity_leave'){
-                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ thai sản' . '</option>';
-                              }
-                              if ($val["name"]=='marriage_leave'){
-                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ cưới' . '</option>';
-                              }
-                              if ($val["name"]=='maternity_leave'){
-                                  echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ tang' . '</option>';
-                              }
-
-                          }
-
+                  <label>Loại thời gian<strong style="color: red">(*)</strong></label>
+                  <select class="form-control" style="width: 100%;"  name="absence_tỉme_id" id="absence_time_id">
+                    <option value="" >Chọn</option>
+                    <?php
+                      foreach ($Absence_time as $val) {
+                        $selected = "";
+                        $name="";
+                        if ($val["id"] == old('absence_time_id')) {
+                            $selected = "selected";
+                        }
+                        if ($val["name"]=='all'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ cả ngày' . '</option>';
+                        }
+                        if ($val["name"]=='morning'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ buổi sáng' . '</option>';
+                        }
+                        if ($val["name"]=='afternoon'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ buổi chiều' . '</option>';
+                        }
                       }
-                      ?>
+                    ?>
+                  </select>
+                  <label id="lb_error_absence_type_id" style="color: red; ">{{$errors->first('absence_type_id')}}</label>
+                </div>
+                <div class="form-group">
+                  <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>
+                  <select class="form-control" style="width: 100%;"  name="absence_type_id" id="absence_type_id">
+                    <option value="" >Chọn</option>
+                    <?php
+                      foreach ($Absence_type as $val) {
+                        $selected = "";
+                        $name="";
+                        if ($val["id"] == old('absence_type_id')) {
+                            $selected = "selected";
+                        }
+                        if (isset($Absence_employee)) {
+                            if ($absences->absence_type_id == $val["id"]) {
+                                $selected = "selected";
+                            }
+                        }
+                        if ($val["name"]=='unpaid_leave'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ không lương' . '</option>';
+                        }
+                        if ($val["name"]=='annual_leave'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ phép năm' . '</option>';
+                        }
+                        if ($val["name"]=='maternity_leave'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ thai sản' . '</option>';
+                        }
+                        if ($val["name"]=='marriage_leave'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ cưới' . '</option>';
+                        }
+                        if ($val["name"]=='maternity_leave'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ tang' . '</option>';
+                        }
+                      }
+                    ?>
                   </select>
                   <label id="lb_error_absence_type_id" style="color: red; ">{{$errors->first('absence_type_id')}}</label>
                 </div>
@@ -176,7 +194,7 @@
             <div class="row">
               <div class="col-md-6" style="display: inline;">
                 <div style="float: right;">
-                  <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
+                  <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                     {{ trans('common.button.reset')}}
                   </button>
                 </div>
@@ -191,7 +209,6 @@
             </div>
             {{--{{ Form::close() }}--}}
             </form>
-
           </div>
           <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
         </div>
@@ -199,25 +216,20 @@
       </div>
       <script type="text/javascript"
               src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-      <script>
-          $(function () {
-              $("#btn_reset_form_employee").bind("click", function () {
-                  if(confirmAction("Do you want to reset?"))
-                      location.reload();
-              });
-          });
-      </script>
-
       <script type="text/javascript">
           $(function () {
-              $('.form_datetime').datetimepicker({
+              $('#datetimepicker1').datepicker({
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1});
+          });
+          $(function () {
+              $('#datetimepicker2').datepicker({
                   weekStart: 1,
                   todayBtn:  1,
                   autoclose: 1,
-                  todayHighlight: 1,
-                  startView: 2,
-                  forceParse: 0,
-                  showMeridian: 1});
+                  todayHighlight: 1});
           });
       </script>
       <!-- /.box -->

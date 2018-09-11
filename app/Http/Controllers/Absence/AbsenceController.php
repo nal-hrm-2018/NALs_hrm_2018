@@ -10,6 +10,7 @@ use App\Export\HRAbsenceExport;
 use App\Http\Controllers\Controller;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
+use App\Models\AbsenceTime;
 use App\Models\Employee;
 use App\Service\AbsenceFormService;
 use App\Service\SearchEmployeeService;
@@ -430,7 +431,13 @@ class AbsenceController extends Controller
             ->get()->toArray();
 //        dd($objPO);
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
-        return view('absences.formVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee, 'Absence_type' => $Absence_type]);
+        $Absence_time = AbsenceTime::select('id', 'name')->get()->toArray();
+        return view('absences.formVangNghi', [
+            'objPO' => $objPO, 
+            'objEmployee' => $objEmployee, 
+            'Absence_type' => $Absence_type,
+            'Absence_time' => $Absence_time,
+            ]);
     }
 
     public function postCreate($id,$request){
@@ -444,6 +451,8 @@ class AbsenceController extends Controller
         return redirect()->route('absence.index');
     }
     public function store(AbsenceAddRequest $request){
+        $request['from_date'] = date('Y-m-d', strtotime($request['from_date']));
+        $request['to_date'] = date('Y-m-d', strtotime($request['to_date']));
         return $this->absenceFormService->addNewAbsenceForm($request);
     }
 
