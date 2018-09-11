@@ -239,7 +239,7 @@
                                         <td>{{$count}}</td>
                                         <td>{{$val->employee->name}}</td>
                                         <td>{{$val->employee->email}}</td>
-                                        <td>project name</td>
+                                        <td>{{$val->project}}</td>
                                         <td>{{$val->from_date}}</td>
                                         <td>{{$val->to_date}}</td>
                                         @if(isset($val->absenceType->name))
