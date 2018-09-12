@@ -6,6 +6,7 @@
  * Time: 11:26 AM
  */
 
+
 namespace App\Http\Controllers\User\Employee;
 
 
@@ -314,9 +315,11 @@ class EmployeeController extends Controller
         }else{
             $employee->work_status = 0;
         }
-
-       // $employee->team_id = $request->team_id;
-
+        $id_NALs = Team::select('id')->where('name','NALs')->first();
+        if(!$request->get('team_id')){
+          $request->merge(['team_id' => $id_NALs]);
+        } 
+        
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
             $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
