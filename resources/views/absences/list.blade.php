@@ -69,45 +69,53 @@
                                 }
                             </script>
                             
-                            <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap; padding: 20px 0px;">
-                                <div>
+                            <div class=" absence_head" style="padding: 20px 0px;">
+                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                     <div class="style-box">
-                                        <p>
-                                            - Số ngày được nghỉ phép:
-                                            <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
-                                        </p>
-                                        <span class="padding-20">
-                                            + Số ngày phép năm nay: 
-                                            <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
-                                        </span><br>
-                                        <span class="padding-20">
-                                            + Số ngày phép năm trước: 
-
-                                            <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
-                                        </span>
-                                    </div><br />
+                                        <p style="font-size: 22px; font-weight: bold;">This year</p>
+                                        <p style="font-size: 44px; font-weight: bold;">11</p>
+                                    </div>
                                     <div class="style-box">
-                                        <p>
-                                            - Số ngày nghỉ không lương:
-                                            <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
-                                        </p>
+                                        <p style="font-size: 22px; font-weight: bold;">Last year</p>
+                                        <p style="font-size: 44px; font-weight: bold;">0</p>
+                                    </div>
+                                    <div class="style-box">
+                                        <p style="font-size: 22px; font-weight: bold;">Total remaining</p>
+                                        <p style="font-size: 44px; font-weight: bold;">7</p>
                                     </div>
                                 </div>
-                                <div>
+                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                    <div class="style-box-2">
+                                        <p>Annual</p>
+                                        <p>4</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Unpaid</p>
+                                        <p>0</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Sick</p>
+                                        <p>0</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Maternity</p>
+                                        <p>0</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Marriage</p>
+                                        <p>0</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Bereavement</p>
+                                        <p>0</p>
+                                    </div>
+                                </div>
+                                <!-- <div>
                                     <div class="style-box">
                                         <p>
                                             - Số ngày đã nghỉ:
                                             <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
                                         </p>
-                                        <span class="padding-20">
-                                            + Trừ vào phép năm nay: 
-                                            <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
-                                        </span><br>
-                                        <span class="padding-20">
-                                            + Trừ vào phép năm trước: 
-
-                                            <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
-                                        </span>
 
                                     </div><br/>
                                     <div class="style-box">
@@ -123,26 +131,6 @@
                                             - Số ngày còn lại:
                                             <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
                                         </p>
-                                        <span class="padding-20">
-                                            + Phép năm nay: 
-
-                                            <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
-                                        </span>
-                                        <span class="padding-20"><br>
-                                            + Phép năm trước:
-                                            <span id="phepDu">{{$absences['phepDu']}}</span>
-                                        </span>
-                                        <span id='hanphep'>
-                                            @if($checkMonth == 1 && $absences['phepDu'] > 0)
-                                                Đã hết hạn
-                                            @endif
-                                        </span>
-                                        @if($checkMonth == 1 && $absences['phepDu'] > 0)
-                                            <script type="text/javascript">
-                                                $("#hanphep").addClass("label");
-                                                $("#hanphep").addClass("label-danger");
-                                            </script>
-                                        @endif
                                     </div><br>
                                     <div class="style-box">
                                         <p>
@@ -150,7 +138,7 @@
                                             <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
                                         </p>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <?php
                             $idWaiting = \App\Models\AbsenceStatus::where('name', '=',
@@ -559,14 +547,35 @@
         .style-box {
             margin: 10px;
             padding: 10px;
-            border: 3px solid #d2d6de;
+            border: 3px solid #00c0ef;
             border-radius: 5px;
-            min-width: 250px;
+            min-width: 200px;
+            color: black;
+            background: white;
+        }
+        .style-box-2 {
+            margin: 10px;
+            padding: 10px;
+            border: 3px solid #00c0ef;
+            border-radius: 5px;
+            min-width: 100px;
             color: black;
             background: white;
         }
         .padding-20 {
             padding: 0px 20px;
+        }
+        .style-box p{
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .style-box-2 p{
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 15px;
         }
     </style>
 @endsection
