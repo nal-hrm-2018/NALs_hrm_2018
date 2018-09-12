@@ -46,7 +46,7 @@ return [
             'absented_date'=>'absented_date',
             'maternity_leave'=>'maternity_leave',
             'marriage_leave'=>'marriage_leave',
-
+            'bereavement_leave'=>'bereavement_leave'
         ]
     ],
     'Roles'=>[

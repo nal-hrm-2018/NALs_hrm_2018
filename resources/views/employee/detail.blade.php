@@ -437,7 +437,7 @@
                                                         <td>{{$absence->description ? $absence->description : "-"}}</td>
                                                         <td class="align-middle text-center">
                                                             @if(Auth::user()->hasRole('HR'))
-                                                            <button class="btn btn-default"><i class="fa fa-pencil"></i></button>
+                                                            <a href="{{ route('absences.edit',['absence'=>$absence->id]) }}" class="btn btn-default"><i class="fa fa-pencil"></i></a>
                                                             <form style="display: inline;">
                                                                 <a href="{{ route('absences.destroy',['id'=>$absence->id]) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                                             </form>

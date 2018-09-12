@@ -17,7 +17,7 @@ return[
     'msg_add'=>[
         'success'=>'Thêm thông báo thành công!!!',
         'fail'=>'Thêm thông báo không thành công!!!',
-        'fail_than_ten' => 'Thêm thông báo thất bại.Bạn cần xóa 1 thông báo mới trước khi thêm.'
+        'fail_than_ten' => 'Thêm thông báo mới thất bại.Bạn cần xóa một thông báo cũ trước khi thêm.!!!'
     ],
     'msg_edit'=>[
         'success'=>'Sữa thông báo thanh công!!!',

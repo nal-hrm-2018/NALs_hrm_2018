@@ -17,9 +17,11 @@ return [
             'cancel'=>'Cancel'
         ],
         'profile_info'=>[
-            'start_date'=>'Start date',
-            'end_date'=>'End date',
-            'type' => 'Type',
+            'email' => 'Email',
+            'name' => 'Name',
+            'start_date'=>'From to',
+            'end_date'=>'End to',
+            'type' => 'Absence Type',
             'reason'=>'Cause',
             'note'=>'Note',
             'action'=>'Action',
@@ -50,6 +52,7 @@ return [
             config('settings.status_common.absence_type.absented_date')=>'Absented date',
             config('settings.status_common.absence_type.marriage_leave')=>'Marriage leave',
             config('settings.status_common.absence_type.maternity_leave')=>'Maternity leave',
+            config('settings.status_common.absence_type.bereavement_leave')=>'Bereavement leave',
         ],
         'msg'=>[
             'confirm_export'=>'Do you want to export this confirmation list?'

@@ -72,24 +72,6 @@
 	    							<input type="text" class="form-control" id="total_time" name="total_time" value="{{ old('total_time') }}">
 									<label id="lb_error_total_time" style="color: red; ">{{$errors->first('total_time')}}</label>
 	    						</div>
-								{{--@php--}}
-	    						{{--<div class="form-group">--}}
-	    							{{--<label for="">{{trans('overtime.overtime_type_id')}}<strong style="color: red">(*)</strong></label>--}}
-	    							{{--<select class="form-control" id="overtime_type_id" name="overtime_type_id" value="{{ old('overtime_type_id') }}">--}}
-								    	{{--<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>--}}
-								    	{{--@foreach($objOvertimeType as $typeTime)--}}
-										{{--<?php--}}
-											{{--$selected = "";--}}
-                                            {{--if($typeTime->id == old('overtime_type_id')){--}}
-                                                {{--$selected = "selected";--}}
-                                            {{--}--}}
-										{{--?>--}}
-								    	{{--<option value="{{$typeTime->id}}" <?php echo $selected; ?>>{{$typeTime->name}}</option>--}}
-								    	{{--@endforeach--}}
-								    {{--</select>--}}
-									{{--<label id="lb_error_overtime_type_id" style="color: red; ">{{$errors->first('overtime_type_id')}}</label>--}}
-	    						{{--</div>--}}
-	    						{{--@endphp--}}
 	    						<div class="form-group">
 	    							<label for="">{{trans('overtime.reason')}}<strong style="color: red">(*)</strong></label>
 	    							<textarea class="form-control" id="" rows="11" style="line-height: 1.36;" name="reason">{{ old('reason') }}</textarea>
@@ -116,6 +98,17 @@
     		</div>
     	</section>
     </div>
+	<script type="text/javascript"
+			src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script>
+        $(function () {
+            $("#btn_reset_form_overtime").bind("click", function () {
+                if(confirm('{{trans('common.confirm_reset')}}')){
+                    $("#project_id").val('').change();
+                }
+            });
+        });
+	</script>
     <script type="text/javascript">
     	var timepicker = new TimePicker(['start_time','end_time'], {
 		  	lang: 'en',

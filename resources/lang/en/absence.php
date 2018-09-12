@@ -26,6 +26,10 @@ return [
         'msg_filter_invalid' => 'Please choose year !!',
         'msg_export_fails' => 'Export fails !!',
     ],
+    'msg_edit' => [
+        'success'=>'Absence successfully edit!!!',
+        'fail'=>'Absence failed edit!!!',
+    ],
     'type'=>[
         'annual_leave'=> 'Annual leave',
         'unpaid_leave'=> 'Unpaid leave',
