@@ -32,7 +32,7 @@ class AbsenceAddRequest extends FormRequest
         return [
             'absence_type_id' => 'required',
             'from_date' => 'required|after:'.$dayBefore,
-            'to_date' => 'required|after:from_date|before:'.$dayAfter,
+            'to_date' => 'required|after_or_equal:from_date|before:'.$dayAfter,
             'reason' => 'required'
         ];
     }
