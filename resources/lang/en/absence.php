@@ -31,6 +31,9 @@ return [
         'fail'=>'Absence failed edit!!!',
     ],
     'type'=>[
+        'this_year' => 'This year',
+        'last_year' => 'Last year',
+        'total_remaining'=>'Total remaining',
         'annual_leave'=> 'Annual leave',
         'unpaid_leave'=> 'Unpaid leave',
         'maternity_leave'=> 'Maternity leave',

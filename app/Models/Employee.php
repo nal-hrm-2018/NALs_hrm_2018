@@ -164,85 +164,94 @@ class Employee extends Model implements
     }
     public static function emp_absence($id)
     {
-        $dateNow = new DateTime;
+        
         $objEmployee = Employee::find($id);
-        $startwork_date = (int)date_create($objEmployee->startwork_date)->format("Y");
-        $endwork_date = (int)date_create($objEmployee->endwork_date)->format("Y");
-        if ((int)$dateNow->format("Y") <= $endwork_date) {
-            $endwork_date = (int)$dateNow->format("Y");
-        }
-
-        $status = AbsenceStatus::select()->where('name', 'accepted')->first();
-        $type = AbsenceType::select()->where('name', 'annual_leave')->first();
-
-        $year = 0;
-        if ((int)$dateNow->format('Y') < $endwork_date) {
-            $year = $dateNow->format('Y');
+        $startwork_year = (int)date_create($objEmployee->startwork_date)->format("Y");
+        if($startwork_year == date('Y')){
+            $startwork_month = (int)date_create($objEmployee->startwork_date)->format("n");
+            $pemission_annual_leave = 12 - $startwork_month;
+        } elseif ( ((int)date('Y') - $startwork_year) < 6 ) {
+            $pemission_annual_leave =12;
         } else {
-            $year = $endwork_date;
-        }
-
-        $abc = new \App\Absence\AbsenceService();
-
-        $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
-        $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
-        if ($soNgayPhepDu > 5) {
-            $soNgayPhepDu = 5;
-        }
-        $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
-
-
-        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id, $year, 0, $type->id, $status->id);// tong ngay da nghi phep ( bao gom ngay nghi co luong va` tru luong)
-
-        $soNgayTruPhepDu = $abc->subRedundancy($id, $year); // so ngay tru vao ngay phep du nam ngoai
-        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year); // so ngay tru vao ngay phep
-
-        if ($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6) {
-            $soNgayPhepConLai = $abc->sumDateExistence($id, $year);
-            if ($soNgayPhepConLai < 0) {
-                $soNgayPhepConLai = 0;
+            switch ($startwork_year) {
+                case '6':
+                    $pemission_annual_leave =12;
+                    break;
+                case '7':
+                    $pemission_annual_leave =13;
+                    break;
+                case '8':
+                    $pemission_annual_leave =14;
+                    break;               
+                default:
+                    $pemission_annual_leave =15;
+                    break;
             }
-            $checkMonth = 1;
-        } else {
-            $soNgayPhepConLai = $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
-            if ($soNgayPhepConLai < 0) {
-                $soNgayPhepConLai = 0;
+        }
+
+        $remaining_last_year = $objEmployee->remaining_absence_days;
+
+        $annual_leave = 0;
+        $unpaid_leave = 0;
+        $maternity_leave = 0;
+        $marriage_leave = 0;
+        $bereavement_leave =0;
+        $sick_leave =0;
+
+        foreach($objEmployee->absences as $absence){           
+            switch ($absence->absenceType->name) {
+                case 'annual_leave':
+                     $count_day = 1+(int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d');                
+                    $annual_leave += $count_day;
+                    break;
+                case 'unpaid_leave':
+                     $count_day = 1+ (int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d');
+                    $unpaid_leave += $count_day;
+                    // dd($unpaid_leave);
+                    break;
+                case 'maternity_leave':
+                     $count_day = 1+ (int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d');
+                    $maternity_leave += $count_day;
+                    break;
+                case 'marriage_leave':
+                     $count_day = 1+ (int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d');
+                    $marriage_leave += $count_day;
+                    break;
+                case 'bereavement_leave':
+                     $count_day = 1+ (int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d');
+                    $bereavement_leave += $count_day;
+                    break;
+                case 'sick_leave':
+                     $count_day = 1+ (int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d');
+                    $sick_leave += $count_day;
+                    break;
+                
+                default: 
+                    dd('fail');
+                    break;
             }
-            $checkMonth = 0;
-        }
-        $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
-        if ($soNgayPhepCoDinhConLai < 0) {
-            $soNgayPhepCoDinhConLai = 0;
-        }
-        $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
-        if ($soNgayTruPhepDuConLai < 0) {
-            $soNgayTruPhepDuConLai = 0;
-        }
-
-        $type = AbsenceType::select()->where('name', 'subtract_salary_date')->first();
-        $soNgayNghiTruLuong = $abc->subtractSalaryDate($id, $year) + $abc->numberOfDaysOff($id, $year, 0, $type->id, $status->id);
-
-        $type = AbsenceType::select()->where('name', 'unpaid_leave')->first();
-        $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id, $year, 0, $type->id, $status->id);
-
-        $type = AbsenceType::select()->where('name', 'insurance_date')->first();
-        $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id, $year, 0, $type->id, $status->id);
+            
+        };
+        if($annual_leave > ($pemission_annual_leave + $remaining_last_year)) {
+            $remaining_this_year = 0;
+            $unpaid_leave += ($annual_leave - ($pemission_annual_leave + $remaining_last_year));
+         } else{
+             $remaining_this_year = ($pemission_annual_leave + $remaining_last_year) - $annual_leave;
+         }
 
         $absences = [
-            "soNgayDuocNghiPhep" => $tongSoNgayDuocNghi,
-            "soNgayNghiPhepCoDinh" => $soNgayPhepCoDinh,
-            "soNgayPhepDu" => $soNgayPhepDu,
-            "soNgayDaNghi" => $tongSoNgayDaNghi,
-            "truVaoPhepCoDinh" => $soNgayTruPhepCoDinh,
-            "truVaoPhepDu" => $soNgayTruPhepDu,
-            "soNgayConLai" => $soNgayPhepConLai,
-            "phepCoDinh" => $soNgayPhepCoDinhConLai,
-            "phepDu" => $soNgayTruPhepDuConLai,
-            "soNgayNghiTruLuong" => $soNgayNghiTruLuong,
-            "soNgayNghiKhongLuong" => $soNgayNghiKhongLuong,
-            "soNgayNghiBaoHiem" => $soNgayNghiBaoHiem,
-            "checkMonth" => $checkMonth
+            "pemission_annual_leave" => $pemission_annual_leave, //số ngày được phép năm nay
+            "remaining_last_year" => $remaining_last_year, //số ngày còn lại từ năm trước
+            "remaining_this_year" => $remaining_this_year, //số ngày phép năm nay còn lại
+            "annual_leave" => $annual_leave, //số ngày nghỉ phép năm
+            "unpaid_leave" => $unpaid_leave, //số ngày nghỉ không lương
+            "maternity_leave" => $maternity_leave, //nghỉ thai sản
+            "marriage_leave" => $marriage_leave, // nghỉ cưới hỏi
+            "bereavement_leave" => $bereavement_leave, // nghỉ tang chế
+            "sick_leave" => $sick_leave, //nghỉ ốm
         ];
+        
+        // dd($absences); die();
 
         return $absences;
     }
