@@ -33,7 +33,7 @@
                     <div class="row">
                         <form action="{{asset('notification')}}" method="post" class="form-horizontal" >
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="col-md-3"></div>
                                 <!-- /.col -->
                                 <div class="col-md-6">
@@ -72,7 +72,7 @@
                                 <div class="col-md-3"></div>
 
                             </div>
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="col-md-6" style="display: inline;">
                                     <div style="float: right;">
                                         <button onclick="return confirm_reset();" type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
