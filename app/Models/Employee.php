@@ -21,7 +21,6 @@ use App\Models\PermissionEmployee;
 use App\Models\Permissions;
 use Illuminate\Support\Facades\DB;
 
-
 class Employee extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
@@ -230,12 +229,12 @@ class Employee extends Model implements
 
         $absences = [
             "soNgayDuocNghiPhep" => $tongSoNgayDuocNghi,
-            "soNgayNghiPhepCoDinh" => $soNgayPhepCoDinh,
+            "soNgayNghiPhepCoDinh" => $soNgayPhepCoDinh, //total_annual_leave
             "soNgayPhepDu" => $soNgayPhepDu,
-            "soNgayDaNghi" => $tongSoNgayDaNghi,
+            "soNgayDaNghi" => $tongSoNgayDaNghi, // total_leaved
             "truVaoPhepCoDinh" => $soNgayTruPhepCoDinh,
             "truVaoPhepDu" => $soNgayTruPhepDu,
-            "soNgayConLai" => $soNgayPhepConLai,
+            "soNgayConLai" => $soNgayPhepConLai, //remainning 
             "phepCoDinh" => $soNgayPhepCoDinhConLai,
             "phepDu" => $soNgayTruPhepDuConLai,
             "soNgayNghiTruLuong" => $soNgayNghiTruLuong,

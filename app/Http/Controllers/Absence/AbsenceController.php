@@ -74,9 +74,6 @@ class AbsenceController extends Controller
         }
 
         $absenceService = $this->absenceService;
-
-                                dd($absenceService); die();
-
         $month_absences = getArrayMonth();
         $year_absences = $this->absenceService->getArrayYearAbsence();
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')

@@ -26,7 +26,7 @@ return [
         'msg_export_fails' => 'Kết xuất file lỗi !!',
     ],
     'type'=>[
-        'total_annual_leave'=> 'Tổng số phép năm',
+        'total_annual_leave'=> 'Tổng phép năm',
         'annual_leave'=> 'Nghỉ phép năm',
         'unpaid_leave'=> 'Nghỉ không lương',
         'maternity_leave'=> 'Nghỉ thai sản',
