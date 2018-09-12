@@ -12,7 +12,7 @@
 
         <section class="content">
             <div class="nav-tabs-custom">
-                <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
+                <!-- <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
                 <?php
                 $number_record_per_page = null; $employee_name = null; $email = null; $project_id = null; $absence_type = null;
                 $from_date = null; $to_date = null; $time_type = null; $page=1;
@@ -46,13 +46,11 @@
                         $page = $value['page'];
                     }
                 }
-                ?>
-                {{--<div class="tab-content">--}}
-                    {{--<div class="tab-pane" id="confirmation">--}}
+                ?> -->
                 <div class="tab-content">
                     <div>
                         <div class="box-body">
-                        {{-- <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
+                        <!-- {{-- <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                             <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                             <button  type="button" class="btn btn-default export-confirm-list" id="click-here" style="float: right"
                                      onclick="return confirmExport('{{trans('absence_po.list_po.msg.confirm_export')}}')">
@@ -61,141 +59,138 @@
                                     <i class="fa fa-vcard"></i>
                                     {{trans('common.button.export')}}</a>
                             </button>
-                        </button> --}}
-                        <div id="demo" class="collapse">
-                            <div class="modal-dialog">
-                            {!! Form::open(
-                                ['url' =>route('showListPO'),
-                                'method'=>'GET',
-                                'id'=>'form_search_confirm'
-                                ]) !!}
-                            <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <input id="number_record_per_page" type="hidden" name="number_record_per_page"
-                                                   value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('absence.confirmation.employee_name')}}</button>
+                        </button> --}} -->
+                            <!-- <div id="demo" class="collapse">
+                                <div class="modal-dialog">
+                                {!! Form::open(
+                                    ['url' =>route('showListPO'),
+                                    'method'=>'GET',
+                                    'id'=>'form_search_confirm'
+                                    ]) !!}
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                    <input id="number_record_per_page" type="hidden" name="number_record_per_page"
+                                                           value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
+                                                    <div class="input-group margin">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn width-100">{{trans('absence.confirmation.employee_name')}}</button>
+                                                        </div>
+                                                        {{ Form::text('employee_name', old('employee_name'),
+                                                            ['class' => 'form-control',
+                                                            'id' => 'employee_name',
+                                                            'autofocus' => false,
+                                                            ])
+                                                        }}
+                                                    </div>
+                                                    <div class="input-group margin">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn width-100">{{trans('absence.confirmation.email')}}</button>
+                                                        </div>
+                                                        {{ Form::text('email', old('email'),
+                                                            ['class' => 'form-control',
+                                                            'id' => 'email',
+                                                            'autofocus' => false,
+                                                            ])
+                                                        }}
+                                                    </div>
+                                                    <div class="input-group margin">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn width-100">{{trans('absence.confirmation.project_name')}}</button>
+                                                        </div>
+                                                        <select name="project_id" id="project_id" class="form-control">
+                                                            <option {{!empty(request('project_id'))?'':'selected="selected"'}} value="">
+                                                                {{trans('employee.drop_box.placeholder-default')}}
+                                                            </option>
+                                                            @foreach($projects as $project)
+                                                                <option value="{{$project->project_id}}"
+                                                                        {{ (string)$project->project_id===request('project_id')?'selected="selected"':'' }}>
+                                                                    {{$project->name}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="input-group margin">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn width-100">{{trans('absence.confirmation.type')}}</button>
+                                                        </div>
+                                                        <select name="absence_type" id="absence_type" class="form-control">
+                                                            <option {{!empty(request('absence_type'))?'':'selected="selected"'}} value="">
+                                                                {{trans('employee.drop_box.placeholder-default')}}
+                                                            </option>
+                                                            @foreach($absenceType as $item)
+                                                                <option value="{{$item->id}}"
+                                                                        {{ (string)$item->id===request('absence_type')?'selected="selected"':'' }}>
+                                                                    {{trans('absence_po.list_po.type.'.$item->name)}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                {{ Form::text('employee_name', old('employee_name'),
-                                                    ['class' => 'form-control',
-                                                    'id' => 'employee_name',
-                                                    'autofocus' => false,
-                                                    ])
-                                                }}
-                                            </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('absence.confirmation.email')}}</button>
+                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="input-group margin date form_datetime" >
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn width-100">{{trans('absence.confirmation.from')}}</button>
+                                                        </div>
+                                                        <div class='input-group date form_datetime' style="width:100%;">
+                                                            {{ Form::text('from_date', old('from_date'),
+                                                            ['class' => 'form-control',
+                                                            'id' => 'from_date',
+                                                            'autofocus' => false,
+                                                            'placeholder'=>'yyyy-MM-dd HH:mm'
+                                                            ])
+                                                        }}
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                              </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group margin">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn width-100">{{trans('absence.confirmation.to')}}</button>
+                                                        </div>
+                                                        {{--{{ Form::text('to_date', old('to_date'),--}}
+                                                            {{--['class' => 'form-control',--}}
+                                                            {{--'id' => 'to_date',--}}
+                                                            {{--'autofocus' => false,--}}
+                                                            {{--])--}}
+                                                        {{--}}--}}
+                                                        <div class='input-group date form_datetime' style="width:100%;">
+                                                            {{ Form::text('to_date', old('to_date'),
+                                                            ['class' => 'form-control',
+                                                            'id' => 'to_date',
+                                                            'autofocus' => false,
+                                                            'placeholder'=>'yyyy-MM-dd HH:mm'
+                                                            ])
+                                                        }}
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                              </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group margin">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn width-100">{{trans('absence.absence_time')}}</button>
+                                                        </div>
+                                                        <select name="time_type" id="time_type" class="form-control">
+                                                            <option {{!empty(request('time_type'))?'':'selected="selected"'}} value="">
+                                                                {{trans('employee.drop_box.placeholder-default')}}
+                                                            </option>
+                                                             @foreach($absenceTime as $item)
+                                                                <option value="{{$item->id}}"
+                                                                        {{ (string)$item->id===request('time_type')?'selected="selected"':'' }}>
+                                                                    {{trans('absence_po.list_po.status.'.$item->name )}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                {{ Form::text('email', old('email'),
-                                                    ['class' => 'form-control',
-                                                    'id' => 'email',
-                                                    'autofocus' => false,
-                                                    ])
-                                                }}
-                                            </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('absence.confirmation.project_name')}}</button>
-                                                </div>
-                                                <select name="project_id" id="project_id" class="form-control">
-                                                    <option {{!empty(request('project_id'))?'':'selected="selected"'}} value="">
-                                                        {{trans('employee.drop_box.placeholder-default')}}
-                                                    </option>
-                                                    @foreach($projects as $project)
-                                                        <option value="{{$project->project_id}}"
-                                                                {{ (string)$project->project_id===request('project_id')?'selected="selected"':'' }}>
-                                                            {{$project->name}}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('absence.confirmation.type')}}</button>
-                                                </div>
-                                                <select name="absence_type" id="absence_type" class="form-control">
-                                                    <option {{!empty(request('absence_type'))?'':'selected="selected"'}} value="">
-                                                        {{trans('employee.drop_box.placeholder-default')}}
-                                                    </option>
-                                                    @foreach($absenceType as $item)
-                                                        <option value="{{$item->id}}"
-                                                                {{ (string)$item->id===request('absence_type')?'selected="selected"':'' }}>
-                                                            {{trans('absence_po.list_po.type.'.$item->name)}}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
                                             </div>
                                         </div>
-                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
-                                            <div class="input-group margin date form_datetime" >
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('absence.confirmation.from')}}</button>
-                                                </div>
-                                                <div class='input-group date form_datetime' style="width:100%;">
-                                                    {{ Form::text('from_date', old('from_date'),
-                                                    ['class' => 'form-control',
-                                                    'id' => 'from_date',
-                                                    'autofocus' => false,
-                                                    'placeholder'=>'yyyy-MM-dd HH:mm'
-                                                    ])
-                                                }}
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                      </span>
-                                                </div>
-                                            </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('absence.confirmation.to')}}</button>
-                                                </div>
-                                                {{--{{ Form::text('to_date', old('to_date'),--}}
-                                                    {{--['class' => 'form-control',--}}
-                                                    {{--'id' => 'to_date',--}}
-                                                    {{--'autofocus' => false,--}}
-                                                    {{--])--}}
-                                                {{--}}--}}
-                                                <div class='input-group date form_datetime' style="width:100%;">
-                                                    {{ Form::text('to_date', old('to_date'),
-                                                    ['class' => 'form-control',
-                                                    'id' => 'to_date',
-                                                    'autofocus' => false,
-                                                    'placeholder'=>'yyyy-MM-dd HH:mm'
-                                                    ])
-                                                }}
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                      </span>
-                                                </div>
-                                                </div>
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn width-100">{{trans('absence.absence_time')}}</button>
-                                                </div>
-                                                <select name="time_type" id="time_type" class="form-control">
-                                                    <option {{!empty(request('time_type'))?'':'selected="selected"'}} value="">
-                                                        {{trans('employee.drop_box.placeholder-default')}}
-                                                    </option>
-                                                     @foreach($absenceTime as $item)
-                                                        <option value="{{$item->id}}"
-                                                                {{ (string)$item->id===request('time_type')?'selected="selected"':'' }}>
-                                                            {{trans('absence_po.list_po.status.'.$item->name )}}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     </div>
                                     <div class="modal-footer center">
                                         <button id="btn_reset" type="button" class="btn btn-default"><span class="fa fa-refresh"></span> {{ trans('common.button.reset')}}
@@ -203,10 +198,10 @@
                                         <button id="btn-submit-search" type="submit" class="btn btn-primary"><span class="fa fa-search"></span> {{ trans('common.button.search')  }}</button>
                                     </div>
                                 </div>
-                                {!! Form::close() !!}
-                            </div>
+                                    {!! Form::close() !!}
+                            </div> -->
                         </div>
-                           {{--  <div class="dataTables_length" id="confirm-list-length" style="float:right">
+                           <!-- {{--  <div class="dataTables_length" id="confirm-list-length" style="float:right">
                             <span>{{trans('pagination.show.number_record_per_page')}}</span>
                             {!! Form::select(
                                 'select_length',
@@ -218,9 +213,9 @@
                                 'aria-controls'=>"confirm-list-length"
                                 ]
                                 )
-                             !!} --}}
+                             !!} 
 
-                        </div>
+                        </div> --}} -->
 
                         <style type="text/css">
                             .list-confirm tr td {
@@ -229,18 +224,18 @@
                         </style>
                         <table id="confirm-po-list" class="table table-bordered table-striped">
                             <thead class="list-confirm">
-                            <tr>
-                                <th>{{trans('overtime.number')}} </th>
-                                <th>{{trans('absence.confirmation.employee_name')}}</th>
-                                <th>{{trans('absence.confirmation.email')}}</th>
-                                <th>{{trans('absence.confirmation.project_name')}}</th>
-                                <th>{{trans('absence.confirmation.from')}}</th>
-                                <th>{{trans('absence.confirmation.to')}}</th>
-                                <th>{{trans('absence.absence_type')}}</th>
-                                <th>{{trans('absence.absence_time')}}</th>
-                                <th>{{trans('absence.reason')}}</th>
-                                <th>{{trans('absence.description')}}</th>
-                            </tr>
+                                <tr>
+                                    <th>{{trans('overtime.number')}} </th>
+                                    <th>{{trans('absence.confirmation.employee_name')}}</th>
+                                    <th>{{trans('absence.confirmation.email')}}</th>
+                                    <th>{{trans('absence.confirmation.project_name')}}</th>
+                                    <th>{{trans('absence.confirmation.from')}}</th>
+                                    <th>{{trans('absence.confirmation.to')}}</th>
+                                    <th>{{trans('absence.absence_type')}}</th>
+                                    <th>{{trans('absence.absence_time')}}</th>
+                                    <th>{{trans('absence.reason')}}</th>
+                                    <th>{{trans('absence.description')}}</th>
+                                </tr>
                             </thead>
                             <tbody class="list-confirm">
                                 @php
@@ -248,8 +243,6 @@
                                 @endphp
 
                                 @foreach($absence_list as $val)
-
-                             {{-- @dd($val); @die(); --}}
 
                                 <tr>
                                     @php
@@ -289,7 +282,6 @@
                                     @else
                                         <td>-</td>
                                     @endif
-                                </span>
                                     @if(isset($val['absence_time']))
                                         @if($val['absence_time'] == 'all')
                                             <td>{{trans('absence.all')}}</td>
@@ -307,42 +299,37 @@
                                 @endforeach                  
                             </tbody>
                         </table>
-                            <div class="row">
-                                {{-- @if($absences->hasPages())
-                                    <div class="col-sm-4">
-                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
-                                            {{getInformationDataTable($absences)}}
+                        <div class="row">
+                            {{-- @if($absences->hasPages())
+                                <div class="col-sm-4">
+                                    <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                        {{getInformationDataTable($absences)}}
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    {{  $absences->appends($param)->render('vendor.pagination.custom') }}
+                                </div>
+                            @endif --}}
+                        </div>
+                        <!-- <div id="show-modal-confirm" class="modal fade" role="dialog">
+                            <div class="modal-dialog" style="width: 400px">
+                                <div class="modal-content" >
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><th>{{trans('absence_po.list_po.modal.reason')}}</th></h4>
+
+                                        <div class="modal-body">
+                                            <div>
+                                                <textarea class="form-control" rows="5" id="reason-content" required="required"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btn-submit-form-reject-reason">Gửi</button>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8">
-                                        {{  $absences->appends($param)->render('vendor.pagination.custom') }}
-                                    </div>
-                                @endif --}}
-                            </div>
-                            <div id="show-modal-confirm" class="modal fade" role="dialog">
-                                <div class="modal-dialog" style="width: 400px">
-                                    <!-- Modal content-->
-                                    <div class="modal-content" >
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title"><th>{{trans('absence_po.list_po.modal.reason')}}</th></h4>
-
-                                            <div class="modal-body">
-                                                <div>
-                                                    <textarea class="form-control" rows="5" id="reason-content" required="required"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btn-submit-form-reject-reason">Gửi</button>
-                                            </div>
-                                      </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="tab-pane" id="statistic">
-
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -350,6 +337,7 @@
             <!-- Main content -->
         </section>
         <!-- /.content -->
+    </div>
     <!-- /.content-wrapper -->
    <!-- jQuery 3 -->
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
