@@ -30,7 +30,6 @@ use App\Models\Process;
 use App\Models\Project;
 use App\Models\Role;
 use App\Service\SearchConfirmService;
-use App\Models\AbsenceTime;
 
 class AbsenceController extends Controller
 {
