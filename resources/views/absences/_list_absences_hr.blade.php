@@ -1,19 +1,24 @@
 <input id="number_record_per_page" type="hidden" name="number_record_per_page"
        value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
-<div class="dataTables_length" id="project-list_length" style="float:right">
-    <label class="lable-entries">{{trans('pagination.show.number_record_per_page')}}
-        {!! Form::select(
-            'select_length',
-            getArraySelectOption() ,
-            null ,
-            [
-            'id'=>'select_length',
-            'class' => 'form-control input-sm input-entries',
-            'aria-controls'=>"project-list"
-            ]
-            )
-         !!}
-    </label>
+<div style="float:right">
+    <div class="dataTables_length" id="project-list_length">
+        <label class="lable-entries" style="display: block;">{{trans('pagination.show.number_record_per_page')}}</label>
+        <div class="input-entries">
+            <select id="mySelect" onchange="myFunction()" style="width: 100%;">
+                <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
+                <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
+                <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
+            </select>
+        </div>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("mySelect").value;
+                console.log(x);
+                $('#number_record_per_page').val(x);
+                $('#form_search_employee').submit()
+            }
+        </script>
+    </div>
 </div>
 
 <script>
