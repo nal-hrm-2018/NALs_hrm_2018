@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.notification_id')}}<strong style="color: red">(*)</strong></label>
-                                        <select class="form-control select2" value="{{ old('notification_type_id') }}" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
+                                        <select class="form-control" value="{{ old('notification_type_id') }}" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
                                             <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                             <?php
                                             foreach ($dataTeam as $val) {
@@ -98,14 +98,6 @@
             </div>
             <script type="text/javascript"
                     src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-            <script>
-                $(function () {
-                    $("#btn_reset_form_employee").bind("click", function () {
-                        if(confirmAction('{{trans('common.reset')}}'))
-                            location.reload();
-                    });
-                });
-            </script>
 
             <script type="text/javascript">
                 $(function () {
