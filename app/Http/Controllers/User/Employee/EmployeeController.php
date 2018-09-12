@@ -6,6 +6,7 @@
  * Time: 11:26 AM
  */
 
+
 namespace App\Http\Controllers\User\Employee;
 
 
@@ -314,6 +315,15 @@ class EmployeeController extends Controller
         }else{
             $employee->work_status = 0;
         }
+        
+        
+        if($request->get('team_id') == null){
+          $team_id = 13;
+        } 
+         
+         dd($request->input('team_id'));
+        // dd($request['team_id']);
+        // die();
 
        // $employee->team_id = $request->team_id;
 
