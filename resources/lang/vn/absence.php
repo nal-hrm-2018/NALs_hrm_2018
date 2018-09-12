@@ -25,6 +25,10 @@ return [
         'msg_filter_invalid' => 'Xin hãy chọn năm !!',
         'msg_export_fails' => 'Kết xuất file lỗi !!',
     ],
+    'msg_edit' => [
+        'success'=>'Sữa đơn vắng nghĩ thành công!!!',
+        'fail'=>'Sữa đơn vắng nghĩ thất bại!!!',
+    ],
     'type'=>[
         'annual_leave'=> 'Nghỉ phép năm',
         'unpaid_leave'=> 'Nghỉ không lương',

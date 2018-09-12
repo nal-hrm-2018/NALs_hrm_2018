@@ -249,6 +249,34 @@ class OTController extends Controller
         $overtime->date = $request->ot_date;
         $overtime->start_time = $request->start_time;
         $overtime->end_time = $request->end_time;
+        //kiểm tra co phải ngày nghĩ lễ không.
+        $holiday = HolidayDefault::all();
+        $sttHoliday = "";
+        foreach ($holiday as $holiday){
+            $holidayDefault = date_format($holiday->date,"m-d");
+            $holidayRequest = date('m-d', strtotime($request->ot_date));
+            if($holidayDefault == $holidayRequest){
+                $sttHoliday = 1;
+            }
+        }
+        //Kiểm tra co phải ngày nghĩ lễ đột xuất k
+        if ($sttHoliday == ""){
+            $holiday = Holiday::all();
+            foreach ($holiday as $holiday){
+                $holidayDefault = date_format($holiday->date,"y-m-d");
+                $holidayRequest = date('y-m-d', strtotime($request->ot_date));
+                if($holidayDefault == $holidayRequest){
+                    $sttHoliday = 1;
+                }
+            }
+        }
+        if ($sttHoliday == 1){
+            $overtime->overtime_type_id = 3;
+        }elseif(date('N', strtotime($request->ot_date)) >= 6){
+            $overtime->overtime_type_id = 2;
+        }else{
+            $overtime->overtime_type_id = 1;
+        }
         // $overtime->overtime_type_id = $request->overtime_type_id;
         $overtime->total_time = $request->total_time;
         $overtime->reason = $request->reason;
