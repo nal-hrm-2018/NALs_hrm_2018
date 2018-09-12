@@ -7,16 +7,33 @@
         .style-box {
             margin: 10px;
             padding: 10px;
-            border: 3px solid #d2d6de;
+            border: 3px solid #00c0ef;
             border-radius: 5px;
-            min-width: 250px;
+            min-width: 200px;
+            color: black;
+            background: white;
+        }
+        .style-box-2 {
+            margin: 10px;
+            padding: 10px;
+            border: 3px solid #00c0ef;
+            border-radius: 5px;
+            min-width: 100px;
             color: black;
             background: white;
         }
         .padding-20 {
             padding: 0px 20px;
         }
-        .absence_head p{
+        .style-box p{
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .style-box-2 p{
+            text-align: center;
+            vertical-align: middle;
             font-weight: bold;
             font-size: 15px;
         }
@@ -193,43 +210,53 @@
                             </button>
                         </div>
                         <div style="margin: 30px 0 0;">
-                            <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap; padding: 20px 0px;">
-                                <div>
+                            <div class=" absence_head" style="padding: 20px 0px;">
+                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                     <div class="style-box">
-                                        <p>
-                                            - Số ngày được nghỉ phép:
-                                            <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
-                                        </p>
-                                        <span class="padding-20">
-                                            + Số ngày phép năm nay:
-                                            <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
-                                        </span><br>
-                                        <span class="padding-20">
-                                            + Số ngày phép năm trước:
-                                            <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
-                                        </span>
-                                    </div><br />
+                                        <p style="font-size: 22px; font-weight: bold;">This year</p>
+                                        <p style="font-size: 44px; font-weight: bold;">11</p>
+                                    </div>
                                     <div class="style-box">
-                                        <p>
-                                            - Số ngày nghỉ không lương:
-                                            <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
-                                        </p>
+                                        <p style="font-size: 22px; font-weight: bold;">Last year</p>
+                                        <p style="font-size: 44px; font-weight: bold;">0</p>
+                                    </div>
+                                    <div class="style-box">
+                                        <p style="font-size: 22px; font-weight: bold;">Total remaining</p>
+                                        <p style="font-size: 44px; font-weight: bold;">7</p>
                                     </div>
                                 </div>
-                                <div>
+                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                    <div class="style-box-2">
+                                        <p>Annual</p>
+                                        <p>4</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Unpaid</p>
+                                        <p>0</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Sick</p>
+                                        <p>0</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Maternity</p>
+                                        <p>0</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Marriage</p>
+                                        <p>0</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>Bereavement</p>
+                                        <p>0</p>
+                                    </div>
+                                </div>
+                                <!-- <div>
                                     <div class="style-box">
                                         <p>
                                             - Số ngày đã nghỉ:
                                             <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
                                         </p>
-                                        <span class="padding-20">
-                                            + Trừ vào phép năm nay:
-                                            <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
-                                        </span><br>
-                                        <span class="padding-20">
-                                            + Trừ vào phép năm trước:
-                                            <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
-                                        </span>
 
                                     </div><br/>
                                     <div class="style-box">
@@ -245,25 +272,6 @@
                                             - Số ngày còn lại:
                                             <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
                                         </p>
-                                        <span class="padding-20">
-                                            + Số ngày phép năm nay:
-                                            <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
-                                        </span>
-                                        <span class="padding-20"><br>
-                                            + Số ngày phép năm trước:
-                                            <span id="phepDu">{{$absences['phepDu']}}</span>
-                                        </span>
-                                        <span id='hanphep'>
-                                            @if($absences['checkMonth'] == 1 && $absences['phepDu'] > 0)
-                                                Đã hết hạn
-                                            @endif
-                                        </span>
-                                        @if($absences['checkMonth'] == 1 && $absences['phepDu'] > 0)
-                                            <script type="text/javascript">
-                                                $("#hanphep").addClass("label");
-                                                $("#hanphep").addClass("label-danger");
-                                            </script>
-                                        @endif
                                     </div><br>
                                     <div class="style-box">
                                         <p>
@@ -271,7 +279,7 @@
                                             <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
                                         </p>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -302,131 +310,130 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">
-                        <div class="col-md-4">
-                            <div class="box box-danger">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">{{trans('employee.type.type')}}</h3>
-                                    <div class="box-tools pull-right">
-                                        <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                        </button> -->
-                                        {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
-                                    </div>
-                                </div>
-                                <div class="box-body height-350">
-                                    <div class="child">
-                                        <div id="donut-chart1" class="donut-chart"></div>
-                                        <div class="width-310">
-                                <span class="text-legend width-150">
-                                    <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                    {{trans('employee.type.official')}}
-                                </span>
-                                            <span class="text-legend width-150">
-                                    <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                                {{trans('employee.type.probationary')}}
-                                </span><br>
-                                            <span class="text-legend width-150">
-                                    <i class="fas fa-circle" style="color: #faa951;"></i>
-                                                {{trans('employee.type.internship')}}
-                                </span>
-                                            <span class="text-legend width-150">
-                                    <i class="fas fa-circle" style="color: #00a65a;"></i>
-                                                {{trans('employee.type.part-time')}}
-                                </span>
+                                <div class="col-md-4">
+                                    <div class="box box-danger">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">{{trans('employee.type.type')}}</h3>
+                                            <div class="box-tools pull-right">
+                                                <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                                </button> -->
+                                                {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
+                                            </div>
                                         </div>
+                                        <div class="box-body height-350">
+                                            <div class="child">
+                                                <div id="donut-chart1" class="donut-chart"></div>
+                                                <div class="width-310">
+                                        <span class="text-legend width-150">
+                                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                            {{trans('employee.type.official')}}
+                                        </span>
+                                                    <span class="text-legend width-150">
+                                            <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                        {{trans('employee.type.probationary')}}
+                                        </span><br>
+                                                    <span class="text-legend width-150">
+                                            <i class="fas fa-circle" style="color: #faa951;"></i>
+                                                        {{trans('employee.type.internship')}}
+                                        </span>
+                                                    <span class="text-legend width-150">
+                                            <i class="fas fa-circle" style="color: #00a65a;"></i>
+                                                        {{trans('employee.type.part-time')}}
+                                        </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
                                     </div>
                                 </div>
-                                <!-- /.box-body -->
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="box box-danger height-400">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">{{trans('employee.status.status')}}</h3>
-                                    <div class="box-tools pull-right">
-                                        <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                        </button> -->
-                                        {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
-                                    </div>
-                                </div>
-                                <div class="box-body height-350">
-                                    <div class="child">
-                                        <div id="donut-chart2" class="donut-chart"></div>
-                                        <div class="width-150">
-                                    <span class="text-legend">
-                                        <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                        {{trans('employee.status.active')}}
-                                    </span><br>
+                                <div class="col-md-4">
+                                    <div class="box box-danger height-400">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">{{trans('employee.status.status')}}</h3>
+                                            <div class="box-tools pull-right">
+                                                <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                                </button> -->
+                                                {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
+                                            </div>
+                                        </div>
+                                        <div class="box-body height-350">
+                                            <div class="child">
+                                                <div id="donut-chart2" class="donut-chart"></div>
+                                                <div class="width-150">
                                             <span class="text-legend">
-                                        <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                                {{trans('employee.status.leaved')}}
-                                    </span>
+                                                <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                                {{trans('employee.status.active')}}
+                                            </span><br>
+                                                    <span class="text-legend">
+                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                        {{trans('employee.status.leaved')}}
+                                            </span>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <!-- /.box-body -->
                                     </div>
                                 </div>
-                                <!-- /.box-body -->
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="box box-danger height-400">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">{{trans('employee.new')}}{{trans('employee.this_month')}}</h3>
-                                    <div class="box-tools pull-right">
-                                        <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                        </button> -->
-                                        {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
-                                    </div>
-                                </div>
-                                <div class="box-body height-350">
-                                    <div class="child">
-                                        <div id="donut-chart3" class="donut-chart"></div>
-                                        <div  class="width-310">
-                                            @if($new_PHP >0)
-                                                <span class="text-legend width-100">
-                                        <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                        PHP
-                                    </span>
-                                            @endif
-                                            @if($new_DOTNET >0)
-                                                <span class="text-legend width-100">
-                                        <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                       DOTNET
-                                    </span>
-                                            @endif
-                                            @if($new_iOS >0)
-                                                <span class="text-legend width-100">
-                                        <i class="fas fa-circle" style="color: #00a65a;"></i>
-                                        IOS
-                                    </span>
-                                            @endif
-                                            @if($new_Android >0)
-                                                <span class="text-legend width-100">
-                                        <i class="fas fa-circle" style="color: #faa951;"></i>
-                                        Android
-                                    </span>
-                                            @endif
-                                            @if($new_Tester >0)
-                                                <span class="text-legend width-100">
-                                        <i class="fas fa-circle" style="color: #e91d24;"></i>
-                                        Tester
-                                    </span>
-                                            @endif
-                                            @if($new_others >0)
-                                                <span class="text-legend width-100">
-                                        <i class="fas fa-circle" style="color: #999;"></i>
-                                       Others
-                                    </span>
-                                            @endif
+                                <div class="col-md-4">
+                                    <div class="box box-danger height-400">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">{{trans('employee.new')}}{{trans('employee.this_month')}}</h3>
+                                            <div class="box-tools pull-right">
+                                                <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                                </button> -->
+                                                {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
+                                            </div>
                                         </div>
+                                        <div class="box-body height-350">
+                                            <div class="child">
+                                                <div id="donut-chart3" class="donut-chart"></div>
+                                                <div  class="width-310">
+                                                    @if($new_PHP >0)
+                                                        <span class="text-legend width-100">
+                                                <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                                PHP
+                                            </span>
+                                                    @endif
+                                                    @if($new_DOTNET >0)
+                                                        <span class="text-legend width-100">
+                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                               DOTNET
+                                            </span>
+                                                    @endif
+                                                    @if($new_iOS >0)
+                                                        <span class="text-legend width-100">
+                                                <i class="fas fa-circle" style="color: #00a65a;"></i>
+                                                IOS
+                                            </span>
+                                                    @endif
+                                                    @if($new_Android >0)
+                                                        <span class="text-legend width-100">
+                                                <i class="fas fa-circle" style="color: #faa951;"></i>
+                                                Android
+                                            </span>
+                                                    @endif
+                                                    @if($new_Tester >0)
+                                                        <span class="text-legend width-100">
+                                                <i class="fas fa-circle" style="color: #e91d24;"></i>
+                                                Tester
+                                            </span>
+                                                    @endif
+                                                    @if($new_others >0)
+                                                        <span class="text-legend width-100">
+                                                <i class="fas fa-circle" style="color: #999;"></i>
+                                               Others
+                                            </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
                                     </div>
                                 </div>
-                                <!-- /.box-body -->
                             </div>
-                        </div>
-                    </div>
                         </div>
                     </div>
                 </section>
-
                 <script src="https://code.highcharts.com/highcharts.js"></script>
                 <script src="https://code.highcharts.com/modules/data.js"></script>
                 <script>
@@ -598,8 +605,8 @@
                                 <h3 class="box-title">{{trans('dashboard.project')}}</h3>
 
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                    </button>
+                                    <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button> -->
                                 </div>
                             </div>
                             <!-- /.box-header -->
@@ -657,8 +664,8 @@
                                 <h3 class="box-title">{{trans('dashboard.project_dev')}}</h3>
 
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                    </button>
+                                    <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button> -->
                                 </div>
                             </div>
                             <!-- /.box-header -->
@@ -769,8 +776,8 @@
                                 <h3 class="box-title">{{trans('dashboard.project_dev')}}</h3>
 
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                    </button>
+                                    <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button> -->
                                 </div>
                             </div>
                             <div class="box-body">

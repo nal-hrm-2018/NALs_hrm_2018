@@ -23,7 +23,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
     public function addNewAbsenceForm(Request $request)
     {
         $id_employee = Auth::user()->id;
-        $date = Carbon::now()->format('Y-m-d H:i:s');
+        $date = Carbon::now()->format('Y-m-d');
         if (strtotime($request->get('from_date')) < strtotime($date)) {
             $is_late = 1;
         } else {
@@ -40,6 +40,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
         $data = [
             'employee_id' => $id_employee,
             'absence_type_id' => $request->get('absence_type_id'),
+            'absence_time_id' => $request->get('absence_time_id'),
             'from_date' => $request->get('from_date'),
             'to_date' => $request->get('to_date'),
             'reason' => $request->get('reason'),
@@ -51,7 +52,7 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             'description' => $request->get('ghi_chu')
         ];
 
-
+        
         $objAbsence = Absence::create($data);
 
         if (is_null($objAbsence)) {

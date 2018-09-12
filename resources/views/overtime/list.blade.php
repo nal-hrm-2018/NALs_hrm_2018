@@ -19,7 +19,7 @@
 	<div class="content-wrapper">
 		<section class="content-header">
             <h1>
-                My Overtime
+                Overtime List
                 <small>NAL Solutions</small>
             </h1>
         </section>
@@ -67,7 +67,7 @@
                         <div class="box-body">
                             <div>
                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
-                                    <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
+                                    <span class="fa fa-search"></span>&nbsp;Search
                                 </button>
                                 <div id="demo" class="collapse margin-form-search">
                                     <form method="get" role="form" id="form_search_overtime">

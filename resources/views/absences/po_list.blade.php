@@ -246,50 +246,54 @@
                                 @php
                                     $count = 0
                                 @endphp
-                                @foreach($absences as $val)
+
+                                @foreach($absence_list as $val)
+
+                             {{-- @dd($val); @die(); --}}
+
                                 <tr>
                                     @php
                                         $count++;
                                     @endphp
                                     <td>{{$count}}</td>
-                                    <td>{{$val->employee->name}}</td>
-                                    <td>{{$val->employee->email}}</td>
-                                    <td>{{$val->project}}</td>
-                                    <td>{{$val->from_date}}</td>
-                                    <td>{{$val->to_date}}</td>
-                                    @if(isset($val->absenceType->name))
-                                        @if($val->absenceType->name == 'annual_leave')
+                                    <td>{{$val['name']}}</td>
+                                    <td>{{$val['email']}}</td>
+                                    <td>{{$val['project']}}</td> 
+                                    <td>{{$val['start_date']}}</td>
+                                    <td>{{$val['end_date']}}</td>
+                                    @if(isset($val['absence_type']))
+                                        @if($val['absence_type'] == 'annual_leave')
                                             <td>{{trans('absence.type.annual_leave')}}</td>
                                         @endif 
-                                        @if($val->absenceType->name == 'unpaid_leave')
+                                        @if($val['absence_type'] == 'unpaid_leave')
                                             <td>{{trans('absence.type.annual_leave')}}</td>
                                         @endif 
-                                        @if($val->absenceType->name == 'maternity_leave')
+                                        @if($val['absence_type'] == 'maternity_leave')
                                             <td>{{trans('absence.type.maternity_leave')}}</td>
                                         @endif  
-                                        @if($val->absenceType->name == 'marriage_leave')
+                                        @if($val['absence_type'] == 'marriage_leave')
                                             <td>{{trans('absence.type.marriage_leave')}}</td>
                                         @endif  
-                                        @if($val->absenceType->name == 'bereavement_leave')
+                                        @if($val['absence_type'] == 'bereavement_leave')
                                             <td>{{trans('absence.type.bereavement_leave')}}</td>
                                         @endif  
-                                        @if($val->absenceType->name == 'sick_leave')
+                                        @if($val['absence_type'] == 'sick_leave')
                                             <td>{{trans('absence.type.sick_leave')}}</td>
                                         @endif  
-                                        @if($val->absenceType->name == 'subtract_salary_date')
+                                        @if($val['absence_type'] == 'subtract_salary_date')
                                             <td>{{trans('absence.type.subtract_salary_date')}}</td>
                                         @endif  
-                                        @if($val->absenceType->name == 'insurance_date')
+                                        @if($val['absence_type'] == 'insurance_date')
                                             <td>{{trans('absence.type.insurance_date')}}</td>
                                         @endif  
                                     @else
                                         <td>-</td>
                                     @endif
                                 </span>
-                                    @if(isset($val->absenceTime->name))
-                                        @if($val->absenceTime->name == 'all')
+                                    @if(isset($val['absence_time']))
+                                        @if($val['absence_time'] == 'all')
                                             <td>{{trans('absence.all')}}</td>
-                                        @elseif($val->absenceTime->name == 'morning')
+                                        @elseif($val['absence_time'] == 'morning')
                                             <td>{{trans('absence.morning')}}</td>
                                         @else
                                             <td>{{trans('absence.afternoon')}}</td>
@@ -297,8 +301,8 @@
                                     @else
                                     <td>-</td>
                                     @endif
-                                    <td>{{$val->reason}}</td>
-                                    <td>{{$val->description}}</td>
+                                    <td>{{$val['reason']}}</td>
+                                    <td>{{$val['description']}}</td>
                                 </tr>          
                                 @endforeach                  
                             </tbody>
