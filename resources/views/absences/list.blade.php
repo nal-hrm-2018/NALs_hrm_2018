@@ -47,16 +47,18 @@
                                 <div class="row" style="margin-left: 10px; ">
                                     <div class="form-group">
                                         <label>{{trans('absence.select_year')}}</label>
-                                        <select class="form-control" style="width: 150px;"  name="year" id="year" onchange="myFunction()">
-                                            @if($startwork_date == $endwork_date)
-                                                <option value="{{$startwork_date}}">{{$startwork_date}}</option>
-                                            @endif
-                                            @if($startwork_date < $endwork_date)
-                                                @for($i=$endwork_date; $i>=$startwork_date; $i--)
-                                                    <option value="{{$i}}" <?php echo request()->get('year')==$i?'selected':''; ?>>{{$i}}</option>
-                                                @endfor
-                                            @endif
-                                        </select>
+                                        <div style="width: 150px;">
+                                            <select class="form-control" name="year" id="year" onchange="myFunction()" style="width: 100%;">
+                                                @if($startwork_date == $endwork_date)
+                                                    <option value="{{$startwork_date}}">{{$startwork_date}}</option>
+                                                @endif
+                                                @if($startwork_date < $endwork_date)
+                                                    @for($i=$endwork_date; $i>=$startwork_date; $i--)
+                                                        <option value="{{$i}}" <?php echo request()->get('year')==$i?'selected':''; ?>>{{$i}}</option>
+                                                    @endfor
+                                                @endif
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </form>

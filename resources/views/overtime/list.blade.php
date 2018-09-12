@@ -152,12 +152,14 @@
                                     
                                 </script>
                                 <div class="dataTables_length" id="project-list_length" style="float:right; margin-bottom: 20px;">
-                                    <label class="lable-entries">{{trans('pagination.show.number_record_per_page')}}</label><br />
-                                    <select class="input-entries" id="mySelect" onchange="myFunction()">
-                                        <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
-                                        <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
-                                        <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
-                                    </select>
+                                    <label class="lable-entries" style="display: block;">{{trans('pagination.show.number_record_per_page')}}</label>
+                                    <div class="input-entries">
+                                        <select id="mySelect" onchange="myFunction()" style="width: 100%;">
+                                            <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
+                                            <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
+                                            <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
+                                        </select>
+                                    </div>
                                     <script>
                                         function myFunction() {
                                             var x = document.getElementById("mySelect").value;
