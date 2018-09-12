@@ -28,6 +28,7 @@ class Absence extends Model
         'employee_id',
         'absence_type_id',
         'absence_status_id',
+        'absence_time_id',
         'from_date',
         'to_date',
         'reason',
