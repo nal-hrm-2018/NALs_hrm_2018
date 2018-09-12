@@ -153,7 +153,7 @@ Route::group(['middleware' => 'user'], function () {
     ]);
     // Route::get('absence/po-project', 'Absence\AbsenceController@confirmRequest')->name('confirmRequest');
     Route::get('absence/po-project', 'Absence\AbsenceController@showListPO')->name('showListPO');
-    Route::get('absence/{id}', [
+    Route::get('absences/{id}', [
         'uses' => 'Absence\AbsenceController@destroy',
         'as' => 'absences.destroy'
     ]);
