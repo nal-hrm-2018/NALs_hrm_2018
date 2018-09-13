@@ -30,6 +30,9 @@ return [
         'fail'=>'Sữa đơn vắng nghĩ thất bại!!!',
     ],
     'type'=>[
+        'this_year' => 'Phép năm nay',
+        'last_year' => 'Còn lại từ năm trước',
+        'total_remaining'=>'Tổng phép còn lại',
         'annual_leave'=> 'Nghỉ phép năm',
         'unpaid_leave'=> 'Nghỉ không lương',
         'maternity_leave'=> 'Nghỉ thai sản',

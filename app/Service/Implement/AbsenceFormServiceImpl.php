@@ -41,12 +41,8 @@ class AbsenceFormServiceImpl implements AbsenceFormService
         $to_date = $request->get('to_date');
         $to_date_year = date('Y',strtotime($to_date));
         
-        $absences = Absence::with('absenceTime')->where('employee_id', $id_employee)->get()->toArray();
+        $absences = Absence::with('absenceTime')->where('delete_flag', 0)->where('employee_id', $id_employee)->get()->toArray();
 
-        
-        // echo $from_date=date('Y-m-d', strtotime($from_date));
-
-        // echo gettype($from_date);
         foreach($absences as $absence){
             
             if( ($from_date >= $absence['from_date'] && $from_date <= $absence['to_date']) || ($to_date >= $absence['from_date'] && $to_date <= $absence['to_date']) ){
