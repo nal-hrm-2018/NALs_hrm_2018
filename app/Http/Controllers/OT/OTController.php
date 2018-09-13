@@ -47,6 +47,7 @@ class OTController extends Controller
         $overtime = Overtime::find($id);
         $status_ot = OvertimeStatus::where('name','Accepted')->first();
         $overtime->overtime_status_id = $status_ot->id;
+        $overtime->correct_total_time = $overtime->total_time;
         $overtime->save();
         $id=Auth::user()->id;
         $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();
