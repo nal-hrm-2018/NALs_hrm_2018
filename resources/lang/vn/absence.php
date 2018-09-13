@@ -1,5 +1,6 @@
 <?php
 return [
+    'absence' => 'Đơn vắng nghĩ',
     'stt' => 'STT',
     'start_date' => 'Nghỉ từ ngày',
     'end_date' => 'Nghĩ đến ngày',

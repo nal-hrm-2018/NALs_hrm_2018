@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'absence' => 'Absence',
     'stt' => 'No.',
     'start_date' => 'From Date',
     'end_date' => 'To Date',
