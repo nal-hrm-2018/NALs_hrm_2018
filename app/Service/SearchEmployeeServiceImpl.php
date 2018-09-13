@@ -29,7 +29,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             'role' => !empty($request->role) ? $request->role : '',
         ];
         foreach ($params as $key => $value) {
-            $id = $value['id'];
+            $id = (string)$value['id'];
             $name = $value['name'];
             $team = $value['team'];
             $role = $value['role'];
@@ -60,10 +60,11 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if (!empty($request['company'])) {
             $query->Where('company', 'like', '%' . $request['company'] . '%');
         }
-
+        
         if (!empty($id)) {
-            $query->Where('id', '=', $id);
+            $query->Where('id', 'like', $id);
         }
+        
         if (!empty($team)) {
             $query
                 ->whereHas('teams', function ($query) use ($team) {
