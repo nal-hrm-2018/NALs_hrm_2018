@@ -229,7 +229,7 @@ class Employee extends Model implements
                 }
                  $date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
             }
-        }             
+        }            
         return $count_day;
     }
 
@@ -315,7 +315,11 @@ class Employee extends Model implements
                  $remaining_this_year = ($pemission_annual_leave + $remaining_last_year) - $annual_leave;
              }
         } else{
-            $half_year = Absence::whereMonth('from_date','<', '7')->get();   
+            $half_year = Absence::whereMonth('from_date','<', '7')
+                        ->whereHas('absenceType', function($query){
+                            $query->where('name',  'annual_leave');
+                        })
+                        ->get();   // lấy ngày nghỉ phép năm trước tháng 7
             if( count($half_year) >= $remaining_last_year){
                 if($annual_leave > ($pemission_annual_leave + $remaining_last_year)) {
                     $remaining_this_year = 0;
@@ -328,7 +332,9 @@ class Employee extends Model implements
                     $remaining_this_year = 0;
                     $unpaid_leave += ($annual_leave - ($pemission_annual_leave + count($half_year)));
                 } else {
+
                     $remaining_this_year = ($pemission_annual_leave +  count($half_year)) - $annual_leave;
+
                 }
             }
         }        
