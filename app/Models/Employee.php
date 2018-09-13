@@ -256,7 +256,10 @@ class Employee extends Model implements
         $sick_leave =0;
 
         $objModel = new Employee();
-        $absences = Absence::whereYear("from_date", date('Y'))->where('employee_id', $id)->get();
+        $absences = Absence::where('employee_id', $id)
+                            ->whereYear("from_date", date('Y'))
+                            ->where('delete_flag',0)
+                            ->get();
         foreach($absences as $absence){  
             switch ($absence->absenceType->name) {
                 case 'annual_leave':

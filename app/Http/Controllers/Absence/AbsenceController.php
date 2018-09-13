@@ -610,7 +610,7 @@ class AbsenceController extends Controller
         $absence->delete_flag = 1;
         $absence->save();
         \Session::flash('msg_success', trans('common.delete.success'));
-        return redirect('absences');
+        return redirect()->route('employee.show',['employee'=>$absence->employee_id ,'basic'=>0,'project'=>0,'overtime'=>0,'absence'=>1]);
     }
 
     // function create by Quy.
