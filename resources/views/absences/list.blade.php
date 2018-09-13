@@ -47,16 +47,18 @@
                                 <div class="row" style="margin-left: 10px; ">
                                     <div class="form-group">
                                         <label>{{trans('absence.select_year')}}</label>
-                                        <select class="form-control" style="width: 150px;"  name="year" id="year" onchange="myFunction()">
-                                            @if($startwork_date == $endwork_date)
-                                                <option value="{{$startwork_date}}">{{$startwork_date}}</option>
-                                            @endif
-                                            @if($startwork_date < $endwork_date)
-                                                @for($i=$endwork_date; $i>=$startwork_date; $i--)
-                                                    <option value="{{$i}}" <?php echo request()->get('year')==$i?'selected':''; ?>>{{$i}}</option>
-                                                @endfor
-                                            @endif
-                                        </select>
+                                        <div style="width: 150px;">
+                                            <select class="form-control" name="year" id="year" onchange="myFunction()" style="width: 100%;">
+                                                @if($startwork_date == $endwork_date)
+                                                    <option value="{{$startwork_date}}">{{$startwork_date}}</option>
+                                                @endif
+                                                @if($startwork_date < $endwork_date)
+                                                    @for($i=$endwork_date; $i>=$startwork_date; $i--)
+                                                        <option value="{{$i}}" <?php echo request()->get('year')==$i?'selected':''; ?>>{{$i}}</option>
+                                                    @endfor
+                                                @endif
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -69,88 +71,48 @@
                                 }
                             </script>
                             
-                            <div class=" absence_head" style="display: flex; justify-content: space-evenly; flex-wrap: wrap; padding: 20px 0px;">
-                                <div>
+                            <div class=" absence_head" style="padding: 20px 0px;">
+                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                     <div class="style-box">
-                                        <p>
-                                            - Số ngày được nghỉ phép:
-                                            <span id="soNgayDuocNghiPhep">{{$absences['soNgayDuocNghiPhep']}}</span>
-                                        </p>
-                                        <span class="padding-20">
-                                            + Số ngày phép năm nay: 
-                                            <span id="soNgayNghiPhepCoDinh">{{$absences['soNgayNghiPhepCoDinh']}}</span>
-                                        </span><br>
-                                        <span class="padding-20">
-                                            + Số ngày phép năm trước: 
-
-                                            <span id="soNgayPhepDu">{{$absences['soNgayPhepDu']}}</span>
-                                        </span>
-                                    </div><br />
+                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.this_year')}}</p>
+                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['pemission_annual_leave']}}</p>
+                                    </div>
                                     <div class="style-box">
-                                        <p>
-                                            - Số ngày nghỉ không lương:
-                                            <span id="soNgayNghiKhongLuong">{{$absences['soNgayNghiKhongLuong']}}</span>
-                                        </p>
+                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.last_year')}}</p>
+                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['remaining_last_year']}}</p>
+                                    </div>
+                                    <div class="style-box">
+                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.total_remaining')}}</p>
+                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="style-box">
-                                        <p>
-                                            - Số ngày đã nghỉ:
-                                            <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
-                                        </p>
-                                        <span class="padding-20">
-                                            + Trừ vào phép năm nay: 
-                                            <span id="truVaoPhepCoDinh">{{$absences['truVaoPhepCoDinh']}}</span>
-                                        </span><br>
-                                        <span class="padding-20">
-                                            + Trừ vào phép năm trước: 
-
-                                            <span id="truVaoPhepDu">{{$absences['truVaoPhepDu']}}</span>
-                                        </span>
-
-                                    </div><br/>
-                                    <div class="style-box">
-                                        <p>
-                                            - Số ngày nghỉ trừ lương:
-                                            <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
-                                        </p>
+                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                    <div class="style-box-2">
+                                        <p>{{trans('absence.type.annual_leave')}}</p>
+                                        <p>{{$absences['annual_leave']}}</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>{{trans('absence.type.unpaid_leave')}}</p>
+                                        <p>{{$absences['unpaid_leave']}}</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>{{trans('absence.type.sick_leave')}}</p>
+                                        <p>{{$absences['sick_leave']}}</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>{{trans('absence.type.maternity_leave')}}</p>
+                                        <p>{{$absences['maternity_leave']}}</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>{{trans('absence.type.marriage_leave')}}</p>
+                                        <p>{{$absences['marriage_leave']}}</p>
+                                    </div>
+                                    <div class="style-box-2">
+                                        <p>{{trans('absence.type.bereavement_leave')}}</p>
+                                        <p>{{$absences['bereavement_leave']}}</p>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="style-box">
-                                        <p>
-                                            - Số ngày còn lại:
-                                            <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
-                                        </p>
-                                        <span class="padding-20">
-                                            + Phép năm nay: 
-
-                                            <span id="phepCoDinh">{{$absences['phepCoDinh']}}</span>
-                                        </span>
-                                        <span class="padding-20"><br>
-                                            + Phép năm trước:
-                                            <span id="phepDu">{{$absences['phepDu']}}</span>
-                                        </span>
-                                        <span id='hanphep'>
-                                            @if($checkMonth == 1 && $absences['phepDu'] > 0)
-                                                Đã hết hạn
-                                            @endif
-                                        </span>
-                                        @if($checkMonth == 1 && $absences['phepDu'] > 0)
-                                            <script type="text/javascript">
-                                                $("#hanphep").addClass("label");
-                                                $("#hanphep").addClass("label-danger");
-                                            </script>
-                                        @endif
-                                    </div><br>
-                                    <div class="style-box">
-                                        <p>
-                                            - Số ngày nghỉ chế độ bảo hiểm:
-                                            <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
-                                        </p>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <?php
                             $idWaiting = \App\Models\AbsenceStatus::where('name', '=',
@@ -163,7 +125,7 @@
                             <table class="table table-bordered table-striped" id="absences-list" style="margin-top: 20px !important;">
                                 <thead>
                                     <tr>
-                                        <th>{{trans('absence.stt')}}</th>
+                                        <th class="text-center">{{trans('absence.stt')}}</th>
                                         <th>{{trans('absence.start_date')}}</th>
                                         <th>{{trans('absence.end_date')}}</th>
                                         <th>{{trans('absence.absence_type')}}</th>
@@ -175,9 +137,9 @@
                                 <tbody class="context-menu" id="listAbsence">
                                     @foreach($listAbsence AS $key => $obj)
                                         <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$obj->from_date}}</td>
-                                            <td>{{$obj->to_date}}</td>
+                                            <td class="text-center">{{$key+1}}</td>
+                                            <td>{{ isset($obj->from_date)?$obj->from_date->format('d/m/Y'):'-'}}</td>
+                                            <td>{{ isset($obj->to_date)?$obj->to_date->format('d/m/Y'):'-'}}</td>
                                             <td>
                                                 @if(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.salary_date'))
                                                     <span class="label label-primary">
@@ -559,14 +521,35 @@
         .style-box {
             margin: 10px;
             padding: 10px;
-            border: 3px solid #d2d6de;
+            border: 3px solid #00c0ef;
             border-radius: 5px;
-            min-width: 250px;
+            min-width: 200px;
+            color: black;
+            background: white;
+        }
+        .style-box-2 {
+            margin: 10px;
+            padding: 10px;
+            border: 3px solid #00c0ef;
+            border-radius: 5px;
+            min-width: 100px;
             color: black;
             background: white;
         }
         .padding-20 {
             padding: 0px 20px;
+        }
+        .style-box p{
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .style-box-2 p{
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 15px;
         }
     </style>
 @endsection

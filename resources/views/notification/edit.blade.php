@@ -35,7 +35,7 @@
                               {{--onSubmit="return confirmAction()">--}}
                         {{Form::model($notification,array('url' => ['/notification', $notification->id], 'method'=>isset($notification["id"])?'PUT':'POST', 'id' => 'form_edit_notification'))}}
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="col-md-3"></div>
                                 <!-- /.col -->
                                 <div class="col-md-6">
@@ -70,7 +70,7 @@
                                 <div class="col-md-3"></div>
 
                             </div>
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="col-md-6" style="display: inline;">
                                     <div style="float: right;">
                                         <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>

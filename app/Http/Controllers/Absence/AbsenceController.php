@@ -76,6 +76,7 @@ class AbsenceController extends Controller
         $absenceService = $this->absenceService;
         $month_absences = getArrayMonth();
         $year_absences = $this->absenceService->getArrayYearAbsence();
+        // dd($absenceService);
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')
             ->paginate($request['number_record_per_page']);
         $employees->setPath('');
@@ -303,66 +304,67 @@ class AbsenceController extends Controller
             $year = $endwork_date;
         }
 
-        $abc = new \App\Absence\AbsenceService();
+        // $abc = new \App\Absence\AbsenceService();
 
-        $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
-        $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
-        if($soNgayPhepDu > 5){
-            $soNgayPhepDu = 5;
-        }
-        $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
+        // $tongSoNgayDuocNghi = $abc->totalDateAbsences($id, $year); // tong ngay se duoc nghi nam nay
+        // $soNgayPhepDu = $abc->numberAbsenceRedundancyOfYearOld($id, $year - 1); // ngay phep nam ngoai
+        // if($soNgayPhepDu > 5){
+        //     $soNgayPhepDu = 5;
+        // }
+        // $soNgayPhepCoDinh = $abc->absenceDateOnYear($id, $year) + $abc->numberAbsenceAddPerennial($id, $year); // tong ngay co the duoc nghi
 
 
-        $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);// tong ngay da nghi phep ( bao gom ngay nghi co luong va` tru luong)
+        // $tongSoNgayDaNghi = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);// tong ngay da nghi phep ( bao gom ngay nghi co luong va` tru luong)
 
-        $soNgayTruPhepDu = $abc->subRedundancy($id, $year); // so ngay tru vao ngay phep du nam ngoai
-        $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year); // so ngay tru vao ngay phep
+        // $soNgayTruPhepDu = $abc->subRedundancy($id, $year); // so ngay tru vao ngay phep du nam ngoai
+        // $soNgayTruPhepCoDinh = $abc->subDateAbsences($id, $year); // so ngay tru vao ngay phep
 
-        if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
-            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
-            if($soNgayPhepConLai<0){
-                $soNgayPhepConLai=0;
-            }
-            $checkMonth = 1;
-        }else{
-            $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
-            if($soNgayPhepConLai<0){
-                $soNgayPhepConLai=0;
-            }
-            $checkMonth = 0;
-        }
-        $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
-        if($soNgayPhepCoDinhConLai<0){
-            $soNgayPhepCoDinhConLai=0;
-        }
-        $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
-        if($soNgayTruPhepDuConLai<0){
-            $soNgayTruPhepDuConLai=0;
-        }
+        // if($year < (int)$dateNow->format('Y') || (int)$dateNow->format('m') > 6){
+        //     $soNgayPhepConLai =  $abc->sumDateExistence($id, $year);
+        //     if($soNgayPhepConLai<0){
+        //         $soNgayPhepConLai=0;
+        //     }
+        //     $checkMonth = 1;
+        // }else{
+        //     $soNgayPhepConLai =  $abc->sumDateExistence($id, $year) + $abc->sumDateRedundancyExistence($id, $year);
+        //     if($soNgayPhepConLai<0){
+        //         $soNgayPhepConLai=0;
+        //     }
+        //     $checkMonth = 0;
+        // }
+        // $soNgayPhepCoDinhConLai = $abc->sumDateExistence($id, $year);
+        // if($soNgayPhepCoDinhConLai<0){
+        //     $soNgayPhepCoDinhConLai=0;
+        // }
+        // $soNgayTruPhepDuConLai = $abc->sumDateRedundancyExistence($id, $year);
+        // if($soNgayTruPhepDuConLai<0){
+        //     $soNgayTruPhepDuConLai=0;
+        // }
 
-        $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
-        $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+        // $type = AbsenceType::select()->where('name','subtract_salary_date')->first();
+        // $soNgayNghiTruLuong = $abc->subtractSalaryDate($id,$year) + $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
-        $type = AbsenceType::select()->where('name','unpaid_leave')->first();
-        $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+        // $type = AbsenceType::select()->where('name','unpaid_leave')->first();
+        // $soNgayNghiKhongLuong = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
-        $type = AbsenceType::select()->where('name','insurance_date')->first();
-        $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
+        // $type = AbsenceType::select()->where('name','insurance_date')->first();
+        // $soNgayNghiBaoHiem = $abc->numberOfDaysOff($id,$year,0,$type->id,$status->id);
 
-        $absences = [
-                        "soNgayDuocNghiPhep"=>$tongSoNgayDuocNghi, 
-                        "soNgayNghiPhepCoDinh"=>$soNgayPhepCoDinh,
-                        "soNgayPhepDu"=>$soNgayPhepDu,
-                        "soNgayDaNghi"=>$tongSoNgayDaNghi,
-                        "truVaoPhepCoDinh"=>$soNgayTruPhepCoDinh,
-                        "truVaoPhepDu"=>$soNgayTruPhepDu,
-                        "soNgayConLai"=>$soNgayPhepConLai,
-                        "phepCoDinh"=>$soNgayPhepCoDinhConLai,
-                        "phepDu"=>$soNgayTruPhepDuConLai,
-                        "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
-                        "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
-                        "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
-                    ];
+        // $absences = [
+        //                 "soNgayDuocNghiPhep"=>$tongSoNgayDuocNghi, 
+        //                 "soNgayNghiPhepCoDinh"=>$soNgayPhepCoDinh,
+        //                 "soNgayPhepDu"=>$soNgayPhepDu,
+        //                 "soNgayDaNghi"=>$tongSoNgayDaNghi,
+        //                 "truVaoPhepCoDinh"=>$soNgayTruPhepCoDinh,
+        //                 "truVaoPhepDu"=>$soNgayTruPhepDu,
+        //                 "soNgayConLai"=>$soNgayPhepConLai,
+        //                 "phepCoDinh"=>$soNgayPhepCoDinhConLai,
+        //                 "phepDu"=>$soNgayTruPhepDuConLai,
+        //                 "soNgayNghiTruLuong"=>$soNgayNghiTruLuong,
+        //                 "soNgayNghiKhongLuong"=>$soNgayNghiKhongLuong,
+        //                 "soNgayNghiBaoHiem"=>$soNgayNghiBaoHiem
+        //             ];
+        $absences = Employee::emp_absence($id);
         if(isset($request->year)){
             $year = $request->year;
         }
@@ -563,36 +565,39 @@ class AbsenceController extends Controller
 
     public function edit($id)
     {
-        $id_employee = Auth::user()->id;
 
-        $curDate = date_create(Carbon::now()->format('Y-m-d'));
-        $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
-
-        $absence = Absence::where('delete_flag', 0)->find($id);
-        if ($absence == null) {
-            return abort(404);
-        }
-        $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
-            ->join('teams', 'employees.team_id', '=', 'teams.id')
-            ->where('employees.delete_flag', 0)->find($id_employee);
-
-        $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
-            ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
-            ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
-            ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
-            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore) {
-                $query->select('project_id')
-                    ->from('processes')
-                    ->where('employee_id', '=', $id_employee)
-                    ->whereDate('processes.end_date', '>', $dayBefore);
-            })
-            ->WHERE('employees.delete_flag', '=', 0)
-            ->WHERE('roles.name', 'like', 'po')
-            ->get()->toArray();
-        $objAbsence = Absence::where('delete_flag', 0)->findOrFail($id)->toArray();
+//        $id_employee = Auth::user()->id;
+//
+//        $curDate = date_create(Carbon::now()->format('Y-m-d'));
+//        $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
+//        $absence = Absence::where('delete_flag', 0)->find($id);
+//        if ($absence == null) {
+//            return abort(404);
+//        }
+//        $objEmployee = Employee::select('employees.*', 'teams.name as team_name')
+//            ->join('teams', 'employees.team_id', '=', 'teams.id')
+//            ->where('employees.delete_flag', 0)->find($id_employee);
+//
+//        $objPO = Employee::SELECT('employees.name as PO_name', 'projects.name as project_name')
+//            ->JOIN('processes', 'processes.employee_id', '=', 'employees.id')
+//            ->JOIN('projects', 'processes.project_id', '=', 'projects.id')
+//            ->JOIN('roles', 'processes.role_id', '=', 'roles.id')
+//            ->whereIn('processes.project_id', function ($query) use ($id_employee, $dayBefore) {
+//                $query->select('project_id')
+//                    ->from('processes')
+//                    ->where('employee_id', '=', $id_employee)
+//                    ->whereDate('processes.end_date', '>', $dayBefore);
+//            })
+//            ->WHERE('employees.delete_flag', '=', 0)
+//            ->WHERE('roles.name', 'like', 'po')
+//            ->get()->toArray();
+//        $objAbsence = Absence::where('delete_flag', 0)->findOrFail($id)->toArray();
+        $objAbsence = Absence::where('id',$id)->first();
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
+        $Absence_type_time = AbsenceTime::select('id', 'name')->get()->toArray();
 
-        return view('absences.editFormVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee,'objAbsence' => $objAbsence, 'Absence_type' => $Absence_type]);
+        return view('absences.editFormVangNghi',['objAbsence'=>$objAbsence,'Absence_type'=>$Absence_type,'Absence_type_time'=>$Absence_type_time]);
+//        return view('absences.editFormVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee,'objAbsence' => $objAbsence, 'Absence_type' => $Absence_type]);
     }
 
     public function update(AbsenceAddRequest $request,$id)
@@ -606,7 +611,7 @@ class AbsenceController extends Controller
         $absence->delete_flag = 1;
         $absence->save();
         \Session::flash('msg_success', trans('common.delete.success'));
-        return redirect('absences');
+        return redirect()->route('employee.show',['employee'=>$absence->employee_id ,'basic'=>0,'project'=>0,'overtime'=>0,'absence'=>1]);
     }
 
     // function create by Quy.

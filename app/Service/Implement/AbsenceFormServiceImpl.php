@@ -36,24 +36,90 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             ->toArray();
         $poTeam= Employee::find($id_employee)->teams();
         $arrayList = array();
-
-        $data = [
-            'employee_id' => $id_employee,
-            'absence_type_id' => $request->get('absence_type_id'),
-            'absence_time_id' => $request->get('absence_time_id'),
-            'from_date' => $request->get('from_date'),
-            'to_date' => $request->get('to_date'),
-            'reason' => $request->get('reason'),
-            'absence_status_id' => 2,
-            'created_at' => new \DateTime(),
-            'delete_flag' => 0,
-            'is_deny' => 0,
-            'is_late' => $is_late,
-            'description' => $request->get('ghi_chu')
-        ];
-
+        $from_date = $request->get('from_date');
+        $from_date_year = date('Y',strtotime($from_date));
+        $to_date = $request->get('to_date');
+        $to_date_year = date('Y',strtotime($to_date));
         
-        $objAbsence = Absence::create($data);
+        $absences = Absence::with('absenceTime')->where('delete_flag', 0)->where('employee_id', $id_employee)->get()->toArray();
+
+        foreach($absences as $absence){
+            
+            if( ($from_date >= $absence['from_date'] && $from_date <= $absence['to_date']) || ($to_date >= $absence['from_date'] && $to_date <= $absence['to_date']) ){
+                if($request->get('absence_time_id') == 1){
+                    \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                    return back()->withInput();
+                }
+                if($absence['absence_time']['name'] == 'all'){
+                    \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                    return back()->withInput();
+                }
+                if($absence['absence_time']['name'] == 'morning'){
+                    if($absence['absence_time']['id'] == $request->get('absence_time_id')){
+                        \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                        return back()->withInput();
+                    }
+                }
+                if($absence['absence_time']['name'] == 'afternoon'){
+                    if($absence['absence_time']['id'] == $request->get('absence_time_id')){
+                        \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                        return back()->withInput();
+                    }
+                }
+            }
+        }    
+
+        if($from_date_year == $to_date_year){
+            $data = [
+                'employee_id' => $id_employee,
+                'absence_type_id' => $request->get('absence_type_id'),
+                'absence_time_id' => $request->get('absence_time_id'),
+                'from_date' => $request->get('from_date'),
+                'to_date' => $request->get('to_date'),
+                'reason' => $request->get('reason'),
+                'absence_status_id' => 2,
+                'created_at' => new \DateTime(),
+                'delete_flag' => 0,
+                'is_deny' => 0,
+                'is_late' => $is_late,
+                'description' => $request->get('ghi_chu')
+            ];
+    
+            
+            $objAbsence = Absence::create($data);
+        }else{
+            $data1 = [
+                'employee_id' => $id_employee,
+                'absence_type_id' => $request->get('absence_type_id'),
+                'absence_time_id' => $request->get('absence_time_id'),
+                'from_date' => $request->get('from_date'),
+                'to_date' => $from_date_year.'-12-31',
+                'reason' => $request->get('reason'),
+                'absence_status_id' => 2,
+                'created_at' => new \DateTime(),
+                'delete_flag' => 0,
+                'is_deny' => 0,
+                'is_late' => $is_late,
+                'description' => $request->get('ghi_chu')
+            ];
+            $objAbsence = Absence::create($data1);
+            $data2 = [
+                'employee_id' => $id_employee,
+                'absence_type_id' => $request->get('absence_type_id'),
+                'absence_time_id' => $request->get('absence_time_id'),
+                'from_date' => $to_date_year.'-01-01',
+                'to_date' => $request->get('to_date'),
+                'reason' => $request->get('reason'),
+                'absence_status_id' => 2,
+                'created_at' => new \DateTime(),
+                'delete_flag' => 0,
+                'is_deny' => 0,
+                'is_late' => $is_late,
+                'description' => $request->get('ghi_chu')
+            ];
+            $objAbsence = Absence::create($data2);
+        }
+
 
         if (is_null($objAbsence)) {
             \Session::flash('msg_fail', 'Account failed created!!!');
@@ -65,9 +131,9 @@ class AbsenceFormServiceImpl implements AbsenceFormService
     }
     public function editAbsenceForm(Request $request, $id)
     {
-        $id_employee = Auth::user()->id;
+        $id_employee = Absence::where('id',$id)->first()->employee_id;
 
-        $date = Carbon::now()->format('Y-m-d H:i:s');;
+        $date = Carbon::now()->format('Y-m-d H:i:s');
 
         if (strtotime($request->get('from_date')) < strtotime($date)) {
             $is_late = 1;
@@ -75,25 +141,25 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             $is_late = 0;
         }
 
-        $objProcess = Process::select('*')
-            ->where('employee_id', '=', $id_employee)
-            ->whereDate('processes.end_date', '>=', $date)
-            ->get()
-            ->toArray();
+//        $objProcess = Process::select('*')
+//            ->where('employee_id', '=', $id_employee)
+//            ->whereDate('processes.end_date', '>=', $date)
+//            ->get()
+//            ->toArray();
 
-        $employeeLogged = Employee::where('id', $id_employee)->first();
-
-        $poTeam = Employee::select('*')->where('is_manager', 1)
-            ->where('team_id', $employeeLogged->team_id)->first();
-        $arrayList = array();
+//        $employeeLogged = Employee::where('id', $id_employee)->first();
+//
+//        $poTeam = Employee::select('*')->where('is_manager', 1)
+//            ->where('team_id', $employeeLogged->team_id)->first();
+//        $arrayList = array();
 
         $data = [
-            'employee_id' => $id_employee,
             'absence_type_id' => $request->get('absence_type_id'),
             'from_date' => $request->get('from_date'),
             'to_date' => $request->get('to_date'),
             'reason' => $request->get('reason'),
             'absence_status_id' => 1,
+            'absence_time_id' => $request->get('absence_time_id'),
             'created_at' => new \DateTime(),
             'delete_flag' => 0,
             'is_deny' => 0,
@@ -102,63 +168,63 @@ class AbsenceFormServiceImpl implements AbsenceFormService
         ];
         $objAbsence = Absence::where('delete_flag', 0)->findOrFail($id)->update($data);
 
-        if (is_null($objAbsence)) {
-            \Session::flash('msg_fail', 'Account failed created!!!');
-            return back()->withInput(Input::all());
-        } else {
-            if (empty($objProcess)) {
-//                $is_process = 0;
-                $data1 = [
-                    'created_at' => new \DateTime(),
-                    'delete_flag' => 0,
-                    'absence_status_id' => 1,
-                    'absence_id' => $objAbsence['id'],
-                    'is_process' => null,
-                    'employee_id' => $poTeam->id
-                ];
-       Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($data1);
+//        if (is_null($objAbsence)) {
+//            \Session::flash('msg_fail', 'Account failed created!!!');
+//            return back()->withInput(Input::all());
+//        } else {
+//            if (empty($objProcess)) {
+////                $is_process = 0;
+//                $data1 = [
+//                    'created_at' => new \DateTime(),
+//                    'delete_flag' => 0,
+//                    'absence_status_id' => 1,
+//                    'absence_id' => $objAbsence['id'],
+//                    'is_process' => null,
+//                    'employee_id' => $poTeam->id
+//                ];
+//       Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($data1);
+//
+//            } else {
+////                $is_process = 1;
+//                $getIdRolePo = Role::where('name', 'PO')->first();
+//                $indexInLoop = 0;
+//
+//                foreach ($objProcess as $element) {
+//                    $arrayList[$indexInLoop] = Process::where('project_id', $element['project_id'])
+//                        ->where('role_id', $getIdRolePo->id)
+//                        ->whereDate('start_date', '<=', $request->get('from_date'))
+//                        ->whereDate('end_date', '>=', $request->get('to_date'))
+//                        ->first();
+//                    $indexInLoop++;
+//                }
+//
+//                foreach ($arrayList as $key => $value) {
+//                    if (!empty($value)) {
+//                        $data1 = [
+//                            'created_at' => new \DateTime(),
+//                            'delete_flag' => 0,
+//                            'absence_status_id' => 1,
+//                            'absence_id' => $objAbsence['id'],
+//                            'project_id' => $value['project_id'],
+//                            'employee_id' => $value['employee_id']
+//                        ];
+//                        Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($data1);
+//                    }
+//                }
+//
+//                $dataPoTeamJustWatch = [
+//                    'created_at' => new \DateTime(),
+//                    'delete_flag' => 0,
+//                    'absence_status_id' => 1,
+//                    'absence_id' => $objAbsence['id'],
+//                    'project_id' => null,
+//                    'employee_id' => $poTeam->id
+//                ];
+//                Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($dataPoTeamJustWatch);
+//            }
 
-            } else {
-//                $is_process = 1;
-                $getIdRolePo = Role::where('name', 'PO')->first();
-                $indexInLoop = 0;
-
-                foreach ($objProcess as $element) {
-                    $arrayList[$indexInLoop] = Process::where('project_id', $element['project_id'])
-                        ->where('role_id', $getIdRolePo->id)
-                        ->whereDate('start_date', '<=', $request->get('from_date'))
-                        ->whereDate('end_date', '>=', $request->get('to_date'))
-                        ->first();
-                    $indexInLoop++;
-                }
-
-                foreach ($arrayList as $key => $value) {
-                    if (!empty($value)) {
-                        $data1 = [
-                            'created_at' => new \DateTime(),
-                            'delete_flag' => 0,
-                            'absence_status_id' => 1,
-                            'absence_id' => $objAbsence['id'],
-                            'project_id' => $value['project_id'],
-                            'employee_id' => $value['employee_id']
-                        ];
-                        Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($data1);
-                    }
-                }
-
-                $dataPoTeamJustWatch = [
-                    'created_at' => new \DateTime(),
-                    'delete_flag' => 0,
-                    'absence_status_id' => 1,
-                    'absence_id' => $objAbsence['id'],
-                    'project_id' => null,
-                    'employee_id' => $poTeam->id
-                ];
-                Confirm::where('delete_flag', 0)->where('absence_id',$id)->update($dataPoTeamJustWatch);
-            }
-
-            \Session::flash('msg_success', 'Sửa Form thành công!!!');
-            return redirect('absences');
-        }
+            \Session::flash('msg_success', trans('absence.msg_edit.success'));
+            return redirect()->route('employee.show',['employee'=>$id_employee]);
+//        }
     }
 }

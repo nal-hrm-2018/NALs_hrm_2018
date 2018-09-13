@@ -24,7 +24,7 @@
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
 									@if($objProject->count() > 0)
-									<select class="form-control select2" value="{{ old('project_id') }}" id="project_id" name="project_id">
+									<select class="form-control" value="{{ old('project_id') }}" id="project_id" name="project_id">
 										<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
 										@foreach($objProject as $typeProject)
 											<?php
@@ -38,7 +38,7 @@
 										@endforeach
 									</select>
 									@else
-									<select class="form-control select2" id="project_id" name="project_id" disabled>
+									<select class="form-control" id="project_id" name="project_id" disabled>
 										<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
 										@foreach($objProject as $typeProject)
 											<option value="{{$typeProject->project_id}}">{{ \App\Models\Project::where('id',$typeProject->project_id)->first()->name }}
@@ -72,27 +72,9 @@
 	    							<input type="text" class="form-control" id="total_time" name="total_time" value="{{ old('total_time') }}">
 									<label id="lb_error_total_time" style="color: red; ">{{$errors->first('total_time')}}</label>
 	    						</div>
-								{{--@php--}}
-	    						{{--<div class="form-group">--}}
-	    							{{--<label for="">{{trans('overtime.overtime_type_id')}}<strong style="color: red">(*)</strong></label>--}}
-	    							{{--<select class="form-control" id="overtime_type_id" name="overtime_type_id" value="{{ old('overtime_type_id') }}">--}}
-								    	{{--<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>--}}
-								    	{{--@foreach($objOvertimeType as $typeTime)--}}
-										{{--<?php--}}
-											{{--$selected = "";--}}
-                                            {{--if($typeTime->id == old('overtime_type_id')){--}}
-                                                {{--$selected = "selected";--}}
-                                            {{--}--}}
-										{{--?>--}}
-								    	{{--<option value="{{$typeTime->id}}" <?php echo $selected; ?>>{{$typeTime->name}}</option>--}}
-								    	{{--@endforeach--}}
-								    {{--</select>--}}
-									{{--<label id="lb_error_overtime_type_id" style="color: red; ">{{$errors->first('overtime_type_id')}}</label>--}}
-	    						{{--</div>--}}
-	    						{{--@endphp--}}
 	    						<div class="form-group">
 	    							<label for="">{{trans('overtime.reason')}}<strong style="color: red">(*)</strong></label>
-	    							<textarea class="form-control" id="" rows="11" style="line-height: 1.36;" name="reason">{{ old('reason') }}</textarea>
+	    							<textarea class="form-control" id="reason" rows="11" style="line-height: 1.36;" name="reason">{{ old('reason') }}</textarea>
 									<label id="lb_error_reason" style="color: red; ">{{$errors->first('reason')}}</label>
 	    						</div>
 	    					</div>
@@ -116,6 +98,9 @@
     		</div>
     	</section>
     </div>
+	<script type="text/javascript"
+			src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
     <script type="text/javascript">
     	var timepicker = new TimePicker(['start_time','end_time'], {
 		  	lang: 'en',

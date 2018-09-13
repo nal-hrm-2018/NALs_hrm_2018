@@ -1,10 +1,11 @@
 <?php
 return [
+    'absence' => 'Đơn vắng nghĩ',
     'stt' => 'STT',
     'start_date' => 'Nghỉ từ ngày',
-    'end_date' => 'Nghĩ đến ngày',
-    'absence_type' => 'Loại nghĩ',
-    'absence_time' => 'Loại thời gian nghĩ',
+    'end_date' => 'Nghỉ đến ngày',
+    'absence_type' => 'Loại nghỉ',
+    'absence_time' => 'Loại thời gian nghỉ',
     'reason' => 'Lý do',
     'description' => 'Ghi chú',
     'select_year' => 'Chọn năm',
@@ -25,8 +26,15 @@ return [
         'msg_filter_invalid' => 'Xin hãy chọn năm !!',
         'msg_export_fails' => 'Kết xuất file lỗi !!',
     ],
+    'msg_edit' => [
+        'success'=>'Sữa đơn vắng nghĩ thành công!!!',
+        'fail'=>'Sữa đơn vắng nghĩ thất bại!!!',
+    ],
     'type'=>[
         'total_annual_leave'=> 'Tổng phép năm',
+        'this_year' => 'Phép năm nay',
+        'last_year' => 'Còn lại từ năm trước',
+        'total_remaining'=>'Tổng phép còn lại',
         'annual_leave'=> 'Nghỉ phép năm',
         'unpaid_leave'=> 'Nghỉ không lương',
         'maternity_leave'=> 'Nghỉ thai sản',

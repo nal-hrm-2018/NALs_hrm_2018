@@ -22,6 +22,7 @@ return[
         'part-time'=>'Part-time'
     ],
     'profile_info'=>[
+        'project' => 'Project',
         'the_rest_absence'=>'The remaining leave',
         'id'=>'Employee ID',
         'short_id'=>'ID',

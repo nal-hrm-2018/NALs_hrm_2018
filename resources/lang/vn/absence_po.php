@@ -17,9 +17,12 @@ return [
             'cancel'=>'Từ chối'
         ],
         'profile_info'=>[
+            'email' => 'Địa chỉ email',
+            'name' => 'Họ tên',
             'start_date'=>'Ngày bắt đầu',
             'end_date'=>'Ngày kết thúc',
-            'type' => 'Loại',
+            'type' => 'Loại nghỉ phép',
+            'type_time' => 'Loại giờ phép',
             'reason'=>'Lý do',
             'action'=>'Hành động',
             'note'=>'Ghi chú',
@@ -50,11 +53,12 @@ return [
             config('settings.status_common.absence_type.subtract_salary_date')=>'Nghỉ trừ lương',
             config('settings.status_common.absence_type.insurance_date')=>'Nghỉ theo bảo hiểm',
             config('settings.status_common.absence_type.absented_date')=>'Nghỉ phép',
-            config('settings.status_common.absence_type.marriage_leave')=>'Nghĩ cưới',
-            config('settings.status_common.absence_type.maternity_leave')=>'Nghĩ tang',
+            config('settings.status_common.absence_type.marriage_leave')=>'Nghỉ cưới',
+            config('settings.status_common.absence_type.maternity_leave')=>'Nghỉ thai sản',
+            config('settings.status_common.absence_type.bereavement_leave')=>'Nghỉ tang',
         ],
         'msg'=>[
-            'confirm_export'=>'Bạn có muốn tải về danh sách xác nhận vắng nghỉ không?'
+            'confirm_export'=>'Bạn có muốn tải về danh sách xác nhận vắng nghỉ không?',
         ],
         'message'=>[
             'export_msg'=>'Bạn có muốn tải xuống danh sách xin vắng làm?'

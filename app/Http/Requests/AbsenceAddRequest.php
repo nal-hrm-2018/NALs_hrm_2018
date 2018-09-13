@@ -31,8 +31,9 @@ class AbsenceAddRequest extends FormRequest
         $dayAfter=$objEmp["endwork_date"];
         return [
             'absence_type_id' => 'required',
+            'absence_time_id' => 'required',
             'from_date' => 'required|after:'.$dayBefore,
-            'to_date' => 'required|after:from_date|before:'.$dayAfter,
+            'to_date' => 'required|after_or_equal:from_date|before:'.$dayAfter,
             'reason' => 'required'
         ];
     }
@@ -42,6 +43,10 @@ class AbsenceAddRequest extends FormRequest
         return [
             'absence_type_id.required' => trans('validation.required', [
                 'attribute' => 'loại nghỉ phép'
+            ]),
+
+            'absence_time_id.required' => trans('validation.required', [
+                'attribute' => 'loại thời gian'
             ]),
 
             'reason.required' => trans('validation.required', [

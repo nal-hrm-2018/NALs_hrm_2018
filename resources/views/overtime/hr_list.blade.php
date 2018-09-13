@@ -43,25 +43,25 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.id')}}</button>
                                                             </div>
-                                                            <input type="text" name="id" id="employeeId" class="form-control">
+                                                            <input type="text" name="id" id="employeeId" value="{{ (request()->get('id') !== null)?request()->get('id'):'' }}" class="form-control">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
                                                             </div>
-                                                            <input type="text" name="name" id="nameEmployee" class="form-control">
+                                                            <input type="text" name="name" id="nameEmployee" class="form-control" value="{{ (request()->get('name') !== null)?request()->get('name'):'' }}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
+                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.project')}}</button>
                                                             </div>
-                                                            <select name="team" id="team_employee" class="form-control">
-                                                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                            <select name="project_id" id="project_id" class="form-control">
+                                                                <option {{ !empty(request('project_id'))?'':'selected="selected"' }} value="">
                                                                     {{  trans('vendor.drop_box.placeholder-default') }}
                                                                 </option>
-                                                                @foreach($teams as $team)
-                                                                    <option value="{{ $team->name}}" {{ (string)$team->name===request('team')?'selected="selected"':'' }}>
-                                                                        {{ $team->name }}
+                                                                @foreach($projects as $project)
+                                                                    <option value="{{ $project->id}}" {{ (string)$project->id===request('project_id')?'selected="selected"':'' }}>
+                                                                        {{ $project->name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -72,7 +72,7 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Date</button>
                                                             </div>
-                                                            <input type="date" name="date_ot" class="form-control">
+                                                            <input type="date" name="date_ot" class="form-control" value="{{ (request()->get('date_ot') !== null)?request()->get('date_ot'):'-' }}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
@@ -122,7 +122,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer center">
-                                                <button id="btn_reset_employee" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                                <button id="btn_reset_employee" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
                                                     {{trans('common.button.reset')}}
                                                 </button>
                                                 <button type="submit" id="searchListEmployee" class="btn btn-info"><span
@@ -133,22 +133,26 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div style="float: right; margin-bottom: 15px;">
-	                                <label class="lable-entries" style="float: right;">{{trans('pagination.show.number_record_per_page')}}</label><br />
-                                    <select class="input-entries" id="mySelect" onchange="myFunction()">
-                                        <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
-                                        <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
-                                        <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
-                                    </select>
-                                    <script>
-                                        function myFunction() {
-                                            var x = document.getElementById("mySelect").value;
-                                            console.log(x);
-                                            $('#number_record_per_page').val(x);
-                                            $('#form_search_employee').submit()
-                                        }
-                                    </script>
-	                            </div>
+                                <div style="float:right">
+                                    <div class="dataTables_length" id="project-list_length">
+                                        <label class="lable-entries" style="display: block;">{{trans('pagination.show.number_record_per_page')}}</label>
+                                        <div class="input-entries">
+                                            <select id="mySelect" onchange="myFunction()" style="width: 100%;">
+                                                <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
+                                                <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
+                                                <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
+                                            </select>
+                                        </div>
+                                        <script>
+                                            function myFunction() {
+                                                var x = document.getElementById("mySelect").value;
+                                                console.log(x);
+                                                $('#number_record_per_page').val(x);
+                                                $('#form_search_employee').submit()
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
                         	</div>
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
@@ -169,8 +173,17 @@
                                         <td>{{ isset($employee->name)?$employee->name:'-' }}</td>
                                         <td>
                                             @foreach($employee->projects as $process)
+                                                <?php
+                                                    if(request('project_id') !== null){
+                                                        if($process->id == request('project_id')){
+                                                            echo $process->name; break;
+                                                        }
+                                                    }else{
+                                                        echo $process->name.',';
+                                                    }
+                                                ?>
                                                 @php
-                                                    echo $process->name.',';
+                                                    $process->name.',';
                                                 @endphp
                                             @endforeach
                                         </td>

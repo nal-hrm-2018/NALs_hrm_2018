@@ -122,7 +122,7 @@
                   @else
                     <form action="{{asset('vendors/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
                   @endif                  
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __(trans('common.header.update_profile')) }}</button>
+                    <button type="submit" class="btn btn-default btn-block btn-flat">{{ __(trans('common.header.update_profile')) }}</button>
                   </form>
                 </div>
 
@@ -134,7 +134,7 @@
                       }
                   </SCRIPT>
                   <form action="{{route('logout')}}" id="logout-employee" onsubmit="return confirm_logout();">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __(trans('common.header.logout')) }}</button>
+                    <button type="submit" class="btn btn-default btn-block btn-flat">{{ __(trans('common.header.logout')) }}</button>
                   </form>
 
                 </div>

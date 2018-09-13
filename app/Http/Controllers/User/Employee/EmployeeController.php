@@ -6,6 +6,7 @@
  * Time: 11:26 AM
  */
 
+
 namespace App\Http\Controllers\User\Employee;
 
 
@@ -22,6 +23,7 @@ use App\Models\Role;
 use App\Models\EmployeeType;
 use App\Models\EmployeeTeam;
 use App\Models\PermissionEmployee;
+use App\Models\PermissionRole;
 use App\Models\Overtime;
 use App\Models\OvertimeStatus;
 use App\Models\Absence;
@@ -135,15 +137,23 @@ class EmployeeController extends Controller
         $employee->role_id = $request->role_id;
         $employee->created_at = new DateTime();
         $employee->delete_flag = 0;
-        
+
         if($employee->save()){
             $id_employeeteam=$employee->id;
-
+            
             foreach ($request['team_id'] as $teamid){
                 $employeeteam = new EmployeeTeam;
                 $employeeteam->team_id=$teamid;
                 $employeeteam->employee_id=$id_employeeteam;
                 $employeeteam->save();
+            }
+            $role_id = $request->role_id;
+            $employee_permission = PermissionRole::where('role_id', $request->role_id)->get();
+            foreach ($employee_permission as $permission){
+                $PermissionEmployee = new PermissionEmployee;
+                $PermissionEmployee->permission_id = $permission->permission_id;
+                $PermissionEmployee->employee_id = $id_employeeteam;
+                $PermissionEmployee->save();
             }
             \Session::flash('msg_success', trans('employee.msg_add.success'));
             return redirect('employee');
@@ -166,7 +176,7 @@ class EmployeeController extends Controller
                 'is_employee' => $request->get('is_employee'),
             ]
         );
-        $rest_absence = Employee::emp_absence($id)['soNgayConLai'];
+        $rest_absence = Employee::emp_absence($id)['remaining_this_year'];
         $active = $request->get('number_record_per_page');
 
         if ($active) {
@@ -314,9 +324,11 @@ class EmployeeController extends Controller
         }else{
             $employee->work_status = 0;
         }
-
-       // $employee->team_id = $request->team_id;
-
+        $id_NALs = Team::select('id')->where('name','NALs')->first();
+        if(!$request->get('team_id')){
+          $request->merge(['team_id' => $id_NALs]);
+        } 
+        
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
             $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
@@ -446,7 +458,7 @@ class EmployeeController extends Controller
                 $employee = new Employee;
                 $employee->email = $data[$c];
                 $c++;
-                $employee->password = bcrypt("123456");
+                $employee->password = ("123456");
                 $employee->name = $data[$c];
                 $c++;
                 if($data[$c] == "-"){
@@ -530,6 +542,13 @@ class EmployeeController extends Controller
                 $employeeteam->team_id=$objTeam->id;
                 $employeeteam->employee_id=$employee->id;
                 $employeeteam->save();
+                $employee_permission = PermissionRole::where('role_id', $employee->role_id)->get();
+                foreach ($employee_permission as $permission){
+                    $PermissionEmployee = new PermissionEmployee;
+                    $PermissionEmployee->permission_id = $permission->permission_id;
+                    $PermissionEmployee->employee_id = $employee->id;
+                    $PermissionEmployee->save();
+                }
             }
         }
         if (file_exists($urlFile)) {

@@ -128,7 +128,7 @@
                 </div>
                 <div class="form-group">
                   <label>Loại thời gian<strong style="color: red">(*)</strong></label>
-                  <select class="form-control" style="width: 100%;"  name="absence_tỉme_id" id="absence_time_id">
+                  <select class="form-control" style="width: 100%;"  name="absence_time_id" id="absence_time_id">
                     <option value="" >Chọn</option>
                     <?php
                       foreach ($Absence_time as $val) {
@@ -149,7 +149,7 @@
                       }
                     ?>
                   </select>
-                  <label id="lb_error_absence_type_id" style="color: red; ">{{$errors->first('absence_type_id')}}</label>
+                  <label id="lb_error_absence_time_id" style="color: red; ">{{$errors->first('absence_time_id')}}</label>
                 </div>
                 <div class="form-group">
                   <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>

@@ -33,7 +33,7 @@
                     <div class="row">
                         <form action="{{asset('notification')}}" method="post" class="form-horizontal" >
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="col-md-3"></div>
                                 <!-- /.col -->
                                 <div class="col-md-6">
@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{trans('notification.notification_id')}}<strong style="color: red">(*)</strong></label>
-                                        <select class="form-control select2" value="{{ old('notification_type_id') }}" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
+                                        <select class="form-control" value="{{ old('notification_type_id') }}" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
                                             <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                             <?php
                                             foreach ($dataTeam as $val) {
@@ -72,7 +72,7 @@
                                 <div class="col-md-3"></div>
 
                             </div>
-                            <div class="row">
+                            <div class="col-md-12">
                                 <div class="col-md-6" style="display: inline;">
                                     <div style="float: right;">
                                         <button onclick="return confirm_reset();" type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
@@ -98,14 +98,6 @@
             </div>
             <script type="text/javascript"
                     src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-            <script>
-                $(function () {
-                    $("#btn_reset_form_employee").bind("click", function () {
-                        if(confirmAction('{{trans('common.reset')}}'))
-                            location.reload();
-                    });
-                });
-            </script>
 
             <script type="text/javascript">
                 $(function () {

@@ -408,8 +408,8 @@
                                     $("#name").val('');
                                     $("#address").val('');
                                     $("#mobile").val('');
-                                    $("#gender").val('1').change();
-                                    $("#married").val('1').change();
+                                    $("#gender").val('').change();
+                                    $("#married").val('').change();
                                     $("#team_id").val('').change();
                                     $('input[type=checkbox]').prop('checked',false);
                                     $("#role_team").val('').change();

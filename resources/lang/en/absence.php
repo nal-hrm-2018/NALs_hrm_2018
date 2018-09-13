@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'absence' => 'Absence',
     'stt' => 'No.',
     'start_date' => 'From Date',
     'end_date' => 'To Date',
@@ -26,8 +27,15 @@ return [
         'msg_filter_invalid' => 'Please choose year !!',
         'msg_export_fails' => 'Export fails !!',
     ],
+    'msg_edit' => [
+        'success'=>'Absence successfully edit!!!',
+        'fail'=>'Absence failed edit!!!',
+    ],
     'type'=>[
         'total_annual_leave'=> 'Total annual leave',
+        'this_year' => 'This year',
+        'last_year' => 'Last year',
+        'total_remaining'=>'Total remaining',
         'annual_leave'=> 'Annual leave',
         'unpaid_leave'=> 'Unpaid leave',
         'maternity_leave'=> 'Maternity leave',
