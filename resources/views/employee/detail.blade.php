@@ -439,7 +439,7 @@
                                                             @if(Auth::user()->hasRole('HR'))
                                                             <a href="{{ route('absences.edit',['absence'=>$absence->id]) }}" class="btn btn-default"><i class="fa fa-pencil"></i></a>
                                                             <form style="display: inline;" >
-                                                                <a href="{{route('absencess.destroy',['id'=>$absence->id])}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                                                <a onclick="return confirm_delete();" href="{{route('absencess.destroy',['id'=>$absence->id])}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                                             </form>
                                                             @endif
                                                         </td>
@@ -460,6 +460,11 @@
         </section>
         <!-- /.content -->
     </div>
+    <script>
+        function confirm_delete(){
+            return confirm(message_confirm('{{trans('common.action.remove')}}','{{trans('absence.absence')}}',''));
+        }
+    </script>
     <!-- /.content-wrapper -->
     <!-- jQuery 3 -->
     <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
