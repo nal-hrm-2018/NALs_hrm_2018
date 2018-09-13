@@ -43,25 +43,25 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.id')}}</button>
                                                             </div>
-                                                            <input type="text" name="id" id="employeeId" class="form-control">
+                                                            <input type="text" name="id" id="employeeId" value="{{ (request()->get('id') !== null)?request()->get('id'):'' }}" class="form-control">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
                                                             </div>
-                                                            <input type="text" name="name" id="nameEmployee" class="form-control">
+                                                            <input type="text" name="name" id="nameEmployee" class="form-control" value="{{ (request()->get('name') !== null)?request()->get('name'):'' }}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.team')}}</button>
+                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.project')}}</button>
                                                             </div>
-                                                            <select name="team" id="team_employee" class="form-control">
-                                                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                            <select name="project_id" id="project_id" class="form-control">
+                                                                <option {{ !empty(request('project_id'))?'':'selected="selected"' }} value="">
                                                                     {{  trans('vendor.drop_box.placeholder-default') }}
                                                                 </option>
-                                                                @foreach($teams as $team)
-                                                                    <option value="{{ $team->name}}" {{ (string)$team->name===request('team')?'selected="selected"':'' }}>
-                                                                        {{ $team->name }}
+                                                                @foreach($projects as $project)
+                                                                    <option value="{{ $project->id}}" {{ (string)$project->id===request('project_id')?'selected="selected"':'' }}>
+                                                                        {{ $project->name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -72,7 +72,7 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Date</button>
                                                             </div>
-                                                            <input type="date" name="date_ot" class="form-control">
+                                                            <input type="date" name="date_ot" class="form-control" value="{{ (request()->get('date_ot') !== null)?request()->get('date_ot'):'-' }}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
@@ -173,8 +173,17 @@
                                         <td>{{ isset($employee->name)?$employee->name:'-' }}</td>
                                         <td>
                                             @foreach($employee->projects as $process)
+                                                <?php
+                                                    if(request('project_id') !== null){
+                                                        if($process->id == request('project_id')){
+                                                            echo $process->name; break;
+                                                        }
+                                                    }else{
+                                                        echo $process->name.',';
+                                                    }
+                                                ?>
                                                 @php
-                                                    echo $process->name.',';
+                                                    $process->name.',';
                                                 @endphp
                                             @endforeach
                                         </td>

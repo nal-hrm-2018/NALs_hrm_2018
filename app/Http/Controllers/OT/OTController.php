@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\OT;
 
 use App\Http\Controllers\Controller;
+use App\Models\AbsenceType;
 use App\Models\Employee;
 use App\Models\Overtime;
 use App\Models\Project;
@@ -42,6 +43,19 @@ class OTController extends Controller
         $OT[] = Process::where('employee_id',$id)->with(['project.overtime' => function($q){
             $q->orderBy('overtime.updated_at', 'desc');
         }])->get();
+//        $id_ny = OvertimeStatus::where('name','Not yet')->first()->id;
+//        $id_rw = OvertimeStatus::where('name','Reviewing')->first()->id;
+//        $i=0;
+//        foreach($OT[$i] as $value){
+//            foreach($value['project']['overtimeMonthNow'] as $va){
+//                if($va->overtime_type_id === $id_ny){
+//                    $overtime = Overtime::where('id',$va->id)->first();
+//                    $overtime->overtime_type_id = $id_rw;
+//                    $overtime->save();
+//                }
+//            }
+//            $i++;
+//        }
         return view('overtime.po_list',['OT'=>$OT]);
     }
 
@@ -58,7 +72,7 @@ class OTController extends Controller
 
     public function rejectOT(OvertimeRequest $request,$id){
         $id_emp = Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id_emp)->orderBy('overtime.id','desc')->with('project.overtime')->get();
+        $OT[] = Process::where('employee_id',$id_emp)->with('project.overtime')->get();
         $correct_total_time = $request->correct_total_time;
         $overtime = Overtime::where('id',$id)->first();
         $total_time = $overtime->total_time;
@@ -81,11 +95,12 @@ class OTController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime');
-        $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
+//        $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
+        $projects = Project::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $param = (Input::except(['page','is_employee']));
-        return view('overtime.hr_list',compact('employees','param','teams'));
+        return view('overtime.hr_list',compact('employees','param','projects'));
     }
 
     public function index(Request $request)
