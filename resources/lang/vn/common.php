@@ -164,5 +164,6 @@ return [
     'donut_chart' => 'Biểu đồ',
     'notifications' => 'Thông báo',
     'history_notifications' => 'Lịch sử thông báo',
-    'absences' => 'Vắng nghỉ'
+    'absences' => 'Vắng nghỉ',
+    'number' => 'STT',
 ];

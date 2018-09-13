@@ -80,7 +80,7 @@ class AbsenceController extends Controller
         $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')
             ->paginate($request['number_record_per_page']);
         $employees->setPath('');
-        $param = (Input::except(['page', 'is_employee']));
+        $param = (Input::except(['page', 'is_employee'])); 
 //        session()->flashInput($request->input());
         return view('absences.hr_list', compact('employees', 'param', 'month_absences', 'year_absences'
             ,'absenceService'));
@@ -195,6 +195,7 @@ class AbsenceController extends Controller
             }
 
          } 
+         // $absence_list->setPath('');
          $param = (Input::except(['page', 'is_employee']));
          // $project_name = Project::select('name')->where('id',$projects[0]->project_id)->first();
         

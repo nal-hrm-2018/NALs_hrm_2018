@@ -36,6 +36,10 @@
                                 ])
                             }}
                         </div>
+                    </div>
+                    <!-- code by hunganh -->
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
                         <div class="input-group margin">
                             <div class="input-group-btn">
                                 <button type="button"
@@ -49,10 +53,7 @@
                                 ])
                             }}
                         </div>
-                    </div>
-                    <!-- code by hunganh -->
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div class="input-group margin">
+                        {{-- <div class="input-group margin">
                             <div class="input-group-btn">
                                 <button type="button"
                                         class="btn width-100">{{trans('common.month.month')}}</button>
@@ -68,7 +69,7 @@
                                 @endforeach
                             </select>
                             <label id="lb_error_filter" style="color: red; ">{{$errors->first('month_absence')}}</label>
-                        </div>
+                        </div> --}}
                         <div class="input-group margin">
                             <div class="input-group-btn">
                                 <button type="button"
@@ -78,11 +79,15 @@
                                 <option {{ !empty(request()->get('year_absence'))?'':'selected="selected"' }} value="">
                                     {{  trans('vendor.drop_box.placeholder-default') }}
                                 </option>
-                                @foreach($year_absences as $key=>$value)
+                                {{-- tạm thời tính năm nay --}}
+                                <option value={{ date('Y') }}>
+                                        {{ date('Y') }}
+                                    </option>
+                               {{--  @foreach($year_absences as $key=>$value)
                                     <option value="{{ $key }}" {{ (string)$key===request()->get('year_absence')?'selected="selected"':'' }}>
                                         {{ $value }}
                                     </option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
                     </div><!-- end code by hunganh-->

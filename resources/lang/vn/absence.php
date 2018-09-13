@@ -31,6 +31,7 @@ return [
         'fail'=>'Sữa đơn vắng nghĩ thất bại!!!',
     ],
     'type'=>[
+        'total_annual_leave'=> 'Tổng phép năm',
         'this_year' => 'Phép năm nay',
         'last_year' => 'Còn lại từ năm trước',
         'total_remaining'=>'Tổng phép còn lại',
@@ -42,6 +43,7 @@ return [
         'sick_leave'=> 'Nghỉ ốm',
         'subtract_salary_date'=> 'Nghỉ trừ lương',
         'insurance_date' => 'Nghỉ bảo hiểm',
+        'remaining_leave' => 'Số phép còn lại'
     ],
     'confirmation'=>[
         'employee_name'=>'Tên',

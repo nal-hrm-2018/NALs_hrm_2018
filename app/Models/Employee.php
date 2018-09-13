@@ -23,7 +23,6 @@ use App\Models\Holiday;
 use App\Models\HolidayDefault;
 use Illuminate\Support\Facades\DB;
 
-
 class Employee extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
