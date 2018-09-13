@@ -22,6 +22,7 @@ return[
         'part-time'=>'Bán thời gian'
     ],
     'profile_info'=>[
+        'project' => 'Dự Án',
         'the_rest_absence'=>'Số ngày nghỉ phép còn lại',
         'id'=>'Mã Nhân Viên',
         'short_id'=>'ID',
