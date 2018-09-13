@@ -167,7 +167,7 @@ class EmployeeController extends Controller
                 'is_employee' => $request->get('is_employee'),
             ]
         );
-        $rest_absence = Employee::emp_absence($id)['soNgayConLai'];
+        $rest_absence = Employee::emp_absence($id)['remaining_this_year'];
         $active = $request->get('number_record_per_page');
 
         if ($active) {
