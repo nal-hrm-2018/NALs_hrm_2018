@@ -74,73 +74,45 @@
                             <div class=" absence_head" style="padding: 20px 0px;">
                                 <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                     <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">This year</p>
-                                        <p style="font-size: 44px; font-weight: bold;">11</p>
+                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.this_year')}}</p>
+                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['pemission_annual_leave']}}</p>
                                     </div>
                                     <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">Last year</p>
-                                        <p style="font-size: 44px; font-weight: bold;">0</p>
+                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.last_year')}}</p>
+                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['remaining_last_year']}}</p>
                                     </div>
                                     <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">Total remaining</p>
-                                        <p style="font-size: 44px; font-weight: bold;">7</p>
+                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.total_remaining')}}</p>
+                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
                                     </div>
                                 </div>
                                 <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                     <div class="style-box-2">
-                                        <p>Annual</p>
-                                        <p>4</p>
+                                        <p>{{trans('absence.type.annual_leave')}}</p>
+                                        <p>{{$absences['annual_leave']}}</p>
                                     </div>
                                     <div class="style-box-2">
-                                        <p>Unpaid</p>
-                                        <p>0</p>
+                                        <p>{{trans('absence.type.unpaid_leave')}}</p>
+                                        <p>{{$absences['unpaid_leave']}}</p>
                                     </div>
                                     <div class="style-box-2">
-                                        <p>Sick</p>
-                                        <p>0</p>
+                                        <p>{{trans('absence.type.sick_leave')}}</p>
+                                        <p>{{$absences['sick_leave']}}</p>
                                     </div>
                                     <div class="style-box-2">
-                                        <p>Maternity</p>
-                                        <p>0</p>
+                                        <p>{{trans('absence.type.maternity_leave')}}</p>
+                                        <p>{{$absences['maternity_leave']}}</p>
                                     </div>
                                     <div class="style-box-2">
-                                        <p>Marriage</p>
-                                        <p>0</p>
+                                        <p>{{trans('absence.type.marriage_leave')}}</p>
+                                        <p>{{$absences['marriage_leave']}}</p>
                                     </div>
                                     <div class="style-box-2">
-                                        <p>Bereavement</p>
-                                        <p>0</p>
+                                        <p>{{trans('absence.type.bereavement_leave')}}</p>
+                                        <p>{{$absences['bereavement_leave']}}</p>
                                     </div>
                                 </div>
-                                <!-- <div>
-                                    <div class="style-box">
-                                        <p>
-                                            - Số ngày đã nghỉ:
-                                            <span id="soNgayDaNghi">{{$absences['soNgayDaNghi']}}</span>
-                                        </p>
-
-                                    </div><br/>
-                                    <div class="style-box">
-                                        <p>
-                                            - Số ngày nghỉ trừ lương:
-                                            <span id="soNgayNghiTruLuong">{{$absences['soNgayNghiTruLuong']}}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="style-box">
-                                        <p>
-                                            - Số ngày còn lại:
-                                            <span id="soNgayConLai">{{$absences['soNgayConLai']}}</span>
-                                        </p>
-                                    </div><br>
-                                    <div class="style-box">
-                                        <p>
-                                            - Số ngày nghỉ chế độ bảo hiểm:
-                                            <span id="soNgayNghiBaoHiem">{{$absences['soNgayNghiBaoHiem']}}</span>
-                                        </p>
-                                    </div>
-                                </div> -->
+                                
                             </div>
                             <?php
                             $idWaiting = \App\Models\AbsenceStatus::where('name', '=',
