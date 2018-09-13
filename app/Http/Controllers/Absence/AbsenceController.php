@@ -155,7 +155,7 @@ class AbsenceController extends Controller
             })
             ->WHERE('roles.name', 'like', 'po')
             ->get();
-        $absence_list = [];
+        $absence_list = []; $length=0;
 
         foreach ($projects as $pro) {  
             $joined_project = Project::where('id',$pro->project_id)->first();
@@ -180,7 +180,7 @@ class AbsenceController extends Controller
                         })->get();
                 }                
                 foreach ($absences as $val) {
-                    $absence_list = array_prepend($absence_list, [
+                    $absence_list[$length++] = [
                         'name'=> $val->employee->name,
                         'email'=>$val->employee->email,
                         'project'=>$joined_project->name,
@@ -190,7 +190,7 @@ class AbsenceController extends Controller
                         'absence_time'=>$val->absenceTime->name,
                         'reason'=>$val->reason,
                         'description'=>$val->description
-                    ]);   
+                    ];   
                 }            
             }
 

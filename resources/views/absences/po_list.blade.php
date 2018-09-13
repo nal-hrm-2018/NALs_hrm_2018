@@ -356,8 +356,8 @@
                     'ordering': true,
                     'info': false,
                     'autoWidth': false,
-                    "aaSorting": [
-                        [0, 'DESC'],
+                    "asSorting": [
+                        [0,'ASC'],
                     ],
                 });
 
