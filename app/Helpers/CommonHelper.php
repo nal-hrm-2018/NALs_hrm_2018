@@ -428,3 +428,25 @@ function getJsonObjectAbsenceHrList($employees,$absenceService){
     }
     return $object;
 }
+function getAbsenceHrList($employees,$absenceService){
+    $absence_list = []; 
+    $length = 0;
+    foreach($employees as $employee){
+        $obj_absence = Employee::emp_absence($employee->id);
+        $absence_list[$length++] = [
+            "id" => $employee->id,
+            "name" => $employee->name,
+            "email" => $employee->email,
+            "pemission_annual_leave" => $obj_absence['pemission_annual_leave'], //số ngày được phép năm nay
+            "remaining_last_year" => $obj_absence['remaining_last_year'], //số ngày còn lại từ năm trước
+            "remaining_this_year" => $obj_absence['remaining_this_year'], //số ngày phép năm nay còn lại
+            "annual_leave" => $obj_absence['annual_leave'], //số ngày nghỉ phép năm
+            "unpaid_leave" => $obj_absence['unpaid_leave'], //số ngày nghỉ không lương
+            "maternity_leave" => $obj_absence['maternity_leave'], //nghỉ thai sản
+            "marriage_leave" => $obj_absence['marriage_leave'], // nghỉ cưới hỏi
+            "bereavement_leave" => $obj_absence['bereavement_leave'], // nghỉ tang chế
+            "sick_leave" => $obj_absence['sick_leave'], //nghỉ ốm
+        ];
+    }
+    return $absence_list;
+}
