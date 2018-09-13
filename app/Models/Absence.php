@@ -37,7 +37,10 @@ class Absence extends Model
         'is_late',
         'is_summary',
         'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
-
+    protected $casts = [
+        'from_date' => 'date',
+        'to_date' => 'date',
+    ];
     //override method save
     public function save(array $options = [])
     {

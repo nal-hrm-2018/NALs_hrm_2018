@@ -138,8 +138,8 @@
                                     @foreach($listAbsence AS $key => $obj)
                                         <tr>
                                             <td class="text-center">{{$key+1}}</td>
-                                            <td>{{$obj->from_date}}</td>
-                                            <td>{{$obj->to_date}}</td>
+                                            <td>{{ isset($obj->from_date)?$obj->from_date->format('d/m/Y'):'-'}}</td>
+                                            <td>{{ isset($obj->to_date)?$obj->to_date->format('d/m/Y'):'-'}}</td>
                                             <td>
                                                 @if(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.salary_date'))
                                                     <span class="label label-primary">
