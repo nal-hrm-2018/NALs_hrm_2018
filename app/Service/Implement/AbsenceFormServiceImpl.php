@@ -36,24 +36,90 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             ->toArray();
         $poTeam= Employee::find($id_employee)->teams();
         $arrayList = array();
-
-        $data = [
-            'employee_id' => $id_employee,
-            'absence_type_id' => $request->get('absence_type_id'),
-            'absence_time_id' => $request->get('absence_time_id'),
-            'from_date' => $request->get('from_date'),
-            'to_date' => $request->get('to_date'),
-            'reason' => $request->get('reason'),
-            'absence_status_id' => 2,
-            'created_at' => new \DateTime(),
-            'delete_flag' => 0,
-            'is_deny' => 0,
-            'is_late' => $is_late,
-            'description' => $request->get('ghi_chu')
-        ];
-
+        $from_date = $request->get('from_date');
+        $from_date_year = date('Y',strtotime($from_date));
+        $to_date = $request->get('to_date');
+        $to_date_year = date('Y',strtotime($to_date));
         
-        $objAbsence = Absence::create($data);
+        $absences = Absence::with('absenceTime')->where('delete_flag', 0)->where('employee_id', $id_employee)->get()->toArray();
+
+        foreach($absences as $absence){
+            
+            if( ($from_date >= $absence['from_date'] && $from_date <= $absence['to_date']) || ($to_date >= $absence['from_date'] && $to_date <= $absence['to_date']) ){
+                if($request->get('absence_time_id') == 1){
+                    \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                    return back()->withInput();
+                }
+                if($absence['absence_time']['name'] == 'all'){
+                    \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                    return back()->withInput();
+                }
+                if($absence['absence_time']['name'] == 'morning'){
+                    if($absence['absence_time']['id'] == $request->get('absence_time_id')){
+                        \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                        return back()->withInput();
+                    }
+                }
+                if($absence['absence_time']['name'] == 'afternoon'){
+                    if($absence['absence_time']['id'] == $request->get('absence_time_id')){
+                        \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                        return back()->withInput();
+                    }
+                }
+            }
+        }    
+
+        if($from_date_year == $to_date_year){
+            $data = [
+                'employee_id' => $id_employee,
+                'absence_type_id' => $request->get('absence_type_id'),
+                'absence_time_id' => $request->get('absence_time_id'),
+                'from_date' => $request->get('from_date'),
+                'to_date' => $request->get('to_date'),
+                'reason' => $request->get('reason'),
+                'absence_status_id' => 2,
+                'created_at' => new \DateTime(),
+                'delete_flag' => 0,
+                'is_deny' => 0,
+                'is_late' => $is_late,
+                'description' => $request->get('ghi_chu')
+            ];
+    
+            
+            $objAbsence = Absence::create($data);
+        }else{
+            $data1 = [
+                'employee_id' => $id_employee,
+                'absence_type_id' => $request->get('absence_type_id'),
+                'absence_time_id' => $request->get('absence_time_id'),
+                'from_date' => $request->get('from_date'),
+                'to_date' => $from_date_year.'-12-31',
+                'reason' => $request->get('reason'),
+                'absence_status_id' => 2,
+                'created_at' => new \DateTime(),
+                'delete_flag' => 0,
+                'is_deny' => 0,
+                'is_late' => $is_late,
+                'description' => $request->get('ghi_chu')
+            ];
+            $objAbsence = Absence::create($data1);
+            $data2 = [
+                'employee_id' => $id_employee,
+                'absence_type_id' => $request->get('absence_type_id'),
+                'absence_time_id' => $request->get('absence_time_id'),
+                'from_date' => $to_date_year.'-01-01',
+                'to_date' => $request->get('to_date'),
+                'reason' => $request->get('reason'),
+                'absence_status_id' => 2,
+                'created_at' => new \DateTime(),
+                'delete_flag' => 0,
+                'is_deny' => 0,
+                'is_late' => $is_late,
+                'description' => $request->get('ghi_chu')
+            ];
+            $objAbsence = Absence::create($data2);
+        }
+
 
         if (is_null($objAbsence)) {
             \Session::flash('msg_fail', 'Account failed created!!!');

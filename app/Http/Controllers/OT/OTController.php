@@ -39,7 +39,9 @@ class OTController extends Controller
     public function indexPO()
     {
         $id=Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();
+        $OT[] = Process::where('employee_id',$id)->with(['project.overtime' => function($q){
+            $q->orderBy('overtime.updated_at', 'desc');
+        }])->get();
         return view('overtime.po_list',['OT'=>$OT]);
     }
 
@@ -47,6 +49,7 @@ class OTController extends Controller
         $overtime = Overtime::find($id);
         $status_ot = OvertimeStatus::where('name','Accepted')->first();
         $overtime->overtime_status_id = $status_ot->id;
+        $overtime->correct_total_time = $overtime->total_time;
         $overtime->save();
         $id=Auth::user()->id;
         $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();

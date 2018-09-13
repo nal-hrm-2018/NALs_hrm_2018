@@ -20,7 +20,7 @@ return[
         'fail_than_ten' =>'Add Notification failed. You must delete an old notification before adding.'
     ],
     'msg_edit'=>[
-        'success'=>'Notification successfully edit!!!',
+        'success'=>'Notification is successfully edited!!!',
         'fail'=>'Notification failed edit!!!',
     ]
 ];
