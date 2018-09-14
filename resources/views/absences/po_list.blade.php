@@ -237,14 +237,14 @@
                                     <th>{{trans('absence.description')}}</th>
                                 </tr>
                             </thead>
-                            <tbody class="list-confirm">
+                            <tbody class="list-confirm context-menu">
                                 @php
                                     $count = 0
                                 @endphp
 
                                 @foreach($absence_list as $val)
 
-                                <tr>
+                                <tr class="employee-menu" id="employee-id-{{$val['id']}}" data-employee-id="{{$val['id']}}">
                                     @php
                                         $count++;
                                     @endphp
@@ -311,6 +311,11 @@
                                 </div>
                             @endif --}}
                         </div>
+                        <ul class="contextMenu" data-employee-id="{{$val['id']}}" hidden>
+                            <li><a href="{{ route('employee.show',['employee'=> $val['id']]) }}?basic=0&project=0&overtime=0&absence=1"><i
+                                            class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}
+                                </a></li>
+                        </ul>
                         <!-- <div id="show-modal-confirm" class="modal fade" role="dialog">
                             <div class="modal-dialog" style="width: 400px">
                                 <div class="modal-content" >
@@ -344,6 +349,25 @@
     <!-- jQuery UI 1.11.4 -->
     <script src="{!! asset('admin/templates/js/bower_components/jquery-ui/jquery-ui.min.js') !!}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script type="text/javascript">
+        $(function () {
+            $('tr.employee-menu').on('contextmenu', function (event) {
+                event.preventDefault();
+                $('ul.contextMenu').fadeOut("fast");
+                var eId = $(this).data('employee-id');
+                $('ul.contextMenu[data-employee-id="' + eId + '"]')
+                    .show()
+                    .css({top: event.pageY - 1, left: event.pageX - 2, 'z-index': 300});
+
+            });
+            $(document).click(function () {
+                if ($('ul.contextMenu:hover').length === 0) {
+                    $('ul.contextMenu').fadeOut("fast");
+                }
+            });
+        });
+
+    </script>
     <script type="text/javascript">
         $(document).ready(function(){
             $(document).ready(function () {
