@@ -23,6 +23,7 @@ class Absence extends Model
      */
 
     public $table = 'absences';
+    public $timestamps = true;
     protected $fillable = [
         'id',
         'employee_id',
@@ -36,10 +37,10 @@ class Absence extends Model
         'is_deny',
         'is_late',
         'is_summary',
-        'last_updated_at', 'last_updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
+        'updated_at', 'updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'];
     protected $casts = [
-        'from_date' => 'date',
-        'to_date' => 'date',
+        'from_date' => 'date:Y-m-d',
+        'to_date' => 'date:Y-m-d',
     ];
     //override method save
     public function save(array $options = [])

@@ -565,8 +565,7 @@ class AbsenceController extends Controller
 
     public function edit($id)
     {
-
-//        $id_employee = Auth::user()->id;
+       $id_employee = Auth::user()->id;
 //
 //        $curDate = date_create(Carbon::now()->format('Y-m-d'));
 //        $dayBefore = ($curDate)->modify('-15 day')->format('Y-m-d');
@@ -594,9 +593,10 @@ class AbsenceController extends Controller
 //        $objAbsence = Absence::where('delete_flag', 0)->findOrFail($id)->toArray();
         $objAbsence = Absence::where('id',$id)->first();
         $Absence_type = AbsenceType::select('id', 'name')->get()->toArray();
-        $Absence_type_time = AbsenceTime::select('id', 'name')->get()->toArray();
+        $Absence_time = AbsenceTime::select('id', 'name')->get()->toArray();
+        $objEmployee = Employee::find($id_employee);
 
-        return view('absences.editFormVangNghi',['objAbsence'=>$objAbsence,'Absence_type'=>$Absence_type,'Absence_type_time'=>$Absence_type_time]);
+        return view('absences.editFormVangNghi',['objAbsence'=>$objAbsence,'Absence_type'=>$Absence_type,'Absence_time'=>$Absence_time, 'objEmployee' => $objEmployee]);
 //        return view('absences.editFormVangNghi', ['objPO' => $objPO, 'objEmployee' => $objEmployee,'objAbsence' => $objAbsence, 'Absence_type' => $Absence_type]);
     }
 
