@@ -35,12 +35,13 @@
               {{--}--}}
           {{--</SCRIPT>--}}
         <div class="col-md-10" style="width: 100% ; margin-bottom: 2em"></div>
-        <div class="row">
-          {{Form::model($objAbsence,array('url' => ['/absences', $objAbsence->id],
+      {{Form::model($objAbsence,array('url' => ['/absences', $objAbsence->id],
           'method'=>isset($objAbsence->id)?'PUT':'POST', 'id' => 'form_edit_absences','class' => 'form-horizontal'))}}
+        <div class="row">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <input type="hidden" id="id_employee" value="{{$objAbsence->employee->id}}" />
           <!-- /.col -->
+          <div class="col-md-1"></div>
           <div class="col-md-4">
             <!-- /.form-group -->
             <div class="form-group">
@@ -169,24 +170,26 @@
         </div>
         <div class="row">
           <br />
-          <div class="col-md-3" style="margin-left: 100px;">
-            <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
-              LÀM MỚI
-            </button>
+          <div class="col-md-6" style="display: inline;">
+            <div style="float: right;">
+              <button type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                {{ trans('common.button.reset')}}
+              </button>
+            </div>
           </div>
-          <div class="col-md-4">
-            <button type="submit" class="btn btn-primary">
-              SỬA
-            </button>
+          <div class="col-md-1" style="display: inline;">
+            <div>
+              <button type="submit" class="btn btn-info">
+                {{ trans('common.button.add')}}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       <!-- /.form-group -->
       {{ Form::close() }}
       {{--</form>--}}
     </div>
     <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
-</div>
 <!-- /.box-body -->
 </div>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
