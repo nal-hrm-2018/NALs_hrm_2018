@@ -168,6 +168,7 @@
                 $(this).parent().parent().addClass('menu-open active');
                 return false;
             }
+            
             // else if(href.split('/').length > 1){
             //     if(path == href.split('/')[3]){
             //         $(this).parent().parent().addClass('active');
