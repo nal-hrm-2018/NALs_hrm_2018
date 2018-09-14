@@ -11,7 +11,7 @@ return [
     |
     */
     'max_totaltime'        => 'Bạn đã nhập sai số thời gian. Vui lòng thử lại!',
-    'min_total_time'       => 'Trường :attribute phải là số dương.',
+    'min_total_time'       => 'Trường :attribute phải là số lớn hơn 0.',
     'correct_total_time'   => 'Trường :attribute phải là số dương.',
     'accepted'             => 'Trường :attribute phải được chấp nhận.',
     'active_url'           => 'Trường :attribute không phải là một URL hợp lệ.',
