@@ -19,14 +19,6 @@
                 {{  trans('common.title_header.employee_detail') }}
                 <small>NAL Solutions</small>
             </h1>
-
-            {{--<ol class="breadcrumb">--}}
-                {{--<li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a>--}}
-                {{--</li>--}}
-                {{--<li><a href="{{asset('/employee')}}">{{trans('common.path.employee')}}</a></li>--}}
-                {{--<li class="active">{{trans('common.path.detail')}}</li>--}}
-            {{--</ol>--}}
-
         </section>
         <div id="msg">
         </div>
@@ -407,17 +399,23 @@
                                             <table id="" class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
+                                                        <th class="align-middle">{{trans('common.number')}}</th>
                                                         <th class="align-middle">{{trans('absence.start_date')}}</th>
                                                         <th class="align-middle">{{trans('absence.end_date')}}</th>
                                                         <th class="align-middle">{{trans('absence.absence_type')}}</th>
+                                                        <th class="align-middle">{{trans('absence.absence_time')}}</th>
                                                         <th class="align-middle">{{trans('absence.reason')}}</th>
                                                         <th class="align-middle">{{trans('absence.description')}}</th>
                                                         <th class="align-middle text-center">{{trans('absence.action')}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @php
+                                                        $count = 1;
+                                                    @endphp
                                                     @foreach($listAbsence as $absence)
                                                     <tr>
+                                                        <td class="align-middle">{{$count++ }}</td>
                                                         <td class="align-middle">{{ isset($absence->from_date)?$absence->from_date:'-' }}</td>
                                                         <td class="align-middle">{{ isset($absence->to_date)?$absence->to_date:'-' }}</td>
                                                         <td>
@@ -432,6 +430,9 @@
                                                             @else
                                                                 <span>{{trans('absence_po.list_po.type.'.$absence->name_type)}}</span>
                                                             @endif
+                                                        </td>
+                                                        <td>
+                                                            <span>{{trans('absence.'.$absence->name_time)}}</span>
                                                         </td>
                                                         <td>{{$absence->reason ? $absence->reason : "-"}}</td>
                                                         <td>{{$absence->description ? $absence->description : "-"}}</td>
