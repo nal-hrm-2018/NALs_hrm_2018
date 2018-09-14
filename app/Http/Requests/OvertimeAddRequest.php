@@ -36,7 +36,7 @@
                     'date' => 'required',
                     'start_time' => 'required',
                     'end_time' => 'required|after:start_time',
-                    'total_time' => 'required|numeric|min:0|max:'.$max_time,
+                    'total_time' => 'required|numeric|min:0.1|max:'.$max_time,
                     'reason' => 'required',
 //                    'overtime_type_id' => 'required',
                 ];
@@ -45,7 +45,7 @@
                     'date' => 'required',
                     'start_time' => 'required',
                     'end_time' => 'required' ,
-                    'total_time' => 'required|numeric|min:0',
+                    'total_time' => 'required|numeric|min:0.1',
                     'reason' => 'required',
 //                    'overtime_type_id' => 'required',
                 ];
