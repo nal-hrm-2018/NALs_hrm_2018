@@ -40,22 +40,21 @@ class OTController extends Controller
     public function indexPO()
     {
         $id=Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id)->with(['project.overtime' => function($q){
-            $q->orderBy('overtime.updated_at', 'desc');
-        }])->get();
-//        $id_ny = OvertimeStatus::where('name','Not yet')->first()->id;
-//        $id_rw = OvertimeStatus::where('name','Reviewing')->first()->id;
-//        $i=0;
-//        foreach($OT[$i] as $value){
-//            foreach($value['project']['overtimeMonthNow'] as $va){
-//                if($va->overtime_type_id === $id_ny){
-//                    $overtime = Overtime::where('id',$va->id)->first();
-//                    $overtime->overtime_type_id = $id_rw;
-//                    $overtime->save();
-//                }
-//            }
-//            $i++;
-//        }
+        $OT[] = Process::where('employee_id',$id)->with(['project.overtime'])->get();
+        $id_ny = OvertimeStatus::where('name','Not yet')->first()->id;
+        $id_rw = OvertimeStatus::where('name','Reviewing')->first()->id;
+        $i=0;
+        foreach($OT[$i] as $value){
+            foreach($value['project']['overtimeMonthNow'] as $va){
+                if($va->overtime_status_id === $id_ny){
+                    echo $va->overtime_status_id; die();
+                    $overtime = Overtime::where('id',$va->id)->first();
+                    $overtime->overtime_status_id = $id_rw;
+                    $overtime->save();
+                }
+            }
+            $i++;
+        }
         return view('overtime.po_list',['OT'=>$OT]);
     }
 
