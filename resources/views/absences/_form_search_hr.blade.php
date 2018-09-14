@@ -98,7 +98,7 @@
 
             </div>
             <div class="modal-footer center">
-                <button id="btn_reset_form_search_hr" type="button" class="btn btn-default"><span
+                <button id="btn_reset_form_search_hr" type="reset" class="btn btn-default"><span
                             class="fa fa-refresh"></span>
                     {{trans('common.button.reset')}}
                 </button>
