@@ -110,12 +110,13 @@ class OTController extends Controller
         $ot_type = OvertimeType::all();
         $request['user_id'] = $id;
         $request['oldmonth'] = $oldmonth;
-        $overtime = $this->searchEmployeeService->searchOvertime($request);
-        $overtime = $overtime->paginate($request['number_record_per_page']);
-        $overtime->setPath('');
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
+        $overtime = $this->searchEmployeeService->searchOvertime($request);
+        $overtime = $overtime->paginate($request['number_record_per_page']);
+        $overtime->setPath('');
+        
         $normal = 0;
         $weekend = 0;
         $holiday = 0;
@@ -130,12 +131,14 @@ class OTController extends Controller
                 }
             }
         }
+        $param = (Input::except(['page','is_employee']));
         $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
         return view('overtime.list', [
             'ot' => $overtime,
             'time' => $time,
             'ot_status' => $ot_status,
             'ot_type' => $ot_type,
+            'param' => $param,
         ]);
     }
 
