@@ -228,7 +228,10 @@ class Employee extends Model implements
                 }
                  $date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
             }
-        }            
+        } 
+        if(($absence->absenceTime->name <> 'all')){
+            $count_day /=2;
+        }          
         return $count_day;
     }
 
