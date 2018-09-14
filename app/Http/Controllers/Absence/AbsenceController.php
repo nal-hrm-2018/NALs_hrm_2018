@@ -181,6 +181,7 @@ class AbsenceController extends Controller
                 }                
                 foreach ($absences as $val) {
                     $absence_list[$length++] = [
+                        'id' => $val->employee_id,
                         'name'=> $val->employee->name,
                         'email'=>$val->employee->email,
                         'project'=>$joined_project->name,
