@@ -86,6 +86,24 @@
           <div class="col-md-2"></div>
           <div class="col-md-4">
             <div class="form-group">
+                <label>Team<strong style="color: red">(*)</strong></label>
+                @php
+                $arr_team = $objEmployee->teams()->get();
+                $string_team ="";
+                foreach ($arr_team as $team){
+                $addteam= (string)$team->name;
+                if ($string_team){
+                $string_team = $string_team.", ".$addteam;
+                } else{
+                $string_team = $string_team."".$addteam;
+                }
+                }
+                @endphp
+                <input type="text" readonly="readonly" class="form-control" placeholder="Team Name" name="team_name"
+                  id="team_name" value="{{isset($string_team)? $string_team: Null}}">
+                <!-- /.input group -->
+            </div>
+            <div class="form-group">
               <label>{{trans('absence_po.list_po.profile_info.note')}}</label>
               <input type="text" class="form-control" placeholder="Câu trả lời của bạn" value="{!! old('ghi_chu',isset($objAbsence->description) ? $objAbsence->description : null) !!}"
                 name="ghi_chu" id="ghi_chu">
