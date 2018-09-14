@@ -236,11 +236,11 @@ class EmployeeController extends Controller
             }
         }
         $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
-        //create by trinhhunganh
-        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type',
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absence_time.name AS name_time',
             'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
             'absences.absence_status_id')
             ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+            ->join('absence_time', 'absences.absence_time_id', '=', 'absence_time.id')
             ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
             ->where('absences.delete_flag', 0)
             ->where('absences.employee_id',$id)
@@ -249,7 +249,6 @@ class EmployeeController extends Controller
                     ->orWhereYear('absences.to_date', $year);
             })
             ->get();
-        //end by trinhhunganh
         return view('employee.detail', compact(
             'overtime',
             'time',
