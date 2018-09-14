@@ -1,6 +1,6 @@
 <input id="number_record_per_page" type="hidden" name="number_record_per_page"
        value="{{ isset($param['number_record_per_page'])?$param['number_record_per_page']:config('settings.paginate') }}"/>
-<div style="float:right">
+<div style="float:right; margin-bottom: 15px;">
     <div class="dataTables_length" id="project-list_length">
         <label class="lable-entries" style="display: block;">{{trans('pagination.show.number_record_per_page')}}</label>
         <div class="input-entries">
