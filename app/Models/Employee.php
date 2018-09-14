@@ -313,6 +313,11 @@ class Employee extends Model implements
              } else{
                  $remaining_this_year = ($pemission_annual_leave + $remaining_last_year) - $annual_leave;
              }
+             if($annual_leave > $remaining_last_year){
+                $remaining_last_year = 0;
+             } else{
+                $remaining_last_year -= $annual_leave ;
+             }
         } else{
             $half_year = Absence::whereMonth('from_date','<', '7')
                         ->where('delete_flag',0)
@@ -337,7 +342,8 @@ class Employee extends Model implements
 
                 }
             }
-        }        
+            $remaining_last_year = 0;
+        }  
         $absences = [
             "pemission_annual_leave" => $pemission_annual_leave, //số ngày được phép năm nay
             "remaining_last_year" => $remaining_last_year, //số ngày còn lại từ năm trước
