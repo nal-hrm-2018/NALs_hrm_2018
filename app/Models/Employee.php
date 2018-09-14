@@ -315,6 +315,7 @@ class Employee extends Model implements
              }
         } else{
             $half_year = Absence::whereMonth('from_date','<', '7')
+                        ->where('delete_flag',0)
                         ->whereHas('absenceType', function($query){
                             $query->where('name',  'annual_leave');
                         })
