@@ -57,10 +57,10 @@
 
               <div class="form-group">
                 <label>{{trans('absence_po.list_po.profile_info.start_date')}}<strong style="color: red">(*)</strong></label><br />
-                <div class='input-group date form_datetime'>
-                  <input name="from_date" type='text' value="{!! old('from_date',isset($objAbsence->from_date) ? $objAbsence->from_date : null) !!}" class="form-control" placeholder="yyyy-MM-dd HH:mm"/>
+                <div class='input-group date' id='datetimepicker1'>
+                  <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" readonly placeholder="From Date"  style="background: white;"/>
                   <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    <span class="fa fa-calendar">
                   </span>
                 </div>
                 <label id="lb_error_from_date" style="color: red;">{{$errors->first('from_date')}}</label>
@@ -69,10 +69,10 @@
 
               <div class="form-group">
                 <label>{{trans('absence_po.list_po.profile_info.end_date')}}<strong style="color: red">(*)</strong></label><br />
-                <div class='input-group date form_datetime'>
-                  <input name="to_date" type='text' class="form-control" value="{!! old('to_date',isset($objAbsence->to_date) ? $objAbsence->to_date : null) !!}" placeholder="yyyy-MM-dd HH:mm"/>
+                <div class='input-group date' id='datetimepicker2'>
+                  <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" readonly placeholder="To Date" style="background: white;"/>
                   <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    <span class="fa fa-calendar">
                   </span>
                 </div>
                 <label id="lb_error_to_date" style="color: red;">{{$errors->first('to_date')}}</label>

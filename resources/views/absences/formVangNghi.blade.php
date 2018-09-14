@@ -53,12 +53,12 @@
               <div class="col-md-4">
                 <!-- /.form-group -->
                 <div class="form-group">
-                  <label>Địa chỉ email<strong style="color: red">(*)</strong></label>
+                  <label>{{trans('absence_po.list_po.profile_info.email')}}<strong style="color: red">(*)</strong></label>
                   <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{!! old('email', isset($objEmployee["email"]) ? $objEmployee["email"] : null) !!}" readonly="readonly" />
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
-                  <label>Họ Tên<strong style="color: red">(*)</strong></label>
+                  <label>{{trans('absence_po.list_po.profile_info.name')}}<strong style="color: red">(*)</strong></label>
                   <input type="text" class="form-control" placeholder="Name"  name="name" id="name" readonly="readonly" value="{!! old('name', isset($objEmployee->name) ? $objEmployee->name : null) !!}">
                   <!-- /.input group -->
                 </div>
@@ -73,7 +73,7 @@
                   {{--@endif--}}
                 {{--</div>--}}
                 <div class="form-group">
-                  <label>Nghỉ từ ngày<strong style="color: red">(*)</strong></label><br />
+                  <label>{{trans('absence_po.list_po.profile_info.start_date')}}<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date' id='datetimepicker1'>
                     <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" readonly placeholder="From Date"  style="background: white;"/>
                     <span class="input-group-addon">
@@ -84,7 +84,7 @@
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
-                  <label>Đến ngày<strong style="color: red">(*)</strong></label><br />
+                  <label>{{trans('absence_po.list_po.profile_info.end_date')}}<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date' id='datetimepicker2'>
                     <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" readonly placeholder="To Date" style="background: white;"/>
                     <span class="input-group-addon">
