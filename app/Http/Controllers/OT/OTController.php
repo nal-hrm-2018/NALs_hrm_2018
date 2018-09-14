@@ -47,7 +47,6 @@ class OTController extends Controller
         foreach($OT[$i] as $value){
             foreach($value['project']['overtimeMonthNow'] as $va){
                 if($va->overtime_status_id === $id_ny){
-                    echo $va->overtime_status_id; die();
                     $overtime = Overtime::where('id',$va->id)->first();
                     $overtime->overtime_status_id = $id_rw;
                     $overtime->save();
