@@ -47,22 +47,22 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             
             if( ($from_date >= $absence['from_date'] && $from_date <= $absence['to_date']) || ($to_date >= $absence['from_date'] && $to_date <= $absence['to_date']) ){
                 if($request->get('absence_time_id') == 1){
-                    \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                    \Session::flash('msg_fail', 'From Date or To Date Duplicate!!!');
                     return back()->withInput();
                 }
                 if($absence['absence_time']['name'] == 'all'){
-                    \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                    \Session::flash('msg_fail', 'From Date or To Date Duplicate!!!');
                     return back()->withInput();
                 }
                 if($absence['absence_time']['name'] == 'morning'){
                     if($absence['absence_time']['id'] == $request->get('absence_time_id')){
-                        \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                        \Session::flash('msg_fail', 'From Date or To Date Duplicate!!!');
                         return back()->withInput();
                     }
                 }
                 if($absence['absence_time']['name'] == 'afternoon'){
                     if($absence['absence_time']['id'] == $request->get('absence_time_id')){
-                        \Session::flash('msg_fail', 'From Date or To Date incorrect!!!');
+                        \Session::flash('msg_fail', 'From Date or To Date Duplicate!!!');
                         return back()->withInput();
                     }
                 }
