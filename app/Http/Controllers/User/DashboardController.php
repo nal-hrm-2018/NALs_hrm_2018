@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace App\Http\Controllers\User;
 
 use App\Models\EmployeeType;
@@ -27,6 +27,11 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // private $get_absence;
+    // public function __construct(NumberAbsenceService $get_absence)
+    // {
+    //     $this->get_absence = $get_absence;
+    // }
     public function index()
     {
         $id_emp = Auth::user()->id;

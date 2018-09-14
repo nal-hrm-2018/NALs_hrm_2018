@@ -64,7 +64,8 @@
                             </div>
                             <div class="col-md-12" style="width: 100% ; margin-bottom: 1em"></div>
                             @php
-                                $list_absences = getJsonObjectAbsenceHrList($employees,$absenceService);
+                                // $list_absences = getJsonObjectAbsenceHrList($employees,$absenceService);
+                                $list_absences = getAbsenceHrList($employees,$absenceService);
                                 view()->share('list_absences',$list_absences);
                             @endphp
                             {!! Form::open(
@@ -85,7 +86,6 @@
             </div>
             <!-- /.row -->
         </section>
-
     </div>
     <script type="text/javascript">
         $(document).ready(function () {

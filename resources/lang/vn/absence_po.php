@@ -53,9 +53,9 @@ return [
             config('settings.status_common.absence_type.subtract_salary_date')=>'Nghỉ trừ lương',
             config('settings.status_common.absence_type.insurance_date')=>'Nghỉ theo bảo hiểm',
             config('settings.status_common.absence_type.absented_date')=>'Nghỉ phép',
-            config('settings.status_common.absence_type.marriage_leave')=>'Nghĩ cưới',
-            config('settings.status_common.absence_type.maternity_leave')=>'Nghĩ thai sản',
-            config('settings.status_common.absence_type.bereavement_leave')=>'Nghĩ tang',
+            config('settings.status_common.absence_type.marriage_leave')=>'Nghỉ cưới',
+            config('settings.status_common.absence_type.maternity_leave')=>'Nghỉ thai sản',
+            config('settings.status_common.absence_type.bereavement_leave')=>'Nghỉ tang',
         ],
         'msg'=>[
             'confirm_export'=>'Bạn có muốn tải về danh sách xác nhận vắng nghỉ không?',

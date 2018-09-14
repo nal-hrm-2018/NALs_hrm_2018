@@ -172,5 +172,6 @@ return [
     'donut_chart' => 'Donut chart',
     'notifications' => 'Notifications',
     'history_notifications' => 'Notification History',
-    'absences' => 'Absences'
+    'absences' => 'Absences',
+    'number' => 'No.',
 ];

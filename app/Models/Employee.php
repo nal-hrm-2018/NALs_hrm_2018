@@ -23,7 +23,6 @@ use App\Models\Holiday;
 use App\Models\HolidayDefault;
 use Illuminate\Support\Facades\DB;
 
-
 class Employee extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
@@ -168,53 +167,68 @@ class Employee extends Model implements
         return false;
     }
     public function count_invalid_date(Absence $absence){
-        // $test = date('16-09-2018');
-        // dd(date_create($test)->format('l')); die();
         $calculated = []; // mảng lưu số ngày không hợp lệ
         // tổng số ngày trong đơn ( chưa trừ ngày nghỉ, ngày lễ)
-        $count_day = 1+(int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d'); 
-        $date = $absence->from_date ;
-        while ( $date <= $absence->to_date) {
-            if( ( date_create($date)->format('l') == 'Sunday') || ( date_create($date)->format('l') == 'Saturday') ){
-                $count_day--;
-                $calculated = array_prepend($calculated, $date); 
+        // dd( date('Y-m-d', strtotime($absence->from_date)) );
+
+        if( date('m', strtotime($absence->to_date)) == date('m', strtotime($absence->from_date)) ){
+            $count_day = 1+(int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d'); 
+        } else {
+            // $end = (int) date('t', strtotime($absence->from_date)); //get end date of month            
+            $count_day_start_month = 1+(int)date('t', strtotime($absence->from_date)) - (int)date_create($absence->from_date)->format('d');
+            $count_day_end_month = (int)date_create($absence->to_date)->format('d'); 
+            $count_day = $count_day_start_month + $count_day_end_month;
+            // kiểm tra có phải 2 tháng liên tiếp, nếu không, $count_day+= số ngày các tháng ở giữa
+            $check_month = (int)date_create($absence->from_date)->format('n'); 
+            $end_month = (int)date_create($absence->to_date)->format('n'); 
+            $year = (int) date('Y', strtotime($absence->from_date));
+            while ( $end_month -$check_month -1) {
+                $check_month ++;
+                $coun_day_check_month = cal_days_in_month(CAL_GREGORIAN, $check_month, $year);
+                $count_day += $coun_day_check_month;
             }
-            $date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
         }
-        // dd($date);
-        $date = $absence->from_date ;
-        
-        while ( $date <= $absence->to_date) {
-            //kiểm tra co phải ngày nghĩ lễ không.
-            $holiday = HolidayDefault::all();
-            $sttHoliday = 1;
-            foreach ($holiday as $holiday){
-                if( date_format($holiday->date,"m-d") == date('m-d', strtotime($date)) ){
-                    $sttHoliday = 1;
-                    break;
+        if($absence->absenceType->name <> 'maternity_leave' ){
+            $date = $absence->from_date ;
+            while ( $date <= $absence->to_date) {
+                if( ( date_create($date)->format('l') == 'Sunday') || ( date_create($date)->format('l') == 'Saturday') ){
+                    $count_day--;
+                    $calculated = array_prepend($calculated, $date); 
                 }
+                $date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
             }
-            //Kiểm tra co phải ngày nghĩ lễ đột xuất k
-            if ($sttHoliday == ""){
-                $holiday = Holiday::all();
+            $date = $absence->from_date ;
+            
+            while ( $date <= $absence->to_date) {
+                //kiểm tra co phải ngày nghĩ lễ không.
+                $holiday = HolidayDefault::all();
+                $sttHoliday = 0 ;
                 foreach ($holiday as $holiday){
-                    $holidayDefault = date_format($holiday->date,"Y-m-d");
-                    $holidayRequest = date('Y-m-d', strtotime($request->date));
-                    if( date_format($holiday->date,"Y-m-d") == date('Y-m-d', strtotime($date)) ){
+                    if( date_format($holiday->date,"m-d") == date('m-d', strtotime($date)) ){
                         $sttHoliday = 1;
                         break;
                     }
                 }
-            }
-            // Kiểm tra ngày lễ có trùng ngày nghỉ (Saturday ỏ Sunday)
-            if($sttHoliday == 1){
-                if(in_array($date, $calculated) ){
-                    $count_day--;
-                    $calculated = array_prepend($calculated, $date); 
+                //Kiểm tra co phải ngày nghĩ lễ đột xuất k
+                if ($sttHoliday == 0 ){
+                    $holiday = Holiday::all();
+                    foreach ($holiday as $holiday){
+                        if( date_format($holiday->date,"Y-m-d") == date('Y-m-d', strtotime($date)) ){
+                            $sttHoliday = 1;
+                            break;
+                        }
+                    }
                 }
+                // Kiểm tra ngày lễ có trùng ngày nghỉ (Saturday ỏ Sunday)
+                if($sttHoliday == 1){
+                    if(in_array($date, $calculated) == false){
+                        $count_day--;
+                        $calculated = array_prepend($calculated, $date); 
+                    }
+                }
+                 $date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
             }
-             $date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
-        }
+        }            
         return $count_day;
     }
 
@@ -256,7 +270,10 @@ class Employee extends Model implements
         $sick_leave =0;
 
         $objModel = new Employee();
-        $absences = Absence::whereYear("from_date", date('Y'))->where('employee_id', $id)->get();
+        $absences = Absence::where('employee_id', $id)
+                            ->whereYear("from_date", date('Y'))
+                            ->where('delete_flag',0)
+                            ->get();
         foreach($absences as $absence){  
             switch ($absence->absenceType->name) {
                 case 'annual_leave':
@@ -297,7 +314,11 @@ class Employee extends Model implements
                  $remaining_this_year = ($pemission_annual_leave + $remaining_last_year) - $annual_leave;
              }
         } else{
-            $half_year = Absence::whereMonth('from_date','<', '7')->get();   
+            $half_year = Absence::whereMonth('from_date','<', '7')
+                        ->whereHas('absenceType', function($query){
+                            $query->where('name',  'annual_leave');
+                        })
+                        ->get();   // lấy ngày nghỉ phép năm trước tháng 7
             if( count($half_year) >= $remaining_last_year){
                 if($annual_leave > ($pemission_annual_leave + $remaining_last_year)) {
                     $remaining_this_year = 0;
@@ -310,7 +331,9 @@ class Employee extends Model implements
                     $remaining_this_year = 0;
                     $unpaid_leave += ($annual_leave - ($pemission_annual_leave + count($half_year)));
                 } else {
+
                     $remaining_this_year = ($pemission_annual_leave +  count($half_year)) - $annual_leave;
+
                 }
             }
         }        

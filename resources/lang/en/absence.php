@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'absence' => 'Absence',
     'stt' => 'No.',
     'start_date' => 'From Date',
     'end_date' => 'To Date',
@@ -31,6 +32,7 @@ return [
         'fail'=>'Absence failed edit!!!',
     ],
     'type'=>[
+        'total_annual_leave'=> 'Total annual leave',
         'this_year' => 'This year',
         'last_year' => 'Last year',
         'total_remaining'=>'Total remaining',
@@ -42,6 +44,7 @@ return [
         'sick_leave'=> 'Sick leave',
         'subtract_salary_date'=> 'Subtract salary',
         'insurance_date' => 'Insurance leave',
+        'remaining_leave' => 'Remaining leave'
     ],
     'confirmation'=>[
         'employee_name'=>'Name',

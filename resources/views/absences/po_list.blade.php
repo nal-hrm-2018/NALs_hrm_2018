@@ -225,7 +225,7 @@
                         <table id="confirm-po-list" class="table table-bordered table-striped">
                             <thead class="list-confirm">
                                 <tr>
-                                    <th>{{trans('overtime.number')}} </th>
+                                    <th>{{trans('common.number')}} </th>
                                     <th>{{trans('absence.confirmation.employee_name')}}</th>
                                     <th>{{trans('absence.confirmation.email')}}</th>
                                     <th>{{trans('absence.confirmation.project_name')}}</th>
@@ -356,8 +356,8 @@
                     'ordering': true,
                     'info': false,
                     'autoWidth': false,
-                    "aaSorting": [
-                        [0, 'DESC'],
+                    "asSorting": [
+                        [0,'ASC'],
                     ],
                 });
 

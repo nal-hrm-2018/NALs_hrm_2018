@@ -94,6 +94,13 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             $year=$request['year_absence'];
             $query->whereYear('endwork_date','>=',$year);
         }
+        if (!empty($request['project_id'])) {
+        $project = $request['project_id'];
+        $query
+            ->whereHas('processes', function ($query) use ($project) {
+                $query->where("project_id",$project);
+            });
+        }
         $date_ot = $request['date_ot'];
         if (!empty($date_ot)) {
             $query
