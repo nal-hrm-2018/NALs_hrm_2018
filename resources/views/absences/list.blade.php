@@ -122,7 +122,7 @@
                             $idAccept = \App\Models\AbsenceStatus::where('name', '=',
                                 config('settings.status_common.absence.accepted'))->first()->id;
                             ?>
-                            <table class="table table-bordered table-striped" id="absences-list" style="margin-top: 20px !important;">
+                            <table class="table table-bordered table-striped" id="" style="margin-top: 20px !important;">
                                 <thead>
                                     <tr>
                                         <th class="text-center">{{trans('absence.stt')}}</th>
