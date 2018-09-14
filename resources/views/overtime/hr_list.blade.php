@@ -18,6 +18,37 @@
                 {{--{{trans('common.button.export')}}--}}
             </div>
         </section>
+        <?php
+        $id = null; $name = null; $project_id = null; $date_ot = null; $month_ot = null; $year_ot = null; $page=1;
+        $number_record_per_page = 20;
+        $arrays[] = $_GET;
+        foreach ($arrays as $key => $value) {
+            if (!empty($value['id'])) {
+                $id = $value['id'];
+            }
+            if (!empty($value['name'])) {
+                $name = $value['name'];
+            }
+            if (!empty($value['project_id'])) {
+                $project_id = $value['project_id'];
+            }
+            if (!empty($value['date_ot'])) {
+                $date_ot = $value['date_ot'];
+            }
+            if (!empty($value['month_ot'])) {
+                $month_ot = $value['month_ot'];
+            }
+            if (isset($value['year_ot'])) {
+                $year_ot =  $value['year_ot'];
+            }
+            if (!empty($value['page'])) {
+                $page = $value['page'];
+            }
+            if (!empty($value['number_record_per_page'])) {
+                $number_record_per_page = $value['number_record_per_page'];
+            }
+        }
+        ?>
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
@@ -43,13 +74,13 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.id')}}</button>
                                                             </div>
-                                                            <input type="text" name="id" id="employeeId" value="{{ (request()->get('id') !== null)?request()->get('id'):'' }}" class="form-control">
+                                                            <input type="text" name="id" id="id" value="{{ $id }}" class="form-control">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">{{trans('employee.profile_info.name')}}</button>
                                                             </div>
-                                                            <input type="text" name="name" id="nameEmployee" class="form-control" value="{{ (request()->get('name') !== null)?request()->get('name'):'' }}">
+                                                            <input type="text" name="name" id="name" class="form-control" value="{{ $name }}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
@@ -72,14 +103,14 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Date</button>
                                                             </div>
-                                                            <input type="date" name="date_ot" class="form-control" value="{{ (request()->get('date_ot') !== null)?request()->get('date_ot'):'-' }}">
+                                                            <input type="date" id="date_ot" name="date_ot" class="form-control" value="{{ $date_ot }}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">Month</button>
                                                             </div>
-                                                            <select name="month_ot" class="form-control">
-                                                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                            <select name="month_ot" id="month_ot" class="form-control">
+                                                                <option {{ !empty(request('month_ot'))?'':'selected="selected"' }} value="">
                                                                     {{  trans('vendor.drop_box.placeholder-default') }}
                                                                 </option>
                                                                 @php
@@ -101,8 +132,8 @@
                                                                 <button type="button"
                                                                         class="btn width-100"> Year</button>
                                                             </div>
-                                                            <select name="year_ot" class="form-control">
-                                                                <option {{ !empty(request('team'))?'':'selected="selected"' }} value="">
+                                                            <select name="year_ot" id="year_ot" class="form-control">
+                                                                <option {{ !empty(request('year_ot'))?'':'selected="selected"' }} value="">
                                                                     {{  trans('vendor.drop_box.placeholder-default') }}
                                                                 </option>
                                                                 <?php
@@ -122,7 +153,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer center">
-                                                <button id="btn_reset_employee" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                                <button id="btn_reset_overtime" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
                                                     {{trans('common.button.reset')}}
                                                 </button>
                                                 <button type="submit" id="searchListEmployee" class="btn btn-info"><span
@@ -265,6 +296,18 @@
         }
     </style>
  <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
+ <script type="text/javascript">
+     $(function () {
+         $("#btn_reset_overtime").on("click", function () {
+             $("#name").val('');
+             $("#id").val('');
+             $("#date_ot").val('').change();
+             $("#year_ot").val('').change();
+             $("#month_ot").val('').change();
+             $("#project_id").val('').change();
+         });
+     });
+ </script>
  <script type="text/javascript">
      $(function () {
          $('tr.employee-menu').on('contextmenu', function (event) {
