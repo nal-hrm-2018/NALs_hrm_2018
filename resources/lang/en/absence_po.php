@@ -17,16 +17,16 @@ return [
             'cancel'=>'Cancel'
         ],
         'profile_info'=>[
-            'email' => 'Email',
+            'email' => 'Email address',
             'name' => 'Name',
             'start_date'=>'From to',
             'end_date'=>'End to',
-            'type' => 'Absence Type',
+            'type' => 'Absence type',
             'reason'=>'Cause',
             'note'=>'Note',
             'action'=>'Action',
             'status'=>'Status',
-            'note_po'=>'Reject Cause'
+            'note_po'=>'Reject cause'
         ],
         'note'=>[
             'absence_new'=>'Absence',

@@ -28,7 +28,7 @@ class AbsenceAddRequest extends FormRequest
         $objEmp=Employee::SELECT("*")
                             ->where('id','=',Auth::id())
                             ->first();
-        $dayAfter=$objEmp["endwork_date"];
+        $dayAfter=$objEmp["endwork_date"]->format('d-m-Y');
         return [
             'absence_type_id' => 'required',
             'absence_time_id' => 'required',
@@ -42,39 +42,39 @@ class AbsenceAddRequest extends FormRequest
     {
         return [
             'absence_type_id.required' => trans('validation.required', [
-                'attribute' => 'loại nghỉ phép'
+                'attribute' => trans('absence.absence_type')
             ]),
 
             'absence_time_id.required' => trans('validation.required', [
-                'attribute' => 'loại thời gian'
+                'attribute' => trans('absence.absence_time')
             ]),
 
             'reason.required' => trans('validation.required', [
-                'attribute' => 'lý do'
+                'attribute' => trans('absence.reason')
             ]),
             'from_date.required' => trans('validation.required', [
-                'attribute' => 'nghỉ từ ngày'
+                'attribute' => trans('absence.start_date')
             ]),
             'to_date.required' => trans('validation.required', [
-                'attribute' => 'đến ngày'
+                'attribute' => trans('absence.end_date')
             ]),
             'to_date.date_format' => trans('validation.date_format', [
-                'attribute' => 'nghỉ từ ngày',
-                'format' => 'yyyy-MM-dd HH:mm'
+                'attribute' => trans('absence.start_date'),
+                'format' => 'yyyy-MM-dd'
             ]),
             'from_date.date_format' => trans('validation.date_format', [
-                'attribute' => 'dến ngày',
-                'format' => 'yyyy-MM-dd HH:mm'
+                'attribute' => trans('absence.end_date'),
+                'format' => 'yyyy-MM-dd'
             ]),
             'to_date.after' => trans('validation.after', [
                 'attribute' => 'ngày kết thúc',
-                'date'=>'bắt đầu nghỉ'
+                'date'=> trans('absence.start_date')
             ]),
             'from_date.after' => trans('validation.after', [
-                'attribute' => 'ngày bắt đầu nghỉ',
+                'attribute' => trans('absence.start_date')
             ]),
             'to_date.before' => trans('validation.before', [
-                'attribute' => 'ngày kết thúc',
+                'attribute' => trans('absence.end_date'),
             ])
         ];
     }
