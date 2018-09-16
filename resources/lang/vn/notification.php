@@ -20,7 +20,11 @@ return[
         'fail_than_ten' => 'Thêm thông báo mới thất bại.Bạn cần xóa một thông báo cũ trước khi thêm.!!!'
     ],
     'msg_edit'=>[
-        'success'=>'Sữa thông báo thanh công!!!',
-        'fail'=>'Sữa thông báo thất bại!!!',
-    ]
+        'success'=>'Sửa thông báo thanh công!!!',
+        'fail'=>'Sửa thông báo thất bại!!!',
+    ],
+    'msg_delete'=>[
+        'success'=>'Xóa thông báo thành công!!!',
+        'fail'=>'Xóa thông báo thất bại!!!',
+    ],
 ];

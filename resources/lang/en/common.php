@@ -120,7 +120,7 @@ return [
         'process'=>'process',
     ],
     'delete'=>[
-        'success'=>'Delete success',
+        'success'=>'Successfully delete!',
         'fail'=>'Delete fail'
     ],
     'confirm_reset'=>'Do you want to reset?',

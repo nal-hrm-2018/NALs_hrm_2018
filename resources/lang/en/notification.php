@@ -22,5 +22,9 @@ return[
     'msg_edit'=>[
         'success'=>'Notification is successfully edited!!!',
         'fail'=>'Notification failed edit!!!',
-    ]
+    ],
+    'msg_delete'=>[
+        'success'=>'Notification is successfully delete!!!',
+        'fail'=>'Notification failed delete!!!',
+    ],
 ];
