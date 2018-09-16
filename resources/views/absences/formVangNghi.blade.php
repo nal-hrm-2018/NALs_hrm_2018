@@ -79,7 +79,7 @@
                   <label>{{trans('absence.start_date')}}<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date' id='datetimepicker1'>
                     <label class="input-group-addon">
-                      <span class="fa fa-calendar">
+                      <span class="fa fa-calendar"></span>
                     </label>
                     <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" readonly
                       placeholder="{{trans('absence.start_date')}}" style="background: white;" />
@@ -91,7 +91,7 @@
                   <label>{{trans('absence.end_date')}}<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date' id='datetimepicker2'>
                     <label class="input-group-addon">
-                      <span class="fa fa-calendar">
+                      <span class="fa fa-calendar"></span>
                     </label>
                     <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" readonly
                       placeholder="{{trans('absence.end_date')}}" style="background: white;" />
