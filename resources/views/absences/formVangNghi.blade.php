@@ -134,31 +134,6 @@
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
-                  <label>{{trans('absence.absence_time')}}<strong style="color: red">(*)</strong></label>
-                  <select class="form-control" style="width: 100%;" name="absence_time_id" id="absence_time_id">
-                    <option value="">{{trans('absence.select')}}</option>
-                    <?php
-                      foreach ($Absence_time as $val) {
-                        $selected = "";
-                        $name="";
-                        if ($val["id"] == old('absence_time_id')) {
-                            $selected = "selected";
-                        }
-                        if ($val["name"]=='all'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.all'). '</option>';
-                        }
-                        if ($val["name"]=='morning'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.morning'). '</option>';
-                        }
-                        if ($val["name"]=='afternoon'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.afternoon'). '</option>';
-                        }
-                      }
-                    ?>
-                  </select>
-                  <label id="lb_error_absence_time_id" style="color: red; ">{{$errors->first('absence_time_id')}}</label>
-                </div>
-                <div class="form-group">
                   <label>{{trans('absence.absence_type')}}<strong style="color: red">(*)</strong></label>
                   <select class="form-control" style="width: 100%;" name="absence_type_id" id="absence_type_id">
                     <option value="">{{trans('absence.select')}}</option>
@@ -196,6 +171,31 @@
                     ?>
                   </select>
                   <label id="lb_error_absence_type_id" style="color: red; ">{{$errors->first('absence_type_id')}}</label>
+                </div>
+                <div class="form-group">
+                  <label>{{trans('absence.absence_time')}}<strong style="color: red">(*)</strong></label>
+                  <select class="form-control" style="width: 100%;" name="absence_time_id" id="absence_time_id">
+                    <option value="">{{trans('absence.select')}}</option>
+                    <?php
+                      foreach ($Absence_time as $val) {
+                        $selected = "";
+                        $name="";
+                        if ($val["id"] == old('absence_time_id')) {
+                            $selected = "selected";
+                        }
+                        if ($val["name"]=='all'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.all'). '</option>';
+                        }
+                        if ($val["name"]=='morning'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.morning'). '</option>';
+                        }
+                        if ($val["name"]=='afternoon'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.afternoon'). '</option>';
+                        }
+                      }
+                    ?>
+                  </select>
+                  <label id="lb_error_absence_time_id" style="color: red; ">{{$errors->first('absence_time_id')}}</label>
                 </div>
               </div>
               <!-- /.form-group -->
