@@ -56,12 +56,12 @@
 								</div>
 								<div class="form-group">
 									<label for="example3">{{trans('overtime.start_time')}}<strong style="color: red">(*)</strong></label>
-									<input type="text" class="form-control" id="start_time" name="start_time" value="{{ old('start_time') }}">
+									<input type="text" class="form-control" id="start_time" name="start_time" value="{{ old('start_time') }}" readonly style="background: white;">
 									<label id="lb_error_start_time" style="color: red; ">{{$errors->first('start_time')}}</label>
 								</div>
 								<div class="form-group">
 									<label for="example4">{{trans('overtime.end_time')}}<strong style="color: red">(*)</strong></label>
-									<input type="text" class="form-control" id="end_time" name="end_time" value="{{ old('end_time') }}">
+									<input type="text" class="form-control" id="end_time" name="end_time" value="{{ old('end_time') }}" readonly style="background: white;">
 									<label id="lb_error_end_time" style="color: red; ">{{$errors->first('end_time')}}</label>
 								</div>
 	    					</div>
