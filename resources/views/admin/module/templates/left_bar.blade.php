@@ -68,7 +68,7 @@
           {{--</ul>--}}
         </li>
         <li class="treeview">
-          <a href="#">
+          <!-- <a href="#">
             <i class="glyphicon glyphicon-globe"></i> <span>{{trans('leftbar.nav.project')}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -79,7 +79,7 @@
             @if(Auth::user()->hasRole('PO'))
               <li><a href="{{ asset('projects/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.project')}}</a></li>
             @endif
-          </ul>
+          </ul> -->
         </li>
         <li class="treeview">
           <a href="#">
