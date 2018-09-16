@@ -312,33 +312,46 @@ class Employee extends Model implements
                     break;
             }            
         };
-        if(date('n')<7){
-             if($annual_leave > ($pemission_annual_leave + $remaining_last_year)) {
-                $remaining_this_year = 0;
-                $unpaid_leave += ($annual_leave - ($pemission_annual_leave + $remaining_last_year));
-             } else{
-                 $remaining_this_year = ($pemission_annual_leave + $remaining_last_year) - $annual_leave;
-             }
-             if($annual_leave > $remaining_last_year){
-                $remaining_last_year = 0;
-             } else{
-                $remaining_last_year -= $annual_leave ;
-             }
-        } else{
-            $half_year = Absence::whereMonth('from_date','<', '7')
+        $month_change = 11;
+        $before_change = Absence::whereMonth('from_date','<', $month_change)
                         ->where('delete_flag',0)
                         ->where('employee_id',$id)
                         ->whereHas('absenceType', function($query){
                             $query->where('name',  'annual_leave');
                         })
                         ->get();   // lấy ngày nghỉ phép năm trước tháng 7
-                        // dd($half_year);
-            $count_half_year = 0;
-            foreach ($half_year as $val) {
-                $count_half_year += $objModel->count_invalid_date($val);
-            }
-            // dd($count_half_year);
-            if( $count_half_year >= $remaining_last_year){
+                        // dd($before_change);
+        $count_before_change = 0;
+        foreach ($before_change as $val) {
+            $count_before_change += $objModel->count_invalid_date($val);
+        }
+        $count_after_change = $annual_leave -$count_before_change;
+
+        if( date('n') < $month_change){            
+            if($count_before_change > $remaining_last_year){
+            // dd( $count_before_change); die();
+                if($annual_leave >= ($pemission_annual_leave + $remaining_last_year)) {
+                    $remaining_this_year = 0;
+                    $unpaid_leave += ($annual_leave - ($pemission_annual_leave + $remaining_last_year));
+                    $annual_leave = $pemission_annual_leave + $remaining_last_year;
+                 } else{
+                     $remaining_this_year = ($pemission_annual_leave + $remaining_last_year) - $annual_leave;
+                 }
+                $remaining_last_year = 0;
+             } else{
+                $remaining_last_year -= $count_before_change ;
+                if($count_after_change > $pemission_annual_leave){
+                // dd( $count_before_change); die();
+                    $remaining_this_year = 0;
+                    $unpaid_leave += $pemission_annual_leave - $count_after_change;
+                } else{
+                    $remaining_this_year = ($pemission_annual_leave - $count_after_change) + $remaining_last_year; 
+                }
+             }             
+        }
+         else{            
+            $remaining_last_year = 0;
+            if( $count_before_change >= $remaining_last_year){
                 // dd($annual_leave);
                 if($annual_leave >= ($pemission_annual_leave + $remaining_last_year)) {
                     $remaining_this_year = 0;
@@ -348,17 +361,15 @@ class Employee extends Model implements
                      $remaining_this_year = ($pemission_annual_leave + $remaining_last_year) - $annual_leave;
                  }
             } else {
-                // dd($count_half_year);
-                if($annual_leave > ($pemission_annual_leave + $count_half_year)){
+                // dd($count_before_change);
+                if($annual_leave > ($pemission_annual_leave + $count_before_change)){
                     $remaining_this_year = 0;
-                    $unpaid_leave += ($annual_leave - ($pemission_annual_leave + $count_half_year));
-                    $annual_leave = $pemission_annual_leave + $count_half_year;
+                    $unpaid_leave += ($annual_leave - ($pemission_annual_leave + $count_before_change));
+                    $annual_leave = $pemission_annual_leave + $count_before_change;
                 } else {
-
-                    $remaining_this_year = ($pemission_annual_leave +  $count_half_year) - $annual_leave;
+                    $remaining_this_year = ($pemission_annual_leave +  $count_before_change) - $annual_leave;
                 }
             }
-            $remaining_last_year = 0;
         }  
         $absences = [
             "pemission_annual_leave" => $pemission_annual_leave, //số ngày được phép năm nay
