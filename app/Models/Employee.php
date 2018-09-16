@@ -63,7 +63,7 @@ class Employee extends Model implements
         'delete_flag'
     ];
     protected $casts = [
-        'work_status' => 'date',
+        'startwork_date' => 'date',
         'endwork_date' => 'date',
     ];
 

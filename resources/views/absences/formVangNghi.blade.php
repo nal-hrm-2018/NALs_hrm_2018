@@ -186,8 +186,8 @@
                         if ($val["name"]=='marriage_leave'){
                             echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.marriage_leave'). '</option>';
                         }
-                        if ($val["name"]=='maternity_leave'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.maternity_leave'). '</option>';
+                        if ($val["name"]=='bereavement_leave'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.bereavement_leave'). '</option>';
                         }
                         if ($val["name"]=='sick_leave'){
                             echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.sick_leave'). '</option>';

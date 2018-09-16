@@ -217,6 +217,7 @@
 <script type="text/javascript">
   $(function () {
     $('#datetimepicker1').datepicker({
+      format: 'dd-mm-yyyy',
       weekStart: 1,
       todayBtn: 1,
       autoclose: 1,
@@ -225,6 +226,7 @@
   });
   $(function () {
     $('#datetimepicker2').datepicker({
+      format: 'dd-mm-yyyy',
       weekStart: 1,
       todayBtn: 1,
       autoclose: 1,
