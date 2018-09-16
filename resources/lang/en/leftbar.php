@@ -46,6 +46,7 @@ return[
         ],
         'edit' => [
             'notification' => 'Edit Notification',
+            'absence' => 'Edit Absence',
         ]
     ]
 

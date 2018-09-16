@@ -4,7 +4,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      <strong>Phiếu Vắng Nghỉ</strong>
+      <strong>{{trans('leftbar.nav.edit.absence')}}</strong>
       <small>NAL Solutions</small>
     </h1>
     {{--<ol class="breadcrumb">--}}

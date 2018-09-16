@@ -47,6 +47,7 @@ return[
         ],
         'edit' => [
             'notification' => 'Sửa thông báo',
+            'absence' => 'Sửa đơn xin vắng nghỉ',
         ]
     ]
 

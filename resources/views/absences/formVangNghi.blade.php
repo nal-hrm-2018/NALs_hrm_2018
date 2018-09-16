@@ -4,7 +4,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      {{trans('leftbar.nav.add.absence')}}
+      <strong>{{trans('leftbar.nav.add.absence')}}</strong>
       <small>NAL Solutions</small>
     </h1>
     {{--<ol class="breadcrumb">--}}
