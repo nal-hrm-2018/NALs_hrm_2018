@@ -67,6 +67,7 @@
             {{--<li><a href="{{ asset('teams/create')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.add.team')}}</a></li>--}}
           {{--</ul>--}}
         </li>
+        
         <li class="treeview">
           <!-- <a href="#">
             <i class="glyphicon glyphicon-globe"></i> <span>{{trans('leftbar.nav.project')}}</span>
