@@ -117,7 +117,13 @@
                                                 <strong>{{ isset($string_team)?$string_team:'-' }}</strong>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
-                                                <?php
+                                                 <strong>
+                                                    @if($employee->role)
+                                                        {{$employee->role->name}}
+                                                    @else -
+                                                    @endif
+                                                </strong>
+                                             <!--   {{-- <?php
                                                 if(isset($employee->role)){
                                                     if($employee->role->name == "PO"){
                                                         echo "<span class='label label-primary'>". $employee->role->name ."</span>";
@@ -131,7 +137,7 @@
                                                 } else {
                                                     echo "-";
                                                 }
-                                                ?>
+                                                ?> --}} -->
                                             </p>
 
                                             <p>{{trans('employee.profile_info.policy_date')}}:
