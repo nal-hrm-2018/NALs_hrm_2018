@@ -53,7 +53,7 @@
                 <!-- /.form-group -->
                 <div class="form-group">
                   <label>{{trans('absence_po.list_po.profile_info.email')}}<strong style="color: red">(*)</strong></label>
-                  <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{!! old('email', isset($objEmployee["
+                  <input type="text" class="form-control" placeholder="{{trans('absence_po.list_po.profile_info.email')}}" name="email" id="email" value="{!! old('email', isset($objEmployee["
                     email"]) ? $objEmployee["email"] : null) !!}" readonly="readonly" />
                   <!-- /.input group -->
                 </div>
@@ -76,25 +76,25 @@
                   {{--@endif--}}
                   {{--</div>--}}
                 <div class="form-group">
-                  <label>{{trans('absence_po.list_po.profile_info.start_date')}}<strong style="color: red">(*)</strong></label><br />
+                  <label>{{trans('absence.start_date')}}<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date' id='datetimepicker1'>
                     <label class="input-group-addon">
                       <span class="fa fa-calendar">
                     </label>
                     <input name="from_date" type='text' value="{!! old('from_date') !!}" class="form-control" readonly
-                      placeholder="From Date" style="background: white;" />
+                      placeholder="{{trans('absence.start_date')}}" style="background: white;" />
                   </div>
                   <label id="lb_error_from_date" style="color: red;">{{$errors->first('from_date')}}</label>
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
-                  <label>{{trans('absence_po.list_po.profile_info.end_date')}}<strong style="color: red">(*)</strong></label><br />
+                  <label>{{trans('absence.end_date')}}<strong style="color: red">(*)</strong></label><br />
                   <div class='input-group date' id='datetimepicker2'>
                     <label class="input-group-addon">
                       <span class="fa fa-calendar">
                     </label>
                     <input name="to_date" type='text' class="form-control" value="{!! old('to_date') !!}" readonly
-                      placeholder="To Date" style="background: white;" />
+                      placeholder="{{trans('absence.end_date')}}" style="background: white;" />
                   </div>
                   <label id="lb_error_to_date" style="color: red;">{{$errors->first('to_date')}}</label>
                   <!-- /.input group -->
@@ -103,7 +103,7 @@
               <div class="col-md-2"></div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label>Team<strong style="color: red">(*)</strong></label>
+                  <label>{{trans('absence.team')}}<strong style="color: red">(*)</strong></label>
                   @php
                   $arr_team = $objEmployee->teams()->get();
                   $string_team ="";
@@ -121,22 +121,22 @@
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
-                  <label>Ghi chú</label>
-                  <input type="text" class="form-control" placeholder="Câu trả lời của bạn" {!! old('ghi_chu') !!} name="ghi_chu"
+                  <label>{{trans('absence.description')}}</label>
+                  <input type="text" class="form-control" placeholder="{{trans('absence.description')}}" {!! old('ghi_chu') !!} name="ghi_chu"
                     id="ghi_chu">
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
-                  <label>Lý do<strong style="color: red">(*)</strong></label>
-                  <input type="text" class="form-control" placeholder="Câu trả lời của bạn" value="{!! old('reason') !!}"
+                  <label>{{trans('absence.reason')}}<strong style="color: red">(*)</strong></label>
+                  <input type="text" class="form-control" placeholder="{{trans('absence.reason')}}" value="{!! old('reason') !!}"
                     name="reason" id="ly_do">
                   <label id="lb_error_reason" style="color: red;">{{$errors->first('reason')}}</label>
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
-                  <label>Loại thời gian<strong style="color: red">(*)</strong></label>
+                  <label>{{trans('absence.absence_time')}}<strong style="color: red">(*)</strong></label>
                   <select class="form-control" style="width: 100%;" name="absence_time_id" id="absence_time_id">
-                    <option value="">Chọn</option>
+                    <option value="">{{trans('absence.select')}}</option>
                     <?php
                       foreach ($Absence_time as $val) {
                         $selected = "";
@@ -145,13 +145,13 @@
                             $selected = "selected";
                         }
                         if ($val["name"]=='all'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ cả ngày' . '</option>';
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.all'). '</option>';
                         }
                         if ($val["name"]=='morning'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ buổi sáng' . '</option>';
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.morning'). '</option>';
                         }
                         if ($val["name"]=='afternoon'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ buổi chiều' . '</option>';
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.afternoon'). '</option>';
                         }
                       }
                     ?>
@@ -159,9 +159,9 @@
                   <label id="lb_error_absence_time_id" style="color: red; ">{{$errors->first('absence_time_id')}}</label>
                 </div>
                 <div class="form-group">
-                  <label>Loại nghỉ phép<strong style="color: red">(*)</strong></label>
+                  <label>{{trans('absence.absence_type')}}<strong style="color: red">(*)</strong></label>
                   <select class="form-control" style="width: 100%;" name="absence_type_id" id="absence_type_id">
-                    <option value="">Chọn</option>
+                    <option value="">{{trans('absence.select')}}</option>
                     <?php
                       foreach ($Absence_type as $val) {
                         $selected = "";
@@ -174,20 +174,23 @@
                                 $selected = "selected";
                             }
                         }
-                        if ($val["name"]=='unpaid_leave'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ không lương' . '</option>';
-                        }
                         if ($val["name"]=='annual_leave'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ phép năm' . '</option>';
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.annual_leave'). '</option>';
+                        }
+                        if ($val["name"]=='unpaid_leave'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.unpaid_leave'). '</option>';
                         }
                         if ($val["name"]=='maternity_leave'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ thai sản' . '</option>';
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.maternity_leave'). '</option>';
                         }
                         if ($val["name"]=='marriage_leave'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ cưới' . '</option>';
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.marriage_leave'). '</option>';
                         }
                         if ($val["name"]=='maternity_leave'){
-                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . 'Nghỉ tang' . '</option>';
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.maternity_leave'). '</option>';
+                        }
+                        if ($val["name"]=='sick_leave'){
+                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('absence.type.sick_leave'). '</option>';
                         }
                       }
                     ?>
