@@ -1,5 +1,5 @@
 @extends('admin.template')
-@section('content')
+@section('content') 
     <style type="text/css">
         .table tbody tr td {
             vertical-align: middle;
@@ -10,9 +10,9 @@
         .width-90 {
             width: 90px;
         }
-	.form-inline {
-	    display: inline;
-	}
+    	.form-inline {
+    	    display: inline;
+    	}
     </style>
 
  <!-- Content Wrapper. Contains page content -->
@@ -183,17 +183,17 @@
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">No.</th>
-                                        <th>Name of Project</th>
-                                        <th class="text-center">Date</th>
-                                        <th>Reasons</th>
-                                        <th class="text-center">From time</th>
-                                        <th class="text-center">To time</th>
-                                        <th class="text-center">Total time</th>
-                                        <th class="text-center">Date type</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Accept time</th>
-                                        <th class="text-center">Actions</th>
+                                        <th class="text-center">{{trans('overtime.number')}}</th>
+                                        <th>{{trans('overtime.project')}}</th>
+                                        <th class="text-center">{{trans('overtime.date')}}</th>
+                                        <th>{{trans('overtime.reason')}}</th>
+                                        <th class="text-center">{{trans('overtime.start_time')}}</th>
+                                        <th class="text-center">{{trans('overtime.end_time')}}</th>
+                                        <th class="text-center">{{trans('overtime.total_time')}}</th>
+                                        <th class="text-center">{{trans('overtime.type')}}</th>
+                                        <th class="text-center">{{trans('overtime.status')}}</th>
+                                        <th class="text-center">{{trans('overtime.correct_total_time')}}</th>
+                                        <th class="text-center">{{trans('overtime.action')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

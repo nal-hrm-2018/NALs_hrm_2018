@@ -19,6 +19,8 @@ return[
     'holiday' => 'Ngày lễ',
     'total' => 'Tổng',
     'hours' => 'Giờ',
+    'action' => 'Hành động',
+    'status' => 'Trạng thái',
     'correct_total_time' => 'Thời gian chấp nhận',
     'msg_add'=>[
         'success'=>'Thêm đơn tăng ca thành công!!!',

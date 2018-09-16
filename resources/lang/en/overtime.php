@@ -20,6 +20,8 @@ return[
     'total' => 'Total',
     'hours' => 'Hours',
     'correct_total_time' => 'Accepted time',
+    'action' => 'Action',
+    'status' => 'Status',
     'msg_add'=>[
         'success'=>'Overtime is successfully created !!!',
         'fail'=>'Overtime failed created!!!',
