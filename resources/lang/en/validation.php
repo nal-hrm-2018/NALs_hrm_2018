@@ -14,7 +14,7 @@ return [
     */
     'max_totaltime'        => 'You have entered wrong number time. Please try again!',
 //    'min_total_time'       => 'The :attribute must be an integer ',
-    'min_total_time'       => 'The :attribute must be than 0 ',
+    'min_total_time'       => 'The :attribute must be greater than 0',
     'correct_total_time'   => 'The :attribute must be an integer ',
     'accepted'             => 'The :attribute must be accepted.',
     'active_url'           => 'The :attribute is not a valid URL.',
