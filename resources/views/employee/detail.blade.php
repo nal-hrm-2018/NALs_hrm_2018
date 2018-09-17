@@ -117,7 +117,13 @@
                                                 <strong>{{ isset($string_team)?$string_team:'-' }}</strong>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
-                                                <?php
+                                                 <strong>
+                                                    @if($employee->role)
+                                                        {{$employee->role->name}}
+                                                    @else -
+                                                    @endif
+                                                </strong>
+                                             <!--   {{-- <?php
                                                 if(isset($employee->role)){
                                                     if($employee->role->name == "PO"){
                                                         echo "<span class='label label-primary'>". $employee->role->name ."</span>";
@@ -131,7 +137,7 @@
                                                 } else {
                                                     echo "-";
                                                 }
-                                                ?>
+                                                ?> --}} -->
                                             </p>
 
                                             <p>{{trans('employee.profile_info.policy_date')}}:
@@ -416,8 +422,8 @@
                                                     @foreach($listAbsence as $absence)
                                                     <tr>
                                                         <td class="align-middle">{{$count++ }}</td>
-                                                        <td class="align-middle">{{ isset($absence->from_date)?$absence->from_date:'-' }}</td>
-                                                        <td class="align-middle">{{ isset($absence->to_date)?$absence->to_date:'-' }}</td>
+                                                        <td class="align-middle">{{ isset($absence->from_date)? date_create($absence->from_date)->format('d-m-Y'):'-' }}</td>
+                                                        <td class="align-middle">{{ isset($absence->to_date)? date_create($absence->to_date)->format('d-m-Y'):'-' }}</td>
                                                         <td>
                                                             @if(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.salary_date'))
                                                                 <span class="label label-primary">

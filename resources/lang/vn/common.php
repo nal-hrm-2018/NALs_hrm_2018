@@ -103,7 +103,7 @@ return [
         'add'=>'thêm',
         'edit'=>'chỉnh sửa',
         'delete'=>'xóa',
-        'reset'=>'làm mới'
+        'reset'=>'làm mới',
     ],
     'name_confirm'=>[
         'employee'=>'nhân viên',

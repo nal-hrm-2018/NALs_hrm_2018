@@ -98,7 +98,7 @@ return [
         'po_project'=>'PO Project',
         'confirmation'=>'Confirmation',
         'statistic'=>'Statistic',
-        'edit_overtime'=>'Edit overtime form',
+        'edit_overtime'=>'Edit overtime',
     ],
     'action'=>[
         'view'=>'View',
@@ -120,7 +120,7 @@ return [
         'process'=>'process',
     ],
     'delete'=>[
-        'success'=>'Delete success',
+        'success'=>'Successfully delete!',
         'fail'=>'Delete fail'
     ],
     'confirm_reset'=>'Do you want to reset?',
