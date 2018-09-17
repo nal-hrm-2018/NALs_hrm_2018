@@ -29,6 +29,7 @@ class AbsenceAddRequest extends FormRequest
                             ->where('id','=',Auth::id())
                             ->first();
         $dayAfter=$objEmp["endwork_date"];
+        $dayAfter = date('d-m-Y', strtotime($dayAfter));
         return [
             'absence_type_id' => 'required',
             'absence_time_id' => 'required',
