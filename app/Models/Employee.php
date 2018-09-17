@@ -62,11 +62,7 @@ class Employee extends Model implements
         'created_by_employee',
         'delete_flag'
     ];
-    protected $casts = [
-        'startwork_date' => 'date',
-        'endwork_date' => 'date',
-    ];
-
+    
     protected $hidden = [
         'password', 'remember_token'
     ];
