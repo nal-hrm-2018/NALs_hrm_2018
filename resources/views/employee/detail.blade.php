@@ -112,9 +112,11 @@
                                                   $string_team = $string_team."".$addteam;
                                                   }
                                                 }
+                                                // dd($string_team);
                                             @endphp
+
                                             <p>{{trans('employee.profile_info.team')}}:
-                                                <strong>{{ isset($string_team)?$string_team:'-' }}</strong>
+                                                <strong>{{ ($string_team)?$string_team:'NALs' }}</strong>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
                                                  <strong>
