@@ -78,7 +78,7 @@
 	    						</div>
 	    						<div class="form-group">
 	    							<label for="example7">{{trans('overtime.reason')}}<strong style="color: red">(*)</strong></label>
-	    							<textarea class="form-control" id="example7" name="reason" rows="11">{{ old('reason', isset($ot_history->reason) ? $ot_history->reason : null) }}</textarea>
+	    							<textarea class="form-control" id="example7" name="reason" rows="11" style="line-height: 1.36;">{{ old('reason', isset($ot_history->reason) ? $ot_history->reason : null) }}</textarea>
 	    						</div>
 	    					</div>
 	    				</div>
