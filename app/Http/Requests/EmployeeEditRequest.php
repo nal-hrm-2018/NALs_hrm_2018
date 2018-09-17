@@ -8,10 +8,11 @@
 
 namespace App\Http\Requests;
 
-
+use App\Models\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Rule\ValidEmail;
 use Illuminate\Support\Facades\Auth;
+
 class EmployeeEditRequest extends FormRequest
 {
     public function authorize()
@@ -21,6 +22,12 @@ class EmployeeEditRequest extends FormRequest
 
     public function rules()
     {
+        $objEmp=Employee::SELECT("*")
+                            ->where('id','=',Auth::id())
+                            ->first();
+        $dayAfter=$objEmp["endwork_date"];
+        $dayAfter = date('d-m-Y', strtotime($dayAfter));
+
         if (Auth::user()->hasRole('HR')){
             // dd(request()->get('endwork_date'));
             if(request()->get('endwork_date')){                
@@ -49,10 +56,10 @@ class EmployeeEditRequest extends FormRequest
     //            'team_id' => 'required',
     //            'role_id' => 'required',
                     /*'avatar' => 'required',*/
-                    'birthday' => 'required|before:today|after:1900-01-01',
+                    'birthday' => 'required|before:'.$dayAfter.'|after:1900-01-01',
                     'picture' => 'image|max:2048',
                     'startwork_date' => 'required|after:birthday',
-                    'endwork_date' => 'after:startwork_date|after:birthday'
+                    'endwork_date' => 'after:startwork_date'
                 ];
             }
             return [
@@ -80,7 +87,7 @@ class EmployeeEditRequest extends FormRequest
     //            'team_id' => 'required',
     //            'role_id' => 'required',
                     /*'avatar' => 'required',*/
-                    'birthday' => 'required|before:today|after:1900-01-01',
+                    'birthday' => 'required|before:'.$dayAfter.'|after:1900-01-01',
                     'picture' => 'image|max:2048',
                     'startwork_date' => 'required|after:birthday',
                 // 'endwork_date' => 'after:startwork_date|after:birthday'
@@ -110,7 +117,7 @@ class EmployeeEditRequest extends FormRequest
 //            'team_id' => 'required',
 //            'role_id' => 'required',
             /*'avatar' => 'required',*/
-            'birthday' => 'required|before:today|after:1900-01-01',
+            'birthday' => 'required|before:'.$dayAfter.'|after:1900-01-01',
             'picture' => 'image|max:2048',
 //          'startwork_date' => 'required|after:birthday',
 //            'endwork_date' => 'required|after:startwork_date'

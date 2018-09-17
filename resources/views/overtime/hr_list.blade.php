@@ -316,7 +316,7 @@
              var eId = $(this).data('employee-id');
              $('ul.contextMenu[data-employee-id="' + eId + '"]')
                  .show()
-                 .css({top: event.pageY - 170, left: event.pageX - 250, 'z-index': 300});
+                 .css({top: event.pageY - 120, left: event.pageX - 250, 'z-index': 300});
 
          });
          $(document).click(function () {
