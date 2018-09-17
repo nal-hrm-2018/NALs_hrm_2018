@@ -232,7 +232,7 @@
                                         @else
                                             <td class="text-center"></td>
                                         @endif
-                                        @if ($val->correct_total_time)
+                                        @if (isset($val->correct_total_time))
                                             <td class="text-center"><span class="label label-success">{{$val->correct_total_time}} hours</span></td>
                                         @else
                                             <td class="text-center">-</td>
