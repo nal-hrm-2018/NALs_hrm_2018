@@ -331,7 +331,7 @@
                                     <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label>{{trans('employee.profile_info.start_work')}}<strong style="color: red">(*)</strong></label>
+                                    <label>{{trans('employee.profile_info.start_work')}}</label>
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>

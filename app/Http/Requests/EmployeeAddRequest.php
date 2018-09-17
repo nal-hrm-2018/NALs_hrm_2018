@@ -20,6 +20,35 @@ class EmployeeAddRequest extends FormRequest
 
     public function rules()
     {
+        if(request()->get('endwork_date')){                
+            return [
+            'email' => 'required|email|unique:employees,email' ,
+            'password' => 'required|min:6',
+            'confirm_confirmation' => 'required|same:password',
+            'name' => 'required',
+            'address' => 'required',
+            'gender' => [
+                'required',
+                'integer',
+                'digits_between:1,3',
+            ],
+            'mobile' => 'required|numeric|min:1|digits_between:10,11',
+            'marital_status' =>  [
+                'required',
+                'integer',
+                'digits_between:1,4',
+            ],
+            /*'curriculum_vitae' => 'required',*/
+            'employee_type_id' => 'required',
+            'team_id' => 'required',
+            'role_id' => 'required',
+            'picture' => 'image|max:2048',
+            /*'avatar' => 'required',*/
+            'birthday' => 'required|before:today|after:1900-01-01',
+            'startwork_date' => 'required|after:birthday',
+            'endwork_date' => 'after:startwork_date|after:birthday'
+        ];
+        }
         return [
             'email' => 'required|email|unique:employees,email' ,
             'password' => 'required|min:6',
@@ -45,7 +74,7 @@ class EmployeeAddRequest extends FormRequest
             /*'avatar' => 'required',*/
             'birthday' => 'required|before:today|after:1900-01-01',
             'startwork_date' => 'required|after:birthday',
-            'endwork_date' => 'required|after:startwork_date|after:birthday'
+            // 'endwork_date' => 'after:startwork_date|after:birthday'
         ];
     }
 
@@ -142,9 +171,9 @@ class EmployeeAddRequest extends FormRequest
                 'attribute' => trans('employee.profile_info.birthday'),
                 'date' => '01-01-1900'
             ]),
-            'startwork_date.required' => trans('validation.required', [
-                'attribute' => trans('employee.profile_info.start_work'),
-            ]),
+            // 'startwork_date.required' => trans('validation.required', [
+            //     'attribute' => trans('employee.profile_info.start_work'),
+            // ]),
             'endwork_date.required' => trans('validation.required', [
                 'attribute' => trans('employee.profile_info.end_work'),
             ]),
