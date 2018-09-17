@@ -422,8 +422,8 @@
                                                     @foreach($listAbsence as $absence)
                                                     <tr>
                                                         <td class="align-middle">{{$count++ }}</td>
-                                                        <td class="align-middle">{{ isset($absence->from_date)? date_create($absence->from_date)->format('d-m-Y'):'-' }}</td>
-                                                        <td class="align-middle">{{ isset($absence->to_date)? date_create($absence->to_date)->format('d-m-Y'):'-' }}</td>
+                                                        <td class="align-middle">{{ isset($absence->from_date)? date_create($absence->from_date)->format('d/m/Y'):'-' }}</td>
+                                                        <td class="align-middle">{{ isset($absence->to_date)? date_create($absence->to_date)->format('d/m/Y'):'-' }}</td>
                                                         <td>
                                                             @if(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.salary_date'))
                                                                 <span class="label label-primary">
