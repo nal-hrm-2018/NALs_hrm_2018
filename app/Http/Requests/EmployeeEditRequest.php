@@ -52,7 +52,7 @@ class EmployeeEditRequest extends FormRequest
                     'birthday' => 'required|before:today|after:1900-01-01',
                     'picture' => 'image|max:2048',
                     'startwork_date' => 'required|after:birthday',
-                'endwork_date' => 'after:startwork_date|after:birthday'
+                    'endwork_date' => 'after:startwork_date|after:birthday'
                 ];
             }
             return [
@@ -110,7 +110,7 @@ class EmployeeEditRequest extends FormRequest
 //            'team_id' => 'required',
 //            'role_id' => 'required',
             /*'avatar' => 'required',*/
-            'birthday' => 'required|before:today',
+            'birthday' => 'required|before:today|after:1900-01-01',
             'picture' => 'image|max:2048',
 //          'startwork_date' => 'required|after:birthday',
 //            'endwork_date' => 'required|after:startwork_date'
