@@ -16,7 +16,7 @@ return[
         'vendor' => 'Nhân viên ngoài',
         'team' => 'Team',
         'project' => 'Dự án',
-        'absence' => 'Xin vắng nghỉ',
+        'absence' => 'Vắng nghỉ',
         'absence_management' => 'Quản lý vắng nghỉ',
         'overtime_management' => 'Quản lý tăng ca',
         'overtime' => 'Tăng ca',

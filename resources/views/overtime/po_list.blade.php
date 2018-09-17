@@ -37,7 +37,8 @@
                                 @endphp
                                 @foreach($OT[$i] as $value)
                                     @foreach($value['project']['overtimeMonthNow'] as $va)
-                                    <tr class="overtime-menu" >
+                                    <tr class="employee-menu" id="employee-id-{{$va->employee_id}}"
+                                    data-employee-id="{{$va->employee_id}}" >
                                         <td class="text-center" rowspan="">{{$i+1}}</td>
                                         <td rowspan="">{{ \App\Models\Project::where('id',$va->project_id)->first()->name }}</td>
                                         <td>{{ \App\Models\Employee::where('id',$va->employee_id)->first()->name }}</td>
@@ -86,6 +87,11 @@
                                             </div>
                                         </td>
                                         @endif
+                                        <ul class="contextMenu" data-employee-id="{{$va->employee_id}}" hidden>
+                                            <li><a href="{{ route('employee.show',['employee'=> $va->employee_id]) }}?basic=0&project=0&overtime=1&absence=0">
+                                                    <i class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a>
+                                            </li>
+                                        </ul>
                                     </tr>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModal-{{$va->id}}"   tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -124,6 +130,7 @@
             </div>
         </section>
     </div>
+ <script src="{!! asset('admin/templates/js/bower_components/jquery/dist/jquery.min.js') !!}"></script>
      <script>
          function confirm_accept() {
              document.getElementById("action_bt").style.visibility = "hidden";
@@ -140,4 +147,23 @@
             width: 90px;
         }
     </style>
+ <script type="text/javascript">
+     $(function () {
+         $('tr.employee-menu').on('contextmenu', function (event) {
+             event.preventDefault();
+             $('ul.contextMenu').fadeOut("fast");
+             var eId = $(this).data('employee-id');
+             $('ul.contextMenu[data-employee-id="' + eId + '"]')
+                 .show()
+                 .css({top: event.pageY - 170, left: event.pageX - 250, 'z-index': 300});
+
+         });
+         $(document).click(function () {
+             if ($('ul.contextMenu:hover').length === 0) {
+                 $('ul.contextMenu').fadeOut("fast");
+             }
+         });
+     });
+
+ </script>
 @endsection
