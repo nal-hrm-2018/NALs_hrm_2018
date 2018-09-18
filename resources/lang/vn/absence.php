@@ -29,6 +29,10 @@ return [
         'msg_filter_invalid' => 'Xin hãy chọn năm !!',
         'msg_export_fails' => 'Kết xuất file lỗi !!',
     ],
+    'msg_add' => [
+        'success'=>'Tạo đơn vắng nghĩ thành công!!!',
+        'fail'=>'Tạo đơn vắng nghĩ thất bại!!!',
+    ],
     'msg_edit' => [
         'success'=>'Sữa đơn vắng nghĩ thành công!!!',
         'fail'=>'Sữa đơn vắng nghĩ thất bại!!!',

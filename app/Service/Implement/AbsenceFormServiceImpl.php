@@ -122,10 +122,10 @@ class AbsenceFormServiceImpl implements AbsenceFormService
 
 
         if (is_null($objAbsence)) {
-            \Session::flash('msg_fail', 'Account failed created!!!');
+            \Session::flash('msg_fail', trans('absence.msg_add.fail'));
             return back()->withInput(Input::all());
         } else {
-            \Session::flash('msg_success', 'Thêm mới Form thành công!!!');
+            \Session::flash('msg_success', trans('absence.msg_add.success'));
             return redirect()->route('absences.index');
         }
     }
