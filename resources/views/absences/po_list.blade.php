@@ -221,6 +221,9 @@
                             .list-confirm tr td {
                                 vertical-align: middle !important;
                             }
+                            .list-confirm tr th {
+                                vertical-align: middle !important;
+                            }
                         </style>
                         <table id="confirm-po-list" class="table table-bordered table-striped">
                             <thead class="list-confirm">
