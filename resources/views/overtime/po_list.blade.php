@@ -40,7 +40,7 @@
                                 @endphp
                                 @foreach($ot_dev as $value)
                                     <tr class="employee-menu" id="employee-id-{{$value['id']}}"
-                                    data-employee-id="{{$value['employee']['id']}}" >
+                                    data-employee-id="{{$value['id']}}" >
                                         <td class="text-center" rowspan="">{{$i+1}}</td>
                                         <td rowspan="">{{$value['project']['name']}}</td>
                                         
@@ -145,7 +145,7 @@
                                 @endphp
                                 @foreach($ot_po as $value)
                                     <tr class="employee-menu" id="employee-id-{{$value['id']}}"
-                                    data-employee-id="{{$value['employee']['id']}}" >
+                                    data-employee-id="{{$value['id']}}" >
                                         <td class="text-center" rowspan="">{{$i+1}}</td>
                                         <td rowspan="">{{$value['project']['name']}}</td>
                                         
@@ -190,7 +190,7 @@
                                             </div>
                                         </td>
                                         @endif
-                                        <ul class="contextMenu" data-employee-id="{{$value['employee_id']}}" hidden>
+                                        <ul class="contextMenu" data-employee-id="{{$value['id']}}" hidden>
                                             <li><a href="{{ route('employee.show',['employee'=> $value['employee_id']]) }}?basic=0&project=0&overtime=1&absence=0">
                                                     <i class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a>
                                             </li>
@@ -251,7 +251,7 @@
                                 @endphp
                                 @foreach($ot_hr as $value)
                                     <tr class="employee-menu" id="employee-id-{{$value['id']}}"
-                                    data-employee-id="{{$value['employee']['id']}}" >
+                                    data-employee-id="{{$value['id']}}" >
                                         <td class="text-center" rowspan="">{{$i+1}}</td>
                                         <td class="text-center" rowspan="">-</td>
                                         
@@ -296,7 +296,7 @@
                                             </div>
                                         </td>
                                         @endif
-                                        <ul class="contextMenu" data-employee-id="{{$value['employee_id']}}" hidden>
+                                        <ul class="contextMenu" data-employee-id="{{$value['id']}}" hidden>
                                             <li><a href="{{ route('employee.show',['employee'=> $value['employee_id']]) }}?basic=0&project=0&overtime=1&absence=0">
                                                     <i class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a>
                                             </li>

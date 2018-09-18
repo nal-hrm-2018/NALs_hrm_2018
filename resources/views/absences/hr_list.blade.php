@@ -23,7 +23,7 @@
                 {{--<li><a href="#">{{trans('common.title_header.absence_list')}}</a></li>--}}
             {{--</ol>--}}
 
-        </section>
+        {{-- </section>
 
         <section class="content-header">
             <div style="float:right; background-color: #ECF0F5; height: 50px;">
@@ -31,7 +31,7 @@
                     @include("absences._export_hr_absence")
                 </ol>
             </div>
-        </section>
+        </section> --}}
         {{--table data project--}}
         <div id="msg">
             <br><br><br>

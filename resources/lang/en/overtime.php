@@ -11,7 +11,7 @@ return[
     'date'=> 'Date',
     'start_time'=> 'Start time',
     'end_time'=> 'End time',
-    'total_time'=> 'Number time',
+    'total_time'=> 'Total time',
     'reason' => 'Reason',
     'type' => 'Date type',
     'normal' => 'Normal day',
