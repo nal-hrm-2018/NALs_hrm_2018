@@ -356,7 +356,7 @@
                                                             @else($val->type->name == 'holiday')
                                                                 <td class="text-center"><span class="label" style="background: #3600ff;">{{trans('overtime.holiday')}}</span></td>
                                                             @endif    
-                                                            @if ($val->correct_total_time)
+                                                            @if (isset($val->correct_total_time))
                                                                 <td class="text-center"><span class="label label-success">{{$val->correct_total_time}} {{trans('overtime.hours')}}</span></td>
                                                             @else
                                                                 <td class="text-center">-</td>

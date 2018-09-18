@@ -53,8 +53,8 @@
                 <!-- /.form-group -->
                 <div class="form-group">
                   <label>{{trans('absence_po.list_po.profile_info.email')}}<strong style="color: red">(*)</strong></label>
-                  <input type="text" class="form-control" placeholder="{{trans('absence_po.list_po.profile_info.email')}}" name="email" id="email" value="{!! old('email', isset($objEmployee["
-                    email"]) ? $objEmployee["email"] : null) !!}" readonly="readonly" />
+                  <input type="text" class="form-control" placeholder="{{trans('absence_po.list_po.profile_info.email')}}" name="email" id="email" value="{!! old('email', isset($objEmployee->
+                    email) ? $objEmployee->email : null) !!}" readonly="readonly" />
                   <!-- /.input group -->
                 </div>
                 <div class="form-group">
