@@ -14,7 +14,7 @@
         'from_time'=> 'From time',
         'to_time' => 'To time',
         'number_time' => 'Number time',
-        'data_type' => 'Data type',
+        'data_type' => 'Day type',
         'action' => 'Action',
         'correct_total_time' => 'Accepted time',
         'reject' => [

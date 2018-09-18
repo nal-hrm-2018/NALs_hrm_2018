@@ -29,8 +29,8 @@
                                         <th class="text-center">{{ trans('overtime_po.from_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.to_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.number_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.data_type') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.action') }}</th>
                                     </tr>
                                 </thead>
@@ -54,11 +54,6 @@
                                         @else
                                             <td class="text-center"><span>-<span></td>
                                         @endif
-                                        @if(isset($value['correct_total_time']))
-                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} hours<span></td>
-                                        @else
-                                            <td class="text-center"><span>-<span></td>
-                                        @endif
                                         @if($value['type']['name'] == 'normal')
                                             <td class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @elseif($value['type']['name'] == 'weekend')
@@ -68,6 +63,12 @@
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
+                                        @if(isset($value['correct_total_time']))
+                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} hours<span></td>
+                                        @else
+                                            <td class="text-center"><span>-<span></td>
+                                        @endif
+                                        
                                         @if($value['status']['name'] == "Accepted")
                                         <td class="text-center"><span class="label label-success">{{ $value['status']['name'] }}<span></td>
                                         @elseif($value['status']['name'] == "Rejected" )
@@ -102,7 +103,7 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="verify">Accept time</label>
-                                                            <input type="text" class="form-control" id="correct_total_time" name="correct_total_time">
+                                                            <input type="number" step="0.1" min=0 max="{{$value["total_time"]}}" class="form-control" id="correct_total_time" name="correct_total_time">
                                                             <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label>
                                                         </div>
                                                     </div>
@@ -133,8 +134,8 @@
                                         <th class="text-center">{{ trans('overtime_po.from_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.to_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.number_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.data_type') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.action') }}</th>
                                     </tr>
                                 </thead>
@@ -158,11 +159,6 @@
                                         @else
                                             <td class="text-center"><span>-<span></td>
                                         @endif
-                                        @if(isset($value['correct_total_time']))
-                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} hours<span></td>
-                                        @else
-                                            <td class="text-center"><span>-<span></td>
-                                        @endif
                                         @if($value['type']['name'] == 'normal')
                                             <td class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @elseif($value['type']['name'] == 'weekend')
@@ -172,6 +168,12 @@
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
+                                        @if(isset($value['correct_total_time']))
+                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} hours<span></td>
+                                        @else
+                                            <td class="text-center"><span>-<span></td>
+                                        @endif
+                                        
                                         @if($value['status']['name'] == "Accepted")
                                         <td class="text-center"><span class="label label-success">{{ $value['status']['name'] }}<span></td>
                                         @elseif($value['status']['name'] == "Rejected" )
@@ -206,7 +208,7 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="verify">Accept time</label>
-                                                            <input type="text" class="form-control" id="correct_total_time" name="correct_total_time">
+                                                            <input type="number" step="0.1" min=0 max="{{$value["total_time"]}}" class="form-control" id="correct_total_time" name="correct_total_time">
                                                             <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label>
                                                         </div>
                                                     </div>
@@ -238,8 +240,8 @@
                                         <th class="text-center">{{ trans('overtime_po.from_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.to_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.number_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.data_type') }}</th>
+                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime_po.action') }}</th>
                                     </tr>
                                 </thead>
@@ -263,11 +265,6 @@
                                         @else
                                             <td class="text-center"><span>-<span></td>
                                         @endif
-                                        @if(isset($value['correct_total_time']))
-                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} hours<span></td>
-                                        @else
-                                            <td class="text-center"><span>-<span></td>
-                                        @endif
                                         @if($value['type']['name'] == 'normal')
                                             <td class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @elseif($value['type']['name'] == 'weekend')
@@ -277,6 +274,12 @@
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
+                                        @if(isset($value['correct_total_time']))
+                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} hours<span></td>
+                                        @else
+                                            <td class="text-center"><span>-<span></td>
+                                        @endif
+                                        
                                         @if($value['status']['name'] == "Accepted")
                                         <td class="text-center"><span class="label label-success">{{ $value['status']['name'] }}<span></td>
                                         @elseif($value['status']['name'] == "Rejected" )
@@ -311,7 +314,7 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="verify">Accept time</label>
-                                                            <input type="text" class="form-control" id="correct_total_time" name="correct_total_time">
+                                                            <input type="number" step="0.1" min=0 max="{{$value["total_time"]}}" class="form-control" id="correct_total_time" name="correct_total_time">
                                                             <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label>
                                                         </div>
                                                     </div>

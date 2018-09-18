@@ -75,8 +75,22 @@ class OTController extends Controller
         // dd($ot_hr);
         $is_manager = Employee::where('id',$user_id)->get()->pluck('is_manager')->toArray()[0];
         // dd($ot_dev);
+        foreach($ot_dev as $value){
+            if($value['status']['name'] =='Not yet' ){
+                $overtime = Overtime::where('id',$value['id'])->first();
+                $overtime->overtime_status_id = $id_rw;
+                $overtime->save();
+            }
+        }
         if($is_manager){
             foreach($ot_po as $value){
+                if($value['status']['name'] =='Not yet' ){
+                    $overtime = Overtime::where('id',$value['id'])->first();
+                    $overtime->overtime_status_id = $id_rw;
+                    $overtime->save();
+                }
+            }
+            foreach($ot_hr as $value){
                 if($value['status']['name'] =='Not yet' ){
                     $overtime = Overtime::where('id',$value['id'])->first();
                     $overtime->overtime_status_id = $id_rw;
