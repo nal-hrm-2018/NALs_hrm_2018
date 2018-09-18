@@ -222,24 +222,24 @@
                                         $date_ot = ""; $year_ot="";
                                         if(request()->get('date_ot') !== null){
                                             $date_ot= request()->get('date_ot');
-                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereDate('date', '=', $date_ot)->sum('correct_total_time');
-                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereDate('date', '=', $date_ot)->sum('correct_total_time');
-                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereDate('date', '=', $date_ot)->sum('correct_total_time');
+                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereDate('date', '=', $date_ot)->where('delete_flag',0)->sum('correct_total_time');
+                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereDate('date', '=', $date_ot)->where('delete_flag',0)->sum('correct_total_time');
+                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereDate('date', '=', $date_ot)->where('delete_flag',0)->sum('correct_total_time');
                                         }elseif(request()->get('year_ot') !== null){
                                             $year_ot= request()->get('year_ot');
-                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereYear('date', $year_ot)->sum('correct_total_time');
-                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereYear('date', $year_ot)->sum('correct_total_time');
-                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereYear('date', $year_ot)->sum('correct_total_time');
+                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereYear('date', $year_ot)->where('delete_flag',0)->sum('correct_total_time');
+                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereYear('date', $year_ot)->where('delete_flag',0)->sum('correct_total_time');
+                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereYear('date', $year_ot)->where('delete_flag',0)->sum('correct_total_time');
                                         }elseif(request()->get('month_ot') !== null){
                                             $month_ot= request()->get('month_ot');
-                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereMonth('date', $month_ot)->sum('correct_total_time');
-                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereMonth('date', $month_ot)->sum('correct_total_time');
-                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereMonth('date', $month_ot)->sum('correct_total_time');
+                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereMonth('date', $month_ot)->where('delete_flag',0)->sum('correct_total_time');
+                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereMonth('date', $month_ot)->where('delete_flag',0)->sum('correct_total_time');
+                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereMonth('date', $month_ot)->where('delete_flag',0)->sum('correct_total_time');
                                         }else{
                                             $year_ot= request()->get('year_ot');
-                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereMonth('date', date('m'))->sum('correct_total_time');
-                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereMonth('date', date('m'))->sum('correct_total_time');
-                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereMonth('date', date('m'))->sum('correct_total_time');
+                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereMonth('date', date('m'))->where('delete_flag',0)->sum('correct_total_time');
+                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereMonth('date', date('m'))->where('delete_flag',0)->sum('correct_total_time');
+                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereMonth('date', date('m'))->where('delete_flag',0)->sum('correct_total_time');
                                         }
                                         ?>
                                         @if($sumNomarday > 0)
