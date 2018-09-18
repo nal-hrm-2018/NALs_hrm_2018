@@ -25,6 +25,7 @@ return[
     'msg_add'=>[
         'success'=>'Thêm đơn tăng ca thành công!!!',
         'fail'=>'Thêm đơn tăng ca thất bại!!!',
+        'duplicate'=>'Ngày tăng ca đã tồn tại'
     ],    
     'msg_edit'=>[
         'success'=>'Chỉnh sửa thành công!!!',

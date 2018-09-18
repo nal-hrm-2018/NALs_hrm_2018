@@ -12,6 +12,7 @@
     			<small>NAL Solutions</small>
     		</h1>
     	</section>
+        <div id="msg"></div>
     	<section class="content">
     		<div class="box box-default">
     			<div class="box-body">

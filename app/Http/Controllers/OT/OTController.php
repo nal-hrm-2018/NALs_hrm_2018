@@ -206,6 +206,14 @@ class OTController extends Controller
         $overtime->total_time = $request->total_time;
 //        $overtime->overtime_type_id = $request->overtime_type_id;
         $overtime->reason = $request->reason;
+        $my_ot = Overtime::where('employee_id',$id)->get();
+
+        foreach($my_ot as $my_ot){
+            if($my_ot->date == $request->date.' 00:00:00'){
+                \Session::flash('msg_fail', trans('overtime.msg_add.duplicate'));
+                return back()->withInput();
+            }
+        }
         if($overtime->save()){
             \Session::flash('msg_success', trans('overtime.msg_add.success'));
             return redirect('ot');
