@@ -30,7 +30,7 @@
 							    				$selected = "";
 								    			if($pro->id == old('project_id', isset($ot_history->project_id) ? $ot_history->project_id : null)){
 								    				$selected = "selected";
-								    			}
+								    			} 
 							    			@endphp
 											<option  value="{{$pro->id}}" {{$selected}}>{{$pro->name}}</option>
 							    		@endforeach
@@ -43,7 +43,7 @@
 								    <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-								    <input type="date" class="form-control" id="ot_date" name="ot_date" value="{!! old('ot_date', isset($ot_history->date) ? $ot_history->date->format("Y-m-d") : null) !!}">
+								    <input type="date" class="form-control" id="date" name="date" value="{!! old('date', isset($ot_history->date) ? $ot_history->date->format("Y-m-d") : null) !!}">
 								</div>
 									<label id="lb_error_date" style="color: red; ">{{$errors->first('date')}}</label>
 								{{--@php--}}
