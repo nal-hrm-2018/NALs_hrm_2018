@@ -60,7 +60,8 @@ class EmployeeController extends Controller
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime');
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime.status');
+        $employees->get();
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $newmonth = date('d');
@@ -69,7 +70,7 @@ class EmployeeController extends Controller
             $s = 0;
             if(count($val->overtime)){
                 foreach($val->overtime as $ot){
-                    if(($ot->overtime_status_id == 3 || $ot->overtime_status_id == 4) && strtotime($ot->date) > strtotime($newmonth)){
+                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($newmonth)){
                         $s += $ot->correct_total_time;
                     }
                 }
