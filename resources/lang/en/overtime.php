@@ -8,12 +8,13 @@
 return[
     'number' => 'No.',
     'project' =>'Project',
+    'employee' => 'Employee',
     'date'=> 'Date',
     'start_time'=> 'Start time',
     'end_time'=> 'End time',
-    'total_time'=> 'Number time',
+    'total_time'=> 'Total time',
     'reason' => 'Reason',
-    'type' => 'Date type',
+    'type' => 'Day type',
     'normal' => 'Normal day',
     'day_off' => 'Day off',
     'holiday' => 'Holiday',
@@ -30,5 +31,8 @@ return[
     'msg_edit'=>[
         'success'=>'Overtime form successfully edited!!!',
         'fail'=>'Overtime form failed edited!!!',
+    ],
+    'reject' => [
+        'fail' => 'Reject is fail. Field reject lesthan total time'
     ]
 ];

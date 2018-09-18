@@ -19,7 +19,7 @@
 	<div class="content-wrapper">
 		<section class="content-header">
             <h1>
-                Overtime List
+                {{trans('leftbar.nav.list.overtime')}}
                 <small>NAL Solutions</small>
             </h1>
         </section>
@@ -67,7 +67,7 @@
                         <div class="box-body">
                             <div>
                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
-                                    <span class="fa fa-search"></span>&nbsp;Search
+                                    <span class="fa fa-search"></span>&nbsp;{{trans('common.button.search')}}
                                 </button>
                                 <div id="demo" class="collapse margin-form-search">
                                     <form method="get" role="form" id="form_search_overtime">
@@ -83,24 +83,24 @@
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Name of Project </button>
+                                                                <button type="button" class="btn width-100">{{trans('overtime.project')}}</button>
                                                             </div>
                                                             <input type="text" name="name" id="project_name" class="form-control" value="{{$name}}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Date type</button>
+                                                                <button type="button" class="btn width-100">{{trans('overtime.type')}}</button>
                                                             </div>
                                                             <select name="type" id="ot_type" class="form-control">
                                                                 <option {{ !empty(request('type'))?'':'selected="selected"' }} value="">{{  trans('vendor.drop_box.placeholder-default') }}</option>
                                                                 @foreach($ot_type as $type)
                                                                     <option value="{{$type->name}}"{{ (string)$type->name===request('type')?'selected="selected"':'' }}>
                                                                         @if ($type->name == 'normal')
-                                                                            Normal day
+                                                                        {{trans('overtime.normal')}}
                                                                         @elseif($type->name == 'weekend')
-                                                                            Day off
+                                                                        {{trans('overtime.day_off')}}
                                                                         @elseif($type->name == 'holiday')
-                                                                            Holiday
+                                                                        {{trans('overtime.holiday')}}
                                                                         @endif  
                                                                     </option>
                                                                 @endforeach
@@ -108,7 +108,7 @@
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Status</button>
+                                                                <button type="button" class="btn width-100">{{trans('overtime.status')}}</button>
                                                             </div>
                                                             <select name="status" id="ot_status" class="form-control">
                                                             <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">{{  trans('vendor.drop_box.placeholder-default') }}</option>
@@ -123,13 +123,13 @@
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">From Date</button>
+                                                                <button type="button" class="btn width-100">{{trans('overtime.start_time')}}</button>
                                                             </div>
                                                             <input type="date" name="from_date" id="from_date" class="form-control" value="{{$from_date}}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">To Date</button>
+                                                                <button type="button" class="btn width-100">{{trans('overtime.end_time')}}</button>
                                                             </div>
                                                         <input type="date" name="to_date" id="to_date" class="form-control" value="{{$to_date}}">
                                                         </div>
