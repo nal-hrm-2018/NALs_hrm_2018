@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h4>
-                {{trans('leftbar.nav.absence_management')}}
+                {{trans('leftbar.nav.overtime_management')}}
                 <small>NAL Solutions</small>
             </h4>
         </section>
