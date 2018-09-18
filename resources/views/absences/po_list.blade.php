@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                {{  trans('common.title_header.absence_list') }}
+                {{trans('leftbar.nav.absence_management')}}
                 <small>NAL Solutions</small>
             </h1>
         </section>
@@ -523,6 +523,5 @@
                 }
             });
         });
-
     </script>
 @endsection
