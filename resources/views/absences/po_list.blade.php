@@ -252,8 +252,8 @@
                                     <td>{{$val['name']}}</td>
                                     <td>{{$val['email']}}</td>
                                     <td>{{$val['project']}}</td> 
-                                    <td>{{$val['start_date']}}</td>
-                                    <td>{{$val['end_date']}}</td>
+                                    <td>{{ date_create($val['start_date'])->format('d-m-Y')}}</td>
+                                    <td>{{ date_create($val['end_date'])->format('d-m-Y')}}</td>
                                     @if(isset($val['absence_type']))
                                         @if($val['absence_type'] == 'annual_leave')
                                             <td>{{trans('absence.type.annual_leave')}}</td>

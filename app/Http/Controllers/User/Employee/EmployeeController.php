@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ngoc Quy
- * Date: 4/16/2018
- * Time: 11:26 AM
- */
-
 
 namespace App\Http\Controllers\User\Employee;
 
@@ -248,6 +241,7 @@ class EmployeeController extends Controller
                 $listAbsence->whereYear('absences.from_date', $year)
                     ->orWhereYear('absences.to_date', $year);
             })
+            ->orderBy('absences.from_date')
             ->get();
         return view('employee.detail', compact(
             'overtime',
