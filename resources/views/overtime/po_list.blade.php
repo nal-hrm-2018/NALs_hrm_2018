@@ -355,7 +355,7 @@
         .width-90 {
             width: 90px;
         }
-        h2 {
+        h4 {
             margin-top: 10px !important;
             margin-bottom: 10px !important;
         }
