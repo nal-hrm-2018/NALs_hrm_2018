@@ -3,10 +3,10 @@
  <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <section class="content-header">
-            <h4>
+            <h1>
                 {{trans('leftbar.nav.overtime_management')}}
                 <small>NAL Solutions</small>
-            </h4>
+            </h1>
         </section>
         <div id="msg">
         </div>
