@@ -324,7 +324,8 @@
                                     });
                                 })();
                             </script>
-                            <table id="employee-list" class="table table-bordered table-striped">
+                            <table id="" class="table table-bordered table-striped">
+                            {{-- <table id="employee-list" class="table table-bordered table-striped"> --}}
                                 <thead>
                                 <tr>
                                     <th class="small-row-id text-center">{{trans('employee.profile_info.id')}}</th>
