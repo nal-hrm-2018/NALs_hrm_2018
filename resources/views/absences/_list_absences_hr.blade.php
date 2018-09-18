@@ -29,7 +29,8 @@
         });
     })();
 </script>
-    <table id="hr-absence-list" class="table table-bordered table-striped">
+    <table id="" class="table table-bordered table-striped">
+    {{-- <table id="hr-absence-list" class="table table-bordered table-striped"> --}}
         <thead>
         <style type="text/css">
             .list-project th {
