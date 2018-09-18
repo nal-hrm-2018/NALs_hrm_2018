@@ -21,17 +21,17 @@
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">{{ trans('overtime_po.stt') }}</th>
-                                        <th>{{ trans('overtime_po.project') }}</th>
-                                        <th>{{ trans('overtime_po.employee') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.date') }}</th>
-                                        <th>{{ trans('overtime_po.reason') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.from_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.to_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.number_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.data_type') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.action') }}</th>
+                                        <th class="text-center">{{ trans('overtime.number') }}</th>
+                                        <th>{{ trans('overtime.project') }}</th>
+                                        <th>{{ trans('overtime.employee') }}</th>
+                                        <th class="text-center">{{ trans('overtime.date') }}</th>
+                                        <th>{{ trans('overtime.reason') }}</th>
+                                        <th class="text-center">{{ trans('overtime.start_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.end_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.type') }}</th>
+                                        <th class="text-center">{{ trans('overtime.correct_total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,17 +126,17 @@
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">{{ trans('overtime_po.stt') }}</th>
-                                        <th>{{ trans('overtime_po.project') }}</th>
-                                        <th>{{ trans('overtime_po.employee') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.date') }}</th>
-                                        <th>{{ trans('overtime_po.reason') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.from_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.to_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.number_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.data_type') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.action') }}</th>
+                                        <th class="text-center">{{ trans('overtime.number') }}</th>
+                                        <th>{{ trans('overtime.project') }}</th>
+                                        <th>{{ trans('overtime.employee') }}</th>
+                                        <th class="text-center">{{ trans('overtime.date') }}</th>
+                                        <th>{{ trans('overtime.reason') }}</th>
+                                        <th class="text-center">{{ trans('overtime.start_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.end_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.type') }}</th>
+                                        <th class="text-center">{{ trans('overtime.correct_total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -232,17 +232,17 @@
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">{{ trans('overtime_po.stt') }}</th>
-                                        <th>{{ trans('overtime_po.project') }}</th>
-                                        <th>{{ trans('overtime_po.employee') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.date') }}</th>
-                                        <th>{{ trans('overtime_po.reason') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.from_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.to_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.number_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.data_type') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.correct_total_time') }}</th>
-                                        <th class="text-center">{{ trans('overtime_po.action') }}</th>
+                                        <th class="text-center">{{ trans('overtime.number') }}</th>
+                                        <th>{{ trans('overtime.project') }}</th>
+                                        <th>{{ trans('overtime.employee') }}</th>
+                                        <th class="text-center">{{ trans('overtime.date') }}</th>
+                                        <th>{{ trans('overtime.reason') }}</th>
+                                        <th class="text-center">{{ trans('overtime.start_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.end_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.type') }}</th>
+                                        <th class="text-center">{{ trans('overtime.correct_total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

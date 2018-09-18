@@ -9,6 +9,7 @@ return[
     'number' => 'STT',
     'project' =>'Dự án',
     'date'=> 'Ngày tăng ca',
+    'employee' => 'Nhân viên',
     'start_time'=> 'Thời gian bắt đầu',
     'end_time'=> 'Thời gian kết thúc',
     'total_time'=> 'Tổng thời gian',
@@ -30,5 +31,8 @@ return[
     'msg_edit'=>[
         'success'=>'Chỉnh sửa thành công!!!',
         'fail'=>'Chỉnh sửa thất bại!!!',
+    ],
+    'reject' => [
+        'fail' => 'Thay đổi thất bại. Phải nhập giá trị bé hơn tổng thơi gian tăng ca'
     ]
 ];
