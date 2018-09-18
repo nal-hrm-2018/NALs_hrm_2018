@@ -125,19 +125,19 @@
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">From Date</button>
                                                             </div>
-                                                            <input type="date" name="from_date" class="form-control" value="{{$from_date}}">
+                                                            <input type="date" name="from_date" id="from_date" class="form-control" value="{{$from_date}}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
                                                                 <button type="button" class="btn width-100">To Date</button>
                                                             </div>
-                                                        <input type="date" name="to_date" class="form-control" value="{{$to_date}}">
+                                                        <input type="date" name="to_date" id="to_date" class="form-control" value="{{$to_date}}">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer center">
-                                                <button id="btn_reset_overtime" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                                <button id="btn_reset_overtime" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
                                                     {{trans('common.button.reset')}}
                                                 </button>
                                                 <button type="submit" id="searchListOvertime" class="btn btn-info"><span
@@ -306,6 +306,13 @@
     </script>
   <script type="text/javascript">
         $(function () {
+            $("#btn_reset_overtime").on("click", function () {
+                $("#project_name").val('');
+                $("#ot_type").val('').change();
+                $("#ot_status").val('').change();
+                $("#from_date").val('').change();
+                $("#to_date").val('').change();
+            });
             $('.btn-overtime-remove').click(function () {
                 var elementRemove = $(this).data('overtime-id');
                 console.log(elementRemove);

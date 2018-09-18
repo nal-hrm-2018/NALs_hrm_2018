@@ -153,7 +153,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer center">
-                                                <button id="btn_reset_overtime" type="reset" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                                <button id="btn_reset_overtime" type="button" class="btn btn-default"><span class="fa fa-refresh"></span>
                                                     {{trans('common.button.reset')}}
                                                 </button>
                                                 <button type="submit" id="searchListEmployee" class="btn btn-info"><span
