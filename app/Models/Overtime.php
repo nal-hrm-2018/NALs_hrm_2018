@@ -23,6 +23,7 @@ class Overtime extends Model
     ];
     protected $casts = [
         'date' => 'date',
+        'startwork_date' => 'date'
     ];
     public function status()
     {

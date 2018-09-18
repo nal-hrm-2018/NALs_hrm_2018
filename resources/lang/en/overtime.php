@@ -25,6 +25,7 @@ return[
     'msg_add'=>[
         'success'=>'Overtime is successfully created !!!',
         'fail'=>'Overtime failed created!!!',
+        'duplicate'=>'Overtime date duplicate'
     ],
     'msg_edit'=>[
         'success'=>'Overtime form successfully edited!!!',

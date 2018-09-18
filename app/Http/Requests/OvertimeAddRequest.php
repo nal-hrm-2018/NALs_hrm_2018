@@ -29,14 +29,16 @@
             $end_time_H = date('H', strtotime($request->end_time));
             $end_time_I = date('i', strtotime($request->end_time));
             $max_time = ($end_time_H*60+$end_time_I)/60 - ($start_time_H*60+$start_time_I)/60;
+        
+            $dayStart = Employee::where('id','=',Auth::id())->first()->startwork_date;
+            $dayStarts = date('d-m-Y', strtotime($dayStart));
 
-            $dayStart=Employee::where('id','=',Auth::id())->first()->startwork_date;
             $project = new Process();
             $countProject = $project->countProcess();
             if($countProject > 0){
                 return [
                     'project_id' => 'required' ,
-                    'date' => 'required|after_or_equal:'.$dayStart,
+                    'date' => 'required|after_or_equal:'.$dayStarts,
                     'start_time' => 'required',
                     'end_time' => 'required|after:start_time',
                     'total_time' => 'required|numeric|min:0.1|max:'.$max_time,
@@ -45,7 +47,7 @@
                 ];
             }else{
                 return [
-                    'date' => 'required|after_or_equal:'.$dayStart,
+                    'date' => 'required|after_or_equal:'.$dayStarts,
                     'start_time' => 'required',
                     'end_time' => 'required' ,
                     'total_time' => 'required|numeric|min:0.1',
@@ -65,6 +67,10 @@
                 'date.required' => trans('validation.required', [
                     'attribute' => trans('overtime.date')
                 ]),
+//                'date.after_or_equal' => trans('validation.after_or_equal', [
+//                    'attribute' => trans('overtime.date'),
+//                    'date' => $dayStarts
+//                ]),
                 'start_time.required' => trans('validation.required', [
                     'attribute' => trans('overtime.start_time')
                 ]),
