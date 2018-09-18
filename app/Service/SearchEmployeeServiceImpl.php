@@ -168,7 +168,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             $query->where('date', '>', $oldmonth);
         }
         
-        $employeesSearch = $query->orderBy('date', 'asc');
+        $employeesSearch = $query->orderBy('updated_at', 'desc');
             
         return $employeesSearch;
     }
