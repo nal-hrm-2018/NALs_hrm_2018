@@ -47,9 +47,9 @@
                     }
                 }
                 ?> -->
-                <div class="tab-content">
+                <div class="tab-content" style="border-top: 3px solid #d2d6de; border-top-right-radius: 3px; border-top-left-radius: 3px;">
                     <div>
-                        <div class="box-body">
+                        <!-- <div class="box-body"> -->
                         <!-- {{-- <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
                             <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
                             <button  type="button" class="btn btn-default export-confirm-list" id="click-here" style="float: right"
