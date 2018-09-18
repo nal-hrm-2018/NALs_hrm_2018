@@ -225,7 +225,8 @@
                                 vertical-align: middle !important;
                             }
                         </style>
-                        <table id="confirm-po-list" class="table table-bordered table-striped">
+                        <table id="" class="table table-bordered table-striped">
+                        {{-- <table id="confirm-po-list" class="table table-bordered table-striped"> --}}
                             <thead class="list-confirm">
                                 <tr>
                                     <th>{{trans('common.number')}} </th>
