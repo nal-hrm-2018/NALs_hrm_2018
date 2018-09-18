@@ -240,14 +240,14 @@
                                     <th>{{trans('absence.description')}}</th>
                                 </tr>
                             </thead>
-                            <tbody class="list-confirm">
+                            <tbody class="list-confirm context-menu">
                                 @php
                                     $count = 0
                                 @endphp
 
                                 @foreach($absence_list as $val)
-
-                                <tr>
+                                
+                                <tr class="employee-menu" id="employee-id-{{$val['id']}}" data-employee-id="{{$val['id']}}">
                                     @php
                                         $count++;
                                     @endphp
@@ -298,7 +298,12 @@
                                     @endif
                                     <td>{{$val['reason']}}</td>
                                     <td>{{$val['description']}}</td>
-                                </tr>          
+                                </tr>     
+                                <ul class="contextMenu" data-employee-id="{{$val['id']}}" hidden>
+                                    <li><a href="{{ route('employee.show',['employee'=> $val['id']]) }} ?basic=0&project=0&overtime=0&absence=1"><i
+                                                    class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}
+                                        </a></li>
+                                </ul>     
                                 @endforeach                  
                             </tbody>
                         </table>
@@ -501,4 +506,23 @@
             return $check;
         }
     </SCRIPT>
+    <script type="text/javascript">
+        $(function () {
+            $('tr.employee-menu').on('contextmenu', function (event) {
+                event.preventDefault();
+                $('ul.contextMenu').fadeOut("fast");
+                var eId = $(this).data('employee-id');
+                $('ul.contextMenu[data-employee-id="' + eId + '"]')
+                    .show()
+                    .css({top: event.pageY - 1, left: event.pageX - 1, 'z-index': 300});
+
+            });
+            $(document).click(function () {
+                if ($('ul.contextMenu:hover').length === 0) {
+                    $('ul.contextMenu').fadeOut("fast");
+                }
+            });
+        });
+
+    </script>
 @endsection
