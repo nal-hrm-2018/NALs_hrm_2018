@@ -200,7 +200,7 @@
                                 </div>
                                     {!! Form::close() !!}
                             </div> -->
-                        </div>
+                        <!-- </div> -->
                            <!-- {{--  <div class="dataTables_length" id="confirm-list-length" style="float:right">
                             <span>{{trans('pagination.show.number_record_per_page')}}</span>
                             {!! Form::select(
@@ -225,7 +225,8 @@
                                 vertical-align: middle !important;
                             }
                         </style>
-                        <table id="confirm-po-list" class="table table-bordered table-striped">
+                        <table id="" class="table table-bordered table-striped">
+                        {{-- <table id="confirm-po-list" class="table table-bordered table-striped"> --}}
                             <thead class="list-confirm">
                                 <tr>
                                     <th>{{trans('common.number')}} </th>

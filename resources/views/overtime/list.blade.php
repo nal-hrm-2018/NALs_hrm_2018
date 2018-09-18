@@ -212,7 +212,7 @@
                                         <td>{{$val->reason}}</td>
                                         <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
                                         <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
-                                        <td class="text-center"><span class="label label-primary">{{$val->total_time}} hours<span></td>
+                                        <td class="text-center"><span class="label label-primary">{{$val->total_time}} <?php if($val->total_time<=1) echo 'hour'; else echo 'hours';?><span></td>
                                         @if ($val->Type->name == 'normal')
                                             <td class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></td>
                                         @elseif($val->Type->name == 'weekend')

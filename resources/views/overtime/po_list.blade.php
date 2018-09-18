@@ -16,7 +16,7 @@
                     <div class="box">
                         <div class="box-body">
                             @if(isset($ot_po))
-                            <h4>Dev</h4>
+                            <h4 class="label label-success">Dev</h4>
                             @endif
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
@@ -122,7 +122,7 @@
                                 </tbody>
                             </table>
                             @if (isset($ot_po))
-                            <h4>PO</h4>
+                            <h4 class="label label-warning">PO</h4>
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -228,7 +228,7 @@
                             </table>
                             @endif
                             @if(isset($ot_hr))
-                            <h4>HR</h4>
+                            <h4 class="label label-danger">HR</h4>
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -354,6 +354,10 @@
         }
         .width-90 {
             width: 90px;
+        }
+        h4 {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
         }
     </style>
  <script type="text/javascript">

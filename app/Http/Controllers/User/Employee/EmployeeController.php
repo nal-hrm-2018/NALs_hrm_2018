@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User\Employee;
 
-
 use App\Export\TemplateExport;
 use App\Service\ChartService;
 use App\Export\InvoicesExport;
@@ -242,7 +241,7 @@ class EmployeeController extends Controller
                 $listAbsence->whereYear('absences.from_date', $year)
                     ->orWhereYear('absences.to_date', $year);
             })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('absences.id', 'desc')
             ->get();
         return view('employee.detail', compact(
             'overtime',
