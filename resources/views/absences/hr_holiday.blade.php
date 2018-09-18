@@ -148,19 +148,19 @@
                                 <!-- year -->
                                 <div class="form-group">
                                     <label class="col-form-label" for="modal-input-name">{{trans('holiday.year')}}</label>
-                                    <input type="text" name="modal-input-year" class="form-control" id="modal-input-year" required autofocus>
+                                    <input type="number" min=2000 name="modal-input-year" class="form-control" id="modal-input-year" required autofocus>
                                 </div>
                                 <!-- /year -->
                                 <!-- month -->
                                 <div class="form-group">
                                     <label class="col-form-label" for="modal-input-name">{{trans('holiday.month')}}</label>
-                                    <input type="text" name="modal-input-month" class="form-control" id="modal-input-month" required autofocus>
+                                    <input type="number" min=1 max=12 name="modal-input-month" class="form-control" id="modal-input-month" required autofocus>
                                 </div>
                                 <!-- /month -->
                                 <!-- day -->
                                 <div class="form-group">
                                     <label class="col-form-label" for="modal-input-name">{{trans('holiday.day')}}</label>
-                                    <input type="text" name="modal-input-day" class="form-control" id="modal-input-day" required autofocus>
+                                    <input type="number" min=1 max=31 name="modal-input-day" class="form-control" id="modal-input-day" required autofocus>
                                 </div>
                                 <!-- /day -->
                                 <!-- type -->

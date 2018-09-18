@@ -30,6 +30,10 @@ return [
         'msg_filter_invalid' => 'Please choose year !!',
         'msg_export_fails' => 'Export fails !!',
     ],
+    'msg_add' => [
+        'success'=>'Absence successfully add!!!',
+        'fail'=>'Absence failed add!!!',
+    ],
     'msg_edit' => [
         'success'=>'Absence successfully edit!!!',
         'fail'=>'Absence failed edit!!!',
