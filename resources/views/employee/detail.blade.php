@@ -55,6 +55,7 @@
 
                                         <h3 class="profile-username text-center">{{$employee->name}}</h3>
 
+
                                         <p class="text-muted text-center">{{isset($employee->employeeType)?$employee->employeeType->name:'-'}}</p>
                                     </div>
                                     <!-- /.box-body -->
@@ -426,7 +427,7 @@
                                                         <td class="align-middle">{{$count++ }}</td>
                                                         <td class="align-middle">{{ isset($absence->from_date)? date_create($absence->from_date)->format('d/m/Y'):'-' }}</td>
                                                         <td class="align-middle">{{ isset($absence->to_date)? date_create($absence->to_date)->format('d/m/Y'):'-' }}</td>
-                                                        <td>
+                                                        {{-- <td>
                                                             @if(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.salary_date'))
                                                                 <span class="label label-primary">
                                                             @elseif(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.non_salary_date'))
@@ -438,7 +439,8 @@
                                                             @else
                                                                 <span>{{trans('absence_po.list_po.type.'.$absence->name_type)}}</span>
                                                             @endif
-                                                        </td>
+                                                        </td> --}}
+                                                        <td> <span>{{trans('absence.type.'.$absence->name_type)}}</span></td>
                                                         <td>
                                                             <span>{{trans('absence.'.$absence->name_time)}}</span>
                                                         </td>
