@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                Overtime Management
+                {{trans('leftbar.nav.overtime_management')}}
                 <small>NAL Solutions</small>
             </h1>
         </section>
@@ -16,7 +16,7 @@
                     <div class="box">
                         <div class="box-body">
                             @if(isset($ot_po))
-                            <h2>Dev</h2>
+                            <h4>Dev</h4>
                             @endif
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
@@ -122,7 +122,7 @@
                                 </tbody>
                             </table>
                             @if (isset($ot_po))
-                            <h2>PO</h2>
+                            <h4>PO</h4>
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -228,7 +228,7 @@
                             </table>
                             @endif
                             @if(isset($ot_hr))
-                            <h2>HR</h2>
+                            <h4>HR</h4>
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
