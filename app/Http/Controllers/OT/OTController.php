@@ -265,15 +265,15 @@ class OTController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OvertimeAddRequest $request, $id)
     {
-
+        // dd("testing"); die();
         $overtime = Overtime::where('delete_flag',0)->find($id);
         if ($overtime == null) {
             return abort(404);
         }
         $overtime->project_id = $request->project_id;
-        $overtime->date = $request->ot_date;
+        $overtime->date = $request->date;
         $overtime->start_time = $request->start_time;
         $overtime->end_time = $request->end_time;
         //kiểm tra co phải ngày nghĩ lễ không.
@@ -281,7 +281,7 @@ class OTController extends Controller
         $sttHoliday = "";
         foreach ($holiday as $holiday){
             $holidayDefault = date_format($holiday->date,"m-d");
-            $holidayRequest = date('m-d', strtotime($request->ot_date));
+            $holidayRequest = date('m-d', strtotime($request->date));
             if($holidayDefault == $holidayRequest){
                 $sttHoliday = 1;
             }
@@ -291,7 +291,7 @@ class OTController extends Controller
             $holiday = Holiday::all();
             foreach ($holiday as $holiday){
                 $holidayDefault = date_format($holiday->date,"y-m-d");
-                $holidayRequest = date('y-m-d', strtotime($request->ot_date));
+                $holidayRequest = date('y-m-d', strtotime($request->date));
                 if($holidayDefault == $holidayRequest){
                     $sttHoliday = 1;
                 }
@@ -299,7 +299,7 @@ class OTController extends Controller
         }
         if ($sttHoliday == 1){
             $overtime->overtime_type_id = 3;
-        }elseif(date('N', strtotime($request->ot_date)) >= 6){
+        }elseif(date('N', strtotime($request->date)) >= 6){
             $overtime->overtime_type_id = 2;
         }else{
             $overtime->overtime_type_id = 1;
