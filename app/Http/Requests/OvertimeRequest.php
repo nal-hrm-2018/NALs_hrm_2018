@@ -20,6 +20,7 @@
 
         public function rules()
         {
+            
             return [
                 'correct_total_time' => 'required|numeric|min:0'
             ];

@@ -29,14 +29,25 @@ class AbsenceAddRequest extends FormRequest
                             ->where('id','=',Auth::id())
                             ->first();
         $dayAfter=$objEmp["endwork_date"];
-        $dayAfter = date('d-m-Y', strtotime($dayAfter));
-        return [
-            'absence_type_id' => 'required',
-            'absence_time_id' => 'required',
-            'from_date' => 'required|after:'.$dayBefore,
-            'to_date' => 'required|after_or_equal:from_date|before:'.$dayAfter,
-            'reason' => 'required'
-        ];
+        if(isset($dayAfter)){
+             $dayAfter = date('d-m-Y', strtotime($dayAfter));
+            return [
+                'absence_type_id' => 'required',
+                'absence_time_id' => 'required',
+                'from_date' => 'required|after:'.$dayBefore,
+                'to_date' => 'required|after_or_equal:from_date|before:'.$dayAfter,
+                'reason' => 'required'
+            ];
+        }else{
+            return [
+                'absence_type_id' => 'required',
+                'absence_time_id' => 'required',
+                'from_date' => 'required|after:'.$dayBefore,
+                'to_date' => 'required|after_or_equal:from_date',
+                'reason' => 'required'
+            ];
+        }
+       
     }
 
     public function messages()

@@ -9,6 +9,7 @@ use App\Models\Overtime;
 use App\Models\Project;
 use App\Models\Process;
 use App\Models\Team;
+use App\Models\Role;
 use App\Models\OvertimeStatus;
 use Illuminate\Http\Request;
 use App\Models\OvertimeType;
@@ -38,23 +39,74 @@ class OTController extends Controller
     }
 
     public function indexPO()
-    {
-        $id=Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id)->with(['project.overtime'])->get();
-        $id_ny = OvertimeStatus::where('name','Not yet')->first()->id;
+    {   
+        $user_id=Auth::user()->id;
         $id_rw = OvertimeStatus::where('name','Reviewing')->first()->id;
-        $i=0;
-        foreach($OT[$i] as $value){
-            foreach($value['project']['overtimeMonthNow'] as $va){
-                if($va->overtime_status_id === $id_ny){
-                    $overtime = Overtime::where('id',$va->id)->first();
+
+        $project = Process::where('employee_id', $user_id)->where('delete_flag', 0)->with(['role' => function($query) {
+            $query->where('name', 'PO');
+        }])->get()->toArray();
+        // dd($project);
+        $project_po = [];
+        foreach($project as $val){
+            if($val['role'] != null){
+                $project_po[] = $val['project_id'];
+            }
+        }
+        // dd($project_po);
+        $ot = Overtime::whereIn('project_id', $project_po)->with('employee', 'type', 'status', 'project')->orderBy('updated_at', 'desc')->get()->toArray();
+        
+        $ot_dev = [];
+        $ot_po = [];
+        foreach($ot as $val){
+            $role = Process::where('employee_id', $val['employee_id'])->where('project_id', $val['project_id'])->with('role')->get()->pluck('role')->pluck('name')->toArray();
+            
+            if($role){
+                if($role[0] =='Dev'){
+                    $ot_dev[] = $val;
+                }
+                if($role[0] =='PO'){
+                    $ot_po[] = $val;
+                }
+            }
+            
+        }
+        $ot_hr = Overtime::where('project_id', null)->orderBy('updated_at', 'desc')->with('employee', 'type', 'status', 'project')->get()->toArray();
+        // dd($ot_hr);
+        $is_manager = Employee::where('id',$user_id)->get()->pluck('is_manager')->toArray()[0];
+        // dd($ot_dev);
+        foreach($ot_dev as $value){
+            if($value['status']['name'] =='Not yet' ){
+                $overtime = Overtime::where('id',$value['id'])->first();
+                $overtime->overtime_status_id = $id_rw;
+                $overtime->save();
+            }
+        }
+        if($is_manager){
+            foreach($ot_po as $value){
+                if($value['status']['name'] =='Not yet' ){
+                    $overtime = Overtime::where('id',$value['id'])->first();
                     $overtime->overtime_status_id = $id_rw;
                     $overtime->save();
                 }
             }
-            $i++;
+            foreach($ot_hr as $value){
+                if($value['status']['name'] =='Not yet' ){
+                    $overtime = Overtime::where('id',$value['id'])->first();
+                    $overtime->overtime_status_id = $id_rw;
+                    $overtime->save();
+                }
+            }
+
+            return view('overtime.po_list',[
+                'ot_po' => $ot_po,
+                'ot_dev' => $ot_dev,
+                'ot_hr' => $ot_hr,
+                ]);
         }
-        return view('overtime.po_list',['OT'=>$OT]);
+        return view('overtime.po_list',[
+            'ot_dev' => $ot_dev,
+            ]);
     }
 
     public function acceptOT($id){
