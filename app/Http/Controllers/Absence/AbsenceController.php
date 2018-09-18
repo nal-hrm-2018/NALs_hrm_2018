@@ -168,7 +168,7 @@ class AbsenceController extends Controller
                         $query->join('processes','processes.employee_id','=','employees.id')
                             -> join('projects', 'projects.id','=','processes.project_id')
                             ->where('projects.id',$pro->project_id);
-                        })->get();
+                        })->orderBy('absences.from_date')->get();
                 }
                 else{
                     $absences = Absence::where('delete_flag',0)
@@ -177,7 +177,8 @@ class AbsenceController extends Controller
                         $query->join('processes','processes.employee_id','=','employees.id')
                             -> join('projects', 'projects.id','=','processes.project_id')
                             ->where('projects.id',$pro->project_id);
-                        })->get();
+                        })
+                        ->orderBy('absences.from_date')->get();
                 }                
                 foreach ($absences as $val) {
                     $absence_list[$length++] = [
@@ -381,6 +382,7 @@ class AbsenceController extends Controller
                     $listAbsence->whereYear('absences.from_date', $year)
                         ->orWhereYear('absences.to_date', $year);
                 })
+                ->orderBy('absences.from_date')
                 ->get();
         return view('absences.list', compact('absences','checkMonth', 'listAbsence', 'objEmployee', 'startwork_date','endwork_date'));
     }
