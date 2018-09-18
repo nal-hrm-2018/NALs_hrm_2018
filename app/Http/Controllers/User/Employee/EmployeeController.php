@@ -241,7 +241,7 @@ class EmployeeController extends Controller
                 $listAbsence->whereYear('absences.from_date', $year)
                     ->orWhereYear('absences.to_date', $year);
             })
-            ->orderBy('absences.from_date')
+            ->orderBy('created_at', 'desc')
             ->get();
         return view('employee.detail', compact(
             'overtime',
