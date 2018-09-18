@@ -247,7 +247,7 @@
 
                                 @foreach($absence_list as $val)
                                 
-                                <tr class="employee-menu" id="employee-id-{{$val['id']}}" data-employee-id="{{$val['id']}}">
+                                <tr class="employee-menu" id="absence-id-{{$val['id']}}" data-absence-id="{{$val['id']}}">
                                     @php
                                         $count++;
                                     @endphp
@@ -299,8 +299,8 @@
                                     <td>{{$val['reason']}}</td>
                                     <td>{{$val['description']}}</td>
                                 </tr>     
-                                <ul class="contextMenu" data-employee-id="{{$val['id']}}" hidden>
-                                    <li><a href="{{ route('employee.show',['employee'=> $val['id']]) }} ?basic=0&project=0&overtime=0&absence=1"><i
+                                <ul class="contextMenu" data-absence-id="{{$val['id']}}" hidden>
+                                    <li><a href="{{ route('employee.show',['employee'=> $val['employee_id']]) }} ?basic=0&project=0&overtime=0&absence=1"><i
                                                     class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}
                                         </a></li>
                                 </ul>     
@@ -511,8 +511,8 @@
             $('tr.employee-menu').on('contextmenu', function (event) {
                 event.preventDefault();
                 $('ul.contextMenu').fadeOut("fast");
-                var eId = $(this).data('employee-id');
-                $('ul.contextMenu[data-employee-id="' + eId + '"]')
+                var eId = $(this).data('absence-id');
+                $('ul.contextMenu[data-absence-id="' + eId + '"]')
                     .show()
                     .css({top: event.pageY - 1, left: event.pageX - 1, 'z-index': 300});
 
