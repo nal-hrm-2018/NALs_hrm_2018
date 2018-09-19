@@ -146,7 +146,7 @@ class EmployeeController extends Controller
                 $PermissionEmployee = new PermissionEmployee;
                 $PermissionEmployee->permission_id = $permission->permission_id;
                 $PermissionEmployee->employee_id = $id_employeeteam;
-                $PermissionEmployee->save();
+                $PermissionEmployee->save(); 
             }
             \Session::flash('msg_success', trans('employee.msg_add.success'));
             return redirect('employee');
@@ -196,6 +196,7 @@ class EmployeeController extends Controller
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
 
         $project_statuses = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+
 
         if (!isset($employee)) {
             return abort(404);
