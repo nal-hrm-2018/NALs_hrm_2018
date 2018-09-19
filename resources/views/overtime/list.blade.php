@@ -96,11 +96,11 @@
                                                                 @foreach($ot_type as $type)
                                                                     <option value="{{$type->name}}"{{ (string)$type->name===request('type')?'selected="selected"':'' }}>
                                                                         @if ($type->name == 'normal')
-                                                                        {{trans('overtime.normal')}}
+                                                                        {{trans('overtime.day_type.normal')}}
                                                                         @elseif($type->name == 'weekend')
-                                                                        {{trans('overtime.day_off')}}
+                                                                        {{trans('overtime.day_type.day_off')}}
                                                                         @elseif($type->name == 'holiday')
-                                                                        {{trans('overtime.holiday')}}
+                                                                        {{trans('overtime.day_type.holiday')}}
                                                                         @endif  
                                                                     </option>
                                                                 @endforeach
@@ -113,8 +113,16 @@
                                                             <select name="status" id="ot_status" class="form-control">
                                                             <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">{{  trans('vendor.drop_box.placeholder-default') }}</option>
                                                                 @foreach($ot_status as $status)
-                                                                    <option value="{{ $status->name}}" {{ (string)$status->name===request('status')?'selected="selected"':'' }}>
-                                                                        {{ $status->name }}
+                                                                    <option value="{{ $status->name}}" {{ (string)$status->name===request('status')?'selected="selected"':'' }}>                                                                      
+                                                                        @if($status->name == "Not yet")
+                                                                            {{ trans('overtime.status_type.not_yet') }}
+                                                                        @elseif($status->name == "Reviewing")
+                                                                            {{ trans('overtime.status_type.review') }}
+                                                                        @elseif($status->name == "Accepted")
+                                                                            {{ trans('overtime.status_type.accepted') }}
+                                                                        @elseif($status->name == "Rejected")
+                                                                            {{ trans('overtime.status_type.rejected') }}
+                                                                        @endif
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -148,9 +156,6 @@
                                         </div>
                                     </form>
                                 </div>
-                                <script>
-                                    
-                                </script>
                                 <div style="float: right;">
                                     <div class="dataTables_length" id="project-list_length" style="margin-bottom: 20px;">
                                         <label class="lable-entries" style="display: block;">{{trans('pagination.show.number_record_per_page')}}</label>
