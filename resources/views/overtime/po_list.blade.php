@@ -43,7 +43,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body">
-                            <h2>{{ trans('overtime.list') }}</h2>
+                            <h3>{{ trans('overtime.list') }}</h3>
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -167,8 +167,8 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body">
-                            <h2>{{ trans('overtime.history') }}</h2>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
+                            <h3>{{ trans('overtime.history') }}</h3>
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse" style="margin-bottom: 10px;">
                                 <span class="fa fa-search"></span>&nbsp;{{trans('common.button.search')}}
                             </button>
                             <div id="demo" class="collapse margin-form-search">
