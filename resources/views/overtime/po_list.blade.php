@@ -250,7 +250,6 @@
                                         <th class="text-center">{{ trans('overtime.end_time') }}</th>
                                         <th class="text-center">{{ trans('overtime.total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime.type') }}</th>
-                                        <th class="text-center">{{ trans('overtime.correct_total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime.status') }}</th>
                                     </tr>
                                 </thead>
@@ -293,19 +292,6 @@
                                             <td class="text-center"><span class="label" style="background: #3600ff;">{{ trans('overtime.day_type.holiday') }}</span></td>
                                         @else
                                             <td class="text-center">-</td>
-                                        @endif
-                                        @if(isset($value['correct_total_time']))
-                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} 
-                                                @php
-                                                    if ($value["correct_total_time"]>1) {
-                                                        echo trans('overtime.hours');
-                                                    }else{
-                                                        echo trans('overtime.hours');
-                                                    }
-                                                @endphp
-                                                <span></td>
-                                        @else
-                                            <td class="text-center"><span>-<span></td>
                                         @endif
                                         
                                         @if($value['status']['name'] == "Accepted")
