@@ -35,7 +35,7 @@ class DashboardController extends Controller
     public function index()
     {
         $id_emp = Auth::user()->id;
-        $notifications = Notifications::Where('flag_delete','0')->orderBy('id', 'desc')->get();
+        $notifications = Notifications::Where('delete_flag','0')->orderBy('id', 'desc')->get();
         $absences = Employee::emp_absence($id_emp);
         $notification_type = NotificationType::Where('delete_flag','0')->get();
         if (Employee::find($id_emp)->hasRole('HR')) {
