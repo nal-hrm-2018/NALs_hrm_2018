@@ -38,9 +38,10 @@ class AbsenceFormServiceImpl implements AbsenceFormService
         $arrayList = array();
         $from_date = $request->get('from_date');
         $from_date_year = date('Y',strtotime($from_date));
+        $from_date_month = date('m',strtotime($from_date));
         $to_date = $request->get('to_date');
         $to_date_year = date('Y',strtotime($to_date));
-        
+        $to_date_month = date('m',strtotime($to_date));
         $absences = Absence::with('absenceTime')->where('delete_flag', 0)->where('employee_id', $id_employee)->get()->toArray();
 
         foreach($absences as $absence){
@@ -70,22 +71,25 @@ class AbsenceFormServiceImpl implements AbsenceFormService
         }    
 
         if($from_date_year == $to_date_year){
-            $data = [
-                'employee_id' => $id_employee,
-                'absence_type_id' => $request->get('absence_type_id'),
-                'absence_time_id' => $request->get('absence_time_id'),
-                'from_date' => $request->get('from_date'),
-                'to_date' => $request->get('to_date'),
-                'reason' => $request->get('reason'),
-                'absence_status_id' => 2,
-                'created_at' => new \DateTime(),
-                'delete_flag' => 0,
-                'is_deny' => 0,
-                'is_late' => $is_late,
-                'description' => $request->get('ghi_chu')
-            ];
-    
-            
+            if($from_date_month <= 6 && $to_date_month >= 7){
+                \Session::flash('msg_fail', "Can't submit form between June and July!!!");
+                return back()->withInput();
+            }else{
+                $data = [
+                    'employee_id' => $id_employee,
+                    'absence_type_id' => $request->get('absence_type_id'),
+                    'absence_time_id' => $request->get('absence_time_id'),
+                    'from_date' => $request->get('from_date'),
+                    'to_date' => $request->get('to_date'),
+                    'reason' => $request->get('reason'),
+                    'absence_status_id' => 2,
+                    'created_at' => new \DateTime(),
+                    'delete_flag' => 0,
+                    'is_deny' => 0,
+                    'is_late' => $is_late,
+                    'description' => $request->get('ghi_chu')
+                ];
+            }
             $objAbsence = Absence::create($data);
         }else{
             $data1 = [
