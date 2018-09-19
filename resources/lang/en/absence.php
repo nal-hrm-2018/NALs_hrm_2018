@@ -32,7 +32,7 @@ return [
     ],
     'msg_add' => [
         'success'=>'Absence is successfully added!',
-        'fail'=>'Absence failed add!!!',
+        'fail'=>'Absence is unsuccessfully added!',
     ],
     'msg_edit' => [
         'success'=>'Absence successfully edit!!!',
