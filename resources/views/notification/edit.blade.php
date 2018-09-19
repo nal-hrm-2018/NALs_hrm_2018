@@ -22,18 +22,11 @@
 
                     <div id="msg">
                     </div>
-                    <SCRIPT LANGUAGE="JavaScript">
-                        function confirmAction() {
-                            var name = $('#name').val();
-                            var id = $('#id_employee').val();
-                            return confirm(message_confirm('create', 'notification', id, name));
-                        }
-                    </SCRIPT>
                     <div class="col-md-10" style="width: 100% ; margin-bottom: 2em"></div>
                     <div class="row">
                         {{--<form action="" method="post" class="form-horizontal"--}}
                               {{--onSubmit="return confirmAction()">--}}
-                        {{Form::model($notification,array('url' => ['/notification', $notification->id], 'method'=>isset($notification["id"])?'PUT':'POST', 'id' => 'form_edit_notification'))}}
+                        {{Form::model($notification,array('url' => ['/notification', $notification->id], 'method'=>isset($notification["id"])?'PUT':'POST', 'id' => 'form_edit_notification',))}}
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="col-md-12">
                                 <div class="col-md-3"></div>
@@ -73,7 +66,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-6" style="display: inline;">
                                     <div style="float: right;">
-                                        <button type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                        <button type="button" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
                                             RESET
                                         </button>
                                     </div>
@@ -99,7 +92,7 @@
             <script>
                 $(function () {
                     $("#btn_reset_form_employee").bind("click", function () {
-                        if(confirmAction("Do you want to reset?"))
+                        if(confirmAction("{{trans('common.confirm_reset')}}"))
                             location.reload();
                     });
                 });
