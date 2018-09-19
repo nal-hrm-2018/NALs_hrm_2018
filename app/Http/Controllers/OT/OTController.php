@@ -38,74 +38,103 @@ class OTController extends Controller
         $this->searchEmployeeService = $searchEmployeeService;
     }
 
-    public function indexPO()
+    public function indexPO(Request $request)
     {   
+        $ot_status = OvertimeStatus::whereIn('name', ['Accepted', 'Rejected'])->get();
+        $ot_type = OvertimeType::all();
         $user_id=Auth::user()->id;
-        $id_rw = OvertimeStatus::where('name','Reviewing')->first()->id;
+        $id_re = OvertimeStatus::where('name','Reviewing')->first()->id;
+        $id_no = OvertimeStatus::where('name','Not yet')->first()->id;
 
         $project = Process::where('employee_id', $user_id)->where('delete_flag', 0)->with(['role' => function($query) {
             $query->where('name', 'PO');
         }])->get()->toArray();
-        // dd($project);
+        
         $project_po = [];
         foreach($project as $val){
             if($val['role'] != null){
                 $project_po[] = $val['project_id'];
             }
         }
-        // dd($project_po);
-        $ot = Overtime::whereIn('project_id', $project_po)->with('employee', 'type', 'status', 'project')->orderBy('updated_at', 'desc')->get()->toArray();
-        
-        $ot_dev = [];
-        $ot_po = [];
+
+        $overtime = [];
+        $is_manager = Employee::where('id',$user_id)->get()->pluck('is_manager')->toArray()[0];
+        $ot = Overtime::with('employee', 'type', 'status', 'project')->orderBy('updated_at', 'desc')->get()->toArray();
         foreach($ot as $val){
             $role = Process::where('employee_id', $val['employee_id'])->where('project_id', $val['project_id'])->with('role')->get()->pluck('role')->pluck('name')->toArray();
-            
-            if($role){
-                if($role[0] =='Dev'){
-                    $ot_dev[] = $val;
+            if(count($role)){
+                $role = $role[0];
+            }else{
+                $role = '';
+            }
+            if($role == 'Dev'){
+                if(in_array($val['project_id'], $project_po)){
+                    $overtime[] = $val;
                 }
-                if($role[0] =='PO'){
-                    $ot_po[] = $val;
+            }else{
+                if($is_manager){
+                    $overtime[] = $val;
                 }
             }
             
         }
-        $ot_hr = Overtime::where('project_id', null)->orderBy('updated_at', 'desc')->with('employee', 'type', 'status', 'project')->get()->toArray();
-        // dd($ot_hr);
-        $is_manager = Employee::where('id',$user_id)->get()->pluck('is_manager')->toArray()[0];
-        // dd($ot_dev);
-        foreach($ot_dev as $value){
+        $ot_review = [];
+        foreach($overtime as $val){
+            if($val['status']['id'] == $id_re || $val['status']['id'] == $id_no){
+                $ot_review[] = $val;
+            }
+        }
+
+        $overtime = [];
+        
+        $oldmonth = date('d');
+        $oldmonth = date("Y-m-d", strtotime('-'.$oldmonth.' day'));
+        $request['oldmonth'] = $oldmonth;
+        $ot = $this->searchEmployeeService->searchOvertimePO($request)->get();
+        
+        if (!isset($request['number_record_per_page'])) {
+            $request['number_record_per_page'] = config('settings.paginate');
+        }
+        // dd($ot);
+        foreach($ot as $val){
+            $role = Process::where('employee_id', $val['employee_id'])->where('project_id', $val['project_id'])->with('role')->get()->pluck('role')->pluck('name')->toArray();
+            if(count($role)){
+                $role = $role[0];
+            }else{
+                $role = '';
+            }
+            if($role == 'Dev'){
+                if(in_array($val['project_id'], $project_po)){
+                    $overtime[] = $val;
+                }
+            }else{
+                if($is_manager){
+                    $overtime[] = $val;
+                }
+            }
+            
+        }
+        $ot_done = [];
+        foreach($overtime as $val){
+            if($val['status']['id'] == $id_re || $val['status']['id'] == $id_no){
+               
+            }else{
+                $ot_done[] = $val;
+            }
+        }
+        
+        foreach($ot_review as $value){
             if($value['status']['name'] =='Not yet' ){
                 $overtime = Overtime::where('id',$value['id'])->first();
-                $overtime->overtime_status_id = $id_rw;
+                $overtime->overtime_status_id = $id_re;
                 $overtime->save();
             }
         }
-        if($is_manager){
-            foreach($ot_po as $value){
-                if($value['status']['name'] =='Not yet' ){
-                    $overtime = Overtime::where('id',$value['id'])->first();
-                    $overtime->overtime_status_id = $id_rw;
-                    $overtime->save();
-                }
-            }
-            foreach($ot_hr as $value){
-                if($value['status']['name'] =='Not yet' ){
-                    $overtime = Overtime::where('id',$value['id'])->first();
-                    $overtime->overtime_status_id = $id_rw;
-                    $overtime->save();
-                }
-            }
-
-            return view('overtime.po_list',[
-                'ot_po' => $ot_po,
-                'ot_dev' => $ot_dev,
-                'ot_hr' => $ot_hr,
-                ]);
-        }
         return view('overtime.po_list',[
-            'ot_dev' => $ot_dev,
+            'ot' => $ot_done,
+            'ot_review' => $ot_review,
+            'ot_status' => $ot_status,
+            'ot_type' => $ot_type,
             ]);
     }
 
@@ -158,14 +187,15 @@ class OTController extends Controller
         $id=Auth::user()->id;
         $oldmonth = date('d');
         $oldmonth = date("Y-m-d", strtotime('-'.$oldmonth.' day'));
+        $request['oldmonth'] = $oldmonth;
         $ot_status = OvertimeStatus::all();
         $ot_type = OvertimeType::all();
         $request['user_id'] = $id;
-        $request['oldmonth'] = $oldmonth;
+        
+        $overtime = $this->searchEmployeeService->searchOvertime($request);
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-        $overtime = $this->searchEmployeeService->searchOvertime($request);
         $overtime = $overtime->paginate($request['number_record_per_page']);
         $overtime->setPath('');
         

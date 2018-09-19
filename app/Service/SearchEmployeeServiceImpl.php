@@ -168,6 +168,50 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             $query->where('date', '>', $oldmonth);
         }
         
+        $employeesSearch = $query->orderBy('updated_at', 'desc');;
+            
+        return $employeesSearch;
+    }
+    public function searchOvertimePO(Request $request)
+    {       
+        $number_record_per_page = !empty($request->number_record_per_page) ? $request->number_record_per_page : '';
+        $name = !empty($request->name) ? $request->name : '';
+        $type = !empty($request->type) ? $request->type : '';
+        $status = !empty($request->status) ? $request->status : '';
+        $from_date = !empty($request->from_date) ? $request->from_date : '';
+        $to_date = !empty($request->to_date) ? $request->to_date : '';
+        $user_id = !empty($request->user_id) ? $request->user_id : '';
+        $oldmonth = !empty($request->oldmonth) ? $request->oldmonth : '';
+        $query = Overtime::with('status', 'type', 'project', 'employee');
+        $query->where('delete_flag', '=', 0);
+        if (!empty($name)) {
+            $query->whereHas('project', function ($query) use ($name) {
+                $query->where("name", 'like', '%' . $name . '%');
+            });
+        }
+        if (!empty($type)) {
+            $query->whereHas('type', function ($query) use ($type) {
+                $query->where("name", $type);
+            });
+        }
+        if (!empty($status)) {
+            $query->whereHas('status', function ($query) use ($status) {
+                $query->where("name", $status);
+            });
+        }
+        if (!empty($from_date) && !empty($to_date)) {
+            $query->whereBetween('date', [$from_date, $to_date]);
+        }
+        if (!empty($from_date) && empty($to_date)) {
+            $query->where('date', '>=', $from_date);
+        }
+        if (empty($from_date) && !empty($to_date)) {
+            $query->where('date', '<=', $to_date);
+        }
+        if(empty($number_record_per_page)){
+            $query->where('date', '>', $oldmonth);
+        }
+        
         $employeesSearch = $query->orderBy('updated_at', 'desc');
             
         return $employeesSearch;
