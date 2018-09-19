@@ -254,20 +254,20 @@
                                     </div>
                                 </form>
                             </div>
-                            <table id="dtBasicExample" class="table table-bordered table-striped">
+                            <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center th-sm">{{ trans('overtime.number') }}</th>
-                                        <th class="th-sm">{{ trans('overtime.project') }}</th>
-                                        <th class="th-sm">{{ trans('overtime.employee') }}</th>
-                                        <th class="text-center th-sm">{{ trans('overtime.date') }}</th>
-                                        <th class="th-sm">{{ trans('overtime.reason') }}</th>
-                                        <th class="text-center th-sm">{{ trans('overtime.start_time') }}</th>
-                                        <th class="text-center th-sm">{{ trans('overtime.end_time') }}</th>
-                                        <th class="text-center th-sm">{{ trans('overtime.total_time') }}</th>
-                                        <th class="text-center th-sm">{{ trans('overtime.type') }}</th>
-                                        <th class="text-center th-sm">{{ trans('overtime.correct_total_time') }}</th>
-                                        <th class="text-center th-sm">{{ trans('overtime.status') }}</th>
+                                        <th class="text-center">{{ trans('overtime.number') }}</th>
+                                        <th>{{ trans('overtime.project') }}</th>
+                                        <th>{{ trans('overtime.employee') }}</th>
+                                        <th class="text-center">{{ trans('overtime.date') }}</th>
+                                        <th>{{ trans('overtime.reason') }}</th>
+                                        <th class="text-center">{{ trans('overtime.start_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.end_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.type') }}</th>
+                                        <th class="text-center">{{ trans('overtime.correct_total_time') }}</th>
+                                        <th class="text-center">{{ trans('overtime.status') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -377,22 +377,20 @@
                 $("#from_date").val('').change();
                 $("#to_date").val('').change();
             });
-        $('tr.employee-menu').on('contextmenu', function (event) {
-            event.preventDefault();
-            $('ul.contextMenu').fadeOut("fast");
-            var eId = $(this).data('employee-id');
-            $('ul.contextMenu[data-employee-id="' + eId + '"]')
-                .show()
-                .css({top: event.pageY - 100, left: event.pageX - 250, 'z-index': 300});
+         $('tr.employee-menu').on('contextmenu', function (event) {
+             event.preventDefault();
+             $('ul.contextMenu').fadeOut("fast");
+             var eId = $(this).data('employee-id');
+             $('ul.contextMenu[data-employee-id="' + eId + '"]')
+                 .show()
+                 .css({top: event.pageY - 100, left: event.pageX - 250, 'z-index': 300});
 
-        });
-        $(document).click(function () {
-        if ($('ul.contextMenu:hover').length === 0) {
-            $('ul.contextMenu').fadeOut("fast");
-        }
-        $('#dtBasicExample').DataTable();
-        $('.dataTables_length').addClass('bs-select');
-        });
+         });
+         $(document).click(function () {
+             if ($('ul.contextMenu:hover').length === 0) {
+                 $('ul.contextMenu').fadeOut("fast");
+             }
+         });
      });
 
  </script>
