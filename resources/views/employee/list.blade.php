@@ -393,7 +393,9 @@
                                             </p>  
                                         </td>
                                         @if ($employee->overtime)
-                                        <td style="vertical-align: middle;"><span class="label label-success">{{$employee->overtime}} hours</span></td>
+                                        <td style="vertical-align: middle;">
+                                            <span class="label label-success">{{$employee->overtime}}  {{($employee->overtime <2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
+                                        </td>
                                         @else
                                         <td style="vertical-align: middle;"><span>-</span></td>
                                         @endif
