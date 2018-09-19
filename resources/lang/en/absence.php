@@ -31,7 +31,7 @@ return [
         'msg_export_fails' => 'Export fails !!',
     ],
     'msg_add' => [
-        'success'=>'Absence is successfully add!!!',
+        'success'=>'Absence is successfully added!',
         'fail'=>'Absence failed add!!!',
     ],
     'msg_edit' => [
