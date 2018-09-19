@@ -217,29 +217,29 @@
                                         <td>{{$val->reason}}</td>
                                         <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
                                         <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->end_time)->format('H:i')}}</td>
-                                        <td class="text-center"><span class="label label-primary">{{$val->total_time}} <?php if($val->total_time<=1) echo 'hour'; else echo 'hours';?><span></td>
+                                        <td class="text-center"><span class="label label-primary">{{$val->total_time}} {{ ($val["total_time"]<2)? trans('overtime.hour'): trans('overtime.hours') }}<span></td>
                                         @if ($val->Type->name == 'normal')
-                                            <td class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></td>
+                                            <td class="text-center"><span class="label" style="background: #9072ff;">{{trans('overtime.day_type.normal')}}</span></td>
                                         @elseif($val->Type->name == 'weekend')
-                                            <td class="text-center"><span class="label" style="background: #643aff;">Day off</span></td>
+                                            <td class="text-center"><span class="label" style="background: #643aff;">{{trans('overtime.day_type.day_off')}}</span></td>
                                         @elseif($val->Type->name == 'holiday')
-                                            <td class="text-center"><span class="label" style="background: #3600ff;">Holiday</span></td>
+                                            <td class="text-center"><span class="label" style="background: #3600ff;">{{trans('overtime.day_type.holiday')}}</span></td>
                                         @else
                                             <td class="text-center"></td>
                                         @endif
                                         @if ($val->Status->name == 'Not yet')
-                                            <td class="text-center"><span class="label label-default">{{$val->Status->name}}</span></td>
+                                            <td class="text-center"><span class="label label-default">{{trans('overtime.not_yet')}}</span></td>
                                         @elseif($val->Status->name == 'Reviewing')
-                                            <td class="text-center"><span class="label label-info">{{$val->Status->name}}</span></td>
+                                            <td class="text-center"><span class="label label-info">{{trans('overtime.reviewing')}}</span></td>
                                         @elseif($val->Status->name == 'Accepted')
-                                            <td class="text-center"><span class="label label-success">{{$val->Status->name}}</span></td>
+                                            <td class="text-center"><span class="label label-success">{{trans('overtime.accepted')}}</span></td>
                                         @elseif($val->Status->name == 'Rejected')
-                                            <td class="text-center"><span class="label label-danger">{{$val->Status->name}}</span></td>
+                                            <td class="text-center"><span class="label label-danger">{{trans('overtime.rejected')}}</span></td>
                                         @else
                                             <td class="text-center"></td>
                                         @endif
                                         @if (isset($val->correct_total_time))
-                                            <td class="text-center"><span class="label label-success">{{$val->correct_total_time}} hours</span></td>
+                                            <td class="text-center"><span class="label label-success">{{$val->correct_total_time}} {{($val["correct_total_time"]<2)? trans('overtime.hour'): trans('overtime.hours') }}</span></td>
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
@@ -259,27 +259,33 @@
                                     @endforeach
                                     <tr>
                                         <td colspan="7" rowspan="3"></td>
-                                        <td rowspan="3">Total</td>
-                                        <td><span class="label" style="background: #9072ff;">Normal day</span></td>
+                                        <td rowspan="3">{{trans('overtime.total')}}</td>
+                                        <td><span class="label" style="background: #9072ff;">{{trans('overtime.day_type.normal')}}</span></td>
                                         @if ($time['normal'])
-                                            <td class="text-center"><span class="label label-success">{{$time['normal']}} hours</span></td>
+                                            <td class="text-center">
+                                                <span class="label label-success">{{$time['normal']}} {{($time['normal']<2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
+                                            </td>
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
                                         <td colspan="2" rowspan="3"></td>
                                     </tr>
                                     <tr>
-                                        <td><span class="label" style="background: #643aff;">Day off</span></td>
+                                        <td><span class="label" style="background: #643aff;">{{trans('overtime.day_type.day_off')}}</span></td>
                                         @if ($time['weekend'])
-                                            <td class="text-center"><span class="label label-success">{{$time['weekend']}} hours</span></td>
+                                            <td class="text-center">
+                                                <span class="label label-success">{{$time['weekend']}} {{($time['weekend']<2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
+                                            </td>
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
                                     </tr>
                                     <tr>
-                                        <td><span class="label" style="background: #3600ff;">Holiday</span></td>
+                                        <td><span class="label" style="background: #3600ff;">{{trans('overtime.day_type.holiday')}}</span></td>
                                         @if ($time['holiday'])
-                                            <td class="text-center"><span class="label label-success">{{$time['holiday']}} hours</span></td>
+                                            <td class="text-center">
+                                                <span class="label label-success">{{$time['holiday']}} {{($time['holiday']<2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
+                                            </td>
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
