@@ -199,9 +199,9 @@ class OTController extends Controller
         $overtime = $overtime->paginate($request['number_record_per_page']);
         $overtime->setPath('');
         
-        $normal = 0;
-        $weekend = 0;
-        $holiday = 0;
+        $normal = null;
+        $weekend = null;
+        $holiday = null;
         foreach($overtime as $val){
             if($val->status->name = 'Accepted' || $val->status->name = 'Rejected'){
                 if($val->type->name == 'normal'){
