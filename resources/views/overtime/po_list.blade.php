@@ -50,7 +50,7 @@
                                         <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$value["start_time"])->format('H:i')}}</td>
                                         <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$value["end_time"])->format('H:i')}}</td>
                                         @if(isset($value["total_time"]))
-                                            <td class="text-center"><span class="label label-primary">{{$value["total_time"]}} hours<span></td>
+                                            <td class="text-center"><span class="label label-primary">{{$value["total_time"]}} {{ ($value["total_time"]<2)? trans('overtime.hour'): trans('overtime.hours') }}<span></td>
                                         @else
                                             <td class="text-center"><span>-<span></td>
                                         @endif
@@ -64,7 +64,7 @@
                                             <td class="text-center">-</td>
                                         @endif
                                         @if(isset($value['correct_total_time']))
-                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} hours<span></td>
+                                            <td class="text-center"><span class="label label-success">{{$value['correct_total_time']}} {{ ($value["correct_total_time"]<2)? trans('overtime.hour'): trans('overtime.hours') }}<span></td>
                                         @else
                                             <td class="text-center"><span>-<span></td>
                                         @endif
