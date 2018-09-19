@@ -24,13 +24,13 @@ class HolidayController extends Controller
         $year_now = date("Y");
         $min_year = $year_now;
         $min_year = $year_now;
-        $max_year = Holiday::all('date')->min()->date;
+        $max_year = Holiday::all('date');
         if(isset($min_year)){
-            $min_year->Format('Y');
+            $min_year->min()->date->Format('Y');
         }
-        $max_year = Holiday::all('date')->max()->date;
+        $max_year = Holiday::all('date');
         if(isset($min_year)){
-            $max_year->Format('Y');
+            $max_year->max()->date->Format('Y');
         }
         return view('absences.hr_holiday', [
             'list_holiday_default' => $list_holiday_default,
