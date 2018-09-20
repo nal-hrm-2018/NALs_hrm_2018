@@ -55,9 +55,9 @@
                                                 <strong>{{$vendor->name}}</strong></p>
                                             <p>{{trans('vendor.profile_info.gender.title')}}:
                                                 @if($vendor->gender == 1)
-                                                    <span class="label label-info">{{trans('vendor.profile_info.gender.male')}}</span>
+                                                    <span class="label label-info">{{trans('vendor.profile_info.gender.female')}}</span>
                                                 @elseif($vendor->gender == 2)
-                                                    <span class="label label-success">{{trans('vendor.profile_info.gender.female')}}</span>
+                                                    <span class="label label-success">{{trans('vendor.profile_info.gender.male')}}</span>
                                                 @elseif($vendor->gender == 3)
                                                     <span class="label label-warning">{{trans('vendor.profile_info.gender.na')}}</span>
                                                 @endif
@@ -95,10 +95,14 @@
                                                     - {{date('d/m/Y', strtotime($vendor->endwork_date))}}</strong>
                                             </p>
                                             <p>{{trans('vendor.profile_info.policy_status.title')}}:
-                                                @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
-                                                    <span class="label label-primary">{{trans('vendor.profile_info.policy_status.unexpired')}}</span>
+                                                @if($vendor->work_status == 0)
+                                                    @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
+                                                        <span class="label label-primary">Active</span>
+                                                    @else
+                                                        <span class="label label-danger">Expired</span>
+                                                    @endif
                                                 @else
-                                                    <span class="label label-danger">{{trans('vendor.profile_info.policy_status.expired')}}</span>
+                                                    <span class="label label-default">Quited</span>
                                                 @endif
                                             </p>
 
@@ -108,14 +112,16 @@
                                                 {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
                                                 <h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="form-group">
-                                                        <select class="form-control" id="sel1" name="year">
-                                                            @foreach($listYears as $year)
-                                                                <option @if($year == $listValue[0]) selected
-                                                                        @endif value="{{$year}}">{{trans('chart.resource_chart.title')}}
-                                                                    - {{$year}}</option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="row">
+                                                        <div class="col-md-3"></div>
+                                                        <div class="form-group col-md-6">
+                                                            <select class="form-control" id="sel1" name="year">
+                                                                @foreach($listYears as $year)
+                                                                    <option @if($year == $listValue[0]) selected
+                                                                            @endif value="{{$year}}">Year: {{$year}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="box box-primary">
                                                         <div class="box-header with-border">
@@ -152,21 +158,10 @@
                         <!-- /.post -->
                     </div>
                     <div class="tab-pane" id="project">
-                        <div>
-                            <button type="button" class="btn btn-info btn-default" data-toggle="modal"
-                                    data-target="#myModal">
-                                {{ trans('common.button.search')  }}
-                            </button>
-
-                            <!-- Modal -->
-                            @include('vendors._model_search_process')
-                        </div>
                         <!-- The project -->
 
                         @include('vendors._list_project_vendor')
-                        @if(isset($param))
-                            {{  $processes->appends($param)->render('vendor.pagination.custom') }}
-                        @endif
+
                     </div>
                 </div>
             </div>
@@ -186,16 +181,6 @@
     </script>
     <script>
         $(document).ready(function () {
-            $('#project-list').DataTable({
-                'paging': false,
-                'lengthChange': false,
-                'searching': false,
-                'ordering': true,
-                'info': false,
-                'autoWidth': false
-            });
-
-
             function sendRequestAjax(id, year) {
                 $.ajax({
                     type: "POST",
@@ -303,5 +288,10 @@
                 }
             })
         }
+    </script>
+    <script>
+        $('#btn-search').click(function () {
+            $('#form_search_process').trigger("reset");
+        });
     </script>
 @endsection

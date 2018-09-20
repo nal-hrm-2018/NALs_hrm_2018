@@ -44,7 +44,7 @@ class ImportFile{
        
         $rowError = "";
         if($col != $countNum){
-            $rowError .= "<li>Invalid csv file. Please check the correct number of columns with the sample file!!!</li>";
+            $rowError .= "<li>".trans('importFile.import_file.check_col.invalid')."</li>";
         }
         $num = 1;
         
@@ -54,10 +54,10 @@ class ImportFile{
             if($num > 1){
                 $numCol = count($data);
                 if($numCol > $countNum){
-                    $rowError .= "<li>Row ".$num." has ".($numCol - $countNum)." columns</li>";
+                    $rowError .= "<li>".trans('importFile.import_file.check_col.row')." ".$num."".trans('importFile.import_file.check_col.has')." ".($numCol - $countNum)." ".trans('importFile.import_file.check_col.column')."</li>";
                     $i++;
                 }else if($numCol < $countNum){
-                    $rowError .= "<li>Row ".$num." is missing ".($countNum - $numCol)." columns</li>";
+                    $rowError .= "<li>".trans('importFile.import_file.check_col.row')." ".$num." ".trans('importFile.import_file.check_col.missing')." ".($countNum - $numCol)." ".trans('importFile.import_file.check_col.column')."</li>";
                     $i++;
                 }
             }
@@ -75,7 +75,7 @@ class ImportFile{
             if($dataEmail == null){
                 for($j = $i+1; $j < $row; $j++){
                     if($dataEmployees[$i*$num] == $dataEmployees[$j*$num]){
-                        $listError .= "<li>Email ".$dataEmployees[$i*$num]." has been repeated.</li>";
+                        $listError .= "<li>".trans('vendor.profile_info.email')." ".$dataEmployees[$i*$num]." ".trans('importFile.import_file.check_Email.repeated')."</li>";
                         $dataEmail[$dem] = $dataEmployees[$i*$num];
                         $dem++;
                         break;
@@ -91,7 +91,7 @@ class ImportFile{
                 if($check == 0){
                     for($j = $i+1; $j < $row; $j++){
                         if($dataEmployees[$i*$num] == $dataEmployees[$j*$num]){
-                            $listError .= "<li>Email ".$dataEmployees[$i*$num]." has been repeated.</li>";
+                            $listError .= "<li>".trans('vendor.profile_info.email')." ".$dataEmployees[$i*$num]." ".trans('importFile.import_file.check_Email.repeated')."</li>";
                             $dataEmail[$dem] = $dataEmployees[$i*$num];
                             $dem++;
                             break;
@@ -110,54 +110,54 @@ class ImportFile{
 			$c = $row*$num;
 			if($c < $row*($num+1)){
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Email field is required.</li>";
+                    $listError .= "<li>".trans('vendor.profile_info.email')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.email_required')."</li>";
                 }else{                        
                     $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
                     if($objEmployee != null){
-                        $listError .= "<li>Row ".$row.": Email already exists!!!.</li>";
+                        $listError .= "<li>".trans('vendor.profile_info.email')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.email_exist')."</li>";
                     }else{
-                        $partten = "/^[A-Za-z0-9_\.]{6,32}@([a-zA-Z0-9]{2,12})(\.[a-zA-Z]{2,12})+$/";
+                        $partten = "/^[A-Za-z0-9_\.]{1,32}@([a-zA-Z0-9]{2,12})(\.[a-zA-Z]{2,12})+$/";
                         if(!preg_match($partten ,$data[$c], $matchs)){
-                            $listError .= "<li>Row ".$row.": The Email must be a valid email address..</li>";
+                            $listError .= "<li>".trans('vendor.profile_info.email')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.email_valid')."</li>";
                         }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Name field is required.</li>";   
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.name_required')."</li>";
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Birthday field is required.</li>"; 
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.birthday_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         if(date_create($data[$c]) == FALSE ){
-                            $listError .= "<li>Row ".$row.": Birthday is incorrect format. Example: 22-02-2000.</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.birthday_format')."</li>";
                         }else{
                             if(strtotime($data[$c]) >= strtotime($date)){
-                                    $listError .= "<li>Row ".$row.": The Birthday must be a date before Today.</li>";
+                                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.birthday_before')."</li>";
                                 }
                         }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Gender field is required.</li>";   
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.gender_required')."</li>";
                 }else{
                     if(strnatcasecmp($data[$c], "FEMALE") != 0 && strnatcasecmp($data[$c], "MALE") != 0 && strnatcasecmp($data[$c], "N/A") != 0){
-                        $listError .= "<li>Row ".$row.": Gender only receives values Female, Male or N/A.</li>";
+                        $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.gender_values')."</li>";
                     }
                 }
 
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Mobile field is required.</li>";  
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.mobile_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         $stMb = $data[$c];
                         for($k=0; $k < strlen($data[$c]); $k++){
                             if( $stMb[$k] < "0" || $stMb[$k] > "9" ){
-                                $listError .= "<li>Row ".$row.": Mobile only number.</li>";
+                                $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.mobile_number')."</li>";
                                 break;
                             }
                         }
@@ -165,40 +165,40 @@ class ImportFile{
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Address field is required.</li>"; 
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.address_required')."</li>";
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The marital_status field is required.</li>";
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.marital_status_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         if(strnatcasecmp($data[$c], "single") != 0 && strnatcasecmp($data[$c], "married") != 0 && strnatcasecmp($data[$c], "separated") != 0 && strnatcasecmp($data[$c], "devorce") != 0){
-                            $listError .= "<li>Row ".$row.": Marital status only receives values Single, Married, Separated or Devorce.</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.marital_status_values')."</li>";
                         }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Startwork_date field is required.</li>";   
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.startwork_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         if(date_create($data[$c]) == FALSE ){
-                            $listError .= "<li>Row ".$row.": Startwork_date is incorrect format. Example: 22-02-2000.</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.startwork_end_format')."</li>";
                         }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Endwork_date field is required.</li>";  
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.endwork_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         if(date_create($data[$c]) == FALSE ){
-                            $listError .= "<li>Row ".$row.": Endwork_date is incorrect format. Example: 22-02-2000.</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.endwork_end_format')."</li>";
                         }else{
                             if(date_create($data[$c - 1]) != FALSE){
                                /* dd(strtotime($data[$c - 1])."  ".strtotime($data[$c]));*/
                                 if(strtotime($data[$c - 1]) >= strtotime($data[$c])){
-                                    $listError .= "<li>Row ".$row.": Startwork_date must be smaller than Endwork_date.</li>";
+                                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.endwork_smaller')."</li>";
                                 }
                             }
                         }
@@ -207,29 +207,29 @@ class ImportFile{
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": Employee Type field is required.</li>";  
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.employee_type_required')."</li>";
                 }else{
                     $objEmployeeType = EmployeeType::select('name')->where('name', 'like', $data[$c])->get()->toArray();
                     if($objEmployeeType == null){
-                        $listError .= "<li>Row ".$row.": Employee_type does not exist.</li>";
+                        $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.employee_type_exist')."</li>";
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": Team field is required.</li>";
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.team_required')."</li>";
                 }else{
                     $objTeam = Team::select('name')->where('name', 'like', $data[$c])->get()->toArray();
                     if($objTeam == null){
-                        $listError .= "<li>Row ".$row.": Team does not exist.</li>";
+                        $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.team_exist')."</li>";
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": Role field is required.</li>";
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.role_required')."</li>";
                 }else{
                     $objTeam = Role::select('name')->where('name', 'like', $data[$c])->get()->toArray();
                     if($objTeam == null){
-                        $listError .= "<li>Row ".$row.": Role does not exist.</li>";
+                        $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.role_exist')."</li>";
                     }
                 }
 			}
@@ -245,55 +245,55 @@ class ImportFile{
             $c = $row*$num;
             if($c < $row*($num+1)){
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Email field is required.</li>";
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.email_required')."</li>";
                 }else{                        
                     $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
                     if($objEmployee != null){
-                        $listError .= "<li>Row ".$row.": Email already exists!!!.</li>";
+                        $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.role_exist')."</li>";
                     }else{
-                        $partten = "/^[A-Za-z0-9_\.]{6,32}@([a-zA-Z0-9]{2,12})(\.[a-zA-Z]{2,12})+$/";
+                        $partten = "/^[A-Za-z0-9_\.]{1,32}@([a-zA-Z0-9]{2,12})(\.[a-zA-Z]{2,12})+$/";
                         if(!preg_match($partten ,$data[$c], $matchs)){
-                            $listError .= "<li>Row ".$row.": The Email must be a valid email address..</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.email_valid')."</li>";
                         }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Name field is required.</li>";   
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.name_required')."</li>";
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Birthday field is required.</li>"; 
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.birthday_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         if(date_create($data[$c]) == FALSE ){
-                            $listError .= "<li>Row ".$row.": Birthday is incorrect format. Example: 22-02-2000.</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.birthday_format')."</li>";
                         }else{
                             
                             if(strtotime($data[$c]) >= strtotime($date)){
-                                    $listError .= "<li>Row ".$row.": The Birthday must be a date before Today.</li>";
+                                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.birthday_before')."</li>";
                                 }
                         }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Gender field is required.</li>";   
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.gender_required')."</li>";
                 }else{
                     if(strnatcasecmp($data[$c], "FEMALE") != 0 && strnatcasecmp($data[$c], "MALE") != 0 && strnatcasecmp($data[$c], "N/A") != 0){
-                        $listError .= "<li>Row ".$row.": Gender only receives values Female, Male or N/A.</li>";
+                        $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.gender_values')."</li>";
                     }
                 }
 
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Mobile field is required.</li>";  
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.mobile_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         $stMb = $data[$c];
                         for($k=0; $k < strlen($data[$c]); $k++){
                             if( $stMb[$k] < "0" || $stMb[$k] > "9" ){
-                                $listError .= "<li>Row ".$row.": Mobile only number.</li>";
+                                $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.mobile_number')."</li>";
                                 break;
                             }
                         }
@@ -301,40 +301,40 @@ class ImportFile{
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Address field is required.</li>"; 
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.address_required')."</li>";
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The marital_status field is required.</li>";
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.marital_status_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         if(strnatcasecmp($data[$c], "single") != 0 && strnatcasecmp($data[$c], "married") != 0 && strnatcasecmp($data[$c], "separated") != 0 && strnatcasecmp($data[$c], "devorce") != 0){
-                            $listError .= "<li>Row ".$row.": Marital status only receives values Single, Married, Separated or Devorce.</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.marital_status_values')."</li>";
                         }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Startwork_date field is required.</li>";   
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.startwork_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         if(date_create($data[$c]) == FALSE ){
-                            $listError .= "<li>Row ".$row.": Startwork_date is incorrect format. Example: 22-02-2000.</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.startwork_end_format')."</li>";
                         }
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": The Endwork_date field is required.</li>";  
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.endwork_required')."</li>";
                 }else{
                     if($data[$c] != "-"){
                         if(date_create($data[$c]) == FALSE ){
-                            $listError .= "<li>Row ".$row.": Endwork_date is incorrect format. Example: 22-02-2000.</li>";
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.endwork_end_format')."</li>";
                         }else{
                             if(date_create($data[$c - 1]) != FALSE){
                                /* dd(strtotime($data[$c - 1])."  ".strtotime($data[$c]));*/
                                 if(strtotime($data[$c - 1]) >= strtotime($data[$c])){
-                                    $listError .= "<li>Row ".$row.": Startwork_date must be smaller than Endwork_date.</li>";
+                                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.endwork_smaller')."</li>";
                                 }
                             }
                         }
@@ -342,24 +342,24 @@ class ImportFile{
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": Employee Type field is required.</li>";  
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.employee_type_required')."</li>";
                 }else{
                     $objEmployeeType = EmployeeType::select('name')->where('name', 'like', $data[$c])->get()->toArray();
                     if($objEmployeeType == null){
-                        $listError .= "<li>Row ".$row.": Employee_type does not exist.</li>";
+                        $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.employee_type_exist')."</li>";
                     }
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": Company field is required.</li>";
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.company_required')."</li>";
                 }
                 $c++;
                 if($data[$c] == null){
-                    $listError .= "<li>Row ".$row.": Role field is required.</li>";
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.role_required')."</li>";
                 }else{
                     $objTeam = Role::select('name')->where('name', 'like', $data[$c])->get()->toArray();
                     if($objTeam == null){
-                        $listError .= "<li>Row ".$row.": Role does not exist.</li>";
+                        $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileEmployee.role_exist')."</li>";
                     }
                 }
                 

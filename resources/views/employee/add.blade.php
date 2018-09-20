@@ -1,16 +1,69 @@
 @extends('admin.template')
 @section('content')
+    <style>
+        * {box-sizing: border-box;}
+
+        .container {
+            position: relative;
+            width: auto;
+        }
+
+        .image {
+            display: block;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            border-radius: 50%;
+
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            font-size: 12px;
+            background: rgb(0, 0, 0);
+            background: rgba(0, 0, 0, 0.5); / Black see-through /
+            color: #f1f1f1;
+            width: 100%;
+            transition: .5s ease;
+            opacity:0;
+            color: white;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .form-group {
+            width: 90% !important;
+        }
+
+        .container:hover .overlay {
+            opacity: 1;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+        .custom-file-upload {
+            width: 170px !important;
+            max-width: unset !important;
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Add employee
+                {{trans('common.path.add_employee')}}
+                <small>NAL Solutions</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="/employee">Employee</a></li>
-                <li class="active">Add employee</li>
-            </ol>
+            {{--<ol class="breadcrumb">--}}
+                {{--<li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
+                {{--<li><a href="/employee">{{trans('common.path.employee')}}</a></li>--}}
+                {{--<li class="active">{{trans('common.path.add')}}</li>--}}
+            {{--</ol>--}}
         </section>
 
         <!-- Main content -->
@@ -21,80 +74,73 @@
                 <div id="msg">
                 </div>
                     <SCRIPT LANGUAGE="JavaScript">
-                        function confirmAction($msg) {
-                            return confirm($msg);
+                        function confirmAction() {
+                             var name = $('#name').val();
+                            return confirm(message_confirm_add('{{trans("common.action_confirm.add")}}', '{{trans("common.name_confirm.employee")}}', name));
                         }
                     </SCRIPT>
-                    <form action="{{asset('employee')}}" method="post" class="form-horizontal"
-                          onSubmit="return confirmAction('Would you like to add it?')"
-                          onreset="return confirmAction('Do you want to reset?')">
+                    <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
+                    <form action="{{asset('employee')}}" method="post" class="form-horizontal" enctype = 'multipart/form-data'
+                          onSubmit="return confirmAction()">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row">
-                            <div class="col-md-3">
-                                <CENTER>
-                                    <div>
-                                        <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}"/>
+                            <div class="col-md-4">
+                                <center>
+                                    <div class="container">
+                                        <img src="{!! asset('/avatar/default_avatar.png') !!}" id="image" class="image img-circle profile-user-img"/><br>
+                                        <label for="chooseimg" class="custom-file-upload">
+                                            <i class="fa fa-cloud-upload"></i> {{trans('employee.upload_avatar')}}
+                                        </label>
+                                        <input type="file" id="chooseimg" name="picture" class="form-control overlay" placeholder="Chọn ảnh" accept="image/*" id="myDIV"/>
                                     </div>
-                                </CENTER>
-                                <div class="row" style="margin-top: 20px;">
-                                    <CENTER><label>Avatar</label></CENTER>
+                                </center>
+                                <script type="text/javascript">
+                                    var file = document.getElementById('chooseimg');
+                                    var img = document.getElementById('image');
+                                    file.addEventListener("change", function() {
+                                        if (this.value) {
+                                            var file = this.files[0];
+                                            var reader = new FileReader();
+                                            reader.onloadend = function () {
+                                                img.src = reader.result;
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    });
+                                </script>
+                                <div class="" style="margin-top: 20px;">
+                                    <label style="margin-left: 23px;color:red;" id="lb_error_name" style="color: red;">{{$errors->first('picture')}}</label>
                                 </div>
                             </div>
                             <!-- /.col -->
-                            <div class="col-md-6">
-                                <!-- /.form-group -->
+                            <div class="col-md-4">
+                                <!-- /.form-group -->  
                                 <div class="form-group">
-                                    <label>Email Address</label>
-                                    <input type="text" class="form-control" placeholder="Email Address" name="email"
+                                    <label>{{trans('employee.profile_info.email')}}<strong style="color: red">(*)</strong></label>
+                                    <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.email')}}" name="email"
                                            id="email" value="{!! old('email') !!}{{ isset($employee) ? $employee->email : null}}">
                                     <label id="lb_error_email" style="color: red;">{{$errors->first('email')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" placeholder="Password" name="password"
+                                    <label>{{trans('employee.profile_info.password')}}<strong style="color: red">(*)</strong></label>
+                                    <input type="password" class="form-control" placeholder="{{trans('employee.profile_info.password')}}" name="password"
                                            id="password" value="{!! old('password') !!}">
                                     <label id="lb_error_password" style="color: red; ">{{$errors->first('password')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Confirm password</label>
-                                    <input type="password" class="form-control" placeholder="Confirm password"
+                                    <label>{{trans('employee.profile_info.password_confirm')}}<strong style="color: red">(*)</strong></label>
+                                    <input type="password" class="form-control" placeholder="{{trans('employee.profile_info.password_confirm')}}"
                                            name="confirm_confirmation" id="cfPass" value="{!! old('password') !!}">
                                     <label id="lb_error_password_confirm" style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
                                     <!-- /.input group -->
                                 </div>
+                                
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" placeholder="Name" name="name" id="name"
-                                           value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
-                                    <label id="lb_error_name" style="color: red; ">{{$errors->first('name')}}</label>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" placeholder="Address" name="address"
-                                           id="address"
-                                           value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
-                                    <label id="lb_error_address" style="color: red; ">{{$errors->first('address')}}</label>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>Mobile</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-phone"></i>
-                                        </div>
-                                        <input type="number" class="form-control" placeholder="Phone" name="mobile"
-                                               id="mobile"
-                                               value="{!! old('mobile') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
-                                    </div>
-                                    <label id="lb_error_mobile" style="color: red; ">{{$errors->first('mobile')}}</label>
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>Gender</label>
+                                    <label>{{trans('employee.profile_info.gender.title')}}<strong style="color: red">(*)</strong></label>
                                     <select id="gender" class="form-control select2" style="width: 100%;" name="gender">
+                                        <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <option value="1"
                                         <?php
                                             if (old('gender') == 1) echo 'selected';
@@ -103,7 +149,7 @@
                                                     echo 'selected';
                                             }
                                             ?>
-                                        >Female
+                                        >{{trans('employee.profile_info.gender.female')}}
                                         </option>
                                         <option value="2"
                                         <?php
@@ -113,7 +159,7 @@
                                                     echo 'selected';
                                             }
                                             ?>
-                                        >Male
+                                        >{{trans('employee.profile_info.gender.male')}}
                                         </option>
                                         <option value="3"
                                         <?php
@@ -123,14 +169,15 @@
                                                     echo 'selected';
                                             }
                                             ?>
-                                        >N/a
+                                        >{{trans('employee.profile_info.gender.na')}}
                                         </option>
                                     </select>
                                     <label id="lb_error_gender" style="color: red;">{{$errors->first('gender')}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label>Married</label>
+                                    <label>{{trans('employee.profile_info.marital_status.title')}}<strong style="color: red">(*)</strong></label>
                                     <select id="married" class="form-control select2" style="width: 100%;" name="marital_status">
+                                        <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <option value="1"
                                         <?php
                                             if (old('marital_status') == 1) echo 'selected';
@@ -139,7 +186,7 @@
                                                     echo 'selected';
                                             }
                                             ?>
-                                        >Single
+                                        >{{trans('employee.profile_info.marital_status.single')}}
                                         </option>
                                         <option value="2"
                                         <?php
@@ -149,7 +196,7 @@
                                                     echo 'selected';
                                             }
                                             ?>
-                                        >Married
+                                        >{{trans('employee.profile_info.marital_status.married')}}
                                         </option>
                                         <option value="3"
                                         <?php
@@ -159,7 +206,7 @@
                                                     echo 'selected';
                                             }
                                             ?>
-                                        >Separated
+                                        >{{trans('employee.profile_info.marital_status.separated')}}
                                         </option>
                                         <option value="4"
                                         <?php
@@ -169,17 +216,31 @@
                                                     echo 'selected';
                                             }
                                             ?>
-                                        >Devorce
+                                        >{{trans('employee.profile_info.marital_status.divorced')}}
                                         </option>
                                     </select>
                                     <label id="lb_error_marital_status" style="color: red;">{{$errors->first('marital_status')}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label>Team</label>
-                                    <select class="form-control select2" style="width: 100%;" name="team_id"
-                                            id="team_id">
-                                        <option value="">---Team selection---</option>
-                                        <?php
+                                    <label>{{trans('employee.profile_info.birthday')}}<strong style="color: red">(*)</strong></label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="date" class="form-control pull-right" id="birthday" name="birthday"
+
+                                               value="{{ old('birthday')}}<?php if (isset($employee)) {
+                                                   echo $employee->birthday;
+                                               }?>"
+                                               style="height: 33px;">
+                                    </div>
+                                    <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
+                                    <!-- /.input group -->
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br>
+                                    <?php
                                         foreach ($dataTeam as $val) {
                                             $selected = "";
                                             if ($val["id"] == old('team_id')) {
@@ -190,30 +251,47 @@
                                                     $selected = "selected";
                                                 }
                                             }
-                                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . $val["name"] . '</option>';
+                                    ?>
+                                        <div style="display: inline-block;width: 130px;"><input type="checkbox" name="team_id[]"  value="<?php echo $val["id"]; ?>">&ensp;<?php echo $val["name"];?></div>
+                                    <?php
                                         }
-                                        ?>
-                                    </select>
+                                    ?>
                                     <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
                                 </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Birthday</label>
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="date" class="form-control pull-right" id="birthday" name="birthday"
-                                               value="{{ old('birthday')}}<?php if (isset($employee)) {
-                                                   echo $employee->birthday;
-                                               }?>">
-                                    </div>
-                                    <label id="lb_error_birthday" style="color: red; ">{{$errors->first('birthday')}}</label>
+                                    <label>{{trans('employee.profile_info.name')}}<strong style="color: red">(*)</strong></label>
+                                    <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.name')}}" name="name" id="name"
+                                           value="{!! old('name') !!}@if(isset($employee)){{ $employee->name }}@endif">
+                                    <label id="lb_error_name" style="color: red; ">{{$errors->first('name')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <label>Position</label>
+                                    <label>{{trans('employee.profile_info.address')}}<strong style="color: red">(*)</strong></label>
+                                    <input type="text" class="form-control" placeholder="{{trans('employee.profile_info.address')}}" name="address"
+                                           id="address"
+                                           value="{!! old('address') !!}@if(isset($employee)){{ $employee->address }}@endif">
+                                    <label id="lb_error_address" style="color: red; ">{{$errors->first('address')}}</label>
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.phone')}}<strong style="color: red">(*)</strong></label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                        <input type="number" class="form-control" placeholder="{{trans('employee.profile_info.phone')}}" name="mobile"
+                                               id="mobile"
+                                               value="{!! old('mobile') !!}@if(isset($employee)){{ $employee->mobile }}@endif">
+                                    </div>
+                                    <label id="lb_error_mobile" style="color: red; ">{{$errors->first('mobile')}}</label>
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.position')}}<strong style="color: red">(*)</strong></label>
                                     <select id="position" class="form-control select2" style="width: 100%;" name="employee_type_id">
-                                        <option value="">---Position selection---</option>
+                                        <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <?php
                                         foreach ($dataEmployeeTypes as $val) {
                                             $selected = "";
@@ -232,9 +310,9 @@
                                     <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label>Role of team</label>
+                                    <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
                                     <select id="role_team" class="form-control select2" style="width: 100%;" name="role_id">
-                                        <option value="">---Role selection---</option>
+                                        <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <?php
                                         foreach ($dataRoles as $val) {
                                             $selected = "";
@@ -252,41 +330,38 @@
                                     </select>
                                     <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Start work date</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.start_work')}}</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
 
-                                                <input type="date" class="form-control pull-right" id="startwork_date"
-                                                       name="startwork_date"
-                                                       value="{{ old('startwork_date')}}<?php if (isset($employee)) {
-                                                           echo $employee->startwork_date;
-                                                       }?>">
-                                            </div>
-                                            <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
-                                        </div>
+                                        <input type="date" class="form-control pull-right" id="startwork_date"
+                                               name="startwork_date"
+                                               style="height: 33px;"
+                                               value="{{ old('startwork_date')}}<?php if (isset($employee)) {
+                                                   echo $employee->startwork_date;
+                                               }?>">
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>End work date</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="date" class="form-control pull-right" id="endwork_date"
-                                                       name="endwork_date"
-                                                       value="{{ old('endwork_date')}}<?php if (isset($employee)) {
-                                                           echo $employee->endwork_date;
-                                                       }?>">
-                                            </div>
-                                            <label id="lb_error_endwork_date" style="color: red; ">{{$errors->first('endwork_date')}}</label>
-                                            <!-- /.input group -->
+                                    <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label>{{trans('employee.profile_info.end_work')}}<strong style="color: red">(*)</strong></label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
                                         </div>
+                                        <input type="date" class="form-control pull-right" id="endwork_date"
+                                               name="endwork_date"
+                                               style="height: 33px;"
+                                               value="{{ old('endwork_date')}}<?php if (isset($employee)) {
+                                                   echo $employee->endwork_date;
+                                               }?>">
                                     </div>
+                                    <label id="lb_error_endwork_date" style="color: red; ">{{$errors->first('endwork_date')}}</label>
+                                    <!-- /.input group -->
                                 </div>
                             </div>
                             <!-- /.col -->
@@ -299,46 +374,50 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-md-2" style="display: inline;">
-                                <div style="float: right;">
-                                    <button type="submit" class="btn btn-info pull-left">ADD</button>
+                            <div class="col-md-1">
+                                <div>
+                                    <button type="submit" class="btn btn-info">{{ trans('common.button.add')}}</button>
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
                     <script type="text/javascript"
                             src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                     <script>
                         $(function () {
                             $("#btn_reset_form_employee").bind("click", function () {
-                                $("#lb_error_email").empty();
-                                $("#lb_error_password").empty();
-                                $("#lb_error_address").empty();
-                                $("#lb_error_birthday").empty();
-                                $("#lb_error_employee_type_id").empty();
-                                $("#lb_error_endwork_date").empty();
-                                $("#lb_error_startwork_date").empty();
-                                $("#lb_error_gender").empty();
-                                $("#lb_error_marital_status").empty();
-                                $("#lb_error_mobile").empty();
-                                $("#lb_error_name").empty();
-                                $("#lb_error_role_id").empty();
-                                $("#lb_error_team_id").empty();
-                                $("#lb_error_password_confirm").empty();
-                                $("#email").val('');
-                                $("#password").val('');
-                                $("#cfPass").val('');
-                                $("#name").val('');
-                                $("#address").val('');
-                                $("#mobile").val('');
-                                $("#gender").val('1').change();
-                                $("#married").val('1').change();
-                                $("#team_id").val('').change();
-                                $("#role_team").val('').change();
-                                $("#position").val('').change();
-                                $("#birthday").val('value', '');
-                                $("#startwork_date").val('value', '');
-                                $("#endwork_date").val('value', '');
+                                if(confirm('{{trans('common.confirm_reset')}}')){
+                                    $("#lb_error_email").empty();
+                                    $("#lb_error_password").empty();
+                                    $("#lb_error_address").empty();
+                                    $("#lb_error_birthday").empty();
+                                    $("#lb_error_employee_type_id").empty();
+                                    $("#lb_error_endwork_date").empty();
+                                    $("#lb_error_startwork_date").empty();
+                                    $("#lb_error_gender").empty();
+                                    $("#lb_error_marital_status").empty();
+                                    $("#lb_error_mobile").empty();
+                                    $("#lb_error_name").empty();
+                                    $("#lb_error_role_id").empty();
+                                    $("#lb_error_team_id").empty();
+                                    $("#lb_error_password_confirm").empty();
+                                    $("#email").val('');
+                                    $("#password").val('');
+                                    $("#cfPass").val('');
+                                    $("#name").val('');
+                                    $("#address").val('');
+                                    $("#mobile").val('');
+                                    $("#gender").val('').change();
+                                    $("#married").val('').change();
+                                    $("#team_id").val('').change();
+                                    $('input[type=checkbox]').prop('checked',false);
+                                    $("#role_team").val('').change();
+                                    $("#position").val('').change();
+                                    $("#birthday").val('value', '');
+                                    $("#startwork_date").val('value', '');
+                                    $("#endwork_date").val('value', '');
+                                }
                             });
                         });
                     </script>

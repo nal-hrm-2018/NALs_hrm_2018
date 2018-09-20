@@ -1,10 +1,57 @@
 <?php
 return [
 
+    'locale' => [
+        'en'=>'en',
+        'vn'=>'vn',
+        'jp'=>'jp',
+    ],
+    'language' => [
+        'en' => 'English',
+        'vn' => 'Việt Nam',
+        'jp' => '日本語',
+    ],
+
     'paginate' => 20,
+
+    'work_status'=>[
+        'active'=>0,
+        'inactive'=>1
+    ],
+    'employee_status'=>[
+        'Active'=>'Active',
+        'Quited'=>'Quited',
+        'Expired'=>'Expired'
+    ],
+
+    'project_status'=>[
+        'kick_off'=> 'kick off',
+        'pending'=>'pending',
+        'in_progress'=>'in-progress',
+        'releasing'=>'releasing',
+        'complete'=>'complete',
+        'planing'=>'planning'
+    ],
+    'status_common'=>[
+        'absence'=>[
+            'waiting'=>'waiting',
+            'accepted'=>'accepted',
+            'rejected'=>'rejected'
+        ],
+        'absence_type'=>[
+            'non_salary_date'=>'unpaid_leave',
+            'salary_date'=>'annual_leave',
+            'subtract_salary_date'=>'subtract_salary_date',
+            'insurance_date'=>'insurance_date',
+            'absented_date'=>'absented_date',
+            'maternity_leave'=>'maternity_leave',
+            'marriage_leave'=>'marriage_leave',
+            'bereavement_leave'=>'bereavement_leave'
+        ]
+    ],
     'Roles'=>[
         'PO'=>'PO',
-        'TeamDev'=>'TeamDev',
+        'TeamDev'=>'Dev',
         'BA'=>'BA',
         'ScrumMater'=>'ScrumMater'
     ],
@@ -23,6 +70,12 @@ return [
         'married'=>'Married',
         'separated'=>'Separated',
         'devorce'=>'Devorce',
+    ],
+    'EmployeeType'=>[
+        'FullTime'=>'FullTime',
+        'PartTime'=>'PartTime',
+        'InterShip'=>'InterShip',
+        'Contractual Employee'=>'Contractual Employee',
     ],
     'delete_flag'=>[
         'deleted'=>1,

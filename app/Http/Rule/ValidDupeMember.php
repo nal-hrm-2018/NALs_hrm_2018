@@ -19,7 +19,7 @@ class ValidDupeMember implements Rule
     public function passes($attribute, $value)
     {
         // check member duplication
-        if (array_has_dupes((array)$value)) {
+        if (array_has_dupes($value)){
             return false;
         }
         return true;
@@ -32,6 +32,6 @@ class ValidDupeMember implements Rule
      */
     public function message()
     {
-        return trans('team.msg_content.msg_dupe _member');
+        return trans('Member not duplicate !!!');
     }
 }

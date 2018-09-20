@@ -7,6 +7,7 @@ use App\Service\SearchEmployeeService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Models\Employee;
+use App\Models\Overtime;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -54,7 +55,9 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
     {
         $query = Employee::query();
 
-
+        if (!isset($this->request['number_record_per_page'])) {
+            $this->request['number_record_per_page'] = config('settings.paginate');
+        }
         $params['search'] = [
             'id' => !empty($this->request->id) ? $this->request->id : '',
             'name' => !empty($this->request->name) ? $this->request->name : '',
@@ -62,6 +65,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             'email' => !empty($this->request->email) ? $this->request->email : '',
             'role' => !empty($this->request->role) ? $this->request->role : '',
         ];
+        
         foreach ($params as $key => $value) {
             $id = $value['id'];
             $name = $value['name'];
@@ -69,6 +73,7 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             $role = $value['role'];
             $email = $value['email'];
         }
+        $status = !is_null($this->request->status) ? $this->request->status : '';
         if (!empty($role)) {
             $query
                 ->whereHas('role', function ($query) use ($role) {
@@ -100,12 +105,26 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
         }
         if (!empty($team)) {
             $query
-                ->whereHas('team', function ($query) use ($team) {
+                ->whereHas('teams', function ($query) use ($team) {
                     $query->where("name", 'like', '%' . $team . '%');
                 });
-        }
+        }        
         if (!empty($email)) {
             $query->Where('email', 'like', '%' . $email . '%');
+        }
+        if ($status != "") {
+            $dateNow = date('Y-m-d');
+            if($status == 0){
+                $query->Where('work_status', $status)
+                    ->where('endwork_date','>=',$dateNow);
+            }
+            if ($status == 1){
+                $query->Where('work_status', $status);
+            }
+            if ($status == 2){
+                $query->Where('work_status', '0')
+                    ->where('endwork_date','<',$dateNow);
+            }
         }
 
        /* if (!is_null($request['status'])) {
@@ -114,10 +133,37 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
 
         $employeesSearch = $query
             ->where('delete_flag', '=', 0)
-            ->where('is_employee',1)->get();
-
+            ->where('is_employee',1)->paginate($this->request['number_record_per_page']);
+        foreach($employeesSearch as $val){
+            $arr_team = $val->teams()->get();
+            $string_team ="";
+            foreach ($arr_team as $team){
+                $addteam=  (string)$team->name;
+                if ($string_team){
+                $string_team = $string_team.", ".$addteam;
+                } else{
+                $string_team = $string_team.$addteam;
+                }
+            }
+            $val->avatar = $string_team;
+        }
+        $newmonth = date('d');
+        $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
+        foreach($employeesSearch as $val){
+            $ots = $val->overtime()->get();
+            $s = 0;
+            foreach ($ots as $ot){
+                if(($ot->overtime_status_id == 3 || $ot->overtime_status_id == 4) && strtotime($ot->date) > strtotime($newmonth)){
+                    $s += $ot->correct_total_time;
+                }
+            }
+            if($s){
+                $val->updated_at = $s.' hours';
+            }else{
+                $val->updated_at  = '-';
+            }
+        }
         return $employeesSearch->map(function(Employee $item) {
-
             if ($item->team_id == null){
                 $item->team_id = "-";
             }
@@ -132,8 +178,23 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
                 $roleFindId = Role::where('id',$item->role_id)->first();
                 $item->role_id = $roleFindId->name;
             }
+            if ($item->avatar == null){
+                $item->avatar = "-";
+            }
+//            $item->work_status = $item->work_status?'Inactive':'Active';
+            $dateNow = date('Y-m-d');
+            $dateEndWork = Employee::find($item->id);
 
-            $item->work_status = $item->work_status?'Inactive':'Active';
+            if (($item->work_status == 0) && ($dateEndWork->endwork_date < $dateNow)){
+                $item->work_status = 'Expired';
+            }
+            if(($item->work_status == 0) && ($dateEndWork->endwork_date >= $dateNow)){
+                $item->work_status = 'Active';
+            }
+            if ($item->work_status == 1){
+                $item->work_status = 'Quited';
+            }
+            unset($item->team_id);//trinhhunganh28082018
             unset($item->password); unset($item->remember_token);
             unset($item->birthday);unset($item->gender);
             unset($item->mobile);
@@ -143,11 +204,14 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
             unset($item->startwork_date);
             unset($item->endwork_date);unset($item->curriculum_vitae);
             unset($item->is_employee);unset($item->company);
-            unset($item->avatar);unset($item->employee_type_id);unset($item->salary_id);
-            unset($item->updated_at);unset($item->last_updated_by_employee);
+            unset($item->is_manager);
+            unset($item->salary_id);unset($item->employee_type_id);
+            // unset($item->updated_at);
+            unset($item->last_updated_by_employee);
             unset($item->created_at);unset($item->created_by_employee);
             unset($item->delete_flag);
-
+            unset($item->updated_by_employee);
+            unset($item->remaining_absence_days);
             return $item;
         });
     }
@@ -176,13 +240,22 @@ class InvoicesExport implements FromCollection,WithEvents, WithHeadings
      */
     public function headings(): array
     {
+//        return [
+//            'ID',
+//            'EMAIL',
+//            'NAME',
+//            'TEAM',
+//            'ROLE',
+//            'STATUS'
+//        ];
         return [
-            'ID',
+            'EMPLOYEE ID',
             'EMAIL',
             'NAME',
             'TEAM',
-            'ROLE',
-            'STATUS'
+            'POSITION',
+            'STATUS',
+            'OVERTIME'
         ];
     }
 

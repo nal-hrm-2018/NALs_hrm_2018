@@ -1,0 +1,43 @@
+span.glyphicon.glyphicon-arrow-right {
+    position: absolute;
+    top: 10px;
+    left: 49%;
+}
+
+span.glyphicon.glyphicon-arrow-right.number-2 {
+    position:  absolute;
+    top: 78px;
+    left: 79.8%;
+}
+span.glyphicon.glyphicon-arrow-right.number-3 {
+    top: 122px;
+    left: 79.8%;
+    position:  absolute;
+}
+
+th.text-center.project-center.sorting {
+    padding-bottom: 15px;
+}
+th.project-th-members.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.project-td-po-name.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.project-center.sorting{
+    padding-bottom: 15px;
+}
+th.text-center.project-center.sorting_asc{padding-bottom: 15px;}
+th.project-td-po-name.project-center.sorting_asc{padding-bottom: 15px;}
+th.project-td-po-name.project-center.sorting{padding-bottom: 15px;}
+th.project-center.sorting_asc{padding-bottom: 15px;}
+th.project-th-members.project-center.sorting_desc{padding-bottom: 15px;}
+th.project-center.sorting_desc{padding-bottom: 15px;}
+th.project-td-po-name.project-center.sorting_desc{padding-bottom: 15px;}
+th.text-center.project-center.sorting_desc{padding-bottom: 15px;}

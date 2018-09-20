@@ -4,19 +4,29 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Add team
+                {{trans('team.title_header.add_team')}}
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{route('teams.index')}}">Teams</a></li>
-                <li class="active">Add team</li>
+                <li><a href="/"><i class="fa fa-dashboard"></i>{{trans('common.path.home')}}</a></li>
+                <li><a href="{{route('teams.index')}}">{{trans('team.path.team')}}</a></li>
+                <li class="active">{{trans('team.title_header.add_team')}}</li>
             </ol>
         </section>
         <!-- Main content -->
         <section class="content">
             <!-- SELECT2 EXAMPLE -->
-
+            <SCRIPT LANGUAGE="JavaScript">
+                function confirmAddTeam() {
+                    var name = $('#team_name_id').val();
+                    if(name = ""){
+                        return confirm(message_confirm_add('add', 'team', name));
+                    }else{
+                        return confirm(message_confirm_add('add', 'team', name));
+                    }  
+                }
+            </SCRIPT>
             <div class="box box-default">
+                <div class="col-md-12" style="width: 100% ; margin-bottom: 2em"></div>
                 <div class="box-body">
                     <div id="msg">
                     </div>
@@ -32,12 +42,12 @@
                         <!-- /.col -->
                         <div class="col-md-7">
                             <div class="form-group">
-                                <label>Team name</label>
+                                <label>{{trans('team.team.team_name')}}<strong style="color: red">(*)</strong></label>
                             {{ Form::text('team_name', old('team_name'),
-                              ['class' => 'form-control width80',
+                              ['class' => 'form-control width78',
                               'id' => 'team_name_id',
                               'autofocus' => true,
-                              'placeholder'=>'Team name',
+                              'placeholder'=>trans('team.team.team_name'),
                               ])
                             }}
                             <!-- /.input group -->
@@ -45,7 +55,7 @@
                                        style="color: red; ">{{$errors->first('team_name')}}</label>
                             </div>
                             <div class="form-group">
-                                <label>PO name</label><br/>
+                                <label>{{trans('team.team.po_name')}}</label><br/>
                                 <select class="form-control select2 width80" name="id_po" onchange="choosePO()"
                                         id="id_po">
                                     <option {{ !empty(old('id_po'))?'':'selected="selected"' }} value="" id="po_0">
@@ -62,7 +72,7 @@
                                 <label id="lb_error_id_po" style="color: red; ">{{$errors->first('id_po')}}</label>
                             </div>
                             <div class="form-group">
-                                <label>Member</label><br/>
+                                <label>{{trans('team.team.member')}}</label><br/>
                                 <select class="form-control select2 width80" name="" id="member">
                                     <option {{ !empty(old('members'))?'':'selected="selected"' }} value=""
                                             id="member_0">
@@ -74,8 +84,6 @@
 
                                     @endforeach
                                 </select>
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
-                                {{--<input type="hidden" name="members[]" value="42"/>--}}
                                 <button type="button" class="btn btn-default buttonAdd">
                                     <a onclick="addFunction()"><i
                                                 class="fa fa-user-plus"></i> {{ trans('common.button.add')}}</a>
@@ -105,6 +113,7 @@
                     </div>
                 </div>
                 {!! Form::close() !!}
+                <div class="col-md-12" style="width: 100% ; margin-top: 2em"></div>
                 <style>
                     button.btn.btn-info.pull-left {
                         float:  left;
@@ -124,34 +133,36 @@
                 <script>
                     $(document).ready(function () {
                         $("#form_add_team").submit(function () {
-                            return confirm('{{trans('team.confirm_add_team')}}');
+                            return confirmAddTeam();
                         });
                     });
                     $(function () {
                         $("#btn_reset_form_team").bind("click", function () {
-                            $("#lb_error_team_name").empty();
-                            $("#lb_error_id_po").empty();
-                            $("#lb_error_members").empty();
-                            var select_po = $('#id_po');
-                            select_po.val('').change();
-                            var select_members = $("#member");
-                            select_members.val('').change();
-                            $("#team_name_id").val('');
+                            if(confirm("{{trans('team.submit.reset')}}")){
+                                $("#lb_error_team_name").empty();
+                                $("#lb_error_id_po").empty();
+                                $("#lb_error_members").empty();
+                                var select_po = $('#id_po');
+                                select_po.val('').change();
+                                var select_members = $("#member");
+                                select_members.val('').change();
+                                $("#team_name_id").val('');
 
-                            for ($i = 0; $i < $listEmployeeID.length; $i++) {
-                                $('#member_' + $listEmployeeID[$i]).prop('disabled', false);
-                                $('#member').select2();
+                                for ($i = 0; $i < $listEmployeeID.length; $i++) {
+                                    $('#member_' + $listEmployeeID[$i]).prop('disabled', false);
+                                    $('#member').select2();
 
-                                $('#po_' + $listEmployeeID[$i]).prop('disabled', false);
-                                $('#id_po').select2();
+                                    $('#po_' + $listEmployeeID[$i]).prop('disabled', false);
+                                    $('#id_po').select2();
+                                }
+
+                                $listEmployeeID = new Array();
+                                $listEmployeeName = new Array();
+                                $listEmployeeTeam = new Array();
+                                $listEmployeeRole = new Array();
+                                document.getElementById("contextMenuTeam").innerHTML = "";
+                                document.getElementById("listChoose").innerHTML = "";
                             }
-
-                            $listEmployeeID = new Array();
-                            $listEmployeeName = new Array();
-                            $listEmployeeTeam = new Array();
-                            $listEmployeeRole = new Array();
-                            document.getElementById("contextMenuTeam").innerHTML = "";
-                            document.getElementById("listChoose").innerHTML = "";
                         });
                     });
                 </script>
@@ -162,26 +173,35 @@
                             $listAdd = "";
                             for (i = 0; i < members.length; i++) {
                                 @foreach($employees as $employee)
-                                if ({{$employee->id}} == members[i]
-                            )
+                                if ({{$employee->id}} == members[i])
                                 {
                                     $teamEdit = '{{isset($employee->team)?$employee->team->name:'-' }}';
                                     $roleEdit = '{{isset($employee->role)?$employee->role->name:'-' }}';
                                 }
                                 @endforeach
-                                    $listAdd += "<tr id=\"show_" + members[i] + "\">" +
-                                    "<td>" + members[i] + "</td>" +
-                                    "<td id=\"teamEdit_" + members[i] + "\">" + $teamEdit + "</td>" +
-                                    "<td id=\"roleEdit_" + members[i] + "\">" + $roleEdit + "</td>" +
-                                    "<td id=\"nameEdit_" + members[i] + "\">" + $("#member_" + members[i]).text() + "</td>" +
-                                    "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + members[i] + ")\"></i></td></tr>";
+                                $classBtr = '';
+                                if($roleEdit == 'PO'){
+                                    $classBtr = 'label label-primary';
+                                } else if($roleEdit == 'Dev'){
+                                    $classBtr = 'label label-success';
+                                } else if($roleEdit == 'BA'){
+                                    $classBtr = 'label label-info';
+                                } else if($roleEdit == 'ScrumMaster'){
+                                    $classBtr = 'label label-warning';
+                                }
+                                $listAdd += "<tr id=\"show_" + members[i] + "\">" +
+                                "<td>" + members[i] + "</td>" +
+                                "<td id=\"teamEdit_" + members[i] + "\">" + $teamEdit + "</td>" +
+                                "<td id=\"roleEdit_" + members[i] + "\"><span class=\""+ $classBtr +"\">" + $roleEdit + "</span></td>" +
+                                "<td id=\"nameEdit_" + members[i] + "\">" + $("#member_" + members[i]).text() + "</td>" +
+                                "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + members[i] + ")\"></i></td></tr>";
                             }
                             listChoose = "";
                             for (i = 0; i < members.length; i++) {
                                 listChoose += "<input type=\"text\" name=\"members[]\" id=\"employee\" value=\"" + members[i] + "\" class=\"form-control width80 input_" + members[i] + "\">";
                             }
                             $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
-                                "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
+                                "<thead><tr><th>{{trans('team.add_team.id')}}</th><th>{{trans('team.add_team.team_name')}}</th><th>Role</th><th>{{trans('team.add_team.name')}}</th><th>{{trans('team.add_team.remove')}}</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
                                 "</tbody></table></div>";
                             document.getElementById("contextMenuTeam").innerHTML = $listAdd;
                             document.getElementById("listChoose").innerHTML = listChoose;
@@ -217,12 +237,13 @@
                         $id = document.getElementById("member").value;
                         $idPO = document.getElementById("id_po").value;
                         if ($id == $idPO) {
-                            alert("Member matches with PO, Please select another member !!!");
+                            alert("{{trans('team.msg_content.msg_add_member1')}}");
                         } else {
                             $check = true;
                             for ($i = 0; $i < $listEmployeeID.length; $i++) {
                                 if ($id == $listEmployeeID[$i]) {
                                     $check = false;
+                                    alert("{{trans('team.msg_content.msg_add_member2')}}");
                                     break;
                                 }
                             }
@@ -256,12 +277,12 @@
                                             "<td>"+$listEmployeeTeam[$i]+"</td>"+
                                             "<td><span class=\""+ $classBtr +"\">"+$listEmployeeRole[$i]+"</span></td>"+
                                             "<td>" + $listEmployeeName[$i]+ "</td>"+
-                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployee(" + $listEmployeeID[$i]+")\"></i></td></tr>";                              
+                                            "<td><a class=\"btn-employee-remove\"  style=\"margin-left: 25px;\"><i class=\"fa fa-remove\"  onclick=\"removeEmployeeTeam(" + $listEmployeeID[$i]+")\"></i></td></tr>";                              
 
                                 }
 
                                 $listAdd = "<div class=\"box-body\"><table id=\"employee-list\" class=\"table table-bordered table-striped\">" +
-                                    "<thead><tr><th>ID</th><th>Team</th><th>Role</th><th>Name</th><th>Remove</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
+                                    "<thead><tr><th>{{trans('team.add_team.id')}}</th><th>{{trans('team.add_team.team_name')}}</th><th>{{trans('team.add_team.role')}}</th><th>{{trans('team.add_team.name')}}</th><th>{{trans('team.add_team.remove')}}</th></tr></thead><tbody class=\"context-menu\">" + $listAdd +
                                     "</tbody></table></div>";
 
                                 $listChoose = "";
@@ -282,7 +303,7 @@
                     }
                 </script>
                 <script type="text/javascript">
-                    function removeEmployee($id) {
+                    function removeEmployeeTeam($id) {
                         $('tr').remove('#show_' + $id);
                         $('input').remove('.input_' + $id);
                         $listEmployeeName.splice($listEmployeeID.indexOf("" + $id), 1);
@@ -318,10 +339,14 @@
     <!-- /.box -->
     </section>
     <!-- /.content -->
-    </div>
+    {{--</div>--}}
     <style type="text/css">
         .width80 {
             width: 80%;
+        }
+
+        .width78 {
+            width: 78%;
         }
 
         .buttonAdd {

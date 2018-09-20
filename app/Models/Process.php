@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Process extends Model
 {
@@ -11,7 +12,7 @@ class Process extends Model
     protected $fillable = [
         'id',
         'employee_id',
-        'projects_id',
+        'project_id',
         'role_id',
         'check_project_exit',
         'man_power',
@@ -22,6 +23,11 @@ class Process extends Model
         'created_at',
         'created_by_employee',
         'delete_flag'
+    ];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
     public function employee()
@@ -41,5 +47,13 @@ class Process extends Model
     public function performances()
     {
         return $this->hasMany('App\Models\Performance', 'process_id')->where('delete_flag', '=', 0);
+    }
+//    public function overtimes(){
+//        return $this->hasMany('App\Models\Overtime','process_id');
+//    }
+    public function countProcess(){
+        $id = Auth::user()->id;
+        $project = Process::where('employee_id',$id)->count();
+        return $project;
     }
 }

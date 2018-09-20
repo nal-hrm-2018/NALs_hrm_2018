@@ -37,7 +37,7 @@ class VendorController extends Controller
 
     public function index(Request $request)
     {
-        $status = [0 => "Active", 1 => "Inactive"];
+        $status = [0=> config('settings.employee_status.Active'), 1=>config('settings.employee_status.Quited'),2=> config('settings.employee_status.Expired')];
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $request['is_employee'] = config('settings.Employees.not_employee');
         if (!isset($request['number_record_per_page'])) {
@@ -58,7 +58,9 @@ class VendorController extends Controller
     {
         $genders = [1 => config('settings.Gender.female'), 2 => config('settings.Gender.male'),
             3=>config('settings.Gender.n_a')];
-
+//        $genders = [1 => config('settings.Gender.female'), 2 => config('settings.Gender.male'),
+//            3=>config('settings.Gender.n_a')];
+//dd(config('settings.Married.single').'');
         $marries = [1=>config('settings.Married.single'),2=>config('settings.Married.married'),
             3=>config('settings.Married.separated'),4=>config('settings.Married.devorce')];
 
@@ -121,7 +123,7 @@ class VendorController extends Controller
 
         $processes->setPath('');
 
-        $param = (Input::except('page'));
+        $param = (Input::except(['page','is_employee']));
 
         if ($request->get('number_record_per_page')) {
             $active = 'project';
@@ -199,10 +201,10 @@ class VendorController extends Controller
         $employee->role_id = $request->role_id;
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
-            \Session::flash('msg_success', 'Account successfully edited!!!');
+            \Session::flash('msg_success', trans('vendor.msg_controller.update.success'));
             return redirect('vendors');            
         } else {
-            \Session::flash('msg_fail', 'Edit failed!!!');
+            \Session::flash('msg_fail', trans('vendor.msg_controller.update.false'));
             return back()->with(['vendors' => $employee]);
         }
     }
@@ -214,17 +216,17 @@ class VendorController extends Controller
         $newPass = $request -> new_pass;
         $cfPass = $request -> cf_pass;
         if(!Hash::check($oldPass, $employee -> password)){
-            return back()->with(['error' => 'Old password is incorrect!!!', 'employee' => $employee]);
+            return back()->with(['error' => trans('vendor.msg_controller.edit_pass.old_pass'), 'employee' => $employee]);
         }else{
             if($newPass != $cfPass){
-                return back()->with(['error' => 'The confirm password and password must match!!!', 'employee' => $employee]);
+                return back()->with(['error' => trans('vendor.msg_controller.edit_pass.conf_pass'), 'employee' => $employee]);
             }else{
                 if (strlen($newPass) < 6) {
-                    return back()->with(['error' => 'The Password must be at least 6 characters!!!', 'employee' => $employee]);
+                    return back()->with(['error' => trans('vendor.msg_controller.edit_pass.least_character'), 'employee' => $employee]);
                 }else {
                     $employee->password = bcrypt($newPass);
                     $employee->save();
-                    \Session::flash('msg_success', 'Password successfully edited!!!');
+                    \Session::flash('msg_success', trans('vendor.msg_controller.edit_pass.success_pass'));
                     return redirect('vendors/'.$employee->id.'/edit');
                 }
             }
@@ -239,7 +241,7 @@ class VendorController extends Controller
             } else {
                 $employees->delete_flag = 1;
                 $employees->save();
-                return response(['msg' => 'Vendor deleted', 'status' => 'success', 'id' => $id]);
+                return response(['msg' => 'Vendor deleted', 'status' => trans('vendor.msg_controller.destroy_success'), 'id' => $id]);
             }
         } else {
             if (is_null($employees)) {
@@ -257,7 +259,7 @@ class VendorController extends Controller
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
             if(5242880 < $file->getSize()){ 
-                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
+                \Session::flash('msg_fail', trans('vendor.msg_controller.post_file.max_size'));
                 return redirect('employee');
             } 
             if ($file->getClientOriginalExtension('myFile') == "csv") {
@@ -292,11 +294,11 @@ class VendorController extends Controller
                 $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
                 return view('vendors.list_import', ['dataVendor' => $dataVendor, 'num' => $num, 'row' => $row, 'urlFile' => public_path('files/' . $nameFile), 'listError' => $listError, 'colError' => $colError, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
             } else {
-                \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
+                \Session::flash('msg_fail', trans('vendor.msg_controller.post_file.format_error'));
                 return redirect('vendors');
             }
         } else {
-            \Session::flash('msg_fail', 'File not selected!!!');
+            \Session::flash('msg_fail', trans('vendor.msg_controller.post_file.not_select'));
             return redirect('vendors');
         }
     }
@@ -403,7 +405,7 @@ class VendorController extends Controller
         if (file_exists($urlFile)) {
             unlink($urlFile);
         }
-        \Session::flash('msg_success', 'Import Vendors successfully!!!');
+        \Session::flash('msg_success', trans('vendor.msg_controller.import_success'));
         return redirect('vendors');
     }
 

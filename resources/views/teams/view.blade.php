@@ -13,14 +13,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Team Detail
+                {{trans('team.title_header.detail')}}
                 <small>Nal solution</small>
             </h1>
 
             <ol class="breadcrumb">
-                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{asset('/teams-list')}}"> Teams</a></li>
-                <li><a href="#">Detail</a></li>
+                <li><a href="{{asset('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>
+                <li><a href="{{asset('/teams')}}"> {{trans('team.path.team')}}</a></li>
+                <li><a href="#">{{trans('team.title_header.detail')}}</a></li>
             </ol>
         </section>
 
@@ -38,12 +38,12 @@
                             <table id="employee-list" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Employee ID</th>
-                                    <th>Name PO</th>
-                                    <th>Role</th>
-                                    <th>Doing Projects</th>
-                                    <th>Email</th>
-                                    <th class="text-center">Phone</th>
+                                    <th>{{trans('team.team.employee_id')}}</th>
+                                    <th>{{trans('team.team.po_name')}}</th>
+                                    <th>{{trans('team.team.role')}}</th>
+                                    <th>{{trans('team.team.doing_project')}}</th>
+                                    <th>{{trans('team.team.email')}}</th>
+                                    <th class="text-center">{{trans('team.team.phone')}}</th>
                                 </tr>
                                 </thead>
                                 {{-- {{var_dump($member[3]->projects->toArray())}}--}}
@@ -82,6 +82,10 @@
                                                     if (sizeof($employee->projects) > 0 && sizeof($employee->projects) <= 3) {
                                                         echo $project->name;
                                                         if ($count < sizeof($employee->projects) - 1) echo ', ';
+                                                        if($count == sizeof($employee->projects) - 1)
+                                                            echo ' <a href="#" class="show-list-employee"
+                                                            id="show-list-employee-' . $employee->id . '" data-toggle="modal"
+                                                            data-target="#show-list-members" style="color: black">[?]</a>';
                                                         $count++;
                                                     } else if (sizeof($employee->projects) > 3) {
                                                         echo $project->name;
@@ -94,7 +98,7 @@
                                                             break;*/
                                                             echo '<a href="#" class="show-list-employee"
                                                             id="show-list-employee-' . $employee->id . '" data-toggle="modal"
-                                                            data-target="#show-list-members">[...]</a>';
+                                                            data-target="#show-list-members" style="color: red">[...]</a>';
                                                             break;
                                                         }
                                                         $count++;
@@ -109,10 +113,9 @@
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
 
                                             <li><a href="{!! asset('employee/'.$employee->id)!!}"><i
-                                                            class="fa fa-id-card"></i> View</a></li>
+                                                            class="fa fa-id-card"></i> {{trans('common.action.view')}}</a></li>
                                             <li><a href="{!! asset('employee/'.$employee->id.'/edit')!!}"><i
-                                                            class="fa fa-edit"></i>
-                                                    Edit</a></li>
+                                                            class="fa fa-edit"></i> {{trans('common.action.edit')}}</a></li>
                                         </ul>
                                     </tr>
                                 @endforeach
@@ -126,14 +129,16 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">
-                                                <th>Name Project Of Employee</th>
+                                                <th>{{trans('team.view_team_list_project.title')}} <span id="employee-name"></span></th>
                                             </h4>
                                         </div>
                                         <div class="modal-body">
                                             <table id="member-list" class="table table-bordered table-striped">
                                                 <thead>
                                                 <tr>
-                                                    <th>Name:</th>
+                                                    <th>{{trans('team.view_team_list_project.id')}}</th>
+                                                    <th>{{trans('team.view_team_list_project.name')}}</th>
+                                                    <th>{{trans('team.view_team_list_project.status')}}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="context-menu"  id="table-list-members">
@@ -144,7 +149,7 @@
                                             </table>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('team.view_team_list_project.close')}}
                                             </button>
                                         </div>
                                     </div>
@@ -235,22 +240,42 @@
             var id = $(this).attr('id');
             var id_team = id.slice(19);
             {{--            $('#table-list-members').append(html_{{$project->name}});--}}
-
             <?php
             $employeesModal = $member;
             foreach ($employeesModal as $employee) {
                 foreach ($employee->projects as $project) {
-                    echo
-                        ' var html_' . $project->id .
-                        '= "<tr><td>' . $project->name .
-                        '</td></tr>";';
+                    if (isset($project->status)) {
+                        if ($project->status->name === 'kick off') {
+                            $classBtr = 'label label-primary';
+                        } else if ($project->status->name === 'pending') {
+                            $classBtr = 'label label-danger';
+                        } else if ($project->status->name  === 'in-progress') {
+                            $classBtr = 'label label-warning';
+                        } else if ($project->status->name  == 'releasing') {
+                            $classBtr = 'label label-info';
+                        } else if ($project->status->name  == 'complete') {
+                            $classBtr = 'label label-success';
+                        } else if ($project->status->name  == 'planning') {
+                            $classBtr = 'label label-default';
+                        }
+                        echo
+                            ' var html_' . $project->id .
+                            '= "<tr><td>'. $project->id .'</td><td>' . $project->name .
+                            '</td><td><span class=\"'. $classBtr .'\">'. $project->status->name .'</span></td></tr>";';
+                    } else {
+                        echo
+                            ' var html_' . $project->id .
+                            '= "<tr><td>'. $project->id .'</td><td>' . $project->name .
+                            '</td><td>-</td></tr>";';
+                    }
+
                 }
             }
             ?>
             @foreach($employeesModal as $employee)
             @foreach($employee->projects as $project)
             if(id_team == "{{$employee->id}}") {
-
+                $('#employee-name').html('{{$employee->name}}');
             $('#table-list-members').append(html_{{$project->id}});
             }
             @endforeach

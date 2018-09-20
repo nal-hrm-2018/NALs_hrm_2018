@@ -54,8 +54,8 @@
                                 <tbody class="context-menu">
                                 @foreach($teams as $team)
                                     <?php
-                                        $po = $team->employees->where('role_id', $po_id)->first();
-                                        $employees = $team->employees->where('role_id', '<>',  $po_id);
+                                        $po = $team->employees->where('is_manager', '1')->first();
+                                        $employees = $team->employees->where('is_manager', '<>',  '1');
                                     ?>
                                     <tr class="team-menu" id="team-id-{{$team->id}}"
                                         data-team-id="{{$team->id}}">
@@ -63,7 +63,7 @@
                                         <td>{{$team->name}}</td>
                                         <td>
                                             @if(isset($po))
-                                                <a href="employee/{{$po->id}}">{{$po->name}}</a>
+                                                <a href="employee/{{$po->id}}">{{$po->name}} </a>
                                                 @else
                                                 -
                                             @endif
@@ -76,6 +76,10 @@
                                                         if(sizeof($employees)>0 && sizeof($employees)<=3){
                                                             echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
                                                             if($count < sizeof($employees)-1) echo ', ';
+                                                            if($count == sizeof($employees)-1)
+                                                                echo ' <a href="#" class="show-list-employee"
+                                                            id="show-list-employee-'. $team->id .'" data-toggle="modal"
+                                                            data-target="#show-list-members" style="color: black">[?]</a>';
                                                             $count++;
                                                         } else if(sizeof($employees)>3){
                                                             echo '<a href="employee/'. $employee->id .'">'. $employee->name .'</a>';
@@ -83,7 +87,7 @@
                                                             if($count == 2){
                                                                 echo '<a href="#" class="show-list-employee"
                                                             id="show-list-employee-'. $team->id .'" data-toggle="modal"
-                                                            data-target="#show-list-members">[...]</a>';
+                                                            data-target="#show-list-members" style="color: red">[...]</a>';
                                                                 break;
                                                             }
                                                             $count++;
@@ -126,7 +130,7 @@
                                                 <thead>
                                                 <tr>
                                                     <th>{{trans('employee.profile_info.id')}}</th>
-                                                    <th>{{trans('employee.profile_info.name')}}</th>
+                                                    <th>{{trans('employee.profile_info.long_name')}}</th>
                                                     <th>{{trans('employee.profile_info.role')}}</th>
                                                 </tr>
                                                 </thead>
@@ -245,7 +249,7 @@
                 var elementRemove = $(this).data('team-id');
                 var nameRemove = $(this).data('team-name');
                 console.log("element: " + elementRemove);
-                if (confirm('Do you want to delete team "'+ nameRemove +'"?')) {
+                if (confirm(message_confirm('delete', 'team', elementRemove, nameRemove))) {
                     $.ajax({
                         type: "DELETE",
                         url: '{{ url('/teams') }}' + '/' + elementRemove,
@@ -272,7 +276,8 @@
 
         $('#choose-month').change(function () {
             var month = $('#choose-month').val();
-            var monthFormat = new Date(month);
+            // var monthFormat = new Date(month);
+            var arr = month.split("-", 2);
             $.ajax({
                 type: "POST",
                 url: '{{ url('/teams/chart') }}',
@@ -301,7 +306,7 @@
                     showChart(bar_data);
                 }
             });
-            $('#current-month').html((monthFormat.getMonth() + 1) + '/' + monthFormat.getFullYear());
+            $('#current-month').html(arr[1] + "/" + arr[0]);
 
         });
 
@@ -382,7 +387,7 @@
             var id_team = id.slice(19);
             <?php
                 foreach($teams as $team){
-                    $employeesModal = $team->employees->where('role_id', '<>',  $po_id);
+                    $employeesModal = $team->employees->where('is_manager', '<>',  '1');
                     foreach($employeesModal as $employee){
                         if(isset($employee->role)){
                             $classBtr = '';
@@ -406,7 +411,7 @@
                 if(id_team == "{{$team->id}}"){
                     $('#team_name_modal').html('{{$team->name}}');
                     <?php
-                        $employeesAppend = $team->employees->where('role_id', '<>',  $po_id);
+                        $employeesAppend = $team->employees->where('is_manager', '<>',  '1');
                     ?>
                     @foreach($employeesAppend as $employee)
                         $('#table-list-members').append(html_{{$team->id}}_{{$employee->id}});

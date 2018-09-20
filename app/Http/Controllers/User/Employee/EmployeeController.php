@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ngoc Quy
- * Date: 4/16/2018
- * Time: 11:26 AM
- */
 
 namespace App\Http\Controllers\User\Employee;
-
 
 use App\Export\TemplateExport;
 use App\Service\ChartService;
@@ -20,6 +13,12 @@ use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
+use App\Models\EmployeeTeam;
+use App\Models\PermissionEmployee;
+use App\Models\PermissionRole;
+use App\Models\Overtime;
+use App\Models\OvertimeStatus;
+use App\Models\Absence;
 use DateTime;
 use App\Service\SearchService;
 use App\Http\Requests\SearchRequest;
@@ -29,6 +28,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\EmployeeEditRequest;
 use App\Import\ImportFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 class EmployeeController extends Controller
 {
     /**
@@ -37,26 +39,51 @@ class EmployeeController extends Controller
     private $searchEmployeeService;
     protected $searchService;
     private $chartService;
+    private $objmEmployeePermission;
 
-    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService, ChartService $chartService)
+    public function __construct(SearchService $searchService, SearchEmployeeService $searchEmployeeService, ChartService $chartService,PermissionEmployee $objmEmployeePermission
+    )
     {
         $this->searchService = $searchService;
         $this->searchEmployeeService = $searchEmployeeService;
         $this->chartService = $chartService;
+        $this->objmEmployeePermission=$objmEmployeePermission;
     }
 
     public function index(Request $request)
     {
-        $status = [0=> "Active", 1=>"Inactive"];
+//        echo $request['number_record_per_page']; die();
+        $status = [0=> trans('employee.profile_info.status_active'), 1=>trans('employee.profile_info.status_quited'),2=> trans('employee.profile_info.status_expired')];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->paginate($request['number_record_per_page']);
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime.status');
+        $employees->get();
+        $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
-        $param = (Input::except('page'));
-        return view('employee.list', compact('employees','status', 'roles', 'teams', 'param'));
+        $newmonth = date('d');
+        $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
+        foreach($employees as $val){
+            $s = 0;
+            if(count($val->overtime)){
+                foreach($val->overtime as $ot){
+                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($newmonth)){
+                        $s += $ot->correct_total_time;
+                    }
+                }
+            }
+            // $data = json_decode($data,true); 
+            unset($val->overtime );
+            $val->overtime = $s;
+        }
+        $param = (Input::except(['page','is_employee']));
+        $id=Auth::user()->id;
+        $overtime_status = OvertimeStatus::select('id')->where('name', 'Not yet')->first();
+        $employee_permission=$this->objmEmployeePermission->permission_employee($id);
+        return view('employee.list', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
+ //       return view('employee.newlist', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
     }
 
     public function create()
@@ -72,7 +99,7 @@ class EmployeeController extends Controller
         $employee = new Employee;
         $employee->email = $request->email;
         $employee->password = bcrypt($request->password);
-        $employee->name = $request->name;
+        $employee->name = preg_replace('/\s+/', ' ',$request->name);
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
@@ -80,6 +107,16 @@ class EmployeeController extends Controller
         $employee->marital_status = $request->marital_status;
         $employee->startwork_date = $request->startwork_date;
         $employee->endwork_date = $request->endwork_date;
+        //upload hinh from hunganh
+        if($request->file('picture')){
+            $file = Input::file('picture');
+            if(strlen($file) > 0){
+                $picture= $file->getClientOriginalName();
+                $file->move('avatar',$picture);
+                $employee->avatar = $picture;
+            }
+        }
+
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
         if(strtotime($employee->endwork_date) < strtotime($date)){
@@ -89,16 +126,32 @@ class EmployeeController extends Controller
         }
         $employee->is_employee = 1;
         $employee->employee_type_id = $request->employee_type_id;
-        $employee->team_id = $request->team_id;
+        //$employee->team_id = $request->team_id;
         $employee->role_id = $request->role_id;
         $employee->created_at = new DateTime();
         $employee->delete_flag = 0;
-        
+
         if($employee->save()){
-            \Session::flash('msg_success', 'Account successfully created!!!');
+            $id_employeeteam=$employee->id;
+            
+            foreach ($request['team_id'] as $teamid){
+                $employeeteam = new EmployeeTeam;
+                $employeeteam->team_id=$teamid;
+                $employeeteam->employee_id=$id_employeeteam;
+                $employeeteam->save();
+            }
+            $role_id = $request->role_id;
+            $employee_permission = PermissionRole::where('role_id', $request->role_id)->get();
+            foreach ($employee_permission as $permission){
+                $PermissionEmployee = new PermissionEmployee;
+                $PermissionEmployee->permission_id = $permission->permission_id;
+                $PermissionEmployee->employee_id = $id_employeeteam;
+                $PermissionEmployee->save(); 
+            }
+            \Session::flash('msg_success', trans('employee.msg_add.success'));
             return redirect('employee');
         }else{
-            \Session::flash('msg_fail', 'Account failed created!!!');
+            \Session::flash('msg_fail', trans('employee.msg_add.fail'));
             return back()->with(['employee' => $employee]);
         }
         
@@ -116,7 +169,7 @@ class EmployeeController extends Controller
                 'is_employee' => $request->get('is_employee'),
             ]
         );
-
+        $rest_absence = Employee::emp_absence($id)['remaining_this_year'];
         $active = $request->get('number_record_per_page');
 
         if ($active) {
@@ -135,7 +188,7 @@ class EmployeeController extends Controller
 
         $processes->setPath('');
 
-        $param = (Input::except('page'));
+        $param = (Input::except(['page','is_employee']));
 
         //set employee info
         $employee = Employee::where('delete_flag', 0)->where('is_employee', '1')->find($id);
@@ -143,6 +196,7 @@ class EmployeeController extends Controller
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
 
         $project_statuses = Status::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+
 
         if (!isset($employee)) {
             return abort(404);
@@ -155,14 +209,54 @@ class EmployeeController extends Controller
         //set list years
         $listYears = $this->chartService->getListYear($employee);
 
-        return view('employee.detail', compact('employee',
+        $overtime = Overtime::select()
+                    ->where('employee_id', $id)
+                    ->WhereMonth(('date'), date('m'))
+                    ->where('delete_flag', '=', 0)
+                    ->whereHas('status',function($query) {
+                        $query->where('name','Accepted')->orWhere('name','Rejected');
+                    })
+                    ->get()->sortBy('date');
+        $normal = 0;
+        $weekend = 0;
+        $holiday = 0;
+        foreach($overtime as $val){
+            if($val->type->name == 'normal'){
+                $normal += $val->correct_total_time;
+            }elseif($val->type->name == 'weekend'){
+                $weekend += $val->correct_total_time;
+            }elseif($val->type->name == 'holiday'){
+                $holiday += $val->correct_total_time;
+            }
+        }
+        $time = ['normal' => $normal,'weekend' => $weekend,'holiday' => $holiday];
+        $listAbsence = Absence::select('absence_statuses.name AS name_status','absence_types.name AS name_type','absence_time.name AS name_time',
+            'absences.from_date','absences.to_date','absences.reason','absences.description','absences.id', 'absences.is_deny',
+            'absences.absence_status_id')
+            ->join('absence_types', 'absences.absence_type_id', '=', 'absence_types.id')
+            ->join('absence_time', 'absences.absence_time_id', '=', 'absence_time.id')
+            ->join('absence_statuses', 'absences.absence_status_id', '=', 'absence_statuses.id')
+            ->where('absences.delete_flag', 0)
+            ->where('absences.employee_id',$id)
+            ->where(function($listAbsence)use($year){
+                $listAbsence->whereYear('absences.from_date', $year)
+                    ->orWhereYear('absences.to_date', $year);
+            })
+            ->orderBy('absences.id', 'desc')
+            ->get();
+        return view('employee.detail', compact(
+            'overtime',
+            'time',
+            'employee',
             'processes',
             'listValue',
             'listYears',
             'roles',
             'param',
             'project_statuses',
-            'active'))
+            'active',
+            'rest_absence',
+            'listAbsence'))
             ->render();
     }
 
@@ -172,29 +266,51 @@ class EmployeeController extends Controller
         if ($employee == null) {
             return abort(404);
         }
-        $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id)->toArray();
-        $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        $dataTeamAll = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        $dataTeam = Employee::find($id);
+
+        $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id);
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
 
-        return view('employee.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        return view('employee.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes ,'dataTeamAll' => $dataTeamAll]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
     {
+        $id_emp=Auth::user()->id;
+        if($id_emp!=$id){
+            if(!Auth::user()->hasRoleHR()){
+                return redirect()->route('dashboard-user');
+            }
+        }
         $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
         if ($employee == null) {
             return abort(404);
         }
-        $employee->email = $request->email;
-        $employee->name = $request->name;
+        if(Auth::user()->hasRoleHR()){
+            $employee->email = $request->email;
+            $employee->startwork_date = $request->startwork_date;
+            $employee->endwork_date = $request->endwork_date;
+            $employee->role_id = $request->role_id;
+            $employee->employee_type_id = $request->employee_type_id;
+        }
+
+        $employee->name = preg_replace('/\s+/', ' ',$request->name);
         $employee->birthday = $request->birthday;
         $employee->gender = $request->gender;
         $employee->mobile = $request->mobile;
-        $employee->address = $request->address;
+        $employee->address = preg_replace('/\s+/', ' ',$request->address);
         $employee->marital_status = $request->marital_status;
-        $employee->startwork_date = $request->startwork_date;
-        $employee->endwork_date = $request->endwork_date;
+        //upload hinh from hunganh
+        if($request->file('picture')){
+            $file = Input::file('picture');
+            if(strlen($file) > 0){
+                $picture= $file->getClientOriginalName();
+                $file->move('avatar',$picture);
+                $employee->avatar = $picture;
+            }
+        }
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
         if(strtotime($employee->endwork_date) < strtotime($date)){
@@ -202,38 +318,47 @@ class EmployeeController extends Controller
         }else{
             $employee->work_status = 0;
         }
-        $employee->employee_type_id = $request->employee_type_id;
-        $employee->team_id = $request->team_id;
-        $employee->role_id = $request->role_id;
+        $id_NALs = Team::select('id')->where('name','NALs')->first();
+        if(!$request->get('team_id')){
+          $request->merge(['team_id' => $id_NALs]);
+        } 
+        
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
-            \Session::flash('msg_success', 'Account successfully edited!!!');
-            return redirect('employee');
+            $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
+            $employee->teams()->sync($request['team_id']);
+            \Session::flash('msg_success', trans('employee.msg_edit.success'));
+            return redirect()->route('employee.edit',compact('id'));
         } else {
-            \Session::flash('msg_fail', 'Account failed edited!!!');
+            \Session::flash('msg_fail', trans('employee.msg_edit.fail'));
             return back()->with(['employee' => $employee]);
         }
     }
-    public function editPass(Request $request)
+    public function editPass(Request $request, $id)
     {
         $employee = Employee::find(\Illuminate\Support\Facades\Auth::user()->id);
-        $oldPass = $request -> old_pass;
+        $ojbEmployee = Employee::Where('id',$id)->first();
         $newPass = $request -> new_pass;
         $cfPass = $request -> cf_pass;
-        if(!Hash::check($oldPass, $employee -> password)){
-            return back()->with(['error' => 'Old password is incorrect!!!', 'employee' => $employee]);
+        if (\Illuminate\Support\Facades\Auth::user()->id == $id) {
+            $oldPass = $request -> old_pass;
+            if (!Hash::check($oldPass, $ojbEmployee->password)) {
+                return back()->with(['error'=> trans('employee.valid_reset_password.incorrect_old_pass'), 'employee' => $ojbEmployee]);
+            }
+            if($newPass == $oldPass){
+                return back()->with(['error' => trans('employee.valid_reset_password.repeat__pass'), 'employee' => $ojbEmployee]);
+            }
+        }
+        if($newPass != $cfPass){
+            return back()->with(['error' => trans('employee.valid_reset_password.match_confirm_pass'), 'employee' => $ojbEmployee]);
         }else{
-            if($newPass != $cfPass){
-                return back()->with(['error' => 'The confirm password and password must match!!!', 'employee' => $employee]);
-            }else{
-                if (strlen($newPass) < 6) {
-                    return back()->with(['error' => 'The Password must be at least 6 characters!!!', 'employee' => $employee]);
-                }else {
-                    $employee->password = bcrypt($newPass);
-                    $employee->save();
-                    \Session::flash('msg_success', 'Password successfully edited!!!');
-                    return redirect('employee/'.$employee->id.'/edit');
-                }
+            if (strlen($newPass) < 6) {
+                return back()->with(['error' => trans('employee.valid_reset_password.min_new_pass'), 'employee' => $ojbEmployee]);
+            }else {
+                $ojbEmployee->password = bcrypt($newPass);
+                $ojbEmployee->save();
+                \Session::flash('msg_success', trans('employee.valid_reset_password.reset_success'));
+                return redirect('employee/'.$ojbEmployee->id.'/edit');
             }
         }
     }
@@ -241,14 +366,13 @@ class EmployeeController extends Controller
 
     public function destroy($id, Request $request)
     {
-        if ($request->ajax()) {
             $employees = Employee::where('id', $id)->where('delete_flag', 0)->first();
             $employees->delete_flag = 1;
             $employees->save();
 
-            return response(['msg' => 'Product deleted', 'status' => 'success', 'id' => $id]);
-        }
-        return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
+//          \Session::flash('msg_success', trans('employee.msg_add.success'));
+          //return redirect()->route('employee.index');
+          return response(['msg' => 'Product deleted', 'status' => trans('common.delete.success'), 'id' => $id]);
     }
 
 
@@ -267,7 +391,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('myFile')) {
             $file = $request->file("myFile");
             if(5242880 < $file->getSize()){ 
-                \Session::flash('msg_fail', 'The selected file is too large. Maximum size is 5MB.');
+                \Session::flash('msg_fail', trans('employee.valid5mb'));
                 return redirect('employee');
             }           
             if ($file->getClientOriginalExtension('myFile') == "csv") {
@@ -303,12 +427,12 @@ class EmployeeController extends Controller
                 $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
                 return view('employee.list_import', ['dataEmployees' => $dataEmployees, 'num' => $num, 'row' => $row, 'urlFile' => public_path('files/' . $nameFile), 'listError' => $listError, 'colError' => $colError, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
             } else {
-                \Session::flash('msg_fail', 'The file is not formatted correctly!!!');
+                \Session::flash('msg_fail', trans('employee.valid_not_csv'));
                 return redirect('employee');
             }
 
         } else {
-            \Session::flash('msg_fail', 'File not selected!!!');
+            \Session::flash('msg_fail', trans('employee.valid_required_file'));
             return redirect('employee');
         }
     }
@@ -328,7 +452,7 @@ class EmployeeController extends Controller
                 $employee = new Employee;
                 $employee->email = $data[$c];
                 $c++;
-                $employee->password = bcrypt("123456");
+                $employee->password = ("123456");
                 $employee->name = $data[$c];
                 $c++;
                 if($data[$c] == "-"){
@@ -361,11 +485,11 @@ class EmployeeController extends Controller
                 if($data[$c] == "-"){
                     $employee->marital_status = 1;
                 }else{
-                    if (strnatcasecmp($data[$c], "single") == 0) {
+                    if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.single')) == 0) {
                         $employee->marital_status = 1;
-                    } else if (strnatcasecmp($data[$c], "married") == 0) {
+                    } else if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.married')) == 0) {
                         $employee->marital_status = 2;
-                    } else if (strnatcasecmp($data[$c], "separated") == 0) {
+                    } else if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.separated')) == 0) {
                         $employee->marital_status = 3;
                     } else {
                         $employee->marital_status = 4;
@@ -397,7 +521,10 @@ class EmployeeController extends Controller
                 $employee->employee_type_id = $objEmployeeType->id;
                 $c++;
                 $objTeam = Team::select('name', 'id')->where('name', 'like', $data[$c])->first();
-                $employee->team_id = $objTeam->id;
+
+
+
+//                $employee->team_id = $objTeam->id;
                 $c++;
                 $objRole = Role::select('name', 'id')->where('name', 'like', $data[$c])->first();
                 $employee->role_id = $objRole->id;
@@ -405,12 +532,23 @@ class EmployeeController extends Controller
                 $employee->created_at = new DateTime();
                 $employee->delete_flag = 0;
                 $employee->save();
+                $employeeteam = new EmployeeTeam;
+                $employeeteam->team_id=$objTeam->id;
+                $employeeteam->employee_id=$employee->id;
+                $employeeteam->save();
+                $employee_permission = PermissionRole::where('role_id', $employee->role_id)->get();
+                foreach ($employee_permission as $permission){
+                    $PermissionEmployee = new PermissionEmployee;
+                    $PermissionEmployee->permission_id = $permission->permission_id;
+                    $PermissionEmployee->employee_id = $employee->id;
+                    $PermissionEmployee->save();
+                }
             }
         }
         if (file_exists($urlFile)) {
             unlink($urlFile);
         }
-        \Session::flash('msg_success', 'Import Employees successfully!!!');
+        \Session::flash('msg_success', trans('employee.msg_import.success'));
         return redirect('employee');
     }
 

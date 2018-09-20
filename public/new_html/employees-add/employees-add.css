@@ -1,0 +1,440 @@
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.header{
+    margin: 0 auto;
+    width: 100%;
+    height: 79px;
+    border-bottom: 4px solid #3ab4db;
+    background: #53cbf2;
+}
+
+.is-flex {
+    display: flex;
+}
+
+.is-column {
+	flex-direction: column;
+}
+
+.is-align-item-center {
+    align-items: center;
+}
+
+.is-space-between {
+    justify-content: space-between;
+}
+
+.is-wrap {
+    flex-wrap: wrap;
+}
+
+.is-space-evenly {
+    justify-content: space-evenly;
+}
+
+.is-align-item-flex-end {
+    align-items: flex-end;
+}
+
+.mg-right-56 {
+    margin-right: 56px;
+}
+
+.mg-right-10 {
+    margin-right: 10px;
+}
+
+.dropdown-user {
+    display: flex !important;
+    justify-content: space-between;
+    border-top: 1px solid #177c9c !important;
+    border-radius: 25px !important; 
+}
+
+.margin-img-face {
+    margin-right: 15px;
+}
+
+.dropdown-notification {
+    right: -5px !important;
+    left: auto !important;
+}
+
+.dropdown-menu {
+    z-index: 2000;
+}
+
+.nav-menu {
+    background: #222128;
+    padding-top: 47px;
+    vertical-align: middle;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    width: 240px;
+    height: 73px;
+    font-size: 22px;
+    padding: 5px 10px;
+    color: #dbdbdc;
+    border-right: 3px solid #222128;
+}
+
+.nav-menu .nav-item:hover {
+    color: white;
+    background: black;
+    border-color: black;
+}
+
+.nav-menu .nav-item.active-nav {
+    color: white;
+    background: black;
+    border-color: #53cbf2;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+.fas {
+    width: 20px;
+}
+
+.content {
+    width: 100%;
+    background: #ededed;
+}
+
+.title-content {
+    position: relative;
+    margin-top: 40px;
+    margin-left: 20px;
+    margin-right: 28px;
+}
+
+.content a{
+    color: #000000;
+}
+
+.content a:hover {
+    color: #3ab4db;
+}
+
+.title-emp {
+    padding: 10px;
+    font-size: 24px;
+    border-bottom: 3px solid #222128;
+}
+
+.title-prof {
+    padding: 10px;
+    font-size: 24px;
+    border-bottom: 3px solid #3ab4db;
+}
+
+.empty {
+    flex-grow: 1;
+    padding: 10px;
+    border-bottom: 3px solid #222128;
+}
+
+.title-edit {
+    position: absolute;
+    bottom: 7px;
+    right: 2px;
+}
+
+.button-content {
+    margin-top: 24px;
+    margin-left: 20px;
+    margin-right: 28px;
+}
+
+.button-content-item {
+    display: flex;
+    align-items: center;
+    margin-left: 14px;
+    width: 158px;
+    background: #ededed;
+    padding: 5px 0px;
+    font-size: 18px;
+    border: 2px solid #d1d8e2;
+    border-radius: 4px;
+    
+}
+
+.button-content-item:hover {
+    background: white;
+}
+
+.button-content-item.active-button {
+    background: white;
+    font-weight: 700;
+    border-color: #53cbf2;
+}
+
+.mg-img-button {
+    margin-left: 8px;
+}
+
+.title-create-member {
+    font-size: 18px;
+    color: #8899a9;
+    border-bottom: 3px solid #0b6eb3;
+    padding: 0px 5px;
+}
+
+.container-form {
+    margin-top: 31px;
+    margin-left: 18px;
+    margin-right: 28px;
+    background: white;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+}
+
+.first-item-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 40px 0px;
+}
+
+.color {
+    background: -moz-linear-gradient(45deg, rgba(237,111,119,1) 0%, rgba(178,82,197,1) 50%, rgba(124,124,217,1) 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(237,111,119,1)), color-stop(50%, rgba(178,82,197,1)), color-stop(100%, rgba(124,124,217,1))); /* safari4+,chrome */
+    background: -webkit-linear-gradient(45deg, rgba(237,111,119,1) 0%, rgba(178,82,197,1) 50%, rgba(124,124,217,1) 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(45deg, rgba(237,111,119,1) 0%, rgba(178,82,197,1) 50%, rgba(124,124,217,1) 100%); /* opera 11.10+ */
+    background: -ms-linear-gradient(45deg, rgba(237,111,119,1) 0%, rgba(178,82,197,1) 50%, rgba(124,124,217,1) 100%); /* ie10+ */
+    background: linear-gradient(45deg, rgba(237,111,119,1) 0%, rgba(178,82,197,1) 50%, rgba(124,124,217,1) 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7c7cd9', endColorstr='#ed6f77',GradientType=1 ); /* ie6-9 */
+}
+
+.margin-img-form {
+    margin-right: 80px;
+}
+
+.img-bell {
+    position: absolute;
+    left: -40px;
+    bottom: 0px;
+}
+
+.position-female {
+    position: absolute;
+    left: 44%;
+    top: 100%;
+}
+
+.position-male {
+    position: absolute;
+    left: 22%;
+    top: 100%;
+}
+
+.position-lgbt {
+    position: absolute;
+    left: 72%;
+    top: 100%;
+}
+
+.input-date {
+    background: unset !important;
+    padding: .375rem 0.75rem .375rem .75rem !important;
+}
+
+.margin-0 {
+    margin: 0 !important;
+}
+
+.container-checkbox-team {
+    margin: 25px 40px;
+}
+
+.container-button-save {
+    width: 100%;
+    margin: 100px 0px;
+    text-align: center;
+}
+
+.button-save {
+    width: 125px;
+    border-radius: 20px !important;
+    margin-left: 20px;
+}
+
+:focus{
+    outline: none;
+}
+
+.colm-3{
+    margin: 25px 40px;
+    position: relative;
+    flex-basis: 27%;
+} /* necessary to give position: relative to parent. */
+
+input[type="text"]{
+    font: 15px/24px "Lato", Arial, sans-serif; 
+    color: #333; 
+    width: 100%; 
+    box-sizing: border-box; 
+    letter-spacing: 1px;
+}
+
+input[type="password"]{
+    font: 15px/24px "Lato", Arial, sans-serif; 
+    color: #333; 
+    width: 100%; 
+    box-sizing: border-box; 
+    letter-spacing: 1px;
+}
+
+::placeholder {
+    color: black !important;
+}
+
+.effect-2{
+    border: 0; 
+    padding: 7px 0; 
+    border-bottom: 1px solid #ccc;
+}
+
+.effect-2 ~ .focus-border{
+    position: absolute; 
+    bottom: 0; 
+    left: 50%; 
+    width: 0; 
+    height: 2px; 
+    background-color: #4caf50; 
+    transition: 0.4s;}
+
+.effect-2:focus ~ .focus-border{
+    width: 100%;
+    transition: 0.4s; 
+    left: 0;
+}
+
+input[type="radio"] {
+    display:none;
+}
+input[type="radio"] + label {
+    color: black;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+}
+input[type="radio"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    cursor:pointer;
+    -moz-border-radius:  50%;
+    border-radius:  50%;
+}
+
+input[type="radio"] + label span {
+    background-color: #dddddd;
+}
+
+input[type="radio"]:checked + label span{
+    background-color: red;
+}
+
+input[type="radio"] + label span,
+input[type="radio"]:checked + label span {
+  -webkit-transition:background-color 0.4s linear;
+  -o-transition:background-color 0.4s linear;
+  -moz-transition:background-color 0.4s linear;
+  transition:background-color 0.4s linear;
+}
+
+.label-input {
+    color: white !important;
+    background: mediumpurple !important;
+}
+
+input[type="checkbox"]:checked, [type="checkbox"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+
+input[type="checkbox"]:checked + label, [type="checkbox"]:not(:checked) + label {
+    position: relative;
+    top: 5px;
+    padding-left: 25px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+}
+
+input[type="checkbox"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+input[type="checkbox"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: red;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.margin-10 {
+    margin-left: 10px;
+}
+
+.footer {
+    width: 100%;
+    height: 75px;
+    background: #53cbf2;
+}
+
+.footer-text {
+    font-size: 18px;
+    color: white;
+}
+
+@media (max-width: 1439.99px) {
+    .nav-item {
+        width: 200px;
+        height: 55px;
+        font-size: 18px;
+    }
+
+    .title-emp {
+        font-size: 20px;
+    }
+
+    .title-prof {
+        font-size: 20px;
+    }
+}

@@ -9,6 +9,7 @@
 namespace App\Service;
 
 use App\Models\Employee;
+use \App\Models\Overtime;
 use Illuminate\Http\Request;
 
 class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeService
@@ -18,7 +19,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
     {
         $query = Employee::query();
 
-        $query->with(['team', 'role']);
+//        $query->with(['team', 'role']);
 
         $params['search'] = [
             'id' => !empty($request->id) ? $request->id : '',
@@ -28,7 +29,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             'role' => !empty($request->role) ? $request->role : '',
         ];
         foreach ($params as $key => $value) {
-            $id = $value['id'];
+            $id = (string)$value['id'];
             $name = $value['name'];
             $team = $value['team'];
             $role = $value['role'];
@@ -59,27 +60,160 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if (!empty($request['company'])) {
             $query->Where('company', 'like', '%' . $request['company'] . '%');
         }
-
+        
         if (!empty($id)) {
-            $query->Where('id', '=', $id);
+            $query->Where('id', 'like', $id);
         }
+        
         if (!empty($team)) {
             $query
-                ->whereHas('team', function ($query) use ($team) {
+                ->whereHas('teams', function ($query) use ($team) {
                     $query->where("name", 'like', '%' . $team . '%');
                 });
         }
+
         if (!empty($email)) {
             $query->Where('email', 'like', '%' . $email . '%');
         }
 
         if (!is_null($request['status'])) {
-            $query->Where('work_status', $request['status']);
+            $dateNow = date('Y-m-d');
+            if($request['status'] == 0){
+                $query->Where('work_status', $request['status'])
+                    ->where('endwork_date','>=',$dateNow);
+            }
+            if ($request['status'] == 1){
+                $query->Where('work_status', $request['status']);
+            }
+            if ($request['status'] == 2){
+                $query->Where('work_status', '0')
+                    ->where('endwork_date','<',$dateNow);
+            }
         }
-
+        if(!empty($request['year_absence'])){
+            $year=$request['year_absence'];
+            $query->whereYear('endwork_date','>=',$year);
+        }
+        if (!empty($request['project_id'])) {
+        $project = $request['project_id'];
+        $query
+            ->whereHas('processes', function ($query) use ($project) {
+                $query->where("project_id",$project);
+            });
+        }
+        $date_ot = $request['date_ot'];
+        if (!empty($date_ot)) {
+            $query
+                ->whereHas('overtime', function ($query) use ($date_ot) {
+                    $query->where("date", 'like', '%' . $date_ot . '%');
+                });
+        }
+        $date_ot = $request['year_ot'];
+        if (!empty($date_ot)) {
+            $query
+                ->whereHas('overtime', function ($query) use ($date_ot) {
+                    $query->whereYear("date", 'like', '%' . $date_ot . '%');
+                });
+        }
+        $date_ot =$request['month_ot'];
+        if (!empty($date_ot)) {
+            $query
+                ->whereHas('overtime', function ($query) use ($date_ot) {
+                    $query->whereMonth('date','=',$date_ot);
+                });
+        }
         $employeesSearch = $query
             ->where('delete_flag', '=', 0);
+        return $employeesSearch;
+    }
+    public function searchOvertime(Request $request)
+    {       
+        $number_record_per_page = !empty($request->number_record_per_page) ? $request->number_record_per_page : '';
+        $name = !empty($request->name) ? $request->name : '';
+        $type = !empty($request->type) ? $request->type : '';
+        $status = !empty($request->status) ? $request->status : '';
+        $from_date = !empty($request->from_date) ? $request->from_date : '';
+        $to_date = !empty($request->to_date) ? $request->to_date : '';
+        $user_id = !empty($request->user_id) ? $request->user_id : '';
+        $oldmonth = !empty($request->oldmonth) ? $request->oldmonth : '';
+        $query = Overtime::with('status', 'type', 'project', 'employee');
+        $query->where('delete_flag', '=', 0);
+        $query->Where('employee_id', '=', $user_id);
 
+        if (!empty($name)) {
+            $query->whereHas('project', function ($query) use ($name) {
+                $query->where("name", 'like', '%' . $name . '%');
+            });
+        }
+        if (!empty($type)) {
+            $query->whereHas('type', function ($query) use ($type) {
+                $query->where("name", $type);
+            });
+        }
+        if (!empty($status)) {
+            $query->whereHas('status', function ($query) use ($status) {
+                $query->where("name", $status);
+            });
+        }
+        if (!empty($from_date) && !empty($to_date)) {
+            $query->whereBetween('date', [$from_date, $to_date]);
+        }
+        if (!empty($from_date) && empty($to_date)) {
+            $query->where('date', '>=', $from_date);
+        }
+        if (empty($from_date) && !empty($to_date)) {
+            $query->where('date', '<=', $to_date);
+        }
+        if(empty($number_record_per_page)){
+            $query->where('date', '>', $oldmonth);
+        }
+        
+        $employeesSearch = $query->orderBy('updated_at', 'desc');;
+            
+        return $employeesSearch;
+    }
+    public function searchOvertimePO(Request $request)
+    {       
+        $number_record_per_page = !empty($request->number_record_per_page) ? $request->number_record_per_page : '';
+        $name = !empty($request->name) ? $request->name : '';
+        $type = !empty($request->type) ? $request->type : '';
+        $status = !empty($request->status) ? $request->status : '';
+        $from_date = !empty($request->from_date) ? $request->from_date : '';
+        $to_date = !empty($request->to_date) ? $request->to_date : '';
+        $user_id = !empty($request->user_id) ? $request->user_id : '';
+        $oldmonth = !empty($request->oldmonth) ? $request->oldmonth : '';
+        $query = Overtime::with('status', 'type', 'project', 'employee');
+        $query->where('delete_flag', '=', 0);
+        if (!empty($name)) {
+            $query->whereHas('project', function ($query) use ($name) {
+                $query->where("name", 'like', '%' . $name . '%');
+            });
+        }
+        if (!empty($type)) {
+            $query->whereHas('type', function ($query) use ($type) {
+                $query->where("name", $type);
+            });
+        }
+        if (!empty($status)) {
+            $query->whereHas('status', function ($query) use ($status) {
+                $query->where("name", $status);
+            });
+        }
+        if (!empty($from_date) && !empty($to_date)) {
+            $query->whereBetween('date', [$from_date, $to_date]);
+        }
+        if (!empty($from_date) && empty($to_date)) {
+            $query->where('date', '>=', $from_date);
+        }
+        if (empty($from_date) && !empty($to_date)) {
+            $query->where('date', '<=', $to_date);
+        }
+        if(empty($number_record_per_page)){
+            $query->where('date', '>', $oldmonth);
+        }
+        
+        $employeesSearch = $query->orderBy('updated_at', 'desc');
+            
         return $employeesSearch;
     }
 }

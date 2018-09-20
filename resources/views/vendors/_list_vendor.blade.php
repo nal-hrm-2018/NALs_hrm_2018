@@ -1,7 +1,39 @@
 <div class="box">
     <!-- /.box-header -->
+    <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>
     <div class="box-body">
         <div>
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" id="clickCollapse">
+                <span class="fa fa-search"></span>&nbsp;&nbsp;&nbsp;<span id="iconSearch" class="glyphicon"></span>
+            </button>
+            <div id="demo" class="collapse" role="dialog">
+                <div class="modal-dialog">
+                {!! Form::open(
+                    ['url' =>route('vendors.index'),
+                    'method'=>'GET',
+                    'id'=>'form_search_vendor',
+                    'role'=>'form',
+                ]) !!}
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">{{  trans('common.title_form.form_search') }}</h4>
+                        </div>
+                        @include('vendors._form_search_vendor')
+                        <div class="modal-footer center">
+                            <button id="btn_reset_vendor" type="button" class="btn btn-default"><span
+                                        class="fa fa-refresh"></span>
+                                {{trans('common.button.reset')}}
+                            </button>
+                            <button type="submit" id="searchListEmployee" class="btn btn-primary"><span
+                                        class="fa fa-search"></span>
+                                {{trans('common.button.search')}}
+                            </button>
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
             <div class="dataTables_length" id="project-list_length" style="float:right">
                 <label>{{trans('pagination.show.number_record_per_page')}}
                     {!! Form::select(
@@ -64,9 +96,13 @@
                     </td>
                     <td>
                         @if($vendor->work_status == 0)
-                            <span class="label label-primary">Active</span>
+                            @if(strtotime($vendor->endwork_date) >= strtotime(date('Y-m-d')))
+                                <span class="label label-primary">{{trans('vendor.profile_info.status_children.'.config('settings.employee_status.Active'))}}</span>
+                            @else
+                                <span class="label label-danger">{{trans('vendor.profile_info.status_children.'.config('settings.employee_status.Expired'))}}</span>
+                            @endif
                         @else
-                            <span class="label label-danger">Inactive</span>
+                            <span class="label label-default">{{trans('vendor.profile_info.status_children.'.config('settings.employee_status.Quited'))}}</span>
                         @endif
                     </td>
 
@@ -86,8 +122,15 @@
             @endforeach
             </tbody>
         </table>
-        @if(isset($param))
+        @if($vendors->hasPages())
+            <div class="col-sm-5">
+                <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                    {{getInformationDataTable($vendors)}}
+                </div>
+            </div>
+        <div class="col-sm-7">
             {{  $vendors->appends($param)->render('vendor.pagination.custom') }}
+        </div>
         @endif
     </div>
     <!-- /.box-body -->

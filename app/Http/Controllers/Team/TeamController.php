@@ -36,19 +36,18 @@ class TeamController extends Controller
     public function index()
     {
         $teams = Team::all()->where('delete_flag', 0);
-        $po_id = Role::all()->where('delete_flag', 0)->where('name', 'PO')->pluck('id')[0];
-
         $currentMonth = date('Y-m-01');
         $teamsValue = $this->chartService->getValueOfListTeam($currentMonth);
         $listMonth = $this->chartService->getListMonth();
 
-        return view('teams.list', compact('teams', 'po_id', 'teamsValue', 'listMonth'));
+        return view('teams.list', compact('teams', 'teamsValue', 'listMonth'));
     }
 
     public function create()
     {
-        $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->with('team', 'role')->get();
-        return view('teams.add', compact('employees'));
+        $employees = Employee::orderBy('name', 'asc')->where('is_employee',1)->where('delete_flag', 0)->with('team', 'role')->get();
+        $listRole = Role::where('delete_flag','0')->get();
+        return view('teams.add', compact('employees','listRole'));
     }
 
     public function store(TeamAddRequest $request)
@@ -57,7 +56,6 @@ class TeamController extends Controller
             session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
             return redirect(route('teams.index'));
         }
-        session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
         return back();
     }
 
@@ -80,53 +78,19 @@ class TeamController extends Controller
         if (!isset($team)) {
             return abort(404);
         }
-        $allEmployees = Employee::query()
-            ->with(['team', 'role'])
-            ->where('employees.team_id', null)
-            ->orwhereNotIn('employees.team_id', function ($q) {
-                $q->select('id')->from('teams')->where('id', Auth::user()->team_id);
-            })->get();
-        $allEmployeeHasPOs = Employee::query()
+        $listEmployee = Employee::query()
             ->with(['team', 'role'])
             ->where('delete_flag', 0)->get();
-        $onlyValue = null;
-        $nameEmployee = null;
-        try {
-            $teamById = Team::findOrFail($id)->toArray();
-        } catch (\Exception $exception) {
-            return $exception->getMessage();
-        }
-        $nameTeam = $teamById['name'];
-        $idUser = Auth::user()->id;
-        $teamOfEmployee = "" . Auth::user()->team_id;
-        $rolePoInRole = Role::select('id')
-            ->where('name', 'PO')->first();
-        $numberPoInRole = $rolePoInRole->id;
-        $allRoleInTeam = Role::all();
-        $allTeam = Team::all();
-        if ($teamOfEmployee != $id) {
-            session()->flash('msg_fail','You dont access denied. Call Us, please!...');
-            return redirect(route('teams.index'));
-        } else {
-            $poEmployee = Employee::select('id', 'email', 'name')
-                ->Where('team_id', '=', $teamById['id'])
-                ->Where('role_id', '=', $numberPoInRole)
-                ->get()->first();
-            $allEmployeeInTeams = Employee::select('employees.id', 'employees.name','teams.name as team', 'roles.name as role')
-                ->join('teams', 'teams.id', '=', 'employees.team_id')
-                ->join('roles', 'roles.id', '=', 'employees.role_id')
-                ->where('team_id', '=', Auth::user()->team_id)
-                ->where('roles.name', '<>', 'PO')
-                ->orderBy('employees.id', 'asc')->get();
-            $values = $poEmployee;
-            foreach ($values as $value) {
-                $onlyValue = $value['email'];
-                $nameEmployee = $value['name'];
-                $idEmployee = $value['id'];
-            }
-            return view('teams.edit', compact('poEmployee','teamById', 'idUser', 'onlyValue', 'nameTeam', 'allEmployeeHasPOs', 'allEmployees', 'allEmployeeInTeams', 'idEmployee', 'nameEmployee', 'numberPoInRole', 'allRoleInTeam', 'allTeam'));
+        $listEmployeeOfTeam = Employee::select('employees.id', 'employees.name', 'employees.role_id','teams.name as team', 'roles.name as role')
+            ->join('teams', 'teams.id', '=', 'employees.team_id')
+            ->join('roles', 'roles.id', '=', 'employees.role_id')
+            ->where('employees.team_id', $id)
+            ->where('employees.is_manager','<>', '1')
+            ->where('employees.delete_flag', '0')
+            ->orderBy('employees.id', 'asc')->get();
+        $listRole = Role::where('delete_flag','0')->get();
+        return view('teams.edit', compact('listEmployee','listEmployeeOfTeam', 'team','listRole'));
 
-        }
     }
 
     /**
@@ -138,10 +102,10 @@ class TeamController extends Controller
     public function update(TeamEditRequest $request, $id)
     {
         if ($this->teamService->updateTeam($request, $id)) {
-            session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_add_success'));
+            session()->flash(trans('team.msg_success'), trans('team.msg_content.msg_edit_success'));
             return redirect('teams');
         } else {
-            session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_add_fail'));
+            session()->flash(trans('team.msg_fails'), trans('team.msg_content.msg_edit_fail'));
             return back();
         }
     }
@@ -162,8 +126,7 @@ class TeamController extends Controller
         return response(['msg' => 'Failed deleting the product', 'status' => 'failed']);
     }
 
-    public
-    function checkNameTeam(Request $request)
+    /*public function checkNameTeam(Request $request)
     {
         $name = $_GET["name"];
         $regexNameTeam = "/(^[a-zA-Z0-9 ]{1,50}+$)+/";
@@ -191,7 +154,7 @@ class TeamController extends Controller
             }
         }
     }
-
+*/
     public function showChart(Request $request)
     {
         $month = date('Y-m-01', strtotime($request->month));

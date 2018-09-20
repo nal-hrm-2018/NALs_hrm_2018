@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/drop/css/style.css') }} ">
     <!-- Custom Css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/login/css/custom.css') }} ">
-
+    
     <!-- Custom js -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/js/login/js/custom.js') }} ">
 
@@ -27,9 +27,14 @@
           href="{{ asset('admin/templates/css/bower_components/Ionicons/css/ionicons.min.css') }}">
 
     <!-- Theme style -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/dist/css/AdminLTE.css') }} ">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/dist/css/AdminLTE.css') }} "> -->
     <!-- iCheck -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/plugins/iCheck/square/blue.css') }}">
+
+<!-- login_frontend Css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/login/css/login.css') }} ">
+<!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/templates/css/login/css/reset.css') }} ">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,8 +47,8 @@
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 
-</head>
-<body class="hold-transition login-page">
+</head> 
+<body class="hold-transition login-page background-black">
 @yield('content')
 <script>
     var count = 0; // needed for safari

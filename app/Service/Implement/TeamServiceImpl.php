@@ -30,114 +30,121 @@ class TeamServiceImpl extends CommonService
         $team_name = $request->get('team_name');
 
         try {
-            $po = Employee::find($id_po);
+            DB::beginTransaction();
             $team = new Team();
             $team->name = $team_name;
-            $members = Employee::where('delete_flag', 0)->whereIn('id', (array)$id_members)->get();
-            $member_role_dev = Role::select('id')->where('name','=','Dev')->first()->id;
-            //check old role member is PO ?
-            foreach ($members as $member) {
-                $member_role = Role::find($member->role_id)->where('delete_flag',0);
-                if (!is_null($member_role)) {
-                    if (config('settings.Roles.PO') === Role::find($member->role_id)->name) {
-                        $member->role_id = $member_role_dev;
-                    }
-                }
-            }
-            DB::beginTransaction();
             $team->save();
+
+            $po = Employee::where('delete_flag',0)->find($id_po);
             if (!is_null($po)) {
                 $po->team_id = $team->id;
-                $roles = Role::where('delete_flag', 0)->pluck('id', 'name');
-                $role = null;
-                if (!$roles->isEmpty()) {
-                    $role = $roles[config('settings.Roles.PO')];
-                }
-                $po->role_id = $role;
+                $po->is_manager = 1;
                 $po->save();
             }
-            if (!$members->isEmpty()) {
-                foreach ($members as $member) {
-                    $member->team_id = $team->id;
-                    $member->save();
+            if($id_members != null){
+                foreach ($id_members as $id_member) {
+                    $member = Employee::where('delete_flag', 0)->find($id_member);
+
+                    if ($member!= null) {
+                        if($member->is_manager == 1){
+                            $member->is_manager = 0;
+                        }
+                        $member->team_id = $team->id;
+                        $member->save();
+                    }
                 }
             }
             DB::commit();
             return true;
         } catch (Exception $ex) {
             DB::rollBack();
-            session()->flash(trans('team.msg_error'), trans('team.msg_content.msg_error_add_team'));
+            session()->flash(trans('team.msg_fails'), trans('project.msg_content.msg_add_error'));
+            return false;
         }
-        return false;
     }
-
-    public function updateTeam(TeamEditRequest $request, $id)
+    public function updateTeam( $request, $id)
     {
-        $getAllEmployeeInTeams = Employee::select('employees.id', 'employees.name', 'roles.name as role')
-            ->join('teams', 'teams.id', '=', 'employees.team_id')
-            ->join('roles', 'roles.id', '=', 'employees.role_id')
-            ->where('team_id', '=', Auth::user()->team_id)
-            ->orderBy('employees.id', 'asc')->get();
-        $findAllEmployeeInTeams = Employee::where('team_id', '=', Auth::user()->team_id);
-        if (isset($id)) {
-            try {
-                DB::beginTransaction();
-                $queryUpdateTeam = Team::find($id);
-                $getPORole = Role::where('name', '=', 'PO')->firstOrFail();
-                $teamName = $request->team_name;
-                $poId = $request->po_name;
-                $multipleEmployeesByIds = $request->employee;
-                $queryUpdateTeam->name = $teamName;
-                $queryUpdateTeam->save();
-                if ($multipleEmployeesByIds == null){
-                    $queryUpdateTeam->save();
-                    return true;
-                }
-                else{
-                    foreach ($getAllEmployeeInTeams as $getAllEmployeeInTeam){
-                        $findAllEmployeeInTeams = Employee::find($getAllEmployeeInTeam->id);
-                        if ($findAllEmployeeInTeams == null) {
-                            \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
-                            return back();
-                        } else {
-                            $findAllEmployeeInTeams->team_id = null;
-                            $findAllEmployeeInTeams->save();
-                        }
-                    }
 
-                    $findAllEmployeeInTeams->save();
+        try {
+            DB::beginTransaction();
+            //update table team
+            $objTeam = Team::where('delete_flag',0)->find($id);
+            $objTeam -> name = $request->team_name;
+            $objTeam ->save();
 
-                    $member_role_dev = Role::select('id')->where('name','=','Dev')->first()->id;
+            //update table employee
 
-
-                    foreach ($multipleEmployeesByIds as $multipleEmployeesById) {
-                        $queryUpdateEmployee = Employee::find($multipleEmployeesById);
-                        if ($queryUpdateEmployee == null) {
-                            \Session::flash('msg_fail', 'Edit failed!!! Employee is not exit!!!');
-                            return back();
-                        } else {
-                            $member_role = Role::find($queryUpdateEmployee->role_id)->where('delete_flag',0);
-                            if (!is_null($member_role)) {
-                                if (config('settings.Roles.PO') === Role::find($queryUpdateEmployee->role_id)->name) {
-                                    $queryUpdateEmployee->role_id = $member_role_dev;
-                                }
-                            }
-                            $queryUpdateEmployee->team_id = $queryUpdateTeam->id;
-                            $queryUpdateEmployee->save();
-                        }
-                    }
-                }
-                $queryUpdateRoleToEmployee = Employee::find($poId);
-                $queryUpdateRoleToEmployee->team_id = $queryUpdateTeam->id;
-                $queryUpdateRoleToEmployee->role_id = $getPORole['id'];
-                $queryUpdateRoleToEmployee->save();
-                DB::commit();
-                return true;
-            } catch (Exception $exception) {
-                DB::rollBack();
-                return false;
+            //delete PO old
+            $objPoOld = Employee::where('is_manager', '1')
+            ->where('team_id',$id)
+            ->where('delete_flag',0)->first();
+            if($objPoOld != null){
+                $objPoOld -> team_id = null;
+                $objPoOld -> is_manager = 0;
+                $objPoOld -> save();
             }
-        } else {
+            //list member
+            $listMember = $request->employee;
+
+            if($listMember != null){
+                //list member in team
+                $listMemberInTeams = Employee::select('employees.id')
+                ->where('team_id', $id)
+                ->where('delete_flag',0)->get();
+                //update member in team remove
+                if($listMemberInTeams != null){
+                    foreach ($listMemberInTeams as $objMemberInTeams){
+                        $check = true;
+                        foreach ($listMember as $objMember){
+                            if($objMemberInTeams->id == $objMember){
+                                $check = false;
+                            }
+
+                        }
+                        if($check){
+                            $objMemberById = Employee::where('delete_flag',0)->find($objMemberInTeams->id);
+                            if ($objMemberById == null) {
+                                \Session::flash('msg_fail', trans('team.team_service.msg_fail2'));
+                                return false;
+                            } else {
+                                $objMemberById->team_id = null;
+                                $objMemberById->save();
+                            }
+                        }
+                    }
+                }
+                //update PO
+                $poId = $request->po_name;
+                if($poId > 0){
+                    $objPoNew = Employee::where('delete_flag',0)->find($poId);
+                    if($objPoNew != null){
+                        $objPoNew -> team_id = $id;
+                        $objPoNew -> is_manager  = 1;
+                        $objPoNew -> save();
+                    }else{
+                        \Session::flash('msg_fail', trans('team.team_service.msg_fail1'));
+                        return false;
+                    }
+                }
+                //update list member
+                foreach ($listMember as $objMember){
+                    $objMemberById = Employee::where('delete_flag',0)->find($objMember);
+                    if ($objMemberById == null) {
+                        \Session::flash('msg_fail', trans('team.team_service.msg_fail2'));
+                        return false;
+                    } else {
+                        if($objMemberById->is_manager == 1){
+                            $objMemberById->is_manager = 0;
+                        }
+                        $objMemberById->team_id = (int)$id;
+                        $objMemberById->save();
+                    }
+                }
+            }
+            DB::commit();
+            return true;
+        } catch (Exception $exception) {
+            DB::rollBack();
             return false;
         }
     }

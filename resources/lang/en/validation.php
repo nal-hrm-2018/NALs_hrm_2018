@@ -12,10 +12,14 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
-
+    'max_totaltime'        => 'You have entered wrong number time. Please try again!',
+//    'min_total_time'       => 'The :attribute must be an integer ',
+    'min_total_time'       => 'The :attribute must be greater than 0',
+    'correct_total_time'   => 'The :attribute must be an integer ',
     'accepted'             => 'The :attribute must be accepted.',
     'active_url'           => 'The :attribute is not a valid URL.',
     'after'                => 'The :attribute must be a date after :date.',
+    'after_hours'          => 'The :attribute must be after :date.',
     'after_or_equal'       => 'The :attribute must be a date after or equal to :date.',
     'alpha'                => 'The :attribute may only contain letters.',
     'alpha_dash'           => 'The :attribute may only contain letters, numbers, and dashes.',
@@ -86,8 +90,8 @@ return [
     'string'               => 'The :attribute must be a string.',
     'timezone'             => 'The :attribute must be a valid zone.',
     'unique'               => 'The :attribute has already been taken.',
-    'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
+    'bigger_zero'          => 'The :attribute number is not available.',
 
     /*
     |--------------------------------------------------------------------------
@@ -101,6 +105,36 @@ return [
     */
 
     'custom' => [
+        'man_power'=>[
+            'total_man_power'=>'Total man power of member :employee ( id : :employee_id ) = :totalManPower is over 1',
+            'available_processes'=>'You can view suggest information of this employee',
+        ],
+        'employee'=>[
+            'invalid_id'=>'The selected employee id is invalid.',
+            'error_duplicate_member' => 'Employee :employee_name_selected ( id: :employee_id_selected ) Can\'t add because ' .
+                ' from: :start_date_processes to: :end_date_processes you be added to this project ',
+
+        ],
+        'role'=>[
+            "at_least_one_po"=>'Project must have at least 1 PO ',
+            'error_P0_process' => 'Employee :employee_name_selected  Can\'t be PO because ' .
+                ' from: :start_date_processes to: :end_date_processes has PO is :employee_name',
+        ],
+        'end_date_project'=>[
+            'real_start_null_end_not_null'=>'The real start date is not selected ,Can\'t be select The real end date .',
+            'start_date_end_date_process_must_between_real_start_end'
+            =>"The start date process and end date process must be between real start date project and real end date project.",
+            'start_date_end_date_process_must_between_real_start_estimate_end'
+            =>"The start date process and end date process must be between real start date project and estimate end date project.",
+            'start_date_end_date_process_must_between_estimate_start_estimate_end'
+            => "The start date process and end date process must be between estimate start date project and estimate end date project."
+        ],
+        'status'=>[
+            'must_be_planning'=>'The real start date is not selected , project status must be status planing',
+            'cant_be_planning'=>"The real start date is selected ,can't select status planing",
+            'cant_be_complete'=>"The real end date is not select  ,can't select status complete",
+            'must_be_complete'=>"The real end date is selected  ,you can't select other than status complete",
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
@@ -118,5 +152,9 @@ return [
     */
 
     'attributes' => [],
+
+
+
+
 
 ];

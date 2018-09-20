@@ -10,6 +10,7 @@ namespace App\Service\Implement;
 
 
 use App\Http\Requests\CommonRequest;
+use App\Models\Absence;
 use App\Models\Employee;
 use App\Service\SearchService;
 use App\Models\Process;
@@ -31,10 +32,12 @@ class SearchServiceImpl extends CommonService implements SearchService
                     $query->where("id", '=', $request['id']);
                 });
         }
-
-        if (!empty($request['project_name']) or !empty($request['project_status'])) {
+        if (!empty($request['project_name']) or !empty($request['project_status']) or !empty($request['project_id'])) {
             $query
                 ->whereHas('project', function ($query) use ($request) {
+                    if (!empty($request['project_id'])) {
+                        $query->where("id", 'like', '%' . $request['project_id'] . '%');
+                    }
                     if (!empty($request['project_name'])) {
                         $query->where("name", 'like', '%' . $request['project_name'] . '%');
                     }
@@ -63,6 +66,5 @@ class SearchServiceImpl extends CommonService implements SearchService
 
         return $query;
     }
-
 
 }

@@ -10,7 +10,7 @@
                 {{ Form::text('id', old('id'),
                     ['class' => 'form-control',
                     'id' => 'employeeId',
-                    'autofocus' => true,
+                    'autofocus' => false,
                     ])
                 }}
             </div>
@@ -21,7 +21,7 @@
                 {{ Form::text('name', old('name'),
                     ['class' => 'form-control',
                     'id' => 'employeeName',
-                    'autofocus' => true,
+                    'autofocus' => false,
                     ])
                 }}
             </div>
@@ -32,7 +32,7 @@
                 {{ Form::text('company', old('company'),
                     ['class' => 'form-control',
                     'id' => 'employeeCompany',
-                    'autofocus' => true,
+                    'autofocus' => false,
                     ])
                 }}
             </div>
@@ -63,7 +63,7 @@
                     </option>
                     @foreach($status as $key=>$value)
                         <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
-                            {{ $value }}
+                            {{trans('vendor.profile_info.status_children.'.$value)}}
                         </option>
                     @endforeach
                 </select>

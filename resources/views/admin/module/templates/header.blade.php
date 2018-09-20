@@ -7,19 +7,44 @@
       <span class="logo-lg"><b>NALs</b>HRM</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
+    <nav class="navbar navbar-static-top" style="padding:0;">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <a href="#" style="height: 50px;" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
 
+
       <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          
+        <ul class="nav navbar-nav" style="     flex-direction: row;">
+          <li>
+            <div class="languages" style="margin-top:12px;">
+              <a href="{{route('setlanguaes','en')}}" lang="en" title="{{trans('common.language.en')}}">
+                {{ Html::image('admin/templates/images/Localization/en.png', 'a picture', [
+              'class' => 'thumb',
+              'id'=>app()->getLocale()===config('settings.locale.en')?'language_active':'inactive',
+              'title'=>trans('common.language.en'),
+              'lang'=>'en',
+              'style'=>app()->getLocale()===config('settings.locale.en')?'padding:0px 2px;border:1px solid white':'',
+              'height'=>'25'
+              ]) }}
+              </a>
+              <a href="{{route('setlanguaes','vn')}}" lang="vn" title="{{trans('common.language.vn')}}">
+                {{ Html::image('admin/templates/images/Localization/vi.png', 'a picture', [
+              'class' => 'thumb',
+              'id'=>app()->getLocale()===config('settings.locale.vn')?'language_active':'inactive',
+              'title'=>trans('common.language.vn'),
+              'style'=>app()->getLocale()===config('settings.locale.vn')?'padding:0px 2px;border:1px solid white':'',
+              'lang'=>'vn',
+              'height'=>'25'
+              ]) }}
+              </a>
+            </div>
+          </li>
           <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
+
+          {{-- <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
+              <i class="glyphicon glyphicon-bell" style="font-size: 15px;"></i>
               <span class="label label-warning">10</span>
             </a>
             <ul class="dropdown-menu">
@@ -57,30 +82,37 @@
               </li>
               <li class="footer"><a href="#">View all</a></li>
             </ul>
-          </li>
+          </li> --}}
           
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-
-
-              <img class="user-image" alt="User Image" src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" />
-              <span class="hidden-xs">welcome {{Auth::user()->name}}</span>
+              <img class="user-image" alt="User Image" src="@if(isset(Auth::user()->avatar))
+              {{asset('/avatar/'.Auth::user()->avatar)}}
+              @else
+              {{asset('/avatar/default_avatar.png')}}
+              @endif" />
+              <span class="hidden-xs">{{trans('common.header.welcome')}} {{Auth::user()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
 
-                <img src="{!! asset('admin/templates/images/dist/img/user2-160x160.jpg') !!}" class="img-circle" alt="User Image">
+                <img src="@if(isset(Auth::user()->avatar))
+                {{asset('/avatar/'.Auth::user()->avatar)}}
+                @else
+                {{asset('/avatar/default_avatar.png')}}
+                @endif" class="img-circle" alt="User Image">
 
                 <p>
                   {{Auth::user()->name}} - {{isset(App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name)?App\Models\Employee::where('id', Auth::user()->id)->first()->employeeType->name:"  "  }}
-                  <small>Member since {{Auth::user()->startwork_date}}</small>
-{{--                  {{Auth::user()->name}}--}}
-                  {{--<small>Member since {{Auth::user()->startwork_date}}</small>--}}
+                  <small>{{trans('common.header.member_since')}}
+                      <?php
+                      $date = new DateTime(Auth::user()->startwork_date);
+                      echo $date->format('d-m-Y');
+                      ?>
+                  </small>
                 </p>
-
               </li>
               <!-- Menu Footer-->
               <li class="user-footer" >
@@ -90,7 +122,7 @@
                   @else
                     <form action="{{asset('vendors/'.Illuminate\Support\Facades\Auth::id().'/edit/')}}">
                   @endif                  
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Update Profile') }}</button>
+                    <button type="submit" class="btn btn-default btn-block btn-flat">{{ __(trans('common.header.update_profile')) }}</button>
                   </form>
                 </div>
 
@@ -98,21 +130,24 @@
 
                   <SCRIPT LANGUAGE="JavaScript">
                       function confirmAction(msg) {
-                          return confirm(msg)
+                          return confirm(msg);
                       }
                   </SCRIPT>
-
-                  <form action="{{route('logout')}}" id="logout-employee" onSubmit="return confirmAction('Are you sure logout?')">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Logout') }}</button>
+                  <form action="{{route('logout')}}" id="logout-employee" onsubmit="return confirm_logout();">
+                    <button type="submit" class="btn btn-default btn-block btn-flat">{{ __(trans('common.header.logout')) }}</button>
                   </form>
 
                 </div>
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button -->
-          
+          <!-- Control Sidebar Toggle Button -->          
         </ul>
       </div>
     </nav>
   </header>
+  <script type="text/javascript">
+    function confirm_logout(){
+       return confirm(message_confirm('{{trans("common.header.confirm_logout")}}', '{{trans("common.account")}}', ""));
+    }
+  </script>
