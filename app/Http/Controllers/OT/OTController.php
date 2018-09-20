@@ -12,7 +12,7 @@ use App\Models\Team;
 use App\Models\Role;
 use App\Models\OvertimeStatus;
 use Illuminate\Http\Request;
-use App\Models\OvertimeType;
+use App\Models\DayType;
 use App\Models\HolidayDefault;
 use App\Models\Holiday;
 use Illuminate\Support\Facades\Auth;
@@ -253,34 +253,47 @@ class OTController extends Controller
         }else{
             $overtime->process_id = null;
         }
+
+        $dayType = DayType::all()->toArray();
+        $typeId = [];
+        //Get day type id 
+        foreach($dayType  as $val){
+            $typeId[$val['name']] = $val['id'];
+        }
+
         //kiểm tra co phải ngày nghĩ lễ không.
         $holiday = HolidayDefault::all();
-        $sttHoliday = "";
+        $sttHoliday = 0;
         foreach ($holiday as $holiday){
             $holidayDefault = date_format($holiday->date,"m-d");
             $holidayRequest = date('m-d', strtotime($request->date));
             if($holidayDefault == $holidayRequest){
-                $sttHoliday = 1;
+                $sttHoliday = $typeId['holiday'];
+                break;
             }
         }
         //Kiểm tra co phải ngày nghĩ lễ đột xuất k
-        if ($sttHoliday == ""){
-            $holiday = Holiday::all();
-            foreach ($holiday as $holiday){
-                $holidayDefault = date_format($holiday->date,"y-m-d");
+        if ($sttHoliday){
+            $holidays = Holiday::with('type')->get();
+
+            dd($holidays);
+            die();
+            foreach ($holidays as $holiday){
+                $holidayAdded = date_format($holiday->date,"y-m-d");
                 $holidayRequest = date('y-m-d', strtotime($request->date));
                 if($holidayDefault == $holidayRequest){
-                    $sttHoliday = 1;
+                    // $sttHoliday = $typeId[];
                 }
             }
         }
+        die();
         $overtime->date = $request->date;
         if ($sttHoliday == 1){
-            $overtime->overtime_type_id = 3;
+            $overtime->day_type_id = 3;
         }elseif(date('N', strtotime($request->date)) >= 6){
-            $overtime->overtime_type_id = 2;
+            $overtime->day_type_id = 2;
         }else{
-            $overtime->overtime_type_id = 1;
+            $overtime->day_type_id = 1;
         }
         $overtime->start_time = $request->start_time;
         $overtime->end_time = $request->end_time;
