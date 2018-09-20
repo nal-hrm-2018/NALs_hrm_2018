@@ -232,9 +232,8 @@ class OTController extends Controller
     public function create()
     {
         $id=Auth::user()->id;
-        $objProject = Process::where('employee_id',$id)->get();
-//        $objOvertimeType = OvertimeType::all();
-        return view('overtime.add',compact('objProject','objOvertimeType'));
+        $processes = Process::where('employee_id',$id)->where('check_project_exit', 0)->with('project')->get();
+        return view('overtime.add',compact('processes'));
     }
 
     /**
@@ -250,9 +249,9 @@ class OTController extends Controller
         $overtime->employee_id = $id;
         $project = $this->objProcess->countProcess();
         if($project > 0){
-            $overtime->project_id = $request->project_id;
+            $overtime->process_id = $request->process_id;
         }else{
-            $overtime->project_id = null;
+            $overtime->process_id = null;
         }
         //kiểm tra co phải ngày nghĩ lễ không.
         $holiday = HolidayDefault::all();
