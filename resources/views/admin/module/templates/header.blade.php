@@ -42,7 +42,7 @@
           </li>
           <!-- Notifications: style can be found in dropdown.less -->
 
-          <li class="dropdown notifications-menu">
+          {{-- <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="glyphicon glyphicon-bell" style="font-size: 15px;"></i>
               <span class="label label-warning">10</span>
@@ -82,7 +82,7 @@
               </li>
               <li class="footer"><a href="#">View all</a></li>
             </ul>
-          </li>
+          </li> --}}
           
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">

@@ -20,8 +20,8 @@ class NotificationController extends Controller
     public function index()
     {
         $notification_type = NotificationType::Where('delete_flag','0')->get();
-        $new_notifications = Notifications::Where('flag_delete','0')->orderBy('id','desc')->get();
-        $old_notifications = Notifications::Where('flag_delete','1')->orderBy('id','desc')->get();
+        $new_notifications = Notifications::Where('delete_flag','0')->orderBy('id','desc')->get();
+        $old_notifications = Notifications::Where('delete_flag','1')->orderBy('id','desc')->get();
         return view('notification.list',[
             'notification_type' => $notification_type,
             'new_notifications' => $new_notifications,
@@ -48,7 +48,7 @@ class NotificationController extends Controller
      */
     public function store(NotificationAddRequest $request)
     {
-        $count = Notifications::where('flag_delete','=','0')->count();
+        $count = Notifications::where('delete_flag','=','0')->count();
 
         if ($count>=10)
         {
@@ -92,7 +92,7 @@ class NotificationController extends Controller
      */
     public function edit($id)
     {
-        $notification = Notifications::where('flag_delete',0)->find($id);
+        $notification = Notifications::where('delete_flag',0)->find($id);
         $notificationType = NotificationType::select('id','name')->get();
         return view('notification.edit',compact('notification','notificationType'));
     }
@@ -106,7 +106,7 @@ class NotificationController extends Controller
      */
     public function update(NotificationAddRequest $request, $id)
     {
-        $notification = Notifications::where('flag_delete', 0)->find($id);
+        $notification = Notifications::where('delete_flag', 0)->find($id);
         $notification->title = $request->title;
         $notification->content = $request->content;
         $notification->notification_type_id = $request->notification_type_id;
@@ -127,8 +127,8 @@ class NotificationController extends Controller
      */
     public function destroy($id, Request $request)
     {
-        $notification = Notifications::where('id', $id)->where('flag_delete', 0)->first();
-        $notification->flag_delete = 1;
+        $notification = Notifications::where('id', $id)->where('delete_flag', 0)->first();
+        $notification->delete_flag = 1;
         $notification->save(); 
         \Session::flash('msg_success', trans('notification.msg_delete.success'));
         return redirect('notification');
