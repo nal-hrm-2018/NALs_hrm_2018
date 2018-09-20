@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>NALs</title>
+    <link rel="shortcut icon" type="image/png" href="{!! asset('admin/templates/images/logo-title.png') !!}">
+
     <meta content="{!! asset('admin/templates/js/multi-language/')!!}" name="link_origin_multi_language">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
