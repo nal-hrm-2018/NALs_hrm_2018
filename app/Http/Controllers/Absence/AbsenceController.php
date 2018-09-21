@@ -31,6 +31,9 @@ use App\Models\Project;
 use App\Models\Role;
 use App\Service\SearchConfirmService;
 
+use App\Import\ImportFile;
+use App\Export\TemplateExport;
+
 class AbsenceController extends Controller
 {
     protected $absenceService;
@@ -758,5 +761,135 @@ class AbsenceController extends Controller
     {
         $time = (new \DateTime())->format('Y-m-d H:i:s');
         return Excel::download(new AbsencePOTeam($request), 'absence-list-' . $time . '.csv');
+    }
+
+    public function postFile(Request $request)
+    {
+        $listError = "";
+        if ($request->hasFile('myFile')) {
+            $file = $request->file("myFile");
+            if(5242880 < $file->getSize()){ 
+                \Session::flash('msg_fail', trans('employee.valid5mb'));
+                return redirect('employee');
+            }           
+            if ($file->getClientOriginalExtension('myFile') == "csv") {
+                $nameFile = $file->getClientOriginalName('myFile');
+                $file->move('files', $nameFile);
+
+                $importFile = new ImportFile;
+
+                $dataEmployees = $importFile->readFile(public_path('files/' . $nameFile));
+                $num = $importFile->countCol(public_path('files/' . $nameFile));
+
+                $templateExport = new TemplateExport;
+                $colTemplateExport = $templateExport -> headingsAbsence();
+
+                $colError = $importFile->checkCol(public_path('files/' . $nameFile),count($colTemplateExport));
+                if ($colError != null) {
+                    if (file_exists(public_path('files/' . $nameFile))) {
+                        unlink(public_path('files/' . $nameFile));
+                    }
+                    return view('absence.list_import', ['urlFile' => public_path('files/' . $nameFile), 'colError' => $colError, 'listError' => $listError]);
+                }
+                $row = count($dataEmployees) / $num;
+                $listError .= $importFile->checkFileAbsence($dataEmployees, $num);
+
+                if ($listError != null) {
+                    if (file_exists(public_path('files/' . $nameFile))) {
+                        unlink(public_path('files/' . $nameFile));
+                    }
+                }
+                $dataAbsenceStatus = AbsenceStatus::select('id', 'name')->get()->toArray();
+                $dataAbsenceTime = AbsenceTime::select('id', 'name')->get()->toArray();
+                $dataAbsenceType = AbsenceType::select('id', 'name')->get()->toArray();
+                return view('absences.list_import', [
+                    'dataEmployees' => $dataEmployees, 
+                    'num' => $num, 'row' => $row, 
+                    'urlFile' => public_path('files/' . $nameFile), 
+                    'listError' => $listError, 
+                    'colError' => $colError, 
+                    'dataAbsenceStatus' => $dataAbsenceStatus, 
+                    'dataAbsenceTime' => $dataAbsenceTime, 
+                    'dataAbsenceType' => $dataAbsenceType
+                    ]);
+            } else {
+                \Session::flash('msg_fail', trans('employee.valid_not_csv'));
+                return redirect('employee');
+            }
+
+        } else {
+            \Session::flash('msg_fail', trans('employee.valid_required_file'));
+            return redirect('employee');
+        }
+    }
+
+    public function importAbsence()
+    {
+        $urlFile = $_GET['urlFile'];
+        $importFile = new ImportFile;
+
+        $data = $importFile->readFile($urlFile);
+        $num = $importFile->countCol($urlFile);
+        $row = count($data) / $num;
+        for ($row = 1; $row < count($data) / $num; $row++) {
+            $c = $row * $num;
+            if ($c < $row * ($num + 1)) {
+                $id_employee = Employee::select('id')->where('email', 'like', $data[$c])->get()->toArray()[0]['id'];
+                $c++;
+                //
+                $c++;
+                //
+                $c++;
+                //
+                $c++;
+                $from_date = $data[$c];
+                $c++;
+                $to_date = $data[$c];
+                $c++;                
+                if (strnatcasecmp($data[$c], 'Cả ngày') == 0) {
+                    $absence_time_id = 1;
+                } else if (strnatcasecmp($data[$c], 'Sáng') == 0) {
+                    $absence_time_id = 2;
+                } else if (strnatcasecmp($data[$c], 'Chiều') == 0) {
+                    $absence_time_id = 3;
+                } 
+                $c++;
+                if (strnatcasecmp($data[$c], 'Nghỉ phép năm') == 0) {
+                    $absence_type_id = 1;
+                } else if (strnatcasecmp($data[$c], 'Nghỉ không lương') == 0) {
+                    $absence_type_id = 2;
+                } else if (strnatcasecmp($data[$c], 'Nghỉ ốm') == 0) {
+                    $absence_type_id = 3;
+                } else if (strnatcasecmp($data[$c], 'Nghỉ thai sản') == 0) {
+                    $absence_type_id = 4;
+                } else if (strnatcasecmp($data[$c], 'Nghỉ cưới hỏi') == 0) {
+                    $absence_type_id = 5;
+                } else if (strnatcasecmp($data[$c], 'Nghỉ tang') == 0) {
+                    $absence_type_id = 6;
+                } 
+                $c++;                
+                $reason = $data[$c];
+                $absenceData = [
+                    'employee_id' => $id_employee,
+                    'absence_type_id' => $absence_type_id,
+                    'absence_time_id' => $absence_time_id,
+                    'from_date' => $from_date,
+                    'to_date' => $to_date,
+                    'reason' => $reason,
+                    'absence_status_id' => 2,
+                    'delete_flag' => 0,
+                    'is_deny' => 0,
+                    'is_late' => 0,
+                    'description' => '',
+                ];
+                Absence::create($absenceData);
+                $absenceData = [];
+            }
+        }
+        if (file_exists($urlFile)) {
+            unlink($urlFile);
+        }
+        \Session::flash('msg_success', trans('employee.msg_import.success'));
+        return redirect('absences');
     }
 }

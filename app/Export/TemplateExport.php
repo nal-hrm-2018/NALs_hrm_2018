@@ -36,6 +36,21 @@ class TemplateExport implements  WithHeadings
         ];
     }
 
+    public function headingsAbsence(): array
+    {
+        return [
+            'EMAIL',
+            'NAME',
+            'TEAM',
+            'PO NAME',
+            'FROM DATE',
+            'TO DATE',
+            'ABSENT TYPE',
+            'TEAM',
+            'REASON'
+        ];
+    }
+
     /**
      * @return array
      */

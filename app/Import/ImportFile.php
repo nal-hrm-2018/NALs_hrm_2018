@@ -236,7 +236,87 @@ class ImportFile{
 		}
 		
         return $listError;
-	}
+    }
+    public function checkFileAbsence($data, $num){
+        $listError ="";
+        $date = new DateTime;
+        $date = $date->format('Y-m-d H:i:s');
+        
+		for ( $row = 1; $row < count($data)/$num; $row++) {
+			$c = $row*$num;
+			if($c < $row*($num+1)){
+                if($data[$c] == null){
+                    $listError .= "<li>".trans('vendor.profile_info.email')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.email_required')."</li>";
+                }else{                        
+                    $objEmployee = Employee::select('email')->where('email', 'like', $data[$c])->get()->toArray();
+                    // dd($objEmployee);
+                    if($objEmployee == null){
+                        $listError .= "<li>".trans('vendor.profile_info.email')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.email_exist')."</li>";
+                    }
+                }
+                $c++;
+
+                $c++;
+
+                $c++;
+
+                $c++;
+                if($data[$c] == null){
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.startwork_required')."</li>";
+                }else{
+                    if($data[$c] != "-"){
+                        if(date_create($data[$c]) == FALSE ){
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.startwork_end_format')."</li>";
+                        }
+                    }
+                }
+                $c++;
+                if($data[$c] == null){
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.endwork_required')."</li>";
+                }else{
+                    if($data[$c] != "-"){
+                        if(date_create($data[$c]) == FALSE ){
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.endwork_end_format')."</li>";
+                        }else{
+                            if(date_create($data[$c - 1]) != FALSE){
+                               /* dd(strtotime($data[$c - 1])."  ".strtotime($data[$c]));*/
+                                if(strtotime($data[$c - 1]) >= strtotime($data[$c])){
+                                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.endwork_smaller')."</li>";
+                                }
+                            }
+                        }
+                    }
+
+                }
+                $c++;
+                if($data[$c] == null){
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.time_type_required')."</li>";
+                }else{
+                    if($data[$c] != "-"){
+                        if(strnatcasecmp($data[$c], "Cả ngày") != 0 && strnatcasecmp($data[$c], "Sáng") != 0 && strnatcasecmp($data[$c], "Chiều") != 0){
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.time_time_values')."</li>";
+                        }
+                    }
+                }
+                $c++;
+                if($data[$c] == null){
+                    $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.absence_type_required')."</li>";
+                }else{
+                    if($data[$c] != "-"){
+                        if(strnatcasecmp($data[$c], "Nghỉ phép năm") != 0 && strnatcasecmp($data[$c], "Nghỉ không lương") != 0 && strnatcasecmp($data[$c], "Nghỉ thai sản") != 0
+                        && strnatcasecmp($data[$c], "Nghỉ cưới hỏi") != 0 && strnatcasecmp($data[$c], "Nghỉ tang") != 0 && strnatcasecmp($data[$c], "Nghỉ ốm") != 0
+                        ){
+                            $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.absence_type_values')."</li>";
+                        }
+                    }
+                }
+                $c++;
+                // if($data[$c] == null){
+                //     $listError .= "<li>".trans('importFile.import_file.check_col.row')." ".$row.": ".trans('importFile.import_file.checkFileAbsence.employee_type_required')."</li>";
+                // }
+            }
+        }
+    }    
     public function checkFileVendor($data, $num){
         $listError ="";
         $date = new DateTime;

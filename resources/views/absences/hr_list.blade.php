@@ -39,6 +39,58 @@
         <section class="content">
             <div class="row fullwidth">
                 <div class="col-xs-12">
+                        @if(Auth::user()->hasRoleHR())
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
+                            <a ><i class="glyphicon glyphicon-import"></i> {{trans('common.button.import')}}</a>
+                        </button>
+                        <div id="import" class="modal fade" role="dialog">
+                                <div class="modal-dialog" style="width: 50%">
+                                    <form method="post" action="{{ asset('absence/postFile')}}" enctype="multipart/form-data">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">NHẬP DANH SÁCH NGHỈ</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="input-group margin">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-info width-100">{{trans('employee.select_csv_file')}}</button>
+                                                        </div>
+                                                        <label class="file-upload">
+                                                            <input type="file" id="myfile" name="myFile" class="form-control" style="display: none;">
+                                                            <i class="fa fa-cloud-upload"></i>
+                                                            <span id="file_name">Choose file</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer center">
+                                                <button type="submit" id="i_submit" class="btn btn-primary"><span
+                                                            class="glyphicon glyphicon-upload"></span>
+                                                    {{trans('common.button.import')}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <script type="text/javascript">
+                                        $('#myfile').bind('change', function(e) {
+                                            if(this.files[0].size > 5242880){
+                                                alert("{{trans('employee.valid5mb')}}");
+                                                document.getElementById('myfile').value = "";
+                                            }
+                                            var value = $('#myfile')[0].files[0];
+                                            if(value != null){
+                                                $('#file_name').text(value.name);
+                                                $('#i_submit').removeClass('disabled');
+                                            }
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        @endif
                     <div class="box">
                         <!-- /.box-header -->
                         <script src="{!! asset('admin/templates/js/search/search.js') !!}"></script>

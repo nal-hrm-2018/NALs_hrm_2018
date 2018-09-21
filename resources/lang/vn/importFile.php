@@ -46,6 +46,20 @@ return
                 'role_required'=>'Vui lòng nhập chức vụ.',
                 'role_exist'=>'Chức vụ không tồn tại.',
                 'company_required'=>'Vui lòng nhập tên công ty.',
-            ]
+            ],
+            'checkFileAbsence'=>[
+                'email_required'=>'Vui lòng nhập email.',
+                'email_exist'=>'Email đã tồn tại.',
+                'email_valid'=>'Email chưa đúng định dạng',
+                'startwork_required'=>'Vui lòng nhập ngày bắt đầu.',
+                'startwork_end_format'=>'Ngày bắt đầu không hợp lệ. Ví dụ: 22-02-2000.',
+                'endwork_end_format'=>'Ngày kết thúc không hợp lệ. Ví dụ: 22-02-2000.',
+                'endwork_required'=>'Vui lòng nhập ngày kết thúc.',
+                'endwork_smaller'=>'Ngày bắt đầu phải bé hơn ngày kết thúc.',
+                'time_time_required'=>'Vui lòng nhập loại thời gian.',
+                'time_type_values'=>'Loại nghỉ bao gồm Cả ngày, Sáng hoặc Chiều.',
+                'absence_required'=>'Vui lòng nhập loại nghỉ.',
+                'absence_values'=>'Loại nghỉ bao gồm Nghỉ phép năm, Nghỉ không lương, Nghỉ ốm, Nghỉ thai sản, Nghỉ cưới hỏi, Nghỉ tang.',
+            ],
         ],
 ];

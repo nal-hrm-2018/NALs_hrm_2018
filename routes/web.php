@@ -177,6 +177,12 @@ Route::group(['middleware' => 'user'], function () {
         'uses' => 'Absence\AbsenceController@cancelRequest',
     ]);
 
+    Route::post('absence/postFile', 'absence\AbsenceController@postFile')->name('postFile');
+    Route::get('absence/importAbsence',[
+        'uses' => 'Absence\AbsenceController@importAbsence' ,
+        'as' => 'importAbsence '
+    ]);
+
     Route::post('projects/checkProcessAjax',[
         'as'=>'checkProcessAjax',
         'uses'=>'Project\ProjectController@checkProcessesAjax'
