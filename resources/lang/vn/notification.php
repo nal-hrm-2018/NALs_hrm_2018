@@ -6,13 +6,15 @@
  * Time: 8:55 AM
  */
 return[
+    'no_notification' => 'Không có thông báo nào.',
+    'end_date' => 'Ngày kết thúc',
     'notification' =>'Thông báo',
     'delete'=> 'Xóa',
     'edit'=> 'Sửa',
     'add'=> 'Thêm',
     'new'=> 'Thông báo mới',
     'title' => 'Tiêu đề',
-    'content' => 'Nộidung',
+    'content' => 'Nội dung',
     'notification_id' => 'Loại thông báo',
     'msg_add'=>[
         'success'=>'Thêm thông báo thành công!!!',

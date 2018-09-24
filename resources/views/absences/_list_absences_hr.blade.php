@@ -43,7 +43,7 @@
             <th colspan="2"></th>
         </tr> -->
         <tr class="list-project">
-            <th class="text-center project-center">{{trans('common.number')}} </th>
+            <th class="text-center project-center">{{trans('employee.profile_info.id')}}</th>
             <th class="text-center project-center">{{trans('common.name.employee_name')}}</th>
             <th class="text-center project-center">{{trans('employee.profile_info.email')}}</th>
             <th class="text-center project-center">{{trans('absence.type.this_year')}}</th>
@@ -64,15 +64,9 @@
             }
         </style>
         <tbody class="context-menu">
-        @php
-            $count = 0
-        @endphp
         @foreach($list_absences as $employee)
             <tr class="employee-menu" id="employee-id-{{$employee['id']}}" data-employee-id="{{$employee['id']}}">
-                @php
-                    $count++;
-                @endphp
-                <td>{{$count}}</td>
+                <td  class="text-center"><p class="fix-center-employee">{{ isset($employee['id'] )? $employee['id'] : "-"}}</p></td>
                 <td
                         {{checkExpiredPolicy(
                                     $employee['id'],

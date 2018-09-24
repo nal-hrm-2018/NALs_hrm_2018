@@ -49,7 +49,8 @@
                                         <textarea id="content" rows="4" name="content" value="" placeholder="">{{ old('content') }}</textarea>
                                         <label id="lb_error_content" style="color: red; ">{{$errors->first('content')}}</label>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- @php
+                                    <div class="form-group" hidden>
                                         <label>{{trans('notification.notification_id')}}<strong style="color: red">(*)</strong></label>
                                         <select class="form-control" value="{{ old('notification_type_id') }}" style="width: 100%;"  name="notification_type_id" id="notification_type_id">
                                             <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
@@ -67,6 +68,18 @@
                                         </select>
                                         <label id="lb_error_type_id" style="color: red; ">{{$errors->first('notification_type_id')}}</label>
                                     </div>
+                                    @endphp --}}
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label for="date">{{trans('notification.end_date')}}<strong style="color: red">(*)</strong></label>
+                                    </div>
+                                    <div class="form-group input-group">
+                                        
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="date" class="form-control" id="date" name="date" value="{{ old('date') }}">
+                                    </div>
+                                    <label id="lb_error_date" style="color: red; ">{{$errors->first('date')}}</label> 
                                 </div>
                                 <!-- /.form-group -->
                                 <div class="col-md-3"></div>

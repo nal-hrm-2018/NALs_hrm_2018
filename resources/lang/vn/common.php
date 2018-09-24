@@ -97,7 +97,8 @@ return [
     'action'=>[
         'view'=>'Chi tiết',
         'edit'=>'Sửa',
-        'remove'=>'Xóa'
+        'remove'=>'Xóa',
+        'add' => 'thêm'
     ],
     'action_confirm'=>[
         'add'=>'thêm',
