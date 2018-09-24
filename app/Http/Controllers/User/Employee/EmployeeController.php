@@ -485,11 +485,11 @@ class EmployeeController extends Controller
                 if($data[$c] == "-"){
                     $employee->marital_status = 1;
                 }else{
-                    if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.single')) == 0) {
+                    if (strnatcasecmp($data[$c], 'Single') == 0) {
                         $employee->marital_status = 1;
-                    } else if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.married')) == 0) {
+                    } else if (strnatcasecmp($data[$c], 'Married') == 0) {
                         $employee->marital_status = 2;
-                    } else if (strnatcasecmp($data[$c], trans('employee.profile_info.marital_status.separated')) == 0) {
+                    } else if (strnatcasecmp($data[$c], 'Separated') == 0) {
                         $employee->marital_status = 3;
                     } else {
                         $employee->marital_status = 4;
