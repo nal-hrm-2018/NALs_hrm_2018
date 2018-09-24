@@ -834,7 +834,20 @@ class AbsenceController extends Controller
         for ($row = 1; $row < count($data) / $num; $row++) {
             $c = $row * $num;
             if ($c < $row * ($num + 1)) {
-                $id_employee = Employee::select('id')->where('email', 'like', $data[$c])->get()->toArray()[0]['id'];
+                $id_employee = Employee::select('id')->where('email', 'like', $data[$c])->get()->toArray();
+                if(empty($id_employee)){
+                    $c++;
+                    $c++;
+                    $c++;
+                    $c++;
+                    $c++;
+                    $c++;
+                    $c++;
+                    $c++;
+                    continue;
+                }else{
+                    $id_employee = $id_employee[0]['id'];
+                }
                 $c++;
                 //
                 $c++;
@@ -890,6 +903,6 @@ class AbsenceController extends Controller
             unlink($urlFile);
         }
         \Session::flash('msg_success', trans('employee.msg_import.success'));
-        return redirect('absences');
+        return redirect('absences/hr');
     }
 }
