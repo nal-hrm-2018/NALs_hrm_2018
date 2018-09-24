@@ -29,6 +29,7 @@
                             <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($new_notifications as $note)
                                     <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;">
+                                        {{-- @php
                                         @foreach($notification_type as $type)
                                             @if($note->notification_type_id == $type->id)
                                                 @if($type->name == 'HD')
@@ -42,6 +43,7 @@
                                                 @endif
                                             @endif
                                         @endforeach
+                                        @endphp --}}
                                         <span class="pull-right">
                                             <a href="notification/{{$note->id}}/edit" class="btn btn-default">
                                                 <i class="fa fa-pencil width-icon-contextmenu"></i>
@@ -52,9 +54,19 @@
                                                 {{--{{trans('notification.delete')}}--}}
                                             </a>
                                          </span>
+                                        <label class="label bg-yellow" style="width: 40px; display: inline-block;">NALs</label>
                                         <a href="#">
+                                            <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
+                                        <ul class="treeview-menu box-notification-yellow">
+                                            <div style="padding: 0px 20px;">
+                                                <?php
+                                                echo nl2br($note->content);
+                                                ?>
+                                            </div>
+                                        </ul>
+                                        {{-- @php
                                         @foreach($notification_type as $type)
                                             @if($note->notification_type_id == $type->id)
                                                 @if($type->name == 'HD')
@@ -86,6 +98,7 @@
                                                 @endif
                                             @endif
                                         @endforeach
+                                        @endphp --}}
                                     </li>
                                 @endforeach
                             </ul>
@@ -104,6 +117,7 @@
                             <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($old_notifications as $note)
                                     <li class="treeview" style="margin-bottom: 10px;">
+                                        {{-- @php
                                         @foreach($notification_type as $type)
                                             @if($note->notification_type_id == $type->id)
                                                 @if($type->name == 'HD')
@@ -117,10 +131,20 @@
                                                 @endif
                                             @endif
                                         @endforeach
-
+                                        @endphp --}}
+                                        <label class="label bg-yellow" style="width: 40px; display: inline-block;">NALs</label>
                                         <a href="#">
+                                            <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
+                                        <ul class="treeview-menu box-notification-yellow">
+                                            <div style="padding: 0px 20px;">
+                                                <?php
+                                                echo nl2br($note->content);
+                                                ?>
+                                            </div>
+                                        </ul>
+                                        {{-- @php
                                         @foreach($notification_type as $type)
                                             @if($note->notification_type_id == $type->id)
                                                 @if($type->name == 'HD')
@@ -152,6 +176,7 @@
                                                 @endif
                                             @endif
                                         @endforeach
+                                        @endphp --}}
                                     </li>
                                 @endforeach
                             </ul>

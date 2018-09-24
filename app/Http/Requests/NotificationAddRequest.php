@@ -23,7 +23,8 @@
             return [
                 'title' => 'required' ,
                 'content' => 'required',
-                'notification_type_id' => 'required',
+                // 'notification_type_id' => 'required',
+                'date' => 'required|after_or_equal:' . date('d-m-Y'),
             ];
         }
 
@@ -36,9 +37,15 @@
                 'content.required' => trans('validation.required', [
                     'attribute' => trans('notification.content')
                 ]),
-                'notification_type_id.required' => trans('validation.required', [
-                    'attribute' => trans('notification.notification_id')
+                'date.required' => trans('validation.required', [
+                    'attribute' => trans('notification.end_date')
                 ]),
+                'date.after_or_equal' => trans('validation.after_or_equal', [
+                    'attribute' => trans('notification.end_date')
+                ]),
+                // 'notification_type_id.required' => trans('validation.required', [
+                //     'attribute' => trans('notification.notification_id')
+                // ]),
             ];
         }
     }
