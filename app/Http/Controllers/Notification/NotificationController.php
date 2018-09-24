@@ -56,13 +56,14 @@ class NotificationController extends Controller
             return redirect('notification');
         }
 
-        $create_by_employee = Auth::user()->name;
+        $create_by_employee = Auth::user()->id;
         $notification = new Notifications();
         $notification->create_by_employee = $create_by_employee;
-        $notification->create_at = date('Y-m-d ');
+        $notification->create_at = date('Y-m-d');
         $notification->title = $request->title;
         $notification->content = $request->content;
-        $notification->notification_type_id = $request->notification_type_id;
+        $notification->end_date = $request->date;
+        $notification->notification_type_id = NotificationType::where('name','NALs')->value('id');
         if ($notification->save())
         {
             \Session::flash('msg_success', trans('notification.msg_add.success'));
@@ -109,7 +110,8 @@ class NotificationController extends Controller
         $notification = Notifications::where('delete_flag', 0)->find($id);
         $notification->title = $request->title;
         $notification->content = $request->content;
-        $notification->notification_type_id = $request->notification_type_id;
+        $notification->end_date = $request->date;
+        $notification->notification_type_id = NotificationType::where('name','NALs')->value('id');
         if($notification->save()){
             \Session::flash('msg_success', trans('notification.msg_edit.success'));
             return redirect('notification');

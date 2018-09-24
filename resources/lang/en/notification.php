@@ -6,6 +6,8 @@
  * Time: 8:55 AM
  */
 return[
+    'no_notification' => 'No notifications.',
+    'end_date' => 'End date',
     'notification' =>'notification',
     'delete'=> 'delete',
     'edit'=> 'Edit',
