@@ -6,7 +6,7 @@
  * Time: 8:55 AM
  */
 return[
-    'no_notification' => 'No notifications.',
+    'no_notification' => 'There is none notification.',
     'end_date' => 'End date',
     'notification' =>'notification',
     'delete'=> 'delete',
