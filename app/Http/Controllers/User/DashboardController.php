@@ -32,8 +32,13 @@ class DashboardController extends Controller
     // {
     //     $this->get_absence = $get_absence;
     // }
+    protected $objmNotification;
+    public function __construct(Notifications $objmNotification){
+        $this->objmNotification = $objmNotification;
+    }
     public function index()
     {
+        $this->objmNotification->deleteNotificationExpired();
         $id_emp = Auth::user()->id;
         $notifications = Notifications::Where('delete_flag','0')->orderBy('id', 'desc')->get();
         $absences = Employee::emp_absence($id_emp);
