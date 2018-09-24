@@ -19,6 +19,7 @@ use DB;
 use DateTime;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
+use App\Models\ContractualType;
 
 class DashboardController extends Controller
 {
@@ -44,16 +45,14 @@ class DashboardController extends Controller
         $absences = Employee::emp_absence($id_emp);
         $notification_type = NotificationType::Where('delete_flag','0')->get();
         if (Employee::find($id_emp)->hasRole('HR')) {
-            $sumInternship = $this->countEmployeeType('Internship');
-            $sumFullTime = $this->countEmployeeType('FullTime');
-            $sumPartTime = $this->countEmployeeType('PartTime');
-//          $sumContractualEmp = $this->countEmployeeType('Contractual Employee');
-            $sumProbationary = $this->countEmployeeType('Probationary');
-            $sum = $sumInternship + $sumFullTime + $sumPartTime + $sumProbationary;
-
-            $leaved_employee = Employee::where('work_status', '1')->get();
-            $sum_leaved = count($leaved_employee);
-
+            $employees = Employee::Where('delete_flag','0')->get();
+            $common = [
+                'sum_employee'=> count($employees),
+                'internship'=> $this->countEmployeeType('Internship'),
+                'full-time'=> $this->countEmployeeType('FullTime'),
+                'part-time'=> $this->countEmployeeType('PartTime'),
+                'probationary'=>$this->countEmployeeType('Probationary'),
+               ];
             $leaved_month = Employee::where('work_status', '1')
                             ->WhereMonth('endwork_date',  date('m'))
                             ->WhereYear(('endwork_date'), date('Y'))
@@ -68,37 +67,82 @@ class DashboardController extends Controller
                 'new' => count($new_employee),
                 'birthday' => count($birthday_employee),
             ];
-            // dd($this_month); die();
 
-//            this is the new employee in this month
-            $new_employee = Employee::WhereMonth(('startwork_date'), date('m'))
-                ->WhereYear(('startwork_date'), date('Y'))->get();
-            $sum_new = count($new_employee);
-            $new_PHP = $this->countNewEmployeeTeam('PHP');
-            $new_DOTNET = $this->countNewEmployeeTeam('DOTNET');
-            $new_iOS = $this->countNewEmployeeTeam('iOS');
-            $new_Android = $this->countNewEmployeeTeam('Android');
-            $new_Tester = $this->countNewEmployeeTeam('Tester');
-            $new_others = $sum_new - $new_PHP - $new_DOTNET - $new_iOS - $new_Android - $new_Tester;
-            return view('admin.module.index.index', [
+             $end_intership = Employee::WhereYear(('startwork_date'), date('Y'))
+                             ->WhereMonth('startwork_date', (int) date('n')-3)
+                             ->whereHas('contractualType', function($query){
+                                $query->where('name','Internship');
+                            })->get();
+            $end_probatination = Employee::whereHas('contractualType', function($query){
+                                $query->where('name','Probationary');
+                            })
+                            ->WhereMonth('startwork_date', (int) date('n')-2)
+                            ->WhereYear(('startwork_date'), date('Y'))
+                            ->get();
+            $end_one_year = Employee::whereHas('contractualType', function($query){
+                                $query->where('name','One-year');
+                            })
+                            ->WhereYear('startwork_date', (int) date('Y')-1)
+                            ->get();
+            $end_three_year = Employee::whereHas('contractualType', function($query){
+                                $query->where('name','Three-year');
+                            })
+                            ->WhereYear('startwork_date', (int) date('Y')-3)
+                            ->get();
+            $end_contract = [
+                'end_intership'=> count($end_intership),
+                'end_probatination'=> count($end_probatination),
+                'end_one_year'=> count($end_one_year),
+                'end_three_year'=> count($end_three_year),
+            ];
+             return view('admin.module.index.index', [
                 'notification_type' => $notification_type,
                 'absences' => $absences,
                 'notifications' => $notifications,
-                'sumInternship' => $sumInternship,
-                'sumFullTime' => $sumFullTime,
-                'sumPartTime' => $sumPartTime,
-//              'sumContractualEmp' => $sumContractualEmp,
-                'sumProbationary' => $sumProbationary,
-                'sum' => $sum,
-                'sum_leaved' => $sum_leaved,
-                'sum_new' => $sum_new,
-                'new_DOTNET' => $new_DOTNET,
-                'new_iOS' => $new_iOS,
-                'new_Android' => $new_Android,
-                'new_Tester' => $new_Tester,
-                'new_PHP' => $new_PHP,
-                'new_others' => $new_others,
+                'common'=> $common,
+                'this_month'=> $this_month,
+                'end_contract'=> $end_contract,
             ]);
+
+//             $sumInternship = $this->countEmployeeType('Internship');
+//             $sumFullTime = $this->countEmployeeType('FullTime');
+//             $sumPartTime = $this->countEmployeeType('PartTime');
+// //          $sumContractualEmp = $this->countEmployeeType('Contractual Employee');
+//             $sumProbationary = $this->countEmployeeType('Probationary');
+//             $sum = $sumInternship + $sumFullTime + $sumPartTime + $sumProbationary;
+
+//             $leaved_employee = Employee::where('work_status', '1')->get();
+//             $sum_leaved = count($leaved_employee);
+
+// //            this is the new employee in this month
+//             $new_employee = Employee::WhereMonth(('startwork_date'), date('m'))
+//                 ->WhereYear(('startwork_date'), date('Y'))->get();
+//             $sum_new = count($new_employee);
+//             $new_PHP = $this->countNewEmployeeTeam('PHP');
+//             $new_DOTNET = $this->countNewEmployeeTeam('DOTNET');
+//             $new_iOS = $this->countNewEmployeeTeam('iOS');
+//             $new_Android = $this->countNewEmployeeTeam('Android');
+//             $new_Tester = $this->countNewEmployeeTeam('Tester');
+//             $new_others = $sum_new - $new_PHP - $new_DOTNET - $new_iOS - $new_Android - $new_Tester;
+//             return view('admin.module.index.index', [
+//                 'notification_type' => $notification_type,
+//                 'absences' => $absences,
+//                 'notifications' => $notifications,
+//                 'sumInternship' => $sumInternship,
+//                 'sumFullTime' => $sumFullTime,
+//                 'sumPartTime' => $sumPartTime,
+// //              'sumContractualEmp' => $sumContractualEmp,
+//                 'sumProbationary' => $sumProbationary,
+//                 'sum' => $sum,
+//                 'sum_leaved' => $sum_leaved,
+//                 'sum_new' => $sum_new,
+//                 'new_DOTNET' => $new_DOTNET,
+//                 'new_iOS' => $new_iOS,
+//                 'new_Android' => $new_Android,
+//                 'new_Tester' => $new_Tester,
+//                 'new_PHP' => $new_PHP,
+//                 'new_others' => $new_others,
+//             ]);
         }
         if (Employee::find($id_emp)->hasRole('PO')) {
             $status_id = Status::select('id')->where('name', 'complete')->first();
