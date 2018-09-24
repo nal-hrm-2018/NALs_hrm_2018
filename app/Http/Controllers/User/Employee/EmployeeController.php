@@ -452,7 +452,7 @@ class EmployeeController extends Controller
                 $employee = new Employee;
                 $employee->email = $data[$c];
                 $c++;
-                $employee->password = ("123456");
+                $employee->password = bcrypt("123456");
                 $employee->name = $data[$c];
                 $c++;
                 if($data[$c] == "-"){
