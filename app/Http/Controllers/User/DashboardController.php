@@ -54,6 +54,22 @@ class DashboardController extends Controller
             $leaved_employee = Employee::where('work_status', '1')->get();
             $sum_leaved = count($leaved_employee);
 
+            $leaved_month = Employee::where('work_status', '1')
+                            ->WhereMonth('endwork_date',  date('m'))
+                            ->WhereYear(('endwork_date'), date('Y'))
+                            ->get();            
+            $new_employee = Employee::WhereMonth(('startwork_date'), date('m'))
+                            ->WhereYear(('startwork_date'), date('Y'))
+                            ->get();
+            $birthday_employee = Employee::WhereMonth(('birthday'), date('m'))
+                            ->get();
+            $this_month = [
+                'leaved'=> count($leaved_month),
+                'new' => count($new_employee),
+                'birthday' => count($birthday_employee),
+            ];
+            // dd($this_month); die();
+
 //            this is the new employee in this month
             $new_employee = Employee::WhereMonth(('startwork_date'), date('m'))
                 ->WhereYear(('startwork_date'), date('Y'))->get();

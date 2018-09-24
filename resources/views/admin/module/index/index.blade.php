@@ -289,7 +289,7 @@
                 <section>
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">{{trans('common.donut_chart')}}</h3>
+                            <h3 class="box-title">{{trans('employee.chart.information')}}</h3>
                             {{--<div class="box-tools pull-right">--}}
                                 {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>--}}
                                 {{--</button>--}}
@@ -301,7 +301,7 @@
                                 <div class="col-md-4">
                                     <div class="box box-danger">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.type.type')}}</h3>
+                                            <h3 class="box-title">{{trans('employee.chart.common')}}</h3>
                                             <div class="box-tools pull-right">
                                                 <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                                 </button> -->
@@ -337,7 +337,7 @@
                                 <div class="col-md-4">
                                     <div class="box box-danger height-400">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.status.status')}}</h3>
+                                            <h3 class="box-title">{{trans('employee.chart.contract')}}</h3>
                                             <div class="box-tools pull-right">
                                                 <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                                 </button> -->
@@ -365,7 +365,7 @@
                                 <div class="col-md-4">
                                     <div class="box box-danger height-400">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.new')}}{{trans('employee.this_month')}}</h3>
+                                            <h3 class="box-title">{{trans('employee.employee')}}{{trans('employee.this_month')}}</h3>
                                             <div class="box-tools pull-right">
                                                 <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                                 </button> -->

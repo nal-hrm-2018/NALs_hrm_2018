@@ -1,6 +1,10 @@
 <?php
 return[
-
+    'chart'=>[
+        'information' => 'Thông tin nhân viên',
+        'common' => 'Thông tin chung',
+        'contract' => 'Tình trạng hợp đồng',
+    ],
     'drop_box'=>[
         'placeholder-default' => 'Chọn'
     ],

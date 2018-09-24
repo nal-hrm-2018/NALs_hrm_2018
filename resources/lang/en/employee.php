@@ -1,6 +1,10 @@
 <?php
 return[
-
+    'chart'=>[
+        'information' => 'Employee information',
+        'common' => 'General information',
+        'contract' => 'Contractual status',
+    ],
     'drop_box'=>[
         'placeholder-default' => 'Please select'
     ],
