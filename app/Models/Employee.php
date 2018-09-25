@@ -170,7 +170,7 @@ class Employee extends Model implements
             return true;
         return false;
     }
-    public function count_invalid_date(Absence $absence){
+    public function count_valid_date(Absence $absence){
         $calculated = []; // mảng lưu số ngày không hợp lệ
         // tổng số ngày trong đơn ( chưa trừ ngày nghỉ, ngày lễ)
         // dd( date('Y-m-d', strtotime($absence->from_date)) );
@@ -284,28 +284,28 @@ class Employee extends Model implements
         foreach($absences as $absence){  
             switch ($absence->absenceType->name) {
                 case 'annual_leave':
-                    $count_day = $objModel->count_invalid_date($absence);
+                    $count_day = $objModel->count_valid_date($absence);
                     $annual_leave += $count_day;
                     break;
                 case 'unpaid_leave':
-                    $count_day = $objModel->count_invalid_date($absence);
+                    $count_day = $objModel->count_valid_date($absence);
                     $unpaid_leave += $count_day;
                     // dd($unpaid_leave);
                     break;
                 case 'maternity_leave':
-                     $count_day = $objModel->count_invalid_date($absence);
+                     $count_day = $objModel->count_valid_date($absence);
                     $maternity_leave += $count_day;
                     break;
                 case 'marriage_leave':
-                    $count_day = $objModel->count_invalid_date($absence);
+                    $count_day = $objModel->count_valid_date($absence);
                     $marriage_leave += $count_day;
                     break;
                 case 'bereavement_leave':
-                    $count_day = $objModel->count_invalid_date($absence);
+                    $count_day = $objModel->count_valid_date($absence);
                     $bereavement_leave += $count_day;
                     break;
                 case 'sick_leave':
-                    $count_day = $objModel->count_invalid_date($absence);
+                    $count_day = $objModel->count_valid_date($absence);
                     $sick_leave += $count_day;
                     break;                
                 default: 
@@ -313,7 +313,7 @@ class Employee extends Model implements
                     break;
             }            
         };
-        $month_change = 7;
+        $month_change = 4;
         $before_change = Absence::whereMonth('from_date','<', $month_change)
                         ->where('delete_flag',0)
                         ->where('employee_id',$id)
@@ -324,7 +324,7 @@ class Employee extends Model implements
                         // dd($before_change);
         $count_before_change = 0;
         foreach ($before_change as $val) {
-            $count_before_change += $objModel->count_invalid_date($val);
+            $count_before_change += $objModel->count_valid_date($val);
         }
         $count_after_change = $annual_leave -$count_before_change;
 
@@ -384,8 +384,6 @@ class Employee extends Model implements
             "sick_leave" => $sick_leave, //nghỉ ốm
         ];
         
-        // dd($absences); die();
-
         return $absences;
     }
 
