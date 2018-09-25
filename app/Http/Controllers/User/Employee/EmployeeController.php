@@ -106,7 +106,7 @@ class EmployeeController extends Controller
         $employee->address = $request->address;
         $employee->marital_status = $request->marital_status;
         $employee->startwork_date = $request->startwork_date;
-        $employee->endwork_date = $request->endwork_date;
+        // $employee->endwork_date = $request->endwork_date;
         //upload hinh from hunganh
         if($request->file('picture')){
             $file = Input::file('picture');
@@ -119,11 +119,17 @@ class EmployeeController extends Controller
 
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
-        if(strtotime($employee->endwork_date) < strtotime($date)){
-            $employee->work_status = 1;
-        }else{
-            $employee->work_status = 0;
+        if ($employee->endwork_date) {           
+            if(strtotime($employee->endwork_date) < strtotime($date)){
+                $employee->work_status = 1;
+            }else{
+                $employee->work_status = 0;
+            }
+        } else {
+           $employee->work_status = 0;
         }
+        
+        // dd($employee->work_status);
         $employee->is_employee = 1;
         $employee->employee_type_id = $request->employee_type_id;
         //$employee->team_id = $request->team_id;
