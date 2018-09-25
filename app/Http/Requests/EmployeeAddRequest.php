@@ -39,7 +39,7 @@ class EmployeeAddRequest extends FormRequest
                 'digits_between:1,4',
             ],
             /*'curriculum_vitae' => 'required',*/
-            'employee_type_id' => 'required',
+            'contractual_type_id' => 'required',
             'team_id' => 'required',
             'role_id' => 'required',
             'picture' => 'image|max:2048',
@@ -67,7 +67,7 @@ class EmployeeAddRequest extends FormRequest
                 'digits_between:1,4',
             ],
             /*'curriculum_vitae' => 'required',*/
-            'employee_type_id' => 'required',
+            'contractual_type_id' => 'required',
             'team_id' => 'required',
             'role_id' => 'required',
             'picture' => 'image|max:2048',
@@ -148,7 +148,7 @@ class EmployeeAddRequest extends FormRequest
             /*'curriculum_vitae.required' => trans('validation.required', [
                 'attribute' => 'CV'
             ]),*/
-            'employee_type_id.required' => trans('validation.required', [
+            'contractual_type_id.required' => trans('validation.required', [
                 'attribute' => trans('employee.profile_info.position')
             ]),
             'team_id.required' => trans('validation.required', [

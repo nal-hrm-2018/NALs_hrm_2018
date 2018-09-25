@@ -125,14 +125,14 @@
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.password')}}<strong style="color: red">(*)</strong></label>
                                     <input type="password" class="form-control" placeholder="{{trans('employee.profile_info.password')}}" name="password"
-                                           id="password" value="{!! old('password') !!}">
+                                           id="password" value="123456">
                                     <label id="lb_error_password" style="color: red; ">{{$errors->first('password')}}</label>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.password_confirm')}}<strong style="color: red">(*)</strong></label>
                                     <input type="password" class="form-control" placeholder="{{trans('employee.profile_info.password_confirm')}}"
-                                           name="confirm_confirmation" id="cfPass" value="{!! old('password') !!}">
+                                           name="confirm_confirmation" id="cfPass" value="123456">
                                     <label id="lb_error_password_confirm" style="color: red; ">{{$errors->first('confirm_confirmation')}}</label>
                                     <!-- /.input group -->
                                 </div>
@@ -240,22 +240,13 @@
                                 
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br>
-                                    <?php
-                                        foreach ($dataTeam as $val) {
-                                            $selected = "";
-                                            if ($val["id"] == old('team_id')) {
-                                                $selected = "selected";
-                                            }
-                                            if (isset($employee)) {
-                                                if ($employee->team_id == $val["id"]) {
-                                                    $selected = "selected";
-                                                }
-                                            }
-                                    ?>
-                                        <div style="display: inline-block;width: 130px;"><input type="checkbox" name="team_id[]"  value="<?php echo $val["id"]; ?>">&ensp;<?php echo $val["name"];?></div>
-                                    <?php
-                                        }
-                                    ?>
+                                    @foreach ($dataTeam as $val)
+                                       @if ($val["name"] == "NALs") 
+                                            <div style="display: inline-block;width: 130px;"><input type="checkbox" name="team_id[]" checked value="<?php echo $val["id"]; ?>">&ensp;<?php echo $val["name"];?></div>
+                                        @else
+                                            <div style="display: inline-block;width: 130px;"><input type="checkbox" name="team_id[]" value="<?php echo $val["id"]; ?>">&ensp;<?php echo $val["name"];?></div>
+                                        @endif
+                                    @endforeach
                                     <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
                                 </div>
                             </div>
@@ -290,16 +281,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.position')}}<strong style="color: red">(*)</strong></label>
-                                    <select id="position" class="form-control select2" style="width: 100%;" name="employee_type_id">
+                                    <select id="position" class="form-control select2" style="width: 100%;" name="contractual_type_id">
                                         <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <?php
-                                        foreach ($dataEmployeeTypes as $val) {
+                                        foreach ($contractualTypes as $val) {
                                             $selected = "";
-                                            if ($val["id"] == old('employee_type_id')) {
+                                            if ($val["id"] == old('contractual_type_id')) {
                                                 $selected = "selected";
                                             }
                                             if (isset($employee)) {
-                                                if ($employee->employee_type_id == $val["id"]) {
+                                                if ($employee->contractual_type_id == $val["id"]) {
                                                     $selected = "selected";
                                                 }
                                             }
@@ -307,7 +298,7 @@
                                         }
                                         ?>
                                     </select>
-                                    <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
+                                    <label id="lb_error_contractual_type_id" style="color: red; ">{{$errors->first('contractual_type_id')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
@@ -347,22 +338,6 @@
                                     <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
                                 </div>
                             
-                                <div class="form-group">
-                                    <label>{{trans('employee.profile_info.end_work')}}</label>
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="date" class="form-control pull-right" id="endwork_date"
-                                               name="endwork_date"
-                                               style="height: 33px;"
-                                               value="{{ old('endwork_date')}}<?php if (isset($employee)) {
-                                                   echo $employee->endwork_date;
-                                               }?>">
-                                    </div>
-                                    <label id="lb_error_endwork_date" style="color: red; ">{{$errors->first('endwork_date')}}</label>
-                                    <!-- /.input group -->
-                                </div>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -392,7 +367,7 @@
                                     $("#lb_error_password").empty();
                                     $("#lb_error_address").empty();
                                     $("#lb_error_birthday").empty();
-                                    $("#lb_error_employee_type_id").empty();
+                                    $("#lb_error_contractual_type_id").empty();
                                     $("#lb_error_endwork_date").empty();
                                     $("#lb_error_startwork_date").empty();
                                     $("#lb_error_gender").empty();

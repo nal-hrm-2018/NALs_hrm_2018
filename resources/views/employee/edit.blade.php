@@ -303,25 +303,7 @@
              @endif
              </div>
              <label id="lb_error_startwork_date" style="color: red;">{{$errors->first('startwork_date')}}</label>
-           </div>
-           <div class="form-group">
-             <label>{{trans('employee.profile_info.end_work')}}</label>
-             <div class="input-group date">
-               <div class="input-group-addon">
-                 <i class="fa fa-calendar"></i>
-               </div>
-                 @if($statusRole <> "")
-                   <input type="date" {{$statusRole}} class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}" style="height: 33px;">
-                 @endif
-                 @if($statusRole == "")
-                   <input type="date" class="form-control pull-right" id="endwork_date" name="endwork_date" id="endwork_date" value="{!! old('endwork_date', isset($objEmployee["endwork_date"]) ? $objEmployee["endwork_date"] : null) !!}" style="height: 33px;">
-                 @endif
-           </div>
-           <label id="lb_error_endwork_date" style="color: red;">{{$errors->first('endwork_date')}}</label>
-             <!-- /.input group -->
-         </div>
-         
-         
+           </div>         
        </div>
        <div class="row" style="margin-top: 20px; padding-bottom: 20px; ">
           <div class="col-md-6">
