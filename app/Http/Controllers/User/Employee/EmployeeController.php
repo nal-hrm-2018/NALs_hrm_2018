@@ -13,6 +13,7 @@ use App\Models\Employee;
 use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
+use App\Models\ContractualType;
 use App\Models\EmployeeTeam;
 use App\Models\PermissionEmployee;
 use App\Models\PermissionRole;
@@ -90,8 +91,8 @@ class EmployeeController extends Controller
     {
         $dataTeam = Team::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
-        $dataEmployeeTypes = EmployeeType::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
-        return view('employee.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes]);
+        $contractualTypes = ContractualType::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        return view('employee.add', ['dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'contractualTypes' => $contractualTypes]);
     }
 
     public function store(EmployeeAddRequest $request)
@@ -131,7 +132,7 @@ class EmployeeController extends Controller
         
         // dd($employee->work_status);
         $employee->is_employee = 1;
-        $employee->employee_type_id = $request->employee_type_id;
+        $employee->contractual_type_id = $request->contractual_type_id;
         //$employee->team_id = $request->team_id;
         $employee->role_id = $request->role_id;
         $employee->created_at = new DateTime();
@@ -277,9 +278,8 @@ class EmployeeController extends Controller
 
         $objEmployee = Employee::where('delete_flag', 0)->findOrFail($id);
         $dataRoles = Role::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
-        $dataEmployeeTypes = EmployeeType::select('id', 'name')->get()->toArray();
-
-        return view('employee.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'dataEmployeeTypes' => $dataEmployeeTypes ,'dataTeamAll' => $dataTeamAll]);
+        $contractualTypes = ContractualType::select('id', 'name')->where('delete_flag', 0)->get()->toArray();
+        return view('employee.edit', ['objEmployee' => $objEmployee, 'dataTeam' => $dataTeam, 'dataRoles' => $dataRoles, 'contractualTypes' => $contractualTypes ,'dataTeamAll' => $dataTeamAll]);
     }
 
     public function update(EmployeeEditRequest $request, $id)
@@ -299,7 +299,7 @@ class EmployeeController extends Controller
             $employee->startwork_date = $request->startwork_date;
             $employee->endwork_date = $request->endwork_date;
             $employee->role_id = $request->role_id;
-            $employee->employee_type_id = $request->employee_type_id;
+            $employee->contractual_type_id = $request->contractual_type_id;
         }
 
         $employee->name = preg_replace('/\s+/', ' ',$request->name);

@@ -281,16 +281,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.position')}}<strong style="color: red">(*)</strong></label>
-                                    <select id="position" class="form-control select2" style="width: 100%;" name="employee_type_id">
+                                    <select id="position" class="form-control select2" style="width: 100%;" name="contractual_type_id">
                                         <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
                                         <?php
-                                        foreach ($dataEmployeeTypes as $val) {
+                                        foreach ($contractualTypes as $val) {
                                             $selected = "";
-                                            if ($val["id"] == old('employee_type_id')) {
+                                            if ($val["id"] == old('contractual_type_id')) {
                                                 $selected = "selected";
                                             }
                                             if (isset($employee)) {
-                                                if ($employee->employee_type_id == $val["id"]) {
+                                                if ($employee->contractual_type_id == $val["id"]) {
                                                     $selected = "selected";
                                                 }
                                             }
@@ -298,7 +298,7 @@
                                         }
                                         ?>
                                     </select>
-                                    <label id="lb_error_employee_type_id" style="color: red; ">{{$errors->first('employee_type_id')}}</label>
+                                    <label id="lb_error_contractual_type_id" style="color: red; ">{{$errors->first('contractual_type_id')}}</label>
                                 </div>
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.role')}}<strong style="color: red">(*)</strong></label>
@@ -367,7 +367,7 @@
                                     $("#lb_error_password").empty();
                                     $("#lb_error_address").empty();
                                     $("#lb_error_birthday").empty();
-                                    $("#lb_error_employee_type_id").empty();
+                                    $("#lb_error_contractual_type_id").empty();
                                     $("#lb_error_endwork_date").empty();
                                     $("#lb_error_startwork_date").empty();
                                     $("#lb_error_gender").empty();
