@@ -183,10 +183,10 @@ class Employee extends Model implements
             $count_day_end_month = (int)date_create($absence->to_date)->format('d'); 
             $count_day = $count_day_start_month + $count_day_end_month;
             // kiểm tra có phải 2 tháng liên tiếp, nếu không, $count_day+= số ngày các tháng ở giữa
-            $check_month = (int)date_create($absence->from_date)->format('n'); 
+            $check_month = (int)date_create($absence->from_date)->format('n');
             $end_month = (int)date_create($absence->to_date)->format('n'); 
             $year = (int) date('Y', strtotime($absence->from_date));
-            while ( $end_month -$check_month -1) {
+            while ( $end_month -$check_month -1 > 0) {
                 $check_month ++;
                 $coun_day_check_month = cal_days_in_month(CAL_GREGORIAN, $check_month, $year);
                 $count_day += $coun_day_check_month;

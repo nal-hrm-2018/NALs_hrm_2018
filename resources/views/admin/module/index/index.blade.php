@@ -168,12 +168,17 @@
                                             <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </a>
-                                        <ul class="treeview-menu box-notification-yellow">
-                                            <div style="padding: 0px 20px;">
-                                                <?php
-                                                echo nl2br($note->content);
-                                                ?>
-                                            </div>
+                                        <ul>
+                                            <div class="span4 collapse-group">
+                                            <input type="text" id="id_note" value="{{$note->id}}" hidden />
+                                                  <p>
+                                                  <?php echo (substr($note->content,0,strpos($note->content,'-',2)));?>
+                                                  <span class="collapse" id="viewdetails-{{$note->id}}"><?php echo nl2br(substr($note->content,strpos($note->content,'-',2)));?>
+                                                       </span>
+                                                    <a data-toggle="collapse" class="more-{{$note->id}}" data-target="#viewdetails-{{$note->id}}">... &raquo;</a>
+                                                    <a data-toggle="collapse" class="back-{{$note->id}}" data-target="#viewdetails-{{$note->id}}" hidden>&lsaquo;&lsaquo;</a>
+                                                       </p>
+                                              </div>
                                         </ul>
                                         {{-- @php
                                         @foreach($notification_type as $type)
@@ -628,4 +633,19 @@
             @endif <!-- endcode from trinhhunganh . -->
         </div>
     </div>
+    {{-- <script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+            $(document).ready(function(){
+                var id_note = document.getElementById("id_note").value;
+                $(".more-"+ id_note).click(function(){
+                    $(".more-"+ id_note).hide();
+                    $(".back-"+ id_note).show();
+                });
+                $(".back-"+ id_note).click(function(){
+                    $(".back-"+ id_note).hide();
+                    $(".more-"+ id_note).show();
+                });
+            });
+    </script> --}}
 @endsection
