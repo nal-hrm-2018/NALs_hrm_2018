@@ -8,6 +8,7 @@ return [
     'absence_type' => 'Absence type',
     'absence_time' => 'Absence time',
     'reason' => 'Reasons',
+    'valid_day'=>'valid dates',
     'team' => 'Teams',
     'description' => 'Notes',
     'select_year' => 'Select year',

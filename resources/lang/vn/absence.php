@@ -7,6 +7,7 @@ return [
     'absence_type' => 'Loại nghỉ',
     'absence_time' => 'Thời gian nghỉ',
     'reason' => 'Lý do',
+    'valid_day'=>'Số ngày hợp lệ',
     'team' => 'Nhóm',
     'description' => 'Ghi chú',
     'select_year' => 'Chọn năm',

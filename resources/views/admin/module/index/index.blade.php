@@ -67,7 +67,8 @@
         }
 
         .text-legend {
-            display: inline-block;
+            /*display: inline-block;*/
+            font-size: 16px;
             line-height: 2.0;
         }
         .width-100{
@@ -81,8 +82,8 @@
             margin: 0 auto;
             width: 310px;
         }
-        .height-350{
-           height: 350px;
+        .height-200{
+           height: 200px;
         }
         .none-margin-bottom{
             margin-bottom: 0 !important;
@@ -294,300 +295,98 @@
                 <section>
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">{{trans('common.donut_chart')}}</h3>
-                            {{--<div class="box-tools pull-right">--}}
-                                {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>--}}
-                                {{--</button>--}}
-                            {{--</div>--}}
+                            <h3 class="box-title">{{trans('employee.chart.common')}}</h3>
                         </div>
-                        <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="box box-danger">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.type.type')}}</h3>
+                                            <h3 class="box-title">{{trans('employee.chart.information')}}</h3>
                                             <div class="box-tools pull-right">
-                                                <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                                </button> -->
-                                                {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
                                             </div>
                                         </div>
-                                        <div class="box-body height-350">
-                                            <div class="child">
-                                                <div id="donut-chart1" class="donut-chart"></div>
-                                                <div class="width-310">
-                                        <span class="text-legend width-150">
-                                            <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                            {{trans('employee.type.official')}}
-                                        </span>
-                                                    <span class="text-legend width-150">
-                                            <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                                        {{trans('employee.type.probationary')}}
-                                        </span><br>
-                                                    <span class="text-legend width-150">
-                                            <i class="fas fa-circle" style="color: #faa951;"></i>
-                                                        {{trans('employee.type.internship')}}
-                                        </span>
-                                                    <span class="text-legend width-150">
-                                            <i class="fas fa-circle" style="color: #00a65a;"></i>
-                                                        {{trans('employee.type.part-time')}}
-                                        </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /.box-body -->
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="box box-danger height-400">
-                                        <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.status.status')}}</h3>
-                                            <div class="box-tools pull-right">
-                                                <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                                </button> -->
-                                                {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
-                                            </div>
-                                        </div>
-                                        <div class="box-body height-350">
-                                            <div class="child">
-                                                <div id="donut-chart2" class="donut-chart"></div>
-                                                <div class="width-150">
-                                            <span class="text-legend">
+                                        <div class="box-body height-200">
+                                        {{-- @dd($common); --}}
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #f74e1e;"></i>
+                                                {{trans('employee.type.sum')}}: {{$common['sum_employee']}}
+                                            </p>
+                                            <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                                {{trans('employee.status.active')}}
-                                            </span><br>
-                                                    <span class="text-legend">
+                                                {{trans('employee.type.official')}}: {{$common['full-time']}}
+                                            </p>
+                                            <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                                        {{trans('employee.status.leaved')}}
-                                            </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /.box-body -->
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="box box-danger height-400">
-                                        <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.new')}}{{trans('employee.this_month')}}</h3>
-                                            <div class="box-tools pull-right">
-                                                <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                                </button> -->
-                                                {{--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>--}}
-                                            </div>
-                                        </div>
-                                        <div class="box-body height-350">
-                                            <div class="child">
-                                                <div id="donut-chart3" class="donut-chart"></div>
-                                                <div  class="width-310">
-                                                    @if($new_PHP >0)
-                                                        <span class="text-legend width-100">
-                                                <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                                PHP
-                                            </span>
-                                                    @endif
-                                                    @if($new_DOTNET >0)
-                                                        <span class="text-legend width-100">
-                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                               DOTNET
-                                            </span>
-                                                    @endif
-                                                    @if($new_iOS >0)
-                                                        <span class="text-legend width-100">
-                                                <i class="fas fa-circle" style="color: #00a65a;"></i>
-                                                IOS
-                                            </span>
-                                                    @endif
-                                                    @if($new_Android >0)
-                                                        <span class="text-legend width-100">
+                                                {{trans('employee.type.probationary')}}: {{$common['probationary']}}
+                                            </p>
+                                            <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #faa951;"></i>
-                                                Android
-                                            </span>
-                                                    @endif
-                                                    @if($new_Tester >0)
-                                                        <span class="text-legend width-100">
-                                                <i class="fas fa-circle" style="color: #e91d24;"></i>
-                                                Tester
-                                            </span>
-                                                    @endif
-                                                    @if($new_others >0)
-                                                        <span class="text-legend width-100">
-                                                <i class="fas fa-circle" style="color: #999;"></i>
-                                               Others
-                                            </span>
-                                                    @endif
-                                                </div>
+                                                {{trans('employee.type.internship')}}: {{$common['internship']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #00a65a;"></i>
+                                                {{trans('employee.type.part-time')}}: {{$common['part-time']}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="box box-danger height-400">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">{{trans('employee.chart.contract')}}{{trans('employee.this_month')}}</h3>
+                                            <div class="box-tools pull-right">
                                             </div>
                                         </div>
-                                        <!-- /.box-body -->
+                                        {{-- @dd($end_contract); --}}
+                                        <div class="box-body height-200">
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #f74e1e;"></i>
+                                                {{trans('employee.end_contract.internship')}}: {{$end_contract['end_internship']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                                {{trans('employee.end_contract.probatination')}}: {{$end_contract['end_probatination']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                {{trans('employee.end_contract.one-year')}}: {{$end_contract['end_one_year']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #faa951;"></i>
+                                                {{trans('employee.end_contract.three-year')}}: {{$end_contract['end_three_year']}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="box box-danger height-200">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">{{trans('employee.chart.event')}}{{trans('employee.this_month')}}</h3>
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        {{-- @dd($this_month); --}}
+                                        <div class="box-body height-350">
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #f74e1e;"></i>
+                                                {{trans('employee.event.new')}}: {{$this_month['new']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                                {{trans('employee.event.birthday')}}: {{$this_month['birthday']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                {{trans('employee.event.quit')}}: {{$this_month['leaved']}}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-                <script src="https://code.highcharts.com/highcharts.js"></script>
-                <script src="https://code.highcharts.com/modules/data.js"></script>
-                <script>
-                    Highcharts.chart('donut-chart1', {
-                        chart: {
-                            plotBackgroundColor: null,
-                            plotBorderWidth: null,
-                            plotShadow: false,
-                            type: 'pie'
-                        },
-                        title: {
-                            text: null
-                        },
-                        subtitle: {
-                            text: '<span style="font-size: 45px; font-weight: bold;">{{$sum}}</span><br><span style="font-size: 20px;">{{trans('employee.employee')}}</span>',
-                            align: 'center',
-                            verticalAlign: 'middle'
-                        },
-                        tooltip: {
-                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                        },
-                        plotOptions: {
-                            pie: {
-                                innerSize: 150,
-                                allowPointSelect: true,
-                                cursor: 'pointer',
-                                dataLabels: {
-                                    enabled: false
-                                },
-                                showInLegend: false
-                            }
-                        },
-                        series: [{
-                            name: 'Values',
-                            colorByPoint: true,
-                            data: [{
-                                name: '{{trans('employee.type.official')}}',
-                                y: {{$sumFullTime}},
-                                color:'#53cbf2'
-                            }, {
-                                name: '{{trans('employee.type.probationary')}}',
-                                y: {{$sumProbationary}},
-                                color:'#abe02a'
-                            }, {
-                                name: '{{trans('employee.type.internship')}}',
-                                y: {{$sumInternship}},
-                                color:'#faa951'
-                            }, {
-                                name: ' {{trans('employee.type.part-time')}}',
-                                y: {{$sumPartTime}},
-                                color:'#00a65a',
-                            }  ]
-                        }]
-                    });
-                    Highcharts.chart('donut-chart2', {
-                        chart: {
-                            plotBackgroundColor: null,
-                            plotBorderWidth: null,
-                            plotShadow: false,
-                            type: 'pie'
-                        },
-                        title: {
-                            text: null
-                        },
-                        subtitle: {
-                            text: '<span style="font-size: 45px; font-weight: bold;">{{$sum}}</span><br><span style="font-size: 20px;">{{trans('employee.employee')}}</span>',
-                            align: 'center',
-                            verticalAlign: 'middle'
-                        },
-                        tooltip: {
-                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                        },
-                        plotOptions: {
-                            pie: {
-                                innerSize: 150,
-                                allowPointSelect: true,
-                                cursor: 'pointer',
-                                dataLabels: {
-                                    enabled: false
-                                },
-                                showInLegend: false
-                            }
-                        },
-                        series: [{
-                            name: 'Values',
-                            colorByPoint: true,
-                            data: [{
-                                name: '{{trans('employee.status.active')}}',
-                                y: {{$sum}}-{{$sum_leaved}},
-                                color:'#53cbf2'
-                            }, {
-                                name: '{{trans('employee.status.leaved')}}',
-                                y: {{$sum_leaved}},
-                                color:'#abe02a'
-                            }
-                            ]
-                        }]
-                    });
-                    Highcharts.chart('donut-chart3', {
-                        chart: {
-                            plotBackgroundColor: null,
-                            plotBorderWidth: null,
-                            plotShadow: false,
-                            type: 'pie'
-                        },
-                        title: {
-                            text: null
-                        },
-                        subtitle: {
-                            text: '<span style="font-size: 45px; font-weight: bold;">{{$sum_new}}</span><br><span style="font-size: 20px;">{{trans('employee.employee')}}</span>',
-                            align: 'center',
-                            verticalAlign: 'middle'
-                        },
-                        tooltip: {
-                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                        },
-                        plotOptions: {
-                            pie: {
-                                innerSize: 150,
-                                allowPointSelect: true,
-                                cursor: 'pointer',
-                                dataLabels: {
-                                    enabled: false
-                                },
-                                showInLegend: false
-                            }
-                        },
-                        series: [{
-                            name: 'Values',
-                            colorByPoint: true,
-                            data: [{
-                                name: 'PHP',
-                                y: {{$new_PHP}},
-                                color:'#53cbf2'
-                            }, {
-                                name: 'DOTNET',
-                                y: {{$new_DOTNET}},
-                                color:'#abe02a'
-                            }, {
-                                name: 'IOS',
-                                y: {{$new_iOS}},
-                                color:'#00a65a'
-                            }, {
-                                name: 'Android',
-                                y: {{$new_Android}},
-                                color:'#faa951',
-                            }
-                                , {
-                                    name: 'Tester',
-                                    y: {{$new_Tester}},
-                                    color:'#e91d24',
-                                }
-                                , {
-                                    name: 'Others',
-                                    y: {{$new_others}},
-                                    color:'#999'
-                                }
-                            ]
-                        }]
-                    });
-                </script>
             @endif
             {{--end code by Dung--}}
 
