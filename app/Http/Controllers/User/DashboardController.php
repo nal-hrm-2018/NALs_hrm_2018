@@ -68,7 +68,7 @@ class DashboardController extends Controller
                 'birthday' => count($birthday_employee),
             ];
 
-             $end_intership = Employee::WhereYear(('startwork_date'), date('Y'))
+             $end_internship = Employee::WhereYear(('startwork_date'), date('Y'))
                              ->WhereMonth('startwork_date', (int) date('n')-3)
                              ->whereHas('contractualType', function($query){
                                 $query->where('name','Internship');
@@ -90,7 +90,7 @@ class DashboardController extends Controller
                             ->WhereYear('startwork_date', (int) date('Y')-3)
                             ->get();
             $end_contract = [
-                'end_intership'=> count($end_intership),
+                'end_internship'=> count($end_internship),
                 'end_probatination'=> count($end_probatination),
                 'end_one_year'=> count($end_one_year),
                 'end_three_year'=> count($end_three_year),

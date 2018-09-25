@@ -67,7 +67,8 @@
         }
 
         .text-legend {
-            display: inline-block;
+            /*display: inline-block;*/
+            font-size: 16px;
             line-height: 2.0;
         }
         .width-100{
@@ -81,8 +82,8 @@
             margin: 0 auto;
             width: 310px;
         }
-        .height-350{
-           height: 350px;
+        .height-200{
+           height: 200px;
         }
         .none-margin-bottom{
             margin-bottom: 0 !important;
@@ -289,38 +290,92 @@
                 <section>
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">{{trans('employee.chart.information')}}</h3>
+                            <h3 class="box-title">{{trans('employee.chart.common')}}</h3>
                         </div>
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="box box-danger">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.chart.common')}}</h3>
+                                            <h3 class="box-title">{{trans('employee.chart.information')}}</h3>
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
+                                        <div class="box-body height-200">
                                         {{-- @dd($common); --}}
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #f74e1e;"></i>
+                                                {{trans('employee.type.sum')}}: {{$common['sum_employee']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                                {{trans('employee.type.official')}}: {{$common['full-time']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                {{trans('employee.type.probationary')}}: {{$common['probationary']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #faa951;"></i>
+                                                {{trans('employee.type.internship')}}: {{$common['internship']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #00a65a;"></i>
+                                                {{trans('employee.type.part-time')}}: {{$common['part-time']}}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="box box-danger height-400">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.chart.contract')}}</h3>
+                                            <h3 class="box-title">{{trans('employee.chart.contract')}}{{trans('employee.this_month')}}</h3>
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
                                         {{-- @dd($end_contract); --}}
+                                        <div class="box-body height-200">
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #f74e1e;"></i>
+                                                {{trans('employee.end_contract.internship')}}: {{$end_contract['end_internship']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                                {{trans('employee.end_contract.probatination')}}: {{$end_contract['end_probatination']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                {{trans('employee.end_contract.one-year')}}: {{$end_contract['end_one_year']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #faa951;"></i>
+                                                {{trans('employee.end_contract.three-year')}}: {{$end_contract['end_three_year']}}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="box box-danger height-400">
+                                    <div class="box box-danger height-200">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">{{trans('employee.employee')}}{{trans('employee.this_month')}}</h3>
+                                            <h3 class="box-title">{{trans('employee.chart.event')}}{{trans('employee.this_month')}}</h3>
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
                                         {{-- @dd($this_month); --}}
+                                        <div class="box-body height-350">
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #f74e1e;"></i>
+                                                {{trans('employee.event.new')}}: {{$this_month['new']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #53cbf2;"></i>
+                                                {{trans('employee.event.birthday')}}: {{$this_month['birthday']}}
+                                            </p>
+                                            <p class="text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                {{trans('employee.event.quit')}}: {{$this_month['leaved']}}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

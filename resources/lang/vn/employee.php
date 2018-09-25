@@ -3,7 +3,8 @@ return[
     'chart'=>[
         'information' => 'Thông tin nhân viên',
         'common' => 'Thông tin chung',
-        'contract' => 'Tình trạng hợp đồng',
+        'contract' => 'Hợp đồng hết hạn ',
+        'event'=> "Sự kiện "
     ],
     'drop_box'=>[
         'placeholder-default' => 'Chọn'
@@ -12,13 +13,20 @@ return[
     'info'=>'thông tin',
     'employee'=>'Nhân Viên',
     'new'=> 'Nhân Viên Mới',
-    'this_month'=> ' Trong Tháng '.date('n'),
-    'status'=>[
-       'status'=>'Tình trạng nhân viên',
-       'active'=>'Đang làm việc',
-       'leaved'=>'Đã nghỉ việc'
+    'this_month'=> ' tháng '.date('n'),
+    'end_contract'=>[
+        'internship'=>'Học việc',
+        'probatination'=>'Thử việc',
+        'one-year'=>'Một năm',
+        'three-year'=>'Ba năm',
+    ],
+    'event'=> [
+        'birthday'=> 'Sinh nhật',
+        'quit' => 'Nghỉ việc',
+        'new' => 'Nhân viên mới',
     ],
     'type'=>[
+        'sum'=> 'Tổng số nhân viên',
         'type'=>'Loại Nhân Viên',
         'official'=>'Chính thức ',
         'probationary'=>'Thử việc',

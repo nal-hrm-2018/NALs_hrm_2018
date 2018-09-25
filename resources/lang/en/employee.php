@@ -3,7 +3,8 @@ return[
     'chart'=>[
         'information' => 'Employee information',
         'common' => 'General information',
-        'contract' => 'Contractual status',
+        'contract' => 'Contracts expire ',
+        'event'=> 'Events '
     ],
     'drop_box'=>[
         'placeholder-default' => 'Please select'
@@ -12,15 +13,22 @@ return[
     'info'=>'information',
     'employee'=>'Employee',
     'new'=>'New Employee',
-    'this_month'=> ' In '.date('F'),
-    'status'=>[
-        'status'=>'Employee status',
-        'active'=>'Active employee',
-        'leaved'=>'Leaved employee'
+    'this_month'=> ' in '.date('F'),
+    'end_contract'=>[
+        'internship'=>'Internship',
+        'probatination'=>'Probatination',
+        'one-year'=>'One-year',
+        'three-year'=>'Three-year',
+    ],
+    'event'=> [
+        'birthday'=> 'Birthdays',
+        'quit' => 'Employees leaving',
+        'new' => 'New employee',
     ],
     'type'=>[
+        'sum'=> 'Total employee',
         'type'=>'Employee type',
-        'official'=>'Official ',
+        'official'=>'Official',
         'probationary'=>'Probationary',
         'internship'=>'Internship',
         'part-time'=>'Part-time'
