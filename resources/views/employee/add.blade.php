@@ -331,9 +331,7 @@
                                         <input type="date" class="form-control pull-right" id="startwork_date"
                                                name="startwork_date"
                                                style="height: 33px;"
-                                               value="{{ old('startwork_date')}}<?php if (isset($employee)) {
-                                                   echo $employee->startwork_date;
-                                               }?>">
+                                               value="{{date('Y-m-d')}}">
                                     </div>
                                     <label id="lb_error_startwork_date" style="color: red; ">{{$errors->first('startwork_date')}}</label>
                                 </div>

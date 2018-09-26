@@ -153,7 +153,7 @@ class Employee extends Model implements
 
     public function hasRoleHR(){
         $status_emp_per = $this->whereHas('role',function($query) {
-            $query->where('name','HR');
+            $query->where('name','BO');
         })->where('id',$this->id)->get();
 
         if(count($status_emp_per)>0)
