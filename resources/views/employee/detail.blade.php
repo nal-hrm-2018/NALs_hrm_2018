@@ -31,12 +31,14 @@
                     <li>
                         <a id="tab-project" href="#project" data-toggle="tab">{{trans('project.title')}}</a>
                     </li>
+                    @if(Auth::user()->hasRole('HR')||Auth::user()->hasRole('PO'))
                     <li>
                         <a id="tab-overtime" href="#overtime" data-toggle="tab">{{trans('common.title_header.overtime')}}</a>
                     </li>
                     <li>
                         <a id="tab-absence" href="#absence" data-toggle="tab">Absence</a>
                     </li>
+                    @endif
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane" id="basic">

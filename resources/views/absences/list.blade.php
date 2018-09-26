@@ -8,7 +8,6 @@
 @extends('admin.template')
 @section('content')
 
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -131,15 +130,17 @@
                                         <th>{{trans('absence.absence_type')}}</th>
                                         <th>{{trans('absence.absence_time')}}</th>
                                         <th>{{trans('absence.reason')}}</th>
+                                        <th>{{trans('absence.valid_day')}}</th>
                                         <th>{{trans('absence.description')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu" id="listAbsence">
                                     @foreach($listAbsence AS $key => $obj)
+                                    {{-- @dd($obj); --}}
                                         <tr>
                                             <td class="text-center">{{$key+1}}</td>
-                                            <td>{{ isset($obj->from_date)?$obj->from_date->format('d/m/Y'):'-'}}</td>
-                                            <td>{{ isset($obj->to_date)?$obj->to_date->format('d/m/Y'):'-'}}</td>
+                                            <td>{{ isset($obj['from_date'])?$obj['from_date']->format('d/m/Y'):'-'}}</td>
+                                            <td>{{ isset($obj['to_date'])?$obj['to_date']->format('d/m/Y'):'-'}}</td>
                                             {{--<td>--}}
                                                 {{--@if(trans('absence_po.list_po.type.'.$obj->name_type) == trans('absence_po.list_po.type.salary_date'))--}}
                                                     {{--<span class="label label-primary">--}}
@@ -154,12 +155,12 @@
                                                 {{--@endif--}}
                                             {{--</td>--}}
                                             <td>
-                                                <span>{{trans('absence.type.'.$obj->name_type)}}</span>
+                                                <span>{{trans('absence.type.'.$obj['name_type'])}}</span>
                                             </td>
-                                            @if(isset($obj->name_time))
-                                                @if($obj->name_time == 'all')
+                                            @if(isset($obj['name_time']))
+                                                @if($obj['name_time'] == 'all')
                                                     <td>{{trans('absence.all')}}</td>
-                                                @elseif($obj->name_time == 'morning')
+                                                @elseif($obj['name_time'] == 'morning')
                                                     <td>{{trans('absence.morning')}}</td>
                                                 @else
                                                     <td>{{trans('absence.afternoon')}}</td>
@@ -167,8 +168,10 @@
                                             @else
                                             <td>-</td>
                                             @endif
-                                            <td>{{$obj->reason ? $obj->reason : "-"}}</td>
-                                            <td>{{$obj->description ? $obj->description : "-"}}</td>
+                                            <td>{{$obj['reason'] ? $obj['reason'] : "-"}}</td>
+                                            <td>{{$obj['valid_date']}}</td>
+                                            {{-- <td>{{$obj['valid_date'] ? $obj['valid_date'] : "-"}}</td> --}}
+                                            <td>{{$obj['description'] ? $obj['description'] : "-"}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

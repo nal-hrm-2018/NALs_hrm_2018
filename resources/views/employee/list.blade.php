@@ -366,14 +366,10 @@
                                                         echo "<span class='label label-warning'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "Dev"){
                                                         echo "<span class='label label-success'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "BA"){
-                                                        echo "<span class='label label-info'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "ScrumMaster"){
+                                                    } else if($employee->role->name == "SM/AL"){
                                                         echo "<span class='label label-warning'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "HR"){
+                                                    } else if($employee->role->name == "BO"){
                                                         echo "<span class='label label-danger'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "ACCOUNTANT"){
-                                                        echo "<span class='label label-default'>". $employee->role->name ."</span>";
                                                     }
                                                 } else {
                                                     echo "-";
