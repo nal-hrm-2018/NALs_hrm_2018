@@ -291,7 +291,7 @@
         </div>
 
         <div class="content">
-            @if(Auth::user()->hasRole('HR'))
+            @if(Auth::user()->hasRole('BO'))
                 <section>
                     <div class="box box-info">
                         <div class="box-header with-border">
