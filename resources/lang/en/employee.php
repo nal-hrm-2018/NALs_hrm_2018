@@ -1,9 +1,9 @@
 <?php
 return[
     'chart'=>[
-        'information' => 'Employee information',
+        'information' => 'Employee informations',
         'common' => 'General information',
-        'contract' => 'Contracts expire ',
+        'contract' => 'Expiring contracts',
         'event'=> 'Events '
     ],
     'drop_box'=>[
@@ -24,14 +24,14 @@ return[
     ],
     'event'=> [
         'birthday'=> 'Birthdays',
-        'quit' => 'Employees leaving',
-        'new' => 'New employee',
+        'quit' => 'Employees quit',
+        'new' => 'New employees',
     ],
     'type'=>[
-        'sum'=> 'Total employee',
+        'sum'=> 'Total employees',
         'type'=>'Employee type',
         'official'=>'Official',
-        'probationary'=>'Probationary',
+        'probationary'=>'Probatination',
         'internship'=>'Internship',
         'part-time'=>'Part-time'
     ],
