@@ -132,10 +132,8 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        $project = Project::select('projects.*', 'statuses.name as status_name')
-            ->join('statuses', 'projects.status_id', '=', 'statuses.id')
-            ->where('delete_flag', 0)->find($id);
-
+        $project = Project::select('projects.*', 'statuses.name as status_name')->join('statuses', 'projects.status_id', '=', 'statuses.id')->find($id);
+        // dd($project->toArray());
         if (!isset($project)) {
             return abort(404);
         }
