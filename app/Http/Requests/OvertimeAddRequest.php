@@ -37,7 +37,7 @@
             $countProject = $project->countProcess();
             if($countProject > 0){
                 return [
-                    'project_id' => 'required' ,
+                    'process_id' => 'required' ,
                     'date' => 'required|after_or_equal:'.$dayStarts,
                     'start_time' => 'required',
                     'end_time' => 'required|after:start_time',
@@ -61,7 +61,7 @@
         public function messages()
         {
             return [
-                'project_id.required' => trans('validation.required', [
+                'process_id.required' => trans('validation.required', [
                     'attribute' => trans('overtime.project')
                 ]),
                 'date.required' => trans('validation.required', [

@@ -334,7 +334,7 @@ class AbsenceController extends Controller
                             })
                             ->orderBy('absences.id', 'desc')
                             ->get();
-         $listlistAbsence = []; 
+         $listAbsence = []; 
         $objModel = new Employee();    
         foreach ($listAbsence_test as $key => $abssence) {
             $listAbsence[$key++] = [

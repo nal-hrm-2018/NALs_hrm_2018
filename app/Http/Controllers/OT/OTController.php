@@ -12,7 +12,7 @@ use App\Models\Team;
 use App\Models\Role;
 use App\Models\OvertimeStatus;
 use Illuminate\Http\Request;
-use App\Models\OvertimeType;
+use App\Models\DayType;
 use App\Models\HolidayDefault;
 use App\Models\Holiday;
 use Illuminate\Support\Facades\Auth;
@@ -41,97 +41,79 @@ class OTController extends Controller
     public function indexPO(Request $request)
     {   
         $ot_status = OvertimeStatus::whereIn('name', ['Accepted', 'Rejected'])->get();
-        $ot_type = OvertimeType::all();
+        $ot_type = DayType::all();
         $user_id=Auth::user()->id;
         $id_re = OvertimeStatus::where('name','Reviewing')->first()->id;
         $id_no = OvertimeStatus::where('name','Not yet')->first()->id;
 
-        $project = Process::where('employee_id', $user_id)->where('delete_flag', 0)->with(['role' => function($query) {
+        $processes = Process::where('employee_id', $user_id)->where('delete_flag', 0)->with(['role' => function($query) {
             $query->where('name', 'PO');
         }])->get()->toArray();
         
         $project_po = [];
-        foreach($project as $val){
-            if($val['role'] != null){
-                $project_po[] = $val['project_id'];
+        foreach($processes as $process){
+            if($process['role'] != null){
+                $project_po[] = $process['project_id'];
             }
         }
+        // dd($project_po);
 
-        $overtime = [];
-        $is_manager = Employee::where('id',$user_id)->get()->pluck('is_manager')->toArray()[0];
-        $ot = Overtime::with('employee', 'type', 'status', 'project')->orderBy('updated_at', 'desc')->get()->toArray();
-        foreach($ot as $val){
-            $role = Process::where('employee_id', $val['employee_id'])->where('project_id', $val['project_id'])->with('role')->get()->pluck('role')->pluck('name')->toArray();
-            if(count($role)){
-                $role = $role[0];
-            }else{
-                $role = '';
-            }
-            if($role == 'Dev'){
-                if(in_array($val['project_id'], $project_po)){
-                    $overtime[] = $val;
-                }
-            }else{
-                if($is_manager){
-                    $overtime[] = $val;
-                }
-            }
-            
-        }
-        $ot_review = [];
-        foreach($overtime as $val){
-            if($val['status']['id'] == $id_re || $val['status']['id'] == $id_no){
-                $ot_review[] = $val;
-            }
-        }
+        $processes = Process::whereIn('project_id', $project_po)->where('delete_flag', 0)->with(['role' => function($query) {
+            $query->where('name', 'Dev');
+        }])->get()->toArray();
 
-        $overtime = [];
         
+
+        $process_dev_id = [];
+        foreach($processes as $process){
+            if($process['role'] != null){
+                $process_dev_id[] = $process['id'];
+            }
+        }
+        $is_manager = Employee::where('id',$user_id)->get()->pluck('is_manager')->toArray()[0];     
+        $request['is_manager'] = $is_manager;
+        if($is_manager) {
+            $processes = Process::where('delete_flag', 0)->with(['role' => function($query) {
+                $query->where('name', 'PO');
+            }])->get()->toArray();
+            foreach($processes as $process){
+                if($process['role'] != null){
+                    $process_dev_id[] = $process['id'];
+                }
+            }
+        }
+        
+        $request['process_dev_id'] = $process_dev_id;
         $oldmonth = date('d');
         $oldmonth = date("Y-m-d", strtotime('-'.$oldmonth.' day'));
         $request['oldmonth'] = $oldmonth;
-        $ot = $this->searchEmployeeService->searchOvertimePO($request)->get();
+        
+        $ot_review = $this->searchEmployeeService->searchOvertimePO($request)->whereHas('status', function ($query) {
+            $query->where('is_accept', 0);
+        });
+        $ot_review = $ot_review->get();
+
+        // dd($ot_review->toArray());
+        
+        $ot = $this->searchEmployeeService->searchOvertimePO($request)->whereHas('status', function ($query) {
+            $query->where('is_accept', 1);
+        });;
         
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-        // dd($ot);
-        foreach($ot as $val){
-            $role = Process::where('employee_id', $val['employee_id'])->where('project_id', $val['project_id'])->with('role')->get()->pluck('role')->pluck('name')->toArray();
-            if(count($role)){
-                $role = $role[0];
-            }else{
-                $role = '';
-            }
-            if($role == 'Dev'){
-                if(in_array($val['project_id'], $project_po)){
-                    $overtime[] = $val;
-                }
-            }else{
-                if($is_manager){
-                    $overtime[] = $val;
-                }
-            }
-            
-        }
-        $ot_done = [];
-        foreach($overtime as $val){
-            if($val['status']['id'] == $id_re || $val['status']['id'] == $id_no){
-               
-            }else{
-                $ot_done[] = $val;
-            }
-        }
-        
+        $ot = $ot->paginate($request['number_record_per_page']);
+        $ot->setPath('');
+
         foreach($ot_review as $value){
-            if($value['status']['name'] =='Not yet' ){
-                $overtime = Overtime::where('id',$value['id'])->first();
+            if($value['status']['name'] == 'Not yet' ){
+                $overtime = Overtime::where('id', $value['id'])->first();
                 $overtime->overtime_status_id = $id_re;
                 $overtime->save();
             }
         }
         return view('overtime.po_list',[
-            'ot' => $ot_done,
+            'ot' => $ot,
             'ot_review' => $ot_review,
             'ot_status' => $ot_status,
             'ot_type' => $ot_type,
@@ -145,39 +127,62 @@ class OTController extends Controller
         $overtime->correct_total_time = $overtime->total_time;
         $overtime->save();
         $id=Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id)->with('project.overtime')->get();
-        return redirect()->route('po-ot',['OT'=>$OT]);
+        return redirect()->route('po-ot');
     }
 
     public function rejectOT(OvertimeRequest $request,$id){
         $id_emp = Auth::user()->id;
-        $OT[] = Process::where('employee_id',$id_emp)->with('project.overtime')->get();
         $correct_total_time = $request->correct_total_time;
         $overtime = Overtime::where('id',$id)->first();
         $total_time = $overtime->total_time;
         if($total_time<$correct_total_time){
             \Session::flash('msg_fail', trans('overtime.reject.fail'));
-            return redirect()->route('po-ot',['OT'=>$OT]);
-        }elseif($total_time==0){
-            $overtime->overtime_status_id = OvertimeStatus::where('name','Rejected')->first()->id;
-            $overtime->correct_total_time = 0;
+            return redirect()->route('po-ot');
         }else{
             $overtime->overtime_status_id = OvertimeStatus::where('name','Rejected')->first()->id;
             $overtime->correct_total_time = $correct_total_time;
         }
         $overtime->save();
-        return redirect()->route('po-ot',['OT'=>$OT]);
+        return redirect()->route('po-ot');
     }
     public function indexHR(Request $request)
     {
+        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime.status', 'overtime.type');
+
+        $projects = Project::select('id', 'name')->where('delete_flag', 0)->get();
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }
-        $employees = $this->searchEmployeeService->searchEmployee($request)->orderBy('id', 'asc')->with('overtime');
-//        $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
-        $projects = Project::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $employees->paginate($request['number_record_per_page']);
-        $employees->setPath('');
+        // $employees->setPath('');
+
+        foreach($employees as $employee){
+            $normal = null;
+            $weekend = null;
+            $holiday = null;
+            count($employee->overtime);
+            if(count($employee->overtime)){
+                foreach($employee->overtime as $ot){
+                    if($ot->status->is_accept == 1){
+                        if($ot->type->name == 'normal'){
+                            $normal += $ot->correct_total_time;
+                        }
+                        if($ot->type->name == 'weekend'){
+                            $weekend += $ot->correct_total_time;
+                        }
+                        if($ot->type->name == 'holiday'){
+                            $holiday += $ot->correct_total_time;
+                        }
+                    }
+                }
+            }
+            unset($employee->overtime);
+            $employee->overtime->normal = $normal;
+            $employee->overtime->weekend = $weekend;
+            $employee->overtime->holiday = $holiday;
+        }
+        // print_r($employees->toArray());
+
         $param = (Input::except(['page','is_employee']));
         return view('overtime.hr_list',compact('employees','param','projects'));
     }
@@ -189,7 +194,7 @@ class OTController extends Controller
         $oldmonth = date("Y-m-d", strtotime('-'.$oldmonth.' day'));
         $request['oldmonth'] = $oldmonth;
         $ot_status = OvertimeStatus::all();
-        $ot_type = OvertimeType::all();
+        $ot_type = Daytype::all();
         $request['user_id'] = $id;
         
         $overtime = $this->searchEmployeeService->searchOvertime($request);
@@ -232,9 +237,8 @@ class OTController extends Controller
     public function create()
     {
         $id=Auth::user()->id;
-        $objProject = Process::where('employee_id',$id)->get();
-//        $objOvertimeType = OvertimeType::all();
-        return view('overtime.add',compact('objProject','objOvertimeType'));
+        $processes = Process::where('employee_id',$id)->where('check_project_exit', 0)->with('project')->get();
+        return view('overtime.add',compact('processes'));
     }
 
     /**
@@ -250,48 +254,55 @@ class OTController extends Controller
         $overtime->employee_id = $id;
         $project = $this->objProcess->countProcess();
         if($project > 0){
-            $overtime->project_id = $request->project_id;
+            $overtime->process_id = $request->process_id;
         }else{
-            $overtime->project_id = null;
+            $overtime->process_id = null;
         }
+
+        $dayType = DayType::all()->toArray();
+        $typeId = [];
+        //Get day type id 
+        foreach($dayType  as $val){
+            $typeId[$val['name']] = $val['id'];
+        }
+        $sttHoliday = 1;
+        if(date('N', strtotime($request->date)) >= 6){
+            $sttHoliday = 2;
+        }
+
         //kiểm tra co phải ngày nghĩ lễ không.
         $holiday = HolidayDefault::all();
-        $sttHoliday = "";
         foreach ($holiday as $holiday){
             $holidayDefault = date_format($holiday->date,"m-d");
             $holidayRequest = date('m-d', strtotime($request->date));
             if($holidayDefault == $holidayRequest){
-                $sttHoliday = 1;
+                echo $sttHoliday = $typeId['holiday'];
+                break;
             }
         }
-        //Kiểm tra co phải ngày nghĩ lễ đột xuất k
-        if ($sttHoliday == ""){
-            $holiday = Holiday::all();
-            foreach ($holiday as $holiday){
-                $holidayDefault = date_format($holiday->date,"y-m-d");
-                $holidayRequest = date('y-m-d', strtotime($request->date));
-                if($holidayDefault == $holidayRequest){
-                    $sttHoliday = 1;
+        //Kiểm tra co phải ngày nghĩ đột xuất k
+        if ($sttHoliday  == 1){
+            $holidays = Holiday::with('type')->get();
+            foreach ($holidays as $holiday){
+                $holiday->type->name;
+                $holidayAdded = $holiday->date->format('Y-m-d');
+                $holidayRequest = date('Y-m-d', strtotime($request->date));
+                if($holidayAdded == $holidayRequest){
+                    $sttHoliday = $typeId[$holiday->type->name];
                 }
             }
         }
+        
         $overtime->date = $request->date;
-        if ($sttHoliday == 1){
-            $overtime->overtime_type_id = 3;
-        }elseif(date('N', strtotime($request->date)) >= 6){
-            $overtime->overtime_type_id = 2;
-        }else{
-            $overtime->overtime_type_id = 1;
-        }
+        $overtime->day_type_id = $sttHoliday;
         $overtime->start_time = $request->start_time;
         $overtime->end_time = $request->end_time;
         $overtime->total_time = $request->total_time;
-//        $overtime->overtime_type_id = $request->overtime_type_id;
         $overtime->reason = $request->reason;
-        $my_ot = Overtime::where('employee_id',$id)->get();
 
+        $my_ot = Overtime::where('employee_id',$id)->get();
         foreach($my_ot as $my_ot){
-            if($my_ot->date == $request->date.' 00:00:00'){
+            if($my_ot->date->format('Y-m-d') == $request->date){
                 \Session::flash('msg_fail', trans('overtime.msg_add.duplicate'));
                 return back()->withInput();
             }
@@ -325,17 +336,16 @@ class OTController extends Controller
      */
     public function edit($id)
     {
-        $ot_history = Overtime::where('delete_flag', 0)->find($id);
-        $projects = Project::whereHas('processes',  function($q) use($ot_history){
-            $q->where('employee_id', $ot_history->employee_id );
-        })->get();
-        $overtime_type = OvertimeType::all();
+        $user_id=Auth::user()->id;
+        $ot_history = Overtime::where('delete_flag', 0)->with('process.project')->find($id);
+        $processes = Process::where('employee_id',$user_id)->where('check_project_exit', 0)->with('project')->get();
+        $overtime_type = Daytype::all();
         if ($ot_history == null) {
             return abort(404);
         }
         return view('overtime.edit',[
             'ot_history'=> $ot_history,
-            'projects' => $projects,
+            'processes' => $processes,
             'overtime_type'=> $overtime_type,
         ]);
     }
@@ -354,41 +364,58 @@ class OTController extends Controller
         if ($overtime == null) {
             return abort(404);
         }
-        $overtime->project_id = $request->project_id;
-        $overtime->date = $request->date;
-        $overtime->start_time = $request->start_time;
-        $overtime->end_time = $request->end_time;
+        
+
+        $dayType = DayType::all()->toArray();
+        $typeId = [];
+        //Get day type id 
+        foreach($dayType  as $val){
+            $typeId[$val['name']] = $val['id'];
+        }
+        $sttHoliday = 1;
+        if(date('N', strtotime($request->date)) >= 6){
+            $sttHoliday = 2;
+        }
+
         //kiểm tra co phải ngày nghĩ lễ không.
         $holiday = HolidayDefault::all();
-        $sttHoliday = "";
         foreach ($holiday as $holiday){
             $holidayDefault = date_format($holiday->date,"m-d");
             $holidayRequest = date('m-d', strtotime($request->date));
             if($holidayDefault == $holidayRequest){
-                $sttHoliday = 1;
+                echo $sttHoliday = $typeId['holiday'];
+                break;
             }
         }
-        //Kiểm tra co phải ngày nghĩ lễ đột xuất k
-        if ($sttHoliday == ""){
-            $holiday = Holiday::all();
-            foreach ($holiday as $holiday){
-                $holidayDefault = date_format($holiday->date,"y-m-d");
-                $holidayRequest = date('y-m-d', strtotime($request->date));
-                if($holidayDefault == $holidayRequest){
-                    $sttHoliday = 1;
+        //Kiểm tra co phải ngày nghĩ đột xuất k
+        if ($sttHoliday  == 1){
+            $holidays = Holiday::with('type')->get();
+            foreach ($holidays as $holiday){
+                $holiday->type->name;
+                $holidayAdded = $holiday->date->format('Y-m-d');
+                $holidayRequest = date('Y-m-d', strtotime($request->date));
+                if($holidayAdded == $holidayRequest){
+                    $sttHoliday = $typeId[$holiday->type->name];
                 }
             }
         }
-        if ($sttHoliday == 1){
-            $overtime->overtime_type_id = 3;
-        }elseif(date('N', strtotime($request->date)) >= 6){
-            $overtime->overtime_type_id = 2;
-        }else{
-            $overtime->overtime_type_id = 1;
-        }
-        // $overtime->overtime_type_id = $request->overtime_type_id;
+
+        $overtime->process_id = $request->process_id;
+        $overtime->date = $request->date;
+        $overtime->start_time = $request->start_time;
+        $overtime->end_time = $request->end_time;
+        $overtime->day_type_id = $sttHoliday;
         $overtime->total_time = $request->total_time;
         $overtime->reason = $request->reason;
+
+        $user_id=Auth::user()->id;
+        $my_ot = Overtime::where('employee_id',$user_id)->where('id', '!=', $id)->get();
+        foreach($my_ot as $my_ot){
+            if($my_ot->date->format('Y-m-d') == $request->date){
+                \Session::flash('msg_fail', trans('overtime.msg_add.duplicate'));
+                return back()->withInput();
+            }
+        }
         if($overtime->save()){
             \Session::flash('msg_success', trans('overtime.msg_edit.success'));
             return redirect('ot');
@@ -406,7 +433,7 @@ class OTController extends Controller
      */
     public function destroy($id)
     {
-        $overtime = Overtime::where('id', $id)->where('delete_flag', 0)->first();
+        $overtime = Overtime::where('id', $id)->first();
         $overtime->delete_flag = 1;
         $overtime->save();
         \Session::flash('msg_success', trans('common.delete.success'));

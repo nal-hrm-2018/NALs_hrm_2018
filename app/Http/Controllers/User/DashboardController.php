@@ -44,7 +44,7 @@ class DashboardController extends Controller
         $notifications = Notifications::Where('delete_flag','0')->orderBy('id', 'desc')->get();
         $absences = Employee::emp_absence($id_emp);
         $notification_type = NotificationType::Where('delete_flag','0')->get();
-        if (Employee::find($id_emp)->hasRole('HR')) {
+        if (Employee::find($id_emp)->hasRole('BO')) {
             $employees = Employee::Where('delete_flag','0')->get();
             $common = [
                 'sum_employee'=> count($employees),

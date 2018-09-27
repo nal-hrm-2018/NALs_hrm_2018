@@ -20,7 +20,7 @@ class HolidayDefault extends  Model
         'name',
         'date',
         'description',
-        'holiday_status_id',
+        'day_type_id',
         'updated_at', 'updated_by_employee', 'created_at', 'created_by_employee', 'delete_flag'
     ];
 
@@ -28,8 +28,8 @@ class HolidayDefault extends  Model
         'date' => 'date'
     ];
 
-    public function status()
+    public function type()
     {
-        return $this->belongsTo('App\Models\HolidayStatus', 'holiday_status_id');
+        return $this->belongsTo('App\Models\DayType', 'day_type_id');
     }
 }

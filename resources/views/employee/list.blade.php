@@ -366,14 +366,10 @@
                                                         echo "<span class='label label-warning'>". $employee->role->name ."</span>";
                                                     } else if($employee->role->name == "Dev"){
                                                         echo "<span class='label label-success'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "BA"){
-                                                        echo "<span class='label label-info'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "ScrumMaster"){
-                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "HR"){
-                                                        echo "<span class='label label-danger'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "ACCOUNTANT"){
+                                                    } else if($employee->role->name == "BO"){
                                                         echo "<span class='label label-default'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "SM/AL"){
+                                                        echo "<span class='label label-danger'>". $employee->role->name ."</span>";
                                                     }
                                                 } else {
                                                     echo "-";
@@ -430,12 +426,12 @@
                             </table>
                             <div class="row">
                                 @if($employees->hasPages())
-                                    <div class="col-sm-5">
+                                    {{-- <div class="col-sm-5">
                                         <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
                                             {{getInformationDataTable($employees)}}
                                         </div>
-                                    </div>
-                                    <div class="col-sm-7">
+                                    </div> --}}
+                                    <div class="">
                                         {{  $employees->appends($param)->render('vendor.pagination.custom') }}
                                     </div>
                                 @endif

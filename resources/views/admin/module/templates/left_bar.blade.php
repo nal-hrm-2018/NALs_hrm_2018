@@ -9,7 +9,7 @@
             <i class="glyphicon glyphicon-dashboard"></i> <span>{{trans('leftbar.nav.dashboard')}}</span>
           </a>
         </li>
-        @if(Auth::user()->hasRole('HR'))
+        @if(Auth::user()->hasRole('BO'))
          <li class="treeview">
           <a href="#">
             <i class="glyphicon glyphicon-blackboard"></i> <span>{{trans('leftbar.nav.notification')}}</span>
@@ -120,7 +120,7 @@
                 @if(Auth::user()->hasRole('PO'))
                     <li><a class="nav-item-part" href="{{ asset('ot/po-ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.overtime_management')}}</a></li>
                 @endif
-                @if(Auth::user()->hasRole('HR'))
+                @if(Auth::user()->hasRole('BO'))
                     <li><a class="nav-item-part" href="{{ asset('ot/hr-ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.overtime_management')}}</a></li>
                 @endif
             </ul>

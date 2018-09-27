@@ -121,7 +121,7 @@ class Employee extends Model implements
         return $this->belongsToMany('App\Models\Project', 'processes', 'employee_id', 'project_id')
             ->withPivot('id', 'man_power', 'start_date', 'end_date', 'employee_id', 'project_id', 'role_id');
     }
-
+    
     public function roles(){
         return $this->belongsToMany('App\Models\Role', 'processes', 'employee_id', 'role_id');
     }
@@ -153,7 +153,7 @@ class Employee extends Model implements
 
     public function hasRoleHR(){
         $status_emp_per = $this->whereHas('role',function($query) {
-            $query->where('name','HR');
+            $query->where('name','BO');
         })->where('id',$this->id)->get();
 
         if(count($status_emp_per)>0)

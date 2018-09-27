@@ -204,7 +204,7 @@
                                 <tbody>
                                     <tr>
                                         @php
-                                            $i = 0;    
+                                            $i = ($page-1)*$number_record_per_page;    
                                         @endphp
                                     @foreach($ot as $val)
                                         @php
@@ -212,7 +212,7 @@
                                         @endphp
                                         <td class="text-center">{{$i}}</td>
                                         {{-- @dd($val->type->name); --}}
-                                        <td>{{ isset($val->project->name)?$val->project->name:'-'}}</td>
+                                        <td>{{ isset($val->process->project->name)?$val->process->project->name:'-'}}</td>
                                         <td class="text-center">{{$val->date->format('d/m/Y')}}</td>
                                         <td>{{$val->reason}}</td>
                                         <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>

@@ -4,7 +4,7 @@
     <div class="dataTables_length" id="project-list_length">
         <label class="lable-entries" style="display: block;">{{trans('pagination.show.number_record_per_page')}}</label>
         <div class="input-entries">
-            <select id="mySelect" onchange="myFunction()" style="width: 100%;">
+            <select id="select_length" onchange="myFunction()" style="width: 100%;">
                 <option value="20" <?php echo request()->get('number_record_per_page')==20?'selected':''; ?> >20</option>
                 <option value="50" <?php echo request()->get('number_record_per_page')==50?'selected':''; ?> >50</option>
                 <option value="100" <?php echo request()->get('number_record_per_page')==100?'selected':''; ?> >100</option>
@@ -12,7 +12,7 @@
         </div>
         <script>
             function myFunction() {
-                var x = document.getElementById("mySelect").value;
+                var x = document.getElementById("select_length").value;
                 console.log(x);
                 $('#number_record_per_page').val(x);
                 $('#form_search_employee').submit()
@@ -152,11 +152,11 @@
     <div class="row">
         @if($employees->hasPages())
             <div class="col-sm-5">
-                <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+               {{--  <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
                     {{getInformationDataTable($employees)}}
-                </div>
+                </div> --}}
             </div>
-            <div class="col-sm-7">
+            <div class="">
                 {{  $employees->appends($param)->render('vendor.pagination.custom') }}
             </div>
         @endif
