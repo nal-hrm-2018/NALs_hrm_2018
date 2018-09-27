@@ -5,17 +5,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <style>
         .style-box {
-            margin: 10px;
+            margin: 10px 0;
             padding: 10px;
             border: 3px solid #00c0ef;
             border-radius: 5px;
-            min-width: 200px;
+            min-width: 150px;
             color: black;
             background: white;
         }
         .style-box-2 {
-            margin: 10px;
-            padding: 10px;
+            margin: 5px 0;
+            padding: 5px;
             border: 3px solid #00c0ef;
             border-radius: 5px;
             min-width: 100px;
@@ -35,7 +35,7 @@
             text-align: center;
             vertical-align: middle;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 12px;
         }
         .container-donut-chart {
             display: flex;
@@ -221,59 +221,101 @@
                 </div>
             </section>
             <section>
-                <div class="box box-info">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">{{trans('common.absences')}}</h3>
-                    </div>
-                    <div class="box-body">
-                        <div>
-                            <button type="button" class="btn btn-default">
-                                <a href="{{route('absences.create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{trans('absence.add')}}</a>
-                            </button>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">{{trans('leftbar.nav.overtime')}}</h3>
+                            </div>
+                            <div class="box-body">
+                                <div>
+                                    <button type="button" class="btn btn-default">
+                                        <a href="{{route('ot.create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{trans('leftbar.nav.add.overtime')}}</a>
+                                    </button>
+                                </div>
+                                <div>
+                                    <div class=" absence_head" style="padding: 20px 0px;">
+                                        <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">                                           
+                                            <div class="style-box">
+                                                <p style="font-size: 18; font-weight: bold;">{{trans('overtime.total_hours')}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                            <div class="style-box-2">
+                                                <p>{{trans('overtime.day_type.normal')}}</p>
+                                                <p>{{$absences['annual_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('overtime.day_type.day_off')}}</p>
+                                                <p>{{$absences['unpaid_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('overtime.day_type.holiday')}}</p>
+                                                <p>{{$absences['sick_leave']}}</p>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div style="margin: 30px 0 0;">
-                            <div class=" absence_head" style="padding: 20px 0px;">
-                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
-                                    <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.this_year')}}</p>
-                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['pemission_annual_leave']}}</p>
-                                    </div>
-                                    <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.last_year')}}</p>
-                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['remaining_last_year']}}</p>
-                                    </div>
-                                    <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.total_remaining')}}</p>
-                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">{{trans('leftbar.nav.absence')}}</h3>
+                            </div>
+                            <div class="box-body">
+                                <div>
+                                    <button type="button" class="btn btn-default">
+                                        <a href="{{route('absences.create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{trans('absence.add')}}</a>
+                                    </button>
+                                </div>
+                                <div>
+                                    <div class=" absence_head" style="padding: 20px 0px;">
+                                        <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                            <div class="style-box">
+                                                <p style="font-size: 18; font-weight: bold;">{{trans('absence.type.this_year')}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$absences['pemission_annual_leave']}}</p>
+                                            </div>
+                                            <div class="style-box">
+                                                <p style="font-size: 18; font-weight: bold;">{{trans('absence.type.last_year')}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$absences['remaining_last_year']}}</p>
+                                            </div>
+                                            <div class="style-box">
+                                                <p style="font-size: 18; font-weight: bold;">{{trans('absence.type.total_remaining')}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.annual_leave')}}</p>
+                                                <p>{{$absences['annual_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.unpaid_leave')}}</p>
+                                                <p>{{$absences['unpaid_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.sick_leave')}}</p>
+                                                <p>{{$absences['sick_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.maternity_leave')}}</p>
+                                                <p>{{$absences['maternity_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.marriage_leave')}}</p>
+                                                <p>{{$absences['marriage_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.bereavement_leave')}}</p>
+                                                <p>{{$absences['bereavement_leave']}}</p>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
-                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.annual_leave')}}</p>
-                                        <p>{{$absences['annual_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.unpaid_leave')}}</p>
-                                        <p>{{$absences['unpaid_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.sick_leave')}}</p>
-                                        <p>{{$absences['sick_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.maternity_leave')}}</p>
-                                        <p>{{$absences['maternity_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.marriage_leave')}}</p>
-                                        <p>{{$absences['marriage_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.bereavement_leave')}}</p>
-                                        <p>{{$absences['bereavement_leave']}}</p>
-                                    </div>
-                                </div>
-                                
                             </div>
                         </div>
                     </div>
