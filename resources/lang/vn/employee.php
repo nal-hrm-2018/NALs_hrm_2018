@@ -86,7 +86,7 @@ return[
         'end_work'=>'Ngày kết thúc làm',
         'today'=>'Ngày hiện tại',
         'year'=>'Năm',
-        'total_ot' => 'Tổng Làm Ngoài Giờ'
+        'total_ot' => 'Tổng Làm Ngoài Giờ Trong Năm'
     ],
     'msg_content'=>[
         'msg_download_employee_template'=>'Bạn có muốn tải về mẫu danh sách nhân viên không?',

@@ -342,19 +342,19 @@
                                         <div class="box-body height-200">
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
-                                                {{trans('employee.end_contract.internship')}}: {{$end_contract['end_internship']}}
+                                                {{trans('employee.contract.internship')}}: {{$end_contract['end_internship']}}
                                             </p>
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                                {{trans('employee.end_contract.probatination')}}: {{$end_contract['end_probatination']}}
+                                                {{trans('employee.contract.probatination')}}: {{$end_contract['end_probatination']}}
                                             </p>
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                                {{trans('employee.end_contract.one-year')}}: {{$end_contract['end_one_year']}}
+                                                {{trans('employee.contract.one-year')}}: {{$end_contract['end_one_year']}}
                                             </p>
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #faa951;"></i>
-                                                {{trans('employee.end_contract.three-year')}}: {{$end_contract['end_three_year']}}
+                                                {{trans('employee.contract.three-year')}}: {{$end_contract['end_three_year']}}
                                             </p>
                                         </div>
                                     </div>
