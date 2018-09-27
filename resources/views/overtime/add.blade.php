@@ -24,31 +24,27 @@
 	    					<div class="col-md-4">
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
-									@if($objProject->count() > 0)
-									<select class="form-control" value="{{ old('project_id') }}" id="project_id" name="project_id">
+									@if($processes->count() > 0)
+									<select class="form-control" value="{{ old('process_id') }}" id="process_id" name="process_id">
 										<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
-										@foreach($objProject as $typeProject)
+										@foreach($processes as $process)
 											<?php
 												$selected = "";
-												if($typeProject->project_id == old('project_id')){
+												if($process->id == old('process_id')){
 												    $selected = "selected";
 												}
 											?>
-											<option value="{{$typeProject->project_id}}" <?php echo $selected; ?>>{{ \App\Models\Project::where('id',$typeProject->project_id)->first()->name }}
+											<option value="{{$process->id}}" <?php echo $selected; ?>>{{ $process->project->name }}
 											</option>
 										@endforeach
 									</select>
 									@else
-									<select class="form-control" id="project_id" name="project_id" disabled>
-										<option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option>
-										@foreach($objProject as $typeProject)
-											<option value="{{$typeProject->project_id}}">{{ \App\Models\Project::where('id',$typeProject->project_id)->first()->name }}
-											</option>
-										@endforeach
+									<select class="form-control" id="process_id" name="process_id" disabled>
+										<option value="">-</option>
 									</select>
 									@endif
 
-									<label id="lb_error_project_id" style="color: red; ">{{$errors->first('project_id')}}</label>
+									<label id="lb_error_process_id" style="color: red; ">{{$errors->first('process_id')}}</label>
 								</div>
 								<label for="">{{trans('overtime.date')}}<strong style="color: red">(*)</strong></label>
 								<div class="form-group input-group">
