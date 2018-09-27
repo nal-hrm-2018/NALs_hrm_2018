@@ -11,7 +11,7 @@ class Overtime extends Model
     protected $fillable = [
         'id',
         'employee_id',
-        'project_id',
+        'process_id',
         'reason',
         'date',
         'start_time',
@@ -31,11 +31,11 @@ class Overtime extends Model
     }
     public function type()
     {
-        return $this->belongsTo('App\Models\OvertimeType', 'overtime_type_id');
+        return $this->belongsTo('App\Models\DayType', 'day_type_id');
     }
-    public function project()
+    public function process()
     {
-        return $this->belongsTo('App\Models\Project','project_id');
+        return $this->belongsTo('App\Models\Process','process_id');
     }
     public function employee()
     {

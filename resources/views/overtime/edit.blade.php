@@ -21,18 +21,18 @@
 	    				<div class="row">
 	    					<div class="col-md-1"></div>
 	    					<div class="col-md-4">	
-		    					@if($projects)						
+		    					@if($processes)						
 								<div class="form-group">
 								    <label for="">{{trans('overtime.project')}}<strong style="color: red">(*)</strong></label>
-								    <select class="form-control" id="project_id" name="project_id">
-							    		@foreach($projects as $pro)
+								    <select class="form-control" id="process_id" name="process_id">
+							    		@foreach($processes as $process)
 							    			@php
 							    				$selected = "";
-								    			if($pro->id == old('project_id', isset($ot_history->project_id) ? $ot_history->project_id : null)){
+								    			if($process->id == old('process_id', isset($ot_history->process_id) ? $ot_history->process_id : null)){
 								    				$selected = "selected";
 								    			} 
 							    			@endphp
-											<option  value="{{$pro->id}}" {{$selected}}>{{$pro->name}}</option>
+											<option  value="{{$process->id}}" {{$selected}}>{{$process->project->name}}</option>
 							    		@endforeach
 								    </select>
 									<label></label>

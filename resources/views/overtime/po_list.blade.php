@@ -61,13 +61,17 @@
                                 </thead>
                                 <tbody>
                                 @php
-                                    $i=0
+                                    $i=1
                                 @endphp
                                 @foreach($ot_review as $value)
                                     <tr class="employee-menu" id="employee-id-{{$value['id']}}"
                                     data-employee-id="{{$value['id']}}" >
-                                        <td class="text-center" rowspan="">{{$i+1}}</td>
-                                        <td rowspan="">{{$value['project']['name']}}</td>
+                                        <td class="text-center" rowspan="">{{$i}}</td>
+                                        @if(isset($value['process']['project']['name']))
+                                            <td rowspan="">{{$value['process']['project']['name']}}</td>
+                                        @else
+                                            <td class="text-center">-</td>
+                                        @endif
                                         
                                         <td>{{$value['employee']['name'] }}</td>
                                         <td class="text-center">{{date('d/m/Y', strtotime($value['date']))}}</td>
@@ -250,14 +254,14 @@
                                 </thead>
                                 <tbody>
                                 @php
-                                    $i=0
+                                    $i= ($page-1)*20;
                                 @endphp
                                 @foreach($ot as $value)
                                     <tr class="employee-menu" id="employee-id-{{$value['id']}}"
                                     data-employee-id="{{$value['id']}}" >
                                         <td class="text-center" rowspan="">{{$i+1}}</td>
-                                        @if(isset($value['project']['name']))
-                                            <td rowspan="">{{$value['project']['name']}}</td>
+                                        @if(isset($value['process']['project']['name']))
+                                            <td rowspan="">{{$value['process']['project']['name']}}</td>
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
@@ -319,6 +323,18 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="row">
+                            @if($ot->hasPages())
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
+                                        {{getInformationDataTable($ot)}}
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    {{  $ot->render('vendor.pagination.custom') }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

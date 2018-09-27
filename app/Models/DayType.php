@@ -11,9 +11,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HolidayStatus extends Model
+class DayType extends Model
 {
-    public $table = 'holiday_statuses';
+    public $table = 'day_types';
     protected $fillable = [
         'id',
         'name',
