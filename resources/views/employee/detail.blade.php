@@ -122,12 +122,7 @@
                                                 <strong>{{ ($string_team)?$string_team:'NALs' }}</strong>
                                             </p>
                                             <p>{{trans('employee.profile_info.role')}}:
-                                                 <strong>
-                                                    @if($employee->role)
-                                                        {{$employee->role->name}}
-                                                    @else -
-                                                    @endif
-                                                </strong>
+                                            
                                             <?php
                                             if(isset($employee->role)){
                                                 if($employee->role->name == "PO"){
