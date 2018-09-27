@@ -14,11 +14,13 @@ return[
     'employee'=>'Nhân Viên',
     'new'=> 'Nhân Viên Mới',
     'this_month'=> ' tháng '.date('n'),
-    'end_contract'=>[
+    'contract'=>[
         'internship'=>'Học việc',
         'probatination'=>'Thử việc',
         'one-year'=>'Một năm',
         'three-year'=>'Ba năm',
+        'indefinite'=> 'Vô thời hạn',
+        'part-time'=> 'Bán thời gian',
     ],
     'event'=> [
         'birthday'=> 'Sinh nhật',

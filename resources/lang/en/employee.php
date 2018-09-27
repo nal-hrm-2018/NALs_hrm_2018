@@ -14,11 +14,13 @@ return[
     'employee'=>'Employee',
     'new'=>'New Employee',
     'this_month'=> ' in '.date('F'),
-    'end_contract'=>[
+    'contract'=>[
         'internship'=>'Internship',
         'probatination'=>'Probatination',
         'one-year'=>'One-year',
         'three-year'=>'Three-year',
+        'indefinite'=> 'Indefinite',
+        'part-time'=> 'Part-time',
     ],
     'event'=> [
         'birthday'=> 'Birthdays',

@@ -294,7 +294,29 @@
                                                     $selected = "selected";
                                                 }
                                             }
-                                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . $val["name"] . '</option>';
+                                            switch ($val["name"]) {
+                                                case 'Internship':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.internship'). '</option>';
+                                                    break;
+                                                case 'Probationary':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.probatination'). '</option>';
+                                                    break;
+                                                case 'One-year':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.one-year'). '</option>';
+                                                    break;
+                                                case 'Three-year':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.three-year'). '</option>';
+                                                    break;
+                                                case 'Indefinite':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.indefinite'). '</option>';
+                                                    break;
+                                                case 'Part-time':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.part-time'). '</option>';
+                                                    break;
+                                                
+                                                default:
+                                                    break;
+                                            }
                                         }
                                         ?>
                                     </select>
