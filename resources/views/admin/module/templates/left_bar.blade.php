@@ -133,7 +133,7 @@
         </span>
           </a>
           <ul class="treeview-menu">
-              <li><a class="nav-item-part" href="{{ asset('ot')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.quit_process')}}</a></li>
+              <li><a class="nav-item-part" href="{{ asset('quit_process')}}"><i class="fa fa-circle-o-notch"></i>{{trans('leftbar.nav.list.quit_process')}}</a></li>
           </ul>
         </li>
         @if((Auth::user()->hasPermission('view_employee_absence_history')) || (Auth::user()->hasPermission('view_holiday_list')) || (Auth::user()->hasPermission('view_project_absence_history')) )
