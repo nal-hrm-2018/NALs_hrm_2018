@@ -15,6 +15,7 @@ return[
     'total_time'=> 'Total time',
     'reason' => 'Reason',
     'type' => 'Day type',
+    'reject_reason' => 'Reject Reason',
     'day_type' => [
         'normal' => 'Normal day',
         'day_off' => 'Day off',
@@ -43,6 +44,7 @@ return[
         'cancel' => 'Cancel',
         'reject' => 'Reject',
         'accept_time' => 'Accept time',
+        'reason_reject' => 'Reject reason'
 
     ],
     'msg_add'=>[

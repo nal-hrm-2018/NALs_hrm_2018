@@ -134,7 +134,9 @@ class OTController extends Controller
         $id_emp = Auth::user()->id;
         $correct_total_time = $request->correct_total_time;
         $overtime = Overtime::where('id',$id)->first();
+        $overtime->reason_reject = $request->reason_reject;
         $total_time = $overtime->total_time;
+        
         if($total_time<$correct_total_time){
             \Session::flash('msg_fail', trans('overtime.reject.fail'));
             return redirect()->route('po-ot');

@@ -123,6 +123,8 @@
                                                             <label for="verify">{{ trans('overtime.modal.accept_time') }}</label>
                                                             <input type="number" step="0.1" min=0 max="{{$value["total_time"]}}" class="form-control" id="correct_total_time" name="correct_total_time">
                                                             <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label>
+                                                            <label>{{ trans('overtime.modal.reason_reject') }}</label>
+                                                            <input type="textarea" class="form-control" id="reason_reject" name="reason_reject">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -250,6 +252,7 @@
                                         <th class="text-center">{{ trans('overtime.type') }}</th>
                                         <th class="text-center">{{ trans('overtime.correct_total_time') }}</th>
                                         <th class="text-center">{{ trans('overtime.status') }}</th>
+                                        <th class="text-center">{{ trans('overtime.reject_reason') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -311,6 +314,8 @@
                                         @elseif($value['status']['name'] == "Rejected" )
                                             <td class="text-center"><span class="label label-danger">{{ trans('overtime.status_type.rejected') }}<span></td>
                                         @endif
+
+                                        <td>{{$value["reason_reject"]}}</td>
                                         <ul class="contextMenu" data-employee-id="{{$value['id']}}" hidden>
                                             <li><a href="{{ route('employee.show',['employee'=> $value['employee_id']]) }}?basic=0&project=0&overtime=1&absence=0">
                                                     <i class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a>

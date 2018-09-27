@@ -15,6 +15,7 @@ return[
     'total_time'=> 'Tổng thời gian',
     'reason' => 'Lý do',
     'type' => 'Loại ngày',
+    'reject_reason' => 'Lý do từ chối',
     'day_type' => [
         'normal' => 'Ngày thường',
         'day_off' => 'Ngày nghỉ',
@@ -43,6 +44,7 @@ return[
         'cancel' => 'Thoát',
         'reject' => 'Từ chối',
         'accept_time' => 'Thời gian đồng ý',
+        'reason_reject' => 'Lý do từ chối'
     ],
     'msg_add'=>[
         'success'=>'Thêm đơn tăng ca thành công!!!',
