@@ -18,7 +18,7 @@ return[
         'absence' => 'Absences',
         'absence_management' => 'Absence Management',
         'overtime_management' => 'Overtime Management',
-        'overtime' => 'Overtime',
+        'overtime' => 'Overtimes',
 
         'list'=>[
             'ot_list' => 'OT List',
