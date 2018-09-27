@@ -64,13 +64,14 @@ class EmployeeController extends Controller
         $employees->get();
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
-        $newmonth = date('d');
-        $newmonth = date("Y-m-d", strtotime('-'.$newmonth.' day'));
+        $year = date('Y');
+        $year = $year.'-01-01';
+        
         foreach($employees as $val){
             $s = 0;
             if(count($val->overtime)){
                 foreach($val->overtime as $ot){
-                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($newmonth)){
+                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($year)){
                         $s += $ot->correct_total_time;
                     }
                 }

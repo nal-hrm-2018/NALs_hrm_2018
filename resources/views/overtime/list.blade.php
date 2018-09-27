@@ -199,6 +199,8 @@
                                         <th class="text-center">{{trans('overtime.status')}}</th>
                                         <th class="text-center">{{trans('overtime.correct_total_time')}}</th>
                                         <th class="text-center">{{trans('overtime.action')}}</th>
+                                        <th class="text-center">{{ trans('overtime.reject_reason') }}</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -255,6 +257,7 @@
                                         @else
                                             <td class="text-center">-</td>
                                         @endif
+                                        <td>{{$val->reason_reject}}</td>
                                     </tr>
                                     @endforeach
                                     <tr>

@@ -118,6 +118,9 @@
                                     $("#title").val('');
                                     $("#content").val('');
                                     $("#date").val('').change();
+                                    $("#lb_error_title").empty();
+                                    $("#lb_error_content").empty();
+                                    $("#lb_error_date").empty();
                                 }
                             });
                         });
