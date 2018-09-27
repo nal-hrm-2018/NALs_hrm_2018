@@ -136,13 +136,16 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         $to_date = !empty($request->to_date) ? $request->to_date : '';
         $user_id = !empty($request->user_id) ? $request->user_id : '';
         $oldmonth = !empty($request->oldmonth) ? $request->oldmonth : '';
-        $query = Overtime::with('status', 'type', 'project', 'employee');
+        $query = Overtime::with('status', 'type', 'process.project', 'employee');
+        // dd($query->get()->toArray());
         $query->where('delete_flag', '=', 0);
         $query->Where('employee_id', '=', $user_id);
 
         if (!empty($name)) {
-            $query->whereHas('project', function ($query) use ($name) {
-                $query->where("name", 'like', '%' . $name . '%');
+            $query->whereHas('process', function ($query) use ($name) {
+                $query->whereHas('project', function ($query) use ($name) {
+                    $query->where("name", 'like', '%' . $name . '%');
+                });
             });
         }
         if (!empty($type)) {
@@ -182,11 +185,21 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         $to_date = !empty($request->to_date) ? $request->to_date : '';
         $user_id = !empty($request->user_id) ? $request->user_id : '';
         $oldmonth = !empty($request->oldmonth) ? $request->oldmonth : '';
-        $query = Overtime::with('status', 'type', 'project', 'employee');
+        $query = Overtime::with('status', 'type', 'process.project', 'employee');
         $query->where('delete_flag', '=', 0);
+
+        $query->where(function ($query) use ($request) {
+            $query->whereIn('process_id', $request->process_dev_id);
+            if ($request->is_manager) {
+                $query->orWhere('process_id', null);
+            }
+        });
+        
         if (!empty($name)) {
-            $query->whereHas('project', function ($query) use ($name) {
-                $query->where("name", 'like', '%' . $name . '%');
+            $query->whereHas('process', function ($query) use ($name) {
+                $query->whereHas('project', function ($query) use ($name) {
+                    $query->where("name", 'like', '%' . $name . '%');
+                });
             });
         }
         if (!empty($type)) {
@@ -211,9 +224,9 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if(empty($number_record_per_page)){
             $query->where('date', '>', $oldmonth);
         }
-        
-        $employeesSearch = $query->orderBy('updated_at', 'desc');
-            
-        return $employeesSearch;
+
+        $overtimeSearch = $query->orderBy('updated_at', 'desc');
+        // dd($query->get()->toArray());
+        return $overtimeSearch;
     }
 }

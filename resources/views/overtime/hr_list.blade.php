@@ -203,57 +203,24 @@
                                         <td class="text-center">{{ isset($employee->id)?$employee->id:'-' }}</td>
                                         <td>{{ isset($employee->name)?$employee->name:'-' }}</td>
                                         <td>
-                                            @foreach($employee->projects as $process)
+                                            @foreach($employee->processes as $process)
                                                 <?php
-                                                    if(request('project_id') !== null){
-                                                        if($process->id == request('project_id')){
-                                                            echo $process->name; break;
-                                                        }
-                                                    }else{
-                                                        echo $process->name.',';
-                                                    }
+                                                    echo $process->project->name.' ';
                                                 ?>
-                                                @php
-                                                    $process->name.',';
-                                                @endphp
                                             @endforeach
                                         </td>
-                                        <?php
-                                        $date_ot = ""; $year_ot="";
-                                        if(request()->get('date_ot') !== null){
-                                            $date_ot= request()->get('date_ot');
-                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereDate('date', '=', $date_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereDate('date', '=', $date_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereDate('date', '=', $date_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                        }elseif(request()->get('year_ot') !== null){
-                                            $year_ot= request()->get('year_ot');
-                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereYear('date', $year_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereYear('date', $year_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereYear('date', $year_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                        }elseif(request()->get('month_ot') !== null){
-                                            $month_ot= request()->get('month_ot');
-                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereMonth('date', $month_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereMonth('date', $month_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereMonth('date', $month_ot)->where('delete_flag',0)->sum('correct_total_time');
-                                        }else{
-                                            $year_ot= request()->get('year_ot');
-                                            $sumNomarday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',1)->whereMonth('date', date('m'))->where('delete_flag',0)->sum('correct_total_time');
-                                            $sumWeekend = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',2)->whereMonth('date', date('m'))->where('delete_flag',0)->sum('correct_total_time');
-                                            $sumHoliday = DB::table('overtime')->where('employee_id',$employee->id)->where('overtime_type_id',3)->whereMonth('date', date('m'))->where('delete_flag',0)->sum('correct_total_time');
-                                        }
-                                        ?>
-                                        @if($sumNomarday > 0)
-                                        <td class="text-center"><span class="label label-success">{{ isset($sumNomarday)?$sumNomarday:'-' }}</span></td>
+                                        @if($employee->overtime->normal)
+                                        <td class="text-center"><span class="label label-success">{{ $employee->overtime->normal }}</span></td>
                                         @else
                                         <td class="text-center"><span class="">-</span></td>
                                         @endif
-                                        @if($sumWeekend > 0)
-                                            <td class="text-center"><span class="label label-success">{{ isset($sumWeekend)?$sumWeekend:'-' }}</span></td>
+                                        @if($employee->overtime->weekend)
+                                            <td class="text-center"><span class="label label-success">{{ $employee->overtime->weekend }}</span></td>
                                         @else
                                             <td class="text-center"><span class="">-</span></td>
                                         @endif
-                                        @if($sumHoliday > 0)
-                                            <td class="text-center"><span class="label label-success">{{ isset($sumHoliday)?$sumHoliday:'-' }}</span></td>
+                                        @if($employee->overtime->holiday)
+                                            <td class="text-center"><span class="label label-success">{{ $employee->overtime->holiday }}</span></td>
                                         @else
                                             <td class="text-center"><span class="">-</span></td>
                                         @endif
@@ -268,11 +235,6 @@
                             </table>
                             <div class="row">
                                 @if($employees->hasPages())
-                                    <div class="col-sm-5">
-                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
-                                            {{getInformationDataTable($employees)}}
-                                        </div>
-                                    </div>
                                     <div class="col-sm-7">
                                         {{  $employees->appends($param)->render('vendor.pagination.custom') }}
                                     </div>
