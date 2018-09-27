@@ -93,6 +93,7 @@ return [
         'confirmation'=>'Xác nhận',
         'statistic'=>'Thống kê',
         'edit_overtime'=>'Chỉnh sửa đơn tăng ca',
+        'list_quit'=>'Danh sách nghỉ việc'
     ],
     'action'=>[
         'view'=>'Chi tiết',

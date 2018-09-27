@@ -246,4 +246,5 @@ Route::get('/download-absence-po-team', 'Absence\AbsenceController@exportAbsence
 /*the end route list employee by Quy*/
 
 //Route::DELETE('employee/{id} ', 'User\Employee\EmployeeController@destroy')->name('remove');
+Route::resource('quit_process', 'QuitProcessController');
 
