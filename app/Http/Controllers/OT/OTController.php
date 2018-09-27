@@ -278,7 +278,7 @@ class OTController extends Controller
             $holidayDefault = date_format($holiday->date,"m-d");
             $holidayRequest = date('m-d', strtotime($request->date));
             if($holidayDefault == $holidayRequest){
-                echo $sttHoliday = $typeId['holiday'];
+                $sttHoliday = $typeId['holiday'];
                 break;
             }
         }
@@ -302,13 +302,6 @@ class OTController extends Controller
         $overtime->total_time = $request->total_time;
         $overtime->reason = $request->reason;
 
-        $my_ot = Overtime::where('employee_id',$id)->get();
-        foreach($my_ot as $my_ot){
-            if($my_ot->date->format('Y-m-d') == $request->date){
-                \Session::flash('msg_fail', trans('overtime.msg_add.duplicate'));
-                return back()->withInput();
-            }
-        }
         if($overtime->save()){
             \Session::flash('msg_success', trans('overtime.msg_add.success'));
             return redirect('ot');
@@ -385,7 +378,7 @@ class OTController extends Controller
             $holidayDefault = date_format($holiday->date,"m-d");
             $holidayRequest = date('m-d', strtotime($request->date));
             if($holidayDefault == $holidayRequest){
-                echo $sttHoliday = $typeId['holiday'];
+                $sttHoliday = $typeId['holiday'];
                 break;
             }
         }
@@ -410,14 +403,6 @@ class OTController extends Controller
         $overtime->total_time = $request->total_time;
         $overtime->reason = $request->reason;
 
-        $user_id=Auth::user()->id;
-        $my_ot = Overtime::where('employee_id',$user_id)->where('id', '!=', $id)->get();
-        foreach($my_ot as $my_ot){
-            if($my_ot->date->format('Y-m-d') == $request->date){
-                \Session::flash('msg_fail', trans('overtime.msg_add.duplicate'));
-                return back()->withInput();
-            }
-        }
         if($overtime->save()){
             \Session::flash('msg_success', trans('overtime.msg_edit.success'));
             return redirect('ot');
