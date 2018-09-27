@@ -22,6 +22,7 @@ return[
         'holiday' => 'Holiday',
     ],
     'total' => 'Total',
+    'total_hours'=> 'Total hours',
     'not_yet' => 'Not yet',
     'reviewing'=> 'Reviewing',
     'accepted'=> 'Accepted',
