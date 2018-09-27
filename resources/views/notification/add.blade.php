@@ -88,7 +88,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-6" style="display: inline;">
                                     <div style="float: right;">
-                                        <button onclick="return confirm_reset();" type="reset" id="btn_reset_form_employee" class="btn btn-default"><span class="fa fa-refresh"></span>
+                                        <button onclick="return confirm_reset();" type="button" id="btn_reset_form_notification" class="btn btn-default"><span class="fa fa-refresh"></span>
                                             {{ trans('common.button.reset')}}
                                         </button>
                                     </div>
@@ -111,7 +111,17 @@
             </div>
             <script type="text/javascript"
                     src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
+                    <script>
+                        $(function () {
+                            $("#btn_reset_form_notification").bind("click", function () {
+                                if(confirm('{{trans('common.confirm_reset')}}')){
+                                    $("#title").val('');
+                                    $("#content").val('');
+                                    $("#date").val('').change();
+                                }
+                            });
+                        });
+                    </script>
             <script type="text/javascript">
                 $(function () {
                     $('.form_datetime').datetimepicker({
