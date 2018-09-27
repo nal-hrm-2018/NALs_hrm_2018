@@ -189,37 +189,49 @@
                                                             <input type="text" name="email" id="emailEmployee" class="form-control" value="{{$email}}" >
                                                         </div>
                                                         <div class="input-group margin">
-                                                            <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.role')}}</button>
-                                                            </div>
-                                                            <select name="role" id="role_employee" class="form-control">
-                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
-                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                </option>
-                                                                @foreach($roles as $role)
-                                                                    <option value="{{ $role->name}}"{{ (string)$role->name===request('role')?'selected="selected"':'' }}>
-                                                                        {{ $role ->name}}
+                                                                <div class="input-group-btn">
+                                                                    <button type="button" class="btn width-100">Month</button>
+                                                                </div>
+                                                                <select name="month_quit" id="month_quit" class="form-control">
+                                                                    <option {{ !empty(request('month_quit'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="input-group margin">
-                                                            <div class="input-group-btn">
-                                                                <button type="button"
-                                                                        class="btn width-100">{{trans('employee.profile_info.status')}}</button>
+                                                                    @php
+                                                                    $dataMonth = [1,2,3,4,5,6,7,8,9,10,11,12];
+                                                                    @endphp
+                                                                    @foreach($dataMonth as $month)
+                                                                    <?php
+                                                                        $selected="";
+                                                                        if ($month == request()->get('month_quit')) {
+                                                                            $selected = "selected";
+                                                                        }
+                                                                    ?>
+                                                                    <option value="{{$month}}" <?php echo $selected;?>>{{$month}}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
-                                                            <select name="status" id="status" class="form-control">
-                                                                <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
-                                                                    {{  trans('employee.drop_box.placeholder-default') }}
-                                                                </option>
-
-                                                                @foreach($status as $key => $value)
-                                                                    <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
-                                                                        {{ $value }}
+                                                            <div class="input-group margin">
+                                                                <div class="input-group-btn">
+                                                                    <button type="button"
+                                                                            class="btn width-100"> Year</button>
+                                                                </div>
+                                                                <select name="year_quit" id="year_quit" class="form-control">
+                                                                    <option {{ !empty(request('year_quit'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
+                                                                    <?php
+                                                                    $selectedNow = ""; $selectedLessThanNow = "";
+                                                                        if(request()->get('year_quit')==date("Y")){
+                                                                            $selectedNow = "selected";
+                                                                        }
+                                                                    if(request()->get('year_quit')==date("Y")-1){
+                                                                        $selectedLessThanNow = "selected";
+                                                                    }
+                                                                    ?>
+                                                                    <option value="{{ date("Y") }}" <?php echo $selectedNow; ?>>{{ date("Y") }}</option>
+                                                                    <option value="{{ date("Y")-1 }}" <?php echo $selectedLessThanNow; ?>>{{ date("Y")-1 }}</option>
+                                                                </select>
+                                                            </div>
                                                     </div>
                                                 </div>
 
