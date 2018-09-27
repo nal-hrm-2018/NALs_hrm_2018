@@ -128,21 +128,21 @@
                                                     @else -
                                                     @endif
                                                 </strong>
-                                             <!--   {{-- <?php
-                                                if(isset($employee->role)){
-                                                    if($employee->role->name == "PO"){
-                                                        echo "<span class='label label-primary'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "Dev"){
-                                                        echo "<span class='label label-success'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "BA"){
-                                                        echo "<span class='label label-info'>". $employee->role->name ."</span>";
-                                                    } else if($employee->role->name == "ScrumMaster"){
-                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
-                                                    }
-                                                } else {
-                                                    echo "-";
+                                            <?php
+                                            if(isset($employee->role)){
+                                                if($employee->role->name == "PO"){
+                                                    echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                } else if($employee->role->name == "Dev"){
+                                                    echo "<span class='label label-success'>". $employee->role->name ."</span>";
+                                                } else if($employee->role->name == "BO"){
+                                                    echo "<span class='label label-default'>". $employee->role->name ."</span>";
+                                                } else if($employee->role->name == "SM/AL"){
+                                                    echo "<span class='label label-danger'>". $employee->role->name ."</span>";
                                                 }
-                                                ?> --}} -->
+                                            } else {
+                                                echo "-";
+                                            }
+                                            ?>
                                             </p>
 
                                             <p>{{trans('employee.profile_info.policy_date')}}:
@@ -150,10 +150,14 @@
                                                     - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
                                             <p>{{trans('employee.profile_info.policy_status.title')}}:
                                                 @if($employee->work_status == 0)
-                                                    @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
-                                                        <span class="label label-primary">{{trans('employee.profile_info.status_active')}}</span>
+                                                    @if($employee->endwork_date)
+                                                        @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
+                                                            <span class="label label-primary">{{trans('employee.profile_info.status_active')}}</span>
+                                                        @else
+                                                            <span class="label label-danger">{{trans('employee.profile_info.status_expired')}}</span>
+                                                        @endif
                                                     @else
-                                                        <span class="label label-danger">{{trans('employee.profile_info.status_expired')}}</span>
+                                                        <span class="label label-primary">{{trans('employee.profile_info.status_active')}}</span>
                                                     @endif
                                                 @else
                                                     <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
