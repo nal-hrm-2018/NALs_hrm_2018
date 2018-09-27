@@ -168,7 +168,7 @@
                                                 <strong> {{$rest_absence}}</strong></p>
 
                                         </div>
-                                        {{--<div class="col-md-6">--}}
+                                        {{-- <div class="col-md-6">--}}
                                             {{--<div class="row">--}}
                                                 {{--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>--}}
                                                 {{--<h2 class="profile-username text-center">{{trans('chart.resource_chart.title')}}</h2>--}}
@@ -214,7 +214,7 @@
 
                                                 {{--</div>--}}
                                             {{--</div>--}}
-                                        {{--</div>--}}
+                                        {{--</div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -350,7 +350,7 @@
                                                         @endphp
                                                         <tr>
                                                             <td class="text-center">{{$count}}</td>
-                                                            <td>{{ isset($val->project->name)?$val->project->name:'-'}}</td>
+                                                            <td>{{ isset($val->process->project->name)?$val->process->project->name:'-'}}</td>
                                                             <td>{{$val->date->format('d/m/Y')}}</td>
                                                             <td>{{$val->reason}}</td>
                                                             <td class="text-center">{{\Carbon\Carbon::createFromFormat('H:i:s',$val->start_time)->format('H:i')}}</td>
