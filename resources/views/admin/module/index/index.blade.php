@@ -292,7 +292,7 @@
 
         <div class="content">
             @if(Auth::user()->hasRole('BO'))
-                <section>
+                <section>                    
                     <div class="box box-info">
                         <div class="box-header with-border">
                             <h3 class="box-title">{{trans('employee.chart.common')}}</h3>
@@ -418,13 +418,9 @@
                                         @foreach($projects as $project)
                                             <tr>
                                                 <td>{{$project->id}}</td>
-                                                <td>{{$project['name']}}</td>
-                                                <td>{{$project['start_date']->format('d-m-Y')}}</td>
-                                                @if($project['estimate_end_date']!=null)
-                                                    <td>{{$project['estimate_end_date']->format('d-m-Y')}}</td>
-                                                @else
-                                                    <td></td>
-                                                @endif
+                                                <td>{{$project['name']}}</td>                                                
+                                                <td>{{(isset($project['start_date']))?$project['start_date']->format('d-m-Y'):'-'}}</td>
+                                                <td>{{(isset($project['estimate_end_date']))?$project['estimate_end_date']->format('d-m-Y'):'-'}}</td>                                                
                                                 @if($project['status']['name']=='kick off')
                                                     <td><span class="label label-primary">{{$project['status']['name']}}</span></td>
                                                 @elseif($project['status']['name']=='pending')
@@ -498,9 +494,9 @@
                                                 @elseif($process['role']['name']=='HR')
                                                     <td><span class="label label-warnings">{{$process['role']['name']}}</span></td>
                                                 @endif
-                                                <td>{{$process['project']['start_date']->format('d-m-Y')}}</td>
+                                                <td>{{isset($process['project']['start_date'])? $process['project']['start_date']->format('d-m-Y'):"-"}}</td>
                                                 @if($process['project']['estimate_end_date']!=null)
-                                                    <td>{{$process['project']['estimate_end_date']->format('d-m-Y')}}</td>
+                                                    <td>{{isset($process['project']['estimate_end_date'])? $process['project']['estimate_end_date']->format('d-m-Y'):"-"}}</td>
                                                 @else
                                                     <td>-</td>
                                                 @endif
