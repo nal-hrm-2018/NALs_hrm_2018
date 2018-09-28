@@ -107,6 +107,7 @@
         {{--style="color: red; ">{{$errors->first('estimate_start_date')}}</label>--}}
         <!-- /.input group -->
         </div>
+        
         <div>
             <label>{{trans('project.estimate_end_date')}}<strong style="color: red">(*)</strong> </label>
             <div class="input-group date">
