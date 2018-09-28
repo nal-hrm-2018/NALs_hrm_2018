@@ -167,9 +167,6 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if (empty($from_date) && !empty($to_date)) {
             $query->where('date', '<=', $to_date);
         }
-        if(empty($number_record_per_page)){
-            $query->where('date', '>', $oldmonth);
-        }
         
         $employeesSearch = $query->orderBy('updated_at', 'desc');;
             
