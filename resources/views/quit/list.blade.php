@@ -114,6 +114,7 @@
                             return $check;
                         }
                     </SCRIPT>
+                    {{-- @php
                     <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                         <a id="export"
                            href="{{asset('export').'?'.'number_record_per_page='.$number_record_per_page.'&id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&status='.$statusExport.'&page='.$page}}">  
@@ -123,6 +124,7 @@
                             </span>
                             {{trans('common.button.export')}}</a>
                     </button>
+                    @endphp --}}
                 </ol>
             </div>
         </section>
@@ -220,16 +222,17 @@
                                                                         {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
                                                                     <?php
-                                                                    $selectedNow = ""; $selectedLessThanNow = "";
-                                                                        if(request()->get('year_quit')==date("Y")){
-                                                                            $selectedNow = "selected";
+                                                                    $years = [date("Y"),date("Y")-1,date("Y")-2,date("Y")-3];
+                                                                    foreach($years as $year){
+                                                                        $selected="";
+                                                                        if ($year == request()->get('year_quit')) {
+                                                                            $selected = "selected";
                                                                         }
-                                                                    if(request()->get('year_quit')==date("Y")-1){
-                                                                        $selectedLessThanNow = "selected";
+                                                                    ?>
+                                                                    <option value="{{ $year }}" <?php echo $selected; ?>>{{ $year }}</option>
+                                                                    <?php
                                                                     }
                                                                     ?>
-                                                                    <option value="{{ date("Y") }}" <?php echo $selectedNow; ?>>{{ date("Y") }}</option>
-                                                                    <option value="{{ date("Y")-1 }}" <?php echo $selectedLessThanNow; ?>>{{ date("Y")-1 }}</option>
                                                                 </select>
                                                             </div>
                                                     </div>
@@ -287,8 +290,8 @@
                                     <th>{{trans('employee.profile_info.team')}}</th>
                                     <th>{{trans('employee.profile_info.role')}}</th>
                                     <th>{{trans('employee.profile_info.status')}}</th>
-                                    <th>Ngày nghĩ việc</th>
-                                    <th>Ngày kết thúc hợp đồng</th>
+                                    <th>{{trans('employee.profile_info.quit_date')}}</th>
+                                    <th>{{trans('employee.profile_info.contract_end_date')}}</th>
                                     {{--<th>CV</th>--}}
                                 </tr>
                                 </thead>
@@ -346,10 +349,10 @@
                                                 @endif
                                             </p>  
                                         </td>
-                                        <td>-</td>
-                                        <td>
-                                            <p class="fix-center-employee">{{ isset($employee->endwork_date)?date('d/m/Y', strtotime($employee->endwork_date)):'-'}}
+                                        <td><p class="fix-center-employee">{{ isset($employee->endwork_date)?date('d/m/Y', strtotime($employee->endwork_date)):'-'}}
                                             </p>
+                                        </td>
+                                        <td>-
                                         </td>
                                         {{--<td style="text-align: center;width: 50px;">--}}
                                             {{--<!-- 1/8/hiddent_cmt-->--}}
