@@ -16,7 +16,7 @@ return[
     'this_month'=> ' in '.date('F'),
     'contract'=>[
         'internship'=>'Internship',
-        'probatination'=>'Probatination',
+        'probatination'=>'Probation',
         'one-year'=>'One-year',
         'three-year'=>'Three-year',
         'indefinite'=> 'Indefinite',
@@ -31,13 +31,14 @@ return[
         'sum'=> 'Total employees',
         'type'=>'Employee type',
         'official'=>'Official',
-        'probationary'=>'Probatination',
+        'probationary'=>'Probation',
         'internship'=>'Internship',
         'part-time'=>'Part-time'
     ],
     'profile_info'=>[
         'quit_date' => 'Quit date',
         'contract_end_date' => 'Contract end date',
+        'contract_type' =>'Contractual type',
         'project' => 'Project',
         'the_rest_absence'=>'The remaining leave',
         'id'=>'Employee ID',

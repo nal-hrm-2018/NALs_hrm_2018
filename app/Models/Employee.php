@@ -247,29 +247,35 @@ class Employee extends Model implements
     {
 
         $objEmployee = Employee::find($id);
+        // dd($objEmployee);
         $startwork_year = (int)date_create($objEmployee->startwork_date)->format("Y");
-        if($startwork_year == date('Y')){
-            $startwork_month = (int)date_create($objEmployee->startwork_date)->format("n");
-            $pemission_annual_leave = 12 - $startwork_month;
-        } elseif ( ((int)date('Y') - $startwork_year) < 6 ) {
-            $pemission_annual_leave =12;
-        } else {
-            switch ($startwork_year) {
-                case '6':
+        $pemission_annual_leave = 0;
+        if($objEmployee->employee_type_id){
+            if ($objEmployee->employeeType->name == 'FullTime') {
+                if($startwork_year == date('Y')){
+                    $startwork_month = (int)date_create($objEmployee->startwork_date)->format("n");
+                    $pemission_annual_leave = 12 - $startwork_month;
+                } elseif ( ((int)date('Y') - $startwork_year) < 6 ) {
                     $pemission_annual_leave =12;
-                    break;
-                case '7':
-                    $pemission_annual_leave =13;
-                    break;
-                case '8':
-                    $pemission_annual_leave =14;
-                    break;               
-                default:
-                    $pemission_annual_leave =15;
-                    break;
+                } else {
+                    switch ($startwork_year) {
+                        case '6':
+                            $pemission_annual_leave =12;
+                            break;
+                        case '7':
+                            $pemission_annual_leave =13;
+                            break;
+                        case '8':
+                            $pemission_annual_leave =14;
+                            break;               
+                        default:
+                            $pemission_annual_leave =15;
+                            break;
+                    }
+                }
             }
         }
-
+        
         $remaining_last_year = $objEmployee->remaining_absence_days;
 
         $annual_leave = 0;

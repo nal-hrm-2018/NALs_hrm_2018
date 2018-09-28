@@ -65,13 +65,13 @@ class EmployeeController extends Controller
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $year = date('Y');
-        $year = $year.'-01-01';
-        
+        $year_start = $year.'-01-01';
+        $year_end = $year.'-12-31';
         foreach($employees as $val){
             $s = 0;
             if(count($val->overtime)){
                 foreach($val->overtime as $ot){
-                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($year)){
+                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($year_start) && strtotime($ot->date) < strtotime($year_end)){
                         $s += $ot->correct_total_time;
                     }
                 }
@@ -130,11 +130,36 @@ class EmployeeController extends Controller
         } else {
            $employee->work_status = 0;
         }
-        
-        // dd($employee->work_status);
         $employee->is_employee = 1;
         $employee->contractual_type_id = $request->contractual_type_id;
-        //$employee->team_id = $request->team_id;
+        if ($employee->contractual_type_id) {
+            // this is temporary solution
+            // $employee->type = {(1,internship),(2,FullTime),(3,parttime),(4,contractual),(5,probationary)}
+            // $employee->contract = {(1, internship),(2,probation),(3, 1-month),(4, 3-month),(4,indefinate),(5,parttime)} 
+            switch ($employee->contractual_type_id) {
+                case '1':
+                    $employee->employee_type_id = 1;
+                    break;
+                case '2':
+                    $employee->employee_type_id = 5;
+                    break;
+                case '3':
+                    $employee->employee_type_id = 2;
+                    break;
+                case '4':
+                    $employee->employee_type_id = 2;
+                    break;
+                case '5':
+                    $employee->employee_type_id = 2;
+                    break;
+                case '6':
+                    $employee->employee_type_id = 3;
+                    break;
+                
+                default:
+                    break;
+            }
+        }
         $employee->role_id = $request->role_id;
         $employee->created_at = new DateTime();
         $employee->delete_flag = 0;

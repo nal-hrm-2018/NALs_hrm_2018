@@ -31,12 +31,12 @@
                     <li>
                         <a id="tab-project" href="#project" data-toggle="tab">{{trans('project.title')}}</a>
                     </li>
-                    @if(Auth::user()->hasRole('HR')||Auth::user()->hasRole('PO'))
+                    @if(Auth::user()->hasRole('BO')||Auth::user()->hasRole('PO'))
                     <li>
                         <a id="tab-overtime" href="#overtime" data-toggle="tab">{{trans('common.title_header.overtime')}}</a>
                     </li>
                     <li>
-                        <a id="tab-absence" href="#absence" data-toggle="tab">Absence</a>
+                        <a id="tab-absence" href="#absence" data-toggle="tab">{{ trans('absence.absence') }}</a>
                     </li>
                     @endif
                 </ul>
@@ -139,10 +139,15 @@
                                             }
                                             ?>
                                             </p>
-
-                                            <p>{{trans('employee.profile_info.policy_date')}}:
-                                                <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}}
-                                                    - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong></p>
+                                            <p>{{trans('employee.profile_info.contract_type')}}: 
+                                                <strong>{{$employee->contractualType->name}}</strong></p>
+                                            <p>{{trans('employee.profile_info.start_work')}}:
+                                                @if(isset($employee->startwork_date))
+                                                        <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}}</strong>
+                                                @else 
+                                                    -
+                                                @endif
+                                            </p>
                                             <p>{{trans('employee.profile_info.policy_status.title')}}:
                                                 @if($employee->work_status == 0)
                                                     @if($employee->endwork_date)
@@ -457,7 +462,7 @@
                                                         <td>{{$absence->reason ? $absence->reason : "-"}}</td>
                                                         <td>{{$absence->description ? $absence->description : "-"}}</td>
                                                         <td class="align-middle text-center">
-                                                            @if(Auth::user()->hasRole('HR'))
+                                                            @if(Auth::user()->hasRole('BO'))
                                                             <a href="{{ route('absences.edit',['absence'=>$absence->id]) }}" class="btn btn-default"><i class="fa fa-pencil"></i></a>
                                                             <form style="display: inline;" >
                                                                 <a onclick="return confirm_delete();" href="{{route('absencess.destroy',['id'=>$absence->id])}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>

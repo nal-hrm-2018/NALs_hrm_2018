@@ -38,6 +38,7 @@ return[
     'profile_info'=>[
         'quit_date' => 'Ngày nghỉ việc',
         'contract_end_date' => 'Ngày kết thúc hợp đồng',
+        'contract_type' =>'Loại hợp đồng',
         'project' => 'Dự Án',
         'the_rest_absence'=>'Số ngày nghỉ phép còn lại',
         'id'=>'Mã Nhân Viên',

@@ -34,7 +34,7 @@
         </section>
         {{--table data project--}}
         <div id="msg"></div>
-        @if(Auth::user()->hasRole('PO') || Auth::user()->hasRole('HR'))
+        @if(Auth::user()->hasRole('PO') || Auth::user()->hasRole('BO'))
            <section class="content">
                 <div class="row">
                     <input id="number_record_per_page" type="hidden" name="number_record_per_page"
