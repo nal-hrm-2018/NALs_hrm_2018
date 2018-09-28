@@ -248,13 +248,7 @@
                                     </tbody>
                                 </table>
                                 @if($projects->hasPages())
-                                    <div class="col-sm-5">
-                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status"
-                                             aria-live="polite">
-                                            {{getInformationDataTable($projects)}}
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-12">
                                         {{  $projects->appends($param)->render('vendor.pagination.custom') }}
                                     </div>
                                 @endif

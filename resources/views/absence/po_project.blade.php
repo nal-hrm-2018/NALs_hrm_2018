@@ -350,12 +350,12 @@
                         </table>
                             <div class="row">
                                 @if($listConfirm->hasPages())
-                                    <div class="col-sm-4">
+                                    {{-- <div class="col-sm-4">
                                         <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
                                             {{getInformationDataTable($listConfirm)}}
                                         </div>
-                                    </div>
-                                    <div class="col-sm-8">
+                                    </div> --}}
+                                    <div class="col-sm-12">
                                         {{  $listConfirm->appends($param)->render('vendor.pagination.custom') }}
                                     </div>
                                 @endif

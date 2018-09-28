@@ -435,7 +435,7 @@
                                             {{getInformationDataTable($employees)}}
                                         </div>
                                     </div> --}}
-                                    <div class="">
+                                    <div class="col-sm-12">
                                         {{  $employees->appends($param)->render('vendor.pagination.custom') }}
                                     </div>
                                 @endif

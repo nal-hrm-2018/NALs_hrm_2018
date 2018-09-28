@@ -252,12 +252,12 @@
                             </tbody>
                         </table>
                         @if($member->hasPages())
-                            <div class="col-sm-5">
+                            {{-- <div class="col-sm-5">
                                 <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
                                     {{getInformationDataTable($member)}}
                                 </div>
-                            </div>
-                            <div class="col-sm-7">
+                            </div> --}}
+                            <div class="col-sm-12">
                                 {{  $member->appends($param)->render('vendor.pagination.custom') }}
                             </div>
                         @endif
