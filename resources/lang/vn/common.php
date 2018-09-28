@@ -50,7 +50,7 @@ return [
         'form_search' => 'Form Tìm Kiếm'
     ],
     'title_header'=>[
-        'overtime'=> 'Tăng ca',
+        'overtime'=> 'Làm thêm giờ',
         'project_list'=>'Danh sách dự án',
         'employee_detail'=>'Thông tin nhân viên',
         'vendor_list'=>'Danh sách nhân viên ngoài',
@@ -92,7 +92,7 @@ return [
         'po_project'=>'PO dự án',
         'confirmation'=>'Xác nhận',
         'statistic'=>'Thống kê',
-        'edit_overtime'=>'Chỉnh sửa đơn tăng ca',
+        'edit_overtime'=>'Chỉnh sửa đơn làm thêm giờ',
     ],
     'action'=>[
         'view'=>'Chi tiết',
