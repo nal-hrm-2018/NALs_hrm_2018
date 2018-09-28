@@ -26,12 +26,12 @@ class QuitProcessController extends Controller
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $this->searchEmployeeQuit->searchEmployee($request)->where('work_status',1)->get();
-        $history = Employee::where('work_status',1)
-                            ->whereHas('contractualHistorys', function ($query) {
-                                $query->where('delete_flag',0)
-                                      ->orderBy('end_date', 'desc')->first();
-                            })->get();
-        echo $history; die();
+        foreach($employees as $employee){
+            foreach($employee->toArray()['contractual_historys'] as $history){
+                $employee->history = $history['end_date'];
+            }
+        }
+        // dd($employees->toArray());
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }

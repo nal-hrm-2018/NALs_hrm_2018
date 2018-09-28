@@ -352,8 +352,7 @@
                                         <td><p class="fix-center-employee">{{ isset($employee->endwork_date)?date('d/m/Y', strtotime($employee->endwork_date)):'-'}}
                                             </p>
                                         </td>
-                                        <td>-
-                                        </td>
+                                        <td><p class="fix-center-employee">{{isset($employee->history)?date('d/m/Y', strtotime($employee->history)):'-'}}</p></td>
                                         {{--<td style="text-align: center;width: 50px;">--}}
                                             {{--<!-- 1/8/hiddent_cmt-->--}}
                                             {{--<button type="button" class="btn btn-default cv-button">--}}
