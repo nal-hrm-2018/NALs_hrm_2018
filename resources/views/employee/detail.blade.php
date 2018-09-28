@@ -143,7 +143,7 @@
                                             @php
                                                 switch ($employee->contractualType->name) {
                                                     case 'Internship':
-                                                        echo '<strong'.trans('employee.contract.internship'). '</strong>';
+                                                        echo '<strong>'. trans('employee.contract.internship'). '</strong>';
                                                         break;
                                                     case 'Probationary':
                                                         echo '<strong>' . trans('employee.contract.probatination'). '</strong>';
@@ -159,9 +159,9 @@
                                                         break;
                                                     case 'Part-time':
                                                         echo '<strong>' . trans('employee.contract.part-time'). '</strong>';
-                                                        break;
-                                                    
+                                                        break;                                                    
                                                     default:
+                                                        echo '<strong>-</strong>';
                                                         break;
                                                 }
                                             @endphp
