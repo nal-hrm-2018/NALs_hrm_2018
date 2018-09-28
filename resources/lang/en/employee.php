@@ -36,6 +36,7 @@ return[
         'part-time'=>'Part-time'
     ],
     'profile_info'=>[
+        'contract_type' =>'Contractual type',
         'project' => 'Project',
         'the_rest_absence'=>'The remaining leave',
         'id'=>'Employee ID',

@@ -139,13 +139,14 @@
                                             }
                                             ?>
                                             </p>
-                                            <p>{{trans('employee.profile_info.policy_date')}}:
-                                            @if(isset($employee->endwork_date))
-                                                <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}}
-                                                    - {{date('d/m/Y', strtotime($employee->endwork_date))}}</strong>
-                                            @else
-                                                -
-                                            @endif
+                                            <p>{{trans('employee.profile_info.contract_type')}}: 
+                                                <strong>{{$employee->contractualType->name}}</strong></p>
+                                            <p>{{trans('employee.profile_info.start_work')}}:
+                                                @if(isset($employee->startwork_date))
+                                                        <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}}</strong>
+                                                @else 
+                                                    -
+                                                @endif
                                             </p>
                                             <p>{{trans('employee.profile_info.policy_status.title')}}:
                                                 @if($employee->work_status == 0)
