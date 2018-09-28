@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Service\SearchEmployeeService;
 use App\Models\Team;
 use App\Models\Role;
+use App\Models\Employee;
 
 class QuitProcessController extends Controller
 {
@@ -25,6 +26,12 @@ class QuitProcessController extends Controller
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $this->searchEmployeeQuit->searchEmployee($request)->where('work_status',1)->get();
+        $history = Employee::where('work_status',1)
+                            ->whereHas('contractualHistorys', function ($query) {
+                                $query->where('delete_flag',0)
+                                      ->orderBy('end_date', 'desc')->first();
+                            })->get();
+        echo $history; die();
         if (!isset($request['number_record_per_page'])) {
             $request['number_record_per_page'] = config('settings.paginate');
         }

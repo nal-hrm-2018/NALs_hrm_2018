@@ -14,18 +14,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $delete_flag
  * @property Employee[] $employees
  */
-class ContractualType extends Model
+class ContractualHistory extends Model
 {
     /**
      * @var array
      */
 
-    public $table = 'contractual_history';
+    public $table = 'contructual_history';
     protected $fillable = [
         'id',
         'employee_id',
         'contractual_type_id',
-        'updated_at','created_at', 'delete_flag'];
+        'updated_at','created_at', 'delete_flag']; 
 
     // relationship
+    public function employee()
+    {
+        return $this->belongsTo('App\Models\Employee', 'employee_id');
+    }
 }

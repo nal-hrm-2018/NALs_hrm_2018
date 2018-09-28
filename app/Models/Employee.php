@@ -77,7 +77,10 @@ class Employee extends Model implements
         return $this->belongsTo('App\Models\ContractualType', 'contractual_type_id');
 
     }
-
+    public function contractualHistorys()
+    {
+        return $this->hasMany('App\Models\ContractualHistory', 'employee_id');
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
