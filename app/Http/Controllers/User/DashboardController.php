@@ -45,8 +45,10 @@ class DashboardController extends Controller
         $notifications = Notifications::Where('delete_flag','0')->orderBy('id', 'desc')->get();
         $absences = Employee::emp_absence($id_emp);
         $notification_type = NotificationType::Where('delete_flag','0')->get();
-
-        $overtime = Overtime::where('employee_id',$id_emp)->where('delete_flag',0)->get();
+        $overtime = Overtime::where('employee_id',$id_emp)
+                    ->where('delete_flag',0)
+                    ->WhereMonth('date',date('n'))
+                    ->get();
        
         $normal = null;
         $weekend = null;
