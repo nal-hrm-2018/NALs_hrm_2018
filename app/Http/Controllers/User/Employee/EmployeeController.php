@@ -65,13 +65,13 @@ class EmployeeController extends Controller
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $year = date('Y');
-        $year = $year.'-01-01';
-        
+        $year_start = $year.'-01-01';
+        $year_end = $year.'-12-31';
         foreach($employees as $val){
             $s = 0;
             if(count($val->overtime)){
                 foreach($val->overtime as $ot){
-                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($year)){
+                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($year_start) && strtotime($ot->date) < strtotime($year_end)){
                         $s += $ot->correct_total_time;
                     }
                 }
