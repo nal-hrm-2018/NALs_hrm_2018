@@ -140,7 +140,31 @@
                                             ?>
                                             </p>
                                             <p>{{trans('employee.profile_info.contract_type')}}: 
-                                                <strong>{{$employee->contractualType->name}}</strong></p>
+                                            @php
+                                                switch ($employee->contractualType->name) {
+                                                    case 'Internship':
+                                                        echo '<strong'.trans('employee.contract.internship'). '</strong>';
+                                                        break;
+                                                    case 'Probationary':
+                                                        echo '<strong>' . trans('employee.contract.probatination'). '</strong>';
+                                                        break;
+                                                    case 'One-year':
+                                                        echo '<strong>' . trans('employee.contract.one-year'). '</strong>';
+                                                        break;
+                                                    case 'Three-year':
+                                                        echo '<strong>' . trans('employee.contract.three-year'). '</strong>';
+                                                        break;
+                                                    case 'Indefinite':
+                                                        echo '<strong>' . trans('employee.contract.indefinite'). '</strong>';
+                                                        break;
+                                                    case 'Part-time':
+                                                        echo '<strong>' . trans('employee.contract.part-time'). '</strong>';
+                                                        break;
+                                                    
+                                                    default:
+                                                        break;
+                                                }
+                                            @endphp
                                             <p>{{trans('employee.profile_info.start_work')}}:
                                                 @if(isset($employee->startwork_date))
                                                         <strong>{{date('d/m/Y', strtotime($employee->startwork_date))}}</strong>
