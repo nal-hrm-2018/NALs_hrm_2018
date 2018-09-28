@@ -31,7 +31,7 @@ class OvertimeAddRequest extends FormRequest
         $start_time_I = date('i', strtotime($request->start_time));
         $end_time_H = date('H', strtotime($request->end_time));
         $end_time_I = date('i', strtotime($request->end_time));
-        if(strtotime($request->start_time) > strtotime($request->start_time)){
+        if(strtotime($request->end_time) > strtotime($request->start_time)){
             $max_time = ($end_time_H*60+$end_time_I)/60 - ($start_time_H*60+$start_time_I)/60;
         }else{
             $max_time = ($start_time_H*60+$start_time_I)/60 - ($end_time_H*60+$end_time_H)/60;
