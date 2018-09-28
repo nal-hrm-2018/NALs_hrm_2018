@@ -5,17 +5,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <style>
         .style-box {
-            margin: 10px;
+            margin: 10px 0;
             padding: 10px;
             border: 3px solid #00c0ef;
             border-radius: 5px;
-            min-width: 200px;
+            min-width: 150px;
             color: black;
             background: white;
         }
         .style-box-2 {
-            margin: 10px;
-            padding: 10px;
+            margin: 5px 0;
+            padding: 5px;
             border: 3px solid #00c0ef;
             border-radius: 5px;
             min-width: 100px;
@@ -35,7 +35,7 @@
             text-align: center;
             vertical-align: middle;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 12px;
         }
         .container-donut-chart {
             display: flex;
@@ -221,59 +221,101 @@
                 </div>
             </section>
             <section>
-                <div class="box box-info">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">{{trans('common.absences')}}</h3>
-                    </div>
-                    <div class="box-body">
-                        <div>
-                            <button type="button" class="btn btn-default">
-                                <a href="{{route('absences.create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{trans('absence.add')}}</a>
-                            </button>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">{{trans('leftbar.nav.overtime')}}</h3>
+                            </div>
+                            <div class="box-body">
+                                <div>
+                                    <button type="button" class="btn btn-default">
+                                        <a href="{{route('ot.create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{trans('leftbar.nav.add.overtime')}}</a>
+                                    </button>
+                                </div>
+                                <div>
+                                    <div class=" absence_head" style="padding: 20px 0px;">
+                                        <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">                                           
+                                            <div class="style-box">
+                                                <p style="font-size: 18; font-weight: bold;">{{trans('overtime.total_hours')}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                            <div class="style-box-2">
+                                                <p>{{trans('overtime.day_type.normal')}}</p>
+                                                <p>{{$absences['annual_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('overtime.day_type.day_off')}}</p>
+                                                <p>{{$absences['unpaid_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('overtime.day_type.holiday')}}</p>
+                                                <p>{{$absences['sick_leave']}}</p>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div style="margin: 30px 0 0;">
-                            <div class=" absence_head" style="padding: 20px 0px;">
-                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
-                                    <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.this_year')}}</p>
-                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['pemission_annual_leave']}}</p>
-                                    </div>
-                                    <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.last_year')}}</p>
-                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['remaining_last_year']}}</p>
-                                    </div>
-                                    <div class="style-box">
-                                        <p style="font-size: 22px; font-weight: bold;">{{trans('absence.type.total_remaining')}}</p>
-                                        <p style="font-size: 44px; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">{{trans('leftbar.nav.absence')}}</h3>
+                            </div>
+                            <div class="box-body">
+                                <div>
+                                    <button type="button" class="btn btn-default">
+                                        <a href="{{route('absences.create')}}"><i class="glyphicon glyphicon-plus"></i>&nbsp;{{trans('absence.add')}}</a>
+                                    </button>
+                                </div>
+                                <div>
+                                    <div class=" absence_head" style="padding: 20px 0px;">
+                                        <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                            <div class="style-box">
+                                                <p style="font-size: 18; font-weight: bold;">{{trans('absence.type.this_year')}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$absences['pemission_annual_leave']}}</p>
+                                            </div>
+                                            <div class="style-box">
+                                                <p style="font-size: 18; font-weight: bold;">{{trans('absence.type.last_year')}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$absences['remaining_last_year']}}</p>
+                                            </div>
+                                            <div class="style-box">
+                                                <p style="font-size: 18; font-weight: bold;">{{trans('absence.type.total_remaining')}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.annual_leave')}}</p>
+                                                <p>{{$absences['annual_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.unpaid_leave')}}</p>
+                                                <p>{{$absences['unpaid_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.sick_leave')}}</p>
+                                                <p>{{$absences['sick_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.maternity_leave')}}</p>
+                                                <p>{{$absences['maternity_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.marriage_leave')}}</p>
+                                                <p>{{$absences['marriage_leave']}}</p>
+                                            </div>
+                                            <div class="style-box-2">
+                                                <p>{{trans('absence.type.bereavement_leave')}}</p>
+                                                <p>{{$absences['bereavement_leave']}}</p>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
-                                <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.annual_leave')}}</p>
-                                        <p>{{$absences['annual_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.unpaid_leave')}}</p>
-                                        <p>{{$absences['unpaid_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.sick_leave')}}</p>
-                                        <p>{{$absences['sick_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.maternity_leave')}}</p>
-                                        <p>{{$absences['maternity_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.marriage_leave')}}</p>
-                                        <p>{{$absences['marriage_leave']}}</p>
-                                    </div>
-                                    <div class="style-box-2">
-                                        <p>{{trans('absence.type.bereavement_leave')}}</p>
-                                        <p>{{$absences['bereavement_leave']}}</p>
-                                    </div>
-                                </div>
-                                
                             </div>
                         </div>
                     </div>
@@ -292,7 +334,7 @@
 
         <div class="content">
             @if(Auth::user()->hasRole('BO'))
-                <section>
+                <section>                    
                     <div class="box box-info">
                         <div class="box-header with-border">
                             <h3 class="box-title">{{trans('employee.chart.common')}}</h3>
@@ -342,19 +384,19 @@
                                         <div class="box-body height-200">
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
-                                                {{trans('employee.end_contract.internship')}}: {{$end_contract['end_internship']}}
+                                                {{trans('employee.contract.internship')}}: {{$end_contract['end_internship']}}
                                             </p>
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                                {{trans('employee.end_contract.probatination')}}: {{$end_contract['end_probatination']}}
+                                                {{trans('employee.contract.probatination')}}: {{$end_contract['end_probatination']}}
                                             </p>
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                                {{trans('employee.end_contract.one-year')}}: {{$end_contract['end_one_year']}}
+                                                {{trans('employee.contract.one-year')}}: {{$end_contract['end_one_year']}}
                                             </p>
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #faa951;"></i>
-                                                {{trans('employee.end_contract.three-year')}}: {{$end_contract['end_three_year']}}
+                                                {{trans('employee.contract.three-year')}}: {{$end_contract['end_three_year']}}
                                             </p>
                                         </div>
                                     </div>
@@ -418,13 +460,9 @@
                                         @foreach($projects as $project)
                                             <tr>
                                                 <td>{{$project->id}}</td>
-                                                <td>{{$project['name']}}</td>
-                                                <td>{{$project['start_date']->format('d-m-Y')}}</td>
-                                                @if($project['estimate_end_date']!=null)
-                                                    <td>{{$project['estimate_end_date']->format('d-m-Y')}}</td>
-                                                @else
-                                                    <td></td>
-                                                @endif
+                                                <td>{{$project['name']}}</td>                                                
+                                                <td>{{(isset($project['start_date']))?$project['start_date']->format('d-m-Y'):'-'}}</td>
+                                                <td>{{(isset($project['estimate_end_date']))?$project['estimate_end_date']->format('d-m-Y'):'-'}}</td>                                                
                                                 @if($project['status']['name']=='kick off')
                                                     <td><span class="label label-primary">{{$project['status']['name']}}</span></td>
                                                 @elseif($project['status']['name']=='pending')
@@ -498,9 +536,9 @@
                                                 @elseif($process['role']['name']=='HR')
                                                     <td><span class="label label-warnings">{{$process['role']['name']}}</span></td>
                                                 @endif
-                                                <td>{{$process['project']['start_date']->format('d-m-Y')}}</td>
+                                                <td>{{isset($process['project']['start_date'])? $process['project']['start_date']->format('d-m-Y'):"-"}}</td>
                                                 @if($process['project']['estimate_end_date']!=null)
-                                                    <td>{{$process['project']['estimate_end_date']->format('d-m-Y')}}</td>
+                                                    <td>{{isset($process['project']['estimate_end_date'])? $process['project']['estimate_end_date']->format('d-m-Y'):"-"}}</td>
                                                 @else
                                                     <td>-</td>
                                                 @endif

@@ -241,11 +241,13 @@
                                 <div class="form-group">
                                     <label>{{trans('employee.profile_info.team')}}<strong style="color: red">(*)</strong></label><br>
                                     @foreach ($dataTeam as $val)
-                                       @if ($val["name"] == "NALs") 
-                                            <div style="display: inline-block;width: 130px;"><input type="checkbox" name="team_id[]" checked value="<?php echo $val["id"]; ?>">&ensp;<?php echo $val["name"];?></div>
-                                        @else
-                                            <div style="display: inline-block;width: 130px;"><input type="checkbox" name="team_id[]" value="<?php echo $val["id"]; ?>">&ensp;<?php echo $val["name"];?></div>
-                                        @endif
+                                        <div style="display: inline-block;width: 130px;">
+                                           @if ($val["name"] == "NALs") 
+                                                <input type="checkbox" name="team_id[]" checked value="<?php echo $val["id"]; ?>">&ensp;<?php echo $val["name"];?>
+                                            @else
+                                                <input type="checkbox" name="team_id[]" value="<?php echo $val["id"]; ?>">&ensp;<?php echo $val["name"];?>
+                                            @endif
+                                        </div>
                                     @endforeach
                                     <label id="lb_error_team_id" style="color: red; ">{{$errors->first('team_id')}}</label>
                                 </div>
@@ -294,7 +296,29 @@
                                                     $selected = "selected";
                                                 }
                                             }
-                                            echo '<option value="' . $val["id"] . '" ' . $selected . '>' . $val["name"] . '</option>';
+                                            switch ($val["name"]) {
+                                                case 'Internship':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.internship'). '</option>';
+                                                    break;
+                                                case 'Probationary':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.probatination'). '</option>';
+                                                    break;
+                                                case 'One-year':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.one-year'). '</option>';
+                                                    break;
+                                                case 'Three-year':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.three-year'). '</option>';
+                                                    break;
+                                                case 'Indefinite':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.indefinite'). '</option>';
+                                                    break;
+                                                case 'Part-time':
+                                                    echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.part-time'). '</option>';
+                                                    break;
+                                                
+                                                default:
+                                                    break;
+                                            }
                                         }
                                         ?>
                                     </select>

@@ -1,9 +1,9 @@
 <?php
 return[
     'chart'=>[
-        'information' => 'Employee information',
+        'information' => 'Employee informations',
         'common' => 'General information',
-        'contract' => 'Contracts expire ',
+        'contract' => 'Expiring contracts',
         'event'=> 'Events '
     ],
     'drop_box'=>[
@@ -14,22 +14,24 @@ return[
     'employee'=>'Employee',
     'new'=>'New Employee',
     'this_month'=> ' in '.date('F'),
-    'end_contract'=>[
+    'contract'=>[
         'internship'=>'Internship',
         'probatination'=>'Probatination',
         'one-year'=>'One-year',
         'three-year'=>'Three-year',
+        'indefinite'=> 'Indefinite',
+        'part-time'=> 'Part-time',
     ],
     'event'=> [
         'birthday'=> 'Birthdays',
-        'quit' => 'Employees leaving',
-        'new' => 'New employee',
+        'quit' => 'Employees quit',
+        'new' => 'New employees',
     ],
     'type'=>[
-        'sum'=> 'Total employee',
+        'sum'=> 'Total employees',
         'type'=>'Employee type',
         'official'=>'Official',
-        'probationary'=>'Probationary',
+        'probationary'=>'Probatination',
         'internship'=>'Internship',
         'part-time'=>'Part-time'
     ],
@@ -87,7 +89,7 @@ return[
         'end_work'=>'End date',
         'today'=>'Today',
         'year'=>'Year',
-        'total_ot' => 'Total Overtime'
+        'total_ot' => 'Total Overtime In This Year'
     ],
     'msg_content'=>[
         'msg_download_employee_template'=>'Do you want to download the Employee Template?',

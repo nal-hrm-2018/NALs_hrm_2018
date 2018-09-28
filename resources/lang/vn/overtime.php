@@ -22,6 +22,7 @@ return[
         'holiday' => 'Ngày lễ',
     ],
     'total' => 'Tổng',
+    'total_hours'=> 'Tổng số giờ',
     'hour' => 'giờ',
     'hours' => 'giờ',
     'action' => 'Hành động',

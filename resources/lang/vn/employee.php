@@ -14,11 +14,13 @@ return[
     'employee'=>'Nhân Viên',
     'new'=> 'Nhân Viên Mới',
     'this_month'=> ' tháng '.date('n'),
-    'end_contract'=>[
+    'contract'=>[
         'internship'=>'Học việc',
         'probatination'=>'Thử việc',
         'one-year'=>'Một năm',
         'three-year'=>'Ba năm',
+        'indefinite'=> 'Vô thời hạn',
+        'part-time'=> 'Bán thời gian',
     ],
     'event'=> [
         'birthday'=> 'Sinh nhật',
@@ -86,7 +88,7 @@ return[
         'end_work'=>'Ngày kết thúc làm',
         'today'=>'Ngày hiện tại',
         'year'=>'Năm',
-        'total_ot' => 'Tổng Làm Ngoài Giờ'
+        'total_ot' => 'Tổng Làm Ngoài Giờ Trong Năm'
     ],
     'msg_content'=>[
         'msg_download_employee_template'=>'Bạn có muốn tải về mẫu danh sách nhân viên không?',
