@@ -20,6 +20,7 @@ use DateTime;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
 use App\Models\ContractualType;
+use App\Models\Overtime;
 
 class DashboardController extends Controller
 {
@@ -39,11 +40,36 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        $this->objmNotification->deleteNotificationExpired();
+        // $this->objmNotification->deleteNotificationExpired();
         $id_emp = Auth::user()->id;
         $notifications = Notifications::Where('delete_flag','0')->orderBy('id', 'desc')->get();
         $absences = Employee::emp_absence($id_emp);
         $notification_type = NotificationType::Where('delete_flag','0')->get();
+        $overtime = Overtime::where('employee_id',$id_emp)
+                    ->where('delete_flag',0)
+                    ->WhereMonth('date',date('n'))
+                    ->get();
+       
+        $normal = null;
+        $weekend = null;
+        $holiday = null;
+        foreach($overtime as $val){
+            if($val->status->name == 'Accepted' || $val->status->name == 'Rejected'){
+                if($val->type->name == 'normal'){
+                    $normal += $val->correct_total_time;
+                }elseif($val->type->name == 'weekend'){
+                    $weekend += $val->correct_total_time;
+                }elseif($val->type->name == 'holiday'){
+                    $holiday += $val->correct_total_time;
+                }
+            }
+        }
+        $time = [
+            'total_time'=> (double) ($normal+$weekend+$holiday),
+            'normal' => (double) $normal,
+            'weekend' => (double) $weekend,
+            'holiday' => (double) $holiday
+        ];
         if (Employee::find($id_emp)->hasRole('BO')) {
             $employees = Employee::Where('delete_flag','0')->get();
             $common = [
@@ -98,51 +124,12 @@ class DashboardController extends Controller
              return view('admin.module.index.index', [
                 'notification_type' => $notification_type,
                 'absences' => $absences,
+                'overtime' => $time,
                 'notifications' => $notifications,
                 'common'=> $common,
                 'this_month'=> $this_month,
                 'end_contract'=> $end_contract,
             ]);
-
-//             $sumInternship = $this->countEmployeeType('Internship');
-//             $sumFullTime = $this->countEmployeeType('FullTime');
-//             $sumPartTime = $this->countEmployeeType('PartTime');
-// //          $sumContractualEmp = $this->countEmployeeType('Contractual Employee');
-//             $sumProbationary = $this->countEmployeeType('Probationary');
-//             $sum = $sumInternship + $sumFullTime + $sumPartTime + $sumProbationary;
-
-//             $leaved_employee = Employee::where('work_status', '1')->get();
-//             $sum_leaved = count($leaved_employee);
-
-// //            this is the new employee in this month
-//             $new_employee = Employee::WhereMonth(('startwork_date'), date('m'))
-//                 ->WhereYear(('startwork_date'), date('Y'))->get();
-//             $sum_new = count($new_employee);
-//             $new_PHP = $this->countNewEmployeeTeam('PHP');
-//             $new_DOTNET = $this->countNewEmployeeTeam('DOTNET');
-//             $new_iOS = $this->countNewEmployeeTeam('iOS');
-//             $new_Android = $this->countNewEmployeeTeam('Android');
-//             $new_Tester = $this->countNewEmployeeTeam('Tester');
-//             $new_others = $sum_new - $new_PHP - $new_DOTNET - $new_iOS - $new_Android - $new_Tester;
-//             return view('admin.module.index.index', [
-//                 'notification_type' => $notification_type,
-//                 'absences' => $absences,
-//                 'notifications' => $notifications,
-//                 'sumInternship' => $sumInternship,
-//                 'sumFullTime' => $sumFullTime,
-//                 'sumPartTime' => $sumPartTime,
-// //              'sumContractualEmp' => $sumContractualEmp,
-//                 'sumProbationary' => $sumProbationary,
-//                 'sum' => $sum,
-//                 'sum_leaved' => $sum_leaved,
-//                 'sum_new' => $sum_new,
-//                 'new_DOTNET' => $new_DOTNET,
-//                 'new_iOS' => $new_iOS,
-//                 'new_Android' => $new_Android,
-//                 'new_Tester' => $new_Tester,
-//                 'new_PHP' => $new_PHP,
-//                 'new_others' => $new_others,
-//             ]);
         }
         if (Employee::find($id_emp)->hasRole('PO')) {
             $status_id = Status::select('id')->where('name', 'complete')->first();
@@ -162,6 +149,7 @@ class DashboardController extends Controller
             return view('admin.module.index.index', [
                 'notification_type' => $notification_type,
                 'absences' => $absences,
+                'overtime' => $time,
                 'notifications' => $notifications,
                 'processes' => $processes,
                 'projects' => $projects,
@@ -172,6 +160,7 @@ class DashboardController extends Controller
         return view('admin.module.index.index', [
             'notification_type' => $notification_type,
             'absences' => $absences,
+            'overtime' => $time,
             'notifications' => $notifications,
             'objmEmployee' => $objmEmployee,
             'role' => '',

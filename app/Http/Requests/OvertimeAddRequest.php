@@ -31,7 +31,7 @@ class OvertimeAddRequest extends FormRequest
         $start_time_I = date('i', strtotime($request->start_time));
         $end_time_H = date('H', strtotime($request->end_time));
         $end_time_I = date('i', strtotime($request->end_time));
-        if(strtotime($request->start_time) > strtotime($request->start_time)){
+        if(strtotime($request->end_time) > strtotime($request->start_time)){
             $max_time = ($end_time_H*60+$end_time_I)/60 - ($start_time_H*60+$start_time_I)/60;
         }else{
             $max_time = ($start_time_H*60+$start_time_I)/60 - ($end_time_H*60+$end_time_H)/60;
@@ -91,7 +91,7 @@ class OvertimeAddRequest extends FormRequest
                         'process_id' => 'required' ,
                         'date' => 'required|after_or_equal:'.$dayStarts,
                         'start_time' => 'required|before:7:00',
-                        'end_time' => 'required|after:start_time|before:7:00',
+                        'end_time' => 'required|after:start_time|before:8:00',
                         'total_time' => 'required|numeric|min:0.1|max:'.$max_time,
                         'reason' => 'required',
                     ];

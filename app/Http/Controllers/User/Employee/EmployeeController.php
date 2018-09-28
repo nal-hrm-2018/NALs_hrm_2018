@@ -310,6 +310,7 @@ class EmployeeController extends Controller
 
     public function update(EmployeeEditRequest $request, $id)
     {
+        // dd($request);
         $id_emp=Auth::user()->id;
         if($id_emp!=$id){
             if(!Auth::user()->hasRoleHR()){
@@ -334,7 +335,36 @@ class EmployeeController extends Controller
         $employee->mobile = $request->mobile;
         $employee->address = preg_replace('/\s+/', ' ',$request->address);
         $employee->marital_status = $request->marital_status;
-        //upload hinh from hunganh
+        $employee->contractual_type_id = $request->contractual_type_id;
+        if ($employee->contractual_type_id) {
+            // this is temporary solution
+            // $employee->type = {(1,internship),(2,FullTime),(3,parttime),(4,contractual),(5,probationary)}
+            // $employee->contract = {(1, internship),(2,probation),(3, 1-month),(4, 3-month),(4,indefinate),(5,parttime)} 
+            switch ($employee->contractual_type_id) {
+                case '1':
+                    $employee->employee_type_id = 1;
+                    break;
+                case '2':
+                    $employee->employee_type_id = 5;
+                    break;
+                case '3':
+                    $employee->employee_type_id = 2;
+                    break;
+                case '4':
+                    $employee->employee_type_id = 2;
+                    break;
+                case '5':
+                    $employee->employee_type_id = 2;
+                    break;
+                case '6':
+                    $employee->employee_type_id = 3;
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+        
         if($request->file('picture')){
             $file = Input::file('picture');
             if(strlen($file) > 0){
