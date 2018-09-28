@@ -82,8 +82,8 @@
             margin: 0 auto;
             width: 310px;
         }
-        .height-200{
-           height: 200px;
+        .height-250{
+           height: 250px;
         }
         .none-margin-bottom{
             margin-bottom: 0 !important;
@@ -238,21 +238,21 @@
                                         <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">                                           
                                             <div class="style-box">
                                                 <p style="font-size: 18; font-weight: bold;">{{trans('overtime.total_hours')}}</p>
-                                                <p style="font-size: 30; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$overtime['total_time']}}</p>
                                             </div>
                                         </div>
                                         <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                             <div class="style-box-2">
                                                 <p>{{trans('overtime.day_type.normal')}}</p>
-                                                <p>{{$absences['annual_leave']}}</p>
+                                                <p>{{$overtime['normal']}}</p>
                                             </div>
                                             <div class="style-box-2">
                                                 <p>{{trans('overtime.day_type.day_off')}}</p>
-                                                <p>{{$absences['unpaid_leave']}}</p>
+                                                <p>{{$overtime['weekend']}}</p>
                                             </div>
                                             <div class="style-box-2">
                                                 <p>{{trans('overtime.day_type.holiday')}}</p>
-                                                <p>{{$absences['sick_leave']}}</p>
+                                                <p>{{$overtime['holiday']}}</p>
                                             </div>
                                         </div>                                        
                                     </div>
@@ -348,7 +348,7 @@
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
-                                        <div class="box-body height-200">
+                                        <div class="box-body height-250">
                                         {{-- @dd($common); --}}
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
@@ -374,14 +374,14 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="box box-danger height-400">
+                                    <div class="box box-danger">
                                         <div class="box-header with-border">
                                             <h3 class="box-title">{{trans('employee.chart.contract')}}{{trans('employee.this_month')}}</h3>
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
                                         {{-- @dd($end_contract); --}}
-                                        <div class="box-body height-200">
+                                        <div class="box-body height-250">
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
                                                 {{trans('employee.contract.internship')}}: {{$end_contract['end_internship']}}
@@ -402,14 +402,14 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="box box-danger height-200">
+                                    <div class="box box-danger">
                                         <div class="box-header with-border">
                                             <h3 class="box-title">{{trans('employee.chart.event')}}{{trans('employee.this_month')}}</h3>
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
                                         {{-- @dd($this_month); --}}
-                                        <div class="box-body height-350">
+                                        <div class="box-body height-250">
                                             <p class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
                                                 {{trans('employee.event.new')}}: {{$this_month['new']}}

@@ -85,12 +85,7 @@
         @endforeach
     </table>
     @if($processes->hasPages())
-        <div class="col-sm-5">
-            <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
-                {{getInformationDataTable($processes)}}
-            </div>
-        </div>
-        <div class="col-sm-7">
+        <div class="col-sm-12">
             {{  $processes->appends($param)->render('vendor.pagination.custom') }}
         </div>
     @endif

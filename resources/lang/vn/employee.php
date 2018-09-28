@@ -36,6 +36,7 @@ return[
         'part-time'=>'Bán thời gian'
     ],
     'profile_info'=>[
+        'contract_type' =>'Loại hợp đồng',
         'project' => 'Dự Án',
         'the_rest_absence'=>'Số ngày nghỉ phép còn lại',
         'id'=>'Mã Nhân Viên',
