@@ -74,11 +74,6 @@
       </h1>
   @endif
 
-{{--<ol class="breadcrumb">--}}
- {{--<li><a href="/"><i class="fa fa-dashboard"></i> {{trans('common.path.home')}}</a></li>--}}
- {{--<li><a href="/employee">{{trans('common.path.employee')}}</a></li>--}}
- {{--<li class="active">{{trans('common.path.edit')}}</li>--}}
-{{--</ol>--}}
 </section>
 <style type="text/css">
 .form-horizontal .form-group {
@@ -289,6 +284,48 @@
              </select>
              <label id="lb_error_role_id" style="color: red; ">{{$errors->first('role_id')}}</label>
            </div>
+
+                {{-- @dd($objEmployee); --}}
+            {{-- @dd($objEmployee->contractual_type_id); --}}
+            <div class="form-group">
+              <label>{{trans('employee.profile_info.position')}}<strong style="color: red">(*)</strong></label>
+              <select id="position" class="form-control select2" style="width: 100%;" name="contractual_type_id">
+                {{-- <option value="">---{{trans('employee.drop_box.placeholder-default')}}---</option> --}}
+                <?php
+                foreach ($contractualTypes as $val) {
+                    $selected = "";
+                     if($val["id"] == old('contractual_type_id', isset($objEmployee["contractual_type_id"]) ? $objEmployee["contractual_type_id"] : null)){
+                         $selected = "selected";
+                     }
+                    switch ($val["name"]) {
+                      case 'Internship':
+                          echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.internship'). '</option>';
+                          break;
+                      case 'Probationary':
+                          echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.probatination'). '</option>';
+                          break;
+                      case 'One-year':
+                          echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.one-year'). '</option>';
+                          break;
+                      case 'Three-year':
+                          echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.three-year'). '</option>';
+                          break;
+                      case 'Indefinite':
+                          echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.indefinite'). '</option>';
+                          break;
+                      case 'Part-time':
+                          echo '<option value="' . $val["id"] . '" ' . $selected . '>' .trans('employee.contract.part-time'). '</option>';
+                          break;
+                      
+                      default:
+                          break;
+                    }
+                  }
+                  ?>
+              </select>
+              <label id="lb_error_contractual_type_id" style="color: red; ">{{$errors->first('contractual_type_id')}}</label>
+            </div>
+
            <div class="form-group">
              <label style="margin-top: 6px;">{{trans('employee.profile_info.start_work')}}<strong style="color: red">(*)</strong></label>
              <div class="input-group date">

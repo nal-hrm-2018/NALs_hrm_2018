@@ -331,12 +331,12 @@
                         </div>
                         <div class="row">
                             @if($ot->hasPages())
-                                <div class="col-sm-5">
+                                {{-- <div class="col-sm-5">
                                     <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
                                         {{getInformationDataTable($ot)}}
                                     </div>
-                                </div>
-                                <div class="col-sm-7">
+                                </div> --}}
+                                <div class="col-sm-12">
                                     {{  $ot->render('vendor.pagination.custom') }}
                                 </div>
                             @endif

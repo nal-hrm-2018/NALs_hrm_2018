@@ -123,12 +123,12 @@
             </tbody>
         </table>
         @if($vendors->hasPages())
-            <div class="col-sm-5">
+            {{-- <div class="col-sm-5">
                 <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
                     {{getInformationDataTable($vendors)}}
                 </div>
-            </div>
-        <div class="col-sm-7">
+            </div> --}}
+        <div class="col-sm-12">
             {{  $vendors->appends($param)->render('vendor.pagination.custom') }}
         </div>
         @endif

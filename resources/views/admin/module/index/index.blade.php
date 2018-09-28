@@ -238,21 +238,21 @@
                                         <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">                                           
                                             <div class="style-box">
                                                 <p style="font-size: 18; font-weight: bold;">{{trans('overtime.total_hours')}}</p>
-                                                <p style="font-size: 30; font-weight: bold;">{{$absences['remaining_this_year']}}</p>
+                                                <p style="font-size: 30; font-weight: bold;">{{$overtime['total_time']}}</p>
                                             </div>
                                         </div>
                                         <div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
                                             <div class="style-box-2">
                                                 <p>{{trans('overtime.day_type.normal')}}</p>
-                                                <p>{{$absences['annual_leave']}}</p>
+                                                <p>{{$overtime['normal']}}</p>
                                             </div>
                                             <div class="style-box-2">
                                                 <p>{{trans('overtime.day_type.day_off')}}</p>
-                                                <p>{{$absences['unpaid_leave']}}</p>
+                                                <p>{{$overtime['weekend']}}</p>
                                             </div>
                                             <div class="style-box-2">
                                                 <p>{{trans('overtime.day_type.holiday')}}</p>
-                                                <p>{{$absences['sick_leave']}}</p>
+                                                <p>{{$overtime['holiday']}}</p>
                                             </div>
                                         </div>                                        
                                     </div>

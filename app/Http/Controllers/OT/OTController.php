@@ -210,7 +210,7 @@ class OTController extends Controller
         $weekend = null;
         $holiday = null;
         foreach($overtime as $val){
-            if($val->status->name = 'Accepted' || $val->status->name = 'Rejected'){
+            if($val->status->name == 'Accepted' || $val->status->name == 'Rejected'){
                 if($val->type->name == 'normal'){
                     $normal += $val->correct_total_time;
                 }elseif($val->type->name == 'weekend'){
