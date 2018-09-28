@@ -25,10 +25,10 @@ class EmployeeEditRequest extends FormRequest
         $objEmp=Employee::SELECT("*")
                             ->where('id','=',Auth::id())
                             ->first();
-        $dayAfter=$objEmp["endwork_date"];
+        $dayAfter=$objEmp["startwork_date"];
         $dayAfter = date('d-m-Y', strtotime($dayAfter));
 
-        if (Auth::user()->hasRole('HR')){
+        if (Auth::user()->hasRole('BO')){
             // dd(request()->get('endwork_date'));
             if(request()->get('endwork_date')){                
                 return [
@@ -204,7 +204,6 @@ class EmployeeEditRequest extends FormRequest
             ]),
             'birthday.before' => trans('validation.before', [
                 'attribute' => trans('employee.profile_info.birthday'),
-                'date' => trans('employee.profile_info.today')
             ]),
             'birthday.after' => trans('validation.after', [
                 'attribute' => trans('employee.profile_info.birthday'),
