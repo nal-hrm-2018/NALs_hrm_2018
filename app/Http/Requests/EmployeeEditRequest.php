@@ -28,7 +28,7 @@ class EmployeeEditRequest extends FormRequest
         $dayAfter=$objEmp["endwork_date"];
         $dayAfter = date('d-m-Y', strtotime($dayAfter));
 
-        if (Auth::user()->hasRole('HR')){
+        if (Auth::user()->hasRole('BO')){
             // dd(request()->get('endwork_date'));
             if(request()->get('endwork_date')){                
                 return [

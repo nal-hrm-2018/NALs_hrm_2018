@@ -39,7 +39,7 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        $this->objmNotification->deleteNotificationExpired();
+        // $this->objmNotification->deleteNotificationExpired();
         $id_emp = Auth::user()->id;
         $notifications = Notifications::Where('delete_flag','0')->orderBy('id', 'desc')->get();
         $absences = Employee::emp_absence($id_emp);
