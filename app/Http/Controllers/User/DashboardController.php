@@ -48,6 +48,7 @@ class DashboardController extends Controller
         $overtime = Overtime::where('employee_id',$id_emp)
                     ->where('delete_flag',0)
                     ->WhereMonth('date',date('n'))
+                    ->WhereYear('date',date('Y'))
                     ->get();
        
         $normal = null;
