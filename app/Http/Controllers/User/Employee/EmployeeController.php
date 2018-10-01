@@ -121,15 +121,15 @@ class EmployeeController extends Controller
 
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
-        if ($employee->endwork_date) {           
-            if(strtotime($employee->endwork_date) < strtotime($date)){
-                $employee->work_status = 1;
-            }else{
-                $employee->work_status = 0;
-            }
-        } else {
-           $employee->work_status = 0;
-        }
+        // if ($employee->endwork_date) {           
+        //     if(strtotime($employee->endwork_date) < strtotime($date)){
+        //         $employee->work_status = 1;
+        //     }else{
+        //         $employee->work_status = 0;
+        //     }
+        // } else {
+        //    $employee->work_status = 0;
+        // }
         $employee->is_employee = 1;
         $employee->contractual_type_id = $request->contractual_type_id;
         if ($employee->contractual_type_id) {
@@ -375,11 +375,16 @@ class EmployeeController extends Controller
         }
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
-        if(strtotime($employee->endwork_date) < strtotime($date)){
-            $employee->work_status = 1;
-        }else{
-            $employee->work_status = 0;
-        }
+        // if($employee->endwork_date){
+        //      if(strtotime($employee->endwork_date) < strtotime($date)){
+        //         $employee->work_status = 1;
+        //     }else{
+        //         $employee->work_status = 0;
+        //     }
+        // } else{
+        //     $employee->work_status = 0;
+        // }
+       
         $id_NALs = Team::select('id')->where('name','NALs')->first();
         if(!$request->get('team_id')){
           $request->merge(['team_id' => $id_NALs]);
