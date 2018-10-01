@@ -81,7 +81,7 @@ class OvertimeAddRequest extends FormRequest
                     return [
                         'process_id' => 'required' ,
                         'date' => 'required|after_or_equal:'.$dayStarts,
-                        'start_time' => 'required|after_hours:18:29',
+                        'start_time' => 'required|after:18:29',
                         'end_time' => 'required|after:start_time',
                         'total_time' => 'required|numeric|min:0.1|max:'.$max_time,
                         'reason' => 'required',
