@@ -375,21 +375,21 @@
                 $("#ot_status").val('').change();
                 $("#from_date").val('').change();
                 $("#to_date").val('').change();
-            });
-         $('tr.employee-menu').on('contextmenu', function (event) {
-             event.preventDefault();
-             $('ul.contextMenu').fadeOut("fast");
-             var eId = $(this).data('employee-id');
-             $('ul.contextMenu[data-employee-id="' + eId + '"]')
-                 .show()
-                 .css({top: event.pageY - 100, left: event.pageX - 250, 'z-index': 300});
+        });
+        $('tr.employee-menu').on('contextmenu', function (event) {
+            event.preventDefault();
+            $('ul.contextMenu').fadeOut("fast");
+            var eId = $(this).data('employee-id');
+            $('ul.contextMenu[data-employee-id="' + eId + '"]')
+                .show()
+                .css({top: event.pageY - 100, left: event.pageX - 250, 'z-index': 300});
 
-         });
-         $(document).click(function () {
-             if ($('ul.contextMenu:hover').length === 0) {
-                 $('ul.contextMenu').fadeOut("fast");
-             }
-         });
+        });
+        $(document).click(function () {
+            if ($('ul.contextMenu:hover').length === 0) {
+                $('ul.contextMenu').fadeOut("fast");
+            }
+        });
      });
 
  </script>

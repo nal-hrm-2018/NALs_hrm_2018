@@ -213,7 +213,6 @@
                                             $i+=1;
                                         @endphp
                                         <td class="text-center">{{$i}}</td>
-                                        {{-- @dd($val->type->name); --}}
                                         <td>{{ isset($val->process->project->name)?$val->process->project->name:'-'}}</td>
                                         <td class="text-center">{{$val->date->format('d/m/Y')}}</td>
                                         <td>{{$val->reason}}</td>

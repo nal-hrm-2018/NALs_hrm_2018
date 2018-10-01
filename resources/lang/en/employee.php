@@ -88,7 +88,9 @@ return[
         'end_work'=>'End date',
         'today'=>'Today',
         'year'=>'Year',
-        'total_ot' => 'Total Overtime In This Year'
+        'total_ot' => 'Total Overtime',
+        'total_ot_month' => 'Total Overtime In This Month',
+        'total_ot_year' => 'Total Overtime In This Year'
     ],
     'msg_content'=>[
         'msg_download_employee_template'=>'Do you want to download the Employee Template?',

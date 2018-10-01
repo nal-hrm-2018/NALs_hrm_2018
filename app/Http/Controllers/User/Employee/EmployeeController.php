@@ -54,7 +54,6 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-//        echo $request['number_record_per_page']; die();
         $status = [0=> trans('employee.profile_info.status_active'), 1=>trans('employee.profile_info.status_quited'),2=> trans('employee.profile_info.status_expired')];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
@@ -66,27 +65,35 @@ class EmployeeController extends Controller
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $year = date('Y');
+        $month = date('Y-m');
+        $next_month = date('Y-m', strtotime('+1 month'));
         $year_start = $year.'-01-01';
         $year_end = $year.'-12-31';
+        $month_start = $month.'-01';
+        $month_end = $next_month.'-01';
         foreach($employees as $val){
-            $s = 0;
+            $s = null;
+            $s_month = null;
             if(count($val->overtime)){
                 foreach($val->overtime as $ot){
-                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($year_start) && strtotime($ot->date) < strtotime($year_end)){
-                        $s += $ot->correct_total_time;
+                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected')){
+                        if(strtotime($ot->date) >= strtotime($year_start) && strtotime($ot->date) <= strtotime($year_end)){
+                            $s += $ot->correct_total_time;
+                        }elseif(strtotime($ot->date) >= strtotime($month_start) && strtotime($ot->date) < strtotime($month_end)){
+                            $s_month += $ot->correct_total_time;
+                        }
                     }
                 }
             }
-            // $data = json_decode($data,true); 
             unset($val->overtime );
-            $val->overtime = $s;
+            $val->overtime->year = $s;
+            $val->overtime->month = $s_month;
         }
         $param = (Input::except(['page','is_employee']));
         $id=Auth::user()->id;
         $overtime_status = OvertimeStatus::select('id')->where('name', 'Not yet')->first();
         $employee_permission=$this->objmEmployeePermission->permission_employee($id);
         return view('employee.list', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
- //       return view('employee.newlist', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
     }
 
     public function create()
