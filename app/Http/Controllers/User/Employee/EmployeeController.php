@@ -198,7 +198,13 @@ class EmployeeController extends Controller
                     date_sub($date, date_interval_create_from_date_string('1 days'));
                     $contractual_history->end_date = $date;
                     break;
-                    
+                case 'Part-time':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                
                 default:
                     break;
             }
