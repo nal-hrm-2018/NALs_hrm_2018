@@ -31,5 +31,9 @@ class ContractualType extends Model
     {
         return $this->hasMany('App\Models\Employee', 'contractual_type_id')->where('delete_flag', '=', 0);
     }
+    public function contractual_history()
+    {
+        return $this->hasMany('App\Models\ContractualHistory', 'contractual_type_id')->where('delete_flag', '=', 0);
+    }
 
 }
