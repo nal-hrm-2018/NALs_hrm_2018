@@ -14,6 +14,7 @@ use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
 use App\Models\ContractualType;
+use App\Models\ContractualHistory;
 use App\Models\EmployeeTeam;
 use App\Models\PermissionEmployee;
 use App\Models\PermissionRole;
@@ -167,6 +168,48 @@ class EmployeeController extends Controller
         if($employee->save()){
             $id_employeeteam=$employee->id;
             
+            $contractual_history = new ContractualHistory;
+            $contractual_history->employee_id = $employee->id;
+            $contractual_history->contractual_type_id = $employee->contractual_type_id;
+            $contractual_history->start_date = $employee->startwork_date;
+            $contractual_history->created_at = new DateTime();
+            switch ($contractual_history->contractual_type->name) {
+                case 'Internship':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Probationary':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('2 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'One-year':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('1 year'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Three-year':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('3 years'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Part-time':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                
+                default:
+                    break;
+            }
+            $contractual_history->save();
+
             foreach ($request['team_id'] as $teamid){
                 $employeeteam = new EmployeeTeam;
                 $employeeteam->team_id=$teamid;
