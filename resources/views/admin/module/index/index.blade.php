@@ -380,24 +380,69 @@
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
+                                        <div>
                                         {{-- @dd($end_contract); --}}
-                                        <div class="box-body height-250">
-                                            <p class="text-legend width-350">
+                                            <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
-                                                {{trans('employee.contract.internship')}}: {{$end_contract['end_internship']}}
-                                            </p>
-                                            <p class="text-legend width-350">
+                                                {{-- @dd($end_internship); --}}
+                                                @if(count($end_internship))
+                                                    <a href="#" data-toggle="dropdown">
+                                                        {{trans('employee.contract.internship')}}: {{count($end_internship)}}
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        @foreach($end_internship as $val)
+                                                            <li>{{$val->name}}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    {{trans('employee.contract.internship')}}: {{count($end_internship)}}
+                                                @endif
+                                            </div>
+                                            <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                                {{trans('employee.contract.probatination')}}: {{$end_contract['end_probatination']}}
-                                            </p>
-                                            <p class="text-legend width-350">
+                                                @if(count($end_probatination))
+                                                    <a href="#" data-toggle="dropdown">
+                                                        {{trans('employee.contract.probatination')}}: {{count($end_probatination)}}
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        @foreach($end_probatination as $val)
+                                                            <li>{{$val->name}}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    {{trans('employee.contract.probatination')}}: {{count($end_probatination)}}
+                                                @endif
+                                            </div>
+                                            <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                                {{trans('employee.contract.one-year')}}: {{$end_contract['end_one_year']}}
-                                            </p>
-                                            <p class="text-legend width-350">
-                                                <i class="fas fa-circle" style="color: #faa951;"></i>
-                                                {{trans('employee.contract.three-year')}}: {{$end_contract['end_three_year']}}
-                                            </p>
+                                                @if(count($end_one_year))
+                                                    <a href="#" data-toggle="dropdown">
+                                                        {{trans('employee.contract.one-year')}}: {{count($end_one_year)}}
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        @foreach($end_one_year as $val)
+                                                            <li>{{$val->name}}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    {{trans('employee.contract.one-year')}}: {{count($end_one_year)}}
+                                                @endif
+                                            </div>
+                                            <div class="dropdown text-legend width-350">
+                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                @if(count($end_three_year))
+                                                    <a href="#" data-toggle="dropdown">
+                                                        {{trans('employee.contract.three-year')}}: {{count($end_three_year)}}
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        @foreach($end_three_year as $val)
+                                                            <li>{{$val->name}}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    {{trans('employee.contract.three-year')}}: {{count($end_three_year)}}
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
