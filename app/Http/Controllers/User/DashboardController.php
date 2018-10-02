@@ -42,12 +42,15 @@ class DashboardController extends Controller
     {
         // $this->objmNotification->deleteNotificationExpired();
         $id_emp = Auth::user()->id;
-        $notifications = Notifications::Where('delete_flag','0')->orderBy('id', 'desc')->get();
+        $notifications = Notifications::where('end_date','>=',date('Y-m-d').' 00:00:00')
+                                        ->Where('delete_flag','0')
+                                        ->orderBy('id','desc')->get();
         $absences = Employee::emp_absence($id_emp);
         $notification_type = NotificationType::Where('delete_flag','0')->get();
         $overtime = Overtime::where('employee_id',$id_emp)
                     ->where('delete_flag',0)
                     ->WhereMonth('date',date('n'))
+                    ->WhereYear('date',date('Y'))
                     ->get();
        
         $normal = null;
@@ -240,8 +243,8 @@ class DashboardController extends Controller
 
     public function countEmployeeType($type)
     {
-        $id_type = EmployeeType::select('id')->where('name', $type)->first();
-        $employee_type = Employee::where('employee_type_id', $id_type->id)->get();
+        $id_type = EmployeeType::select('id')->where('name', $type)->where('delete_flag',0)->first();
+        $employee_type = Employee::where('employee_type_id', $id_type->id)->where('delete_flag',0)->get();
         $sum_type = count($employee_type);
         return $sum_type;
     }

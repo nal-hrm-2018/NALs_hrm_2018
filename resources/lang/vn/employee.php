@@ -36,6 +36,8 @@ return[
         'part-time'=>'Bán thời gian'
     ],
     'profile_info'=>[
+        'quit_date' => 'Ngày nghỉ việc',
+        'contract_end_date' => 'Ngày kết thúc hợp đồng',
         'contract_type' =>'Loại hợp đồng',
         'project' => 'Dự Án',
         'the_rest_absence'=>'Số ngày nghỉ phép còn lại',
@@ -87,7 +89,9 @@ return[
         'end_work'=>'Ngày kết thúc làm',
         'today'=>'Ngày hiện tại',
         'year'=>'Năm',
-        'total_ot' => 'Tổng Làm Ngoài Giờ Trong Năm'
+        'total_ot' => 'Tổng Làm Ngoài Giờ',
+        'total_ot_month' => 'Tổng Làm Ngoài Giờ Trong Tháng',
+        'total_ot_year' => 'Tổng Làm Ngoài Giờ Trong Năm'
     ],
     'msg_content'=>[
         'msg_download_employee_template'=>'Bạn có muốn tải về mẫu danh sách nhân viên không?',

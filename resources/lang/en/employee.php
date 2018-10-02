@@ -36,6 +36,8 @@ return[
         'part-time'=>'Part-time'
     ],
     'profile_info'=>[
+        'quit_date' => 'Quit date',
+        'contract_end_date' => 'Contract end date',
         'contract_type' =>'Contractual type',
         'project' => 'Project',
         'the_rest_absence'=>'The remaining leave',
@@ -88,7 +90,9 @@ return[
         'end_work'=>'End date',
         'today'=>'Today',
         'year'=>'Year',
-        'total_ot' => 'Total Overtime In This Year'
+        'total_ot' => 'Total Overtime',
+        'total_ot_month' => 'Total Overtime In This Month',
+        'total_ot_year' => 'Total Overtime In This Year'
     ],
     'msg_content'=>[
         'msg_download_employee_template'=>'Do you want to download the Employee Template?',

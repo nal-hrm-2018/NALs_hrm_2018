@@ -9,6 +9,7 @@
 return[
 
     'nav'=>[
+        'quit_process' => 'Quit Management',
         'notification'  => 'Notifications',
         'dashboard' => 'Dashboard',
         'employee' => 'Employees',
@@ -21,6 +22,7 @@ return[
         'overtime' => 'Overtimes',
 
         'list'=>[
+            'quit_process' => 'Quit list',
             'ot_list' => 'OT List',
             'notification' => 'Notification List',
             'employee' => 'Employee List',

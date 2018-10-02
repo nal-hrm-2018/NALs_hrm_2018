@@ -99,6 +99,7 @@ return [
         'confirmation'=>'Confirmation',
         'statistic'=>'Statistic',
         'edit_overtime'=>'Edit Overtime',
+        'list_quit'=>'Quit list'
     ],
     'action'=>[
         'view'=>'View',

@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Ngoc Quy
- * Date: 4/16/2018
- * Time: 11:00 AM
+ * User: Trinh Hung Anh
+ * Date: 9/26/2018
+ * Time: 11:02 AM
  */ ?>
 @extends('admin.template')
 @section('content')
@@ -28,7 +28,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                {{trans('common.path.list_employee')}}
+                {{trans('common.path.list_quit')}}
                 <small>NAL Solutions</small>
             </h1>
             {{--<ol class="breadcrumb">--}}
@@ -40,68 +40,9 @@
         <section class="content-header" style="display: flex;  flex-direction: row-reverse;">
             <div style="float:right; background-color: #ECF0F5; height: 50px;">
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
-                    @if(Auth::user()->hasPermission('add_new_employee'))
                     <button type="button" class="btn btn-default">
                         <a href="{{ asset('employee/create')}}" ><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
                     </button>
-                    @endif
-                    @if(Auth::user()->hasRoleHR())
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import" id="btn-import">
-                        <a ><i class="glyphicon glyphicon-import"></i> {{trans('common.button.import')}}</a>
-                    </button>
-                     @endif
-                    <div id="import" class="modal fade" role="dialog">
-                        <div class="modal-dialog" style="width: 50%">
-                            <form method="post" action="{{ asset('employee/postFile')}}" enctype="multipart/form-data">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">{{trans('employee.import_employee')}}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="input-group margin">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-info width-100">{{trans('employee.select_csv_file')}}</button>
-                                                </div>
-                                                <label class="file-upload">
-                                                    <input type="file" id="myfile" name="myFile" class="form-control" style="display: none;">
-                                                    <i class="fa fa-cloud-upload"></i>
-                                                    <span id="file_name">Choose file</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer center">
-                                        <button type="submit" id="i_submit" class="btn btn-primary"><span
-                                                    class="glyphicon glyphicon-upload"></span>
-                                            {{trans('common.button.import')}}
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                            <script type="text/javascript">
-                                $('#myfile').bind('change', function(e) {
-                                    if(this.files[0].size > 5242880){
-                                        alert("{{trans('employee.valid5mb')}}");
-                                        document.getElementById('myfile').value = "";
-                                    }
-                                    var value = $('#myfile')[0].files[0];
-                                    if(value != null){
-                                        $('#file_name').text(value.name);
-                                        $('#i_submit').removeClass('disabled');
-                                    }
-                                });
-                            </script>
-                        </div>
-                    </div>
-                    @if(Auth::user()->hasRoleHR())
-                    <button type="button" class="btn btn-default" onclick="return confirmAction('{{trans('employee.msg_content.msg_download_employee_template')}}')">
-                        <a href="/download-template"><i class="fa fa-cloud-download"></i> {{trans('common.button.template')}}</a>
-                    </button>
-                    @endif
                     <?php
                     $id = null; $name = null; $team = null; $role = null; $email = null; $statusExport = null; $page=1;
                     $number_record_per_page = 20;
@@ -173,6 +114,7 @@
                             return $check;
                         }
                     </SCRIPT>
+                    {{-- @php
                     <button  type="button" class="btn btn-default export-employee" id="click-here" onclick="return confirmExport('{{trans('employee.msg_content.msg_download_employee_list')}}')">
                         <a id="export"
                            href="{{asset('export').'?'.'number_record_per_page='.$number_record_per_page.'&id='.$id.'&name='.$name.'&team='.$team.'&email='.$email.'&role='.$role.'&status='.$statusExport.'&page='.$page}}">  
@@ -182,6 +124,7 @@
                             </span>
                             {{trans('common.button.export')}}</a>
                     </button>
+                    @endphp --}}
                 </ol>
             </div>
         </section>
@@ -248,37 +191,50 @@
                                                             <input type="text" name="email" id="emailEmployee" class="form-control" value="{{$email}}" >
                                                         </div>
                                                         <div class="input-group margin">
-                                                            <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('employee.profile_info.role')}}</button>
-                                                            </div>
-                                                            <select name="role" id="role_employee" class="form-control">
-                                                                <option {{ !empty(request('role'))?'':'selected="selected"' }} value="">
-                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                </option>
-                                                                @foreach($roles as $role)
-                                                                    <option value="{{ $role->name}}"{{ (string)$role->name===request('role')?'selected="selected"':'' }}>
-                                                                        {{ $role ->name}}
+                                                                <div class="input-group-btn">
+                                                                    <button type="button" class="btn width-100">Month</button>
+                                                                </div>
+                                                                <select name="month_quit" id="month_quit" class="form-control">
+                                                                    <option {{ !empty(request('month_quit'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="input-group margin">
-                                                            <div class="input-group-btn">
-                                                                <button type="button"
-                                                                        class="btn width-100">{{trans('employee.profile_info.status')}}</button>
+                                                                    @php
+                                                                    $dataMonth = [1,2,3,4,5,6,7,8,9,10,11,12];
+                                                                    @endphp
+                                                                    @foreach($dataMonth as $month)
+                                                                    <?php
+                                                                        $selected="";
+                                                                        if ($month == request()->get('month_quit')) {
+                                                                            $selected = "selected";
+                                                                        }
+                                                                    ?>
+                                                                    <option value="{{$month}}" <?php echo $selected;?>>{{$month}}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
-                                                            <select name="status" id="status" class="form-control">
-                                                                <option {{ !empty(request('status'))?'':'selected="selected"' }} value="">
-                                                                    {{  trans('employee.drop_box.placeholder-default') }}
-                                                                </option>
-
-                                                                @foreach($status as $key => $value)
-                                                                    <option value="{{ $key }}" {{ (string)$key===request('status')?'selected="selected"':'' }}>
-                                                                        {{ $value }}
+                                                            <div class="input-group margin">
+                                                                <div class="input-group-btn">
+                                                                    <button type="button"
+                                                                            class="btn width-100"> Year</button>
+                                                                </div>
+                                                                <select name="year_quit" id="year_quit" class="form-control">
+                                                                    <option {{ !empty(request('year_quit'))?'':'selected="selected"' }} value="">
+                                                                        {{  trans('vendor.drop_box.placeholder-default') }}
                                                                     </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
+                                                                    <?php
+                                                                    $years = [date("Y"),date("Y")-1,date("Y")-2,date("Y")-3];
+                                                                    foreach($years as $year){
+                                                                        $selected="";
+                                                                        if ($year == request()->get('year_quit')) {
+                                                                            $selected = "selected";
+                                                                        }
+                                                                    ?>
+                                                                    <option value="{{ $year }}" <?php echo $selected; ?>>{{ $year }}</option>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
                                                     </div>
                                                 </div>
 
@@ -334,10 +290,8 @@
                                     <th>{{trans('employee.profile_info.team')}}</th>
                                     <th>{{trans('employee.profile_info.role')}}</th>
                                     <th>{{trans('employee.profile_info.status')}}</th>
-                                    <th>{{trans('employee.profile_info.total_ot_month')}}</th>
-                                    @if(Auth::user()->hasRoleHR())
-                                    <th>{{trans('employee.profile_info.total_ot_year')}}</th>
-                                    @endif
+                                    <th>{{trans('employee.profile_info.quit_date')}}</th>
+                                    <th>{{trans('employee.profile_info.contract_end_date')}}</th>
                                     {{--<th>CV</th>--}}
                                 </tr>
                                 </thead>
@@ -363,54 +317,42 @@
                                         <td><p class="fix-center-employee">{{ $string_team? $string_team: "-"}}</p></td>
 
                                         <td><p class="fix-center-employee">
-                                        <?php
-                                            if(isset($employee->role)){
-                                                if($employee->role->name == "PO"){
-                                                    echo "<span class='label label-warning'>". $employee->role->name ."</span>";
-                                                } else if($employee->role->name == "Dev"){
-                                                    echo "<span class='label label-success'>". $employee->role->name ."</span>";
-                                                } else if($employee->role->name == "BO"){
-                                                    echo "<span class='label label-default'>". $employee->role->name ."</span>";
-                                                } else if($employee->role->name == "SM/AL"){
-                                                    echo "<span class='label label-danger'>". $employee->role->name ."</span>";
+                                            <?php
+                                                if(isset($employee->role)){
+                                                    if($employee->role->name == "PO"){
+                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "Dev"){
+                                                        echo "<span class='label label-success'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "BA"){
+                                                        echo "<span class='label label-info'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "ScrumMaster"){
+                                                        echo "<span class='label label-warning'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "HR"){
+                                                        echo "<span class='label label-danger'>". $employee->role->name ."</span>";
+                                                    } else if($employee->role->name == "ACCOUNTANT"){
+                                                        echo "<span class='label label-default'>". $employee->role->name ."</span>";
+                                                    }
+                                                } else {
+                                                    echo "-";
                                                 }
-                                            } else {
-                                                echo "-";
-                                            }
-                                            ?>
+                                                ?>
                                             </p></td>
                                         <td><p class="fix-center-employee">
                                                 @if($employee->work_status == 0)
-                                                    @if($employee->endwork_date)
-                                                        @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
-                                                            <span class="label label-primary">{{trans('employee.profile_info.status_active')}}</span>
-                                                        @else
-                                                            <span class="label label-danger">{{trans('employee.profile_info.status_expired')}}</span>
-                                                        @endif
-                                                    @else
+                                                    @if(strtotime($employee->endwork_date) >= strtotime(date('Y-m-d')))
                                                         <span class="label label-primary">{{trans('employee.profile_info.status_active')}}</span>
+                                                    @else
+                                                        <span class="label label-danger">{{trans('employee.profile_info.status_expired')}}</span>
                                                     @endif
                                                 @else
                                                     <span class="label label-default">{{trans('employee.profile_info.status_quited')}}</span>
                                                 @endif
                                             </p>  
                                         </td>
-                                        @if ($employee->overtime->month)
-                                        <td style="vertical-align: middle;">
-                                            <span class="label label-success">{{$employee->overtime->month}}  {{($employee->overtime->month <2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
+                                        <td><p class="fix-center-employee">{{ isset($employee->endwork_date)?date('d/m/Y', strtotime($employee->endwork_date)):'-'}}
+                                            </p>
                                         </td>
-                                        @else
-                                        <td style="vertical-align: middle;"><span>-</span></td>
-                                        @endif
-                                        @if(Auth::user()->hasRoleHR())
-                                            @if ($employee->overtime->year)
-                                            <td style="vertical-align: middle;">
-                                                <span class="label label-success">{{$employee->overtime->year}}  {{($employee->overtime->year <2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
-                                            </td>
-                                            @else
-                                            <td style="vertical-align: middle;"><span>-</span></td>
-                                            @endif
-                                        @endif
+                                        <td><p class="fix-center-employee">{{isset($employee->history)?date('d/m/Y', strtotime($employee->history)):'-'}}</p></td>
                                         {{--<td style="text-align: center;width: 50px;">--}}
                                             {{--<!-- 1/8/hiddent_cmt-->--}}
                                             {{--<button type="button" class="btn btn-default cv-button">--}}
@@ -418,10 +360,12 @@
                                             {{--</button>--}}
                                         {{--</td>--}}
                                         <ul class="contextMenu" data-employee-id="{{$employee->id}}" hidden>
+                                            {{-- @php
                                             @if(Auth::user()->hasPermission('view_employee_basic'))
                                                 <li><a href="employee/{{$employee->id}}?basic=1&project=0&overtime=0&absence=0"><i
                                                             class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a></li>
                                             @endif
+                                            @endphp --}}
                                             @if(Auth::user()->hasPermission('edit_employee_basic'))
                                                 <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit width-icon-contextmenu"></i>
                                                         {{trans('common.action.edit')}}</a></li>
@@ -440,18 +384,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="row">
-                                @if($employees->hasPages())
-                                    {{-- <div class="col-sm-5">
-                                        <div class="dataTables_info" style="float:left" id="example2_info" role="status" aria-live="polite">
-                                            {{getInformationDataTable($employees)}}
-                                        </div>
-                                    </div> --}}
-                                    <div class="col-sm-12">
-                                        {{  $employees->appends($param)->render('vendor.pagination.custom') }}
-                                    </div>
-                                @endif
-                            </div>
+                            
                         </div>
                         <!-- /.box-body -->
                     </div>

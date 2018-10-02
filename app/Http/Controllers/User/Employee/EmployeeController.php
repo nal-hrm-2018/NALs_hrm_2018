@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\User\Employee;
 
 use App\Export\TemplateExport;
@@ -14,6 +13,7 @@ use App\Models\Team;
 use App\Models\Role;
 use App\Models\EmployeeType;
 use App\Models\ContractualType;
+use App\Models\ContractualHistory;
 use App\Models\EmployeeTeam;
 use App\Models\PermissionEmployee;
 use App\Models\PermissionRole;
@@ -53,7 +53,6 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-//        echo $request['number_record_per_page']; die();
         $status = [0=> trans('employee.profile_info.status_active'), 1=>trans('employee.profile_info.status_quited'),2=> trans('employee.profile_info.status_expired')];
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $teams = Team::select('id', 'name')->where('delete_flag', 0)->get();
@@ -65,27 +64,35 @@ class EmployeeController extends Controller
         $employees = $employees->paginate($request['number_record_per_page']);
         $employees->setPath('');
         $year = date('Y');
+        $month = date('Y-m');
+        $next_month = date('Y-m', strtotime('+1 month'));
         $year_start = $year.'-01-01';
         $year_end = $year.'-12-31';
+        $month_start = $month.'-01';
+        $month_end = $next_month.'-01';
         foreach($employees as $val){
-            $s = 0;
+            $s = null;
+            $s_month = null;
             if(count($val->overtime)){
                 foreach($val->overtime as $ot){
-                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected') && strtotime($ot->date) > strtotime($year_start) && strtotime($ot->date) < strtotime($year_end)){
-                        $s += $ot->correct_total_time;
+                    if(($ot->status->name == 'Accepted' || $ot->status->name == 'Rejected')){
+                        if(strtotime($ot->date) >= strtotime($year_start) && strtotime($ot->date) <= strtotime($year_end)){
+                            $s += $ot->correct_total_time;
+                        }elseif(strtotime($ot->date) >= strtotime($month_start) && strtotime($ot->date) < strtotime($month_end)){
+                            $s_month += $ot->correct_total_time;
+                        }
                     }
                 }
             }
-            // $data = json_decode($data,true); 
             unset($val->overtime );
-            $val->overtime = $s;
+            $val->overtime->year = $s;
+            $val->overtime->month = $s_month;
         }
         $param = (Input::except(['page','is_employee']));
         $id=Auth::user()->id;
         $overtime_status = OvertimeStatus::select('id')->where('name', 'Not yet')->first();
         $employee_permission=$this->objmEmployeePermission->permission_employee($id);
         return view('employee.list', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
- //       return view('employee.newlist', compact('employees','status', 'roles', 'teams', 'param','employee_permission'));
     }
 
     public function create()
@@ -121,15 +128,15 @@ class EmployeeController extends Controller
 
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
-        if ($employee->endwork_date) {           
-            if(strtotime($employee->endwork_date) < strtotime($date)){
-                $employee->work_status = 1;
-            }else{
-                $employee->work_status = 0;
-            }
-        } else {
-           $employee->work_status = 0;
-        }
+        // if ($employee->endwork_date) {           
+        //     if(strtotime($employee->endwork_date) < strtotime($date)){
+        //         $employee->work_status = 1;
+        //     }else{
+        //         $employee->work_status = 0;
+        //     }
+        // } else {
+        //    $employee->work_status = 0;
+        // }
         $employee->is_employee = 1;
         $employee->contractual_type_id = $request->contractual_type_id;
         if ($employee->contractual_type_id) {
@@ -167,6 +174,48 @@ class EmployeeController extends Controller
         if($employee->save()){
             $id_employeeteam=$employee->id;
             
+            $contractual_history = new ContractualHistory;
+            $contractual_history->employee_id = $employee->id;
+            $contractual_history->contractual_type_id = $employee->contractual_type_id;
+            $contractual_history->start_date = $employee->startwork_date;
+            $contractual_history->created_at = new DateTime();
+            switch ($contractual_history->contractual_type->name) {
+                case 'Internship':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Probationary':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('2 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'One-year':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('1 year'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Three-year':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('3 years'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Part-time':
+                    $date = date_create($employee->startwork_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                
+                default:
+                    break;
+            }
+            $contractual_history->save();
+
             foreach ($request['team_id'] as $teamid){
                 $employeeteam = new EmployeeTeam;
                 $employeeteam->team_id=$teamid;
@@ -310,7 +359,6 @@ class EmployeeController extends Controller
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        // dd($request);
         $id_emp=Auth::user()->id;
         if($id_emp!=$id){
             if(!Auth::user()->hasRoleHR()){
@@ -318,6 +366,51 @@ class EmployeeController extends Controller
             }
         }
         $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
+
+
+        if($employee->contractual_type_id <> $request->contractual_type_id){
+            $contractual_history = new ContractualHistory;
+            $contractual_history->employee_id = $employee->id;
+            $contractual_history->contractual_type_id = $request->contractual_type_id;
+            $contractual_history->start_date = $request->startwork_date;
+            $contractual_history->created_at = new DateTime();
+            switch ($contractual_history->contractual_type->name) {
+                case 'Internship':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Probationary':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('2 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'One-year':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('1 year'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Three-year':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('3 years'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Part-time':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+
         if ($employee == null) {
             return abort(404);
         }
@@ -375,11 +468,16 @@ class EmployeeController extends Controller
         }
         $date = new DateTime;
         $date = $date->format('Y-m-d H:i:s');
-        if(strtotime($employee->endwork_date) < strtotime($date)){
-            $employee->work_status = 1;
-        }else{
-            $employee->work_status = 0;
-        }
+        // if($employee->endwork_date){
+        //      if(strtotime($employee->endwork_date) < strtotime($date)){
+        //         $employee->work_status = 1;
+        //     }else{
+        //         $employee->work_status = 0;
+        //     }
+        // } else{
+        //     $employee->work_status = 0;
+        // }
+       
         $id_NALs = Team::select('id')->where('name','NALs')->first();
         if(!$request->get('team_id')){
           $request->merge(['team_id' => $id_NALs]);
@@ -387,6 +485,9 @@ class EmployeeController extends Controller
         
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
+            if(isset($contractual_history)){
+                $contractual_history->save();
+            }
             $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
             $employee->teams()->sync($request['team_id']);
             \Session::flash('msg_success', trans('employee.msg_edit.success'));

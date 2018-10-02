@@ -10,6 +10,7 @@
 return[
 
     'nav'=>[
+        'quit_process' => 'Quản lý nghỉ việc',
         'notification'  => 'Thông báo',
         'dashboard' => 'Tổng quát',
         'employee' => 'Nhân viên',
@@ -18,10 +19,11 @@ return[
         'project' => 'Dự án',
         'absence' => 'Vắng nghỉ',
         'absence_management' => 'Quản lý vắng nghỉ',
-        'overtime_management' => 'Quản lý tăng ca',
-        'overtime' => 'Tăng ca',
+        'overtime_management' => 'Quản lý làm thêm giờ',
+        'overtime' => 'Làm thêm giờ',
         'list'=>[
-            'ot_list' => 'Danh sách tăng ca',
+            'quit_process' => 'Danh sách nghỉ việc',
+            'ot_list' => 'Danh sách làm thêm giờ',
             'notification' => 'Danh sách thông báo',
             'employee' => 'Danh sách nhân viên',
             'vendor' => 'Danh sách nhân viên ngoài',
@@ -33,7 +35,7 @@ return[
             'absences_holiday'=>'Danh sách ngày lễ',
             'absences_po_project'=>'Danh sách vắng nghỉ',
             'history' => 'Danh sách vắng nghỉ',
-            'overtime' => 'Danh sách tăng ca',
+            'overtime' => 'Danh sách làm thêm giờ',
         ],
         'add'=>[
             'notification' => 'Thêm thông báo',
@@ -42,7 +44,7 @@ return[
             'team' => 'Thêm team',
             'project' => 'Thêm dự án',
             'absence' => 'Tạo đơn xin vắng nghỉ',
-            'overtime' => 'Tạo đơn tăng ca'
+            'overtime' => 'Tạo đơn làm thêm giờ'
 
         ],
         'edit' => [
