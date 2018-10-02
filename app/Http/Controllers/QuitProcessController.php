@@ -27,7 +27,7 @@ class QuitProcessController extends Controller
         $roles = Role::select('id', 'name')->where('delete_flag', 0)->get();
         $employees = $this->searchEmployeeQuit->searchEmployee($request)->where('work_status',1)->get();
         foreach($employees as $employee){
-            foreach($employee->toArray()['contractual_historys'] as $history){
+            foreach($employee->toArray()['contractual_history'] as $history){
                 $employee->history = $history['end_date'];
             }
         }

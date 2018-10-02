@@ -129,7 +129,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if (!empty($year_quit)) {
             $query->whereYear("endwork_date",'=',$year_quit);
         }
-        $query->with(['contractualHistorys' => function ($query) {
+        $query->with(['contractualHistory' => function ($query) {
                 $query->orderBy('end_date', 'desc')->first();
             }]);
         $employeesSearch = $query
