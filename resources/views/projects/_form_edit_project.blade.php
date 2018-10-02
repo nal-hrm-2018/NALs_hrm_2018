@@ -241,7 +241,7 @@
 
 <div class="col-md-2" style="margin-top: 20px;">
     <button type="button" id="btn_add_process" class="btn btn-info ">
-        <i class="fa fa-user-plus"></i> {{trans('common.button.add')}}
+        <i class="fa fa-user-plus"></i> {{trans('common.button.add_employee')}}
     </button>
 </div>
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
@@ -313,8 +313,7 @@
     <table class="table table-hover table-bordered table-striped">
         <thead>
         </thead>
-        <tbody id="list_add">
-
+        <tbody id="list_add">    
         @if(isset($processes))
             @foreach($processes as $process)
                 @if((string)($process['delete_flag'])==='0')

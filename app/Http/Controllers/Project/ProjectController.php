@@ -48,7 +48,7 @@ class ProjectController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
         $projects = $this->searchProjectService->searchProject($request)
-            ->orderBy('start_date', 'DESC')->orderBy('end_date', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->paginate($request['number_record_per_page']);
         $projects->setPath('');
 
@@ -200,7 +200,6 @@ class ProjectController extends Controller
             session()->flash('processes', $request->get('processes'));
             return back()->withInput();
         }
-
         if (!is_null($this->projectService->editProject($request, $id))) {
             session()->flash(trans('common.msg_success'), trans('project.msg_content.msg_edit_success'));
             return redirect(route('projects.index'));

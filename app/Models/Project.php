@@ -25,7 +25,7 @@ class Project extends Model
 
     public $table = 'projects';
     protected $keyType = 'string';
-
+    public $timestamps = true;
     /**
      * Indicates if the IDs are auto-incrementing.
      *
