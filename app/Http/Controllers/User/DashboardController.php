@@ -243,8 +243,8 @@ class DashboardController extends Controller
 
     public function countEmployeeType($type)
     {
-        $id_type = EmployeeType::select('id')->where('name', $type)->first();
-        $employee_type = Employee::where('employee_type_id', $id_type->id)->get();
+        $id_type = EmployeeType::select('id')->where('name', $type)->where('delete_flag',0)->first();
+        $employee_type = Employee::where('employee_type_id', $id_type->id)->where('delete_flag',0)->get();
         $sum_type = count($employee_type);
         return $sum_type;
     }
