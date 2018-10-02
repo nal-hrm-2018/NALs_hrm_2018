@@ -157,6 +157,18 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $currentProject = Project::where('delete_flag', 0)->find($id);
+        if(isset($currentProject->estimate_start_date)){
+            $currentProject->estimate_start_date = $currentProject->estimate_start_date->format('Y-m-d');
+        }
+        if(isset($currentProject->estimate_end_date)){
+            $currentProject->estimate_end_date = $currentProject->estimate_end_date->format('Y-m-d');
+        }
+        if(isset($currentProject->start_date)){
+            $currentProject->start_date =  $currentProject->start_date->format('Y-m-d');
+        }
+        if(isset($currentProject->end_date)){        
+            $currentProject->end_date =  $currentProject->start_date->format('Y-m-d');
+        }
         if (is_null($currentProject)) {
             return abort(404);
         }
