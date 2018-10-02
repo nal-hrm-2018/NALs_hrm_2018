@@ -21,8 +21,11 @@ class NotificationController extends Controller
     {
         $notification_type = NotificationType::Where('delete_flag','0')->get();
         $new_notifications = Notifications::where('end_date','>=',date('Y-m-d').' 00:00:00')
-        ->Where('delete_flag','0')->orderBy('id','desc')->get();
-        $old_notifications = Notifications::Where('delete_flag','1')->orwhere('end_date','<',date('Y-m-d').' 00:00:00')->orderBy('id','desc')->get();
+                                            ->Where('delete_flag','0')
+                                            ->orderBy('id','desc')->get();
+        $old_notifications = Notifications::Where('delete_flag','1')
+                                            ->orwhere('end_date','<',date('Y-m-d').' 00:00:00')
+                                            ->orderBy('id','desc')->get();
         return view('notification.list',[
             'notification_type' => $notification_type,
             'new_notifications' => $new_notifications,
