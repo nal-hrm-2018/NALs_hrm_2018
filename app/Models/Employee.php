@@ -143,7 +143,7 @@ class Employee extends Model implements
     {
         return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);
     }
-    public function contractualHistorys()
+    public function contractualHistory()
     {
         return $this->hasMany('App\Models\ContractualHistory', 'employee_id');
     }

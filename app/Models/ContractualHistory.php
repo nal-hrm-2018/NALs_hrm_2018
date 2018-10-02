@@ -20,7 +20,7 @@ class ContractualHistory extends Model
      * @var array
      */
 
-    public $table = 'contructual_history';
+    public $table = 'contractual_history';
     protected $fillable = [
         'id',
         'employee_id',
