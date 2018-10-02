@@ -8,7 +8,7 @@
 return[
     'number' => 'STT',
     'project' =>'Dự án',
-    'date'=> 'Ngày tăng ca',
+    'date'=> 'Ngày làm thêm giờ',
     'employee' => 'Nhân viên',
     'start_time'=> 'Thời gian bắt đầu',
     'end_time'=> 'Thời gian kết thúc',
@@ -48,15 +48,15 @@ return[
         'reason_reject' => 'Lý do từ chối'
     ],
     'msg_add'=>[
-        'success'=>'Thêm đơn tăng ca thành công!!!',
-        'fail'=>'Thêm đơn tăng ca thất bại!!!',
-        'duplicate'=>'Ngày tăng ca đã tồn tại'
+        'success'=>'Thêm đơn làm thêm giờ thành công!!!',
+        'fail'=>'Thêm đơn làm thêm giờ thất bại!!!',
+        'duplicate'=>'Ngày làm thêm giờ đã tồn tại'
     ],    
     'msg_edit'=>[
         'success'=>'Chỉnh sửa thành công!!!',
         'fail'=>'Chỉnh sửa thất bại!!!',
     ],
     'reject' => [
-        'fail' => 'Thay đổi thất bại. Phải nhập giá trị bé hơn tổng thơi gian tăng ca'
+        'fail' => 'Thay đổi thất bại. Phải nhập giá trị bé hơn tổng thơi gian làm thêm giờ'
     ]
 ];

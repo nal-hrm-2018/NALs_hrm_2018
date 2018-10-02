@@ -143,7 +143,10 @@ class Employee extends Model implements
     {
         return $this->hasMany('App\Models\Confirm')->where('delete_flag', '=', 0);
     }
-
+    public function contractualHistorys()
+    {
+        return $this->hasMany('App\Models\ContractualHistory', 'employee_id');
+    }
     public function hasPermission($role){
         $status_emp_per = $this->whereHas('permissions',function($query) use ($role){
             $query->where('name',$role);

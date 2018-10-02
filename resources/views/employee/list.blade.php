@@ -334,7 +334,10 @@
                                     <th>{{trans('employee.profile_info.team')}}</th>
                                     <th>{{trans('employee.profile_info.role')}}</th>
                                     <th>{{trans('employee.profile_info.status')}}</th>
-                                    <th>{{trans('employee.profile_info.total_ot')}}</th>
+                                    <th>{{trans('employee.profile_info.total_ot_month')}}</th>
+                                    @if(Auth::user()->hasRoleHR())
+                                    <th>{{trans('employee.profile_info.total_ot_year')}}</th>
+                                    @endif
                                     {{--<th>CV</th>--}}
                                 </tr>
                                 </thead>
@@ -392,12 +395,21 @@
                                                 @endif
                                             </p>  
                                         </td>
-                                        @if ($employee->overtime)
+                                        @if ($employee->overtime->month)
                                         <td style="vertical-align: middle;">
-                                            <span class="label label-success">{{$employee->overtime}}  {{($employee->overtime <2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
+                                            <span class="label label-success">{{$employee->overtime->month}}  {{($employee->overtime->month <2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
                                         </td>
                                         @else
                                         <td style="vertical-align: middle;"><span>-</span></td>
+                                        @endif
+                                        @if(Auth::user()->hasRoleHR())
+                                            @if ($employee->overtime->year)
+                                            <td style="vertical-align: middle;">
+                                                <span class="label label-success">{{$employee->overtime->year}}  {{($employee->overtime->year <2)? trans('overtime.hour'): trans('overtime.hours') }}</span>
+                                            </td>
+                                            @else
+                                            <td style="vertical-align: middle;"><span>-</span></td>
+                                            @endif
                                         @endif
                                         {{--<td style="text-align: center;width: 50px;">--}}
                                             {{--<!-- 1/8/hiddent_cmt-->--}}

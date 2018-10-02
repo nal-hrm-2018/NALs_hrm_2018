@@ -18,7 +18,7 @@
             padding: 5px;
             border: 3px solid #00c0ef;
             border-radius: 5px;
-            min-width: 100px;
+            /*min-width: 100px;*/
             color: black;
             background: white;
         }
