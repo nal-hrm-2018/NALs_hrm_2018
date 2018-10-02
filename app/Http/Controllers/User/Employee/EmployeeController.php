@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\User\Employee;
 
 use App\Export\TemplateExport;
@@ -360,7 +359,6 @@ class EmployeeController extends Controller
 
     public function update(EmployeeEditRequest $request, $id)
     {
-        // dd($request);
         $id_emp=Auth::user()->id;
         if($id_emp!=$id){
             if(!Auth::user()->hasRoleHR()){
@@ -368,6 +366,51 @@ class EmployeeController extends Controller
             }
         }
         $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
+
+
+        if($employee->contractual_type_id <> $request->contractual_type_id){
+            $contractual_history = new ContractualHistory;
+            $contractual_history->employee_id = $employee->id;
+            $contractual_history->contractual_type_id = $request->contractual_type_id;
+            $contractual_history->start_date = $request->startwork_date;
+            $contractual_history->created_at = new DateTime();
+            switch ($contractual_history->contractual_type->name) {
+                case 'Internship':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Probationary':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('2 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'One-year':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('1 year'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Three-year':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('3 years'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                case 'Part-time':
+                    $date = date_create($contractual_history->start_date);
+                    date_add($date, date_interval_create_from_date_string('3 months'));
+                    date_sub($date, date_interval_create_from_date_string('1 days'));
+                    $contractual_history->end_date = $date;
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+
         if ($employee == null) {
             return abort(404);
         }
@@ -442,6 +485,9 @@ class EmployeeController extends Controller
         
         $employee->updated_at = new DateTime();
         if ($employee->save()) {
+            if(isset($contractual_history)){
+                $contractual_history->save();
+            }
             $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
             $employee->teams()->sync($request['team_id']);
             \Session::flash('msg_success', trans('employee.msg_edit.success'));
