@@ -98,9 +98,15 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
+                @php
+                $estimate_start_date = null;
+                if (isset($currentProject->estimate_start_date)) {                
+                    $estimate_start_date = $currentProject->estimate_start_date->format('Y-m-d');
+                }
+                @endphp
                 <input type="date" class="form-control pull-right" name="estimate_start_date"
                        id="estimate_start_date"
-                       value="{{ old('estimate_start_date', $currentProject->estimate_start_date)}}"/>
+                       value="{{ old('estimate_start_date', $estimate_start_date)}}"/>
 
             </div>
         {{--<label class="estimate_start_date" id="lb_error_estimate_start_date"--}}
@@ -113,8 +119,14 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
+                @php
+                $estimate_end_date = null;
+                if (isset($currentProject->estimate_end_date)) {                
+                    $estimate_end_date = $currentProject->estimate_end_date->format('Y-m-d');
+                }
+                @endphp
                 <input type="date" class="form-control pull-right" name="estimate_end_date" id="estimate_end_date"
-                       value="{{ old('estimate_end_date',$currentProject->estimate_end_date)}}">
+                       value="{{ old('estimate_end_date', $estimate_end_date)}}">
 
             </div>
         {{--<label class="estimate_end_date" id="lb_error_estimate_end_date"--}}
@@ -127,8 +139,14 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
+                @php
+                $start_date = null;
+                if (isset($currentProject->start_date)) {
+                    $start_date = $currentProject->start_date->format('Y-m-d');
+                }
+                @endphp
                 <input type="date" class="form-control pull-right" name="start_date_project" id="start_date_project"
-                       value="{{ old('start_date_project',$currentProject->start_date)}}">
+                       value="{{ old('start_date_project',$start_date)}}">
 
             </div>
         {{--<label class="start_date_project" id="lb_error_start_date_project"--}}
@@ -141,8 +159,14 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
+                @php
+                $end_date = null;
+                if (isset($currentProject->end_date)) {
+                    $end_date = $currentProject->end_date->format('Y-m-d');
+                }
+                @endphp
                 <input type="date" class="form-control pull-right" name="end_date_project" id="end_date_project"
-                       value="{{ old('end_date_project', $currentProject->end_date)}}">
+                       value="{{ old('end_date_project', $end_date)}}">
             </div>
         {{--<label class="end_date_project" id="lb_error_end_date_project"--}}
         {{--style="color: red; ">{{$errors->first('end_date_project')}}</label>--}}
