@@ -36,6 +36,8 @@ return[
         'part-time'=>'Part-time'
     ],
     'profile_info'=>[
+        'quit_date' => 'Quit date',
+        'contract_end_date' => 'Contract end date',
         'contract_type' =>'Contractual type',
         'project' => 'Project',
         'the_rest_absence'=>'The remaining leave',

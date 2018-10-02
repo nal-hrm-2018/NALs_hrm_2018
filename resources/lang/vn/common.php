@@ -92,6 +92,7 @@ return [
         'po_project'=>'PO dự án',
         'confirmation'=>'Xác nhận',
         'statistic'=>'Thống kê',
+        'list_quit'=>'Danh sách nghỉ việc',
         'edit_overtime'=>'Chỉnh sửa đơn làm thêm giờ',
     ],
     'action'=>[

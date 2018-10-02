@@ -10,6 +10,7 @@
 return[
 
     'nav'=>[
+        'quit_process' => 'Quản lý nghỉ việc',
         'notification'  => 'Thông báo',
         'dashboard' => 'Tổng quát',
         'employee' => 'Nhân viên',
@@ -21,6 +22,7 @@ return[
         'overtime_management' => 'Quản lý làm thêm giờ',
         'overtime' => 'Làm thêm giờ',
         'list'=>[
+            'quit_process' => 'Danh sách nghỉ việc',
             'ot_list' => 'Danh sách làm thêm giờ',
             'notification' => 'Danh sách thông báo',
             'employee' => 'Danh sách nhân viên',

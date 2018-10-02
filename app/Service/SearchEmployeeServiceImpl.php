@@ -44,7 +44,6 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
         if (!empty($name)) {
             $query->Where('name', 'like', '%' . $name . '%');
         }
-
         if (!is_null($request['is_employee'])) {
             $query->Where('is_employee', $request['is_employee']);
         }
@@ -122,6 +121,17 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
                     $query->whereMonth('date','=',$date_ot);
                 });
         }
+        $month_quit=$request['month_quit'];
+        if (!empty($month_quit)) {
+            $query->whereMonth("endwork_date",'=',$month_quit);
+        }
+        $year_quit=$request['year_quit'];
+        if (!empty($year_quit)) {
+            $query->whereYear("endwork_date",'=',$year_quit);
+        }
+        $query->with(['contractualHistory' => function ($query) {
+                $query->orderBy('end_date', 'desc')->first();
+            }]);
         $employeesSearch = $query
             ->where('delete_flag', '=', 0);
         return $employeesSearch;
