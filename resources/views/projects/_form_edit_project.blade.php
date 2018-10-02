@@ -371,8 +371,8 @@
                         }
                         ?>
                     </td>
-                    <td style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date'])) }}</td>
-                    <td >{{ date('d/m/Y',strtotime($process['end_date'])) }}</td>
+                    <td style="width: 27%;">{{ isset($process['start_date'])?date('d/m/Y',strtotime($process['start_date'])):'-' }}</td>
+                    <td >{{ isset($process['end_date'])?date('d/m/Y',strtotime($process['end_date'])):'-' }}</td>
                     <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
                                     getEmployee($process['employee_id'])->name:'' }}"
                               id="{{$process['employee_id']}}" class="fa fa-remove remove_employee"></i>
