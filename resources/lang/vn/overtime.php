@@ -44,7 +44,7 @@ return[
         'title' => 'Bạn muốn từ chối đơn này?',
         'cancel' => 'Thoát',
         'reject' => 'Từ chối',
-        'accept_time' => 'Thời gian đồng ý',
+        'accept_time' => 'Thời gian chấp nhận',
         'reason_reject' => 'Lý do từ chối'
     ],
     'msg_add'=>[

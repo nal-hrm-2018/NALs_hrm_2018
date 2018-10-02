@@ -22,7 +22,8 @@
         {
             
             return [
-                'correct_total_time' => 'required|numeric|min:0'
+                'correct_total_time' => 'required|numeric|min:0',
+                'reason_reject' => 'required'
             ];
         }
 
@@ -34,6 +35,9 @@
                 ]),
                 'correct_total_time.required' => trans('validation.required', [
                     'attribute' => trans('overtime.correct_total_time')
+                ]),
+                'reason_reject.required' => trans('validation.required', [
+                    'attribute' => trans('overtime.reject_reason')
                 ]),
             ];
         }
