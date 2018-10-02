@@ -43,7 +43,8 @@ class DashboardController extends Controller
         // $this->objmNotification->deleteNotificationExpired();
         $id_emp = Auth::user()->id;
         $notifications = Notifications::where('end_date','>=',date('Y-m-d').' 00:00:00')
-        ->Where('delete_flag','0')->orderBy('id','desc')->get();
+                                        ->Where('delete_flag','0')
+                                        ->orderBy('id','desc')->get();
         $absences = Employee::emp_absence($id_emp);
         $notification_type = NotificationType::Where('delete_flag','0')->get();
         $overtime = Overtime::where('employee_id',$id_emp)
