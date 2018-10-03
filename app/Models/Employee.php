@@ -254,11 +254,11 @@ class Employee extends Model implements
         $startwork_year = (int)date_create($objEmployee->startwork_date)->format("Y");
         $pemission_annual_leave = 0;
         if($objEmployee->employee_type_id){
-            if ($objEmployee->employeeType->name == 'FullTime') {
+            if ( ($objEmployee->employeeType->name == 'FullTime') || ($objEmployee->employeeType->name == 'Probationary')){
                 if($startwork_year == date('Y')){
                     $startwork_month = (int)date_create($objEmployee->startwork_date)->format("n");
                     $pemission_annual_leave = 12 - $startwork_month;
-                } elseif ( ((int)date('Y') - $startwork_year) < 6 ) {
+                } elseif ( ((int)date('Y') - $startwork_year) < 4 ) {
                     $pemission_annual_leave =12;
                 } else {
                     switch ($startwork_year) {
@@ -328,7 +328,7 @@ class Employee extends Model implements
                     break;
             }            
         };
-        $month_change = 4;
+        $month_change = 11;
         $before_change = Absence::whereMonth('from_date','<', $month_change)
                         ->where('delete_flag',0)
                         ->where('employee_id',$id)

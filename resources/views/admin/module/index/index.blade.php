@@ -82,8 +82,8 @@
             margin: 0 auto;
             width: 310px;
         }
-        .height-200{
-           height: 200px;
+        .height-part{
+           height: 250px;
         }
         .padding-0-20{
            padding: 0 20px;
@@ -351,7 +351,7 @@
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
-                                        <div class="box-body height-200">
+                                        <div class="box-body height-part">
                                         {{-- @dd($common); --}}
                                             <div class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
@@ -383,7 +383,7 @@
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
-                                        <div class="box-body height-200">
+                                        <div class="box-body height-part">
                                             <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
                                                 @if(count($end_internship))
@@ -454,7 +454,7 @@
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
-                                        <div class="box-body height-200">
+                                        <div class="box-body height-part">
                                             <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #53cbf2;"></i>
                                                 @if(count($birthday_employee))

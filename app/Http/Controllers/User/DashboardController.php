@@ -258,7 +258,6 @@ class DashboardController extends Controller
         $end_type = Employee::select('id','name')
                  ->where('is_employee',1)
                  ->where('delete_flag',0)
-                 ->where('work_status',0)
                  ->whereHas('contractualType', function($query1) use($type){
                     $query1->where('name', $type);
                 })
