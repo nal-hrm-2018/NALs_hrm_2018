@@ -92,7 +92,7 @@
               @else
               {{asset('/avatar/default_avatar.png')}}
               @endif" />
-              <span class="hidden-xs">{{trans('common.header.welcome')}} {{Auth::user()->name}}</span>
+              <span class="hidden-xs">{{trans('common.header.welcome')}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->

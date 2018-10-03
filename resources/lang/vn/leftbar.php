@@ -38,6 +38,7 @@ return[
             'overtime' => 'Danh sách làm thêm giờ',
         ],
         'add'=>[
+            'quit' => 'Thêm nghỉ việc',
             'notification' => 'Thêm thông báo',
             'employee' => 'Thêm nhân viên',
             'vendor' => 'Thêm nhân viên ngoài',

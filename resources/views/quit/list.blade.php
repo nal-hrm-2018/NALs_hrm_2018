@@ -366,13 +366,28 @@
                                                             class="fa fa-id-card width-icon-contextmenu"></i> {{trans('common.action.view')}}</a></li>
                                             @endif
                                             @endphp --}}
-                                            @if(Auth::user()->hasPermission('edit_employee_basic'))
-                                                <li><a href="employee/{{$employee->id}}/edit"><i class="fa fa-edit width-icon-contextmenu"></i>
-                                                        {{trans('common.action.edit')}}</a></li>
-                                            @endif
-                                            @if(Auth::user()->hasPermission('delete_employee'))
-                                                <li><a href="" class="btn-employee-remove" data-employee-email="{{$employee->email}}" data-employee-id="{{$employee->id}}"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</a></li>
-                                            @endif
+                                            <li>
+                                                <form action="{{route('quit_process.edit',['quit_process' => $employee->id])}}" method="get">
+                                                    @csrf
+                                                    <button class="btn btn-default" type="submit" style="font-size: 100%;
+                                                    font-family: inherit;
+                                                    border: 0;
+                                                    padding: 0;background:inherit;"><i class="fa fa-edit width-icon-contextmenu"></i> {{trans('common.action.edit')}}</button>
+                                                    
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form action="{{route('quit_process.destroy',['quit_process' => $employee->id])}}" method="post" onsubmit="return confirm_delete();">
+                                                    @csrf
+                                                    {{ method_field('delete') }}
+                                                    <button class="btn btn-default" type="submit" style="font-size: 100%;
+                                                    font-family: inherit;
+                                                    border: 0;
+                                                    padding: 0;background:inherit;"><i class="fa fa-remove width-icon-contextmenu"></i> {{trans('common.action.remove')}}</button>
+                                                 
+                                                </form>
+                                            </li>
+                                            
                                             <script type="text/javascript">
                                                 $(".btn-employee-remove").click(function(event){
                                                     event.preventDefault();
@@ -425,7 +440,11 @@
         });
 
     </script>
-
+    <script>
+        function confirm_delete(){
+            return confirm(message_confirm('{{trans('common.action.remove')}}','{{trans('quit.quit')}}',''));
+        }
+    </script>
     <script type="text/javascript">
         $(function () {
             $('.btn-employee-remove').click(function () {

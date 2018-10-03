@@ -7,6 +7,9 @@ use App\Service\SearchEmployeeService;
 use App\Models\Team;
 use App\Models\Role;
 use App\Models\Employee;
+use App\Models\Quit;
+use App\Http\Requests\QuitAddRequest;
+use App\Http\Requests\QuitEditRequest;
 
 class QuitProcessController extends Controller
 {
@@ -16,6 +19,7 @@ class QuitProcessController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $searchEmployeeQuit;
+    protected $objQuit;
     public function __construct(SearchEmployeeService $searchEmployeeQuit)
     {
         $this->searchEmployeeQuit = $searchEmployeeQuit;
@@ -45,7 +49,8 @@ class QuitProcessController extends Controller
      */
     public function create()
     {
-        //
+        $employees = Employee::where('work_status',0)->get();
+        return view('quit.add',compact('employees'));
     }
 
     /**
@@ -54,9 +59,24 @@ class QuitProcessController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuitAddRequest $request)
     {
-        //
+        $employee = Employee::findOrFail($request->employee_id);
+        $employee->work_status = 1; // work_status =1 là nghĩ việc
+        $employee->endwork_date = $request->quit_date;
+        
+        $quit = new Quit();
+        $quit->employee_id = $request->employee_id;
+        $quit->reason = $request->reason;
+        $quit->quit_date = $request->quit_date;
+        
+        if ($employee->save() && $quit->save()){
+            \Session::flash('msg_success', trans('quit.msg_add.success'));
+            return redirect('quit_process');
+        }else{
+            \Session::flash('msg_fail', trans('quit.msg_add.fail'));
+            return back()->with(['quit_process' => $employee]);
+        }
     }
 
     /**
@@ -79,6 +99,8 @@ class QuitProcessController extends Controller
     public function edit($id)
     {
         //
+        $quit = Quit::where('employee_id',$id)->with('employee')->first();
+        return view('quit.edit',compact('quit'));
     }
 
     /**
@@ -88,9 +110,24 @@ class QuitProcessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuitEditRequest $request, $id)
     {
-        //
+        
+        $quit = Quit::findOrFail($id);
+        $quit->reason = $request->reason;
+        $quit->quit_date = $request->quit_date;
+
+        $employee = Employee::where('id',$request->employee)->first();
+        $employee->endwork_date = $request->quit_date;
+        $employee->save();
+
+        if ($quit->save()){
+            \Session::flash('msg_success', trans('quit.msg_edit.success'));
+            return redirect('quit_process');
+        }else{
+            \Session::flash('msg_fail', trans('quit.msg_edit.fail'));
+            return back()->with(['quit_process' => $quit]);
+        }
     }
 
     /**
@@ -101,6 +138,18 @@ class QuitProcessController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = Employee::findOrFail($id);
+        $employee->work_status = 0; // work_status =1 là nghĩ việc
+        $employee->endwork_date = null;
+        
+        $quit = Quit::where('employee_id',$id);
+        
+        if ($employee->save() && $quit->delete()){
+            \Session::flash('msg_success', trans('quit.msg_delete.success'));
+            return redirect('quit_process');
+        }else{
+            \Session::flash('msg_fail', trans('quit.msg_delete.fail'));
+            return back()->with(['quit_process' => $employee]);
+        }
     }
 }
