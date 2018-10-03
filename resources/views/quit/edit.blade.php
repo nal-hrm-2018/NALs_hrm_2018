@@ -34,7 +34,7 @@
                                 <div class="col-md-6">
                                     <!-- /.form-group -->
                                     <div class="form-group">
-                                            <label>{{trans('quit.employee')}}<strong style="color: red">(*)</strong></label><br />
+                                            <label>{{trans('quit.employee')}}<strong style="color: red"></strong></label><br />
                                     <input id="employee_id" class="form-control" name="employee_id" value="{!! old('employee_id', isset($quit->employee->name) ? $quit->employee->name : null) !!}" placeholder="" disabled/>
                                             <label id="lb_error_reason" style="color: red; ">{{$errors->first('reason')}}</label>
                                         </div>

@@ -100,7 +100,7 @@ return [
         'confirmation'=>'Confirmation',
         'statistic'=>'Statistic',
         'edit_overtime'=>'Edit Overtime',
-        'list_quit'=>'Quit list'
+        'list_quit'=>'Quit List'
     ],
     'action'=>[
         'view'=>'View',
