@@ -48,22 +48,22 @@ class AbsenceFormServiceImpl implements AbsenceFormService
             
             if( ($from_date >= $absence['from_date'] && $from_date <= $absence['to_date']) || ($to_date >= $absence['from_date'] && $to_date <= $absence['to_date']) ){
                 if($request->get('absence_time_id') == 1){
-                    \Session::flash('msg_fail', 'From Date or To Date Duplicate!!!');
+                    \Session::flash('msg_fail', 'Date Duplicate!');
                     return back()->withInput();
                 }
                 if($absence['absence_time']['name'] == 'all'){
-                    \Session::flash('msg_fail', 'From Date or To Date Duplicate!!!');
+                    \Session::flash('msg_fail', 'Date Duplicate!');
                     return back()->withInput();
                 }
                 if($absence['absence_time']['name'] == 'morning'){
                     if($absence['absence_time']['id'] == $request->get('absence_time_id')){
-                        \Session::flash('msg_fail', 'From Date or To Date Duplicate!!!');
+                        \Session::flash('msg_fail', 'Date Duplicate!');
                         return back()->withInput();
                     }
                 }
                 if($absence['absence_time']['name'] == 'afternoon'){
                     if($absence['absence_time']['id'] == $request->get('absence_time_id')){
-                        \Session::flash('msg_fail', 'From Date or To Date Duplicate!!!');
+                        \Session::flash('msg_fail', 'Date Duplicate!');
                         return back()->withInput();
                     }
                 }
@@ -71,8 +71,8 @@ class AbsenceFormServiceImpl implements AbsenceFormService
         }    
 
         if($from_date_year == $to_date_year){
-            if($from_date_month <= 6 && $to_date_month >= 7){
-                \Session::flash('msg_fail', "Can't submit form between June and July!!!");
+            if($from_date_month <= 3 && $to_date_month >= 4){
+                \Session::flash('msg_fail', "Can't submit form from March to April!");
                 return back()->withInput();
             }else{
                 $data = [

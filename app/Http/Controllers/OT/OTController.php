@@ -156,8 +156,12 @@ class OTController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
         $employees = $employees->paginate($request['number_record_per_page']);
-        // $employees->setPath('');
-
+        $from_date = date("Y-m-01");
+        $to_date = date("Y-m-t");
+        if($request['from_date'] || $request['to_date']){
+            $from_date = $request['from_date'];
+            $to_date = $request['to_date'];
+        }
         foreach($employees as $employee){
             $normal = null;
             $weekend = null;
@@ -165,15 +169,17 @@ class OTController extends Controller
             count($employee->overtime);
             if(count($employee->overtime)){
                 foreach($employee->overtime as $ot){
-                    if($ot->status->is_accept == 1){
-                        if($ot->type->name == 'normal'){
-                            $normal += $ot->correct_total_time;
-                        }
-                        if($ot->type->name == 'weekend'){
-                            $weekend += $ot->correct_total_time;
-                        }
-                        if($ot->type->name == 'holiday'){
-                            $holiday += $ot->correct_total_time;
+                    if($ot->date->format('Y-m-d') >= $from_date && $ot->date->format('Y-m-d') <= $to_date){
+                        if($ot->status->is_accept == 1){
+                            if($ot->type->name == 'normal'){
+                                $normal += $ot->correct_total_time;
+                            }
+                            if($ot->type->name == 'weekend'){
+                                $weekend += $ot->correct_total_time;
+                            }
+                            if($ot->type->name == 'holiday'){
+                                $holiday += $ot->correct_total_time;
+                            }
                         }
                     }
                 }

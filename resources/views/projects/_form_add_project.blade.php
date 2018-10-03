@@ -195,7 +195,7 @@
 </div>
 <div class="col-md-2" style="margin-top: 20px;">
     <button type="button" id="btn_add_process" class="btn btn-info ">
-        <i class="fa fa-user-plus"></i> {{trans('common.button.add')}}
+        <i class="fa fa-user-plus"></i> {{trans('common.button.add_employee')}}
     </button>
 </div>
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>

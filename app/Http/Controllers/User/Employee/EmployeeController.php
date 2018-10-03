@@ -368,7 +368,8 @@ class EmployeeController extends Controller
         $employee = Employee::where('delete_flag', 0)->where('is_employee',1)->find($id);
 
 
-        if($employee->contractual_type_id <> $request->contractual_type_id){
+        if( ($employee->contractual_type_id <> $request->contractual_type_id) || ($employee->startwork_date <> $request->startwork_date) )
+        {
             $contractual_history = new ContractualHistory;
             $contractual_history->employee_id = $employee->id;
             $contractual_history->contractual_type_id = $request->contractual_type_id;

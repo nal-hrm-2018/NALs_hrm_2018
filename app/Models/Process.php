@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class Process extends Model
 {
     protected $table = 'processes';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = [
         'id',
         'employee_id',

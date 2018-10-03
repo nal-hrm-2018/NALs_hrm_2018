@@ -100,27 +100,6 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
                 $query->where("project_id",$project);
             });
         }
-        $date_ot = $request['date_ot'];
-        if (!empty($date_ot)) {
-            $query
-                ->whereHas('overtime', function ($query) use ($date_ot) {
-                    $query->where("date", 'like', '%' . $date_ot . '%');
-                });
-        }
-        $date_ot = $request['year_ot'];
-        if (!empty($date_ot)) {
-            $query
-                ->whereHas('overtime', function ($query) use ($date_ot) {
-                    $query->whereYear("date", 'like', '%' . $date_ot . '%');
-                });
-        }
-        $date_ot =$request['month_ot'];
-        if (!empty($date_ot)) {
-            $query
-                ->whereHas('overtime', function ($query) use ($date_ot) {
-                    $query->whereMonth('date','=',$date_ot);
-                });
-        }
         $month_quit=$request['month_quit'];
         if (!empty($month_quit)) {
             $query->whereMonth("endwork_date",'=',$month_quit);

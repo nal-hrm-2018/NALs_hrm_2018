@@ -74,7 +74,10 @@ class DashboardController extends Controller
             'holiday' => (double) $holiday
         ];
         if (Employee::find($id_emp)->hasRole('BO')) {
-            $employees = Employee::Where('delete_flag','0')->get();
+            $employees = Employee::Where('delete_flag','0')
+                                 ->where('work_status',0)  
+                                 ->where('is_employee',1)  
+                                 ->get();
             $common = [
                 'sum_employee'=> count($employees),
                 'internship'=> $this->countEmployeeType('Internship'),
@@ -83,13 +86,19 @@ class DashboardController extends Controller
                 'probationary'=>$this->countEmployeeType('Probationary'),
                ];
             $leaved_month = Employee::where('work_status', '1')
+                            ->where('is_employee',1)
+                            ->where('delete_flag',0)
                             ->WhereMonth('endwork_date',  date('m'))
                             ->WhereYear(('endwork_date'), date('Y'))
                             ->get();            
             $new_employee = Employee::WhereMonth(('startwork_date'), date('m'))
+                            ->where('is_employee',1)
+                            ->where('delete_flag',0)
                             ->WhereYear(('startwork_date'), date('Y'))
                             ->get();
             $birthday_employee = Employee::WhereMonth(('birthday'), date('m'))
+                            ->where('is_employee',1)
+                            ->where('delete_flag',0)
                             ->get();
             $this_month = [
                 'leaved'=> count($leaved_month),
@@ -97,41 +106,26 @@ class DashboardController extends Controller
                 'birthday' => count($birthday_employee),
             ];
 
-             $end_internship = Employee::WhereYear(('startwork_date'), date('Y'))
-                             ->WhereMonth('startwork_date', (int) date('n')-3)
-                             ->whereHas('contractualType', function($query){
-                                $query->where('name','Internship');
-                            })->get();
-            $end_probatination = Employee::whereHas('contractualType', function($query){
-                                $query->where('name','Probationary');
-                            })
-                            ->WhereMonth('startwork_date', (int) date('n')-2)
-                            ->WhereYear(('startwork_date'), date('Y'))
-                            ->get();
-            $end_one_year = Employee::whereHas('contractualType', function($query){
-                                $query->where('name','One-year');
-                            })
-                            ->WhereYear('startwork_date', (int) date('Y')-1)
-                            ->get();
-            $end_three_year = Employee::whereHas('contractualType', function($query){
-                                $query->where('name','Three-year');
-                            })
-                            ->WhereYear('startwork_date', (int) date('Y')-3)
-                            ->get();
-            $end_contract = [
-                'end_internship'=> count($end_internship),
-                'end_probatination'=> count($end_probatination),
-                'end_one_year'=> count($end_one_year),
-                'end_three_year'=> count($end_three_year),
-            ];
-             return view('admin.module.index.index', [
+            $end_internship = $this->end_contract('Internship');
+            $end_probatination = $this->end_contract('Probationary');
+            $end_one_year = $this->end_contract('One-year');
+            $end_three_year = $this->end_contract('Three-year');
+
+            return view('admin.module.index.index', [
                 'notification_type' => $notification_type,
                 'absences' => $absences,
                 'overtime' => $time,
                 'notifications' => $notifications,
                 'common'=> $common,
-                'this_month'=> $this_month,
-                'end_contract'=> $end_contract,
+                // 'this_month'=> $this_month,
+                'leaved_month'=> $leaved_month,
+                'new_employee'=> $new_employee,
+                'birthday_employee'=> $birthday_employee,
+                // 'end_contract'=> $end_contract,
+                'end_internship'=> $end_internship,
+                'end_probatination' => $end_probatination,
+                'end_one_year'=> $end_one_year,
+                'end_three_year'=> $end_three_year
             ]);
         }
         if (Employee::find($id_emp)->hasRole('PO')) {
@@ -259,5 +253,19 @@ class DashboardController extends Controller
         $sum_team = count($employee_team);
         return $sum_team;
     }
-    
+
+    public function end_contract($type){
+        $end_type = Employee::select('id','name')
+                 ->where('is_employee',1)
+                 ->where('delete_flag',0)
+                 ->whereHas('contractualType', function($query1) use($type){
+                    $query1->where('name', $type);
+                })
+                 ->whereHas('contractualHistory', function($query2){
+                    $query2->WhereYear(('end_date'), date('Y'))
+                            ->WhereMonth('end_date', date('m'));
+                })
+                 ->get();
+        return $end_type;
+    }
 }

@@ -258,25 +258,28 @@ class Employee extends Model implements
         $startwork_year = (int)date_create($objEmployee->startwork_date)->format("Y");
         $pemission_annual_leave = 0;
         if($objEmployee->employee_type_id){
-            if ($objEmployee->employeeType->name == 'FullTime') {
+            if ( ($objEmployee->employeeType->name == 'FullTime') || ($objEmployee->employeeType->name == 'Probationary')){
                 if($startwork_year == date('Y')){
                     $startwork_month = (int)date_create($objEmployee->startwork_date)->format("n");
                     $pemission_annual_leave = 12 - $startwork_month;
-                } elseif ( ((int)date('Y') - $startwork_year) < 6 ) {
+                } elseif ( ((int)date('Y') - $startwork_year) < 4 ) {
                     $pemission_annual_leave =12;
                 } else {
                     switch ($startwork_year) {
-                        case '6':
-                            $pemission_annual_leave =12;
-                            break;
-                        case '7':
+                        case '4':
                             $pemission_annual_leave =13;
                             break;
-                        case '8':
+                        case '5':
                             $pemission_annual_leave =14;
-                            break;               
-                        default:
+                            break;
+                        case '6':
                             $pemission_annual_leave =15;
+                            break;
+                        case '7':
+                            $pemission_annual_leave =16;
+                            break;       
+                        default:
+                            $pemission_annual_leave =17;
                             break;
                     }
                 }
@@ -329,14 +332,14 @@ class Employee extends Model implements
                     break;
             }            
         };
-        $month_change = 4;
+        $month_change = 11;
         $before_change = Absence::whereMonth('from_date','<', $month_change)
                         ->where('delete_flag',0)
                         ->where('employee_id',$id)
                         ->whereHas('absenceType', function($query){
                             $query->where('name',  'annual_leave');
                         })
-                        ->get();   // lấy ngày nghỉ phép năm trước tháng 7
+                        ->get();   // lấy ngày nghỉ phép năm trước tháng thay đổi
                         // dd($before_change);
         $count_before_change = 0;
         foreach ($before_change as $val) {

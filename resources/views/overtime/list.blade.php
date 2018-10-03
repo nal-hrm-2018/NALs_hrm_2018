@@ -131,13 +131,13 @@
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('overtime.start_time')}}</button>
+                                                                <button type="button" class="btn width-100">{{trans('overtime.from_date')}}</button>
                                                             </div>
                                                             <input type="date" name="from_date" id="from_date" class="form-control" value="{{$from_date}}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">{{trans('overtime.end_time')}}</button>
+                                                                <button type="button" class="btn width-100">{{trans('overtime.to_date')}}</button>
                                                             </div>
                                                         <input type="date" name="to_date" id="to_date" class="form-control" value="{{$to_date}}">
                                                         </div>
