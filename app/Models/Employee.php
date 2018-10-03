@@ -254,7 +254,7 @@ class Employee extends Model implements
         $startwork_year = (int)date_create($objEmployee->startwork_date)->format("Y");
         $pemission_annual_leave = 0;
         if($objEmployee->employee_type_id){
-            if ($objEmployee->employeeType->name == 'FullTime') {
+            if ( ($objEmployee->employeeType->name == 'FullTime') || ($objEmployee->employeeType->name == 'Probationary')){
                 if($startwork_year == date('Y')){
                     $startwork_month = (int)date_create($objEmployee->startwork_date)->format("n");
                     $pemission_annual_leave = 12 - $startwork_month;
