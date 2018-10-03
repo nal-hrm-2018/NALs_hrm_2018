@@ -120,11 +120,12 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label for="verify">{{ trans('overtime.modal.accept_time') }}</label>
+                                                            <label for="verify">{{ trans('overtime.modal.accept_time') }}</label><strong style="color: red">(*)</strong>
                                                             <input type="number" step="0.1" min=0 max="{{$value["total_time"]}}" class="form-control" id="correct_total_time" name="correct_total_time">
-                                                            <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label>
-                                                            <label>{{ trans('overtime.modal.reason_reject') }}</label>
+                                                            <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('correct_total_time')}}</label><br>
+                                                            <label>{{ trans('overtime.modal.reason_reject') }}</label><strong style="color: red">(*)</strong>
                                                             <input type="textarea" class="form-control" id="reason_reject" name="reason_reject">
+                                                            <label id="lb_error_correct_total_time" style="color: red; ">{{$errors->first('reason_reject')}}</label>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">

@@ -25,7 +25,7 @@ class Project extends Model
 
     public $table = 'projects';
     protected $keyType = 'string';
-
+    public $timestamps = true;
     /**
      * Indicates if the IDs are auto-incrementing.
      *
@@ -59,6 +59,7 @@ class Project extends Model
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'estimate_start_date' => 'date',
         'estimate_end_date' => 'date',
     ];
 

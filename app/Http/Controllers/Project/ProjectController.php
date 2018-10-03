@@ -48,7 +48,7 @@ class ProjectController extends Controller
             $request['number_record_per_page'] = config('settings.paginate');
         }
         $projects = $this->searchProjectService->searchProject($request)
-            ->orderBy('start_date', 'DESC')->orderBy('end_date', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->paginate($request['number_record_per_page']);
         $projects->setPath('');
 
@@ -157,6 +157,18 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $currentProject = Project::where('delete_flag', 0)->find($id);
+        if(isset($currentProject->estimate_start_date)){
+            $currentProject->estimate_start_date = $currentProject->estimate_start_date->format('Y-m-d');
+        }
+        if(isset($currentProject->estimate_end_date)){
+            $currentProject->estimate_end_date = $currentProject->estimate_end_date->format('Y-m-d');
+        }
+        if(isset($currentProject->start_date)){
+            $currentProject->start_date =  $currentProject->start_date->format('Y-m-d');
+        }
+        if(isset($currentProject->end_date)){        
+            $currentProject->end_date =  $currentProject->start_date->format('Y-m-d');
+        }
         if (is_null($currentProject)) {
             return abort(404);
         }
@@ -188,7 +200,6 @@ class ProjectController extends Controller
             session()->flash('processes', $request->get('processes'));
             return back()->withInput();
         }
-
         if (!is_null($this->projectService->editProject($request, $id))) {
             session()->flash(trans('common.msg_success'), trans('project.msg_content.msg_edit_success'));
             return redirect(route('projects.index'));

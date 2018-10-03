@@ -98,23 +98,36 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
+                @php
+                $estimate_start_date = null;
+                if (isset($currentProject->estimate_start_date)) {                
+                    $estimate_start_date = $currentProject->estimate_start_date->format('Y-m-d');
+                }
+                @endphp
                 <input type="date" class="form-control pull-right" name="estimate_start_date"
                        id="estimate_start_date"
-                       value="{{ old('estimate_start_date', $currentProject->estimate_start_date)}}"/>
+                       value="{{ old('estimate_start_date', $estimate_start_date)}}"/>
 
             </div>
         {{--<label class="estimate_start_date" id="lb_error_estimate_start_date"--}}
         {{--style="color: red; ">{{$errors->first('estimate_start_date')}}</label>--}}
         <!-- /.input group -->
         </div>
+        
         <div>
             <label>{{trans('project.estimate_end_date')}}<strong style="color: red">(*)</strong> </label>
             <div class="input-group date">
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
+                @php
+                $estimate_end_date = null;
+                if (isset($currentProject->estimate_end_date)) {                
+                    $estimate_end_date = $currentProject->estimate_end_date->format('Y-m-d');
+                }
+                @endphp
                 <input type="date" class="form-control pull-right" name="estimate_end_date" id="estimate_end_date"
-                       value="{{ old('estimate_end_date',$currentProject->estimate_end_date)}}">
+                       value="{{ old('estimate_end_date', $estimate_end_date)}}">
 
             </div>
         {{--<label class="estimate_end_date" id="lb_error_estimate_end_date"--}}
@@ -127,8 +140,14 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
+                @php
+                $start_date = null;
+                if (isset($currentProject->start_date)) {
+                    $start_date = $currentProject->start_date->format('Y-m-d');
+                }
+                @endphp
                 <input type="date" class="form-control pull-right" name="start_date_project" id="start_date_project"
-                       value="{{ old('start_date_project',$currentProject->start_date)}}">
+                       value="{{ old('start_date_project',$start_date)}}">
 
             </div>
         {{--<label class="start_date_project" id="lb_error_start_date_project"--}}
@@ -141,8 +160,14 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
+                @php
+                $end_date = null;
+                if (isset($currentProject->end_date)) {
+                    $end_date = $currentProject->end_date->format('Y-m-d');
+                }
+                @endphp
                 <input type="date" class="form-control pull-right" name="end_date_project" id="end_date_project"
-                       value="{{ old('end_date_project', $currentProject->end_date)}}">
+                       value="{{ old('end_date_project', $end_date)}}">
             </div>
         {{--<label class="end_date_project" id="lb_error_end_date_project"--}}
         {{--style="color: red; ">{{$errors->first('end_date_project')}}</label>--}}
@@ -216,7 +241,7 @@
 
 <div class="col-md-2" style="margin-top: 20px;">
     <button type="button" id="btn_add_process" class="btn btn-info ">
-        <i class="fa fa-user-plus"></i> {{trans('common.button.add')}}
+        <i class="fa fa-user-plus"></i> {{trans('common.button.add_employee')}}
     </button>
 </div>
 <div class="col-md-6" style="width: 100% ; margin-bottom: 2em"></div>
@@ -288,8 +313,7 @@
     <table class="table table-hover table-bordered table-striped">
         <thead>
         </thead>
-        <tbody id="list_add">
-
+        <tbody id="list_add">    
         @if(isset($processes))
             @foreach($processes as $process)
                 @if((string)($process['delete_flag'])==='0')
@@ -346,8 +370,8 @@
                         }
                         ?>
                     </td>
-                    <td style="width: 27%;">{{ date('d/m/Y',strtotime($process['start_date'])) }}</td>
-                    <td >{{ date('d/m/Y',strtotime($process['end_date'])) }}</td>
+                    <td style="width: 27%;">{{ isset($process['start_date'])?date('d/m/Y',strtotime($process['start_date'])):'-' }}</td>
+                    <td >{{ isset($process['end_date'])?date('d/m/Y',strtotime($process['end_date'])):'-' }}</td>
                     <td><a><i name="{{!is_null(getEmployee($process['employee_id']))?
                                     getEmployee($process['employee_id'])->name:'' }}"
                               id="{{$process['employee_id']}}" class="fa fa-remove remove_employee"></i>

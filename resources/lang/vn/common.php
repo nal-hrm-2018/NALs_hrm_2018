@@ -30,6 +30,7 @@ return [
         'reset' => 'LÀM MỚI',
         'search' => 'TÌM KIẾM',
         'add' => "THÊM",
+        'add_employee' => 'THÊM NHÂN VIÊN',        
         'edit' => 'SỬA',
         'save' => 'LƯU',
         'update' => 'CẬP NHẬT',
