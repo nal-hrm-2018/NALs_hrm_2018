@@ -125,6 +125,7 @@
                 @endif
             </ul>
         </li>
+        @if(Auth::user()->hasRole('BO'))
         <li class="treeview">
           <a href="#">
               <i class="glyphicon glyphicon-print"></i> <span>{{trans('leftbar.nav.quit_process')}}</span>
@@ -138,6 +139,7 @@
               
             </ul>
         </li>
+        @endif
         @if((Auth::user()->hasPermission('view_employee_absence_history')) || (Auth::user()->hasPermission('view_holiday_list')) || (Auth::user()->hasPermission('view_project_absence_history')) )
           <!-- <li class="treeview">
             <a href="#">
