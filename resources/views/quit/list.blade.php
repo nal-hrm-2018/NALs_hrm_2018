@@ -41,7 +41,7 @@
             <div style="float:right; background-color: #ECF0F5; height: 50px;">
                 <ol class="breadcrumb" style="background-color: #ECF0F5">
                     <button type="button" class="btn btn-default">
-                        <a href="{{ asset('employee/create')}}" ><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
+                        <a href="{{ asset('quit_process/create')}}" ><i class="fa fa-user-plus"></i> {{trans('common.button.add')}}</a>
                     </button>
                     <?php
                     $id = null; $name = null; $team = null; $role = null; $email = null; $statusExport = null; $page=1;
