@@ -8,8 +8,12 @@
 return[
     'number' => 'STT',
     'project' =>'Dự án',
-    'date'=> 'Ngày làm thêm giờ',
+    'date'=> 'Ngày',
+    'from_date'=> 'Từ ngày',
+    'to_date'=> 'Đến ngày',
     'employee' => 'Nhân viên',
+    'employee_id' => 'ID nhân viên',
+    'employee_name' => 'Tên nhân viên',
     'start_time'=> 'Thời gian bắt đầu',
     'end_time'=> 'Thời gian kết thúc',
     'total_time'=> 'Tổng thời gian',
