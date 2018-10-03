@@ -19,7 +19,7 @@
             </div>
         </section>
         <?php
-        $id = null; $name = null; $project_id = null; $date_ot = null; $month_ot = null; $year_ot = null; $page=1;
+        $id = null; $name = null; $project_id = null; $from_date = null; $to_date = null; $page=1;
         $number_record_per_page = 20;
         $arrays[] = $_GET;
         foreach ($arrays as $key => $value) {
@@ -32,14 +32,11 @@
             if (!empty($value['project_id'])) {
                 $project_id = $value['project_id'];
             }
-            if (!empty($value['date_ot'])) {
-                $date_ot = $value['date_ot'];
+            if (!empty($value['from_date'])) {
+                $from_date = $value['from_date'];
             }
-            if (!empty($value['month_ot'])) {
-                $month_ot = $value['month_ot'];
-            }
-            if (isset($value['year_ot'])) {
-                $year_ot =  $value['year_ot'];
+            if (!empty($value['to_date'])) {
+                $to_date = $value['to_date'];
             }
             if (!empty($value['page'])) {
                 $page = $value['page'];
@@ -101,53 +98,15 @@
                                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Date</button>
+                                                            <button type="button" class="btn width-100">{{trans('overtime.from_date') }}</button>
                                                             </div>
-                                                            <input type="date" id="date_ot" name="date_ot" class="form-control" value="{{ $date_ot }}">
+                                                            <input type="date" id="from_date" name="from_date" class="form-control" value="{{ $from_date }}">
                                                         </div>
                                                         <div class="input-group margin">
                                                             <div class="input-group-btn">
-                                                                <button type="button" class="btn width-100">Month</button>
+                                                            <button type="button" class="btn width-100">{{ trans('overtime.to_date') }}</button>
                                                             </div>
-                                                            <select name="month_ot" id="month_ot" class="form-control">
-                                                                <option {{ !empty(request('month_ot'))?'':'selected="selected"' }} value="">
-                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                </option>
-                                                                @php
-                                                                $dataMonth = [1,2,3,4,5,6,7,8,9,10,11,12];
-                                                                @endphp
-                                                                @foreach($dataMonth as $month)
-                                                                <?php
-                                                                    $selected="";
-                                                                    if ($month == request()->get('month_ot')) {
-                                                                        $selected = "selected";
-                                                                    }
-                                                                ?>
-                                                                <option value="{{$month}}" <?php echo $selected;?>>{{$month}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="input-group margin">
-                                                            <div class="input-group-btn">
-                                                                <button type="button"
-                                                                        class="btn width-100"> Year</button>
-                                                            </div>
-                                                            <select name="year_ot" id="year_ot" class="form-control">
-                                                                <option {{ !empty(request('year_ot'))?'':'selected="selected"' }} value="">
-                                                                    {{  trans('vendor.drop_box.placeholder-default') }}
-                                                                </option>
-                                                                <?php
-                                                                $selectedNow = ""; $selectedLessThanNow = "";
-                                                                    if(request()->get('year_ot')==date("Y")){
-                                                                        $selectedNow = "selected";
-                                                                    }
-                                                                if(request()->get('year_ot')==date("Y")-1){
-                                                                    $selectedLessThanNow = "selected";
-                                                                }
-                                                                ?>
-                                                                <option value="{{ date("Y") }}" <?php echo $selectedNow; ?>>{{ date("Y") }}</option>
-                                                                <option value="{{ date("Y")-1 }}" <?php echo $selectedLessThanNow; ?>>{{ date("Y")-1 }}</option>
-                                                            </select>
+                                                            <input type="date" id="to_date" name="to_date" class="form-control" value="{{ $to_date }}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -188,12 +147,12 @@
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Employee ID</th>
-                                        <th>Name</th>
-                                        <th>Project</th>
-                                        <th class="text-center"><span class="label" style="background: #9072ff;">Normal day</span></th>
-                                        <th class="text-center"><span class="label" style="background: #643aff;">Day off</span></th>
-                                        <th class="text-center"><span class="label" style="background: #3600ff;">Holiday</span></th>
+                                        <th class="text-center">{{ trans('overtime.employee_id') }}</th>
+                                        <th>{{ trans('overtime.employee_name') }}</th>
+                                        <th>{{ trans('overtime.project') }}</th>
+                                        <th class="text-center"><span class="label" style="background: #9072ff;">{{ trans('overtime.day_type.normal') }}</span></th>
+                                        <th class="text-center"><span class="label" style="background: #643aff;">{{ trans('overtime.day_type.day_off') }}</span></th>
+                                        <th class="text-center"><span class="label" style="background: #3600ff;">{{ trans('overtime.day_type.holiday') }}</span></th>
                                     </tr>
                                 </thead>
                                 <tbody class="context-menu">
@@ -263,9 +222,8 @@
          $("#btn_reset_overtime").on("click", function () {
              $("#name").val('');
              $("#id").val('');
-             $("#date_ot").val('').change();
-             $("#year_ot").val('').change();
-             $("#month_ot").val('').change();
+             $("#from_date").val('').change();
+             $("#to_date").val('').change();
              $("#project_id").val('').change();
          });
      });
