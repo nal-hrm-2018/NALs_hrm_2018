@@ -67,13 +67,13 @@ class ProcessAddRequest extends CommonRequest
                 [
                     'bail',
                     'required',
-                    'date_format:Y-m-d',
+                    // 'date_format:Y-m-d',
                 ],
             'end_date_process' =>
                 [
                     'bail',
                     'required',
-                    'date_format:Y-m-d',
+                    // 'date_format:Y-m-d',
                     'after_or_equal:start_date_process',
                     new ValidEndDateProcess(
                         $estimate_start_date,
