@@ -22,7 +22,7 @@ return[
         'overtime' => 'Overtimes',
 
         'list'=>[
-            'quit_process' => 'Quit list',
+            'quit_process' => 'Quit List',
             'ot_list' => 'OT List',
             'notification' => 'Notification List',
             'employee' => 'Employee List',
@@ -38,6 +38,7 @@ return[
             'overtime' => 'Overtime List',
         ],
         'add'=>[
+            'quit' => 'Add Quit',
             'notification' => 'Add Notification',
             'employee' => 'Add Employee',
             'vendor' => 'Add Vendor',
