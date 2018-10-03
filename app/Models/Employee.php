@@ -262,17 +262,20 @@ class Employee extends Model implements
                     $pemission_annual_leave =12;
                 } else {
                     switch ($startwork_year) {
-                        case '6':
-                            $pemission_annual_leave =12;
-                            break;
-                        case '7':
+                        case '4':
                             $pemission_annual_leave =13;
                             break;
-                        case '8':
+                        case '5':
                             $pemission_annual_leave =14;
-                            break;               
-                        default:
+                            break;
+                        case '6':
                             $pemission_annual_leave =15;
+                            break;
+                        case '7':
+                            $pemission_annual_leave =16;
+                            break;       
+                        default:
+                            $pemission_annual_leave =17;
                             break;
                     }
                 }
@@ -332,7 +335,7 @@ class Employee extends Model implements
                         ->whereHas('absenceType', function($query){
                             $query->where('name',  'annual_leave');
                         })
-                        ->get();   // lấy ngày nghỉ phép năm trước tháng 7
+                        ->get();   // lấy ngày nghỉ phép năm trước tháng thay đổi
                         // dd($before_change);
         $count_before_change = 0;
         foreach ($before_change as $val) {
