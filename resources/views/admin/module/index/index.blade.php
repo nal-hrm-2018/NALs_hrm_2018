@@ -350,26 +350,26 @@
                                         </div>
                                         <div class="box-body height-250">
                                         {{-- @dd($common); --}}
-                                            <p class="text-legend width-350">
+                                            <div class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
                                                 {{trans('employee.type.sum')}}: {{$common['sum_employee']}}
-                                            </p>
-                                            <p class="text-legend width-350">
+                                            </div>
+                                            <div class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #53cbf2;"></i>
                                                 {{trans('employee.type.official')}}: {{$common['full-time']}}
-                                            </p>
-                                            <p class="text-legend width-350">
+                                            </div>
+                                            <div class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #abe02a;"></i>
                                                 {{trans('employee.type.probationary')}}: {{$common['probationary']}}
-                                            </p>
-                                            <p class="text-legend width-350">
+                                            </div>
+                                            <div class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #faa951;"></i>
                                                 {{trans('employee.type.internship')}}: {{$common['internship']}}
-                                            </p>
-                                            <p class="text-legend width-350">
+                                            </div>
+                                            <div class="text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #00a65a;"></i>
                                                 {{trans('employee.type.part-time')}}: {{$common['part-time']}}
-                                            </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -380,16 +380,15 @@
                                             <div class="box-tools pull-right">
                                             </div>
                                         </div>
-                                        <div>
+                                        <div class="box-body height-250">
                                         {{-- @dd($end_contract); --}}
                                             <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
-                                                {{-- @dd($end_internship); --}}
                                                 @if(count($end_internship))
                                                     <a href="#" data-toggle="dropdown">
                                                         {{trans('employee.contract.internship')}}: {{count($end_internship)}}
                                                     </a>
-                                                    <ul class="dropdown-menu">
+                                                    <ul class="dropdown-menu" style=" padding: 0 20px;">
                                                         @foreach($end_internship as $val)
                                                             <li>{{$val->name}}</li>
                                                         @endforeach
@@ -455,18 +454,51 @@
                                         </div>
                                         {{-- @dd($this_month); --}}
                                         <div class="box-body height-250">
-                                            <p class="text-legend width-350">
+                                            <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #f74e1e;"></i>
-                                                {{trans('employee.event.new')}}: {{$this_month['new']}}
-                                            </p>
-                                            <p class="text-legend width-350">
+                                                @if(count($new_employee))
+                                                    <a href="#" data-toggle="dropdown">
+                                                        {{trans('employee.event.new')}}: {{count($new_employee)}}
+                                                    </a>
+                                                    <ul class="dropdown-menu" style=" padding: 0 20px;">
+                                                        @foreach($new_employee as $val)
+                                                            <li>{{$val->name}}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    {{trans('employee.event.new')}}: {{count($new_employee)}}
+                                                @endif
+                                            </div>
+                                            <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #53cbf2;"></i>
-                                                {{trans('employee.event.birthday')}}: {{$this_month['birthday']}}
-                                            </p>
-                                            <p class="text-legend width-350">
+                                                @if(count($birthday_employee))
+                                                    <a href="#" data-toggle="dropdown">
+                                                        {{trans('employee.event.birthday')}}: {{count($birthday_employee)}}
+                                                    </a>
+                                                    <ul class="dropdown-menu" style=" padding: 0 20px;">
+                                                        @foreach($birthday_employee as $val)
+                                                            <li>{{$val->name}}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    {{trans('employee.event.birthday')}}: {{count($birthday_employee)}}
+                                                @endif
+                                            </div>
+                                            <div class="dropdown text-legend width-350">
                                                 <i class="fas fa-circle" style="color: #abe02a;"></i>
-                                                {{trans('employee.event.quit')}}: {{$this_month['leaved']}}
-                                            </p>
+                                                @if(count($leaved_month))
+                                                    <a href="#" data-toggle="dropdown">
+                                                        {{trans('employee.event.quit')}}: {{count($leaved_month)}}
+                                                    </a>
+                                                    <ul class="dropdown-menu" style=" padding: 0 20px;">
+                                                        @foreach($leaved_month as $val)
+                                                            <li>{{$val->name}}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    {{trans('employee.event.quit')}}: {{count($leaved_month)}}
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
