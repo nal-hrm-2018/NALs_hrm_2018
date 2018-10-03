@@ -328,7 +328,7 @@ class Employee extends Model implements
                     break;
             }            
         };
-        $month_change = 4;
+        $month_change = 11;
         $before_change = Absence::whereMonth('from_date','<', $month_change)
                         ->where('delete_flag',0)
                         ->where('employee_id',$id)
