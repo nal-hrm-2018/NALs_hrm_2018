@@ -16,6 +16,8 @@ return[
     'title' => 'Title',
     'content' => 'Content',
     'notification_id' => 'Notification Type',
+    'more' => 'Show more',
+    'less' => 'Show less',
     'msg_add'=>[
         'success'=>'Notification is successfully created !!!',
         'fail'=>'Notification failed created!!!',
