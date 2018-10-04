@@ -20,11 +20,11 @@ class NotificationController extends Controller
     public function index()
     {
         $notification_type = NotificationType::Where('delete_flag','0')->get();
-        $new_notifications = Notifications::where('end_date','>=',date('Y-m-d').' 00:00:00')
+        $new_notifications = Notifications::where('end_date','>=',date('Y-m-d'))
                                             ->Where('delete_flag','0')
                                             ->orderBy('id','desc')->get();
         $old_notifications = Notifications::Where('delete_flag','1')
-                                            ->orwhere('end_date','<',date('Y-m-d').' 00:00:00')
+                                            ->orwhere('end_date','<',date('Y-m-d'))
                                             ->orderBy('id','desc')->get();
         return view('notification.list',[
             'notification_type' => $notification_type,
@@ -52,7 +52,8 @@ class NotificationController extends Controller
      */
     public function store(NotificationAddRequest $request)
     {
-        $count = Notifications::where('delete_flag','=','0')->count();
+        $count = Notifications::where('end_date','>=',date('Y-m-d'))
+        ->Where('delete_flag','0')->count();
 
         if ($count>=10)
         {
@@ -62,8 +63,7 @@ class NotificationController extends Controller
 
         $create_by_employee = Auth::user()->id;
         $notification = new Notifications();
-        $notification->create_by_employee = $create_by_employee;
-        $notification->create_at = date('Y-m-d');
+        $notification->created_by_employee = $create_by_employee;
         $notification->title = $request->title;
         $notification->content = $request->content;
         $notification->end_date = $request->date;
