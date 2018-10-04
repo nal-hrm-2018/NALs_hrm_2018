@@ -146,6 +146,10 @@
         transition: .25s ease;
         }
 
+        .read-more-wrap{
+                        display: inline-block;
+                        }
+
         .read-more-state:checked ~ .read-more-wrap .read-more-target {
         opacity: 1;
         font-size: inherit;
