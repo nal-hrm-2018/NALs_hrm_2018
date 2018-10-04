@@ -16,6 +16,8 @@ return[
     'title' => 'Tiêu đề',
     'content' => 'Nội dung',
     'notification_id' => 'Loại thông báo',
+    'more' => 'Xem thêm',
+    'less' => 'Ẩn bớt',
     'msg_add'=>[
         'success'=>'Thêm thông báo thành công!!!',
         'fail'=>'Thêm thông báo không thành công!!!',

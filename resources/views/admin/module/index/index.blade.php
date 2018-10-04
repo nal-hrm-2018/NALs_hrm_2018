@@ -134,6 +134,42 @@
             border-color: green;
             color: #777;
         }
+
+        .read-more-state {
+        display: none;
+        }
+
+        .read-more-target {
+        opacity: 0;
+        max-height: 0;
+        font-size: 0;
+        transition: .25s ease;
+        }
+
+        .read-more-state:checked ~ .read-more-wrap .read-more-target {
+        opacity: 1;
+        font-size: inherit;
+        max-height: 999em;
+        }
+
+        .read-more-state ~ .read-more-trigger:before {
+        content: '>>>';
+        }
+
+        .read-more-state:checked ~ .read-more-trigger:before {
+        content: '<<<';
+        }
+
+        .read-more-trigger {
+        cursor: pointer;
+        display: inline-block;
+        padding: 0 .5em;
+        color: #666;
+        font-size: .9em;
+        line-height: 2;
+        border: 1px solid #ddd;
+        border-radius: .25em;
+        }
     </style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -150,72 +186,23 @@
                                 {{trans('notification.no_notification')}}
                                 @endif
                                 @foreach($notifications as $note)
-                                    <li class="treeview" style="margin-bottom: 10px;">
-                                        {{-- @php
-                                        @foreach($notification_type as $type)
-                                            @if($note->notification_type_id == $type->id)
-                                                @if($type->name == 'HD')
-                                                    <label class="label bg-red" style="width: 40px; display: inline-block;">HD</label>
-                                                @endif
-                                                @if($type->name == 'HR')
-                                                    <label class="label bg-yellow" style="width: 40px; display: inline-block;">HR</label>
-                                                @endif
-                                                @if($type->name == 'DORAEMON')
-                                                    <label class="label bg-green" style="width: 40px; display: inline-block;">DRM</label>
-                                                @endif
-                                            @endif
-                                        @endforeach
-                                        @endphp --}}
+                                    <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;"><div class="col-xs-12 col-md-11">
                                         <label class="label bg-yellow" style="width: 40px; display: inline-block;">NALs</label>
-                                        <a href="#">
+                                        <label>
                                             <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
-                                        </a>
-                                        <ul>
+                                        </label>
+                                        <div class="span4 collapse-group">
                                             <div class="span4 collapse-group">
-                                            <input type="text" id="id_note" value="{{$note->id}}" hidden />
-                                                  <p>
-                                                  <?php echo (substr($note->content,0,strpos($note->content,'-',2)));?>
-                                                  <span class="collapse" id="viewdetails-{{$note->id}}"><?php echo nl2br(substr($note->content,strpos($note->content,'-',2)));?>
-                                                       </span>
-                                                    <a data-toggle="collapse" class="more-{{$note->id}}" data-target="#viewdetails-{{$note->id}}">... &raquo;</a>
-                                                    <a data-toggle="collapse" class="back-{{$note->id}}" data-target="#viewdetails-{{$note->id}}" hidden>&lsaquo;&lsaquo;</a>
-                                                       </p>
-                                              </div>
-                                        </ul>
-                                        {{-- @php
-                                        @foreach($notification_type as $type)
-                                            @if($note->notification_type_id == $type->id)
-                                                @if($type->name == 'HD')
-                                                    <ul class="treeview-menu box-notification-red">
-                                                        <div style="padding: 0px 20px;">
-                                                            <?php
-                                                            echo nl2br($note->content);
-                                                            ?>
-                                                        </div>
-                                                    </ul>
+                                                @if (strlen($note->content) > 50)
+                                                <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
+                                                <p class="read-more-wrap">{{substr($note->content,0,strpos($note->content, ' ', 50))}}<span class="read-more-target">{{substr($note->content,strpos($note->content, ' ', 50))}}</span></p>                                                
+                                                    <label for="post-{{$note->id}}" class="read-more-trigger"></label>
+                                                @else   
+                                                <p>{{$note->content}}</p>
                                                 @endif
-                                                @if($type->name == 'HR')
-                                                    <ul class="treeview-menu box-notification-yellow">
-                                                        <div style="padding: 0px 20px;">
-                                                            <?php
-                                                            echo nl2br($note->content);
-                                                            ?>
-                                                        </div>
-                                                    </ul>
-                                                @endif
-                                                @if($type->name == 'DORAEMON')
-                                                    <ul class="treeview-menu box-notification-green">
-                                                        <div style="padding: 0px 20px;">
-                                                            <?php
-                                                            echo nl2br($note->content);
-                                                            ?>
-                                                        </div>
-                                                    </ul>
-                                                @endif
-                                            @endif
-                                        @endforeach
-                                        @endphp --}}
+                                            </div>
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>

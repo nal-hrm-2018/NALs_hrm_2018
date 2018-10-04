@@ -76,15 +76,13 @@
                                                 <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                             </label>
                                             <div class="span4 collapse-group">
-                                                <input type="text" id="id_note" value="{{$note->id}}" hidden />
-                                                <div>
-                                                    <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
-                                
-                                                <p class="read-more-wrap">{{substr($note->content,0,50)}}<span class="read-more-target">{{substr($note->content,50)}}</span></p>
-                                                @if (substr($note->content,50))
+                                                @if (strlen($note->content) > 50)
+                                                <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
+                                                <p class="read-more-wrap">{{substr($note->content,0,strpos($note->content, ' ', 50))}}<span class="read-more-target">{{substr($note->content,strpos($note->content, ' ', 50))}}</span></p>                                                
                                                     <label for="post-{{$note->id}}" class="read-more-trigger"></label>
-                                                @endif 
-                                                </div>
+                                                @else   
+                                                <p>{{$note->content}}</p>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-md-1">
@@ -116,19 +114,19 @@
                                 @foreach($old_notifications as $note)
                                     <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;"><div class="col-xs-12 col-md-11">
                                         <label class="label bg-yellow" style="width: 40px; display: inline-block;">NALs</label>
-                                        <a href="#">
+                                        <label>
                                             <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
-                                        </a>
+                                        </label>
                                         <div class="span4 collapse-group">
-                                            <input type="text" id="id_note" value="{{$note->id}}" hidden />
-                                            <div>
+                                            <div class="span4 collapse-group">
+                                                @if (strlen($note->content) > 50)
                                                 <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
-                            
-                                            <p class="read-more-wrap">{{substr($note->content,0,50)}}<span class="read-more-target">{{substr($note->content,50)}}</span></p>
-                                            @if (substr($note->content,50))
-                                                <label for="post-{{$note->id}}" class="read-more-trigger"></label>
-                                            @endif    
+                                                <p class="read-more-wrap">{{substr($note->content,0,strpos($note->content, ' ', 50))}}<span class="read-more-target">{{substr($note->content,strpos($note->content, ' ', 50))}}</span></p>                                                
+                                                    <label for="post-{{$note->id}}" class="read-more-trigger"></label>
+                                                @else   
+                                                <p>{{$note->content}}</p>
+                                                @endif
                                             </div>
                                         </div>
                                     </li>
