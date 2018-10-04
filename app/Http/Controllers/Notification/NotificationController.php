@@ -63,7 +63,6 @@ class NotificationController extends Controller
         $create_by_employee = Auth::user()->id;
         $notification = new Notifications();
         $notification->create_by_employee = $create_by_employee;
-        $notification->create_at = date('Y-m-d');
         $notification->title = $request->title;
         $notification->content = $request->content;
         $notification->end_date = $request->date;
