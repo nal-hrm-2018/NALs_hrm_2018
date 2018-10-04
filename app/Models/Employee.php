@@ -8,7 +8,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -182,26 +181,12 @@ class Employee extends Model implements
     }
     public function count_valid_date(Absence $absence){
         $calculated = []; // mảng lưu số ngày không hợp lệ
-        // tổng số ngày trong đơn ( chưa trừ ngày nghỉ, ngày lễ)
-        // dd( date('Y-m-d', strtotime($absence->from_date)) );
 
-        if( date('m', strtotime($absence->to_date)) == date('m', strtotime($absence->from_date)) ){
-            $count_day = 1+(int)date_create($absence->to_date)->format('d') - (int)date_create($absence->from_date)->format('d'); 
-        } else {
-            // $end = (int) date('t', strtotime($absence->from_date)); //get end date of month            
-            $count_day_start_month = 1+(int)date('t', strtotime($absence->from_date)) - (int)date_create($absence->from_date)->format('d');
-            $count_day_end_month = (int)date_create($absence->to_date)->format('d'); 
-            $count_day = $count_day_start_month + $count_day_end_month;
-            // kiểm tra có phải 2 tháng liên tiếp, nếu không, $count_day+= số ngày các tháng ở giữa
-            $check_month = (int)date_create($absence->from_date)->format('n');
-            $end_month = (int)date_create($absence->to_date)->format('n'); 
-            $year = (int) date('Y', strtotime($absence->from_date));
-            while ( $end_month -$check_month -1 > 0) {
-                $check_month ++;
-                $coun_day_check_month = cal_days_in_month(CAL_GREGORIAN, $check_month, $year);
-                $count_day += $coun_day_check_month;
-            }
-        }
+        // tổng số ngày trong đơn ( chưa trừ ngày nghỉ, ngày lễ)
+        $end_day = strtotime($absence->to_date); 
+        $start_date = strtotime($absence->from_date);
+        $count_day = round(($end_day - $start_date) / (60 * 60 * 24)) +1;
+
         if($absence->absenceType->name <> 'maternity_leave' ){
             $date = $absence->from_date ;
             while ( $date <= $absence->to_date) {
@@ -245,7 +230,7 @@ class Employee extends Model implements
         } 
         if(($absence->absenceTime->name <> 'all')){
             $count_day /=2;
-        }          
+        }
         return $count_day;
     }
 
@@ -254,7 +239,6 @@ class Employee extends Model implements
     {
 
         $objEmployee = Employee::find($id);
-        // dd($objEmployee);
         $startwork_year = (int)date_create($objEmployee->startwork_date)->format("Y");
         $pemission_annual_leave = 0;
         if($objEmployee->employee_type_id){
@@ -347,9 +331,8 @@ class Employee extends Model implements
         }
         $count_after_change = $annual_leave -$count_before_change;
 
-        if( date('n') < $month_change){            
+        if( date('n') < $month_change){ 
             if($count_before_change > $remaining_last_year){
-            // dd( $count_before_change); die();
                 if($annual_leave >= ($pemission_annual_leave + $remaining_last_year)) {
                     $remaining_this_year = 0;
                     $unpaid_leave += ($annual_leave - ($pemission_annual_leave + $remaining_last_year));
@@ -361,16 +344,15 @@ class Employee extends Model implements
              } else{
                 $remaining_last_year -= $count_before_change ;
                 if($count_after_change > $pemission_annual_leave){
-                // dd( $count_before_change); die();
                     $remaining_this_year = 0;
-                    $unpaid_leave += $pemission_annual_leave - $count_after_change;
+                    $unpaid_leave += $count_after_change - $pemission_annual_leave;
+                    $annual_leave = $count_before_change + $pemission_annual_leave;
                 } else{
                     $remaining_this_year = ($pemission_annual_leave - $count_after_change) + $remaining_last_year; 
                 }
              }             
         }
-         else{            
-            $remaining_last_year = 0;
+         else{    
             if( $count_before_change >= $remaining_last_year){
                 // dd($annual_leave);
                 if($annual_leave >= ($pemission_annual_leave + $remaining_last_year)) {
@@ -389,7 +371,8 @@ class Employee extends Model implements
                 } else {
                     $remaining_this_year = ($pemission_annual_leave +  $count_before_change) - $annual_leave;
                 }
-            }
+            }        
+            $remaining_last_year = 0;
         }  
         $absences = [
             "pemission_annual_leave" => $pemission_annual_leave, //số ngày được phép năm nay
