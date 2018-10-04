@@ -112,32 +112,20 @@
                         <div class="news">
                             <ul data-widget="tree" style="list-style-type: none; padding: 0px 40px;">
                                 @foreach($old_notifications as $note)
-                                    <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;">
-                                        <div class="col-xs-12 col-md-11">
-                                            <label class="label bg-yellow" style="width: 40px; display: inline-block;">NALs</label>
-                                            <a href="#">
-                                                <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
-                                                <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
-                                            </a>
-                                            <div class="span4 collapse-group">
-                                                <input type="text" id="id_note" value="{{$note->id}}" hidden />
-                                                <div>
-                                                    <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
-                                
-                                                <p class="read-more-wrap">{{substr($note->content,0,50)}}<span class="read-more-target">{{substr($note->content,50)}}</span></p>
-                                                    <label for="post-{{$note->id}}" class="read-more-trigger"></label>
-                                                </div>
+                                    <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;"><div class="col-xs-12 col-md-11">
+                                        <label class="label bg-yellow" style="width: 40px; display: inline-block;">NALs</label>
+                                        <a href="#">
+                                            <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
+                                            <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
+                                        </a>
+                                        <div class="span4 collapse-group">
+                                            <input type="text" id="id_note" value="{{$note->id}}" hidden />
+                                            <div>
+                                                <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
+                            
+                                            <p class="read-more-wrap">{{substr($note->content,0,50)}}<span class="read-more-target">{{substr($note->content,50)}}</span></p>
+                                                <label for="post-{{$note->id}}" class="read-more-trigger"></label>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-6 col-md-1">
-                                            <span class="">
-                                                <a href="notification/{{$note->id}}/edit" class="btn btn-default">
-                                                    <i class="fa fa-pencil width-icon-contextmenu"></i>
-                                                </a>
-                                                <a onclick="return confirm_delete();" class="btn btn-danger" href="{{ route('notification.destroy',['notification' => $note->id]) }}">
-                                                        <i class="fa fa-remove width-icon-contextmenu"></i>
-                                                </a>
-                                            </span>
                                         </div>
                                     </li>
                                 @endforeach
