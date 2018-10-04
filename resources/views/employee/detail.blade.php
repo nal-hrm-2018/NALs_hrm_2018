@@ -453,6 +453,7 @@
                                                         <th class="align-middle">{{trans('absence.absence_type')}}</th>
                                                         <th class="align-middle">{{trans('absence.absence_time')}}</th>
                                                         <th class="align-middle">{{trans('absence.reason')}}</th>
+                                                        <th class="align-middle">{{trans('absence.valid_day')}}</th>
                                                         <th class="align-middle">{{trans('absence.description')}}</th>
                                                         <th class="align-middle text-center">{{trans('absence.action')}}</th>
                                                     </tr>
@@ -464,8 +465,8 @@
                                                     @foreach($listAbsence as $absence)
                                                     <tr>
                                                         <td class="align-middle">{{$count++ }}</td>
-                                                        <td class="align-middle">{{ isset($absence->from_date)? date_create($absence->from_date)->format('d/m/Y'):'-' }}</td>
-                                                        <td class="align-middle">{{ isset($absence->to_date)? date_create($absence->to_date)->format('d/m/Y'):'-' }}</td>
+                                                        <td class="align-middle">{{ isset($absence['from_date'])? date_create($absence['from_date'])->format('d/m/Y'):'-' }}</td>
+                                                        <td class="align-middle">{{ isset($absence['to_date'])? date_create($absence['to_date'])->format('d/m/Y'):'-' }}</td>
                                                         {{-- <td>
                                                             @if(trans('absence_po.list_po.type.'.$absence->name_type) == trans('absence_po.list_po.type.salary_date'))
                                                                 <span class="label label-primary">
@@ -479,17 +480,16 @@
                                                                 <span>{{trans('absence_po.list_po.type.'.$absence->name_type)}}</span>
                                                             @endif
                                                         </td> --}}
-                                                        <td> <span>{{trans('absence.type.'.$absence->name_type)}}</span></td>
-                                                        <td>
-                                                            <span>{{trans('absence.'.$absence->name_time)}}</span>
-                                                        </td>
-                                                        <td>{{$absence->reason ? $absence->reason : "-"}}</td>
-                                                        <td>{{$absence->description ? $absence->description : "-"}}</td>
+                                                        <td> <span>{{trans('absence.type.'.$absence['name_type'])}}</span></td>
+                                                        <td><span>{{trans('absence.'.$absence['name_time'])}}</span></td>
+                                                        <td>{{$absence['reason'] ? $absence['reason'] : "-"}}</td>
+                                                        <td>{{$absence['valid_date']}}</td>
+                                                        <td>{{$absence['description'] ? $absence['description'] : "-"}}</td>
                                                         <td class="align-middle text-center">
                                                             @if(Auth::user()->hasRole('BO'))
-                                                            <a href="{{ route('absences.edit',['absence'=>$absence->id]) }}" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                                            <a href="{{ route('absences.edit',['absence'=>$absence['id']]) }}" class="btn btn-default"><i class="fa fa-pencil"></i></a>
                                                             <form style="display: inline;" >
-                                                                <a onclick="return confirm_delete();" href="{{route('absencess.destroy',['id'=>$absence->id])}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                                                <a onclick="return confirm_delete();" href="{{route('absencess.destroy',['id'=>$absence['id']])}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                                             </form>
                                                             @endif
                                                         </td>

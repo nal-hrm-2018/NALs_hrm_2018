@@ -17,6 +17,7 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
 
     public function searchEmployee(Request $request)
     {
+        // dd($request->name);
         $query = Employee::query();
 
 //        $query->with(['team', 'role']);
@@ -75,24 +76,24 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             $query->Where('email', 'like', '%' . $email . '%');
         }
 
-        if (!is_null($request['status'])) {
-            $dateNow = date('Y-m-d');
-            if($request['status'] == 0){
-                $query->Where('work_status', $request['status'])
-                    ->where('endwork_date','>=',$dateNow);
-            }
-            if ($request['status'] == 1){
-                $query->Where('work_status', $request['status']);
-            }
-            if ($request['status'] == 2){
-                $query->Where('work_status', '0')
-                    ->where('endwork_date','<',$dateNow);
-            }
-        }
-        if(!empty($request['year_absence'])){
-            $year=$request['year_absence'];
-            $query->whereYear('endwork_date','>=',$year);
-        }
+        // if (!is_null($request['status'])) {
+        //     $dateNow = date('Y-m-d');
+        //     if($request['status'] == 0){
+        //         $query->Where('work_status', $request['status'])
+        //             ->where('endwork_date','>=',$dateNow);
+        //     }
+        //     if ($request['status'] == 1){
+        //         $query->Where('work_status', $request['status']);
+        //     }
+        //     if ($request['status'] == 2){
+        //         $query->Where('work_status', '0')
+        //             ->where('endwork_date','<',$dateNow);
+        //     }
+        // }
+        // if(!empty($request['year_absence'])){
+        //     $year=$request['year_absence'];
+        //     $query->whereYear('endwork_date','>=',$year);
+        // }
         if (!empty($request['project_id'])) {
         $project = $request['project_id'];
         $query
@@ -101,16 +102,18 @@ class SearchEmployeeServiceImpl extends CommonService implements SearchEmployeeS
             });
         }
         $month_quit=$request['month_quit'];
-        if (!empty($month_quit)) {
-            $query->whereMonth("endwork_date",'=',$month_quit);
-        }
-        $year_quit=$request['year_quit'];
-        if (!empty($year_quit)) {
-            $query->whereYear("endwork_date",'=',$year_quit);
-        }
-        $query->with(['contractualHistory' => function ($query) {
-                $query->orderBy('end_date', 'desc')->first();
-            }]);
+
+        // if (!empty($month_quit)) {
+        //     $query->whereMonth("endwork_date",'=',$month_quit);
+        // }
+        // $year_quit=$request['year_quit'];
+        // if (!empty($year_quit)) {
+        //     $query->whereYear("endwork_date",'=',$year_quit);
+        // }
+        // $query->with(['contractualHistory' => function ($query) {
+        //         $query->orderBy('end_date', 'desc')->first();
+        //     }]);
+        
         $employeesSearch = $query
             ->where('delete_flag', '=', 0);
         return $employeesSearch;
