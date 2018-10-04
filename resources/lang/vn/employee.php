@@ -3,7 +3,7 @@ return[
     'chart'=>[
         'information' => 'Thông tin nhân viên',
         'common' => 'Thông tin chung',
-        'contract' => 'Hợp đồng hết hạn ',
+        'contract' => 'Hợp đồng sắp hết hạn ',
         'event'=> "Sự kiện "
     ],
     'drop_box'=>[
