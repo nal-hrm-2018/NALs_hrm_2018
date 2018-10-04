@@ -187,8 +187,10 @@ class Employee extends Model implements
         $start_date = strtotime($absence->from_date);
         $count_day = round(($end_day - $start_date) / (60 * 60 * 24)) +1;
 
+        // số ngày nghỉ hợp lệ không tính cho trường hợp nghỉ thai sản
         if($absence->absenceType->name <> 'maternity_leave' ){
             $date = $absence->from_date ;
+            // kiểm tra ngày nghỉ có phải cuối tuần không?
             while ( $date <= $absence->to_date) {
                 if( ( date_create($date)->format('l') == 'Sunday') || ( date_create($date)->format('l') == 'Saturday') ){
                     $count_day--;
@@ -234,7 +236,7 @@ class Employee extends Model implements
         return $count_day;
     }
 
-    
+    // phần absence chỉ tính cho năm hiện tại (mặc định), chưa tính theo serach năm
     public static function emp_absence($id)
     {
 
@@ -344,17 +346,16 @@ class Employee extends Model implements
              } else{
                 $remaining_last_year -= $count_before_change ;
                 if($count_after_change > $pemission_annual_leave){
-                    $remaining_this_year = 0;
+                    $remaining_this_year = $remaining_last_year;
                     $unpaid_leave += $count_after_change - $pemission_annual_leave;
                     $annual_leave = $count_before_change + $pemission_annual_leave;
                 } else{
-                    $remaining_this_year = ($pemission_annual_leave - $count_after_change) + $remaining_last_year; 
+                    $remaining_this_year = $pemission_annual_leave - $count_after_change + $remaining_last_year; 
                 }
              }             
         }
          else{    
             if( $count_before_change >= $remaining_last_year){
-                // dd($annual_leave);
                 if($annual_leave >= ($pemission_annual_leave + $remaining_last_year)) {
                     $remaining_this_year = 0;
                     $unpaid_leave += ($annual_leave - ($pemission_annual_leave + $remaining_last_year));
@@ -363,7 +364,6 @@ class Employee extends Model implements
                      $remaining_this_year = ($pemission_annual_leave + $remaining_last_year) - $annual_leave;
                  }
             } else {
-                // dd($count_before_change);
                 if($annual_leave > ($pemission_annual_leave + $count_before_change)){
                     $remaining_this_year = 0;
                     $unpaid_leave += ($annual_leave - ($pemission_annual_leave + $count_before_change));
