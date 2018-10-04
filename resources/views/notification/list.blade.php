@@ -124,7 +124,9 @@
                                                 <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
                             
                                             <p class="read-more-wrap">{{substr($note->content,0,50)}}<span class="read-more-target">{{substr($note->content,50)}}</span></p>
+                                            @if (substr($note->content,50))
                                                 <label for="post-{{$note->id}}" class="read-more-trigger"></label>
+                                            @endif    
                                             </div>
                                         </div>
                                     </li>
