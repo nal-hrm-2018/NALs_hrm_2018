@@ -193,15 +193,19 @@
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </label>
                                         <div class="span4 collapse-group">
-                                            <div class="span4 collapse-group">
-                                                @if (strlen($note->content) > 50)
-                                                <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
-                                                <p class="read-more-wrap">{{substr($note->content,0,strpos($note->content, ' ', 50))}}<span class="read-more-target">{{substr($note->content,strpos($note->content, ' ', 50))}}</span></p>                                                
-                                                    <label for="post-{{$note->id}}" class="read-more-trigger"></label>
-                                                @else   
-                                                <p>{{$note->content}}</p>
-                                                @endif
-                                            </div>
+                                                <div class="span4 collapse-group">
+                                                    @if (strlen($note->content) > 50)
+                                                    <input type="checkbox" class="read-more-state" id="post-{{$note->id}}" />
+                                                        @if(strpos($note->content, ' ', 50))
+                                                        <p class="read-more-wrap">{{substr($note->content,0,strpos($note->content, ' ', 50))}}<span class="read-more-target">{{substr($note->content,strpos($note->content, ' ', 50))}}</span></p>                                                
+                                                        @else
+                                                        <p class="read-more-wrap">{{substr($note->content,0,50)}}<span class="read-more-target">{{substr($note->content, 50)}}</span></p>                                                
+                                                        @endif
+                                                        <label for="post-{{$note->id}}" class="read-more-trigger"></label>
+                                                    @else   
+                                                    <p>{{$note->content}}</p>
+                                                    @endif
+                                                </div>
                                         </div>
                                     </li>
                                 @endforeach
