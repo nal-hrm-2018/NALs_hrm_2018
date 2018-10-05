@@ -99,12 +99,6 @@
                                         <th class="project-center">{{trans('project.status')}}</th>
                                     </tr>
                                     </thead>
-
-                                    <style type="text/css">
-                                        .list-project tr td {
-                                            vertical-align: middle !important;
-                                        }
-                                    </style>
                                     <tbody class="context-menu list-project">
                                     @foreach($projects as $project)
                                         <?php

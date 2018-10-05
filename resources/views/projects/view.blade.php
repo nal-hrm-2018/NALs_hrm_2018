@@ -153,14 +153,14 @@
                         <table id="project-list" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>{{trans('employee.profile_info.id')}}</th>
+                                <th>{{trans('employee.profile_info.long_name')}}</th>
                                 <th>{{trans('project.role')}}</th>
                                 <th>{{trans('employee.profile_info.email')}}</th>
                                 <th class="text-center">{{trans('employee.profile_info.phone')}}</th>
                                 <th class="text-center">{{trans('project.process_start_date')}}</th>
                                 <th class="text-center">{{trans('project.process_end_date')}}</th>
-                                <th class="text-center">{{trans('common.cv')}}</th>
-                                <th class="text-center">{{trans('common.performance')}}</th>
+                                {{-- <th class="text-center">{{trans('common.cv')}}</th> --}}
+                                {{-- <th class="text-center">{{trans('common.performance')}}</th> --}}
                             </tr>
                             </thead>
                             <tbody class="context-menu">
@@ -229,13 +229,13 @@
                                         </p>
                                     </td>
 
-                                    <td style="text-align: center;width: 50px;">
+                                    {{-- <td style="text-align: center;width: 50px;">
                                         <button type="button" class="btn btn-default cv-button">
                                             <a href="javascript:void(0)"><i class="fa fa-cloud-download"></i> {{trans('common.cv')}}</a>
                                         </button>
-                                    </td>
+                                    </td> --}}
 
-                                    <td style="text-align: center;width: 180px;">
+                                    {{-- <td style="text-align: center;width: 180px;">
                                         <button type="button" class="btn btn-default input-button">
                                             <a href="javascript:void(0)"><i class="	fa fa-plus-square"></i> {{trans('common.button.input')}}</a>
                                         </button>
@@ -243,7 +243,7 @@
                                         <button type="button" class="btn btn-default view-button">
                                             <a href="javascript:void(0)"><i class="fa fa-search-plus"></i> {{trans('common.button.view')}}</a>
                                         </button>
-                                    </td>
+                                    </td> --}}
 
                                 </tr>
 
