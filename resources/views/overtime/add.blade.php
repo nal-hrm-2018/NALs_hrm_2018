@@ -8,7 +8,7 @@
     <div class="content-wrapper">
     	<section class="content-header">
     		<h1>
-    			Add Overtime
+				{{trans('leftbar.nav.add.overtime')}}
     			<small>NAL Solutions</small>
     		</h1>
     	</section>
