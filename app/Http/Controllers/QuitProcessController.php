@@ -143,8 +143,9 @@ class QuitProcessController extends Controller
         $employee->endwork_date = null;
         
         $quit = Quit::where('employee_id',$id);
+        $quit->delete();
         
-        if ($employee->save() && $quit->delete()){
+        if ($employee->save()){
             \Session::flash('msg_success', trans('quit.msg_delete.success'));
             return redirect('quit_process');
         }else{
