@@ -425,7 +425,7 @@
                                                 @endif
                                             </div>
                                             <div class="dropdown text-legend width-350">
-                                                <i class="fas fa-circle" style="color: #abe02a;"></i>
+                                                <i class="fas fa-circle" style="color: #faa951;"></i>
                                                 @if(count($end_three_year))
                                                     <a href="#" data-toggle="dropdown">
                                                         {{trans('employee.contract.three-year')}}: {{count($end_three_year)}}
