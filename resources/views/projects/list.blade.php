@@ -379,12 +379,6 @@
                                 </tr>
                             @endforeach
                         </table>
-                        <script>
-                            $(document).ready(function () {
-                                $('#dtBasicPD').DataTable();
-                                $('.dataTables_length').addClass('bs-select');
-                            });
-                        </script>
                     </div>
                 </div>
             </section>
