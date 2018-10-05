@@ -21,6 +21,7 @@ use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
 use App\Models\ContractualType;
 use App\Models\Overtime;
+use Illuminate\Support\Facades\Input;
 
 class DashboardController extends Controller
 {
@@ -130,12 +131,11 @@ class DashboardController extends Controller
         }
         if (Employee::find($id_emp)->hasRole('PO')) {
             $status_id = Status::select('id')->where('name', 'complete')->first();
-            $projects = Project::where('status_id', '!=', $status_id['id'])->with('status')->orderBy('status_id', 'desc')->get();
+            $projects = Project::where('status_id', '!=', $status_id['id'])->with('status')->orderBy('created_at', 'desc')->paginate(10);
+            $param = (Input::except('page', 'is_employee'));
             $processes = Process::where('employee_id', $id_emp)->with('project', 'role', 'project.status')->get();
             $processes = $processes->where('project.status_id', '!=', $status_id['id']);
-
-//            dd($processes[0]->project_id);
-
+            $projects->setPath('');
 
             $projects_id = Process::select('project_id')->where('employee_id', $id_emp)->get();
             $projects_emp = [];
@@ -150,7 +150,8 @@ class DashboardController extends Controller
                 'notifications' => $notifications,
                 'processes' => $processes,
                 'projects' => $projects,
-                'projects_emp' => $projects_emp
+                'projects_emp' => $projects_emp,
+                'param' => $param,
             ]);
         }
         $objmEmployee = Employee::find(Auth::user()->id);
