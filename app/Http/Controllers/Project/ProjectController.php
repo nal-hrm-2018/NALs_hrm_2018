@@ -95,6 +95,9 @@ class ProjectController extends Controller
 
     public function create()
     {
+        if(!Auth::user()->hasRole('PO')){
+            return redirect()->action('Project\ProjectController@index');
+        }
         $x = \session()->get('errors');
         $roles = Role::where('delete_flag', 0)->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         $employees = Employee::orderBy('name', 'asc')->where('delete_flag', 0)->get();
@@ -105,6 +108,9 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
+        if(!Auth::user()->hasRole('PO')){
+            return redirect()->action('Project\ProjectController@index');
+        }
         // validate input project
         $projectAddRequest = new ProjectAddRequest();
         $validator = Validator::make(
@@ -156,6 +162,9 @@ class ProjectController extends Controller
 
     public function edit($id)
     {
+        if(!Auth::user()->hasRole('PO')){
+            return redirect()->action('Project\ProjectController@index');
+        }
         $currentProject = Project::where('delete_flag', 0)->find($id);
         if(isset($currentProject->estimate_start_date)){
             $currentProject->estimate_start_date = $currentProject->estimate_start_date->format('Y-m-d');
@@ -196,6 +205,9 @@ class ProjectController extends Controller
 
     public function update(ProjectEditRequest $request, $id)
     {
+        if(!Auth::user()->hasRole('PO')){
+            return redirect()->action('Project\ProjectController@index');
+        }
         if (!checkValidProjectData()) {
             session()->flash('processes', $request->get('processes'));
             return back()->withInput();
@@ -210,6 +222,9 @@ class ProjectController extends Controller
 
     public function destroy($id, Request $request)
     {
+        if(!Auth::user()->hasRole('PO')){
+            return redirect()->action('Project\ProjectController@index');
+        }
         if ($request->ajax()) {
             $project = Project::where('id', $id)->where('delete_flag', 0)->first();
             $project->delete_flag = 1;

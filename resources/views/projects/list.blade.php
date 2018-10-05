@@ -357,7 +357,7 @@
                                     }
                                 @endphp
                                 <tr>
-                                    <td align="center">{{$key+1}}</td>
+                                    <td class="text-center">{{$key+1}}</td>
                                     <td>{{$project->name}}</td>
                                     <td>{{$objmEmployee->role->name}}</td>
                                     <td><span class="">{{(isset($process->start_date))?$process->start_date->format('d-m-Y'):'-'}}</span></td>

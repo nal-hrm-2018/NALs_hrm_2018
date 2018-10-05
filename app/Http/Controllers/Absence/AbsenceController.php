@@ -414,6 +414,7 @@ class AbsenceController extends Controller
 
     public function show($id, Request $request)
     {
+        return redirect()->action('Absence\AbsenceController@index');
         $dateNow = new DateTime;
         $objEmployee = Employee::select('*','teams.name AS nameTeam', 'employees.name AS nameEmployee', 'employees.id AS idEmployee')
                     ->join('teams','teams.id','=','employees.team_id')
@@ -600,6 +601,7 @@ class AbsenceController extends Controller
     }
     public function showAbsence($id, Request $request)
     {
+        return redirect()->action('Absence\AbsenceController@index');
         $year = (int)$request->year;
         $dateNow = new DateTime;
         $objEmployee = Employee::find(1);
