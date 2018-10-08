@@ -147,10 +147,9 @@ class OvertimeAddRequest extends FormRequest
             'date.required' => trans('validation.required', [
                 'attribute' => trans('overtime.date')
             ]),
-//                'date.after_or_equal' => trans('validation.after_or_equal', [
-//                    'attribute' => trans('overtime.date'),
-//                    'date' => $dayStarts
-//                ]),
+            'date.after_or_equal' => trans('validation.after_or_equal', [
+                'attribute' => trans('overtime.date'),
+            ]),
             'start_time.required' => trans('validation.required', [
                 'attribute' => trans('overtime.start_time')
             ]),
@@ -169,6 +168,9 @@ class OvertimeAddRequest extends FormRequest
             'end_time.after' => trans('validation.after_hours', [
                 'attribute' => trans('overtime.end_time'),
                 'date' => trans('overtime.start_time'),
+            ]),
+            'end_time.before' => trans('validation.before_hours', [
+                'attribute' => trans('overtime.end_time'),
             ]),
             'total_time.numeric' => trans('validation.numeric', [
                 'attribute' => trans('overtime.total_time')
