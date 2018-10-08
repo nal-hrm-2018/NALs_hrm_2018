@@ -72,10 +72,10 @@
                                 @endif
                                 @foreach($new_notifications as $note)
                                     <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;">
-                                        <div class="col-xs-12 col-md-11">
+                                        <div class="col-xs-12 col-md-10">
                                             <label class="label bg-yellow" style="width: 40px; display: inline-block;">NALs</label>
                                             <label>
-                                                <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
+                                                <span style="color: black; ">[{{date('d/m',strtotime($note->created_at))}}]</span>
                                                 <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                             </label>
                                             <div class="span4 collapse-group">
@@ -92,7 +92,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-xs-6 col-md-1">
+                                        <div class="col-xs-6 col-md-2">
                                             <span class="">
                                                 <a href="notification/{{$note->id}}/edit" class="btn btn-default">
                                                     <i class="fa fa-pencil width-icon-contextmenu"></i>
@@ -102,6 +102,7 @@
                                                 </a>
                                             </span>
                                         </div>
+                            
                                     </li>
                                 @endforeach
                             </ul>

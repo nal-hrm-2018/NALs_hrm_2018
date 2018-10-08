@@ -193,7 +193,7 @@
                                     <li class="treeview" style="display: table; width: 100%; margin-bottom: 10px;"><div class="col-xs-12 col-md-11">
                                         <label class="label bg-yellow" style="width: 40px; display: inline-block;">NALs</label>
                                         <label>
-                                            <span style="color: black; ">[{{date('d/m',strtotime($note->create_at))}}]</span>
+                                            <span style="color: black; ">[{{date('d/m',strtotime($note->created_at))}}]</span>
                                             <span style="vertical-align: middle; color: black;">{{$note->title}}</span>
                                         </label>
                                         <div class="span4 collapse-group">
