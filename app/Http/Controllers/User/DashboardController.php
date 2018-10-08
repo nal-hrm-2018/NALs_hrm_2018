@@ -95,10 +95,12 @@ class DashboardController extends Controller
             $new_employee = Employee::WhereMonth(('startwork_date'), date('m'))
                             ->where('is_employee',1)
                             ->where('delete_flag',0)
+                            ->where('work_status',0)
                             ->WhereYear(('startwork_date'), date('Y'))
                             ->get();
             $birthday_employee = Employee::WhereMonth(('birthday'), date('m'))
                             ->where('is_employee',1)
+                            ->where('work_status',0)
                             ->where('delete_flag',0)
                             ->get();
             $this_month = [
