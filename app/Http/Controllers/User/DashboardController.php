@@ -20,6 +20,7 @@ use DateTime;
 use App\Models\AbsenceStatus;
 use App\Models\AbsenceType;
 use App\Models\ContractualType;
+use App\Models\ContractualHistory;
 use App\Models\Overtime;
 use Illuminate\Support\Facades\Input;
 
@@ -264,17 +265,18 @@ class DashboardController extends Controller
     }
 
     public function end_contract($type){
-        $end_type = Employee::select('id','name')
-                 ->where('is_employee',1)
-                 ->where('delete_flag',0)
-                 ->whereHas('contractualType', function($query1) use($type){
-                    $query1->where('name', $type);
-                })
-                 ->whereHas('contractualHistory', function($query2){
-                    $query2->WhereYear(('end_date'), date('Y'))
-                            ->WhereMonth('end_date', date('m'));
-                })
-                 ->get();
+        $end_type = ContractualHistory::where('delete_flag',0)
+                    ->WhereYear(('end_date'), date('Y'))
+                    ->WhereMonth('end_date', date('m'))
+                    ->whereHas('contractual_type', function($query1) use($type){
+                        $query1->where('name', $type)
+                               ->where('delete_flag',0);
+                    })
+                    ->whereHas('employee', function($query2){
+                        $query2->where('is_employee',1)
+                               ->where('delete_flag',0);
+                    })
+                    ->get();                    
         return $end_type;
     }
 }
